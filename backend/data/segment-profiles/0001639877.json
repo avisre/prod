@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001639877",
  "issuerName": "Ferroglobe PLC",
- "builtAt": "2026-11-16T05:18:03.472Z",
+ "builtAt": "2026-11-16T10:17:33.815Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-034859",
@@ -10,11 +10,85 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1639877/000110465926034859/gsm-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America – Silicon Metals",
+   "products": [
+    "silicon metal"
+   ],
+   "description": "Produces silicon metal at United States and Canadian plants for aluminum, silicone chemical and other industrial customers.",
+   "evidence": "The Company's North America- Silicon Metal and North America – Silicon Alloys reportable segments are the result of the aggregation of the operating segments of the United States and Canada Silicon Metals and the operating segments of the United States and Canada Silicon Alloys."
+  },
+  {
+   "name": "North America – Silicon Alloys",
+   "products": [
+    "silicon-based alloys",
+    "ferrosilicon"
+   ],
+   "description": "Produces silicon-based alloys and ferrosilicon in the United States and Canada for steel, automotive and construction customers.",
+   "evidence": "The Company's North America- Silicon Metal and North America – Silicon Alloys reportable segments are the result of the aggregation of the operating segments of the United States and Canada Silicon Metals and the operating segments of the United States and Canada Silicon Alloys."
+  },
+  {
+   "name": "Europe – Manganese",
+   "products": [
+    "manganese-based alloys"
+   ],
+   "description": "Produces manganese-based alloys at European plants for steel and other industrial customers.",
+   "evidence": "The Europe-Silicon Metals, the Europe-Silicon Alloys, the Europe -Manganese, the South Africa – Silicon Metals and South Africa – Silicon Alloys reportable segments are equal to each related Operating segment."
+  },
+  {
+   "name": "Europe – Silicon Metals",
+   "products": [
+    "silicon metal"
+   ],
+   "description": "Produces silicon metal at European plants for aluminum, chemical, semiconductor and photovoltaic customers.",
+   "evidence": "The Europe-Silicon Metals, the Europe-Silicon Alloys, the Europe -Manganese, the South Africa – Silicon Metals and South Africa – Silicon Alloys reportable segments are equal to each related Operating segment."
+  },
+  {
+   "name": "Europe – Silicon Alloys",
+   "products": [
+    "silicon-based alloys",
+    "ferrosilicon"
+   ],
+   "description": "Produces silicon-based alloys and ferrosilicon at European plants for steel and industrial customers.",
+   "evidence": "The Europe-Silicon Metals, the Europe-Silicon Alloys, the Europe -Manganese, the South Africa – Silicon Metals and South Africa – Silicon Alloys reportable segments are equal to each related Operating segment."
+  },
+  {
+   "name": "South Africa – Silicon Metals",
+   "products": [
+    "silicon metal"
+   ],
+   "description": "Produces silicon metal in South Africa for export and industrial customers.",
+   "evidence": "The Europe-Silicon Metals, the Europe-Silicon Alloys, the Europe -Manganese, the South Africa – Silicon Metals and South Africa – Silicon Alloys reportable segments are equal to each related Operating segment."
+  },
+  {
+   "name": "South Africa – Silicon Alloys",
+   "products": [
+    "silicon-based alloys",
+    "ferrosilicon"
+   ],
+   "description": "Produces silicon-based alloys and ferrosilicon in South Africa for steel and industrial customers.",
+   "evidence": "The Europe-Silicon Metals, the Europe-Silicon Alloys, the Europe -Manganese, the South Africa – Silicon Metals and South Africa – Silicon Alloys reportable segments are equal to each related Operating segment."
+  },
+  {
+   "name": "Other segments",
+   "products": [],
+   "description": "Groups smaller entities, mainly United Kingdom holding companies and Ferroglobe Advanced Material, below separate reporting thresholds.",
+   "evidence": "All other segments that do not meet the quantitative threshold for separate reporting and are deemed to have similar economic characteristics have been grouped as \"Other segments\", which mainly includes holding entities in the United Kingdom and Ferroglobe Advanced Material, a Spanish subsidiary."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers worldwide in the aluminum, chemical, steel and automotive industries pay for silicon metal, silicon-based alloys and manganese-based alloys.",
+  "evidence": "We sell our products to a diverse base of customers worldwide, in a wide range of industries."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company sold its Chateau Feuillet silicon-alloy facility.",
+   "evidence": "2023: sale of Chateau Feuillet silicon-alloy facility."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

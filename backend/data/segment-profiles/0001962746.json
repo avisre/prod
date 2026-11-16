@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001962746",
  "issuerName": "Lotus Technology Inc.",
- "builtAt": "2026-11-16T05:18:01.185Z",
+ "builtAt": "2026-11-16T10:15:36.848Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-050310",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1962746/000110465926050310/lot-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Luxury electric vehicles",
+   "products": [
+    "Eletre",
+    "Emeya",
+    "Emira"
+   ],
+   "description": "Designs, manufactures and sells luxury electric vehicles under the Lotus brand to customers in China, Europe and other markets.",
+   "evidence": "Management has determined that the Group has one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for luxury electric vehicles and related services.",
+  "evidence": "Any of the factors described above may cause current or potential customers not to purchase our luxury electric vehicles and use our services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

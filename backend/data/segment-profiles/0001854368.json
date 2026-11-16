@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001854368",
  "issuerName": "Digi Power X Inc.",
- "builtAt": "2026-11-16T05:18:05.201Z",
+ "builtAt": "2026-11-16T10:18:49.543Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037677",
@@ -10,11 +10,53 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1854368/000121390026037677/ea0283764-10k_digipower.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cryptocurrency mining",
+   "products": [
+    "bitcoin",
+    "digital currencies"
+   ],
+   "description": "Mines bitcoin through mining pool participation, converting electrical power into digital currencies at its own facilities.",
+   "evidence": "Accordingly, for management purposes, the Corporation has four reporting segments namely, cryptocurrency mining, sales of energy, colocation services, and AI data centers."
+  },
+  {
+   "name": "Sales of energy and electricity",
+   "products": [
+    "electricity",
+    "electrical power"
+   ],
+   "description": "Sells energy and electricity from its gas fired power plant and sites to the grid and industrial clients.",
+   "evidence": "The Corporation has four operating segments being cryptocurrency mining, sales of energy and electricity, colocation services, and Tier III AI data centers located in the United States."
+  },
+  {
+   "name": "Colocation services",
+   "products": [
+    "colocation",
+    "enterprise colocation and AI/GPU infrastructure services"
+   ],
+   "description": "Hosts third-party miners under colocation agreements and delivers enterprise colocation and infrastructure services to digital currency customers.",
+   "evidence": "Digi Power X is focused on developing, owning and operating data center facilities and delivering enterprise colocation and AI/GPU infrastructure services."
+  },
+  {
+   "name": "Tier III AI data centers",
+   "products": [],
+   "description": "Develops Tier III AI data center operations for high-performance computing customers, still in the development phase.",
+   "evidence": "During the year ended December 31, 2025, the Corporation added a new operating segment related to Tier III AI data center operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Mining pools pay bitcoin for contributed hashrate, while colocation customers and electricity buyers pay for capacity and power.",
+  "evidence": "For the year ended December 31, 2025, the Corporation primarily recognized revenues with organizations in the digital currency space."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Corporation added a new operating segment for Tier III AI data center operations.",
+   "evidence": "During the year ended December 31, 2025, the Corporation added a new operating segment related to Tier III AI data center operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

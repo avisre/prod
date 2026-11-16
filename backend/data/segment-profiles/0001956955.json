@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001956955",
  "issuerName": "Unusual Machines, Inc.",
- "builtAt": "2026-11-16T05:18:02.008Z",
+ "builtAt": "2026-11-16T10:17:02.168Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-001730",
@@ -10,11 +10,37 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1956955/000168316826001730/umac_i10k-123125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drone components",
+   "products": [
+    "drones",
+    "motors",
+    "electric motors",
+    "propulsion systems",
+    "headsets",
+    "flight controllers"
+   ],
+   "description": "Manufactures and sells drones, drone components, motors and headsets to consumer, enterprise and defense customers through business-to-business and retail channels.",
+   "evidence": "Unusual Machines, which sells drones and drone-related components, operates as a single reportable segment entity."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Enterprise drone manufacturers buy components for their own drone platforms, while consumers buy drones and headsets through the Rotor Riot retail channel.",
+  "evidence": "The Company's enterprise customer base consists primarily of U.S.-based drone manufacturers and system integrators that purchase components for use in consumer, commercial, and mission-oriented drone platforms."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company acquired Rotor Lab, adding electric motor and propulsion system development and production.",
+   "evidence": "On September 3, 2025, the Company closed on the acquisition of Rotor Lab."
+  },
+  {
+   "text": "In 2024 the Company acquired Fat Shark and Rotor Riot, adding FPV headsets and a curated retail channel.",
+   "evidence": "On February 16, 2024, the Company closed on the acquisitions of both Fat Shark and Rotor Riot from Red Cat and Jeffrey Thompson, the founder and Chief Executive Officer of Red Cat (the \"Business Combination\")"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

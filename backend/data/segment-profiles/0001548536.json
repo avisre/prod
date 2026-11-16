@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001548536",
  "issuerName": "Santacruz Silver Mining Ltd.",
- "builtAt": "2026-11-16T05:18:04.924Z",
+ "builtAt": "2026-11-16T10:18:23.604Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001493152-26-020908",
@@ -11,10 +11,65 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1548536/000149315226020908/ex99-3.htm",
   "exhibit": "ex99-3.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bolivar mine and processing plant",
+   "products": [
+    "Silver",
+    "Zinc",
+    "Lead"
+   ],
+   "description": "Bolivian mine and processing plant producing silver, zinc and lead concentrates sold to concentrate customers.",
+   "evidence": "The following reportable operating segments have been identified: the Bolivar mine and processing plant, the Porco mine and processing plant, the Caballo Blanco Group which includes the Tres Amigos, Colquechaquita mines and the Don Diego processing plant, the San Lucas Group which includes the Reserva mine and San Lucas feed sourcing business, Zimapan mine and processing plant, and Corporate and Other activities."
+  },
+  {
+   "name": "Porco mine and processing plant",
+   "products": [
+    "Silver",
+    "Zinc",
+    "Lead"
+   ],
+   "description": "Bolivian mine and processing plant producing silver, zinc and lead concentrates for sale to customers.",
+   "evidence": "The following reportable operating segments have been identified: the Bolivar mine and processing plant, the Porco mine and processing plant, the Caballo Blanco Group which includes the Tres Amigos, Colquechaquita mines and the Don Diego processing plant, the San Lucas Group which includes the Reserva mine and San Lucas feed sourcing business, Zimapan mine and processing plant, and Corporate and Other activities."
+  },
+  {
+   "name": "Caballo Blanco Group",
+   "products": [
+    "Silver",
+    "Zinc",
+    "Lead"
+   ],
+   "description": "Bolivian group of mines and a processing plant producing silver, zinc and lead concentrates for customers.",
+   "evidence": "The following reportable operating segments have been identified: the Bolivar mine and processing plant, the Porco mine and processing plant, the Caballo Blanco Group which includes the Tres Amigos, Colquechaquita mines and the Don Diego processing plant, the San Lucas Group which includes the Reserva mine and San Lucas feed sourcing business, Zimapan mine and processing plant, and Corporate and Other activities."
+  },
+  {
+   "name": "San Lucas Group",
+   "products": [
+    "Silver",
+    "Zinc",
+    "Lead"
+   ],
+   "description": "Bolivian group holding the Reserva mine and a feed sourcing business, selling silver, zinc and lead concentrates.",
+   "evidence": "The following reportable operating segments have been identified: the Bolivar mine and processing plant, the Porco mine and processing plant, the Caballo Blanco Group which includes the Tres Amigos, Colquechaquita mines and the Don Diego processing plant, the San Lucas Group which includes the Reserva mine and San Lucas feed sourcing business, Zimapan mine and processing plant, and Corporate and Other activities."
+  },
+  {
+   "name": "Zimapan mine and processing plant",
+   "products": [
+    "Silver",
+    "Zinc",
+    "Lead",
+    "Copper"
+   ],
+   "description": "Mexican mine and processing plant producing silver, zinc, lead and copper concentrates sold to customers.",
+   "evidence": "The following reportable operating segments have been identified: the Bolivar mine and processing plant, the Porco mine and processing plant, the Caballo Blanco Group which includes the Tres Amigos, Colquechaquita mines and the Don Diego processing plant, the San Lucas Group which includes the Reserva mine and San Lucas feed sourcing business, Zimapan mine and processing plant, and Corporate and Other activities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Concentrate customers pay the company for silver, zinc, lead and copper produced at its mines and processing plants.",
+  "evidence": "One customer accounted for 69 % of the total sales revenue for the year ended December 31, 2025 (2024 – 71 %)."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

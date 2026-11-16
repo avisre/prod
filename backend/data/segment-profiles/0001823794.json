@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001823794",
  "issuerName": "ARKO Corp.",
- "builtAt": "2026-11-16T05:18:01.802Z",
+ "builtAt": "2026-11-16T10:16:13.211Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-071464",
@@ -10,11 +10,63 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1823794/000119312526071464/arko-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "fas craves",
+    "1-Stop",
+    "Apple Market®",
+    "fas mart®",
+    "Nathan's® hot dogs",
+    "Tornado® roller grill items",
+    "fas REWARDS®",
+    "car washes"
+   ],
+   "description": "Operates convenience stores selling fuel products and merchandise to retail customers under regional community store brands.",
+   "evidence": "Our retail segment includes the operation of a chain of retail stores, which includes convenience stores selling fuel products and merchandise to retail customers, from which we generate a significant portion of our revenue and a large proportion of our profitability."
+  },
+  {
+   "name": "Wholesale",
+   "products": [
+    "Fuel supply contracts",
+    "Consignment contracts"
+   ],
+   "description": "Supplies fuel to third-party dealers, sub-wholesalers and bulk and spot purchasers on cost plus or consignment arrangements.",
+   "evidence": "Our wholesale segment supplies fuel to gas stations operated by third-party dealers, sub-wholesalers, and bulk and spot purchasers, on either a cost plus or consignment basis."
+  },
+  {
+   "name": "Fleet Fueling",
+   "products": [
+    "cardlock locations",
+    "proprietary fuel cards",
+    "diesel fuel"
+   ],
+   "description": "Runs unstaffed cardlock fueling sites and fuel card programs for commercial and municipal fleet customers.",
+   "evidence": "Our fleet fueling segment includes the operation of proprietary and third-party cardlock locations (unstaffed fueling locations), and commissions from the sales of fuel using proprietary fuel cards that provide customers access to a nationwide network of fueling sites."
+  },
+  {
+   "name": "GPMP",
+   "products": [
+    "wholesale distribution of fuel",
+    "inter-segment fixed fee"
+   ],
+   "description": "Distributes fuel at cost plus a fixed margin to the company's retail, wholesale and fleet fueling sites.",
+   "evidence": "The GPMP segment engages in the wholesale distribution of fuel to substantially all of our sites that sell fuel in the retail and wholesale segments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail customers pay for fuel and merchandise at our convenience stores; dealers, sub-wholesalers and fleet customers pay for fuel supplied and cardlock access.",
+  "evidence": "the dealers, sub-wholesalers and bulk and spot purchasers, purchase fuel from us, and we earn a fixed mark-up above our cost."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company began converting retail stores to dealer locations supplied by its wholesale segment.",
+   "evidence": "In 2024, as part of our Transformation Plan, we utilized our wholesale platform to convert retail stores that we believe will provide more economic benefit as dealer locations leased from us and supplied through our fuel agreements"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

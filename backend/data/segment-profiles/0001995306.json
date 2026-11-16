@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001995306",
  "issuerName": "SUPER HI INTERNATIONAL HOLDING LTD.",
- "builtAt": "2026-11-16T05:18:02.209Z",
+ "builtAt": "2026-11-16T10:16:48.530Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-042370",
@@ -10,11 +10,32 @@
   "filingDate": "2026-04-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1995306/000110465926042370/hdl-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chinese cuisine restaurant",
+   "products": [
+    "Haidilao hot pot restaurant",
+    "food ingredients, soup bases and dipping sauces",
+    "hand-pulled noodle dance",
+    "Chinese opera face-changing performances",
+    "guest loyalty program"
+   ],
+   "description": "Operates Haidilao hot pot restaurants serving Chinese cuisine to guests in countries outside Greater China.",
+   "evidence": "We are a leading Chinese cuisine restaurant brand in the international market, operating Haidilao hot pot restaurant in the international market."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Dining guests pay the company for meals and service at its Haidilao hot pot restaurants outside Greater China.",
+  "evidence": "Since 2023, we have accumulated over 88.6 million guest visits at our restaurants."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the group disposed of JAPAN HAI Co., Ltd, which held its hotel management and hot springs business in Japan.",
+   "evidence": "The disposal was completed on October 31, 2023, on which date control of JAPAN HAI Co., Ltd passed to the acquirer."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

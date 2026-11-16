@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001606163",
  "issuerName": "LIMBACH HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:18:00.848Z",
+ "builtAt": "2026-11-16T10:15:36.061Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-013285",
@@ -10,10 +10,36 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1606163/000162828026013285/lmb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ODR",
+   "products": [
+    "Integrated Facility Planning",
+    "Service & Maintenance",
+    "Replacements & Retrofit",
+    "Rental Equipment",
+    "MEPC Infrastructure Upgrades",
+    "Energy Efficiency & Decarbonization"
+   ],
+   "description": "Performs owner direct projects, maintenance and specialty contracting on mechanical, electrical, plumbing and controls systems for building owners and operators.",
+   "evidence": "The Company operates in two segments; (i) Owner Direct Relationships (\"ODR\"), in which the Company performs owner direct projects and/or provides maintenance or service primarily on MEPC systems, and specialty contracting projects to existing buildings direct to, or assigned by, building owners or operators"
+  },
+  {
+   "name": "GCR",
+   "products": [
+    "Plan & Spec Bidding",
+    "Design/Build or Design/Assist"
+   ],
+   "description": "Manages new construction and renovation projects involving primarily MEPC systems for general contractors and construction managers.",
+   "evidence": "The Company provides its GCR services through the following project delivery methodologies"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Building owners and operators, and general contractors or construction managers, pay for MEPC projects, maintenance, service and specialty contracting work.",
+  "evidence": "The Company partners with building owners and operators of mission-critical facilities across healthcare, industrial and manufacturing, data centers, life sciences, higher education, and cultural and entertainment markets."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

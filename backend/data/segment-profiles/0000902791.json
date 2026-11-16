@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000902791",
  "issuerName": "BARRETT BUSINESS SERVICES, INC.",
- "builtAt": "2026-11-16T05:18:04.179Z",
+ "builtAt": "2026-11-16T10:17:42.933Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-072255",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/902791/000119312526072255/bbsi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Management Solutions",
+   "products": [
+    "PEO",
+    "Staffing",
+    "Staffing and Recruiting",
+    "myBBSI",
+    "workers' compensation coverage",
+    "employee benefit programs"
+   ],
+   "description": "Provides business management solutions, including co-employment payroll, workers' compensation, benefits administration and staffing, to small and mid-sized companies.",
+   "evidence": "BBSI has one operating and reportable segment which provides business management solutions to small and mid-sized companies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Small and mid-sized business owner clients pay for co-employment payroll, tax, workers' compensation and benefits administration, and for staffing services.",
+  "evidence": "We enter into a client services agreement to establish a co-employment relationship with each client company, assuming responsibility for payroll, payroll taxes, workers' compensation (if elected) and benefits coverage (if elected) and certain other administrative functions for the client's existing workforce."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

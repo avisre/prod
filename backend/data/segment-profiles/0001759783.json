@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001759783",
  "issuerName": "EHang Holdings Limited",
- "builtAt": "2026-11-16T05:18:05.509Z",
+ "builtAt": "2026-11-16T10:19:13.035Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-226608",
@@ -10,10 +10,28 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1759783/000119312526226608/d39307d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Unmanned Aerial Vehicles",
+   "products": [
+    "passenger-grade UAVs",
+    "UAVs",
+    "aerial spraying",
+    "aerial photography",
+    "remote pilot training",
+    "flight show",
+    "aerial media solutions"
+   ],
+   "description": "Develops and sells passenger-grade unmanned aerial vehicles, which customers operate on a limited trial basis in tourism locations in China.",
+   "evidence": "As a whole and hence, the Group has only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for passenger-grade UAVs, with most revenue from a limited number of customers trialling them at tourism locations.",
+  "evidence": "For the years ended December 31, 2023, 2024 and 2025, the majority of the Group's revenue generated from sales of passenger-grade UAVs are from a limited number of customers that mainly operate the UAVs on a limited trial basis in tourism locations in China, rather than in broad, mainstream commercial operations."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001109116",
  "issuerName": "ENTRAVISION COMMUNICATIONS CORPORATION",
- "builtAt": "2026-11-16T05:18:02.585Z",
+ "builtAt": "2026-11-16T10:17:35.850Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-093993",
@@ -10,11 +10,54 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1109116/000119312526093993/evc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Media",
+   "products": [
+    "television",
+    "radio",
+    "digital marketing services",
+    "Univision",
+    "UniMás",
+    "WAPA Orlando",
+    "Altavision",
+    "local news"
+   ],
+   "description": "Owns and operates Spanish-language television and radio stations and digital marketing services, selling advertising to advertisers targeting U.S. Latino audiences.",
+   "evidence": "Our media segment consists of sales of advertising through various media, including television, radio and digital."
+  },
+  {
+   "name": "Advertising Technology & Services",
+   "products": [
+    "Smadex",
+    "Adwake",
+    "demand-side platform",
+    "performance-based digital marketing agency"
+   ],
+   "description": "Provides programmatic advertising solutions globally to advertisers, primarily mobile app developers, through its platform and performance marketing agency brands.",
+   "evidence": "Our ATS business empowers advertisers, primarily mobile app developers, to grow their businesses globally."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Advertisers pay the company for advertising across broadcast and digital media, and mobile app developers pay for programmatic advertising and performance marketing solutions.",
+  "evidence": "We serve our advertisers by providing marketing capabilities across broadcast and digital media."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company discontinued and divested a significant portion of its operations that comprised most of its former digital segment.",
+   "evidence": "In 2024, we discontinued and divested a significant portion of our operations, which consisted primarily of several acquisitions that had been completed prior to 2024, and which operations comprised the majority of our former digital segment."
+  },
+  {
+   "text": "In 2024 the company sold its Entravision Global Partners business.",
+   "evidence": "during the second quarter of 2024 we sold our Entravision Global Partners, or EGP, business."
+  },
+  {
+   "text": "In 2024 the company realigned its operating segments into two segments, media and advertising technology & services.",
+   "evidence": "Effective July 1, 2024, we realigned our operating segments into two segments – media and advertising technology & services, or ATS – consistent with our current operational and management structure."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

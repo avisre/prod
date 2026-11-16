@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001756708",
  "issuerName": "Jumia Technologies AG",
- "builtAt": "2026-11-16T05:18:00.829Z",
+ "builtAt": "2026-11-16T10:15:31.734Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001756708-26-000015",
@@ -10,11 +10,39 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1756708/000175670826000015/jmia-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E-commerce",
+   "products": [
+    "marketplace",
+    "Jumia Logistics",
+    "payment gateways",
+    "corporate sales"
+   ],
+   "description": "Operates a pan-African online marketplace with logistics and payment gateways serving consumers, third-party sellers, retailers and distributors across Africa.",
+   "evidence": "Our platform consists of our marketplace, which connects sellers with customers, our logistics service, which enables the shipment and delivery of packages from sellers to customers, and our payment gateways, which, together with their network of licensed payment service providers and other partners, facilitate transactions among participants active on our platform in selected markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers and corporate buyers pay for the physical goods sold on the marketplace and in corporate sales.",
+  "evidence": "In connection with our marketplace offering, we also engage in corporate sales, where we sell physical goods to local and regional retailers, distributors and other corporate buyers."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company decided to close its food delivery business called Jumia Food.",
+   "evidence": "In connection with our ongoing review of our business and strategy, we decided to close our food delivery business called Jumia Food in 2023 and to exit two geographies, Tunisia and South Africa, in 2024."
+  },
+  {
+   "text": "In 2024 the company exited two geographies, Tunisia and South Africa.",
+   "evidence": "In connection with our ongoing review of our business and strategy, we decided to close our food delivery business called Jumia Food in 2023 and to exit two geographies, Tunisia and South Africa, in 2024."
+  },
+  {
+   "text": "In 2025 the standalone JumiaPay App was discontinued in all markets except Egypt.",
+   "evidence": "Furthermore, the standalone JumiaPay App was discontinued in all markets (except Egypt where it remained live to manage certain legacy payment partnerships) in 2025, and we decided to exit Algeria in 2026."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

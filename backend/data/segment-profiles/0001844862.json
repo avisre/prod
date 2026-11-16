@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001844862",
  "issuerName": "SOLID POWER, INC.",
- "builtAt": "2026-11-16T05:18:05.341Z",
+ "builtAt": "2026-11-16T10:18:32.679Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-019435",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1844862/000110465926019435/sldp-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solid-state battery technology",
+   "products": [
+    "sulfide-based solid electrolyte material",
+    "electrolyte",
+    "solid-state cells",
+    "cell designs"
+   ],
+   "description": "Develops and manufactures sulfide-based solid electrolyte and solid-state cells for battery manufacturers and automotive original equipment manufacturers that make their own cells.",
+   "evidence": "We currently conduct our business through one operating segment and one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Battery manufacturers and automotive OEMs pay for electrolyte and licensing of cell manufacturing processes; government contracts and collaborative agreements also provide funding.",
+  "evidence": "Our commercialization strategy is to manufacture and sell electrolyte to Tier 1 battery manufacturers and automotive original equipment manufacturers (\"OEMs\") that choose to produce their own battery cells."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001050743",
  "issuerName": "PEAPACK-GLADSTONE FINANCIAL CORPORATION",
- "builtAt": "2026-11-16T05:18:03.936Z",
+ "builtAt": "2026-11-16T10:17:34.636Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-101763",
@@ -10,10 +10,40 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1050743/000119312526101763/pgc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial (includes C&I and equipment financing)",
+    "commercial real estate",
+    "multifamily",
+    "residential and consumer lending activities",
+    "treasury management services",
+    "C&I advisory services",
+    "escrow management",
+    "deposit generation"
+   ],
+   "description": "Provides private banking, lending activities, deposit generation and treasury management services to businesses, non-profits and consumers through the Bank.",
+   "evidence": "The Banking segment includes: commercial (includes C&I and equipment financing), commercial real estate, multifamily, residential and consumer lending activities; treasury management services; C&I advisory services; escrow management; deposit generation; operation of ATMs; telephone and internet banking services; merchant credit card services and customer support sales."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "investment management services for individuals and institutions",
+    "personal trust services",
+    "services as executor, trustee, administrator, custodian",
+    "other financial planning and advisory services"
+   ],
+   "description": "Delivers investment management, personal trust and financial planning services to individuals, families, foundations and institutions through the wealth management division.",
+   "evidence": "The Wealth Management Division includes: investment management services for individuals and institutions; personal trust services, including services as executor, trustee, administrator, custodian; and other financial planning and advisory services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay interest and fees on loans and deposits, while wealth management clients pay fees based on asset values and services rendered.",
+  "evidence": "Loans and investments primarily provide the revenues in the banking operation and wealth management fee income provides the revenues for the Wealth Management Division."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

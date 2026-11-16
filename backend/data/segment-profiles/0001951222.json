@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001951222",
  "issuerName": "SEALSQ Corp",
- "builtAt": "2026-11-16T05:18:03.373Z",
+ "builtAt": "2026-11-16T10:17:27.742Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-037706",
@@ -10,11 +10,42 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1951222/000110465926037706/laes-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductors",
+   "products": [
+    "Secure chips",
+    "Certificates"
+   ],
+   "description": "Designs, manufactures and sells certified secure microprocessors and certificates for chip makers, device manufacturers and IoT customers worldwide.",
+   "evidence": "The Semiconductors segment encompasses the design, manufacturing, sales and distribution of high-end, Common Criteria EAL5+ & FIPS 140-3-certified secure microprocessors."
+  },
+  {
+   "name": "ASIC",
+   "products": [
+    "ASIC Design",
+    "ASIC Production"
+   ],
+   "description": "Provides custom ASIC and System on Chip development and production services for customers needing dedicated silicon, from specification through qualification and supply chain.",
+   "evidence": "The ASIC segment's operations include a complete offering for Application Specific Integrated Circuits (ASIC) and Systems on Chip (SoC) development from circuit specification, mastering design in-house, up to qualification and the management of the entire production supply chain."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for secure chips and for certificates, SaaS, software licenses and customer support used in cybersecurity applications.",
+  "evidence": "The Group generates revenues from the sale of semiconductors secure chips and from Digital Certificates, Software as a Service, Software license and Post-Contract Customer Support (PCS) for cybersecurity applications."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company revised its reportable segments, so it now reports two segments: Semiconductors and ASIC.",
+   "evidence": "In 2025, the SEALSQ Group revised its reportable segments to reflect changes in internal management reporting."
+  },
+  {
+   "text": "The ASIC segment was added in 2025 following the acquisition of IC'Alps.",
+   "evidence": "The ASIC reportable segment did not exist in SEALSQ's financials prior to August 4, 2025, the date SEALSQ acquired IC'Alps."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

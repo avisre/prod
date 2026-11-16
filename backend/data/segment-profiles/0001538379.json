@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001538379",
  "issuerName": "IBOTTA, INC.",
- "builtAt": "2026-11-16T05:18:04.423Z",
+ "builtAt": "2026-11-16T10:18:02.162Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011838",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1538379/000162828026011838/ibta-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital promotions",
+   "products": [
+    "Ibotta Performance Network (IPN)",
+    "LiveLift™",
+    "Promotions",
+    "display ads",
+    "sponsored offers",
+    "newsletters",
+    "feature placements"
+   ],
+   "description": "Sources digital promotions from clients, mainly CPG brands, and distributes them to consumers through publishers and its own properties.",
+   "evidence": "Our CODM, the Chief Executive Officer, manages the Company's operations as a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients, primarily CPG brands, pay per redemption of their digital promotions distributed to consumers across the network.",
+  "evidence": "We use that information to invoice our clients for the total value of those redemptions, along with our agreed upon fee-per-redemption commission."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

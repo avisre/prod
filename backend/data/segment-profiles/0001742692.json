@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001742692",
  "issuerName": "InMode Ltd.",
- "builtAt": "2026-11-16T05:18:01.891Z",
+ "builtAt": "2026-11-16T10:17:05.814Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-000377",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1742692/000117891326000377/zk2634286.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aesthetic solutions",
+   "products": [
+    "BodyTite",
+    "Optimas",
+    "Votiva",
+    "Contoura",
+    "Triton",
+    "EmbraceRF",
+    "EvolveX",
+    "Morpheus8"
+   ],
+   "description": "Designs, develops, manufactures and markets energy-based minimally invasive aesthetic and medical treatment platforms, handpieces, applicators and consumables used by physicians and surgeons.",
+   "evidence": "Since 2010, we have launched sixteen product platforms: BodyTite, Optimas, Votiva, Contoura, Triton, EmbraceRF, EvolveX, Evoke, Morpheus8, EmpowerRF, Define, Envision, IgniteRF, OptimasMAX, Luxora, ApexRF and Solaria."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Plastic and facial surgeons, aesthetic surgeons, dermatologists and OB/GYNs pay for energy-based platforms, handpieces and applicators, and for training and support services.",
+  "evidence": "Our products, which we have historically marketed and sold to plastic and facial surgeons, aesthetic surgeons, dermatologists and OB/GYNs, may be used on a variety of body parts including the face, neck, abdomen, upper arms, thighs and intimate feminine regions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

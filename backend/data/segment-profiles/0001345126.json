@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001345126",
  "issuerName": "COMPASS DIVERSIFIED HOLDINGS",
- "builtAt": "2026-11-16T05:18:01.177Z",
+ "builtAt": "2026-11-16T10:16:11.914Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001345126-26-000026",
@@ -10,11 +10,120 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1345126/000134512626000026/codi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "5.11",
+   "products": [
+    "apparel",
+    "footwear",
+    "gear"
+   ],
+   "description": "Makes tactical apparel, footwear and gear for professionals and enthusiasts, sold through uniform stores, outdoor retail, its own stores and online.",
+   "evidence": "5.11 is a brand known for innovation and authenticity and works directly with end users to create purpose-built apparel, footwear and gear"
+  },
+  {
+   "name": "BOA",
+   "products": [
+    "BOA Fit System",
+    "micro-adjustable dial",
+    "high-tensile lightweight laces",
+    "low friction lace guides"
+   ],
+   "description": "Designs fit and closure systems with brand partners for footwear, headwear and bracing sold to performance and outdoor brands.",
+   "evidence": "Delivering fit solutions purpose-built for performance, the BOA Fit System is featured in footwear across snow sports, cycling, outdoor, athletic, workwear as well as performance headwear and bracing."
+  },
+  {
+   "name": "PrimaLoft",
+   "products": [
+    "branded, high-performance synthetic insulation and materials",
+    "PrimaLoft synthetic insulations"
+   ],
+   "description": "Supplies branded synthetic insulation and materials to apparel brands and consumer outerwear makers.",
+   "evidence": "PrimaLoft Technologies Holdings, Inc. (\"PrimaLoft\") is a leading provider of branded, high-performance synthetic insulation and materials used primarily in consumer outerwear, and accessories."
+  },
+  {
+   "name": "The Honey Pot Co.",
+   "products": [
+    "holistic wellness products",
+    "feminine hygiene",
+    "menstrual",
+    "personal care",
+    "sexual wellness"
+   ],
+   "description": "Sells plant-derived feminine hygiene, menstrual, personal care and sexual wellness products to consumers through mass, drug and grocery retailers.",
+   "evidence": "The Honey Pot Co. offers an extensive range of holistic wellness products across the feminine hygiene, menstrual, personal care, and sexual wellness categories."
+  },
+  {
+   "name": "Velocity Outdoor",
+   "products": [
+    "archery products",
+    "Ravin crossbows",
+    "CenterPoint archery products",
+    "King's Camo",
+    "hunting apparel and related accessories"
+   ],
+   "description": "Designs and sells archery products, crossbows and hunting apparel through national retail chains and dealer and distributor networks.",
+   "evidence": "Velocity Outdoor Inc. (\"Velocity Outdoor\" or \"Velocity\") is a leading designer, manufacturer, and marketer of archery products, hunting apparel and related accessories."
+  },
+  {
+   "name": "Arnold",
+   "products": [
+    "high performance permanent magnets (PMAG)",
+    "stators",
+    "rotors",
+    "full electric motors (Ramco)",
+    "precision foil products (Precision Thin Metals)",
+    "flexible magnets (Flexmag)"
+   ],
+   "description": "Engineers and manufactures permanent magnets, motors, stators and precision foil products for aerospace, defense, industrial, medical and energy customers.",
+   "evidence": "Arnold engineers solutions for and produces high performance permanent magnets (PMAG), stators, rotors and full electric motors (Ramco), precision foil products (Precision Thin Metals), and flexible magnets (Flexmag) that are mission critical in motors, generators, sensors and other systems and components."
+  },
+  {
+   "name": "Altor Solutions",
+   "products": [
+    "custom molded protective foam solutions",
+    "molded foam solutions",
+    "original equipment manufacturer (\"OEM\") components"
+   ],
+   "description": "Makes custom molded protective foam and OEM components for appliance, electronics, pharmaceutical, automotive and building products manufacturers.",
+   "evidence": "FFI Compass, Inc. (\"Altor Solutions\" or \"Altor\") (formerly \"Foam Fabricators\"), headquartered in St. Louis, MO, is a designer and manufacturer of custom molded protective foam solutions and original equipment manufacturer (\"OEM\") components made from expanded polystyrene (\"EPS\") and other expanded polymers."
+  },
+  {
+   "name": "Sterno",
+   "products": [
+    "portable food warming systems",
+    "creative indoor and outdoor lighting",
+    "home fragrance solutions",
+    "wick and gel chafing systems",
+    "butane stoves and accessories",
+    "liquid and traditional wax candles",
+    "catering equipment and lamps",
+    "scented wax cubes"
+   ],
+   "description": "Sells portable food warming, lighting and home fragrance products to consumer markets through Sterno Products and Rimports.",
+   "evidence": "Sterno is a leading manufacturer and marketer of portable food warming systems, creative indoor and outdoor lighting, and home fragrance solutions for the consumer markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Retailers, distributors and brand customers pay our subsidiary businesses for the consumer and industrial products they make and sell.",
+  "evidence": "We do not generate any revenues apart from those generated by the businesses we own."
+ },
+ "changes": [
+  {
+   "text": "Lugano was deconsolidated in 2025 and is no longer an operating segment of the Company.",
+   "evidence": "In November 2025, Lugano and certain of its subsidiaries filed for Chapter 11 protection and, as a result, Lugano was deconsolidated from the Company's consolidated financial statements as of the bankruptcy filing date."
+  },
+  {
+   "text": "The Company sold its Ergo operating segment in the fourth quarter of 2024.",
+   "evidence": "The Company sold its Ergo operating segment in the fourth quarter of 2024, recording a pre-tax gain on sale of $ 6.1 million."
+  },
+  {
+   "text": "The Company sold its Marucci operating segment in the fourth quarter of 2023.",
+   "evidence": "The Company sold its Marucci operating segment in the fourth quarter of 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001825079",
  "issuerName": "Velo3D, Inc.",
- "builtAt": "2026-11-16T05:18:04.728Z",
+ "builtAt": "2026-11-16T10:18:31.865Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-134997",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1825079/000119312526134997/velo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metal additive manufacturing",
+   "products": [
+    "Sapphire family of metal additive manufacturing systems",
+    "Flow print preparation software",
+    "Assure quality assurance software",
+    "Intelligent Fusion manufacturing process",
+    "Rapid Production Solutions",
+    "Expert Services",
+    "3D printers"
+   ],
+   "description": "Develops and manufactures Sapphire metal additive manufacturing systems and provides production and engineering services for defense, aerospace, energy and industrial customers.",
+   "evidence": "We operate in a single reporting segment. Our revenues are primarily derived from the sale of 3D printers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for printer purchases or printer leases and for production and engineering services.",
+  "evidence": "We generate revenue through a combination of printer sales and production services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

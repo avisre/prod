@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000726601",
  "issuerName": "Capital City Bank Group, Inc.",
- "builtAt": "2026-11-16T05:18:03.000Z",
+ "builtAt": "2026-11-16T10:17:00.440Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000726601-26-000007",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/726601/000072660126000007/ccbg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial banking",
+   "products": [
+    "traditional deposit and credit services",
+    "mortgage banking",
+    "asset management",
+    "trust",
+    "merchant services",
+    "bankcards",
+    "securities brokerage services",
+    "financial advisory services"
+   ],
+   "description": "Full-service commercial bank and holding company providing deposit, credit, mortgage, trust and investment services to individuals, businesses and institutional clients in the Southeast.",
+   "evidence": "The Company operates a single reportable business segment that is comprised of commercial banking within the states of Florida, Georgia, and Alabama."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay interest and fees for deposits, loans, mortgage banking, trust, asset management and brokerage services; the parent earns dividends and management fees from the Bank.",
+  "evidence": "We provide a full range of banking services, including traditional deposit and credit services, mortgage banking, asset management, trust, merchant services, bankcards, securities brokerage services and financial advisory services, including the sale of life insurance, risk management and asset protection services."
+ },
+ "changes": [
+  {
+   "text": "The insurance subsidiary Capital City Strategic Wealth, LLC was sold in August 2025.",
+   "evidence": "CCBG previously maintained an insurance subsidiary, Capital City Strategic Wealth, LLC, which was sold in August 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

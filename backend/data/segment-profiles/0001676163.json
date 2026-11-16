@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001676163",
  "issuerName": "SS INNOVATIONS INTERNATIONAL, INC.",
- "builtAt": "2026-11-16T05:18:04.933Z",
+ "builtAt": "2026-11-16T10:18:14.677Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-025440",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1676163/000121390026025440/ea0277925-10k_ssinnova.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Surgical Robotic Systems",
+   "products": [
+    "SSi Mantra",
+    "instruments",
+    "accessories",
+    "related devices"
+   ],
+   "description": "Designs, manufactures and markets the SSi Mantra surgical robotic system and its instruments and accessories for hospitals in India and other markets.",
+   "evidence": "The Company manages the business activities on a consolidated basis and operates in one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hospitals and distributors pay for SSi Mantra systems through outright purchase, deferred installments or pay-per-procedure, plus recurring purchases of instruments, accessories and services.",
+  "evidence": "We offer our SSi Mantra through three selling models: (i) outright purchase, where revenue is realized upfront; (ii) purchase on a deferred or installment payment basis; and (iii) purchase on a pay-per-procedure basis, where revenue is recognized over time."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

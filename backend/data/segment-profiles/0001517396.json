@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001517396",
  "issuerName": "STRATASYS LTD.",
- "builtAt": "2026-11-16T05:18:01.842Z",
+ "builtAt": "2026-11-16T10:16:19.197Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-015079",
@@ -10,11 +10,34 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1517396/000162828026015079/ssys-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "3D printing solutions",
+   "products": [
+    "3D printers",
+    "materials",
+    "software",
+    "expert services",
+    "on-demand parts production",
+    "consumables",
+    "service contracts"
+   ],
+   "description": "Supplies polymer-based additive manufacturing systems, materials, software and services to manufacturers, prototypers and end-users across many industries worldwide.",
+   "evidence": "The Company has one operating segment, which generates revenues via the sale of its 3D printing systems, related services and consumables and by providing additive manufacturing (\"AM\") solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "End-users and resellers pay for printing systems, consumables, software and service contracts, generating recurring revenue after the initial system sale.",
+  "evidence": "Our business model is predicated in part on building an end-user base that will generate a recurring stream of revenues through our sale of consumables and service contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company continued restructuring activities under which certain operations were discontinued and others were divested.",
+   "evidence": "In connection with these activities, certain operations were discontinued, and others were divested."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

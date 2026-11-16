@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001828962",
  "issuerName": "Cricut, Inc.",
- "builtAt": "2026-11-16T05:18:01.387Z",
+ "builtAt": "2026-11-16T10:15:54.578Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001828962-26-000010",
@@ -10,10 +10,43 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1828962/000182896226000010/crct-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Platform",
+   "products": [
+    "Cricut Access",
+    "Cricut Access Premium",
+    "digital content",
+    "images",
+    "fonts",
+    "templates",
+    "projects"
+   ],
+   "description": "Provides subscriptions to Cricut Access and à la carte digital images, fonts, templates and projects to crafters using the cloud-based Cricut Design Space app.",
+   "evidence": "We generate Platform revenue primarily from sales of subscriptions to Cricut Access and Cricut Access Premium, digital content, and a minimal amount of revenue allocated to the unspecified future upgrades and enhancements related to the essential software and access to our cloud-based services."
+  },
+  {
+   "name": "Products",
+   "products": [
+    "Cricut Maker",
+    "Cricut Explore",
+    "Cricut Joy",
+    "Cricut Venture",
+    "Cricut EasyPress",
+    "Cricut MugPress",
+    "hand tools",
+    "adhesive vinyl"
+   ],
+   "description": "Designs, markets and distributes connected cutting machines, heat presses, hand tools, blades and craft materials such as vinyl to consumers and retail partners.",
+   "evidence": "Our connected machines portfolio consists of machines in four product families: Cricut Maker, which includes Maker, Maker 3 and Maker 4; Cricut Explore, which includes Explore Air 2, Explore 3 and Explore 4; Cricut Joy, which includes Joy and Joy Xtra; and Cricut Venture."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Consumers and retail partners pay for connected machines, Cricut Access subscriptions, accessories and materials, and à la carte digital content.",
+  "evidence": "The revenue generated from the sales of our connected machines, subscriptions, accessories, and materials comes from a robust mix of brick-and-mortar and online retail, including direct-to-consumer on Cricut.com, and partners like Amazon, Best Buy, Costco, Hobby Lobby, HSN, Michaels, Target, and Walmart."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001937987",
  "issuerName": "Falcon’s Beyond Global, Inc.",
- "builtAt": "2026-11-16T05:18:04.075Z",
+ "builtAt": "2026-11-16T10:18:07.509Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-131874",
@@ -10,11 +10,88 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1937987/000119312526131874/fbyd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Falcon's Creative Group",
+   "products": [
+    "master planning",
+    "attraction design",
+    "experiential entertainment",
+    "content production",
+    "interactives",
+    "software",
+    "destination strategy",
+    "creative guardianship"
+   ],
+   "description": "Provides creative and advisory services, including destination strategy, master planning and attraction design, to entertainment and hospitality destination clients.",
+   "evidence": "FCG generates revenues from master planning, attraction design, experiential entertainment, content production, interactives, and software."
+  },
+  {
+   "name": "Destinations Operations",
+   "products": [
+    "development and management services",
+    "management fees",
+    "incentive fees"
+   ],
+   "description": "Provides development and management services for themed entertainment to PDP and operates entertainment venues and branded destination concepts.",
+   "evidence": "Destinations Operations recognizes management and incentive fees from the Company's equity method investments."
+  },
+  {
+   "name": "PDP",
+   "products": [
+    "hotels",
+    "theme parks",
+    "retail, dining and entertainment venues"
+   ],
+   "description": "Develops, owns and operates hotels, theme parks and retail, dining and entertainment venues in Spain.",
+   "evidence": "PDP develops, owns and operates hotels, theme parks and retail, dining and entertainment venues."
+  },
+  {
+   "name": "Falcon's Attractions",
+   "products": [
+    "attraction systems",
+    "ride hardware",
+    "engineered entertainment technologies",
+    "ride systems",
+    "attraction hardware",
+    "related technologies",
+    "aftermarket support",
+    "show systems"
+   ],
+   "description": "Designs, engineers, manufactures and sells ride systems and attraction hardware to theme parks, location-based venues and destination developers.",
+   "evidence": "The integration of OES into Falcon's Attractions provides the Company with expanded capabilities in the design and manufacture of advanced attraction and show systems."
+  },
+  {
+   "name": "Falcon's Beyond Brands-Other",
+   "products": [
+    "consumer products",
+    "media",
+    "intellectual property"
+   ],
+   "description": "Develops and commercializes Company owned and third-party intellectual property through consumer products and media.",
+   "evidence": "Falcon's Beyond Brands-Other is utilized for the development and commercialization of Company owned and third-party intellectual property through consumer products and media."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Third-party customers and affiliated entities, including equity method investees, pay fees for design, creative, attraction and destination services.",
+  "evidence": "FCG generates revenue primarily through the provision of design, consulting, creative, and related professional services to third-party customers and affiliated entities."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company acquired OES and integrated it into the new Falcon's Attractions segment.",
+   "evidence": "During May 2025, the Company acquired OES and integrated it into the new Falcon's Attractions segment."
+  },
+  {
+   "text": "The Company had four operating segments in 2024 and five reportable operating segments in 2025.",
+   "evidence": "Therefore, as of December 31, 2025 the Company has five reportable operating segments."
+  },
+  {
+   "text": "In 2025 the Company's joint venture PDP sold the Sol Tenerife Hotel.",
+   "evidence": "In May 2025, the Company, through its joint venture PDP, completed the disposition of the Sol Tenerife Hotel by selling 100% of its equity interests in Tertian XXI, S.L., the entity owning the real-estate assets."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

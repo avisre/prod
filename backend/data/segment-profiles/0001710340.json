@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001710340",
  "issuerName": "ETON PHARMACEUTICALS, INC.",
- "builtAt": "2026-11-16T05:18:01.375Z",
+ "builtAt": "2026-11-16T10:15:45.478Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-009059",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1710340/000143774926009059/eton20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rare Disease Products",
+   "products": [
+    "INCRELEX®",
+    "ALKINDI SPRINKLE®",
+    "KHINDIVI TM",
+    "GALZIN®",
+    "PKU GOLIKE®",
+    "Carglumic Acid",
+    "Betaine Anhydrous",
+    "Nitisinone"
+   ],
+   "description": "Develops and commercializes rare disease pharmaceutical products, sold in the United States to specialty pharmacies for patients and their providers.",
+   "evidence": "The Company operates the business on the basis of a single reportable segment, which includes eight commercial rare disease products: INCRELEX®, ALKINDI SPRINKLE®, KHINDIVI TM , GALZIN®, PKU GOLIKE®, Carglumic Acid, Betaine Anhydrous, and Nitisinone."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Specialty pharmacy customers pay the company for product sales; those pharmacies then provide order fulfillment, inventory storage and distribution services.",
+  "evidence": "The Company derives revenues from product sales to specialty pharmacy customers, who then provide order fulfillment, inventory storage and distribution services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
