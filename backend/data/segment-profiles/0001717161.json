@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001717161",
+ "issuerName": "Central Puerto S.A.",
+ "builtAt": "2026-11-16T05:03:53.504Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002446",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1717161/000129281426002446/cepuform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electric power generation",
+   "products": [
+    "electric power"
+   ],
+   "description": "Generates electricity from thermal, hydro, wind and solar plants.",
+   "evidence": "As of December 31, 2024, we operated a fourth business segment focused on natural gas transport and distribution."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells electricity into the Argentine market.",
+  "evidence": "As of December 31, 2025, we operated one hydroelectric generation plant, owned, and operated six thermal generation plants, seven wind farms and three solar farms, for the generation of electric power in Argentina."
+ },
+ "changes": [
+  {
+   "text": "Stopped reporting a fourth segment for natural gas transport and distribution after 2024.",
+   "evidence": "As of December 31, 2024, we operated a fourth business segment focused on natural gas transport and distribution."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

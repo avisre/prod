@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001589526",
+ "issuerName": "Blue Bird Corp",
+ "builtAt": "2026-11-16T05:03:53.480Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001589526-25-000100",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1589526/000158952625000100/blbd-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bus segment",
+   "products": [
+    "school buses",
+    "extended warranties"
+   ],
+   "description": "Designs and builds school buses.",
+   "evidence": "We review and present our business in two operating segments, which are also our reportable segments: (i) the Bus segment, which involves the design, engineering, manufacture and sale of school buses and extended warranties; and (ii) the Parts segment, which includes the sale of replacement bus parts."
+  },
+  {
+   "name": "Parts segment",
+   "products": [
+    "replacement bus parts"
+   ],
+   "description": "Sells replacement bus parts.",
+   "evidence": "We review and present our business in two operating segments, which are also our reportable segments: (i) the Bus segment, which involves the design, engineering, manufacture and sale of school buses and extended warranties; and (ii) the Parts segment, which includes the sale of replacement bus parts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "School districts and operators buy buses and parts.",
+  "evidence": "We review and present our business in two operating segments, which are also our reportable segments: (i) the Bus segment, which involves the design, engineering, manufacture and sale of school buses and extended warranties; and (ii) the Parts segment, which includes the sale of replacement bus parts."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

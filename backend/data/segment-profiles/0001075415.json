@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001075415",
+ "issuerName": "DIVERSIFIED HEALTHCARE TRUST",
+ "builtAt": "2026-11-16T05:03:53.653Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001075415-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1075415/000107541526000013/dhc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SHOP",
+   "products": [
+    "senior housing operating portfolio"
+   ],
+   "description": "Runs its senior housing operating portfolio.",
+   "evidence": "Segment Information As of December 31, 2025, we had two reportable segments: SHOP and Medical Office and Life Science Portfolio."
+  },
+  {
+   "name": "Medical Office and Life Science Portfolio",
+   "products": [
+    "medical office properties",
+    "life science properties"
+   ],
+   "description": "Owns medical office and life science properties.",
+   "evidence": "Segment Information As of December 31, 2025, we had two reportable segments: SHOP and Medical Office and Life Science Portfolio."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Senior housing residents and property tenants pay rent and fees.",
+  "evidence": "Segment Information As of December 31, 2025, we had two reportable segments: SHOP and Medical Office and Life Science Portfolio."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

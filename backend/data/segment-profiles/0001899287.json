@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001899287",
+ "issuerName": "Amprius Technologies, Inc.",
+ "builtAt": "2026-11-16T05:03:51.144Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001899287-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1899287/000189928726000015/ampx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "battery segment",
+   "products": [
+    "battery cells",
+    "SiMaxx batteries"
+   ],
+   "description": "Makes high-energy battery cells.",
+   "evidence": "Segment Reporting and Geographic Data We have a single operating and reportable segment; that is, the battery segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its battery cells for electric applications.",
+  "evidence": "During 2025, we manufactured our SiMaxx batteries in our facility in Fremont, California."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

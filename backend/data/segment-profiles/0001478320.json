@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001478320",
+ "issuerName": "ADAPTIVE BIOTECHNOLOGIES CORPORATION",
+ "builtAt": "2026-11-16T05:03:52.517Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076902",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1478320/000119312526076902/adpt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Minimal Residual Disease",
+   "products": [
+    "MRD tests"
+   ],
+   "description": "Sells minimal residual disease testing.",
+   "evidence": "Segment Information We operate as two operating and reportable segments: Minimal Residual Disease (\"M"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharma partners and clinicians pay for its tests.",
+  "evidence": "Segment Information We operate as two operating and reportable segments: Minimal Residual Disease (\"M"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001804745",
+ "issuerName": "Driven Brands Holdings Inc.",
+ "builtAt": "2026-11-16T05:03:52.464Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001804745-26-000048",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-05-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1804745/000180474526000048/drvn-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Franchise Brands",
+   "products": [
+    "Meineke",
+    "Maaco",
+    "CARSTAR",
+    "ABRA",
+    "Fix Auto",
+    "1-800 Radiator",
+    "Uniban",
+    "Automotive Training Institute"
+   ],
+   "description": "Franchises automotive repair and paint brands.",
+   "evidence": "Franchise Brands Our Franchise Brands segment consists of a diversified portfolio of brands including Meineke, Maaco, CARSTAR, ABRA, Fix Auto, 1-800 Radiator, Uniban, and Automotive Training Institute (\"ATI\") and serves retail, commercial, and insurance customers through 2,699 total locations as of December 27, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Franchisees pay royalties and fees.",
+  "evidence": "Franchise Brands Our Franchise Brands segment consists of a diversified portfolio of brands including Meineke, Maaco, CARSTAR, ABRA, Fix Auto, 1-800 Radiator, Uniban, and Automotive Training Institute (\"ATI\") and serves retail, commercial, and insurance customers through 2,699 total locations as of December 27, 2025."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001694426",
+ "issuerName": "DELEK US HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:03:50.982Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012664",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1694426/000162828026012664/dk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "refining",
+   "products": [
+    "refined products"
+   ],
+   "description": "Refines crude oil into fuels.",
+   "evidence": "Delek now operates in two reportable operating segments: the refining segment and the logistics segment, which are discussed below."
+  },
+  {
+   "name": "logistics",
+   "products": [],
+   "description": "Provides crude and product logistics.",
+   "evidence": "Delek now operates in two reportable operating segments: the refining segment and the logistics segment, which are discussed below."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wholesale customers buy refined fuels; shippers pay logistics fees.",
+  "evidence": "Delek now operates in two reportable operating segments: the refining segment and the logistics segment, which are discussed below."
+ },
+ "changes": [
+  {
+   "text": "Moved from three segments to two, dropping the retail segment, which was sold in July 2024.",
+   "evidence": "Information About Our Segments Prior to July 2024, we aggregated our operating segments into three reportable segments: refining, logistics, and retail."
+  }
+ ],
+ "dropped": [
+  "product not in text (logistics): logistics services"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001472012",
+ "issuerName": "Immunome, Inc.",
+ "builtAt": "2026-11-16T05:03:51.434Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-088172",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1472012/000119312526088172/imnm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "targeted oncology therapies",
+   "products": [],
+   "description": "Develops targeted oncology therapies.",
+   "evidence": "Segment information The Company has one operating and reportable segment related to the development of targeted oncology therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Segment information The Company has one operating and reportable segment related to the development of targeted oncology therapies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (targeted oncology therapies): targeted oncology therapies"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001879016",
+ "issuerName": "Ivanhoe Electric Inc.",
+ "builtAt": "2026-11-16T05:03:53.904Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001879016-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1879016/000187901626000005/ie-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001653242",
+ "issuerName": "The Bank of N.T. Butterfield & Son Limited",
+ "builtAt": "2026-11-16T05:03:52.595Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001653242-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1653242/000165324226000006/ntb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bermuda",
+   "products": [
+    "banking services"
+   ],
+   "description": "Banks clients in Bermuda.",
+   "evidence": "We operate our business through three geographic segments: Bermuda, the Cayman Islands, and the Channel Islands and the UK (CI & UK)."
+  },
+  {
+   "name": "Cayman Islands",
+   "products": [
+    "banking services"
+   ],
+   "description": "Banks clients in the Cayman Islands.",
+   "evidence": "We operate our business through three geographic segments: Bermuda, the Cayman Islands, and the Channel Islands and the UK (CI & UK)."
+  },
+  {
+   "name": "Channel Islands and the UK",
+   "products": [
+    "banking services"
+   ],
+   "description": "Banks clients in the Channel Islands and the UK.",
+   "evidence": "We operate our business through three geographic segments: Bermuda, the Cayman Islands, and the Channel Islands and the UK (CI & UK)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay interest and fees on loans, deposits and trust services.",
+  "evidence": "In the 1960s, as international businesses began contributing substantially to Bermuda's economy, we developed services to work to meet their needs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

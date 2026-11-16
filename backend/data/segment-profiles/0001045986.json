@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001045986",
+ "issuerName": "FORMULA SYSTEMS (1985) LTD.",
+ "builtAt": "2026-11-16T05:03:53.705Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-055948",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1045986/000121390026055948/ea0289446-20f_formula.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Matrix",
+   "products": [
+    "software products",
+    "IT services"
+   ],
+   "description": "Runs its Matrix software and IT services group.",
+   "evidence": "(1) The goodwill allocated to the operating segment Matrix is mainly related to two groups of cash-generating units."
+  },
+  {
+   "name": "Sapiens",
+   "products": [],
+   "description": "Runs its Sapiens insurance software business.",
+   "evidence": "(1) The goodwill allocated to the operating segment Matrix is mainly related to two groups of cash-generating units."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and insurers pay for software and IT services.",
+  "evidence": "(2) The goodwill allocated to the operating segment Sapiens is mainly related to two groups of cash-generating units."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Sapiens): insurance software"
+ ],
+ "reader": "agent"
+}

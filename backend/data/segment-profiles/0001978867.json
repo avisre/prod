@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001978867",
+ "issuerName": "Cadeler plc",
+ "builtAt": "2026-11-16T05:03:50.749Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001978867-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1978867/000197886726000022/cdlr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cadeler",
+   "products": [],
+   "description": "Installs offshore wind foundations and turbines.",
+   "evidence": "Accordingly, the Cadeler Group has only one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wind farm developers pay for installation work.",
+  "evidence": "Accordingly, the Cadeler Group has only one operating segment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cadeler): offshore installation services"
+ ],
+ "reader": "agent"
+}

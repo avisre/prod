@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001369241",
  "issuerName": "DANAOS CORPORATION",
- "builtAt": "2026-11-15T14:24:28.775Z",
+ "builtAt": "2026-11-16T05:03:51.629Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-021574",
@@ -10,39 +10,11 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1369241/000110465926021574/dac-20251231x20f.htm"
  },
- "status": "one-segment-mismatch",
- "segments": [
-  {
-   "name": "Container vessels",
-   "products": [
-    "bareboat charter agreements"
-   ],
-   "description": "Owns and operates container vessels primarily chartered on multi-year, fixed-rate time charter and bareboat charter agreements to liner companies.",
-   "evidence": "The container vessels segment owns and operates container vessels which are primarily chartered on multi-year, fixed-rate time charter and bareboat charter agreements."
-  },
-  {
-   "name": "Drybulk vessels",
-   "products": [
-    "drybulk commodities transportation services"
-   ],
-   "description": "Owns and operates drybulk vessels providing drybulk commodities transportation services.",
-   "evidence": "The drybulk vessels segment owns and operates drybulk vessels to provide drybulk commodities transportation services."
-  }
- ],
+ "status": "no-segments",
+ "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Charterers pay the company charter hire under multi-year, fixed-rate time charter and bareboat charter agreements for use of its vessels.",
-  "evidence": "The container vessels segment owns and operates container vessels which are primarily chartered on multi-year, fixed-rate time charter and bareboat charter agreements."
- },
- "changes": [
-  {
-   "text": "In 2023, the company entered the drybulk sector through an acquisition of drybulk vessels, creating a second reporting segment.",
-   "evidence": "Following our acquisition of drybulk vessels in 2023, for management purposes, we have two reporting segments (1) a container vessels segment and (2) a drybulk vessels segment."
-  }
- ],
- "dropped": [
-  "product not in text (Container vessels): container vessels",
-  "product not in text (Container vessels): multi-year, fixed-rate time charter agreements",
-  "product not in text (Drybulk vessels): drybulk vessels"
- ]
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001816581",
+ "issuerName": "Ouster, Inc.",
+ "builtAt": "2026-11-16T05:03:50.527Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013313",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1816581/000162828026013313/oust-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

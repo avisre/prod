@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001964954",
+ "issuerName": "Okeanis Eco Tankers Corp.",
+ "builtAt": "2026-11-16T05:03:53.810Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-032731",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1964954/000110465926032731/eco-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "tanker vessels transporting crude oil",
+   "products": [
+    "tanker vessels"
+   ],
+   "description": "Operates tankers carrying crude oil.",
+   "evidence": "The CEO, who is the chief operating decision maker, reviews these performance metrics of the fleet in aggregate, and thus, the Group has determined that it operates under one reportable segment, that of operating tanker vessels transporting crude oil."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil traders and majors pay charter rates for tanker voyages.",
+  "evidence": "reportable segment, that of operating tanker vessels transporting crude oil."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001693256",
+ "issuerName": "SELECT WATER SOLUTIONS, INC.",
+ "builtAt": "2026-11-16T05:03:50.497Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-017085",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1693256/000110465926017085/wttr-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001698514",
+ "issuerName": "NATIONAL ENERGY SERVICES REUNITED CORP.",
+ "builtAt": "2026-11-16T05:03:51.072Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-009139",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1698514/000149315226009139/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Production Services",
+   "products": [
+    "coiled tubing services"
+   ],
+   "description": "Provides coiled tubing and production services.",
+   "evidence": "Our Production Services segment includes the results of operations from services that are generally offered and performed during the completion and production stages of a well's lifecycle."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas operators pay for well services.",
+  "evidence": "● Coiled Tubing – We provide various coiled tubing services ranging from nitrogen lifting, fishing, milling, clean-out, scale removal and other complex well applications."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

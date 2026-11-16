@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001024795",
+ "issuerName": "HELIOS TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-16T05:03:50.551Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-087747",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1024795/000119312526087747/hlio-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hydraulics",
+   "products": [
+    "Sun Hydraulics",
+    "Faster",
+    "NEM",
+    "Taimi",
+    "Daman",
+    "Schultes"
+   ],
+   "description": "Makes hydraulic valves and components.",
+   "evidence": "We operate under two business segments: Hydraulics and Electronics."
+  },
+  {
+   "name": "Electronics",
+   "products": [
+    "electronic controls"
+   ],
+   "description": "Makes electronic controls and systems.",
+   "evidence": "We operate under two business segments: Hydraulics and Electronics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Equipment makers buy its hydraulic and electronic components.",
+  "evidence": "Business Segments Our Hydraulics segment includes products sold under the Sun Hydraulics (\"Sun\"), Faster, NEM, Taimi, Daman and Schultes brands."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002035697",
+ "issuerName": "Polibeli Group Ltd",
+ "builtAt": "2026-11-16T05:03:50.742Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-047262",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/2035697/000121390026047262/ea0287164-01.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Polibeli",
+   "products": [],
+   "description": "Runs its Indonesian digital commerce platform.",
+   "evidence": "As a result of the assessment made by CODM, the Group has only one principal reportable segment as defined by ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants and consumers pay for platform services.",
+  "evidence": "As a result of the assessment made by CODM, the Group has only one principal reportable segment as defined by ASC 280."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Polibeli): digital commerce services"
+ ],
+ "reader": "agent"
+}

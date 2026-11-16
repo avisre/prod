@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001515673",
+ "issuerName": "ULTRAGENYX PHARMACEUTICAL INC.",
+ "builtAt": "2026-11-16T05:03:52.340Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-057329",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1515673/000119312526057329/rare-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ultragenyx",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops and sells medicines for rare genetic diseases.",
+   "evidence": "Notes to Consolidated Financial Statements (continued) Segment Reporting The Company operates as one reportable segment relating to the research, development and commercialization of its products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "The Company operates as one reportable segment and has four commercially approved products."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001787306",
+ "issuerName": "ARCUTIS BIOTHERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T05:03:50.890Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001787306-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1787306/000178730626000018/arqt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Arcutis",
+   "products": [
+    "ZORYVE"
+   ],
+   "description": "Develops and sells dermatology medicines.",
+   "evidence": "36 Table of Contents Index to Financial Statements Financial Information About Segments We view our operations and manage our business as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "We have generally and may incur losses until our revenue from product sales of ZORYVE and any other approved products exceeds expenses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001820144",
+ "issuerName": "Grindr Inc.",
+ "builtAt": "2026-11-16T05:03:52.378Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001820144-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1820144/000182014426000007/grnd-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

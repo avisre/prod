@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001544522",
+ "issuerName": "Freshworks Inc.",
+ "builtAt": "2026-11-16T05:03:51.169Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001544522-26-000036",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1544522/000154452226000036/frsh-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

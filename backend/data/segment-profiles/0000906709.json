@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000906709",
+ "issuerName": "Nektar Therapeutics",
+ "builtAt": "2026-11-16T05:03:52.787Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104547",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/906709/000119312526104547/nktr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nektar",
+   "products": [
+    "drug candidates"
+   ],
+   "description": "Develops novel drug candidates.",
+   "evidence": "Note 14 — Segment Reporting We operate in one business segment which focuses on applying our expertise to develop novel drug candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay licensing revenue and milestones.",
+  "evidence": "We developed rezpegaldesleukin and own full rights to this drug candidate."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

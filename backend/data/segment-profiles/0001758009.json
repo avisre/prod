@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001758009",
+ "issuerName": "QUANTUM COMPUTING INC.",
+ "builtAt": "2026-11-16T05:03:50.906Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-022417",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1758009/000121390026022417/ea0278445-10k_quantum.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "quantum",
+   "products": [
+    "quantum computing systems"
+   ],
+   "description": "Sells room-temperature quantum computing systems.",
+   "evidence": "Note 3 – Segment Reporting Our Chief Operating Decision Maker (\"CODM\"), the Chief Executive Officer , manages the Company's business activities as a single operating and reportable s"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its quantum systems and related services.",
+  "evidence": "QCi's products are designed to operate at room temperature and at very low power levels compared to other quantum systems currently available in the market, such as cryogenic products based on superconducting, ion-trap, or annealing architectures."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

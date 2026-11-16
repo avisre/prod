@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001818201",
+ "issuerName": "CCC INTELLIGENT SOLUTIONS HOLDINGS INC.",
+ "builtAt": "2026-11-16T05:03:50.561Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067448",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1818201/000119312526067448/ccc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "software subscriptions",
+   "products": [
+    "professional services"
+   ],
+   "description": "Sells insurance software subscriptions and services.",
+   "evidence": "The Company organizes its segments around its operations by geographic region and operates in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurers and repair shops pay subscriptions and service fees.",
+  "evidence": "We generate revenue through the sale of software subscriptions and other revenue, primarily from professional services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (software subscriptions): software subscriptions"
+ ],
+ "reader": "agent"
+}

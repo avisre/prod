@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001980088",
+ "issuerName": "Mach Natural Resources LP",
+ "builtAt": "2026-11-16T05:03:52.288Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017249",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1980088/000162828026017249/mnr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E&P Segment",
+   "products": [
+    "oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Explores for and produces oil, gas and NGLs.",
+   "evidence": "Segment Information Management has evaluated that the Company is organized and managed as a single reportable segment, which is the exploration and production of oil, natural gas and NGLs (\"E&P Segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil, natural gas and NGLs at market prices.",
+  "evidence": "Segment Information Management has evaluated that the Company is organized and managed as a single reportable segment, which is the exploration and production of oil, natural gas and NGLs (\"E&P Segment\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

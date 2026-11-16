@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001530721",
+ "issuerName": "CAPRI HOLDINGS LIMITED",
+ "builtAt": "2026-11-16T05:03:52.565Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001530721-26-000047",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1530721/000153072126000047/cpri-20260328.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Michael Kors",
+   "products": [
+    "handbags",
+    "accessories",
+    "apparel"
+   ],
+   "description": "Sells Michael Kors products worldwide.",
+   "evidence": "Our Segments We operate in two reportable segments as follows: • Michael Kors — accounted for approximately 83% of our total revenue in Fiscal 2026 and includes worldwide sales of Michael Kors products through 673 retail stores (including concessions) and e-commerce sites, through wholesale doors, as well as through product and geographic li"
+  },
+  {
+   "name": "Jimmy Choo",
+   "products": [
+    "footwear",
+    "accessories"
+   ],
+   "description": "Sells Jimmy Choo luxury products.",
+   "evidence": "Our Segments We operate in two reportable segments as follows: • Michael Kors — accounted for approximately 83% of our total revenue in Fiscal 2026 and includes worldwide sales of Michael Kors products through 673 retail stores (including concessions) and e-commerce sites, through wholesale doors, as well as through product and geographic li"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its luxury and fashion products in stores and online.",
+  "evidence": "Jimmy Choo products are unique, instinctively seductive and chic."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

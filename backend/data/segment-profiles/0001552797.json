@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001552797",
+ "issuerName": "DELEK LOGISTICS PARTNERS, LP",
+ "builtAt": "2026-11-16T05:03:50.515Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012666",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1552797/000162828026012666/dkl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "gathering and processing",
+   "products": [
+    "gathering",
+    "processing"
+   ],
+   "description": "Gathers and processes crude and gas.",
+   "evidence": "Reportable Operating Segments Overview We aggregate our operating segments into four reportable segments: (i) gathering and processing; (ii) wholesale marketing and terminalling; (iii) storage and transportation; and (iv) investment in pip"
+  },
+  {
+   "name": "wholesale marketing and terminalling",
+   "products": [
+    "wholesale marketing",
+    "terminalling"
+   ],
+   "description": "Markets and terminals refined products.",
+   "evidence": "Reportable Operating Segments Overview We aggregate our operating segments into four reportable segments: (i) gathering and processing; (ii) wholesale marketing and terminalling; (iii) storage and transportation; and (iv) investment in pip"
+  },
+  {
+   "name": "storage and transportation",
+   "products": [
+    "storage",
+    "transportation"
+   ],
+   "description": "Stores and transports crude and products.",
+   "evidence": "Reportable Operating Segments Overview We aggregate our operating segments into four reportable segments: (i) gathering and processing; (ii) wholesale marketing and terminalling; (iii) storage and transportation; and (iv) investment in pip"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Producers and shippers pay fees for gathering, storage and transport.",
+  "evidence": "Reportable Operating Segments Overview We aggregate our operating segments into four reportable segments: (i) gathering and processing; (ii) wholesale marketing and terminalling; (iii) storage and transportation; and (iv) investment in pip"
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: investment in pipelines"
+ ],
+ "reader": "agent"
+}

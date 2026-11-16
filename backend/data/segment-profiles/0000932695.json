@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000932695",
+ "issuerName": "China Yuchai International Limited",
+ "builtAt": "2026-11-16T05:03:52.817Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-191559",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/932695/000119312526191559/ck0000932695-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

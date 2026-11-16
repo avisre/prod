@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001951070",
+ "issuerName": "MCGRAW HILL, INC.",
+ "builtAt": "2026-11-16T05:03:51.789Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001951070-26-000022",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1951070/000195107026000022/mh-20260331.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

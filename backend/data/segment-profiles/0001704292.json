@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001704292",
+ "issuerName": "ZAI LAB LIMITED",
+ "builtAt": "2026-11-16T05:03:53.861Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001704292-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1704292/000170429226000015/zlab-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zai Lab",
+   "products": [
+    "medicines"
+   ],
+   "description": "Discovers and sells medicines in oncology and immunology.",
+   "evidence": "In accordance with ASC 280, the Company has only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and partners pay for its medicines.",
+  "evidence": "Segment Information The Company operates as a single operating segment that is engaged in discovering, developing, and commercializing products that address medical conditions with significant unmet needs in the areas of oncology, immunology, neuroscience, and infectious disease."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

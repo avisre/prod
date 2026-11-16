@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001848763",
+ "issuerName": "CANADA PENSION PLAN INVESTMENT BOARD",
+ "builtAt": "2026-11-16T05:03:53.350Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-325073",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1848763/000119312526325073/rnw-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Generation and sale of renewable power",
+   "products": [
+    "renewable power"
+   ],
+   "description": "Generates and sells renewable power.",
+   "evidence": "Segment information We have primarily two reportable segments: (i) Generation and sale of renewable power and (ii) Manufacturing of power equipment's."
+  },
+  {
+   "name": "Manufacturing of power equipment's",
+   "products": [
+    "power equipment"
+   ],
+   "description": "Makes power equipment.",
+   "evidence": "Segment information We have primarily two reportable segments: (i) Generation and sale of renewable power and (ii) Manufacturing of power equipment's."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities and buyers pay for power and equipment.",
+  "evidence": "Segment information We have primarily two reportable segments: (i) Generation and sale of renewable power and (ii) Manufacturing of power equipment's."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
