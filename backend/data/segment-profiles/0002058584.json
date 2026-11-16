@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002058584",
+ "issuerName": "DarkIris Inc.",
+ "builtAt": "2026-11-16T05:47:27.754Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-004488",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2058584/000149315226004488/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001674440",
+ "issuerName": "AiRWA INC.",
+ "builtAt": "2026-11-16T05:47:28.304Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-043608",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-09-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1674440/000149315226043608/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

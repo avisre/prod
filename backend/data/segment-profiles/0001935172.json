@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001935172",
+ "issuerName": "XIAO-I CORPORATION",
+ "builtAt": "2026-11-16T05:47:27.547Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-057986",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1935172/000121390026057986/ea0290336-20f_xiao.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

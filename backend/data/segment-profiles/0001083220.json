@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001083220",
+ "issuerName": "Xcel Brands, Inc.",
+ "builtAt": "2026-11-16T05:47:27.959Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-043348",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1083220/000110465926043348/xelb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "branded apparel, jewelry",
+   "products": [
+    "branded apparel",
+    "jewelry"
+   ],
+   "description": "Designs and licenses branded apparel and jewellery.",
+   "evidence": "Segment Reporting Information The Company has a single reportable segment, which generates revenue from the design and licensing of branded apparel, jewelry, and similar consumer products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Licensees pay royalties for its brands.",
+  "evidence": "The Company's chief operating decision maker, as such term is defined under GAAP, is its Chief Executive Officer."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

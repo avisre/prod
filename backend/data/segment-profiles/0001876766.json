@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001876766",
+ "issuerName": "Lichen International Limited",
+ "builtAt": "2026-11-16T05:46:47.613Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-001520",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1876766/000118518526001520/licn20f123125.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

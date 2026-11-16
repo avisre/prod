@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001232582",
+ "issuerName": "ASHFORD HOSPITALITY TRUST, INC.",
+ "builtAt": "2026-11-16T05:46:43.109Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001232582-26-000067",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1232582/000123258226000067/aht-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "direct hotel investments",
+   "products": [
+    "hotel properties"
+   ],
+   "description": "Owns hotels directly.",
+   "evidence": "BUSINESS SEGMENTS We currently operate in one business segment within the hotel lodging industry: direct hotel investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates and hotel charges.",
+  "evidence": "A discussion of our operating segment is incorporated by reference from note 24 to our consolidated financial statements set forth in Part II, Item 8."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

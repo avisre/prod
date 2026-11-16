@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001873093",
  "issuerName": "CytoMed Therapeutics Limited",
- "builtAt": "2026-11-15T14:16:04.156Z",
+ "builtAt": "2026-11-16T05:47:25.809Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-013813",
@@ -13,18 +13,8 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Clients pay for cryostorage and private blood banking of cord blood stem cells and other cell types under The Longevity Bank brand.",
-  "evidence": "Under the brand of The Longevity Bank, IPSC Depository offers cryostorage service for cord blood stem cell, peripheral blood mononuclear cells, mesenchymal stem cells and induced pluripotent stem cells."
- },
- "changes": [
-  {
-   "text": "In 2024, the Company acquired assets of Cellsafe International Sdn Bhd, adding a cord blood banking business.",
-   "evidence": "In last quarter of 2024, the Company, through our subsidiary LongevityBank Pte Ltd, had completed acquisition of certain assets of Cellsafe International Sdn Bhd (In Liquidation), a Malaysian cord blood bank"
-  }
- ],
- "dropped": [
-  "segment name not in text: Immune cell therapy",
-  "segment name not in text: CBU service & private blood banking therapy related"
- ]
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

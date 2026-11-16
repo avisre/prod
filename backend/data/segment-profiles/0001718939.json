@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001718939",
+ "issuerName": "T Stamp Inc",
+ "builtAt": "2026-11-16T05:47:27.859Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001718939-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1718939/000171893926000024/idai-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "T Stamp",
+   "products": [],
+   "description": "Sells identity authentication software.",
+   "evidence": "Segment Information — The Company has a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Governments and enterprises pay for its identity software.",
+  "evidence": "We operate in a continually changing business environment and new factors emerge from time to time."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (T Stamp): identity software"
+ ],
+ "reader": "agent"
+}

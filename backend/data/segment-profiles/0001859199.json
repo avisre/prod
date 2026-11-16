@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001859199",
+ "issuerName": "reAlpha Tech Corp.",
+ "builtAt": "2026-11-16T05:47:28.370Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-026653",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1859199/000121390026026653/ea0277755-10k_realpha.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

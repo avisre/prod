@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001708441",
+ "issuerName": "Mynd.ai, Inc.",
+ "builtAt": "2026-11-16T05:47:26.566Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001708441-26-000055",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1708441/000170844126000055/mynd-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

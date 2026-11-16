@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001707910",
+ "issuerName": "REBORN COFFEE, INC.",
+ "builtAt": "2026-11-16T05:46:47.825Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-046490",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1707910/000121390026046490/ea0285633-10k_reborn.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

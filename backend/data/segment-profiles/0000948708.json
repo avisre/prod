@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000948708",
+ "issuerName": "Smith Micro Software, Inc.",
+ "builtAt": "2026-11-16T05:46:42.943Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007087",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/948708/000143774926007087/smsi20251231d_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wireless",
+   "products": [
+    "technical support"
+   ],
+   "description": "Sells wireless software and support.",
+   "evidence": "\" Business Segments We currently have one reportable operating segment: Wireless."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wireless carriers pay for software and support.",
+  "evidence": "Customer Service and Technical Support We provide technical support and customer service through our online knowledge base, email, and live chat."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wireless): wireless software"
+ ],
+ "reader": "agent"
+}

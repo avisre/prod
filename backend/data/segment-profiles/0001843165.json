@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001843165",
+ "issuerName": "LQR House Inc.",
+ "builtAt": "2026-11-16T05:46:45.875Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-044131",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1843165/000121390026044131/ea0281758-10k_lqrhouse.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

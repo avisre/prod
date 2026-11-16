@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001967397",
+ "issuerName": "LZ     Technology Holdings Limited",
+ "builtAt": "2026-11-16T05:47:30.110Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048529",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1967397/000121390026048529/ea0285529-20f_lztech.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Out of Home Advertising",
+   "products": [],
+   "description": "Sells out of home advertising.",
+   "evidence": "Revenue from Out of Home Advertising increased by RMB 119."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay for out of home placements.",
+  "evidence": "Since we operate in an emerging and evolving environment and new risk factors and uncertainties emerge from time to time, you should not rely upon forward-looking statements as predictions of future events."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Out of Home Advertising): out of home advertising"
+ ],
+ "reader": "agent"
+}

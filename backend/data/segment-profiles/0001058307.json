@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001058307",
+ "issuerName": "NextPlat Corp",
+ "builtAt": "2026-11-16T05:46:43.987Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010668",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1058307/000143774926010668/nxpl20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "e-Commerce Operations",
+   "products": [
+    "satellite communications products",
+    "connectivity services"
+   ],
+   "description": "Sells satellite communications products and services.",
+   "evidence": "BUSINESS NextPlat Corp (\"NextPlat,\" \"the Company,\" \"we,\" \"our,\" or \"us\") is a global e-commerce and healthcare services company that operates through two reportable segments: e-Commerce Operations and Healthcare Operations."
+  },
+  {
+   "name": "Healthcare Operations",
+   "products": [
+    "healthcare products",
+    "healthcare services"
+   ],
+   "description": "Provides healthcare products and services.",
+   "evidence": "BUSINESS NextPlat Corp (\"NextPlat,\" \"the Company,\" \"we,\" \"our,\" or \"us\") is a global e-commerce and healthcare services company that operates through two reportable segments: e-Commerce Operations and Healthcare Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and providers buy its communications and healthcare offerings.",
+  "evidence": "e-Commerce Operations Our e-commerce segment provides satellite communications products, connectivity services, and related equipment to customers globally"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

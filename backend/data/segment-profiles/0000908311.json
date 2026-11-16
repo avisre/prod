@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000908311",
+ "issuerName": "CREATIVE MEDIA & COMMUNITY TRUST CORPORATION",
+ "builtAt": "2026-11-16T05:47:26.634Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000908311-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/908311/000090831126000018/cmct-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "office",
+   "products": [
+    "office properties"
+   ],
+   "description": "Owns office properties.",
+   "evidence": "Our current reportable segments during the years ended December 31, 2025 and 2024 consist of three types of commercial real estate properties, namely office, hotel and multifamily, as well as a segment for our lending business."
+  },
+  {
+   "name": "hotel",
+   "products": [
+    "hotel properties"
+   ],
+   "description": "Owns hotel properties.",
+   "evidence": "Our current reportable segments during the years ended December 31, 2025 and 2024 consist of three types of commercial real estate properties, namely office, hotel and multifamily, as well as a segment for our lending business."
+  },
+  {
+   "name": "multifamily",
+   "products": [
+    "multifamily properties"
+   ],
+   "description": "Owns multifamily properties.",
+   "evidence": "Our current reportable segments during the years ended December 31, 2025 and 2024 consist of three types of commercial real estate properties, namely office, hotel and multifamily, as well as a segment for our lending business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants and hotel guests pay rent and room charges.",
+  "evidence": "As previously disclosed, we completed the sale of our lending business on January 21, 2026, and, as a result, our lending business will cease to be one"
+ },
+ "changes": [
+  {
+   "text": "Sold its lending business in January 2026, leaving office, hotel and multifamily segments.",
+   "evidence": "As previously disclosed, we completed the sale of our lending business on January 21, 2026, and, as a result, our lending business will cease to be one"
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

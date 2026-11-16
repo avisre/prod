@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001713539",
+ "issuerName": "Kaixin Holdings",
+ "builtAt": "2026-11-16T05:47:30.393Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-040360",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1713539/000110465926040360/kxin-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

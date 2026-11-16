@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001912884",
+ "issuerName": "Republic Power Group Limited",
+ "builtAt": "2026-11-16T05:47:29.700Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-121345",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-12-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1912884/000121390025121345/ea0267306-20f_republic.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

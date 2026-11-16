@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001698530",
+ "issuerName": "Exicure, Inc.",
+ "builtAt": "2026-11-16T05:46:48.060Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001698530-26-000028",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1698530/000169853026000028/xcur-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exicure",
+   "products": [],
+   "description": "Develops oligonucleotide therapeutics.",
+   "evidence": "The Company views its operations and manages its business as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and collaboration revenue.",
+  "evidence": "Segments and geographic information Operating segments are defined as components of an enterprise about which separate discrete information is available for evaluation by the chief operating decision-maker, in deciding how to allocate resources and in assessing performance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Exicure): oligonucleotide therapies"
+ ],
+ "reader": "agent"
+}

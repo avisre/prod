@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001096275",
+ "issuerName": "Worksport Ltd",
+ "builtAt": "2026-11-16T05:47:30.370Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012945",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1096275/000149315226012945/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Soft Tonneau Covers",
+   "products": [],
+   "description": "Makes soft tonneau covers.",
+   "evidence": "5 Segments and Products We conduct our business in two reportable business segments, which are the same as our operating segments: Soft Tonneau Covers and Hard Tonneau Covers."
+  },
+  {
+   "name": "Hard Tonneau Covers",
+   "products": [],
+   "description": "Makes hard tonneau covers.",
+   "evidence": "5 Segments and Products We conduct our business in two reportable business segments, which are the same as our operating segments: Soft Tonneau Covers and Hard Tonneau Covers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Truck owners buy its tonneau covers.",
+  "evidence": "The products are available for purchase through our direct-to-consumer platform."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Soft Tonneau Covers): soft tonneau covers",
+  "product not in text (Hard Tonneau Covers): hard tonneau covers"
+ ],
+ "reader": "agent"
+}

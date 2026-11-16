@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001888980",
+ "issuerName": "LEAD REAL ESTATE CO., LTD",
+ "builtAt": "2026-11-16T05:46:46.001Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-121484",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1888980/000110465926121484/lre-20260630x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

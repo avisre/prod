@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001895618",
+ "issuerName": "Gaxos.ai Inc.",
+ "builtAt": "2026-11-16T05:47:29.140Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-029223",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1895618/000121390026029223/ea0281075-10k_gaxos.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI applications",
+   "products": [
+    "applications"
+   ],
+   "description": "Develops AI applications.",
+   "evidence": "Segment Reporting The Company operates as a single operating segment technology-based company that is developing applications aimed at redefining the way we utilize artificial intelligence (\"AI\") to optimize the user experience."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Users and partners pay for its applications.",
+  "evidence": "Competition We operate in industries that are highly competitive and evolving."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

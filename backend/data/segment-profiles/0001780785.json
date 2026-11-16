@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001780785",
+ "issuerName": "CN ENERGY GROUP. INC.",
+ "builtAt": "2026-11-16T05:46:46.794Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001477932-26-000556",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1780785/000147793226000556/cney_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

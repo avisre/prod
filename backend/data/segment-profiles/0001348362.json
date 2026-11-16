@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001348362",
+ "issuerName": "LEXARIA BIOSCIENCE CORP.",
+ "builtAt": "2026-11-16T05:46:48.751Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001640334-25-002225",
+  "periodEnd": "2025-08-31",
+  "filingDate": "2025-11-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1348362/000164033425002225/lxrp_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IP licensing",
+   "products": [
+    "DehydraTECH technology"
+   ],
+   "description": "Licenses its DehydraTECH delivery technology.",
+   "evidence": "Segment reporting The Company has one reportable segment: IP licensing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Licensees pay royalties for its technology.",
+  "evidence": "The IP licensing segment generates revenue from customers by licensing its proprietary DehydraTECH technology."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

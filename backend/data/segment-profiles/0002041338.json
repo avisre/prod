@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002041338",
+ "issuerName": "Dreamland Limited",
+ "builtAt": "2026-11-16T05:47:25.332Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-038758",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-08-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2041338/000149315226038758/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

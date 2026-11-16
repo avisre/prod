@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001777319",
+ "issuerName": "CISO GLOBAL, INC.",
+ "builtAt": "2026-11-16T05:47:25.068Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013324",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1777319/000149315226013324/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

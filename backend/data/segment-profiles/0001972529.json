@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001972529",
+ "issuerName": "Armlogi Holding Corp.",
+ "builtAt": "2026-11-16T05:47:24.784Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-103636",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1972529/000121390026103636/ea0306339-10k_armlogi.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

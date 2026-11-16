@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001684688",
+ "issuerName": "ATLAS CRITICAL MINERALS CORPORATION",
+ "builtAt": "2026-11-16T05:46:42.062Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-007592",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1684688/000149315226007592/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mining",
+   "products": [],
+   "description": "Mines, beneficiates and sells materials in Brazil.",
+   "evidence": "Segment reporting The Company has one reportable segment: mining."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells mined and beneficiated material.",
+  "evidence": "The mining segment derives revenue in Brazil by mining, beneficiating and selling material mined from the Company's several mining rights."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (mining): mined materials"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001654595",
+ "issuerName": "MEDALIST DIVERSIFIED, INC.",
+ "builtAt": "2026-11-16T05:46:48.541Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-022253",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1654595/000110465926022253/mdrr-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

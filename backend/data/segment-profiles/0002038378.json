@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002038378",
+ "issuerName": "ACCO GROUP HOLDINGS LIMITED",
+ "builtAt": "2026-11-16T05:46:43.026Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-111364",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/2038378/000121390026111364/ea0308052-20f_acco.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

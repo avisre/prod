@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002034400",
+ "issuerName": "BLACK TITAN CORPORATION",
+ "builtAt": "2026-11-16T05:47:29.159Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-050502",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-11-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/2034400/000149315226050502/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

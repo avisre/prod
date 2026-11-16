@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001816815",
+ "issuerName": "BON NATURAL LIFE LIMITED",
+ "builtAt": "2026-11-16T05:47:27.473Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-003270",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1816815/000149315226003270/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001105101",
+ "issuerName": "GIGAMEDIA Ltd",
+ "builtAt": "2026-11-16T05:46:48.843Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-188775",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1105101/000119312526188775/gigm-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

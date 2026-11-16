@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002030617",
+ "issuerName": "PICARD MEDICAL, INC.",
+ "builtAt": "2026-11-16T05:47:26.680Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010133",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2030617/000143774926010133/pmi20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
