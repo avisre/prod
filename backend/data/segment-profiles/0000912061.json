@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000912061",
  "issuerName": "Natural Health Trends Corp.",
- "builtAt": "2026-11-16T05:45:15.971Z",
+ "builtAt": "2026-11-16T11:58:49.775Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-004876",
@@ -10,10 +10,22 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/912061/000143774926004876/nhtc20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Primary Reporting Unit",
+   "products": [
+    "NHT Global"
+   ],
+   "description": "Sells personal care, wellness and quality-of-life products through a member network and e-commerce platforms across several international markets.",
+   "evidence": "Therefore, the Company aggregates its other operating segments (including its Hong Kong operating segment) into a single reporting segment (the \"Primary Reporting Unit\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Independent members pay the company for wellness, beauty and lifestyle products bought for their own use or for resale to consumers.",
+  "evidence": "Virtually all of our members are independent full-time or part-time contractors who purchase products directly from our subsidiaries via the internet for their own personal consumption or for resale to retail consumers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

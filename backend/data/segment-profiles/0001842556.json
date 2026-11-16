@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001842556",
  "issuerName": "EON Resources Inc.",
- "builtAt": "2026-11-16T05:45:10.429Z",
+ "builtAt": "2026-11-16T11:54:34.465Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-103762",
@@ -10,10 +10,22 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1842556/000121390026103762/ea0285266-10k_eon.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and gas operations",
+   "products": [
+    "oil and gas products"
+   ],
+   "description": "Develops and produces oil and natural gas from Permian Basin properties in New Mexico, sold to purchasers.",
+   "evidence": "The Company has one reportable operating segment, its oil and gas operations which derives its revenue from the sale of oil and gas products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Crude oil and natural gas purchasers pay the company for oil and gas production from its Permian Basin properties.",
+  "evidence": "Accounts receivable consist of receivables from crude oil and natural gas purchasers and are generally uncollateralized."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

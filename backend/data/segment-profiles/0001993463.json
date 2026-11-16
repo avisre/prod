@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001993463",
  "issuerName": "YSX Tech Co., Ltd",
- "builtAt": "2026-11-16T05:45:11.005Z",
+ "builtAt": "2026-11-16T11:55:09.388Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-082653",
@@ -10,10 +10,32 @@
   "filingDate": "2026-07-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1993463/000110465926082653/ysxt-20260331x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Auto Insurance Aftermarket Value-added Services",
+   "products": [],
+   "description": "Value-added services in the auto insurance aftermarket, reported as an operating segment by service type.",
+   "evidence": "Based on management's assessment, the Company has determined that it has three operating segments by service type as defined by ASC 280, including Auto Insurance Aftermarket Value-added Services, Other Scenario-based Customized Services and Software Development and Information Technology Services."
+  },
+  {
+   "name": "Other Scenario-based Customized Services",
+   "products": [],
+   "description": "Scenario-based customized services, reported as an operating segment by service type.",
+   "evidence": "Based on management's assessment, the Company has determined that it has three operating segments by service type as defined by ASC 280, including Auto Insurance Aftermarket Value-added Services, Other Scenario-based Customized Services and Software Development and Information Technology Services."
+  },
+  {
+   "name": "Software Development and Information Technology Services",
+   "products": [],
+   "description": "Software development and information technology services, reported as an operating segment by service type.",
+   "evidence": "Based on management's assessment, the Company has determined that it has three operating segments by service type as defined by ASC 280, including Auto Insurance Aftermarket Value-added Services, Other Scenario-based Customized Services and Software Development and Information Technology Services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers located in China pay the company for its services, which are organized and reported by service type.",
+  "evidence": "Substantially all of the Company's assets are located in China and all revenue was derived from customers located in China."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

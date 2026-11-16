@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001355839",
  "issuerName": "INTELLIGENT PROTECTION MANAGEMENT CORP.",
- "builtAt": "2026-11-16T05:45:14.267Z",
+ "builtAt": "2026-11-16T11:57:27.957Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-029095",
@@ -10,11 +10,34 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1355839/000121390026029095/ea0277611-10k_intelligent.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IT-related services",
+   "products": [
+    "managed IT security services",
+    "secure private cloud hosting",
+    "managed backup and disaster recovery",
+    "professional services",
+    "procurement services",
+    "web hosting",
+    "ManyCam software"
+   ],
+   "description": "Provides managed IT security, cloud hosting, backup, professional, procurement and web hosting services, plus ManyCam software, to businesses.",
+   "evidence": "The Company is a single-segment business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay recurring fees, often under service-level agreements, for managed IT services and hosting.",
+  "evidence": "Customers of our managed IT security services typically pay a recurring fee, often based on service-level agreements that define the specific services and performance metrics."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold Vumber, Paltalk and Camfrog and exited consumer video and telecom software.",
+   "evidence": "Following the Divestiture, we are no longer engaged in the business of providing video-based, live streaming, virtual camera and telecommunications software to consumers, as and to the extent such businesses were previously conducted by us pursuant to the Vumber, Paltalk and Camfrog applications."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

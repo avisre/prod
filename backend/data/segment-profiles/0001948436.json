@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001948436",
  "issuerName": "J-LONG GROUP LIMITED",
- "builtAt": "2026-11-16T05:45:14.666Z",
+ "builtAt": "2026-11-16T11:57:36.207Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-082287",
@@ -10,11 +10,40 @@
   "filingDate": "2026-07-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1948436/000121390026082287/ea0297859-20f_jlonggroup.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hong Kong Trading",
+   "products": [
+    "heat transfers",
+    "fabrics",
+    "woven labels and tapes",
+    "sewing badges",
+    "piping",
+    "zipper pulls",
+    "drawcords"
+   ],
+   "description": "Distributes reflective and non-reflective garment trims to international apparel brands from Hong Kong.",
+   "evidence": "Mainly through our HK Operating Subsidiary, we are an established distributor in Hong Kong of reflective and non-reflective garment trims including, among others, heat transfers, fabrics, woven labels and tapes, sewing badges, piping, zipper pulls and drawcords."
+  },
+  {
+   "name": "Vietnam Manufacturing",
+   "products": [],
+   "description": "Runs a manufacturing plant in Vietnam through subsidiary J-Long Trims Vietnam Co., Ltd.",
+   "evidence": "We are an established distributor in Hong Kong of reflective and non-reflective garment trims including, among others, heat transfers, fabrics, woven labels and tapes, sewing badges, piping, zipper pulls and drawcords, with a manufacturing plant in Vietnam."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "International apparel brands pay for garment trims and related services such as product design, development, and production and quality control.",
+  "evidence": "We offer a wide range of services to cater to our customers' needs in reflective and non-reflective garment trims, including market trend analysis, product design and development, and production and quality control."
+ },
+ "changes": [
+  {
+   "text": "Segments changed from one segment in 2024 to two reportable segments, Hong Kong Trading and Vietnam Manufacturing, in 2025.",
+   "evidence": "And there was only one segment for the year ended March 31, 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

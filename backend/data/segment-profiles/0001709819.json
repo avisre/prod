@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001709819",
  "issuerName": "Four Seasons Education (Cayman) Inc.",
- "builtAt": "2026-11-16T05:45:14.825Z",
+ "builtAt": "2026-11-16T12:38:23.894Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-273350",
@@ -10,10 +10,42 @@
   "filingDate": "2026-06-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1709819/000119312526273350/fedu-20260228.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Learning services",
+   "products": [
+    "calligraphy",
+    "art",
+    "recitation",
+    "bridge",
+    "Go",
+    "sudoku"
+   ],
+   "description": "Enrichment learning courses for students, including calligraphy, art, recitation, bridge, Go and sudoku.",
+   "evidence": "For learning services, the Group provides enrichment learning services include, among others, calligraphy, art, recitation, bridge, Go, and sudoku."
+  },
+  {
+   "name": "Tourism services",
+   "products": [
+    "trip-related services",
+    "study camp operations"
+   ],
+   "description": "Customized tourism services for travel agencies, corporate customers and individuals, including trip-related services and study camps.",
+   "evidence": "The Group offers customized tourism services to travel agencies, corporate customers, and individuals, including but not limited to services like trip-related services and study camp operations, which can cater to different budgets and preferences."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Revenue reported alongside learning and tourism services; the filing does not describe its business in the supplied text.",
+   "evidence": "The Group has three operating segments identified including learning services, tourism services and others."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Students pay tuition in advance for enrichment courses; travel agencies, corporate customers and individuals pay for tourism services.",
+  "evidence": "The tuition fees are generally collected in advance and are initially recorded as deferred revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

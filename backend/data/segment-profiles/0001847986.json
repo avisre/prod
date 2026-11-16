@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001847986",
  "issuerName": "DRAGONFLY ENERGY HOLDINGS CORP.",
- "builtAt": "2026-11-16T05:45:11.391Z",
+ "builtAt": "2026-11-16T11:55:33.942Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013635",
@@ -10,11 +10,36 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1847986/000149315226013635/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DTC",
+   "products": [
+    "Battle Born, LLC branded batteries"
+   ],
+   "description": "Sells Battle Born branded lithium batteries directly to consumers.",
+   "evidence": "The DTC segment pertains to Battle Born, LLC branded batteries which are sold directly to consumers."
+  },
+  {
+   "name": "OEM",
+   "products": [
+    "Dragonfly branded batteries"
+   ],
+   "description": "Sells Dragonfly branded lithium batteries to original equipment manufacturers.",
+   "evidence": "The OEM segment pertains to Dragonfly branded batteries which are sold to original equipment manufacturers"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers buy Battle Born batteries directly, and original equipment manufacturers buy Dragonfly branded batteries.",
+  "evidence": "The DTC segment pertains to Battle Born, LLC branded batteries which are sold directly to consumers."
+ },
+ "changes": [
+  {
+   "text": "Beginning in 2024, the company reports two operating segments after its internal reporting structure evolved.",
+   "evidence": "Beginning in 2024, the Company's internal reporting structure and management's decision-making processes evolved such that the Company now reports two operating segments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

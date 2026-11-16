@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001094038",
  "issuerName": "MARKER THERAPEUTICS, INC.",
- "builtAt": "2026-11-16T05:45:14.898Z",
+ "builtAt": "2026-11-16T11:58:03.698Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-031274",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1094038/000110465926031274/mrkr-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immuno-oncology",
+   "products": [
+    "MT-601",
+    "MT-401-OTS"
+   ],
+   "description": "Develops T cell-based immunotherapies for hematological malignancies and solid tumors, aimed at patients with cancer.",
+   "evidence": "The Company's operations are organized and reported as a single reportable segment, which includes all activities related to the discovery, development, and commercialization of its products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Grants and awards from funding entities for research and development, recognized as the Company incurs related expenses.",
+  "evidence": "Under both accounting frameworks, revenue is recognized when the Company incurs expenses related to the grants for the amount the Company is entitled to under the provisions of the contract."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

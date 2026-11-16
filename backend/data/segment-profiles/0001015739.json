@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001015739",
  "issuerName": "AWARE, INC.",
- "builtAt": "2026-11-16T05:45:11.880Z",
+ "builtAt": "2026-11-16T11:56:06.087Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-096448",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1015739/000119312526096448/awre-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biometric identification",
+   "products": [
+    "AwareSDK",
+    "AwareABIS",
+    "AFIX Tracker",
+    "Awareness Platform",
+    "WebEnroll",
+    "BioComponents",
+    "Nexa|Fingerprint",
+    "AwareXM"
+   ],
+   "description": "Provides biometric identification, authentication and enrollment software, SDKs and services to government and commercial customers.",
+   "evidence": "AwareABIS has primarily been sold as a fixed term license that is priced based on the size of the biometric system or on a subscription-based model."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for perpetual and fixed-term software licenses, subscriptions, SaaS offerings, maintenance and professional services.",
+  "evidence": "License and service contracts include revenue recognized from perpetual software licenses, professional services, and associated maintenance contracts."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

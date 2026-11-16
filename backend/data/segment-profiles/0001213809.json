@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001213809",
  "issuerName": "DYADIC INTERNATIONAL INC",
- "builtAt": "2026-11-16T05:45:11.974Z",
+ "builtAt": "2026-11-16T11:56:03.202Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-012672",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1213809/000149315226012672/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Synthetic protein products",
+   "products": [
+    "Dapibus™",
+    "C1"
+   ],
+   "description": "Develops and commercializes animal-free synthetic proteins and enzymes for life sciences, food and nutrition, and bio-industrial customers.",
+   "evidence": "The Company operates and manages its business as one reportable segment and one operating segment, which is the business of developing and commercializing synthetic protein products using the Company's proprietary microbial platforms, including Dapibus™ and C1."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for direct product sales of recombinant proteins and enzymes, plus licensing fees, milestone payments, development funding and revenue shares from partners.",
+  "evidence": "Dyadic's commercialization strategy includes direct product sales, distribution partnerships, manufacturing collaborations, and technology licensing agreements, which may include annual licensing fees, milestone payments, development funding, product supply revenues, and revenue-sharing arrangements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

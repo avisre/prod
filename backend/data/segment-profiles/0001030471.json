@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001030471",
  "issuerName": "UTStarcom Holdings Corp.",
- "builtAt": "2026-11-16T05:45:15.657Z",
+ "builtAt": "2026-11-16T11:58:36.332Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-177148",
@@ -10,10 +10,33 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1030471/000119312526177148/utsi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Equipment",
+   "products": [
+    "Network infrastructure products",
+    "broadband products",
+    "Network application products",
+    "wireless infrastructure technologies"
+   ],
+   "description": "Sales of equipment, including network infrastructure products such as broadband and network application products such as wireless infrastructure technologies.",
+   "evidence": "Equipment- Sales of equipment, including network infrastructure and application products."
+  },
+  {
+   "name": "Services",
+   "products": [
+    "services and support for equipment products"
+   ],
+   "description": "Provides services and support for equipment products, along with a new operational support segment.",
+   "evidence": "Services-Providing services and support for equipment products and also the new operational support segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for equipment sales and for services and support for equipment products.",
+  "evidence": "Sales are attributed to a geographical area based upon the location of the customer."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

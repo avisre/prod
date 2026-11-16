@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001721484",
  "issuerName": "LONGEVERON INC.",
- "builtAt": "2026-11-16T05:45:13.380Z",
+ "builtAt": "2026-11-16T11:56:50.501Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-110664",
@@ -10,10 +10,22 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1721484/000119312526110664/lgvn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regenerative medicines",
+   "products": [
+    "laromestrocel"
+   ],
+   "description": "Clinical-stage biotechnology company developing regenerative medicines for unmet medical needs.",
+   "evidence": "The Company's CODM is its Chief Executive Officer (\"CEO\"), and the Company manages its operations as a single operating segment focused on developing regenerative medicines to address unmet medical needs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Third parties pay the company under contract development and manufacturing arrangements that use its product development capabilities.",
+  "evidence": "From time to time, we enter into contract development and manufacturing contracts or arrangements with third parties who seek to utilize our product development capabilities."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

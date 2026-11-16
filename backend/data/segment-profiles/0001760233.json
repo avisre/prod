@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001760233",
  "issuerName": "GIFTIFY, INC.",
- "builtAt": "2026-11-16T05:45:10.447Z",
+ "builtAt": "2026-11-16T11:54:47.155Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-010887",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1760233/000149315226010887/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "gift card exchange",
+   "products": [
+    "gift cards",
+    "discount certificates"
+   ],
+   "description": "Buys, sells and exchanges gift cards and discount certificates for consumers and businesses.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment concentrating on the sale of gift cards and discount certificates to our customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Shoppers pay for discounted gift cards, and corporations and marketers pay for certificates used as promotions and rewards.",
+  "evidence": "We sell certificates and Discount Dining Passes to corporations and marketers, which use them to"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

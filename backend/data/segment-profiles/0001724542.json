@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001724542",
  "issuerName": "CLPS Incorporation",
- "builtAt": "2026-11-16T05:45:11.430Z",
+ "builtAt": "2026-11-16T11:55:45.317Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-110018",
@@ -10,10 +10,31 @@
   "filingDate": "2026-10-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1724542/000121390026110018/ea0307179-20f_clpsincorp.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IT services",
+   "products": [
+    "IT consulting service",
+    "Customized IT solution service"
+   ],
+   "description": "IT consulting and customized solution services for banks, financial institutions and general enterprises.",
+   "evidence": "The Company has two operating and reportable segments, consisting of IT services and academic education service."
+  },
+  {
+   "name": "Academic education services",
+   "products": [
+    "Academic education service"
+   ],
+   "description": "Education and study abroad programs, reported as a segment separate from IT services.",
+   "evidence": "The Company has two operating and reportable segments, consisting of IT services and academic education service."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Banks and institutions pay for application development services billed on a time-and-expense basis.",
+  "evidence": "IT consulting services primarily includes application development services for banks and institutions in the financial industry and which are billed for on a time-and-expense basis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

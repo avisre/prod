@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001597846",
  "issuerName": "GREENPRO CAPITAL CORP.",
- "builtAt": "2026-11-16T05:45:13.758Z",
+ "builtAt": "2026-11-16T11:57:10.455Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013446",
@@ -10,8 +10,34 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1597846/000149315226013446/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Service business",
+   "products": [
+    "corporate advisory and business solution services"
+   ],
+   "description": "Provides corporate advisory and business solution services to clients.",
+   "evidence": "Currently, the Company has three reportable segments that are based on the following business units: service business, digital business and real estate business, respectively."
+  },
+  {
+   "name": "Digital business",
+   "products": [
+    "digital platform",
+    "trading of digital assets"
+   ],
+   "description": "Provides a digital platform and trades digital assets.",
+   "evidence": "Currently, the Company has three reportable segments that are based on the following business units: service business, digital business and real estate business, respectively."
+  },
+  {
+   "name": "Real estate business",
+   "products": [
+    "trading or leasing of commercial real estate properties"
+   ],
+   "description": "Trades or leases commercial real estate properties in Hong Kong and Malaysia.",
+   "evidence": "Currently, the Company has three reportable segments that are based on the following business units: service business, digital business and real estate business, respectively."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

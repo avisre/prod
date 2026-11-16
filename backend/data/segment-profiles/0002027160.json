@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002027160",
  "issuerName": "Vantage     Corp",
- "builtAt": "2026-11-16T05:45:15.489Z",
+ "builtAt": "2026-11-16T11:58:22.525Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-034794",
@@ -10,10 +10,24 @@
   "filingDate": "2026-07-27",
   "url": "https://www.sec.gov/Archives/edgar/data/2027160/000149315226034794/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shipbroking services",
+   "products": [
+    "operational support",
+    "consultancy services",
+    "OpsWiz"
+   ],
+   "description": "Provides shipbroking services to oil companies, traders, shipowners and commercial managers in tanker markets.",
+   "evidence": "The Company operates as one operating segment and one reportable segment, consisting of the provision of shipbroking services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay commissions earned on freight, time charter, demurrage and sale and purchase transactions, calculated as a fixed fee or a percentage of transaction value.",
+  "evidence": "Our revenue is primarily derived from commissions earned on freight, time charter, demurrage and sale and purchase transactions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

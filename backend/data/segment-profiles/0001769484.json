@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001769484",
  "issuerName": "Bioceres Crop Solutions Corp.",
- "builtAt": "2026-11-16T05:45:12.896Z",
+ "builtAt": "2026-11-16T11:57:05.578Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-120726",
@@ -10,11 +10,50 @@
   "filingDate": "2026-10-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1769484/000110465926120726/biox-20260630x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Seed and integrated products",
+   "products": [
+    "Seed Treatments Packs",
+    "Seeds & HB4 Program"
+   ],
+   "description": "Develops and commercializes seed technologies and products that raise yield per hectare, integrated with crop protection and nutrition.",
+   "evidence": "The seed and integrated products segment focuses mainly on the development and commercialization of seed technologies and products that increase yield per hectare"
+  },
+  {
+   "name": "Crop protection",
+   "products": [
+    "Adjuvants",
+    "Seed CP Products and Services",
+    "Other CP Products and Services",
+    "Bioprotection"
+   ],
+   "description": "Sells crop protection products, including adjuvants and bioprotection, to farmers and agricultural companies.",
+   "evidence": "These external pressures significantly impacted per-hectare income for Argentine farmers, leading to reduced investment in key inputs such as fertilizers and crop protection products."
+  },
+  {
+   "name": "Crop nutrition",
+   "products": [
+    "Inoculants & Biofertilizers",
+    "Micro-beaded Fertilizers",
+    "Biostimulants"
+   ],
+   "description": "Sells inoculants, biofertilizers, micro-beaded fertilizers and biostimulants that optimize crop productivity and yield.",
+   "evidence": "Currently the segment generates income from ordinary activities through the sale of inoculants, bio-inductors, biological fertilizers and microgranulated fertilizers, among others."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Farmers, distributors and agricultural companies pay for seed, crop protection and crop nutrition products sold to them.",
+  "evidence": "Customers include multinational and local agricultural companies, distributors, and farmers who purchase the Group's products."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the Pro Farm business was lost in a judicial foreclosure sale.",
+   "evidence": "On January 20, 2026, a judicial foreclosure sale of granted collateral took place, resulting in the loss of the Pro Farm business"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

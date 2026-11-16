@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001875016",
  "issuerName": "J-Star Holding Co., Ltd.",
- "builtAt": "2026-11-16T05:45:12.105Z",
+ "builtAt": "2026-11-16T11:56:20.732Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019802",
@@ -10,11 +10,32 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1875016/000149315226019802/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bicycle and racket",
+   "products": [
+    "Bicycle frame",
+    "Racket",
+    "Crank",
+    "Service provision",
+    "Others"
+   ],
+   "description": "Develops and sells key structural parts of bicycles and rackets, plus cranks and other products, for customers.",
+   "evidence": "As a result, the Group operates as a single reporting segment, primarily engaged in bicycle, racket, and other businesses."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for bicycle parts, rackets, cranks and services, sold under ODM, OEM and trading arrangements.",
+  "evidence": "Our revenue decreased for the year ended December 31, 2025 due to a change in our business model from OEM to trading."
+ },
+ "changes": [
+  {
+   "text": "In April 2023, the Group disposed of its two PRC operating subsidiaries and began operating as a single reporting segment.",
+   "evidence": "After April 1, 2023, the Group disposed of two PRC subsidiaries, YMA DG and Forwell."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

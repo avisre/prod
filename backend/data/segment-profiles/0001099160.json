@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001099160",
  "issuerName": "BEASLEY BROADCAST GROUP, INC.",
- "builtAt": "2026-11-16T05:45:12.290Z",
+ "builtAt": "2026-11-16T11:56:29.585Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-147594",
@@ -10,11 +10,38 @@
   "filingDate": "2026-04-08",
   "url": "https://www.sec.gov/Archives/edgar/data/1099160/000119312526147594/bbgi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Audio",
+   "products": [
+    "commercial advertising",
+    "radio stations"
+   ],
+   "description": "Sells commercial advertising on radio stations across US markets to local and national advertisers.",
+   "evidence": "The Audio segment generates revenue primarily from the sale of commercial advertising to customers of the Company's stations in the following markets:"
+  },
+  {
+   "name": "Digital",
+   "products": [
+    "digital advertising",
+    "station-related digital product suites"
+   ],
+   "description": "Sells digital advertising and station-related digital product suites to advertisers throughout the United States.",
+   "evidence": "The Digital segment generates revenue primarily from the sale of digital advertising to customers of the Company's stations and other advertisers throughout the United States."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Advertisers pay for commercial airtime on the company's stations and for digital advertising sold to station customers and other advertisers.",
+  "evidence": "The primary source of revenue for our stations is the sale of advertising time to local, regional and national advertisers and national network advertisers who purchase commercials in varying lengths."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company agreed to sell its Fort Myers, FL radio stations to third parties.",
+   "evidence": "On August 11, 2025, the Company entered into an agreement to sell substantially all of the assets used in the operations of WRXK-FM and WXKB-FM in Fort Myers, FL to a third party for $ 9.0 million in cash."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

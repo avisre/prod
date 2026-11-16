@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001780731",
  "issuerName": "E-Power Inc.",
- "builtAt": "2026-11-16T05:45:11.282Z",
+ "builtAt": "2026-11-16T11:55:29.880Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-056928",
@@ -10,10 +10,32 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1780731/000121390026056928/ea0288834-20f_epower.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Graphite anode business",
+   "products": [
+    "graphite anode materials",
+    "lithium-ion power battery anode materials",
+    "graphite material products"
+   ],
+   "description": "Manufactures and sells graphite anode materials for lithium-ion power batteries through the Sunrise Guizhou joint venture.",
+   "evidence": "In April 2022, we entered into an investment agreement with certain partners to form a joint venture, Sunrise Guizhou, which is dedicated to the production of lithium-ion power battery anode materials."
+  },
+  {
+   "name": "Knowledge sharing and enterprise business",
+   "products": [
+    "knowledge share platform"
+   ],
+   "description": "Runs a knowledge share platform and enterprise business, reported separately from graphite anode operations.",
+   "evidence": "We may be required to obtain and maintain additional approvals, licenses or permits applicable to our business, including our graphite anode manufacturing and sales business and our knowledge share platform, which could have a material adverse impact on our business, financial conditions and results of operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for graphite anode materials that the company manufactures and sells through its Sunrise Guizhou joint venture.",
+  "evidence": "In 2022, we entered into a new business, manufacturing and sales of graphite anode materials, by forming a joint venture (Sunrise Guizhou) in Guizhou Province, China."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

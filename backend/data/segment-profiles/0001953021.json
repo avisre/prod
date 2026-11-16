@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001953021",
  "issuerName": "Mega Matrix Inc",
- "builtAt": "2026-11-16T05:45:10.305Z",
+ "builtAt": "2026-11-16T11:54:18.901Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-044335",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1953021/000121390026044335/ea0281860-20f_mega.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Short drama streaming",
+   "products": [
+    "FlexTV",
+    "Membership and top-up streaming services",
+    "Online advertising services",
+    "Content licensing"
+   ],
+   "description": "Operates FlexTV, a short drama streaming platform offering original and licensed dramas to users across many regions.",
+   "evidence": "The Company operates and manages its business as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Users pay for membership and top-up streaming services, and customers pay for online advertising services and content licensing.",
+  "evidence": "Yuder also acquires third party content licenses which it then translates and distributes on its FlexTV platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

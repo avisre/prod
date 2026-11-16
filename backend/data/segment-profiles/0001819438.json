@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819438",
  "issuerName": "ESS Tech, Inc.",
- "builtAt": "2026-11-16T05:45:10.438Z",
+ "builtAt": "2026-11-16T11:54:40.333Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001819438-26-000012",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1819438/000181943826000012/ghw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Long duration energy storage",
+   "products": [
+    "Energy Base",
+    "Energy Warehouse",
+    "Energy Center"
+   ],
+   "description": "Designs and manufactures long-duration iron flow battery energy storage products for utilities, IPPs and commercial and industrial customers.",
+   "evidence": "The Company operates as a single business operating segment, which includes all activities related to the design, engineering, and manufacturing of the Company's long duration energy storage products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Utilities, independent power providers and commercial and industrial end users buy the company's long-duration energy storage products.",
+  "evidence": "Our current and potential customers include utilities, Independent Power Providers (\"IPPs\") and Commercial and Industrial (\"C&I\") end users."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

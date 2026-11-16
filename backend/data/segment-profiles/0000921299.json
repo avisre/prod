@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000921299",
  "issuerName": "KYNTRA BIO, INC.",
- "builtAt": "2026-11-16T05:45:11.675Z",
+ "builtAt": "2026-11-16T11:55:59.216Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-108346",
@@ -10,11 +10,23 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/921299/000119312526108346/kynb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel therapeutics",
+   "products": [],
+   "description": "Development and commercialization of novel therapeutics to treat serious unmet medical needs.",
+   "evidence": "The Company operates in one reportable segment — the development and commercialization of novel therapeutics to treat serious unmet medical needs."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [],
+ "changes": [
+  {
+   "text": "In 2025 the Company agreed to sell FibroGen International to AstraZeneca Treasury Limited.",
+   "evidence": "On February 20, 2025, the Company entered into the Share Purchase Agreement with AstraZeneca Treasury Limited pursuant to which the Company and its subsidiary FibroGen China Anemia Holdings, Ltd. agreed to sell all of the issued and outstanding equity interests of FibroGen International to AstraZeneca Treasury Limited ( the \"Transaction\") ."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

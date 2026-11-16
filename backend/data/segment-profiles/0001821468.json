@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001821468",
  "issuerName": "17 Education & Technology Group Inc.",
- "builtAt": "2026-11-16T05:45:14.734Z",
+ "builtAt": "2026-11-16T11:57:44.752Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-191472",
@@ -10,8 +10,15 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1821468/000119312526191472/yq-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Education & Technology",
+   "products": [],
+   "description": "Education and technology business, managed as one segment, primarily conducted in mainland China through VIEs.",
+   "evidence": "For the years ended December 31, 2023, 2024 and 2025, the Group's CODM managed the Group's business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

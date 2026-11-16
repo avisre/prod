@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001871983",
  "issuerName": "ANGHAMI INC.",
- "builtAt": "2026-11-16T05:45:10.773Z",
+ "builtAt": "2026-11-16T11:55:04.143Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050335",
@@ -10,10 +10,45 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1871983/000121390026050335/ea0287764-20f_anghami.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Revenue from subscriptions",
+   "products": [
+    "Anghami Plus",
+    "Anghami Gold",
+    "OSN+ Standard",
+    "Standard with Ads",
+    "Premium (4K)"
+   ],
+   "description": "Sells paid access to Anghami music streaming and OSN+ TV series and movies, through app stores, websites and telco partners.",
+   "evidence": "We provide paid subscribers with access to: (i) commercial-free music streaming on the Anghami platform through our Anghami Plus and Anghami Gold subscription plans; and (ii) premium TV series and movie streaming on the OSN+ platform through our OSN+ Standard, Standard with Ads, and Premium (4K) subscription plans."
+  },
+  {
+   "name": "Revenue from advertisement",
+   "products": [
+    "Ad-Supported free service",
+    "production and branded content"
+   ],
+   "description": "Earns impression-based advertising revenue from free Anghami and OSN+ Standard with Ads viewers, plus branded content for brands.",
+   "evidence": "We generate revenue from (i) impression-based advertising on Anghami's ad-supported free service and OSN+'s Standard with Ads tier; and (ii) non-impression-based services such as production and branded content."
+  },
+  {
+   "name": "Revenue from live events",
+   "products": [
+    "Anghami Spotlight",
+    "concert ticket sales",
+    "sponsorships"
+   ],
+   "description": "Earns revenue from concert ticket sales, sponsorships and food and beverage sales at live events run through Anghami Spotlight.",
+   "evidence": "Anghami generates revenue primarily through concert ticket sales and sponsorships, F&B sales"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Paid subscribers pay for Anghami and OSN+ subscriptions, advertisers pay for impression-based and branded content, and ticket buyers and sponsors pay for live events.",
+  "evidence": "Subscribers can access and pay for our services through direct channels, including the Apple App Store, Google Play Store, and our websites, or through Telco and other B2B partners."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

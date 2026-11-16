@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001982448",
  "issuerName": "BELIVE HOLDINGS",
- "builtAt": "2026-11-16T05:45:15.346Z",
+ "builtAt": "2026-11-16T11:58:40.307Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-023306",
@@ -10,10 +10,25 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1982448/000149315226023306/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Live commerce",
+   "products": [
+    "BeLive White Label Solution",
+    "BeLive SaaS Solution",
+    "software development kits (SDK)",
+    "BeLive AI Studios"
+   ],
+   "description": "Provides live commerce and shoppable short video software to retail and e-commerce businesses, plus content production.",
+   "evidence": "We derive our revenue from (i) the provision of enterprise-grade BeLive White Label Solution and cloud-based BeLive SaaS Solution; and (ii) the sale of software development kits (SDK) to system integrators."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay installation fees, subscription fees, server costs, campaign fees and SDK source code sales for live commerce solutions.",
+  "evidence": "Our revenue generated from the provision of enterprise-grade BeLive White Label Solution and cloud-based BeLive SaaS Solution consists primarily of installation fees, subscription fees, server costs, campaign fees (which are marketing services we provide to our clients), sale of source code, and miscellaneous income."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

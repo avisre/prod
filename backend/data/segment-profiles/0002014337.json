@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002014337",
  "issuerName": "Texxon Holding Limited",
- "builtAt": "2026-11-16T05:45:10.662Z",
+ "builtAt": "2026-11-16T12:38:23.692Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-25-111812",
@@ -10,8 +10,21 @@
   "filingDate": "2025-11-18",
   "url": "https://www.sec.gov/Archives/edgar/data/2014337/000121390025111812/ea0264810-20f_texxon.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Supply chain trading",
+   "products": [],
+   "description": "Supply chain trading, a reportable segment that reports its own revenue, cost of sales and gross profit.",
+   "evidence": "Based on the internal management reporting and assessment, the Company determined that it operates in two reportable segments: (1) Supply chain trading, (2) Plastic manufacturing."
+  },
+  {
+   "name": "Plastic manufacturing",
+   "products": [],
+   "description": "Plastic manufacturing, a reportable segment reported separately for segment net income or loss and segment assets.",
+   "evidence": "Based on the internal management reporting and assessment, the Company determined that it operates in two reportable segments: (1) Supply chain trading, (2) Plastic manufacturing."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

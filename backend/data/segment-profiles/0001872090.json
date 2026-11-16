@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001872090",
  "issuerName": "YXT.COM GROUP HOLDING LIMITED",
- "builtAt": "2026-11-16T05:45:12.952Z",
+ "builtAt": "2026-11-16T12:38:23.878Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-051465",
@@ -10,11 +10,31 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1872090/000110465926051465/yxt-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Enterprise productivity solutions",
+   "products": [
+    "AI Box",
+    "NeoLearning",
+    "TalentNova",
+    "SaleSmart"
+   ],
+   "description": "Provides AI-enabled enterprise productivity solutions for corporate learning, talent development and business processes to enterprise customers.",
+   "evidence": "Based on the criteria established by ASC 280, the Group's CODM has been identified as the Chief Executive Officer, who reviews consolidated results when making decisions about allocating resources and assessing performance of the Group as a whole and hence, the Group has only one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Corporate customers pay subscription fees for SaaS-delivered AI-enabled corporate learning and productivity solutions.",
+  "evidence": "Leveraging our coverage of 2,301 subscription customers as of December 31, 202 5 , who are customers with revenues from subscription based corporate learning solutions, in approximately 20 industries, we have accumulated domain expertise and insights across different industries and business scenarios, and constructed systematic labels and knowledge maps."
+ },
+ "changes": [
+  {
+   "text": "In 2024, CEIBS Publishing Group was deconsolidated from the group's financial statements after the company lost control of it.",
+   "evidence": "As a result, CEIBS PG has been deconsolidated from our consolidated financial statements from January 15, 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

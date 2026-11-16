@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001081745",
  "issuerName": "INTELLINETICS, INC.",
- "builtAt": "2026-11-16T05:45:11.263Z",
+ "builtAt": "2026-11-16T11:55:27.746Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013568",
@@ -10,10 +10,35 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1081745/000149315226013568/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software",
+   "products": [
+    "IntelliCloud ™ Payables Automation Solutions",
+    "IntelliCloud ™ content management",
+    "YellowFolder ™"
+   ],
+   "description": "Cloud and on-premise content management and payables automation software for small-to-medium businesses and governmental customers.",
+   "evidence": "The Software segment provides cloud-based and premise-based content services software, including document management and payables automation."
+  },
+  {
+   "name": "Document Services",
+   "products": [
+    "Digital Scanning Services",
+    "Business Process Outsourcing (BPO)",
+    "Micrographics",
+    "Box Storage Services"
+   ],
+   "description": "Paper-to-digital scanning, micrographics, outsourcing and records storage services for businesses and government agencies.",
+   "evidence": "The Document Services segment provides services for scanning and indexing, converting images from paper to digital, paper to microfilm, and microfiche to microfilm, as well as long-term physical document storage and retrieval."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for software-as-a-service access, maintenance, and document scanning and storage services, sold directly or through channel partners.",
+  "evidence": "Under these agreements, we generally provide access to the applicable software, data storage and related customer assistance and support."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

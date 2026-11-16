@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001442236",
  "issuerName": "Quest Resource Holding Corporation",
- "builtAt": "2026-11-16T05:45:16.113Z",
+ "builtAt": "2026-11-16T11:58:55.834Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-104675",
@@ -10,11 +10,28 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1442236/000119312526104675/qrhc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Waste and recycling management",
+   "products": [
+    "waste and recycling management services"
+   ],
+   "description": "Provides waste and recycling management services to larger, multi-location businesses across multiple industry sectors.",
+   "evidence": "Our chief operating decision maker (\"CODM\"), the President and Chief Executive Officer, manages the Company's business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Business customers pay Quest for the collection, processing, recycling, disposal, and tracking of their waste streams and recyclables.",
+  "evidence": "We create customer-specific programs and perform the related services for the collection, processing, recycling, disposal, and tracking of waste streams and recyclables to maximize resource utilization."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Quest sold substantially all assets of a business operation it divested as underperforming.",
+   "evidence": "The Company sold the assets to divest an underperforming business operation."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

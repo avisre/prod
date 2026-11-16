@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001805833",
  "issuerName": "System1, Inc.",
- "builtAt": "2026-11-16T05:45:11.074Z",
+ "builtAt": "2026-11-16T11:55:15.268Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001805833-26-000014",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1805833/000180583326000014/sst-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketing",
+   "products": [],
+   "description": "Buys user traffic through advertising channels and monetizes it for Advertising Partners and advertising networks.",
+   "evidence": "We now have two operating and reportable segments: Marketing and Products."
+  },
+  {
+   "name": "Products",
+   "products": [
+    "CouponFollow",
+    "Startpage.com",
+    "info.com",
+    "MapQuest",
+    "HowStuffWorks",
+    "ActiveBeat"
+   ],
+   "description": "Owned and operated websites and internet utilities that acquire users organically and monetize their traffic through advertising.",
+   "evidence": "We define Products sessions as the total number of monetizable user visits to our Products websites."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Advertising Partners pay the company for user traffic delivered on a cost-per-click, cost-per-action or cost-per-thousand impression basis.",
+  "evidence": "We recognize revenue as we deliver user-traffic to our Advertising Partners based on a cost-per-click, cost-per-action or cost-per-thousand impression basis."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company changed its identified segments to two reportable segments, Marketing and Products.",
+   "evidence": "In the second quarter of 2025, as a result of organizational restructuring, we changed our identified segments and determined there are now two operating and reportable segments, Marketing and Products."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

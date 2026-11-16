@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001505155",
  "issuerName": "UPLAND SOFTWARE, INC.",
- "builtAt": "2026-11-16T05:45:14.947Z",
+ "builtAt": "2026-11-16T11:58:17.605Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001505155-26-000007",
@@ -10,11 +10,30 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1505155/000150515526000007/upld-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud-based software application",
+   "products": [
+    "Knowledge Management",
+    "Content Lifecycle and Workflow Automation",
+    "project and portfolio management"
+   ],
+   "description": "Cloud-based software for enterprises to capture, manage and automate knowledge, content and project workflows.",
+   "evidence": "Accordingly, we consider the Company to be in a single operating and reporting segment structure."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay subscription fees for hosted applications, plus fees for perpetual licenses and professional services.",
+  "evidence": "Performance obligations under our contracts consist of subscription and support, perpetual licenses, and professional services revenue within a single operating segment."
+ },
+ "changes": [
+  {
+   "text": "Upland divested its digital engagement application product lines in the first quarter of 2025.",
+   "evidence": "These product lines were divested in the first quarter of 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
