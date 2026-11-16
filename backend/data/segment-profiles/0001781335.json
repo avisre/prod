@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001781335",
+ "issuerName": "Otis Worldwide Corporation",
+ "builtAt": "2026-11-16T03:59:45.535Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001781335-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1781335/000178133526000011/otis-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "New Equipment",
+   "products": [
+    "passenger and freight elevators",
+    "escalators",
+    "moving walkways"
+   ],
+   "description": "Sells and installs elevators and escalators.",
+   "evidence": "New Equipment Through our New Equipment segment, we design, manufacture, sell and install a wide range of passenger and freight elevators, as well as escalators and moving walkways for residential, commercial and infrastructure projects."
+  },
+  {
+   "name": "Service",
+   "products": [
+    "maintenance and repair services"
+   ],
+   "description": "Maintains and repairs elevators and escalators.",
+   "evidence": "Through our network of service sales personnel, we sell our services directly to customers in all significant elevator and escalator verticals around the world."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Building owners pay for equipment and ongoing maintenance.",
+  "evidence": "New Equipment Through our New Equipment segment, we design, manufacture, sell and install a wide range of passenger and freight elevators, as well as escalators and moving walkways for residential, commercial and infrastructure projects."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

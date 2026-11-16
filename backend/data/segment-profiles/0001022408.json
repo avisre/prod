@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001022408",
+ "issuerName": "ePlus inc.",
+ "builtAt": "2026-11-16T03:59:47.848Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-023171",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1022408/000114036126023171/ef20070470_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "product",
+   "products": [],
+   "description": "Resells hardware products.",
+   "evidence": "We operate through our product, professional services, and managed services segments."
+  },
+  {
+   "name": "professional services",
+   "products": [],
+   "description": "Provides IT professional services.",
+   "evidence": "We operate through our product, professional services, and managed services segments."
+  },
+  {
+   "name": "managed services",
+   "products": [],
+   "description": "Provides managed IT services.",
+   "evidence": "We operate through our product, professional services, and managed services segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses and public sector clients buy hardware and IT services.",
+  "evidence": "We sell to customers in the United States (\"US\"), which account for most of our sales, and to customers in select international markets including the United Kingdom (\"UK\"), the European Union (\"EU\"), India, and Singapore."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (product): IT hardware",
+  "product not in text (professional services): professional services",
+  "product not in text (managed services): managed services"
+ ],
+ "reader": "agent"
+}

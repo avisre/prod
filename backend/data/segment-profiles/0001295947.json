@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001295947",
+ "issuerName": "PRESTIGE CONSUMER HEALTHCARE INC.",
+ "builtAt": "2026-11-16T03:59:46.327Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001295947-26-000016",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1295947/000129594726000016/pbh-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North American OTC Healthcare",
+   "products": [],
+   "description": "Sells OTC healthcare brands in North America.",
+   "evidence": "We conduct our operations in two reportable segments: North American OTC Healthcare and International OTC Healthcare."
+  },
+  {
+   "name": "International OTC Healthcare",
+   "products": [],
+   "description": "Sells OTC healthcare brands outside North America.",
+   "evidence": "We conduct our operations in two reportable segments: North American OTC Healthcare and International OTC Healthcare."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors buy its OTC brands.",
+  "evidence": "We develop our existing brands by investing in new product lines, brand extensions and strong advertising support."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (North American OTC Healthcare): over-the-counter healthcare products",
+  "product not in text (International OTC Healthcare): over-the-counter healthcare products"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001616533",
+ "issuerName": "PENGUIN SOLUTIONS, INC.",
+ "builtAt": "2026-11-16T03:59:46.791Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001616533-26-000050",
+  "periodEnd": "2026-08-28",
+  "filingDate": "2026-10-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1616533/000161653326000050/peng-20260828.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced Computing",
+   "products": [
+    "data centers"
+   ],
+   "description": "Designs and manages AI and high-performance computing data centers.",
+   "evidence": "Business Segments Penguin Solutions has three business segments: Advanced Computing, Integrated Memory, and Optimized LED."
+  },
+  {
+   "name": "Integrated Memory",
+   "products": [
+    "memory modules"
+   ],
+   "description": "Makes integrated memory products.",
+   "evidence": "Business Segments Penguin Solutions has three business segments: Advanced Computing, Integrated Memory, and Optimized LED."
+  },
+  {
+   "name": "Optimized LED",
+   "products": [
+    "LED products"
+   ],
+   "description": "Makes LED products.",
+   "evidence": "Business Segments Penguin Solutions has three business segments: Advanced Computing, Integrated Memory, and Optimized LED."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and AI providers pay for computing systems and memory.",
+  "evidence": "We design, build, deploy, and manage next-generation data centers for enterprises, sovereign AI initiatives, and neocloud providers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Advanced Computing): advanced computing systems"
+ ],
+ "reader": "agent"
+}

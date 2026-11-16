@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001510295",
+ "issuerName": "Marathon Petroleum Corporation",
+ "builtAt": "2026-11-16T03:58:53.660Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001510295-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1510295/000151029526000009/mpc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Refining & Marketing",
+   "products": [
+    "refined products"
+   ],
+   "description": "Refines crude oil and markets refined products.",
+   "evidence": "Our operations consist of three reportable operating segments: Refining & Marketing, Midstream and Renewable Diesel."
+  },
+  {
+   "name": "Midstream",
+   "products": [
+    "pipelines",
+    "terminals"
+   ],
+   "description": "Gathers, transports and stores crude and products.",
+   "evidence": "Our operations consist of three reportable operating segments: Refining & Marketing, Midstream and Renewable Diesel."
+  },
+  {
+   "name": "Renewable Diesel",
+   "products": [],
+   "description": "Produces renewable diesel.",
+   "evidence": "Our operations consist of three reportable operating segments: Refining & Marketing, Midstream and Renewable Diesel."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wholesale and retail customers buy refined fuels.",
+  "evidence": "We operate one of the nation's largest refining systems with approximately 3."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Renewable Diesel): renewable diesel"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001792580",
+ "issuerName": "Ovintiv Inc.",
+ "builtAt": "2026-11-16T03:59:45.867Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064309",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1792580/000119312526064309/ovv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "USA Operations",
+   "products": [
+    "oil",
+    "NGLs",
+    "natural gas"
+   ],
+   "description": "Explores for and produces oil and gas in the United States.",
+   "evidence": "Ovintiv's operating and reportable segments are: • USA Operations includes the exploration for, development of, and production and marketing of oil, NGLs, natural gas and other related activities within the United States, which includes Permian in west Texas and Anadarko in west-central Oklahoma."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [],
+   "description": "Holds corporate costs and sublease rentals.",
+   "evidence": "Corporate and Other also includes amounts related to sublease rentals and administrative costs not allocated to the operating segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil, NGLs and natural gas at market prices.",
+  "evidence": "Ovintiv's operating and reportable segments are: • USA Operations includes the exploration for, development of, and production and marketing of oil, NGLs, natural gas and other related activities within the United States, which includes Permian in west Texas and Anadarko in west-central Oklahoma."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

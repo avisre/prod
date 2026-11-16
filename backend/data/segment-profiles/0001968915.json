@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001968915",
+ "issuerName": "PHINIA INC.",
+ "builtAt": "2026-11-16T03:59:47.086Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001968915-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1968915/000196891526000023/phin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fuel Systems",
+   "products": [
+    "original equipment service (OES) solutions",
+    "remanufactured products"
+   ],
+   "description": "Makes fuel systems for OEMs.",
+   "evidence": "Narrative Description of Reportable Segments The Company reports its results under two reportable segments: Fuel Systems and Aftermarket."
+  },
+  {
+   "name": "Aftermarket",
+   "products": [],
+   "description": "Sells aftermarket parts.",
+   "evidence": "Narrative Description of Reportable Segments The Company reports its results under two reportable segments: Fuel Systems and Aftermarket."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vehicle makers and aftermarket distributors buy its fuel and aftermarket products.",
+  "evidence": "Additionally, we offer a wide range of original equipment service (OES) solutions and remanufactured products as well as an expanded range of products for the independent (non-OEM) aftermarket (IAM)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Fuel Systems): fuel systems",
+  "product not in text (Aftermarket): independent (non-OEM) aftermarket (IAM) products"
+ ],
+ "reader": "agent"
+}

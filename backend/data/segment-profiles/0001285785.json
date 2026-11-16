@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001285785",
+ "issuerName": "MOSAIC CO",
+ "builtAt": "2026-11-16T03:58:53.523Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001285785-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1285785/000128578526000017/mos-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Phosphate",
+   "products": [
+    "phosphate products"
+   ],
+   "description": "Mines and processes phosphate for fertilizer.",
+   "evidence": "We are organized into three reportable business segments: Phosphate, Potash and Mosaic Fertilizantes."
+  },
+  {
+   "name": "Potash",
+   "products": [],
+   "description": "Mines potash for fertilizer.",
+   "evidence": "We are organized into three reportable business segments: Phosphate, Potash and Mosaic Fertilizantes."
+  },
+  {
+   "name": "Mosaic Fertilizantes",
+   "products": [
+    "fertilizers"
+   ],
+   "description": "Sells fertilizers in Brazil.",
+   "evidence": "We are organized into three reportable business segments: Phosphate, Potash and Mosaic Fertilizantes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Farmers and distributors buy its crop nutrients.",
+  "evidence": "The following charts show the respective contributions to 2025 sales volumes, net sales and gross margin for each of our business segments in effect at December 31, 2025: We account for approximately 10% of estimated global annual phosphate production."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Potash): potash"
+ ],
+ "reader": "agent"
+}

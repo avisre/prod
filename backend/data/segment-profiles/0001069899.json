@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001069899",
+ "issuerName": "Phibro Animal Health Corporation",
+ "builtAt": "2026-11-16T03:59:46.069Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-101493",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069899/000110465926101493/pahc-20260630x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001350593",
+ "issuerName": "Mueller Water Products, Inc.",
+ "builtAt": "2026-11-16T03:58:54.333Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001350593-25-000066",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1350593/000135059325000066/mwa-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Flow Solutions",
+   "products": [
+    "iron gate valves",
+    "hydrants"
+   ],
+   "description": "Makes valves and hydrants for water systems.",
+   "evidence": "We operate our business through two segments, Water Flow Solutions and Water Management Solutions."
+  },
+  {
+   "name": "Water Management Solutions",
+   "products": [],
+   "description": "Makes water metering and management products.",
+   "evidence": "We operate our business through two segments, Water Flow Solutions and Water Management Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Municipalities and contractors buy its water infrastructure products.",
+  "evidence": "Our iron gate valve and hydrant products are specified for use in the largest 100 metropolitan areas in the United States."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Water Management Solutions): water management products"
+ ],
+ "reader": "agent"
+}

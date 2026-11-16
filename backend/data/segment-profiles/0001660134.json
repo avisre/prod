@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001660134",
+ "issuerName": "Okta, Inc.",
+ "builtAt": "2026-11-16T03:59:44.788Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001660134-26-000020",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1660134/000166013426000020/okta-20260131.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

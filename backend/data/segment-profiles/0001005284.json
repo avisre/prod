@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001005284",
+ "issuerName": "UNIVERSAL DISPLAY CORPORATION",
+ "builtAt": "2026-11-16T03:59:44.808Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-059371",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1005284/000119312526059371/oled-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "OLED technologies and materials",
+   "products": [
+    "OLED materials"
+   ],
+   "description": "Makes and sells proprietary OLED materials.",
+   "evidence": "Segment Information The Company has one reportable business segment, namely OLED technologies and materials."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Display makers buy its OLED materials.",
+  "evidence": "We manufacture and sell our proprietary OLED materials to customers for evaluation and use in commercial OLED products."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

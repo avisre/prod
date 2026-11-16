@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001598428",
+ "issuerName": "METALLUS INC.",
+ "builtAt": "2026-11-16T03:58:54.282Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-061042",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1598428/000119312526061042/mtus-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "alloy steel",
+   "products": [
+    "carbon and micro-alloy steel"
+   ],
+   "description": "Makes alloy and carbon steel with electric arc furnaces.",
+   "evidence": "Operating Segments We conduct our business activities and report financial results as one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers buy its steel bars and tubes.",
+  "evidence": "We manufacture alloy steel, as well as carbon and micro-alloy steel, using electric arc furnace (\"EAF\") technology."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (alloy steel): alloy steel"
+ ],
+ "reader": "agent"
+}

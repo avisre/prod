@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001720635",
+ "issuerName": "nVent Electric plc",
+ "builtAt": "2026-11-16T03:58:56.710Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008608",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1720635/000162828026008608/nvt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Systems Protection",
+   "products": [
+    "enclosures"
+   ],
+   "description": "Makes enclosures and protection products.",
+   "evidence": "At nVent, we operate across two segments: Systems Protection and Electrical Connections."
+  },
+  {
+   "name": "Electrical Connections",
+   "products": [],
+   "description": "Makes electrical connection and fastening products.",
+   "evidence": "At nVent, we operate across two segments: Systems Protection and Electrical Connections."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial and data center customers buy its connection and protection products.",
+  "evidence": "We design, manufacture, market, install and service high performance products and solutions that connect and protect mission critical equipment, buildings and essential processes."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Systems Protection): electrical protection products",
+  "product not in text (Electrical Connections): electrical connections"
+ ],
+ "reader": "agent"
+}

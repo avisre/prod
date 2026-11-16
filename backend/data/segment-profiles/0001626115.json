@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001626115",
+ "issuerName": "PJT Partners Inc.",
+ "builtAt": "2026-11-16T03:59:47.399Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076969",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1626115/000119312526076969/pjt-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

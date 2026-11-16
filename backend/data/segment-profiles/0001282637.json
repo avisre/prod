@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001282637",
+ "issuerName": "NEWMARKET CORPORATION",
+ "builtAt": "2026-11-16T03:58:54.946Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001282637-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1282637/000128263726000005/neu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "petroleum additives",
+   "products": [],
+   "description": "Makes fuel and lubricant additives through Afton.",
+   "evidence": "3 Table of Contents Business Segments For the periods presented in this Annual Report on Form 10-K, our business was composed of two segments, petroleum additives, which is primarily represented by Afton, and specialty materials, which is represented by AMPAC and Calca."
+  },
+  {
+   "name": "specialty materials",
+   "products": [],
+   "description": "Makes specialty chemicals through AMPAC and Calca.",
+   "evidence": "3 Table of Contents Business Segments For the periods presented in this Annual Report on Form 10-K, our business was composed of two segments, petroleum additives, which is primarily represented by Afton, and specialty materials, which is represented by AMPAC and Calca."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Lubricant and fuel marketers buy its additive packages.",
+  "evidence": "We manufacture chemical components that are selected to perform one or more specific functions and combine those chemicals with other chemicals or components to form additive pack"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (petroleum additives): petroleum additives",
+  "product not in text (specialty materials): specialty materials"
+ ],
+ "reader": "agent"
+}

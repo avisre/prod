@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001179929",
+ "issuerName": "MOLINA HEALTHCARE, INC.",
+ "builtAt": "2026-11-16T03:58:53.477Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001179929-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1179929/000117992926000005/moh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medicaid",
+   "products": [
+    "managed healthcare services"
+   ],
+   "description": "Runs Medicaid managed care plans.",
+   "evidence": "OUR SEGMENTS We currently have four reportable segments consisting of: 1) Medicaid; 2) Medicare; 3) Marketplace; and 4) Other."
+  },
+  {
+   "name": "Medicare",
+   "products": [
+    "managed healthcare services"
+   ],
+   "description": "Runs Medicare Advantage plans.",
+   "evidence": "OUR SEGMENTS We currently have four reportable segments consisting of: 1) Medicaid; 2) Medicare; 3) Marketplace; and 4) Other."
+  },
+  {
+   "name": "Marketplace",
+   "products": [
+    "managed healthcare services"
+   ],
+   "description": "Sells Marketplace individual plans.",
+   "evidence": "OUR SEGMENTS We currently have four reportable segments consisting of: 1) Medicaid; 2) Medicare; 3) Marketplace; and 4) Other."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Holds other healthcare operations.",
+   "evidence": "OUR SEGMENTS We currently have four reportable segments consisting of: 1) Medicaid; 2) Medicare; 3) Marketplace; and 4) Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "States and the federal government pay premiums per member.",
+  "evidence": "The Medicaid, Medicare, and Marketplace segments represent the government-funded or sponsored programs under which we offer managed healthcare services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

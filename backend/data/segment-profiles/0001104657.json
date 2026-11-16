@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001104657",
+ "issuerName": "MATERION CORPORATION",
+ "builtAt": "2026-11-16T03:58:54.255Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104657-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1104657/000110465726000011/mtrn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Performance Materials",
+   "products": [
+    "advanced materials"
+   ],
+   "description": "Makes specialty materials for industrial markets.",
+   "evidence": "SEGMENT INFORMATION Our businesses are organized under four reportable segments: Performance Materials, Electronic Materials, Precision Optics, and Other."
+  },
+  {
+   "name": "Electronic Materials",
+   "products": [],
+   "description": "Makes materials for semiconductors.",
+   "evidence": "SEGMENT INFORMATION Our businesses are organized under four reportable segments: Performance Materials, Electronic Materials, Precision Optics, and Other."
+  },
+  {
+   "name": "Precision Optics",
+   "products": [],
+   "description": "Makes precision optical components.",
+   "evidence": "SEGMENT INFORMATION Our businesses are organized under four reportable segments: Performance Materials, Electronic Materials, Precision Optics, and Other."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Holds other operations.",
+   "evidence": "SEGMENT INFORMATION Our businesses are organized under four reportable segments: Performance Materials, Electronic Materials, Precision Optics, and Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial, semiconductor and defense customers buy its materials.",
+  "evidence": "Our products are sold into numerous end markets, including semiconductor, industrial, aerospace and defense, automotive, energy, consumer electronics, and life sciences."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electronic Materials): electronic materials",
+  "product not in text (Precision Optics): precision optics"
+ ],
+ "reader": "agent"
+}

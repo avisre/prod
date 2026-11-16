@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001114995",
+ "issuerName": "IMPINJ, INC.",
+ "builtAt": "2026-11-16T03:59:47.114Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-042813",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1114995/000119312526042813/pi-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

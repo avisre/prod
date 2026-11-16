@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001097864",
+ "issuerName": "ON SEMICONDUCTOR CORP",
+ "builtAt": "2026-11-16T03:59:44.938Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001097864-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1097864/000109786426000006/on-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power Solutions Group",
+   "products": [
+    "intelligent power solutions"
+   ],
+   "description": "Sells power semiconductor products.",
+   "evidence": "As of December 31, 2025, we were organized into three operating and reportable segments: the Power Solutions Group (\"PSG\"), the Analog and Mixed-Signal Group (\"AMG\") and the Intelligent Sensing Group (\"ISG\")."
+  },
+  {
+   "name": "Analog and Mixed-Signal Group",
+   "products": [],
+   "description": "Sells analog and mixed-signal chips.",
+   "evidence": "As of December 31, 2025, we were organized into three operating and reportable segments: the Power Solutions Group (\"PSG\"), the Analog and Mixed-Signal Group (\"AMG\") and the Intelligent Sensing Group (\"ISG\")."
+  },
+  {
+   "name": "Intelligent Sensing Group",
+   "products": [
+    "intelligent sensing solutions"
+   ],
+   "description": "Sells sensors and sensing products.",
+   "evidence": "As of December 31, 2025, we were organized into three operating and reportable segments: the Power Solutions Group (\"PSG\"), the Analog and Mixed-Signal Group (\"AMG\") and the Intelligent Sensing Group (\"ISG\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Automotive and industrial customers buy its chips and sensors.",
+  "evidence": "We offer intelligent power and intelligent sensing solutions that drive electrification, energy efficiency, safety, and automation in automotive, industrial, and other end-markets, including AI data center."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Analog and Mixed-Signal Group): analog and mixed-signal products"
+ ],
+ "reader": "agent"
+}

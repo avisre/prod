@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001534504",
+ "issuerName": "PBF ENERGY INC.",
+ "builtAt": "2026-11-16T03:59:46.279Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001534504-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1534504/000153450426000010/pbf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Refining",
+   "products": [
+    "refined products"
+   ],
+   "description": "Refines crude oil into transportation fuels.",
+   "evidence": "We operate in two reportable business segments: Refining and Logistics."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "pipelines",
+    "terminals",
+    "storage"
+   ],
+   "description": "Gathers, stores and transports crude and products.",
+   "evidence": "We operate in two reportable business segments: Refining and Logistics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wholesale and retail customers buy refined fuels.",
+  "evidence": "We sell our products throughout the Northeast, Midwest, Gulf Coast and West Coast of the United States, as well as in other regions of the United States, Canada and Mexico and are able to ship products to other international destinations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

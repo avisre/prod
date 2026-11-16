@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001591698",
+ "issuerName": "PAYLOCITY HOLDING CORPORATION",
+ "builtAt": "2026-11-16T03:59:46.404Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001591698-26-000069",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1591698/000159169826000069/pcty-20260630.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

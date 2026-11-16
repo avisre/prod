@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000906163",
+ "issuerName": "NVR, Inc.",
+ "builtAt": "2026-11-16T03:58:56.461Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000906163-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/906163/000090616326000018/nvr-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

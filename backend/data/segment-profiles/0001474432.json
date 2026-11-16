@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001474432",
+ "issuerName": "Everpure, Inc.",
+ "builtAt": "2026-11-16T03:59:45.914Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001474432-26-000027",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1474432/000147443226000027/pstg-20260201.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001895262",
+ "issuerName": "Noble Corporation plc",
+ "builtAt": "2026-11-16T03:58:54.804Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001895262-26-000076",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1895262/000189526226000076/ne-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract Drilling Services",
+   "products": [],
+   "description": "Provides offshore contract drilling to oil and gas operators.",
+   "evidence": "Contract Drilling Services We report our contract drilling operations as a single reportable segment, Contract Drilling Services, which reflects how we manage our business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas operators pay dayrates for drilling rigs.",
+  "evidence": "Contract Drilling Services We report our contract drilling operations as a single reportable segment, Contract Drilling Services, which reflects how we manage our business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Contract Drilling Services): contract drilling services"
+ ],
+ "reader": "agent"
+}

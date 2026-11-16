@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001120914",
+ "issuerName": "PDF SOLUTIONS INC",
+ "builtAt": "2026-11-16T03:59:46.516Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005366",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1120914/000143774926005366/pdfs20251231d_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

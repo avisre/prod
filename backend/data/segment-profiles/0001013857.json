@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001013857",
+ "issuerName": "PEGASYSTEMS INC.",
+ "builtAt": "2026-11-16T03:59:46.545Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001013857-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1013857/000101385726000017/pega-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "enterprise software",
+   "products": [],
+   "description": "Sells and hosts decisioning and workflow software.",
+   "evidence": "• We periodically reevaluate our business and have determined that we have one operating segment and one reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay licence, subscription and maintenance fees.",
+  "evidence": "We develop, market, license, host, and support enterprise software that helps organizations optimize decisions and processes in real-time so they can deliver outcomes that transform their business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (enterprise software): enterprise software"
+ ],
+ "reader": "agent"
+}

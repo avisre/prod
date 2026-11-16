@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001327567",
+ "issuerName": "Palo Alto Networks, Inc.",
+ "builtAt": "2026-11-16T03:59:46.173Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001327567-26-000023",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1327567/000132756726000023/panw-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cybersecurity platforms",
+   "products": [
+    "network security",
+    "cloud security"
+   ],
+   "description": "Sells cybersecurity platforms and subscriptions.",
+   "evidence": "Segment Information We have one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and governments pay subscriptions for security platforms.",
+  "evidence": "Segment Information We have one operating and reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0001564708",
+ "issuerName": "NEWS CORPORATION",
+ "builtAt": "2026-11-16T03:58:56.958Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001564708-26-000175",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1564708/000156470826000175/nws-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dow Jones",
+   "products": [],
+   "description": "Sells business news, data and professional information.",
+   "evidence": "The Company's operations are organized into five reportable segments: (i) Dow Jones; (ii) Digital Real Estate Services; (iii) Book Publishing; (iv) News Media; and (v) Other, which includes the Company's general corporate overhead expenses, strategy costs and costs related to the U."
+  },
+  {
+   "name": "Digital Real Estate Services",
+   "products": [],
+   "description": "Runs digital real estate listing businesses.",
+   "evidence": "The Company's operations are organized into five reportable segments: (i) Dow Jones; (ii) Digital Real Estate Services; (iii) Book Publishing; (iv) News Media; and (v) Other, which includes the Company's general corporate overhead expenses, strategy costs and costs related to the U."
+  },
+  {
+   "name": "Book Publishing",
+   "products": [
+    "books"
+   ],
+   "description": "Publishes books.",
+   "evidence": "The Company's operations are organized into five reportable segments: (i) Dow Jones; (ii) Digital Real Estate Services; (iii) Book Publishing; (iv) News Media; and (v) Other, which includes the Company's general corporate overhead expenses, strategy costs and costs related to the U."
+  },
+  {
+   "name": "News Media",
+   "products": [
+    "newspapers"
+   ],
+   "description": "Runs newspapers and news websites.",
+   "evidence": "The Company's operations are organized into five reportable segments: (i) Dow Jones; (ii) Digital Real Estate Services; (iii) Book Publishing; (iv) News Media; and (v) Other, which includes the Company's general corporate overhead expenses, strategy costs and costs related to the U."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Holds corporate costs and other businesses.",
+   "evidence": "The Company's operations are organized into five reportable segments: (i) Dow Jones; (ii) Digital Real Estate Services; (iii) Book Publishing; (iv) News Media; and (v) Other, which includes the Company's general corporate overhead expenses, strategy costs and costs related to the U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers, advertisers and property agents pay for content and listings.",
+  "evidence": "BUSINESS OVERVIEW The Company's five reportable segments are described below."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Dow Jones): news and business information",
+  "product not in text (Digital Real Estate Services): real estate listings",
+  "product not in text (Digital Real Estate Services): realtor services",
+  "product not in text (News Media): news websites"
+ ],
+ "reader": "agent"
+}

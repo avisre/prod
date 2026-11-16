@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001178970",
+ "issuerName": "PROVIDENT FINANCIAL SERVICES, INC.",
+ "builtAt": "2026-11-16T03:59:46.997Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012814",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1178970/000162828026012814/pfs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Segment Reporting We conduct our operations through a single business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and depositors are paid on balances.",
+  "evidence": "Segment Reporting We conduct our operations through a single business segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

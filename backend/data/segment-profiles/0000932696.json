@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000932696",
+ "issuerName": "INSIGHT ENTERPRISES, INC.",
+ "builtAt": "2026-11-16T03:58:56.302Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000932696-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/932696/000093269626000007/nsit-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "hardware",
+    "software",
+    "services"
+   ],
+   "description": "Sells IT hardware, software and services in the U.S. and Canada.",
+   "evidence": "The Company is organized in the following three operating segments, which are primarily defined by their related geographies: Operating Segment* Geography Percent of 2025 Consolidated Net Sales North America United States and Canada 81% EMEA Europe, Middle East and Africa 16% APAC Asia-Pacific 3%"
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "hardware",
+    "software",
+    "services"
+   ],
+   "description": "Sells IT hardware, software and services in Europe, the Middle East and Africa.",
+   "evidence": "The Company is organized in the following three operating segments, which are primarily defined by their related geographies: Operating Segment* Geography Percent of 2025 Consolidated Net Sales North America United States and Canada 81% EMEA Europe, Middle East and Africa 16% APAC Asia-Pacific 3%"
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "hardware",
+    "software",
+    "services"
+   ],
+   "description": "Sells IT hardware, software and services in Asia-Pacific.",
+   "evidence": "The Company is organized in the following three operating segments, which are primarily defined by their related geographies: Operating Segment* Geography Percent of 2025 Consolidated Net Sales North America United States and Canada 81% EMEA Europe, Middle East and Africa 16% APAC Asia-Pacific 3%"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses and public sector clients buy IT hardware, software and services.",
+  "evidence": "The Company is organized in the following three operating segments, which are primarily defined by their related geographies: Operating Segment* Geography Percent of 2025 Consolidated Net Sales North America United States and Canada 81% EMEA Europe, Middle East and Africa 16% APAC Asia-Pacific 3%"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

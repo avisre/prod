@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001618732",
+ "issuerName": "NUTANIX, INC.",
+ "builtAt": "2026-11-16T03:58:56.396Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-394793",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1618732/000119312526394793/ntnx-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "subscription",
+   "products": [
+    "subscription-based products",
+    "support and maintenance arrangements"
+   ],
+   "description": "Sells hybrid cloud software by subscription.",
+   "evidence": "Our business is organized into a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for its software and support.",
+  "evidence": "We operate a subscription-based business model, meaning our products, including associated support and maintenance arrangements, are sold with a defined duration."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001733998",
+ "issuerName": "NORTHWEST NATURAL HOLDING COMPANY",
+ "builtAt": "2026-11-16T03:58:56.914Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001733998-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1733998/000173399826000012/nwn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NWN Gas Utility",
+   "products": [
+    "natural gas distribution"
+   ],
+   "description": "Distributes natural gas in Oregon and Washington.",
+   "evidence": "NW Holdings primarily operates in three reportable business segments, which are NWN Gas Utility, SiEnergy, and NWN Water."
+  },
+  {
+   "name": "SiEnergy",
+   "products": [
+    "natural gas distribution"
+   ],
+   "description": "Distributes natural gas in Texas.",
+   "evidence": "NW Holdings primarily operates in three reportable business segments, which are NWN Gas Utility, SiEnergy, and NWN Water."
+  },
+  {
+   "name": "NWN Water",
+   "products": [
+    "water utilities"
+   ],
+   "description": "Owns water and wastewater utilities.",
+   "evidence": "NW Holdings primarily operates in three reportable business segments, which are NWN Gas Utility, SiEnergy, and NWN Water."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay tariffs for gas and water.",
+  "evidence": "NW Holdings primarily operates in three reportable business segments, which are NWN Gas Utility, SiEnergy, and NWN Water."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

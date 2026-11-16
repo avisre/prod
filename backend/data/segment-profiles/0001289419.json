@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001289419",
+ "issuerName": "MORNINGSTAR, INC.",
+ "builtAt": "2026-11-16T03:58:53.498Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001289419-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1289419/000128941926000013/morn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Morningstar Wealth",
+   "products": [
+    "investment management services"
+   ],
+   "description": "Manages money for individuals and advisors.",
+   "evidence": "Through our Morningstar Wealth and Morningstar Retirement segments, we provide investment management services to individuals and advisors, with approximately $378."
+  },
+  {
+   "name": "Morningstar Retirement",
+   "products": [
+    "retirement services"
+   ],
+   "description": "Provides retirement managed accounts and advice.",
+   "evidence": "Through our Morningstar Wealth and Morningstar Retirement segments, we provide investment management services to individuals and advisors, with approximately $378."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investors and advisors pay for research, data and managed portfolios.",
+  "evidence": "We offer a variety of products and solutions that serve a wide range of market participants."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

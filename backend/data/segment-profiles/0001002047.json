@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001002047",
+ "issuerName": "NetApp, Inc.",
+ "builtAt": "2026-11-16T03:58:56.333Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-259683",
+  "periodEnd": "2026-04-24",
+  "filingDate": "2026-06-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1002047/000119312526259683/ntap-20260424.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

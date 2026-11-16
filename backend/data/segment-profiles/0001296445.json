@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001296445",
+ "issuerName": "ORMAT TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-16T03:59:45.010Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001296445-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1296445/000129644526000006/ora-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electricity Segment",
+   "products": [
+    "electricity"
+   ],
+   "description": "Owns and operates geothermal, solar and recovered energy power plants.",
+   "evidence": "We currently conduct our business activities in three business segments: • Electricity Segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities pay for the electricity its plants generate.",
+  "evidence": "In the Electricity segment, we develop, build, own and operate geothermal, solar PV and recovered energy-based power plants in the United States and geothermal power plants in other countries around the world and sell the electricity they generate."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

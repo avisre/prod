@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001520006",
+ "issuerName": "Matador Resources Company",
+ "builtAt": "2026-11-16T03:58:54.209Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001520006-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1520006/000152000626000002/mtdr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "exploration and production",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Explores for and produces oil and gas.",
+   "evidence": "NOTE 16 — SEGMENT INFORMATION The Company has two reportable business segments: (i) exploration and production and (ii) midstream."
+  },
+  {
+   "name": "midstream",
+   "products": [
+    "gathering and processing"
+   ],
+   "description": "Gathers, processes and transports oil and gas.",
+   "evidence": "NOTE 16 — SEGMENT INFORMATION The Company has two reportable business segments: (i) exploration and production and (ii) midstream."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells oil and gas and charges fees for midstream services.",
+  "evidence": "NOTE 16 — SEGMENT INFORMATION The Company has two reportable business segments: (i) exploration and production and (ii) midstream."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001077183",
+ "issuerName": "NEOGENOMICS, INC.",
+ "builtAt": "2026-11-16T03:58:54.910Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001077183-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1077183/000107718326000010/neo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cancer testing",
+   "products": [
+    "cancer-focused testing"
+   ],
+   "description": "Runs cancer testing laboratories.",
+   "evidence": "Reportable Segment We operate under a single segment that encompasses a comprehensive range of services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oncologists and hospitals pay for its diagnostic tests.",
+  "evidence": "We operate a network of cancer-focused testing laboratories in the United States and the United Kingdom."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

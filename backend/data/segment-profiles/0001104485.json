@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001104485",
+ "issuerName": "NORTHERN OIL AND GAS, INC.",
+ "builtAt": "2026-11-16T03:58:55.447Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104485-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1104485/000110448526000008/nog-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Acquires and develops oil and gas properties.",
+   "evidence": "We currently report a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "We currently report a single reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

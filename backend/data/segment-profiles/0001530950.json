@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001530950",
+ "issuerName": "Post Holdings, Inc.",
+ "builtAt": "2026-11-16T03:59:48.127Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001530950-25-000260",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1530950/000153095025000260/post-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Post Consumer Brands",
+   "products": [
+    "ready-to-eat (\"RTE\") cereals",
+    "granola"
+   ],
+   "description": "Sells branded and private label cereals.",
+   "evidence": "We operate in four reportable segments: • Post Consumer Brands : Includes branded and private label ready-to-eat (\"RTE\") cereals and granola from the businesses of Post Foods, LLC, MOM Brands Company, LLC, which Post acquired in May 2015, Weetabix North America, which Post acquired as part of its acquisition of Weetabix Limited in July 2017 referred to below, certain private label RTE cereal operations, which Post acquired in June 2021, and 8th A"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers buy its cereal brands.",
+  "evidence": "We operate in four reportable segments: • Post Consumer Brands : Includes branded and private label ready-to-eat (\"RTE\") cereals and granola from the businesses of Post Foods, LLC, MOM Brands Company, LLC, which Post acquired in May 2015, Weetabix North America, which Post acquired as part of its acquisition of Weetabix Limited in July 2017 referred to below, certain private label RTE cereal operations, which Post acquired in June 2021, and 8th A"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

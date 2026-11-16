@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001111711",
+ "issuerName": "NISOURCE INC.",
+ "builtAt": "2026-11-16T03:58:55.385Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001111711-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1111711/000111171126000027/nix-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Columbia Operations",
+   "products": [
+    "natural gas distribution"
+   ],
+   "description": "Runs its Columbia Gas utilities.",
+   "evidence": "NiSource has two reportable segments: Columbia Operations and NIPSCO Operations."
+  },
+  {
+   "name": "NIPSCO Operations",
+   "products": [
+    "electricity",
+    "natural gas distribution"
+   ],
+   "description": "Runs its NIPSCO electric and gas utilities.",
+   "evidence": "NiSource has two reportable segments: Columbia Operations and NIPSCO Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay tariffs for gas and electricity.",
+  "evidence": "NiSource has two reportable segments: Columbia Operations and NIPSCO Operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

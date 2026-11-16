@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001174850",
+ "issuerName": "NICOLET BANKSHARES, INC",
+ "builtAt": "2026-11-16T03:58:55.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001174850-26-000077",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1174850/000117485026000077/nic-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

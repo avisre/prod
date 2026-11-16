@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001321655",
+ "issuerName": "Palantir Technologies Inc.",
+ "builtAt": "2026-11-16T03:59:47.810Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001321655-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "government",
+   "products": [
+    "software platforms"
+   ],
+   "description": "Sells data and software platforms to government agencies.",
+   "evidence": "5 billion in revenue that we generated in 2025, 54% came from customers in the government segment, and 46% came from customers in the commercial segment."
+  },
+  {
+   "name": "commercial",
+   "products": [
+    "software platforms"
+   ],
+   "description": "Sells data and software platforms to commercial customers.",
+   "evidence": "5 billion in revenue that we generated in 2025, 54% came from customers in the government segment, and 46% came from customers in the commercial segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government agencies and companies pay for platform subscriptions.",
+  "evidence": "5 billion in revenue that we generated in 2025, 54% came from customers in the government segment, and 46% came from customers in the commercial segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

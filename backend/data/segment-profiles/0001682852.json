@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001682852",
+ "issuerName": "Moderna, Inc.",
+ "builtAt": "2026-11-16T03:58:53.690Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001682852-26-000033",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000033/mrna-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mRNA-based medicines",
+   "products": [],
+   "description": "Researches, develops and sells mRNA medicines.",
+   "evidence": "Segment Information The Company operates as a single operating and reportable segment, reflecting the integrated nature of our business focused on the research, development, and commercialization of mRNA-based medicines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Governments and pharmacies pay for its vaccines.",
+  "evidence": "Segment Information The Company operates as a single operating and reportable segment, reflecting the integrated nature of our business focused on the research, development, and commercialization of mRNA-based medicines."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (mRNA-based medicines): mRNA-based medicines"
+ ],
+ "reader": "agent"
+}

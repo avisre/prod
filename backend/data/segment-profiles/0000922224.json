@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000922224",
+ "issuerName": "PPL Corp",
+ "builtAt": "2026-11-16T03:59:48.164Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000922224-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000008/ppl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Kentucky Regulated",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Runs its LG&E and KU utilities in Kentucky.",
+   "evidence": "Segment Information (PPL) PPL is organized into three reportable segments as depicted in the chart above: Kentucky Regulated, which primarily represents the results of LG&E and KU, Pennsylvania Regulated, which primarily represents the results of PPL Electric, and Rhode Island Regulated, which primarily represents the results of RIE."
+  },
+  {
+   "name": "Pennsylvania Regulated",
+   "products": [
+    "electricity"
+   ],
+   "description": "Runs its PPL Electric utility in Pennsylvania.",
+   "evidence": "Segment Information (PPL) PPL is organized into three reportable segments as depicted in the chart above: Kentucky Regulated, which primarily represents the results of LG&E and KU, Pennsylvania Regulated, which primarily represents the results of PPL Electric, and Rhode Island Regulated, which primarily represents the results of RIE."
+  },
+  {
+   "name": "Rhode Island Regulated",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Runs its Rhode Island utility.",
+   "evidence": "Segment Information (PPL) PPL is organized into three reportable segments as depicted in the chart above: Kentucky Regulated, which primarily represents the results of LG&E and KU, Pennsylvania Regulated, which primarily represents the results of PPL Electric, and Rhode Island Regulated, which primarily represents the results of RIE."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay tariffs for electricity and gas.",
+  "evidence": "Segment Information (PPL) PPL is organized into three reportable segments as depicted in the chart above: Kentucky Regulated, which primarily represents the results of LG&E and KU, Pennsylvania Regulated, which primarily represents the results of PPL Electric, and Rhode Island Regulated, which primarily represents the results of RIE."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

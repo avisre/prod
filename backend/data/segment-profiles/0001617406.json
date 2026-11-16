@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001617406",
+ "issuerName": "Park Hotels & Resorts Inc.",
+ "builtAt": "2026-11-16T03:59:47.504Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001617406-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1617406/000161740626000006/pk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "consolidated Core hotels",
+   "products": [
+    "hotel rooms"
+   ],
+   "description": "Owns and operates its core hotels.",
+   "evidence": "As a result of a shift in our business strategy to dispose of all Non-Core hotels, we now operate our business through three operating segments, our consolidated Core hotels, consolidated Non-Core hotels and unconsolidated hotels."
+  },
+  {
+   "name": "consolidated Non-Core hotels",
+   "products": [
+    "hotel rooms"
+   ],
+   "description": "Owns and operates hotels marked for disposal.",
+   "evidence": "As a result of a shift in our business strategy to dispose of all Non-Core hotels, we now operate our business through three operating segments, our consolidated Core hotels, consolidated Non-Core hotels and unconsolidated hotels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates and hotel charges.",
+  "evidence": "As a result of a shift in our business strategy to dispose of all Non-Core hotels, we now operate our business through three operating segments, our consolidated Core hotels, consolidated Non-Core hotels and unconsolidated hotels."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001120193",
+ "issuerName": "Nasdaq, Inc.",
+ "builtAt": "2026-11-16T03:58:54.777Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007703",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1120193/000162828026007703/ndaq-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capital Access Platforms",
+   "products": [
+    "listing",
+    "data and insights"
+   ],
+   "description": "Runs listing venues and provides data to investors.",
+   "evidence": "We manage, operate and provide our products and services in three business segments: Capital Access Platforms, Financial Technology and Market Services."
+  },
+  {
+   "name": "Financial Technology",
+   "products": [
+    "market technology"
+   ],
+   "description": "Sells market infrastructure technology.",
+   "evidence": "We manage, operate and provide our products and services in three business segments: Capital Access Platforms, Financial Technology and Market Services."
+  },
+  {
+   "name": "Market Services",
+   "products": [
+    "trading and clearing"
+   ],
+   "description": "Runs trading and clearing venues.",
+   "evidence": "We manage, operate and provide our products and services in three business segments: Capital Access Platforms, Financial Technology and Market Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Listed companies and market participants pay listing, trading and technology fees.",
+  "evidence": "We provide innovators and investors with the infrastructure, investment products, and data and insights that enable innovation to scale and investors to allocate with confidence."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

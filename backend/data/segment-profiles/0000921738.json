@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000921738",
+ "issuerName": "PENN Entertainment, Inc.",
+ "builtAt": "2026-11-16T03:59:46.829Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000921738-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/921738/000092173826000008/penn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Northeast",
+   "products": [
+    "gaming",
+    "food and beverage",
+    "hotel visitation"
+   ],
+   "description": "Runs casinos and racetracks in the Northeast.",
+   "evidence": "Reportable Segments We have five reportable segments: Northeast, South, West, Midwest, and Interactive."
+  },
+  {
+   "name": "South",
+   "products": [
+    "gaming",
+    "food and beverage",
+    "hotel visitation"
+   ],
+   "description": "Runs casinos in the South.",
+   "evidence": "Reportable Segments We have five reportable segments: Northeast, South, West, Midwest, and Interactive."
+  },
+  {
+   "name": "West",
+   "products": [
+    "gaming",
+    "food and beverage",
+    "hotel visitation"
+   ],
+   "description": "Runs casinos in the West.",
+   "evidence": "Reportable Segments We have five reportable segments: Northeast, South, West, Midwest, and Interactive."
+  },
+  {
+   "name": "Midwest",
+   "products": [
+    "gaming",
+    "food and beverage",
+    "hotel visitation"
+   ],
+   "description": "Runs casinos in the Midwest.",
+   "evidence": "Reportable Segments We have five reportable segments: Northeast, South, West, Midwest, and Interactive."
+  },
+  {
+   "name": "Interactive",
+   "products": [
+    "online gaming"
+   ],
+   "description": "Runs online sports betting and iCasino.",
+   "evidence": "Reportable Segments We have five reportable segments: Northeast, South, West, Midwest, and Interactive."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay for gaming, food, beverage and hotel stays.",
+  "evidence": "The Northeast, South, West, and Midwest segments (referred to as our \"retail segments\") primarily generate revenue from gaming operations (such as slot machines and table games), food and beverage offerings, and hotel visitation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001993004",
+ "issuerName": "NORTHWESTERN ENERGY GROUP, INC.",
+ "builtAt": "2026-11-16T03:58:56.880Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001993004-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1993004/000199300426000006/nweg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electric utility operations",
+   "products": [
+    "electricity"
+   ],
+   "description": "Generates and delivers electricity in Montana and the Dakotas.",
+   "evidence": "We manage our businesses by the nature of services provided, and operate principally in two operating segments: electric utility operations and natural gas utility operations."
+  },
+  {
+   "name": "natural gas utility operations",
+   "products": [
+    "natural gas"
+   ],
+   "description": "Distributes natural gas to customers.",
+   "evidence": "We manage our businesses by the nature of services provided, and operate principally in two operating segments: electric utility operations and natural gas utility operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay rates for electricity and gas.",
+  "evidence": "We manage our businesses by the nature of services provided, and operate principally in two operating segments: electric utility operations and natural gas utility operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

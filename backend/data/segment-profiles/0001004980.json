@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001004980",
+ "issuerName": "PG&E CORP",
+ "builtAt": "2026-11-16T03:59:46.361Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001004980-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1004980/000100498026000009/pcg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "utility",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Runs its California gas and electric utility.",
+   "evidence": "Segment Reporting PG&E Corporation and the Utility assess financial performance and allocate resources on a consolidated basis and operate as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay rates for gas and electricity.",
+  "evidence": "Segment Reporting PG&E Corporation and the Utility assess financial performance and allocate resources on a consolidated basis and operate as one reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

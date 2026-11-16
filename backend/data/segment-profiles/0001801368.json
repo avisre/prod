@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001801368",
+ "issuerName": "MP Materials Corp. / DE",
+ "builtAt": "2026-11-16T03:58:53.536Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001801368-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1801368/000180136826000008/mp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Materials",
+   "products": [
+    "refined rare earth oxides",
+    "related products"
+   ],
+   "description": "Mines and refines rare earths at Mountain Pass.",
+   "evidence": "The Company's operations are organized into two reportable segments: Materials and Magnetics."
+  },
+  {
+   "name": "Magnetics",
+   "products": [
+    "rare earth magnets"
+   ],
+   "description": "Makes rare earth magnets.",
+   "evidence": "The Company's operations are organized into two reportable segments: Materials and Magnetics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial and government customers buy rare earth materials and magnets.",
+  "evidence": "The Company's operations are organized into two reportable segments: Materials and Magnetics."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
