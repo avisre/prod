@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001303523",
+ "issuerName": "British American Tobacco p.l.c.",
+ "builtAt": "2026-11-16T04:40:59.885Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001303523-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1303523/000130352326000017/bti-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

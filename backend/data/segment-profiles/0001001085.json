@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "cik": "0001001085",
+ "issuerName": "BROOKFIELD CORPORATION",
+ "builtAt": "2026-11-16T04:41:00.336Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001001085-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1001085/000100108526000006/bn-20251231.htm"
+ },
+ "status": "filing-unreadable"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001306965",
+ "issuerName": "Shell plc",
+ "builtAt": "2026-11-16T04:40:58.951Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-017024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1306965/000162828026017024/shel-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated Gas",
+   "products": [
+    "liquefied natural gas (LNG)",
+    "gas-to-liquids (GTL) fuels"
+   ],
+   "description": "Produces and trades LNG and gas-to-liquids fuels.",
+   "evidence": "The Integrated Gas segment includes liquefied natural gas (LNG) and conversion of natural gas into gas-to-liquids (GTL) fuels a"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Buyers pay for LNG, fuels and other energy products.",
+  "evidence": "Shell's \"net carbon intensity\" referred to in this Report includes Shell's carbon emissions from the production of our energy products, our suppliers' carbon emissions in supplying energy for that production, and our customers' carbon emissions associated with their use of the energy products we sell."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

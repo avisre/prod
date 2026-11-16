@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001326732",
+ "issuerName": "Xencor, Inc",
+ "builtAt": "2026-11-16T04:40:57.746Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001326732-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326732/000132673226000015/xncr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "biologics",
+   "products": [
+    "Fc technologies",
+    "drug candidates"
+   ],
+   "description": "Licenses protein engineering technology and develops antibodies.",
+   "evidence": "Segment Information The Company operates as a single segment because its chief operating decision maker (\"CODM\") reviews operating results on an aggreg"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay licensing and collaboration revenue.",
+  "evidence": "Generate revenue through licensing and collaboration arrangements The modular nature of our Fc technologies and our ability to efficiently generate multiple drug candidates provide opportunities to generate revenue from licensing and collaboration agreements with third parties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

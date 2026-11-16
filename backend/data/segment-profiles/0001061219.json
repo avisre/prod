@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001061219",
+ "issuerName": "ENTERPRISE PRODUCTS PARTNERS L.P.",
+ "builtAt": "2026-11-16T04:41:00.796Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001061219-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1061219/000106121926000006/epd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NGL Pipelines & Services",
+   "products": [
+    "processing"
+   ],
+   "description": "Gathers, processes and transports NGLs.",
+   "evidence": "Our operations are reported under four business segments: NGL Pipelines & Services, Crude Oil Pipelines & Services, Natural Gas Pipelines & Services and Petrochemical & Refined Products Services."
+  },
+  {
+   "name": "Crude Oil Pipelines & Services",
+   "products": [
+    "crude oil pipelines"
+   ],
+   "description": "Transports crude oil.",
+   "evidence": "Our operations are reported under four business segments: NGL Pipelines & Services, Crude Oil Pipelines & Services, Natural Gas Pipelines & Services and Petrochemical & Refined Products Services."
+  },
+  {
+   "name": "Natural Gas Pipelines & Services",
+   "products": [
+    "natural gas pipelines"
+   ],
+   "description": "Transports and stores natural gas.",
+   "evidence": "Our operations are reported under four business segments: NGL Pipelines & Services, Crude Oil Pipelines & Services, Natural Gas Pipelines & Services and Petrochemical & Refined Products Services."
+  },
+  {
+   "name": "Petrochemical & Refined Products Services",
+   "products": [
+    "refined products services"
+   ],
+   "description": "Provides petrochemical and refined products services.",
+   "evidence": "Our operations are reported under four business segments: NGL Pipelines & Services, Crude Oil Pipelines & Services, Natural Gas Pipelines & Services and Petrochemical & Refined Products Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Producers and shippers pay tariffs and processing fees.",
+  "evidence": "Our operations are reported under four business segments: NGL Pipelines & Services, Crude Oil Pipelines & Services, Natural Gas Pipelines & Services and Petrochemical & Refined Products Services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (NGL Pipelines & Services): natural gas liquids pipelines",
+  "product not in text (Petrochemical & Refined Products Services): petrochemical services"
+ ],
+ "reader": "agent"
+}

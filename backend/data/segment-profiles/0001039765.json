@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001039765",
+ "issuerName": "ING GROEP NV",
+ "builtAt": "2026-11-16T04:41:00.377Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-011979",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1039765/000162828026011979/ing-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

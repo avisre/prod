@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "cik": "0000947263",
+ "issuerName": "TORONTO DOMINION BANK",
+ "builtAt": "2026-11-16T04:40:59.074Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001562762-25-000289",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/947263/000156276225000289/40f20251031.htm"
+ },
+ "status": "filing-unreadable"
+}

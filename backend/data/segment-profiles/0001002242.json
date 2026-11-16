@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001002242",
+ "issuerName": "Eni SpA",
+ "builtAt": "2026-11-16T04:41:01.085Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001554855-26-000390",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1002242/000155485526000390/e-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Gas & LNG Portfolio and Power",
+   "products": [
+    "gas-fired power"
+   ],
+   "description": "Trades gas and LNG and runs gas-fired power plants.",
+   "evidence": "of activities of marketing, shipping and trading of oil and products to enhance synergies and to fully capture margins across the value chain; - Global Gas & LNG Portfolio and Power, which is integrating results of the operating segment Global gas, power and LNG portfolio with those of the activities of managing and upgrading the fleet of gas-fired power plants which are ancillary to gas and power supply and trading activities"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Buyers pay for gas, LNG and power.",
+  "evidence": "of activities of marketing, shipping and trading of oil and products to enhance synergies and to fully capture margins across the value chain; - Global Gas & LNG Portfolio and Power, which is integrating results of the operating segment Global gas, power and LNG portfolio with those of the activities of managing and upgrading the fleet of gas-fired power plants which are ancillary to gas and power supply and trading activities"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Global Gas & LNG Portfolio and Power): gas and LNG trading"
+ ],
+ "reader": "agent"
+}

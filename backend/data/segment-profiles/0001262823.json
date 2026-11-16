@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001262823",
+ "issuerName": "Westlake Corporation",
+ "builtAt": "2026-11-16T04:40:57.044Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001262823-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1262823/000126282326000016/wlk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Housing and Infrastructure Products",
+   "products": [
+    "building products",
+    "infrastructure products"
+   ],
+   "description": "Makes housing and infrastructure products.",
+   "evidence": "We operate in two principal operating segments, Housing and Infrastructure Products (HIP) and Performance"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Builders and industrial customers buy its materials.",
+  "evidence": "Our products include some of the most widely used materials in the world, which are fundamental to many diverse consumer and industrial markets, including residential construction, flexible and rigid packaging, automotive, healthcare, water treatment, wind turbines, coatings as well as other durable and non-durable goods."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

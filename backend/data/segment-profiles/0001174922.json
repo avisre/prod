@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001174922",
+ "issuerName": "WYNN RESORTS, LIMITED",
+ "builtAt": "2026-11-16T04:40:57.608Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001174922-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1174922/000117492226000013/wynn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Macau Operations",
+   "products": [
+    "integrated resorts",
+    "gaming"
+   ],
+   "description": "Runs Wynn Palace and Wynn Macau.",
+   "evidence": "Through our approximately 72% ownership of Wynn Macau, Limited (\"WML\"), we operate two integrated resorts in the Macau Special Administrative Region of the People's Republic of China (\"Macau\"), Wynn Palace and Wynn Macau (collectively, our \"Macau Operations\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay for gaming, hotel rooms, dining and entertainment.",
+  "evidence": "Through our approximately 72% ownership of Wynn Macau, Limited (\"WML\"), we operate two integrated resorts in the Macau Special Administrative Region of the People's Republic of China (\"Macau\"), Wynn Palace and Wynn Macau (collectively, our \"Macau Operations\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

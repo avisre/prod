@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001973239",
+ "issuerName": "ARM HOLDINGS PLC /UK",
+ "builtAt": "2026-11-16T04:40:58.373Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001973239-26-000097",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1973239/000197323926000097/arm-20260331.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

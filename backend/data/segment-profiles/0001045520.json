@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "cik": "0001045520",
+ "issuerName": "CANADIAN IMPERIAL BANK OF COMMERCE /CAN/",
+ "builtAt": "2026-11-16T04:41:00.328Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-25-307488",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1045520/000119312525307488/d91021d40f.htm"
+ },
+ "status": "filing-unreadable"
+}

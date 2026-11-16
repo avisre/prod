@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001166003",
+ "issuerName": "XPO, Inc.",
+ "builtAt": "2026-11-16T04:40:57.821Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001166003-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1166003/000116600326000016/xpo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North American Less-Than-Truckload",
+   "products": [],
+   "description": "Provides LTL freight in North America.",
+   "evidence": "Our company has two reportable segments: North American Less-Than-Truckload (\"LTL\"), the largest component of our business; and European Transportation."
+  },
+  {
+   "name": "European Transportation",
+   "products": [
+    "transportation services"
+   ],
+   "description": "Provides transport and logistics in Europe.",
+   "evidence": "Our company has two reportable segments: North American Less-Than-Truckload (\"LTL\"), the largest component of our business; and European Transportation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers pay for LTL and European transport services.",
+  "evidence": "We operate the business to high service standards for on-time delivery and damage-free transport, while 4 balancing our network to leverage our fixed costs."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (North American Less-Than-Truckload): less-than-truckload freight"
+ ],
+ "reader": "agent"
+}

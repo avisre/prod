@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001636222",
+ "issuerName": "WINGSTOP INC.",
+ "builtAt": "2026-11-16T04:40:57.026Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001636222-26-000008",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1636222/000163622226000008/wing-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "single segment",
+   "products": [
+    "wings",
+    "tenders",
+    "chicken sandwiches"
+   ],
+   "description": "Franchises and operates Wingstop restaurants.",
+   "evidence": "We operate in a single segment for reporting purposes and generate revenues by charging royalties, advertising fees, and franchise fees to our franchisees and by operating a number of our own restaurants."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Franchisees pay royalties and ad fees; guests buy food.",
+  "evidence": "We offer our guests fresh, cooked-to-order wings, tenders, and chicken sandwiches with bold, layered flavors that touch all of the senses, and we complement our wings, tenders, and chicken sandwiches with seasoned fries and f"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001555280",
+ "issuerName": "Zoetis Inc.",
+ "builtAt": "2026-11-16T04:40:58.270Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001555280-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000011/zts-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

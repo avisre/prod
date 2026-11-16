@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001639920",
+ "issuerName": "Spotify Technology S.A.",
+ "builtAt": "2026-11-16T04:41:00.276Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-006874",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1639920/000162828026006874/ck0001639920-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Premium",
+   "products": [],
+   "description": "Sells ad-free music subscriptions.",
+   "evidence": "Our Business Model We offer both Premium and Ad-Supported Services to ou"
+  },
+  {
+   "name": "Ad-Supported",
+   "products": [],
+   "description": "Offers free ad-supported music and podcasts.",
+   "evidence": "Our Business Model We offer both Premium and Ad-Supported Services to ou"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers pay monthly fees and advertisers pay for impressions.",
+  "evidence": "Our Business Model We offer both Premium and Ad-Supported Services to ou"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Premium): subscription audio service",
+  "product not in text (Ad-Supported): advertising-supported audio"
+ ],
+ "reader": "agent"
+}

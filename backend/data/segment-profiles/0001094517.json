@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001094517",
+ "issuerName": "TOYOTA MOTOR CORP/",
+ "builtAt": "2026-11-16T04:40:58.890Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-264811",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1094517/000119312526264811/d101983d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "automotive operations",
+   "products": [
+    "vehicles"
+   ],
+   "description": "Builds and sells Toyota and Lexus vehicles.",
+   "evidence": "Toyota's business segments are automotive operations, financial services operations and all other operations."
+  },
+  {
+   "name": "financial services operations",
+   "products": [
+    "leasing"
+   ],
+   "description": "Provides vehicle financing and leasing.",
+   "evidence": "Toyota's business segments are automotive operations, financial services operations and all other operations."
+  },
+  {
+   "name": "all other operations",
+   "products": [
+    "other businesses"
+   ],
+   "description": "Holds its other businesses.",
+   "evidence": "Toyota's business segments are automotive operations, financial services operations and all other operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy vehicles and pay for financing and leasing.",
+  "evidence": "The following table sets forth Toyota's sales to external customers in each of its business segments for each of the past three fiscal years."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (financial services operations): vehicle financing"
+ ],
+ "reader": "agent"
+}

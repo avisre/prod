@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001524472",
+ "issuerName": "Xylem Inc.",
+ "builtAt": "2026-11-16T04:40:57.860Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001524472-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1524472/000152447226000012/xyl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Infrastructure",
+   "products": [],
+   "description": "Sells water transport and treatment equipment.",
+   "evidence": "Business Segments, Distribution and Competitive Landscape We have four reportable business segments that are aligned around the critical market applications they provide: Water Infrastructure, Applied Water, Measurement and Control Solutions, and Water Solutions and Services."
+  },
+  {
+   "name": "Applied Water",
+   "products": [],
+   "description": "Sells pumps and water systems for buildings.",
+   "evidence": "Business Segments, Distribution and Competitive Landscape We have four reportable business segments that are aligned around the critical market applications they provide: Water Infrastructure, Applied Water, Measurement and Control Solutions, and Water Solutions and Services."
+  },
+  {
+   "name": "Measurement and Control Solutions",
+   "products": [],
+   "description": "Sells water measurement and control products.",
+   "evidence": "Business Segments, Distribution and Competitive Landscape We have four reportable business segments that are aligned around the critical market applications they provide: Water Infrastructure, Applied Water, Measurement and Control Solutions, and Water Solutions and Services."
+  },
+  {
+   "name": "Water Solutions and Services",
+   "products": [],
+   "description": "Provides water treatment services and solutions.",
+   "evidence": "Business Segments, Distribution and Competitive Landscape We have four reportable business segments that are aligned around the critical market applications they provide: Water Infrastructure, Applied Water, Measurement and Control Solutions, and Water Solutions and Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities and industrial customers buy water equipment and services.",
+  "evidence": "We design, manufacture and service engineered products and solutions across a wide variety of critical applications, primarily in the water sector."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Water Infrastructure): water infrastructure products",
+  "product not in text (Applied Water): applied water products",
+  "product not in text (Measurement and Control Solutions): measurement and control products",
+  "product not in text (Water Solutions and Services): water solutions and services"
+ ],
+ "reader": "agent"
+}

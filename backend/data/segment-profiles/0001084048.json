@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0001084048",
+ "issuerName": "ZIFF DAVIS, INC.",
+ "builtAt": "2026-11-16T04:40:58.224Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001084048-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1084048/000108404826000005/zd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology & Shopping",
+   "products": [
+    "digital media"
+   ],
+   "description": "Runs technology and shopping media properties.",
+   "evidence": "Our Business Our consolidated revenues are currently generated primarily from five reportable segments: (1) Technology & Shopping, (2) Gaming & Entertainment, (3) Health & Wellness, (collectively, our \"Digital Media Businesses\"), (4) Connectivity, and (5) Cybersecurity & Marte"
+  },
+  {
+   "name": "Gaming & Entertainment",
+   "products": [
+    "digital media"
+   ],
+   "description": "Runs gaming and entertainment media.",
+   "evidence": "Our Business Our consolidated revenues are currently generated primarily from five reportable segments: (1) Technology & Shopping, (2) Gaming & Entertainment, (3) Health & Wellness, (collectively, our \"Digital Media Businesses\"), (4) Connectivity, and (5) Cybersecurity & Marte"
+  },
+  {
+   "name": "Health & Wellness",
+   "products": [
+    "digital media"
+   ],
+   "description": "Runs health and wellness media.",
+   "evidence": "Our Business Our consolidated revenues are currently generated primarily from five reportable segments: (1) Technology & Shopping, (2) Gaming & Entertainment, (3) Health & Wellness, (collectively, our \"Digital Media Businesses\"), (4) Connectivity, and (5) Cybersecurity & Marte"
+  },
+  {
+   "name": "Connectivity",
+   "products": [],
+   "description": "Provides connectivity services.",
+   "evidence": "Our Business Our consolidated revenues are currently generated primarily from five reportable segments: (1) Technology & Shopping, (2) Gaming & Entertainment, (3) Health & Wellness, (collectively, our \"Digital Media Businesses\"), (4) Connectivity, and (5) Cybersecurity & Marte"
+  },
+  {
+   "name": "Cybersecurity & Martech",
+   "products": [
+    "martech services"
+   ],
+   "description": "Provides cybersecurity and martech services.",
+   "evidence": "Our Business Our consolidated revenues are currently generated primarily from five reportable segments: (1) Technology & Shopping, (2) Gaming & Entertainment, (3) Health & Wellness, (collectively, our \"Digital Media Businesses\"), (4) Connectivity, and (5) Cybersecurity & Marte"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay for advertising and subscribers pay for services.",
+  "evidence": "Our Business Our consolidated revenues are currently generated primarily from five reportable segments: (1) Technology & Shopping, (2) Gaming & Entertainment, (3) Health & Wellness, (collectively, our \"Digital Media Businesses\"), (4) Connectivity, and (5) Cybersecurity & Marte"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Connectivity): connectivity services",
+  "product not in text (Cybersecurity & Martech): cybersecurity services"
+ ],
+ "reader": "agent"
+}

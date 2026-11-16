@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001594805",
+ "issuerName": "Shopify Inc.",
+ "builtAt": "2026-11-16T04:41:00.080Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001594805-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1594805/000159480526000007/shop-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

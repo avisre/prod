@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001512673",
+ "issuerName": "Block, Inc.",
+ "builtAt": "2026-11-16T04:40:57.908Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012254",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1512673/000162828026012254/xyz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Square",
+   "products": [],
+   "description": "Provides payments and seller tools to businesses.",
+   "evidence": "Our Segments and Revenue Categories Our two reportable segments are Square and Cash App, which reflects our two primary ecosystems and the manner in which the Company's chief operating decision maker (\"CODM\") reviews and assesses performance."
+  },
+  {
+   "name": "Cash App",
+   "products": [],
+   "description": "Provides consumer banking and payments.",
+   "evidence": "Our Segments and Revenue Categories Our two reportable segments are Square and Cash App, which reflects our two primary ecosystems and the manner in which the Company's chief operating decision maker (\"CODM\") reviews and assesses performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Sellers pay processing fees and consumers pay for financial services.",
+  "evidence": "Our products are designed to be self-serve and intuitive to make initial setup and new employee training fast and easy, although we also offer full-service setup and support."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Square): seller ecosystem products",
+  "product not in text (Cash App): consumer financial services"
+ ],
+ "reader": "agent"
+}
