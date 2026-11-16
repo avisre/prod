@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000918965",
  "issuerName": "ScanSource, Inc.",
- "builtAt": "2026-11-16T04:32:29.908Z",
+ "builtAt": "2026-11-16T04:33:04.911Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000918965-26-000044",
@@ -15,34 +15,34 @@
   {
    "name": "Specialty Technology Solutions",
    "products": [
-    "mobility and barcode",
-    "point-of-sale (\"POS\")",
-    "payment terminals",
-    "physical security",
-    "networking",
-    "communications",
-    "connectivity and cloud services"
+    "hardware",
+    "SaaS and subscription services",
+    "Mobility and barcode",
+    "Communications",
+    "Connectivity"
    ],
-   "description": "Distributes technology products through resellers.",
-   "evidence": "The Company's two operating segments, Specialty Technology Solutions and Intelisys & Advisory , represent the different sales models we use in executing our technology growth strategy."
+   "description": "Distributes specialty technology hardware, software and subscription services through a wholesale and resale model to channel partners in the U.S. and Brazil.",
+   "evidence": "The Specialty Technology Solutions segment operates primarily in the United States and Brazil and includes specialty technology solutions distributed through a wholesale/resale sales model."
   },
   {
    "name": "Intelisys & Advisory",
    "products": [
-    "cloud services"
+    "Intelisys",
+    "Channel Exchange",
+    "RPM Software",
+    "Resourcive",
+    "SaaS and subscription-based services"
    ],
-   "description": "Provides telecom advisory and cloud services.",
-   "evidence": "The Company's two operating segments, Specialty Technology Solutions and Intelisys & Advisory , represent the different sales models we use in executing our technology growth strategy."
+   "description": "Acts as a technology services distributor, selling connectivity, cloud and next-generation technologies and advisory services to partners and end users.",
+   "evidence": "The Intelisys & Advisory segment operates in the United States and consists of sales and services to both channel sales partners (Intelisys) and end users (Advisory)."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Resellers and agents buy hardware and services and earn commissions.",
-  "evidence": "We provide technology solutions and services from more than 500 leading suppliers of mobility and barcode, point-of-sale (\"POS\"), payment terminals, physical security, networking, communications, connectivity and cloud services."
+  "text": "Channel sales partners and end users pay ScanSource for technology hardware, software, connectivity, cloud services and advisory services.",
+  "evidence": "Our channel sales partners include businesses of all sizes that sell to end users across many industries."
  },
  "changes": [],
- "dropped": [
-  "product not in text (Intelisys & Advisory): telecom advisory"
- ],
+ "dropped": [],
  "reader": "agent"
 }

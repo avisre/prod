@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001465128",
+ "issuerName": "Starwood Property Trust, Inc.",
+ "builtAt": "2026-11-16T04:33:43.920Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001465128-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1465128/000146512826000009/stwd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial and Residential Lending Segment",
+   "products": [
+    "commercial first mortgages",
+    "residential loans",
+    "subordinated mortgages",
+    "mezzanine loans"
+   ],
+   "description": "Originates and manages commercial and residential loans.",
+   "evidence": "We have four reportable business segments as of December 31, 2025 and we refer to the investments within these segments as our target assets: • Real estate commercial and residential lending (the \"Commercial and Residential Lending Segment\")—engages primarily in originating, acquiring, financing and managing commercial first mortgages, non-agency residential mortgages (\"residential loans\"), subordinated mortgages, mezzanine lo"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans it originates and holds.",
+  "evidence": "We have four reportable business segments as of December 31, 2025 and we refer to the investments within these segments as our target assets: • Real estate commercial and residential lending (the \"Commercial and Residential Lending Segment\")—engages primarily in originating, acquiring, financing and managing commercial first mortgages, non-agency residential mortgages (\"residential loans\"), subordinated mortgages, mezzanine lo"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

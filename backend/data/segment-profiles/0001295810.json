@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001295810",
+ "issuerName": "Sunstone Hotel Investors, Inc.",
+ "builtAt": "2026-11-16T04:33:42.678Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021440",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1295810/000110465926021440/sho-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hotel Ownership",
+   "products": [
+    "hotel rooms"
+   ],
+   "description": "Owns and operates hotels.",
+   "evidence": "Because all of the Company's hotels have similar economic characteristics, facilities, and services, the hotels have been aggregated into one reportable segment, Hotel Ownership (see Note 14)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates and hotel charges.",
+  "evidence": "Because all of the Company's hotels have similar economic characteristics, facilities, and services, the hotels have been aggregated into one reportable segment, Hotel Ownership (see Note 14)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

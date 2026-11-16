@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001314727",
+ "issuerName": "SONOS, INC.",
+ "builtAt": "2026-11-16T04:34:04.203Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001314727-25-000090",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1314727/000131472725000090/sono-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "audio products",
+   "products": [],
+   "description": "Sells wireless home audio products.",
+   "evidence": "to its Chief Executive Officer, who is the Company's Chief Operating Decision Maker (\"CODM\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and dealers buy its speakers and audio systems.",
+  "evidence": "The Company operates as one operating segment as it only reports aggregate financial information on a consolidated basis, accompanied by disaggregated information about revenue by geographic region and product category"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

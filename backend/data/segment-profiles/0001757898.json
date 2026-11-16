@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001757898",
+ "issuerName": "STERIS plc",
+ "builtAt": "2026-11-16T04:33:43.849Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-039136",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1757898/000162828026039136/ste-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare",
+   "products": [
+    "sterilization services"
+   ],
+   "description": "Sells healthcare products and sterilization services.",
+   "evidence": "We operate and report our financial information in three reportable business segments: Healthcare, Applied Sterilization Technologies (\"AST\"), and Life Sciences."
+  },
+  {
+   "name": "Applied Sterilization Technologies",
+   "products": [
+    "sterilization services"
+   ],
+   "description": "Provides contract sterilization services.",
+   "evidence": "We operate and report our financial information in three reportable business segments: Healthcare, Applied Sterilization Technologies (\"AST\"), and Life Sciences."
+  },
+  {
+   "name": "Life Sciences",
+   "products": [
+    "life science products"
+   ],
+   "description": "Sells life science products and services.",
+   "evidence": "We operate and report our financial information in three reportable business segments: Healthcare, Applied Sterilization Technologies (\"AST\"), and Life Sciences."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals, device makers and pharma companies buy products and sterilization.",
+  "evidence": "We offer our Customers a unique mix of innovative products and services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Healthcare): surgical products",
+  "product not in text (Life Sciences): pharmaceutical products"
+ ],
+ "reader": "agent"
+}

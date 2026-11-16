@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001116132",
+ "issuerName": "Tapestry, Inc",
+ "builtAt": "2026-11-16T04:33:45.769Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001116132-26-000018",
+  "periodEnd": "2026-06-27",
+  "filingDate": "2026-08-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1116132/000111613226000018/tpr-20260627.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Coach",
+   "products": [
+    "accessories",
+    "lifestyle collections"
+   ],
+   "description": "Designs and sells Coach handbags and accessories.",
+   "evidence": "OUR BRANDS The Company has two reportable segments: • Coach - Coach is a global fashion house of accessories and lifestyle collections, founded in New York City in 1941."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its handbags and accessories in stores and online.",
+  "evidence": "OUR BRANDS The Company has two reportable segments: • Coach - Coach is a global fashion house of accessories and lifestyle collections, founded in New York City in 1941."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Sold Stuart Weitzman on August 4, 2025 and has reported two segments since."
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001795250",
+ "issuerName": "SPHERE ENTERTAINMENT CO.",
+ "builtAt": "2026-11-16T04:33:43.453Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007760",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1795250/000162828026007760/sphr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sphere",
+   "products": [
+    "immersive experiences"
+   ],
+   "description": "Runs the Sphere venue and immersive productions.",
+   "evidence": "Overview The Company is a leader in immersive experiences, technology and media and is comprised of two reportable segments, Sphere and MSG Networks."
+  },
+  {
+   "name": "MSG Networks",
+   "products": [
+    "sports programming"
+   ],
+   "description": "Runs regional sports networks.",
+   "evidence": "Overview The Company is a leader in immersive experiences, technology and media and is comprised of two reportable segments, Sphere and MSG Networks."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests buy tickets and advertisers buy airtime; distributors pay carriage fees.",
+  "evidence": "Overview The Company is a leader in immersive experiences, technology and media and is comprised of two reportable segments, Sphere and MSG Networks."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

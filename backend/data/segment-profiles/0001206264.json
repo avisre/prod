@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001206264",
+ "issuerName": "SOMNIGROUP INTERNATIONAL INC.",
+ "builtAt": "2026-11-16T04:33:42.630Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001206264-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1206264/000120626426000015/sgi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mattress Firm",
+   "products": [
+    "mattresses"
+   ],
+   "description": "Runs Mattress Firm retail stores and distribution centres.",
+   "evidence": "Our Mattress Firm segment consists of retail stores and distribution centers located in the 4 Table of Contents U."
+  },
+  {
+   "name": "Tempur Sealy North America",
+   "products": [
+    "mattresses",
+    "bedding products"
+   ],
+   "description": "Makes and sells Tempur-Pedic and Sealy bedding in North America.",
+   "evidence": "Our Tempur Sealy North America segment consists of manufacturing, distribution and retail subsidiaries and licensees located in the U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy mattresses through retail stores and licensees.",
+  "evidence": "Our Tempur Sealy North America segment consists of manufacturing, distribution and retail subsidiaries and licensees located in the U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

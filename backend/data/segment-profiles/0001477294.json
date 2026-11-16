@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001477294",
+ "issuerName": "SENSATA TECHNOLOGIES HOLDING PLC",
+ "builtAt": "2026-11-16T04:33:43.601Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477294-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1477294/000147729426000007/st-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive",
+   "products": [
+    "sensors",
+    "sensor-rich solutions"
+   ],
+   "description": "Sells sensors to car makers.",
+   "evidence": "We present financial information for three reportable segments, Automotive, Industrials, and Aerospace, Defense, and Commercial Equipment."
+  },
+  {
+   "name": "Industrials",
+   "products": [
+    "sensors",
+    "electrical protection components"
+   ],
+   "description": "Sells sensors and protection components to industry.",
+   "evidence": "We present financial information for three reportable segments, Automotive, Industrials, and Aerospace, Defense, and Commercial Equipment."
+  },
+  {
+   "name": "Aerospace, Defense, and Commercial Equipment",
+   "products": [
+    "sensors",
+    "electrical protection components"
+   ],
+   "description": "Sells to aerospace, defense and commercial equipment markets.",
+   "evidence": "We present financial information for three reportable segments, Automotive, Industrials, and Aerospace, Defense, and Commercial Equipment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs buy its sensors and electrical protection components.",
+  "evidence": "We develop, manufacture, and sell sensors and sensor-rich solutions, electrical protection components and systems, and other products."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

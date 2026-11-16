@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001032208",
+ "issuerName": "SEMPRA",
+ "builtAt": "2026-11-16T04:33:43.533Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001032208-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1032208/000103220826000010/sre-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sempra California",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Runs SDG&E and SoCalGas.",
+   "evidence": "DESCRIPTION OF BUSINESS BY SEGMENT Sempra's business activities are organized under the following reportable segments: ▪ Sempra California ▪ Sempra Texas Utilities ▪ Sempra Infrastructure SDG&E and SoCalGas each have one reportable segment."
+  },
+  {
+   "name": "Sempra Texas Utilities",
+   "products": [
+    "electricity transmission and distribution"
+   ],
+   "description": "Runs its Texas utilities.",
+   "evidence": "DESCRIPTION OF BUSINESS BY SEGMENT Sempra's business activities are organized under the following reportable segments: ▪ Sempra California ▪ Sempra Texas Utilities ▪ Sempra Infrastructure SDG&E and SoCalGas each have one reportable segment."
+  },
+  {
+   "name": "Sempra Infrastructure",
+   "products": [
+    "energy infrastructure"
+   ],
+   "description": "Owns energy infrastructure in Mexico and the U.S.",
+   "evidence": "DESCRIPTION OF BUSINESS BY SEGMENT Sempra's business activities are organized under the following reportable segments: ▪ Sempra California ▪ Sempra Texas Utilities ▪ Sempra Infrastructure SDG&E and SoCalGas each have one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay tariffs and infrastructure customers pay for capacity.",
+  "evidence": "DESCRIPTION OF BUSINESS BY SEGMENT Sempra's business activities are organized under the following reportable segments: ▪ Sempra California ▪ Sempra Texas Utilities ▪ Sempra Infrastructure SDG&E and SoCalGas each have one reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

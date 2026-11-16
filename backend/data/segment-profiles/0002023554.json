@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002023554",
+ "issuerName": "Sandisk Corporation",
+ "builtAt": "2026-11-16T04:33:42.948Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-057406",
+  "periodEnd": "2026-07-03",
+  "filingDate": "2026-08-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2023554/000162828026057406/sndk-20260703.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Edge",
+   "products": [
+    "flash solutions"
+   ],
+   "description": "Sells flash memory to OEM and channel customers.",
+   "evidence": "Through the Edge end market, we provide our original equipment manufacturer (\"OEM\") and channel customers a broad array of high-performance flash solutions across personal computer, mobile, gaming, automotive, physical AI, at-home entertainment, and industrial spaces."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Device makers and channel partners buy its flash memory.",
+  "evidence": "Through the Edge end market, we provide our original equipment manufacturer (\"OEM\") and channel customers a broad array of high-performance flash solutions across personal computer, mobile, gaming, automotive, physical AI, at-home entertainment, and industrial spaces."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000908937",
+ "issuerName": "Sirius XM Holdings Inc.",
+ "builtAt": "2026-11-16T04:33:42.799Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000908937-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/908937/000090893726000006/siri-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SiriusXM",
+   "products": [
+    "subscription fees"
+   ],
+   "description": "Sells satellite radio subscriptions.",
+   "evidence": "We operate two complementary audio entertainment businesses – our SiriusXM business and our Pandora and Off-platform business."
+  },
+  {
+   "name": "Pandora and Off-platform",
+   "products": [
+    "advertising",
+    "subscription fees"
+   ],
+   "description": "Runs Pandora streaming and off-platform audio advertising.",
+   "evidence": "We operate two complementary audio entertainment businesses – our SiriusXM business and our Pandora and Off-platform business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers pay monthly or annual fees and advertisers pay for airtime.",
+  "evidence": "The primary source of revenue from our SiriusXM business is subscription fees, with most of our customers subscribing to monthly or annual plans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

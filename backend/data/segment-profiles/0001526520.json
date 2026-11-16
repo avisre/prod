@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001526520",
+ "issuerName": "TRIPADVISOR, INC.",
+ "builtAt": "2026-11-16T04:33:45.795Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-051281",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1526520/000119312526051281/trip-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Experiences",
+   "products": [],
+   "description": "Sells tours, activities and experiences through Viator.",
+   "evidence": "The Company measures its financial performance within the following business segments: Experiences, Hotels and Other, and TheFork."
+  },
+  {
+   "name": "Hotels and Other",
+   "products": [
+    "advertising"
+   ],
+   "description": "Runs hotel review and booking marketplaces.",
+   "evidence": "The Company measures its financial performance within the following business segments: Experiences, Hotels and Other, and TheFork."
+  },
+  {
+   "name": "TheFork",
+   "products": [],
+   "description": "Runs restaurant reservation marketplace TheFork.",
+   "evidence": "The Company measures its financial performance within the following business segments: Experiences, Hotels and Other, and TheFork."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Travellers and partners pay booking commissions and advertising fees.",
+  "evidence": "We offer travelers the ability to search, discover, book, and review experiences, hotels, and restaurants seamlessly through our two-sided marketplaces across three primary consumer-facing brands: Viator, Tripadvisor, and TheFork."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Experiences): tours and activities bookings",
+  "product not in text (Hotels and Other): hotel reviews",
+  "product not in text (Hotels and Other): hotel bookings",
+  "product not in text (TheFork): restaurant bookings"
+ ],
+ "reader": "agent"
+}

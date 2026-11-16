@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0002064953",
+ "issuerName": "Solstice Advanced Materials Inc.",
+ "builtAt": "2026-11-16T04:33:43.278Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002064953-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/2064953/000206495326000008/sols-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Refrigerants & Applied Solutions",
+   "products": [
+    "LGWP refrigerants",
+    "blowing agents",
+    "aerosol propellants",
+    "cleaning solvents",
+    "high-barrier pharmaceutical packaging materials"
+   ],
+   "description": "Sells refrigerants and applied materials.",
+   "evidence": "We operate through two segments, reported as Refrigerants & Applied Solutions (\"RAS\") and Electronic & Specialty Materials (\"ESM\")."
+  },
+  {
+   "name": "Electronic & Specialty Materials",
+   "products": [
+    "electronic materials",
+    "specialty materials"
+   ],
+   "description": "Sells electronic and specialty materials.",
+   "evidence": "We operate through two segments, reported as Refrigerants & Applied Solutions (\"RAS\") and Electronic & Specialty Materials (\"ESM\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial and electronics customers buy its materials.",
+  "evidence": "We operate through two segments, reported as Refrigerants & Applied Solutions (\"RAS\") and Electronic & Specialty Materials (\"ESM\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

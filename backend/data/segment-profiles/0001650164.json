@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001650164",
+ "issuerName": "Toast, Inc.",
+ "builtAt": "2026-11-16T04:33:45.175Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001650164-26-000057",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1650164/000165016426000057/tost-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

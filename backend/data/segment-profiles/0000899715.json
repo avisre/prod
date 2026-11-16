@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000899715",
+ "issuerName": "TANGER INC",
+ "builtAt": "2026-11-16T04:33:42.806Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012252",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/899715/000162828026012252/skt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tanger",
+   "products": [
+    "outlet centers"
+   ],
+   "description": "Owns and operates outlet shopping centres.",
+   "evidence": "Financial Information We have one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail tenants pay rent and recoveries.",
+  "evidence": "Financial Information We have one reportable operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

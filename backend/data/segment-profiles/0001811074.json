@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001811074",
+ "issuerName": "Texas Pacific Land Corporation",
+ "builtAt": "2026-11-16T04:33:45.314Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001811074-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1811074/000181107426000018/tpl-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

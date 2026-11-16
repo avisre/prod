@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001126956",
+ "issuerName": "Spire Inc.",
+ "builtAt": "2026-11-16T04:33:43.497Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-282583",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1126956/000119312525282583/sr-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gas Utility",
+   "products": [
+    "natural gas distribution"
+   ],
+   "description": "Runs its regulated gas utilities.",
+   "evidence": "The Company has three reportable business segments: Gas Utility, Gas Marketing and Midstream, which are further described below."
+  },
+  {
+   "name": "Gas Marketing",
+   "products": [
+    "natural gas marketing"
+   ],
+   "description": "Markets natural gas to customers.",
+   "evidence": "The Company has three reportable business segments: Gas Utility, Gas Marketing and Midstream, which are further described below."
+  },
+  {
+   "name": "Midstream",
+   "products": [
+    "natural gas pipelines",
+    "storage"
+   ],
+   "description": "Owns gas pipelines and storage.",
+   "evidence": "The Company has three reportable business segments: Gas Utility, Gas Marketing and Midstream, which are further described below."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay tariffs and marketers pay for gas and transport.",
+  "evidence": "The Gas Utility segment includes the regulated operations of Spire Missouri, Spire Alabama, Spire Gulf Inc."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

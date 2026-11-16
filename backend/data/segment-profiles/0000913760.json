@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000913760",
+ "issuerName": "StoneX Group Inc.",
+ "builtAt": "2026-11-16T04:33:43.254Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000913760-25-000196",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/913760/000091376025000196/intl-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001973266",
+ "issuerName": "TKO GROUP HOLDINGS, INC.",
+ "builtAt": "2026-11-16T04:33:44.696Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071651",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1973266/000119312526071651/tko-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

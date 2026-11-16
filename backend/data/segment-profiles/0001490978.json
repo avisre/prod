@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001490978",
  "issuerName": "Schrodinger, Inc.",
- "builtAt": "2026-11-16T04:32:29.930Z",
+ "builtAt": "2026-11-16T04:33:04.932Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001490978-26-000010",
@@ -10,10 +10,36 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1490978/000149097826000010/sdgr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "software",
+   "products": [
+    "software product licenses",
+    "hosted software subscriptions",
+    "software maintenance",
+    "professional services"
+   ],
+   "description": "Licenses its molecular discovery software and hosted subscriptions, with maintenance and professional services, to life sciences and materials science customers.",
+   "evidence": "The Software segment is focused on licensing the Company's software to transform molecular discovery."
+  },
+  {
+   "name": "drug discovery",
+   "products": [
+    "preclinical and clinical drug programs",
+    "SGR-1505",
+    "SGR-2921",
+    "MORF-057"
+   ],
+   "description": "Builds a portfolio of preclinical and clinical drug programs internally and through collaborations, generating revenue from partnerships and milestones.",
+   "evidence": "The drug discovery segment is focused on generating revenue from a diverse portfolio of preclinical and clinical programs, internally and through collaborations, that have advanced to various stages of discovery and development."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Life sciences and materials science customers pay Schrodinger for software licences and subscriptions, while collaborators fund drug discovery programs.",
+  "evidence": "Our software segment generates revenue from software product licenses, hosted software subscriptions, software maintenance, professional services, and contributions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

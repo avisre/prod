@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001856485",
+ "issuerName": "SYLVAMO CORPORATION",
+ "builtAt": "2026-11-16T04:33:42.893Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001856485-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1856485/000185648526000008/syl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe",
+   "products": [
+    "uncoated papers"
+   ],
+   "description": "Makes and sells uncoated papers in Europe.",
+   "evidence": "BUSINESS OUR COMPANY Sylvamo Corporation (the \"Company\" or \"Sylvamo\", which may also be referred to as \"we\" or \"us\") is a global uncoated papers company with a broad portfolio of top-tier brands and low-cost, large-scale paper mills located in and serving the most attractive geographies, including Europe, Latin America and North America, which are our business segments."
+  },
+  {
+   "name": "Latin America",
+   "products": [
+    "uncoated papers"
+   ],
+   "description": "Makes and sells uncoated papers in Latin America.",
+   "evidence": "BUSINESS OUR COMPANY Sylvamo Corporation (the \"Company\" or \"Sylvamo\", which may also be referred to as \"we\" or \"us\") is a global uncoated papers company with a broad portfolio of top-tier brands and low-cost, large-scale paper mills located in and serving the most attractive geographies, including Europe, Latin America and North America, which are our business segments."
+  },
+  {
+   "name": "North America",
+   "products": [
+    "uncoated papers"
+   ],
+   "description": "Makes and sells uncoated papers in North America.",
+   "evidence": "BUSINESS OUR COMPANY Sylvamo Corporation (the \"Company\" or \"Sylvamo\", which may also be referred to as \"we\" or \"us\") is a global uncoated papers company with a broad portfolio of top-tier brands and low-cost, large-scale paper mills located in and serving the most attractive geographies, including Europe, Latin America and North America, which are our business segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Paper converters and merchants buy its uncoated papers.",
+  "evidence": "From 2023 to 2025, on average, we generated 48% of our re"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

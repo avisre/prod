@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000944695",
+ "issuerName": "HANOVER INSURANCE GROUP, INC.",
+ "builtAt": "2026-11-16T04:33:44.546Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-060983",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/944695/000119312526060983/thg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal Lines",
+   "products": [],
+   "description": "Sells personal home and auto insurance.",
+   "evidence": "Specifically, in Personal Lines, policyholders may reduce coverages or change deductibles to reduce premiums, experience declining home values, or be subject to increased foreclosures, and policyholders may retain older or less expensive automobiles and purchase or insure fewer ancillary items such as boats, trailers and motor homes for which we provide coverages."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums for home and auto coverages.",
+  "evidence": "In 2025, we generated approximately $6."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Personal Lines): home insurance",
+  "product not in text (Personal Lines): auto insurance"
+ ],
+ "reader": "agent"
+}

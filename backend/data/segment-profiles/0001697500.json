@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001697500",
+ "issuerName": "SOLARIS ENERGY INFRASTRUCTURE, INC.",
+ "builtAt": "2026-11-16T04:33:42.488Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012501",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1697500/000162828026012501/sei-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solaris Power Solutions",
+   "products": [
+    "power generation, control, and distribution solutions"
+   ],
+   "description": "Delivers power generation and distribution equipment for oilfield work.",
+   "evidence": "We operate through two reportable business segments: • Solaris Power Solutions: This segment delivers power generation, control, and distribution solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas operators rent and buy power and flowback equipment.",
+  "evidence": "We provide modular and scalable equipment-based solutions for power generation, control and distribution, and the management of raw materials in oil and natural gas well completions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

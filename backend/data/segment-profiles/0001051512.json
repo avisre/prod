@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001051512",
+ "issuerName": "TELEPHONE AND DATA SYSTEMS, INC.",
+ "builtAt": "2026-11-16T04:33:44.347Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001051512-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1051512/000105151226000011/tds-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TDS Telecom",
+   "products": [
+    "wireline and cable services"
+   ],
+   "description": "Runs its telecom operations.",
+   "evidence": "TDS has two reportable segments: TDS Telecom and Array."
+  },
+  {
+   "name": "Array",
+   "products": [
+    "tower operations"
+   ],
+   "description": "Runs its Array tower business.",
+   "evidence": "TDS has two reportable segments: TDS Telecom and Array."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers and carriers pay for connectivity and tower space.",
+  "evidence": "TDS has two reportable segments: TDS Telecom and Array."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

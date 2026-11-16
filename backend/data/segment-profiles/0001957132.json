@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001957132",
+ "issuerName": "SHARKNINJA, INC.",
+ "builtAt": "2026-11-16T04:33:42.929Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001957132-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1957132/000195713226000015/sharkninja-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "small household appliances",
+   "products": [
+    "Shark",
+    "Ninja"
+   ],
+   "description": "Sells Shark and Ninja small kitchen and home appliances.",
+   "evidence": "The Company has identified two operating segments, Domestic and International, which are aggregated into one reportable segment that derives revenues from customers through the sale of the Company's small household appliances, which are sold under two brands, Shark and Ninja."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its appliances through retailers and direct channels.",
+  "evidence": "We believe our products are aspirational, offering the performance of more expensive competitor products, and attainable, representing a compelling value"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (small household appliances): small household appliances"
+ ],
+ "reader": "agent"
+}

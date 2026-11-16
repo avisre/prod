@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001539638",
+ "issuerName": "TRIUMPH FINANCIAL, INC.",
+ "builtAt": "2026-11-16T04:33:44.467Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001539638-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1539638/000153963826000007/tfin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its bank.",
+   "evidence": "We offer a diversified line of banking, factoring, payments, and intelligence services."
+  },
+  {
+   "name": "factoring",
+   "products": [],
+   "description": "Provides freight factoring to carriers.",
+   "evidence": "We offer a diversified line of banking, factoring, payments, and intelligence services."
+  },
+  {
+   "name": "payments",
+   "products": [
+    "payments platform"
+   ],
+   "description": "Runs a transportation payments platform.",
+   "evidence": "We offer a diversified line of banking, factoring, payments, and intelligence services."
+  },
+  {
+   "name": "intelligence",
+   "products": [
+    "intelligence services"
+   ],
+   "description": "Provides freight data and intelligence services.",
+   "evidence": "We offer a diversified line of banking, factoring, payments, and intelligence services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Carriers and shippers pay factoring, payment and data fees.",
+  "evidence": "Within such ecosystem we operate our payments platform which connects such parties to streamline and optimize the presentment, audit and payment of transportation invoices, and we act as capital provider to the Carrier industry through our factoring business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (factoring): factoring"
+ ],
+ "reader": "agent"
+}
