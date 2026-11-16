@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001744781",
  "issuerName": "Niu Technologies",
- "builtAt": "2026-11-16T05:31:02.755Z",
+ "builtAt": "2026-11-16T10:50:44.688Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-044568",
@@ -10,8 +10,15 @@
   "filingDate": "2026-04-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1744781/000110465926044568/niu-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electric two-wheeled vehicle",
+   "products": [],
+   "description": "Sells smart electric two-wheeled vehicles and related products and services; managed and reviewed as one operating segment.",
+   "evidence": "All products and services are viewed as in one and the only operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

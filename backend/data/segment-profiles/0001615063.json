@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001615063",
  "issuerName": "INSPIRED ENTERTAINMENT, INC.",
- "builtAt": "2026-11-16T05:31:02.204Z",
+ "builtAt": "2026-11-16T10:50:12.838Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-009479",
@@ -10,11 +10,75 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1615063/000149315226009479/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gaming",
+   "products": [
+    "Gold Cash Free Spins™",
+    "Golden Winner™",
+    "Cops n Robbers Big Money",
+    "Big Piggy Bank™",
+    "Wolf it Up!",
+    "roulette",
+    "blackjack",
+    "numbers games"
+   ],
+   "description": "Supplies gaming terminals, software and games content to licensed betting offices, casinos, gaming halls and adult gaming centers worldwide.",
+   "evidence": "Our Gaming segment supplies gaming terminals, gaming software and/or games content for terminals located in Licensed Betting Offices (\"LBOs\"), casinos, gaming halls and adult gaming centers (\"AGCs\")."
+  },
+  {
+   "name": "Virtual Sports",
+   "products": [
+    "V-Play Soccer™",
+    "V-Play Women's Soccer™",
+    "V-Play Football™",
+    "V-Play Basketball™",
+    "V-Play Baseball™",
+    "greyhound racing",
+    "horse racing",
+    "tennis"
+   ],
+   "description": "Provides fixed-odds wagering on computer-rendered simulations of sporting events to betting shops and online operators.",
+   "evidence": "Our Virtual Sports portfolio includes titles such as V-Play Soccer™, V-Play Women's Soccer™, V-Play Football™, V-Play Basketball™, and V-Play Baseball™, along with greyhound racing, horse racing, tennis, motor racing, cycling, cricket, speedway, golf and darts."
+  },
+  {
+   "name": "Interactive",
+   "products": [
+    "iGaming content",
+    "Gold Cash Free Spins™",
+    "Golden Winner™",
+    "Cops n Robbers Big Money",
+    "Big Piggy Bank™",
+    "Wolf it Up!"
+   ],
+   "description": "Supplies iGaming content to large online operators in the UK, Italy, Greece, North America and other regulated markets.",
+   "evidence": "Additionally, our Interactive segment provides a wide range of iGaming content to large operators primarily marketing to customers located in the UK, Italy, Greece and North America, as well as several other regulated countries across Europe through over approximately 500 websites."
+  },
+  {
+   "name": "Leisure",
+   "products": [
+    "gaming terminals"
+   ],
+   "description": "Supplies and operates gaming terminals for pubs, bingo halls and adult gaming centers.",
+   "evidence": "In our Leisure segment, we supply and operate an installed base of approximately 5,500 gaming terminals (including approximately 2,800 gaming terminals under maintenance only contracts) to pubs, bingo halls and adult gaming centers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Licensed online and land-based lottery, betting and gaming operators pay the company on a business-to-business basis for content, platform and other products and services.",
+  "evidence": "We generate revenue typically by participating in the gross revenue generated from each machine, and therefore, both we and our customers benefit from the introduction of new game content, which can drive growth."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold its holiday parks and certain associated leisure assets, using proceeds to repay its Senior Notes.",
+   "evidence": "As permitted by the Notes Purchase Agreement, the repayment was made without penalty using some of the funds received from the sale of the holiday parks and certain associated leisure assets."
+  },
+  {
+   "text": "In 2025 the Virtual Sports business restructured its Virtuals studio alongside the non-renewal of two significant customer contracts.",
+   "evidence": "During the fourth quarter of 2025, linked to the non-renewal of two significant customer contracts and the Virtuals studio restructure, the Company completed a consultation process that resulted in a number of employees leaving the business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

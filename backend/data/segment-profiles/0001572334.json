@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001572334",
  "issuerName": "VIRGINIA NATIONAL BANKSHARES CORP",
- "builtAt": "2026-11-16T05:30:59.148Z",
+ "builtAt": "2026-11-16T10:47:01.160Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-128416",
@@ -10,11 +10,44 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1572334/000119312526128416/vabk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bank",
+   "products": [
+    "loans",
+    "deposits",
+    "service charges from deposit accounts",
+    "fees for debit cards and ATM usage",
+    "fees for treasury management services"
+   ],
+   "description": "Commercial bank making loans, taking deposits and offering related services to individuals, businesses and charitable organizations.",
+   "evidence": "The Bank's commercial banking activities involve making loans, taking deposits and offering related services to individuals, businesses and charitable organizations."
+  },
+  {
+   "name": "VNB Trust and Estate Services",
+   "products": [
+    "corporate trustee services",
+    "trust and estate administration",
+    "IRA administration and custody services",
+    "in-house investment management services",
+    "management fees"
+   ],
+   "description": "Offers corporate trustee, trust and estate administration, IRA administration, custody and in-house investment management services to clients.",
+   "evidence": "This segment offers corporate trustee services, trust and estate administration, IRA administration and custody services and offers in-house investment management services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Individuals, businesses and charitable organizations pay interest and fees on loans, deposit accounts, cards and wealth management services.",
+  "evidence": "Loan fee income, service charges from deposit accounts, and other non-interest-related revenue, such as fees for debit cards and ATM usage and fees for treasury management services, generate additional income for this segment."
+ },
+ "changes": [
+  {
+   "text": "The membership interests in Masonry Capital were sold in 2024, which left the Company with two reportable segments instead of three.",
+   "evidence": "Note that the membership interests in this business line were sold to an officer of Masonry effective April 1, 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

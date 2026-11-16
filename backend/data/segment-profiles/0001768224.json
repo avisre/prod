@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001768224",
  "issuerName": "ARCTURUS THERAPEUTICS HOLDINGS INC.",
- "builtAt": "2026-11-16T05:31:01.185Z",
+ "builtAt": "2026-11-16T10:48:44.680Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-088391",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1768224/000119312526088391/arct-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "messenger RNA medicines",
+   "products": [
+    "KOSTAIVE",
+    "ARCT-154",
+    "ARCT-2301",
+    "ARCT-2303",
+    "ARCT-032",
+    "ARCT-810"
+   ],
+   "description": "Discovers, develops and commercializes messenger RNA medicines, including vaccines and rare disease therapeutics, for patients and partners.",
+   "evidence": "The Company operates in one business segment, which includes all activities related to the discovery, development and commercialization of messenger RNA medicines."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Pharmaceutical collaborators such as CSL Seqirus and government funders such as BARDA pay license fees, milestones, royalties and research reimbursement.",
+  "evidence": "The Company is entitled to receive license fees, consulting fees, product fees, technological transfer fees, upfront payments, milestone payments if and when certain research and development milestones, technology transfer milestones or success-based milestones are achieved, royalties on approved product sales and reimbursement for research and development activities."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001367859",
  "issuerName": "Citizens Community Bancorp Inc.",
- "builtAt": "2026-11-16T05:31:01.514Z",
+ "builtAt": "2026-11-16T10:49:16.129Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001367859-26-000017",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1367859/000136785926000017/czwi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "commercial real estate loans",
+    "commercial and industrial (C&I) loans",
+    "agricultural real estate loans",
+    "agricultural operating loans",
+    "residential mortgages",
+    "home equity lines-of-credit",
+    "consumer loans",
+    "demand deposits"
+   ],
+   "description": "Community bank lending, deposit taking and investing for businesses, agricultural operators and consumers in Wisconsin and Minnesota.",
+   "evidence": "We offer a variety of loan products including commercial real estate loans, commercial and industrial (C&I) loans, agricultural real estate loans, agricultural operating loans, residential mortgages, home equity lines-of-credit and consumer loans."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The Bank earns interest and fees by lending to and holding deposits for consumers, agricultural operators and small commercial borrowers in its market areas.",
+  "evidence": "We focus our lending activities on individual consumers and small commercial borrowers within our market areas."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001705110",
  "issuerName": "Angi Inc.",
- "builtAt": "2026-11-16T05:30:59.587Z",
+ "builtAt": "2026-11-16T10:47:44.376Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001705110-26-000011",
@@ -10,11 +10,53 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1705110/000170511026000011/angi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "Lead revenue",
+    "Advertising revenue",
+    "Services revenue",
+    "Membership subscription revenue",
+    "Angi",
+    "HomeAdvisor",
+    "Handy",
+    "Angie's List"
+   ],
+   "description": "Connects U.S. consumers with pre-screened home professionals through Angi, HomeAdvisor and Handy, selling leads, advertising, services and memberships to those Pros.",
+   "evidence": "During the fourth quarter of 2025, the Company changed the name of its \"Domestic\" segment to \"U.S.\" segment."
+  },
+  {
+   "name": "International",
+   "products": [
+    "HomeStars",
+    "MyBuilder",
+    "MyHammer",
+    "Travaux",
+    "Werkspot",
+    "Lead revenue",
+    "Membership subscription revenue"
+   ],
+   "description": "Operates home services marketplaces in Europe and Canada, connecting consumers with local professionals and selling leads and memberships to those Pros.",
+   "evidence": "We also own and operate the following international businesses that connect consumers with Pros: (i) HomeStars, MyBuilder, MyHammer, Travaux and Werkspot, leading home services marketplaces in Canada, the United Kingdom, Germany, France and the Netherlands, respectively"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pros pay for consumer matches, advertising and membership subscriptions, while consumers and retail partners pay for pre-priced services.",
+  "evidence": "U.S. revenue includes consumer connection revenue, which comprises fees paid by Pros for consumer matches (regardless of whether the Pro ultimately provides the requested service), revenue from Pros under contract for advertising, membership subscription revenue from Pros and consumers, and revenue from other services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company replaced its Ads and Leads, Services and International segments with Domestic and International.",
+   "evidence": "During the first quarter of 2025, the Company updated its segment reporting structure from \"Ads and Leads\", \"Services\", and \"International\" to \"Domestic\" and \"International\" to better reflect how it manages its business and how management evaluates performance and allocates resources."
+  },
+  {
+   "text": "In 2025, the Domestic segment was renamed the U.S. segment.",
+   "evidence": "During the fourth quarter of 2025, the Company changed the name of its \"Domestic\" segment to \"U.S.\" segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

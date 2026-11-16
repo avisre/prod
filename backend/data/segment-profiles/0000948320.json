@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000948320",
  "issuerName": "LifeMD, Inc.",
- "builtAt": "2026-11-16T05:31:01.066Z",
+ "builtAt": "2026-11-16T10:48:44.793Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-009549",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/948320/000149315226009549/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telehealth",
+   "products": [
+    "LifeMD",
+    "LifeMD+",
+    "Rex MD",
+    "Weight Management Program",
+    "behavioral health program",
+    "women's health platform"
+   ],
+   "description": "Provides virtual medical care, prescription medications and pharmacy services to patients through consumer telehealth brands, largely on recurring subscriptions.",
+   "evidence": "As a result, the Company's portfolio of brands within continuing operations are now managed as a 1 single operating segment on a consolidated basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Patients pay subscription fees and cash or insurance reimbursement for virtual medical consultations, prescription medications and pharmacy fulfillment.",
+  "evidence": "Approximately 95% of our total revenue is derived from recurring subscriptions."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold its majority ownership interest in WorkSimpli, which is classified as discontinued operations.",
+   "evidence": "On November 4, 2025, we sold our majority ownership interest in WorkSimpli to Lion Buyer, LLC."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

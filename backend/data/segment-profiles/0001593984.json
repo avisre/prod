@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001593984",
  "issuerName": "MEDIWOUND LTD.",
- "builtAt": "2026-11-16T05:31:00.028Z",
+ "builtAt": "2026-11-16T10:48:08.613Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-000749",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1593984/000117891326000749/zk2634458.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Burn Care",
+   "products": [
+    "NexoBrid",
+    "EscharEx",
+    "MW005"
+   ],
+   "description": "Develops, manufactures and sells NexoBrid and other enzymatic biologics that remove dead tissue in burn and chronic wound patients.",
+   "evidence": "Our flagship product, NexoBrid, is a topically administered biological orphan drug that enzymatically removes eschar while preserving viable tissue in patients with deep partial- and full-thickness thermal burns."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hospitals and physicians in approved markets pay for NexoBrid and other biologics used to treat burns and wounds.",
+  "evidence": "With robust in-house research, development, and manufacturing capabilities, the company produces and commercializes cutting-edge biologics for wound and burn care that exceed existing standards of care, improve patient outcomes, and reduce healthcare costs by eliminating the need for surgical interventions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

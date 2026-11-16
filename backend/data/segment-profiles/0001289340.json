@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001289340",
  "issuerName": "STEREOTAXIS, INC.",
- "builtAt": "2026-11-16T05:31:03.298Z",
+ "builtAt": "2026-11-16T10:50:26.880Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-009881",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1289340/000149315226009881/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Robotic Magnetic Navigation",
+   "products": [
+    "Genesis RMN",
+    "GenesisX RMN",
+    "Odyssey",
+    "Synchrony",
+    "SynX",
+    "Map-iT",
+    "MAGiC",
+    "EMAGIN"
+   ],
+   "description": "Designs, manufactures and markets robotic systems, instruments and information systems for hospital interventional laboratories, primarily for cardiac ablation procedures.",
+   "evidence": "The Company manages the business activities on a consolidated basis and operates in one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hospitals pay an upfront capital payment for equipment and installation plus recurring payments for disposables, service and software.",
+  "evidence": "This implementation requires a hospital to agree to an upfront capital payment and recurring payments."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

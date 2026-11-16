@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001500435",
  "issuerName": "GoPro, Inc.",
- "builtAt": "2026-11-16T05:31:01.026Z",
+ "builtAt": "2026-11-16T10:48:26.050Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001500435-26-000006",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1500435/000150043526000006/gpro-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cameras, mounts and accessories",
+   "products": [
+    "cameras",
+    "mounts and accessories",
+    "lifestyle gear",
+    "applications",
+    "subscription and services",
+    "HERO13 Black",
+    "HERO12 Black"
+   ],
+   "description": "Designs, markets and sells action cameras, mounts and accessories, lifestyle gear, apps and subscriptions to consumers and retailers worldwide.",
+   "evidence": "The Company operates as one operating segment as it only reports financial information on an aggregated and consolidated basis to its Chief Executive Officer, who is the Company's chief operating decision maker (CODM)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Consumers and retailers pay for cameras, mounts and accessories, and subscription and service plans, through retailers, distributors and GoPro.com.",
+  "evidence": "We sell our products globally through retailers, distributors, and on GoPro.com."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001750735",
  "issuerName": "Meridian Corp",
- "builtAt": "2026-11-16T05:31:00.440Z",
+ "builtAt": "2026-11-16T10:48:09.960Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001750735-26-000009",
@@ -10,10 +10,49 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1750735/000175073526000009/mrbk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "deposit and treasury management services",
+    "commercial and industrial lending and leasing",
+    "commercial real estate lending",
+    "small business lending",
+    "consumer and home equity lending",
+    "private banking",
+    "merchant services",
+    "title and land settlement services"
+   ],
+   "description": "Traditional banking operations providing loans, deposits and treasury services to commercial and consumer customers in its market area.",
+   "evidence": "The first line of business, or segment, is our traditional banking operations, serving both commercial and consumer customers."
+  },
+  {
+   "name": "Wealth Management and Advisory Services",
+   "products": [
+    "wealth management services and products",
+    "financial planning"
+   ],
+   "description": "Registered investment advisory subsidiary delivering wealth management and financial planning guidance to professionals, higher net worth individuals and bank customers.",
+   "evidence": "Meridian Wealth, a registered investment advisor and wholly-owned subsidiary of the Bank, provides a comprehensive array of wealth management services and products and the trusted guidance to help its clients and our banking customers prepare for the future."
+  },
+  {
+   "name": "Mortgage Banking",
+   "products": [
+    "consumer for-sale mortgage loans",
+    "loans to be held within our portfolio",
+    "wholesale mortgage loans",
+    "home equity loans"
+   ],
+   "description": "Originates residential mortgage loans for homeowners and smaller scale investors, selling most loans to secondary market investors while often retaining servicing.",
+   "evidence": "Originations consist of consumer for-sale mortgage loans, loans to be held within our portfolio, and wholesale mortgage loans and home equity loans."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients and customers pay the corporation for loans, deposits, treasury services, wealth management advice and mortgage originations, generating interest and non-interest revenue.",
+  "evidence": "We have a financial services business model with non-interest revenue streams from mortgage banking, the sale of SBA loan guarantees and wealth management services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

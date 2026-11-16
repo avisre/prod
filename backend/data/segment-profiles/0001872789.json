@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001872789",
  "issuerName": "EMBECTA CORP.",
- "builtAt": "2026-11-16T05:31:01.852Z",
+ "builtAt": "2026-11-16T10:49:29.820Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001872789-25-000036",
@@ -10,11 +10,33 @@
   "filingDate": "2025-11-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1872789/000187278925000036/embc-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diabetes care",
+   "products": [
+    "pen needles",
+    "syringes",
+    "safety injection devices",
+    "safety pen needles",
+    "insulin syringes",
+    "safety insulin syringes"
+   ],
+   "description": "Makes and sells pen needles, syringes and safety injection devices used for insulin administration by people living with diabetes.",
+   "evidence": "The Company operates and reports its financial information as one segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Healthcare providers, pharmacies, distributors and patients pay for pen needles, syringes and safety injection devices used to administer insulin.",
+  "evidence": "We distribute our products through a variety of channels, including retail, hospitals, pharmacies and other institutional channels."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company discontinued its patch pump program, ending its internal and external research and development investment.",
+   "evidence": "On November 22, 2024, the Company's Board of Directors approved a plan to discontinue internal and external investment in the research and development of the Company's patch pump program."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

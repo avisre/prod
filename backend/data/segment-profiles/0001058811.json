@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001058811",
  "issuerName": "Immersion Corporation",
- "builtAt": "2026-11-16T05:31:00.399Z",
+ "builtAt": "2026-11-16T10:48:38.631Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-316089",
@@ -10,11 +10,44 @@
   "filingDate": "2026-07-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1058811/000119312526316089/immr-20260430.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immersion",
+   "products": [
+    "haptic technologies",
+    "licenses",
+    "patented technology",
+    "Fixed fee license revenue",
+    "Per-unit royalty revenue"
+   ],
+   "description": "Licenses patented haptic technology so device makers, content and platform companies can build touch-based experiences for end users.",
+   "evidence": "Following the closing of the Transactions (as defined below) with Barnes & Noble Education, we operate our business in two operating segments: Immersion and Barnes & Noble Education."
+  },
+  {
+   "name": "Barnes & Noble Education",
+   "products": [
+    "Course material product sales",
+    "General merchandise product sales",
+    "Course materials rental income",
+    "Services and other revenue",
+    "textbooks"
+   ],
+   "description": "Operates physical and virtual campus bookstores and wholesales textbooks and inventory management systems to colleges, schools and students.",
+   "evidence": "Barnes & Noble Education is one of the largest contract operators of physical and virtual bookstores for college and university campuses and K-12 institutions across the United States."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Immersion licensing fees and per-unit royalties for its patented haptics; students and campuses pay Barnes & Noble Education for course materials, rentals and merchandise.",
+  "evidence": "We have adopted a business model under which we offer licenses that allow our customers to integrate Immersion's patented technology into their products."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company acquired a controlling interest in Barnes & Noble Education, adding a second reportable segment alongside Immersion.",
+   "evidence": "In June 2024, Immersion acquired a controlling interest in Barnes & Noble Education, Inc., a Delaware corporation (\"Barnes & Noble Education\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

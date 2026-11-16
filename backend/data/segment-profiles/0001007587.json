@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001007587",
  "issuerName": "KVH Industries, Inc.",
- "builtAt": "2026-11-16T05:30:59.329Z",
+ "builtAt": "2026-11-16T10:47:07.465Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001007587-26-000004",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1007587/000100758726000004/kvhi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Connectivity solutions",
+   "products": [
+    "KVH ONE",
+    "TracNet",
+    "TracVision",
+    "TracPhone",
+    "AgilePlans",
+    "KVH Link",
+    "TracNet Coastal",
+    "OpenNet"
+   ],
+   "description": "Provides satellite, cellular and Wi-Fi airtime services, entertainment content and antenna hardware to maritime commercial and leisure customers worldwide.",
+   "evidence": "For customer access to our airtime services, we currently offer a family of parabolic hybrid mobile satellite antenna products, which are marketed under the TracNet hybrid terminal network brand."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Maritime commercial and leisure customers pay subscription fees for airtime and content services, monthly all-inclusive AgilePlans fees, and prices for antennas and third-party hardware.",
+  "evidence": "We provide subscription plans that enable customers to obtain Internet and VoIP airtime services."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company announced a staged wind-down of its product manufacturing operations, discontinuing its manufacturing activities.",
+   "evidence": "In February 2024, we announced a staged wind-down of our product manufacturing operations at our Middletown, Rhode Island location."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

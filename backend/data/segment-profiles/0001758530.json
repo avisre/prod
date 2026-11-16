@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001758530",
  "issuerName": "So-Young International Inc.",
- "builtAt": "2026-11-16T05:30:59.593Z",
+ "builtAt": "2026-11-16T10:48:25.927Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-047129",
@@ -10,11 +10,55 @@
   "filingDate": "2026-04-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1758530/000110465926047129/sy-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Platform service group",
+   "products": [
+    "Information and reservation services"
+   ],
+   "description": "Generates revenue by providing information services and reservation services on the So-Young platform for medical aesthetic service providers.",
+   "evidence": "Segment of platform service group generates revenue primarily by providing information services and reservation services."
+  },
+  {
+   "name": "Aesthetic treatment services group",
+   "products": [
+    "Aesthetic treatment services"
+   ],
+   "description": "Consists of amounts earned from aesthetic treatment services provided to consumers.",
+   "evidence": "Segment of aesthetic treatment services group consists of amounts earned from aesthetic treatment services."
+  },
+  {
+   "name": "Wuhan Miracle",
+   "products": [
+    "Sales of medical products and maintenance services"
+   ],
+   "description": "Sells medical products and maintenance services, acquired by the Group in 2021, to medical aesthetic service providers.",
+   "evidence": "Prior to the year ended December 31, 2025, the Group had two reportable segments, namely So-Young and Wuhan Miracle."
+  },
+  {
+   "name": "Others",
+   "products": [
+    "Sales of medical products and maintenance services",
+    "Other services",
+    "medical aesthetic services",
+    "insurance brokerage services"
+   ],
+   "description": "Sells medical products, provides medical aesthetic services on So-Young Prime and offers insurance brokerage services.",
+   "evidence": "Others Segment of others generates revenue primarily through sales of medical products, provision of medical aesthetic services displayed on the So-Young Prime, and insurance brokerage services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Medical aesthetic service providers pay for information and reservation services on the platform, and users pay for aesthetic treatment services, medical products and maintenance.",
+  "evidence": "The Group generates revenue from offering information services primarily to help medical aesthetic service providers better introduce their services and increase their customer base."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Group replaced its two reportable segments, So-Young and Wuhan Miracle, with four reportable segments.",
+   "evidence": "Consequently, the Group presents four reportable segments as set out in Note 24 to reflect the change."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

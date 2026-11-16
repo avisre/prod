@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001022652",
  "issuerName": "INSEEGO CORP.",
- "builtAt": "2026-11-16T05:31:01.311Z",
+ "builtAt": "2026-11-16T10:49:26.238Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001022652-26-000005",
@@ -10,11 +10,33 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1022652/000102265226000005/insg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "5G WAN",
+   "products": [
+    "MiFi",
+    "Wavemaker",
+    "Inseego Connect",
+    "Inseego Subscribe",
+    "mobile hotspots",
+    "routers and gateways"
+   ],
+   "description": "Designs and sells cloud-managed wireless WAN devices and software to mobile operators, enterprises and small and medium businesses.",
+   "evidence": "As such, our operations constitute a single operating segment and one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Mobile operators, distribution and channel partners pay for mobile hotspots, fixed wireless routers and gateways, and associated cloud software.",
+  "evidence": "Our Mobile Solutions customer base is primarily comprised of mobile operators."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold its Telematics Business, which had operations in the United Kingdom, the European Union, Australia and New Zealand.",
+   "evidence": "Upon completion of the sale, which occurred on November 27, 2024, the Purchaser acquired the Company's telematics solutions business (the \"Telematics Business\"), which had operations in the United Kingdom, the European Union, Australia and New Zealand."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

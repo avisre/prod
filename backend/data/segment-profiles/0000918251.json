@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000918251",
  "issuerName": "MOTORCAR PARTS OF AMERICA, INC.",
- "builtAt": "2026-11-16T05:31:00.487Z",
+ "builtAt": "2026-11-16T10:48:39.092Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001140361-26-024463",
@@ -10,10 +10,29 @@
   "filingDate": "2026-06-08",
   "url": "https://www.sec.gov/Archives/edgar/data/918251/000114036126024463/ef20070436_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hard Parts",
+   "products": [
+    "alternators",
+    "starters",
+    "brake calipers",
+    "brake boosters",
+    "brake rotors",
+    "brake pads",
+    "brake master cylinders",
+    "wheel hub assemblies and bearings"
+   ],
+   "description": "Supplies light-duty rotating electrical parts and brake-related hard parts to automotive aftermarket retail chains, warehouse distributors and professional installers.",
+   "evidence": "Our Hard Parts operating segment meets the criteria of a reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Automotive chains, warehouse distributors, warranty replacement programs and professional installers pay for replacement hard parts.",
+  "evidence": "We sell our hard parts products to the largest automotive chains, including Advance Auto Parts, AutoZone, Genuine Parts (NAPA), and O'Reilly Auto Parts"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

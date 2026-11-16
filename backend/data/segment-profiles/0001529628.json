@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001529628",
  "issuerName": "SMART SAND, INC.",
- "builtAt": "2026-11-16T05:30:59.995Z",
+ "builtAt": "2026-11-16T10:47:42.408Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001529628-26-000006",
@@ -10,11 +10,43 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1529628/000152962826000006/snd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sand",
+   "products": [
+    "Northern White sand",
+    "frac sand",
+    "Industrial Products Solutions",
+    "custom blends"
+   ],
+   "description": "Produces and sells Northern White frac sand and industrial sand products to oil and gas, oilfield service and industrial customers, with logistics.",
+   "evidence": "The Sand segment includes both frac sand sales and IPS sales."
+  },
+  {
+   "name": "SmartSystems",
+   "products": [
+    "SmartDepot® and SmartDepotXL™ silo systems",
+    "SmartBelt™ conveyor",
+    "SmartPath® wellsite proppant management system",
+    "rapid deployment trailers",
+    "dual bucket elevators"
+   ],
+   "description": "Rents patented wellsite proppant storage and handling equipment and related services that let customers unload, store and deliver proppant at the wellsite.",
+   "evidence": "The SmartSystems segment revenue is primarily from the rental of our patented SmartSystems equipment and related services provided to customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Oil and natural gas exploration and production companies, oilfield service companies and industrial customers pay for frac sand, logistics and SmartSystems rental.",
+  "evidence": "We market our products and services to oil and natural gas exploration and production companies, oilfield service companies and diversified industrial and commercial customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company changed its segment reporting to two reportable segments, Sand and SmartSystems.",
+   "evidence": "The Company has two reportable segments, Sand and SmartSystems as of December 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001066194",
  "issuerName": "eGain Corporation",
- "builtAt": "2026-11-16T05:31:02.678Z",
+ "builtAt": "2026-11-16T10:50:12.440Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-106739",
@@ -10,10 +10,28 @@
   "filingDate": "2026-09-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1066194/000110465926106739/egan-20260630x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Customer service infrastructure software",
+   "products": [
+    "eGain AI Agent™",
+    "eGain AI Knowledge Hub™",
+    "eGain Conversation Hub™",
+    "eGain AI Agent 2™ with Assured Actions™",
+    "eGain Composer™",
+    "Agentic Studio™",
+    "eGain Evaluator™"
+   ],
+   "description": "Develops, licenses, implements and supports customer service infrastructure software solutions that centralize enterprise knowledge for customer service, employee support and AI-powered automation.",
+   "evidence": "We operate in one segment, the development, license, implementation, and support of our customer service infrastructure software solutions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Enterprises and government organizations pay for cloud-delivered SaaS and for consulting, implementation, training, and managed services.",
+  "evidence": "SaaS revenue includes cloud delivery arrangements, term licenses, embedded OEM royalties, and associated support."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

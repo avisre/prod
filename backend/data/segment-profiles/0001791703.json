@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001791703",
  "issuerName": "Titan Mining Corporation",
- "builtAt": "2026-11-16T05:30:59.259Z",
+ "builtAt": "2026-11-16T10:49:32.112Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001213900-26-031504",
@@ -12,9 +12,12 @@
  },
  "status": "no-segments",
  "segments": [],
- "productRevenueBrokenOut": false,
+ "productRevenueBrokenOut": true,
  "revenueModel": null,
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "segment name not in text: mineral production and exploration in the United States",
+  "revenue model not grounded"
+ ],
  "reader": "agent"
 }

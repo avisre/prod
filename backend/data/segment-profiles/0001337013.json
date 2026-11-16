@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001337013",
  "issuerName": "INFUSYSTEM HOLDINGS, INC",
- "builtAt": "2026-11-16T05:31:03.221Z",
+ "builtAt": "2026-11-16T10:50:33.118Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012804",
@@ -10,10 +10,37 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1337013/000162828026012804/infu-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Patient Services",
+   "products": [
+    "electronic ambulatory infusion pumps",
+    "disposable supply kits",
+    "Negative Pressure Wound Therapy",
+    "Advanced Wound Care dressings",
+    "Pneumatic Compression Devices",
+    "post-surgical continuous peripheral nerve block"
+   ],
+   "description": "Provides last-mile clinic-to-home durable medical equipment, chiefly ambulatory infusion pumps for oncology, plus wound care devices, to clinics, hospitals and alternate-site providers.",
+   "evidence": "The leading service within our Patient Services segment is supplying electronic ambulatory infusion pumps and associated disposable supply kits to private oncology clinics, infusion clinics and hospital outpatient oncology clinics to be utilized in the treatment of a variety of cancers, including colorectal cancer and other disease states (\"Oncology Business\")."
+  },
+  {
+   "name": "Device Solutions",
+   "products": [
+    "equipment rental and sales",
+    "consumable sales",
+    "biomedical support services"
+   ],
+   "description": "Rents and sells equipment and consumables and provides biomedical support services directly to healthcare provider customers on a direct payer model.",
+   "evidence": "Device Solutions include equipment rental and sales, consumable sales, and biomedical support services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patients, medical facilities and commercial and government payers pay for infusion pump rentals, product sales and services.",
+  "evidence": "The Company's customers include medical facilities or patients, depending on the arrangement, and payments are received from different sources which include commercial payers, government insurance payers, medical facilities and patients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

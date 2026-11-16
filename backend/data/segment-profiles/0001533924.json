@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001533924",
  "issuerName": "Amplify Energy Corp.",
- "builtAt": "2026-11-16T05:31:02.010Z",
+ "builtAt": "2026-11-16T10:50:31.538Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-025299",
@@ -10,11 +10,38 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1533924/000110465926025299/ampy-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and natural gas",
+   "products": [
+    "oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Independent oil and natural gas company that acquires, develops, exploits and produces oil and natural gas properties at Bairoil and Beta for customers.",
+   "evidence": "Our management evaluates performance based on one reportable business segment, as the economic environments are not different within the operation of our oil and natural gas properties."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company sells oil, natural gas and NGLs from its properties to a small number of significant customers who pay for production sales.",
+  "evidence": "We are dependent upon a small number of significant customers for the majority of our production sales."
+ },
+ "changes": [
+  {
+   "text": "Sold its non-operated Eagle Ford assets in 2025.",
+   "evidence": "In July 2025, we closed a transaction to divest our non-operated Eagle Ford assets for a total purchase price of $23.0 million, excluding $1.9 million of final post-closing adjustments, resulting in a final adjusted purchase price of $21.1 million."
+  },
+  {
+   "text": "Sold its East Texas and Louisiana oil and gas properties to EQV Alpha LLC in 2025.",
+   "evidence": "On October 28, 2025, OLLC and Magnify (together with OLLC, the \"EQV Sellers\"), entered into a purchase and sale agreement (as subsequently amended, the \"EQV Purchase and Sale Agreement\") with EQV Alpha LLC, a Delaware limited liability company (\"Alpha\"), pursuant to which the EQV Sellers sold to Alpha certain assets of the EQV Sellers, which include, among other things, the EQV Sellers' right, title and interest in and to certain specified oil and gas properties and equipment within or related t"
+  },
+  {
+   "text": "Sold its Oklahoma oil and gas properties to Revolution Resources III, LLC in 2025.",
+   "evidence": "During 2025, as discussed below, we completed several divestiture transactions, including the sale of our non-operated Eagle Ford assets in July 2025, our East Texas/North Louisiana assets in December 2025, and our Oklahoma assets in December 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

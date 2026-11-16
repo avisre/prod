@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002012219",
  "issuerName": "OMS Energy Technologies Inc.",
- "builtAt": "2026-11-16T05:31:01.700Z",
+ "builtAt": "2026-11-16T10:50:12.047Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-282941",
@@ -10,11 +10,86 @@
   "filingDate": "2026-06-25",
   "url": "https://www.sec.gov/Archives/edgar/data/2012219/000119312526282941/omse-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Saudi Arabia",
+   "products": [
+    "Specialty connectors and pipes",
+    "Surface wellhead and Christmas tree",
+    "Premium threading services",
+    "Other ancillary services"
+   ],
+   "description": "Supplies oilfield equipment and premium threading and ancillary services to oil and gas customers operating in Saudi Arabia.",
+   "evidence": "The Predecessor and the Successor operate in six reportable segments based on geographical regions."
+  },
+  {
+   "name": "Singapore",
+   "products": [
+    "Specialty connectors and pipes",
+    "Surface wellhead and Christmas tree",
+    "Premium threading services",
+    "Other ancillary services"
+   ],
+   "description": "Supplies oilfield equipment and premium threading and ancillary services to oil and gas customers from its Singapore operations.",
+   "evidence": "The Predecessor and the Successor operate in six reportable segments based on geographical regions."
+  },
+  {
+   "name": "Malaysia",
+   "products": [
+    "Specialty connectors and pipes",
+    "Surface wellhead and Christmas tree",
+    "Premium threading services",
+    "Other ancillary services"
+   ],
+   "description": "Supplies oilfield equipment and premium threading and ancillary services to oil and gas customers in Malaysia.",
+   "evidence": "The Predecessor and the Successor operate in six reportable segments based on geographical regions."
+  },
+  {
+   "name": "Thailand",
+   "products": [
+    "Specialty connectors and pipes",
+    "Surface wellhead and Christmas tree",
+    "Premium threading services",
+    "Other ancillary services"
+   ],
+   "description": "Supplies oilfield equipment and premium threading and ancillary services to oil and gas customers in Thailand.",
+   "evidence": "The Predecessor and the Successor operate in six reportable segments based on geographical regions."
+  },
+  {
+   "name": "Indonesia",
+   "products": [
+    "Specialty connectors and pipes",
+    "Surface wellhead and Christmas tree",
+    "Premium threading services",
+    "Other ancillary services"
+   ],
+   "description": "Supplies oilfield equipment and premium threading and ancillary services to oil and gas customers in Indonesia.",
+   "evidence": "The Predecessor and the Successor operate in six reportable segments based on geographical regions."
+  },
+  {
+   "name": "Cayman and others",
+   "products": [
+    "Specialty connectors and pipes",
+    "Surface wellhead and Christmas tree",
+    "Premium threading services",
+    "Other ancillary services"
+   ],
+   "description": "Covers the holding company and a minor business region, selling oilfield equipment and threading services.",
+   "evidence": "The Predecessor and the Successor operate in six reportable segments based on geographical regions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Oil and gas customers pay for oilfield equipment products and for premium threading and other ancillary services.",
+  "evidence": "Sale of oilfield equipment products Specialty connectors and pipes"
+ },
+ "changes": [
+  {
+   "text": "In 2026 the Others segment covered Brunei only, after Australia was no longer reported within it.",
+   "evidence": "Others refers to a minor business region which is Brunei (2025 and 2024: Brunei and Australia)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

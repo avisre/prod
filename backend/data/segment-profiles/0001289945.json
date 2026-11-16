@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001289945",
  "issuerName": "SPOK HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:30:59.474Z",
+ "builtAt": "2026-11-16T10:46:53.262Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001289945-26-000010",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1289945/000128994526000010/spok-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "clinical communications and collaboration solutions",
+   "products": [
+    "wireless messaging services",
+    "software licenses",
+    "professional services",
+    "post-contract support",
+    "paging services",
+    "secure texting",
+    "contact center optimization",
+    "workflow improvement"
+   ],
+   "description": "Provides clinical communication and collaboration solutions, including wireless messaging and software, to hospitals, government agencies and large enterprises.",
+   "evidence": "We identify our business as a single segment, clinical communications and collaboration solutions, which includes operating revenues from our wireless and software solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hospitals, government agencies and large enterprises pay subscription, messaging, equipment and software fees for clinical communication and collaboration solutions.",
+  "evidence": "We generate wireless revenue from the sales of wireless messaging services, equipment, maintenance plans and/or equipment loss protection to both one-way and two-way messaging subscribers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

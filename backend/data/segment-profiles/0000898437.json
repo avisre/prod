@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000898437",
  "issuerName": "Anika Therapeutics, Inc.",
- "builtAt": "2026-11-16T05:31:01.889Z",
+ "builtAt": "2026-11-16T10:49:46.712Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001171843-26-001275",
@@ -10,11 +10,43 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/898437/000117184326001275/anik20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hyaluronic acid",
+   "products": [
+    "Orthovisc",
+    "Monovisc",
+    "Cingal",
+    "Integrity",
+    "Hyalofast",
+    "Tactoset",
+    "Hyvisc",
+    "Hyalobarrier"
+   ],
+   "description": "Single reportable business segment making HA-based products for osteoarthritis pain management, regenerative orthopedic repair and non-orthopedic surgical applications, sold to clinicians, distributors and partners.",
+   "evidence": "The Company has determined that it only has one operating segment and is managed on a consolidated basis, the measure of profit or loss is consolidated net income or loss."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "J&J MedTech buys Monovisc and Orthovisc for U.S. marketing, while international distributors and clinicians buy the OA pain, regenerative and non-orthopedic products.",
+  "evidence": "Internationally, we market our OA Pain Management products directly through a worldwide network of commercial distributors, and our international sales team has successfully expanded into new countries, driving double-digit growth in recent years."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold Arthrosurface Incorporated as part of a shift to focus on OA Pain Management and Regenerative Solutions.",
+   "evidence": "This strategic decision involved the sale of Arthrosurface Incorporated on October 31, 2024 and the sale of Parcus Medical, LLC on March 7, 2025, both of which were acquired in early 2020 under a previous management strategy."
+  },
+  {
+   "text": "In 2025 the Company completed the sale of Parcus Medical, LLC.",
+   "evidence": "we completed the sale of all of the outstanding equity interests of Parcus Medical, LLC, a Wisconsin limited liability company and former wholly-owned subsidiary of the Company"
+  },
+  {
+   "text": "In 2025 the Company sold the Aristospan New Drug Application after acquiring it in 2024.",
+   "evidence": "In April 2025, we subsequently sold the Aristospan NDA to a third party manufacturer who will supply the reference drug for the bioequivalence study."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
