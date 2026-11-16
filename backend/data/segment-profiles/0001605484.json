@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001605484",
+ "issuerName": "Stellantis N.V.",
+ "builtAt": "2026-11-16T04:49:54.670Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001605484-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1605484/000160548426000021/stellantis-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "vehicles"
+   ],
+   "description": "Builds and sells vehicles in North America.",
+   "evidence": "Overview of Our Business Stellantis' activities during the year ended December 31, 2025 , were carried out through the following six reportable segments: 12 (i) North America: Stellantis' operations to manufacture, distribute and sell vehicles in the United States, Canada and Mexico, primarily under the Jeep, Ram, Dodge, Chrysler, FIAT and Alfa Romeo brands."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy vehicles through dealers.",
+  "evidence": "Overview of Our Business Stellantis' activities during the year ended December 31, 2025 , were carried out through the following six reportable segments: 12 (i) North America: Stellantis' operations to manufacture, distribute and sell vehicles in the United States, Canada and Mexico, primarily under the Jeep, Ram, Dodge, Chrysler, FIAT and Alfa Romeo brands."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

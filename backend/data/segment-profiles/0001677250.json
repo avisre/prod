@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001677250",
+ "issuerName": "ZTO Express (Cayman) Inc.",
+ "builtAt": "2026-11-16T04:49:55.505Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044613",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1677250/000110465926044613/zto-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "express delivery",
+   "products": [
+    "express delivery services"
+   ],
+   "description": "Provides express parcel delivery in China.",
+   "evidence": "Segment Information The Company's Chief Executive Officer, who has been identified as the chief operating decision maker (\"CODM\"), reviews the consolidated results when making decisions about allocating resources and assessing performance of the Compan"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "E-commerce merchants and shippers pay per parcel.",
+  "evidence": "Segment Information The Company's Chief Executive Officer, who has been identified as the chief operating decision maker (\"CODM\"), reviews the consolidated results when making decisions about allocating resources and assessing performance of the Compan"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

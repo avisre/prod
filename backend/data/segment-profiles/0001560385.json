@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001560385",
+ "issuerName": "Liberty Media Corp",
+ "builtAt": "2026-11-16T04:49:55.110Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020653",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1560385/000110465926020653/lmca-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Formula 1",
+   "products": [
+    "race promotion",
+    "broadcasting",
+    "sponsorship",
+    "hospitality"
+   ],
+   "description": null,
+   "evidence": "Formula 1 also generates revenue from a variety of other sources, including the operation of the Formula 1 Paddock Club hospitality program (the \"Paddock Club\"), freight, logistical and travel related services for the Formula 1 Teams and other third parties, the F2 and F3 race series, which run principally as support races during Formula 1 Event weekends, F1 Academy, various television production and post-production activities"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "reader": "agent"
+}

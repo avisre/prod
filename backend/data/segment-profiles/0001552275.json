@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001552275",
+ "issuerName": "SUNOCO LP",
+ "builtAt": "2026-11-16T04:49:59.122Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001552275-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1552275/000155227526000021/sun-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fuel Distribution",
+   "products": [
+    "motor fuel"
+   ],
+   "description": "Distributes motor fuel to dealers and distributors.",
+   "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+  },
+  {
+   "name": "Pipeline Systems",
+   "products": [
+    "pipelines"
+   ],
+   "description": "Runs refined product pipelines.",
+   "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+  },
+  {
+   "name": "Terminals",
+   "products": [],
+   "description": "Operates terminals and storage.",
+   "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+  },
+  {
+   "name": "Refinery",
+   "products": [
+    "refined products"
+   ],
+   "description": "Runs its refinery.",
+   "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dealers, distributors and shippers pay for fuel and transport.",
+  "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Terminals): terminals"
+ ],
+ "reader": "agent"
+}

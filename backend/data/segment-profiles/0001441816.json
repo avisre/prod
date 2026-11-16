@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001441816",
+ "issuerName": "MONGODB, INC.",
+ "builtAt": "2026-11-16T04:49:54.119Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016799",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1441816/000162828026016799/mdb-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MongoDB",
+   "products": [
+    "database platform"
+   ],
+   "description": "Sells its developer data platform by subscription.",
+   "evidence": "The Company first assesses the qualitative factors to determine whether it is more likely than not that the fair value of the Company's single operating segment is less than its carrying amount as a basis for determining whether it is necessary to perform the quantitative goodwill impairment test."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Developers and enterprises pay subscriptions for its database platform.",
+  "evidence": "The Company first assesses the qualitative factors to determine whether it is more likely than not that the fair value of the Company's single operating segment is less than its carrying amount as a basis for determining whether it is necessary to perform the quantitative goodwill impairment test."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

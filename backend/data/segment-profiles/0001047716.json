@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001047716",
+ "issuerName": "LATAM Airlines Group S.A.",
+ "builtAt": "2026-11-16T04:49:56.204Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001047716-26-000046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1047716/000104771626000046/ltm-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

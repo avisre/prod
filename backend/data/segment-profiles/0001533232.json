@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001533232",
+ "issuerName": "BROOKFIELD RENEWABLE PARTNERS L.P.",
+ "builtAt": "2026-11-16T04:49:54.089Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001533232-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1533232/000153323226000011/bep-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

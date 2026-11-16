@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001576280",
+ "issuerName": "GUARDANT HEALTH, INC.",
+ "builtAt": "2026-11-16T04:49:55.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001576280-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1576280/000157628026000013/gh-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001015922",
+ "issuerName": "CHECK POINT SOFTWARE TECHNOLOGIES LTD.",
+ "builtAt": "2026-11-16T04:49:58.160Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001932",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1015922/000117891326001932/zk2634942.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "network and data security",
+   "products": [
+    "network and data security products",
+    "licenses",
+    "software updates",
+    "maintenance",
+    "security subscriptions"
+   ],
+   "description": "Sells network and data security products and subscriptions.",
+   "evidence": "The Company operates in one operating and reportable segment and its revenues are mainly derived from the sales of its network and data security products, including licenses, related software updates, maintenance and security subscriptions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and channel partners pay for licences and subscriptions.",
+  "evidence": "The Company operates in one operating and reportable segment and its revenues are mainly derived from the sales of its network and data security products, including licenses, related software updates, maintenance and security subscriptions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001744676",
+ "issuerName": "Tencent Music Entertainment Group",
+ "builtAt": "2026-11-16T04:50:11.721Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-160257",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1744676/000119312526160257/tme-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "music",
+   "products": [
+    "online music",
+    "social entertainment"
+   ],
+   "description": "Sells music subscriptions, live streaming and virtual gifts.",
+   "evidence": "nt such as interactive product offerings. Our chief operating decision maker has determined that we have only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Listeners pay subscriptions and users buy virtual gifts.",
+  "evidence": "We generate our social entertainment and other services revenues through live streaming, online karaoke and certain other services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

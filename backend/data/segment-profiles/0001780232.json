@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001780232",
+ "issuerName": "GFL Environmental Inc.",
+ "builtAt": "2026-11-16T04:49:58.758Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-016748",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1780232/000110465926016748/gfl-20251231xex99d3.htm",
+  "exhibit": "gfl-20251231xex99d3.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

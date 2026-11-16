@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001032975",
+ "issuerName": "LOGITECH INTERNATIONAL S.A.",
+ "builtAt": "2026-11-16T04:49:55.892Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001032975-26-000021",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1032975/000103297526000021/logi-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Peripherals",
+   "products": [
+    "Logitech",
+    "Logitech G"
+   ],
+   "description": "Sells computer peripherals and accessories.",
+   "evidence": "These products are all classified under a single operating segment: Peripherals (see Note 15 to our consolidated financial statements)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and businesses buy its peripherals through retailers and distributors.",
+  "evidence": "These products are all classified under a single operating segment: Peripherals (see Note 15 to our consolidated financial statements)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Peripherals): peripherals"
+ ],
+ "reader": "agent"
+}

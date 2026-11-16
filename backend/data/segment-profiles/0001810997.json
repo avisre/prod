@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001810997",
+ "issuerName": "XPENG INC.",
+ "builtAt": "2026-11-16T04:49:56.020Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-157849",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1810997/000119312526157849/d36361d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "XPeng",
+   "products": [
+    "electric vehicles"
+   ],
+   "description": "Designs and sells smart electric vehicles.",
+   "evidence": "Based on the criteria established by ASC 280, the Group's chief operating decision maker (\"CODM\") has been identified as the Chief Executive Officer, who reviews consolidated revenue, gross profit and net l"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its vehicles and related services.",
+  "evidence": "Based on the criteria established by ASC 280, the Group's chief operating decision maker (\"CODM\") has been identified as the Chief Executive Officer, who reviews consolidated revenue, gross profit and net l"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

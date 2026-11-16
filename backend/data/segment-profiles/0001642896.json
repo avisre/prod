@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001642896",
+ "issuerName": "SAMSARA INC.",
+ "builtAt": "2026-11-16T04:49:55.470Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018167",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1642896/000162828026018167/iot-20260131.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

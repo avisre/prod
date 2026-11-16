@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001096343",
+ "issuerName": "MARKEL GROUP INC.",
+ "builtAt": "2026-11-16T04:49:54.551Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001096343-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1096343/000109634326000020/mkl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Markel Insurance",
+   "products": [
+    "insurance"
+   ],
+   "description": "Writes specialty insurance.",
+   "evidence": "10K - 3 Markel Group reports its business operations in four segments: Markel Insurance, Industrial, Financial, and Consumer and Other."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "industrial products"
+   ],
+   "description": "Owns industrial businesses.",
+   "evidence": "10K - 3 Markel Group reports its business operations in four segments: Markel Insurance, Industrial, Financial, and Consumer and Other."
+  },
+  {
+   "name": "Financial",
+   "products": [
+    "financial services"
+   ],
+   "description": "Owns financial services businesses.",
+   "evidence": "10K - 3 Markel Group reports its business operations in four segments: Markel Insurance, Industrial, Financial, and Consumer and Other."
+  },
+  {
+   "name": "Consumer and Other",
+   "products": [
+    "consumer products"
+   ],
+   "description": "Owns consumer and other businesses.",
+   "evidence": "10K - 3 Markel Group reports its business operations in four segments: Markel Insurance, Industrial, Financial, and Consumer and Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums and customers buy its products.",
+  "evidence": "The following table presents a summary of key financial data for our segments over the last five years."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

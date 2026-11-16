@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001878848",
+ "issuerName": "IREN Limited",
+ "builtAt": "2026-11-16T04:49:55.044Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001878848-26-000052",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data Centers",
+   "products": [],
+   "description": "Builds and operates data centers for computing.",
+   "evidence": "Data Centers We develop, own and operate our data centers, including the associated land, grid connections and substations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Computing customers pay for data centre capacity.",
+  "evidence": "In Oklahoma, where the electricity market is also regulated, the utility through which we operate is the Public Service Company of Oklahoma."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Data Centers): data centers"
+ ],
+ "reader": "agent"
+}

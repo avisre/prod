@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001635327",
+ "issuerName": "Flutter Entertainment plc",
+ "builtAt": "2026-11-16T04:49:55.776Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001635327-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1635327/000163532726000005/flut-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FanDuel",
+   "products": [
+    "sportsbook",
+    "iGaming"
+   ],
+   "description": "Runs FanDuel sportsbook and iGaming in the U.S.",
+   "evidence": "These products are offered by FanDuel (sportsbook, iGaming and other products), Sky Betting & Gaming (sportsbook and iGaming products), Sportsbet (spor"
+  },
+  {
+   "name": "Sky Betting & Gaming",
+   "products": [
+    "sportsbook",
+    "iGaming"
+   ],
+   "description": "Runs Sky Bet and iGaming brands in the UK and Ireland.",
+   "evidence": "These products are offered by FanDuel (sportsbook, iGaming and other products), Sky Betting & Gaming (sportsbook and iGaming products), Sportsbet (spor"
+  },
+  {
+   "name": "Sportsbet",
+   "products": [
+    "sportsbook"
+   ],
+   "description": "Runs Sportsbet in Australia.",
+   "evidence": "These products are offered by FanDuel (sportsbook, iGaming and other products), Sky Betting & Gaming (sportsbook and iGaming products), Sportsbet (spor"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers place bets and the company keeps a margin.",
+  "evidence": "We operate some of the world's most distinctive online sports betting and iGaming brands which offer our principal product categories of sportsbook, iGaming and other products (exchange betting, pari-mutuel wagering, daily fantasy sports (\"DFS\") and prediction markets in the U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001791706",
+ "issuerName": "Li Auto Inc.",
+ "builtAt": "2026-11-16T04:49:55.817Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-041705",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1791706/000110465926041705/li-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Li Auto",
+   "products": [
+    "vehicles",
+    "embedded products and services"
+   ],
+   "description": "Builds and sells electric vehicles.",
+   "evidence": "The Group as a one reportable segment derives revenue from sales of vehicles and embedded products and services, as well as other sales and services which are sold or provided separately, which include pro"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its vehicles and related services.",
+  "evidence": "The Group as a one reportable segment derives revenue from sales of vehicles and embedded products and services, as well as other sales and services which are sold or provided separately, which include pro"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

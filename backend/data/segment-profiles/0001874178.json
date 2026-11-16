@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001874178",
+ "issuerName": "Rivian Automotive, Inc. / DE",
+ "builtAt": "2026-11-16T04:49:55.328Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001874178-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive",
+   "products": [
+    "electric vehicles"
+   ],
+   "description": "Designs, builds and sells electric vehicles.",
+   "evidence": "The Company analyzes the results of the business through two reportable segments, Automotive and Software and Services."
+  },
+  {
+   "name": "Software and Services",
+   "products": [],
+   "description": "Sells software, services and charging.",
+   "evidence": "The Company analyzes the results of the business through two reportable segments, Automotive and Software and Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy vehicles; owners pay for software and services.",
+  "evidence": "We sell these credits to other regulated entities who can use the credits to comply with emission standards and other regulatory requirements."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Software and Services): software and services"
+ ],
+ "reader": "agent"
+}

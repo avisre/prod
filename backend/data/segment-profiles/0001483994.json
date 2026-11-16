@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001483994",
+ "issuerName": "H World Group Ltd",
+ "builtAt": "2026-11-16T04:49:58.406Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-048058",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1483994/000110465926048058/htht-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "legacy Huazhu",
+   "products": [
+    "hotel franchising",
+    "manachising"
+   ],
+   "description": "Runs its legacy Huazhu hotel brands.",
+   "evidence": "After our acquisition of Deutsche Hospitality hotels in January 2020, we modified our operating segment structure into two operating segments⸺legacy Huazhu and legacy DH."
+  },
+  {
+   "name": "legacy DH",
+   "products": [
+    "hotel operations"
+   ],
+   "description": "Runs Deutsche Hospitality hotels.",
+   "evidence": "After our acquisition of Deutsche Hospitality hotels in January 2020, we modified our operating segment structure into two operating segments⸺legacy Huazhu and legacy DH."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Franchisees pay fees; guests pay room rates.",
+  "evidence": "Under the manachise and franchise models, we generate revenues from franchise and service fees we charge to each manachised and franchised hotel while the franchisee bears substantially all the capital expenditures and pre-opening and operational expenses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

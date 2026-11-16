@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001776985",
+ "issuerName": "BioNTech SE",
+ "builtAt": "2026-11-16T04:49:54.378Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001776985-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698526000017/bntx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "BioNTech",
+   "products": [
+    "medicines",
+    "vaccines"
+   ],
+   "description": "Develops and sells medicines and vaccines.",
+   "evidence": "Accordingly, we operate and make decisions as a single operating segment, which is also our reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Governments, partners and pharmacies pay for its products.",
+  "evidence": "Information about Our Operating Segments Decisions with respect to business operations and resource allocations are made by our Management Board, as the chief operating decision maker based on BioNTech as a whole."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

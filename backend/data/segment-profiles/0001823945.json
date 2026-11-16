@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001823945",
+ "issuerName": "BLUE OWL CAPITAL INC.",
+ "builtAt": "2026-11-16T04:49:56.090Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001823945-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823945/000182394526000009/owl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "credit",
+   "products": [
+    "direct lending",
+    "private funds"
+   ],
+   "description": "Provides credit and capital solutions through its funds.",
+   "evidence": "As a result, we currently operate as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fund investors pay management fees and its balance sheet earns interest.",
+  "evidence": "We provide these solutions through our Permanent Capital vehicles and long-dated private funds, which we believe provide our business with a high degree of earnings stability and predictability."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

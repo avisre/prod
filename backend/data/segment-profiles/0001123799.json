@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001123799",
+ "issuerName": "WIPRO LIMITED",
+ "builtAt": "2026-11-16T04:49:54.935Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-253514",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1123799/000119312526253514/wit-20260331.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

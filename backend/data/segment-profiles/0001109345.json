@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001109345",
+ "issuerName": "NOVA LTD.",
+ "builtAt": "2026-11-16T04:49:55.618Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-000504",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1109345/000117891326000504/zk2634307.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nova",
+   "products": [],
+   "description": "Sells measurement and process control systems for chip making.",
+   "evidence": "Segments The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Chip makers buy its metrology systems.",
+  "evidence": "The Company operates in one operating segment, and this segment comprises one reporting unit."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Nova): metrology and process control equipment"
+ ],
+ "reader": "agent"
+}

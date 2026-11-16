@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001590364",
+ "issuerName": "FTAI AVIATION LTD.",
+ "builtAt": "2026-11-16T04:49:54.082Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012940",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1590364/000162828026012940/ftai-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace Products",
+   "products": [],
+   "description": "Makes and leases aerospace products.",
+   "evidence": "As of and for the year ended December 31, 2025, there was one customer representing 23% of total accounts receivable, net, and we earned 13% and 10% of total revenue from two customers in the Aerospace Products segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Airlines and operators pay for aircraft products and management services.",
+  "evidence": "We provide aircraft management services to the 2025 Partnership, and the Company receives customary, market-based compensation for providing such services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Aerospace Products): aerospace products"
+ ],
+ "reader": "agent"
+}

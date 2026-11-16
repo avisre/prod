@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001673358",
+ "issuerName": "Yum China Holdings, Inc.",
+ "builtAt": "2026-11-16T04:49:56.157Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082824",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1673358/000119312526082824/yumc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "KFC",
+   "products": [],
+   "description": "Runs and franchises KFC restaurants in China.",
+   "evidence": "We have two reportable segments: KFC and Pizza Hut."
+  },
+  {
+   "name": "Pizza Hut",
+   "products": [
+    "pizza"
+   ],
+   "description": "Runs and franchises Pizza Hut restaurants in China.",
+   "evidence": "We have two reportable segments: KFC and Pizza Hut."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests buy food; franchisees pay royalties.",
+  "evidence": "Our non-reportable operating segments, including the operations of Lavazza, Huang Ji Huang, Little Sheep, Taco Bell and our delivery operating segment, and for 2024, also including e-commerce segment, are combined and referred to as All Other Segments, as these operating segments are insignificant both individually and in the aggregate."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (KFC): fried chicken"
+ ],
+ "reader": "agent"
+}

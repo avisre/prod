@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001104506",
+ "issuerName": "INSMED INC",
+ "builtAt": "2026-11-16T04:49:54.371Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104506-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1104506/000110450626000009/insm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insmed",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops and sells medicines for rare diseases.",
+   "evidence": "Segment Reporting The Company manages its business activities on a consolidated basis and operates as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "The Company has a single management team that reports to the Chief Executive Officer, the chief operating decision maker (CODM), who comprehensively manages the entire business."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

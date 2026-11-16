@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0002080845",
+ "issuerName": "PayPay Corporation",
+ "builtAt": "2026-11-16T04:49:58.345Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-289382",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2080845/000119312526289382/payp-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payment",
+   "products": [
+    "payment services"
+   ],
+   "description": "Runs its payments business.",
+   "evidence": "By business segment: Payment: 3,529 Financial Services: 1,038 By geographic region: Japan: 4,389 India: 178 (primarily supporting technology development and operations) A significant portion of our employees are engaged in engineering and product development, as well as customer support"
+  },
+  {
+   "name": "Financial Services",
+   "products": [],
+   "description": "Runs its financial services business.",
+   "evidence": "By business segment: Payment: 3,529 Financial Services: 1,038 By geographic region: Japan: 4,389 India: 178 (primarily supporting technology development and operations) A significant portion of our employees are engaged in engineering and product development, as well as customer support"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants and consumers pay transaction fees.",
+  "evidence": "By business segment: Payment: 3,529 Financial Services: 1,038 By geographic region: Japan: 4,389 India: 178 (primarily supporting technology development and operations) A significant portion of our employees are engaged in engineering and product development, as well as customer support"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Financial Services): financial services"
+ ],
+ "reader": "agent"
+}
