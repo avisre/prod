@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001541119",
+ "issuerName": "Sound Financial Bancorp, Inc.",
+ "builtAt": "2026-11-16T05:39:16.855Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001541119-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1541119/000154111926000008/sfbc-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

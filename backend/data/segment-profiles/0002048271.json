@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002048271",
+ "issuerName": "WeShop Holdings Ltd",
+ "builtAt": "2026-11-16T05:40:07.584Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002048271-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2048271/000204827126000015/wshp-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

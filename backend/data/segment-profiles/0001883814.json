@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001883814",
+ "issuerName": "SOUTHLAND HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:40:06.788Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-035302",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1883814/000110465926035302/slnd-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

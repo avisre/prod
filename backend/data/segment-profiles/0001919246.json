@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001919246",
+ "issuerName": "Pelthos Therapeutics Inc.",
+ "builtAt": "2026-11-16T05:39:18.287Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001919246-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1919246/000191924626000013/pths-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Operations",
+   "products": [
+    "approved commercial products"
+   ],
+   "description": "Sells and promotes approved commercial products.",
+   "evidence": "Business Segments The Company manages its operations and allocate resources in two reporting segments, which represent (i) the sale, promotion and commercialization of approved commercial products, the Commercial Operations segment, and (ii) research and development activities related to developing a novel and proprietary class of NaV blockers that target the body's peripheral"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clinics and patients' insurers pay for its products.",
+  "evidence": "Business Segments The Company manages its operations and allocate resources in two reporting segments, which represent (i) the sale, promotion and commercialization of approved commercial products, the Commercial Operations segment, and (ii) research and development activities related to developing a novel and proprietary class of NaV blockers that target the body's peripheral"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

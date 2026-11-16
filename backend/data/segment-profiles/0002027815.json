@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002027815",
+ "issuerName": "BLUEMOUNT HOLDINGS LIMITED",
+ "builtAt": "2026-11-16T05:39:16.010Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001171843-26-004360",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/2027815/000117184326004360/f20f_062926.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "consulting and advisory",
+   "products": [
+    "consulting and advisory services"
+   ],
+   "description": "Provides consulting and advisory services.",
+   "evidence": "Our consulting and advisory business segment may face risks of fee non-payment, clients may seek to renegotiate existing fees and contract arrangements, and may not accept billable rate or price increases, which could result in loss of engagements, fee write-offs, reduced revenues and less profitable business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay fees for consulting engagements.",
+  "evidence": "We provide comprehensive consulting and advisory ser"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

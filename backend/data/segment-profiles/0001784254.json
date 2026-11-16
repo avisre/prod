@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001784254",
+ "issuerName": "MediaCo Holding Inc.",
+ "builtAt": "2026-11-16T05:40:07.523Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001784254-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1784254/000178425426000009/mdia-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Audio Segment",
+   "products": [
+    "radio advertising",
+    "events"
+   ],
+   "description": "Runs its audio broadcasting and events.",
+   "evidence": "BUSINESS SEGMENTS We operate in two business segments: Audio (\"Audio Segment\") and Video (\"Video Segment\")."
+  },
+  {
+   "name": "Video Segment",
+   "products": [
+    "television advertising"
+   ],
+   "description": "Runs its video and television operations.",
+   "evidence": "BUSINESS SEGMENTS We operate in two business segments: Audio (\"Audio Segment\") and Video (\"Video Segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay for radio, TV and digital airtime.",
+  "evidence": "We derive our revenues primarily from radio, television and digital advertising sales, but we also generate revenues from events, including sponsorships and ticket sales, licensing, and syndication."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

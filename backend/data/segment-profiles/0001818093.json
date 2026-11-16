@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001818093",
+ "issuerName": "SkinHealth Systems Inc.",
+ "builtAt": "2026-11-16T05:39:15.939Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017376",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1818093/000162828026017376/skin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SkinStylus",
+   "products": [],
+   "description": "Sells microneedling and nano-channeling devices.",
+   "evidence": "Note 16 — Segment, Geographic, and Other Information The Company manages its business on the basis of one operating segment and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clinics and practitioners buy its devices and consumables.",
+  "evidence": "SkinStylus is a pioneer in nano-channeling and microneedling where its products are designed to provide either a non-invasive (nano-channeling) or minimally-invasive (microneedling) skin treatment to individuals."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (SkinStylus): microneedling devices"
+ ],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000883107",
  "issuerName": "Solesence, Inc.",
- "builtAt": "2026-11-15T14:23:05.936Z",
+ "builtAt": "2026-11-16T05:40:23.117Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001999371-26-007345",
@@ -10,20 +10,24 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/883107/000199937126007345/slsn-10k_123125.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": true,
- "revenueModel": {
-  "text": "The company earns revenue from selling consumer products to beauty brands, personal care ingredients and sunscreen APIs to customers like BASF, and advanced materials, primarily under purchase orders.",
-  "evidence": "Our sales are primarily pursuant to purchase orders for delivery of our Solésence formulated products, personal care ingredients, and advanced materials."
- },
- "changes": [
+ "status": "ok",
+ "segments": [
   {
-   "text": "In 2025, Nanophase Technologies Corporation changed its legal name to Solésence, Inc.",
-   "evidence": "Nanophase Technologies Corporation changed its legal name to Solésence, Inc. by amending its certificate of incorporation with the State of Delaware on March 10, 2025 and by filing a certificate of correction on June 3, 2025."
+   "name": "Solesence",
+   "products": [
+    "consumer products",
+    "personal care ingredients",
+    "advanced materials"
+   ],
+   "description": "Makes consumer products, personal care ingredients and advanced materials.",
+   "evidence": "such criteria considered for the appropriateness of aggregation. The types of products and services for which the sole reportable segment, which is the same as the Company as a whole, offered by the company is discuss"
   }
  ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
  "dropped": [
-  "segment name not in text: Skin health and advanced materials"
- ]
+  "revenue model not grounded"
+ ],
+ "reader": "agent"
 }

@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001723464",
+ "issuerName": "BIOHARVEST SCIENCES INC.",
+ "builtAt": "2026-11-16T05:40:03.055Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001376474-26-000257",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1723464/000137647426000257/bhst-20251231_ex99z2.htm",
+  "exhibit": "bhst-20251231_ex99z2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

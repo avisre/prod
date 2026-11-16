@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001672909",
+ "issuerName": "Canterbury Park Holding Corp",
+ "builtAt": "2026-11-16T05:40:04.466Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007464",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1672909/000143774926007464/cphc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "horse racing",
+   "products": [
+    "pari-mutuel wagering"
+   ],
+   "description": "Runs pari-mutuel wagering on horse races.",
+   "evidence": "We divide our business into four segments: (i) horse racing, (ii) Casino, (iii) food and beverage, and (iv) real estate development."
+  },
+  {
+   "name": "Casino",
+   "products": [
+    "card operations"
+   ],
+   "description": "Runs its casino card room.",
+   "evidence": "We divide our business into four segments: (i) horse racing, (ii) Casino, (iii) food and beverage, and (iv) real estate development."
+  },
+  {
+   "name": "food and beverage",
+   "products": [
+    "concessions",
+    "catering",
+    "events"
+   ],
+   "description": "Provides concessions, catering and events.",
+   "evidence": "We divide our business into four segments: (i) horse racing, (ii) Casino, (iii) food and beverage, and (iv) real estate development."
+  },
+  {
+   "name": "real estate development",
+   "products": [],
+   "description": "Develops real estate.",
+   "evidence": "We divide our business into four segments: (i) horse racing, (ii) Casino, (iii) food and beverage, and (iv) real estate development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests wager and buy food, beverages and event tickets.",
+  "evidence": "The horse racing segment represents our pari-mutuel wagering operations on simulcast and live horse races; the Casino segment represents our unbanked card operations; the food and beverage segment includes concessions, catering, and events and ser"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (real estate development): real estate development"
+ ],
+ "reader": "agent"
+}

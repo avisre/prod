@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000928465",
+ "issuerName": "AMCON DISTRIBUTING CO",
+ "builtAt": "2026-11-16T05:40:05.084Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-25-108504",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/928465/000110465925108504/dit-20250930x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale Segment",
+   "products": [],
+   "description": "Distributes food and consumer products to retailers.",
+   "evidence": "\" The Company serves customers in 34 states through two business segments: ● Our wholesale distribution segment (the \"Wholesale Segment\"), which includes our Team Sledd, LLC (\"Team Sledd\") and Henry's Foods, Inc."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers buy its products wholesale.",
+  "evidence": "Our Wholesale Segment offers retailers the ability to take advantage of manufacturer- and Company-sponsored sales and marketing programs, merchandising and product cat"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wholesale Segment): food and consumer products"
+ ],
+ "reader": "agent"
+}

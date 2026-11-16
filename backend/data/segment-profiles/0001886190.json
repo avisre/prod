@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001886190",
+ "issuerName": "GOGORO INC.",
+ "builtAt": "2026-11-16T05:40:05.486Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001886190-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1886190/000188619026000013/ggr-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

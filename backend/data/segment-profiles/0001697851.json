@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001697851",
+ "issuerName": "Rekor Systems, Inc.",
+ "builtAt": "2026-11-16T05:39:16.474Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010647",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1697851/000143774926010647/rekr20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rekor",
+   "products": [],
+   "description": "Sells roadway intelligence and analytics systems.",
+   "evidence": "Segment Information The Company operates as one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Agencies and municipalities pay for its systems and services.",
+  "evidence": "The Company's chief operating decision maker (\"CODM\") is the president and chief executive officer."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Rekor): roadway intelligence systems"
+ ],
+ "reader": "agent"
+}

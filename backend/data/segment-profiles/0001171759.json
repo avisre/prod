@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001171759",
+ "issuerName": "RED ROBIN GOURMET BURGERS, INC.",
+ "builtAt": "2026-11-16T05:40:04.269Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011733",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1171759/000162828026011733/rrgb-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "restaurants",
+   "products": [
+    "burgers",
+    "food and beverages"
+   ],
+   "description": "Runs and franchises Red Robin restaurants.",
+   "evidence": "The Company operates its business as one operating and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests buy meals; franchisees pay fees.",
+  "evidence": "Our franchisees are independent organizations to whom we provide certain support."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

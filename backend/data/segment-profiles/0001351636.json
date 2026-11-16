@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001351636",
+ "issuerName": "SoundThinking, Inc.",
+ "builtAt": "2026-11-16T05:40:03.616Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-132104",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1351636/000119312526132104/ssti-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

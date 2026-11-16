@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001715925",
+ "issuerName": "MindWalk Holdings Corp.",
+ "builtAt": "2026-11-16T05:40:05.999Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-312694",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1715925/000119312526312694/hyft-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "antibody production",
+   "products": [
+    "related services"
+   ],
+   "description": "Produces antibodies and provides related services.",
+   "evidence": "At April 30, 2026, 2025 and 2024, the Company has one reportable segment, being antibody production and related services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Research and pharma customers pay for antibody services.",
+  "evidence": "Principal Markets Our total revenues by category of activity and geographic market for each of the last three financial years were as follows:"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (antibody production): antibody production"
+ ],
+ "reader": "agent"
+}

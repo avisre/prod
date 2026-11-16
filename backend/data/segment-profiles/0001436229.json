@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001436229",
  "issuerName": "BTCS Inc.",
- "builtAt": "2026-11-15T14:26:18.513Z",
+ "builtAt": "2026-11-16T05:40:04.801Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-012916",
@@ -10,45 +10,23 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1436229/000149315226012916/form10-k.htm"
  },
- "status": "one-segment-mismatch",
+ "status": "ok",
  "segments": [
-  {
-   "name": "Blockchain Infrastructure",
-   "products": [
-    "Validator Node Operations (NodeOps)",
-    "Block Building (Builder+)"
-   ],
-   "description": "Operates Ethereum validator nodes and proprietary block builders, earning ETH-denominated staking rewards and block-building fees.",
-   "evidence": "NodeOps and Builder+ collectively comprise the Company's blockchain infrastructure activities, while Imperium represents a distinct DeFi operating segment."
-  },
   {
    "name": "Imperium",
    "products": [],
-   "description": "Deploys ETH and stablecoins into DeFi protocols as a liquidity provider and market participant to earn variable on-chain revenues.",
-   "evidence": "In 2025, BTCS launched Imperium, a business line focused on deploying digital assets into decentralized finance protocols as a liquidity provider and market participant."
+   "description": "Deploys digital assets into DeFi protocols.",
+   "evidence": "NodeOps and Builder+ collectively comprise the Company's blockchain infrastructure activities, while Imperium represents a distinct DeFi operating segment."
   }
  ],
- "productRevenueBrokenOut": true,
+ "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company earns ETH-denominated protocol rewards and transaction fees from validation and block building, plus variable fees from DeFi protocol participation.",
-  "evidence": "In exchange, BTCS earns ETH-denominated staking revenue, which include protocol-defined rewards and execution layer transaction fees."
+  "text": "It earns staking and blockchain infrastructure revenue.",
+  "evidence": "Expansion into Decentralized Finance through Imperium In 2025, BTCS launched Imperium, a DeFi-focused operating segment designed to deploy digital assets into decentralized protocols as a liquidity provider and market partic"
  },
- "changes": [
-  {
-   "text": "In 2025, BTCS launched Imperium as a distinct DeFi operating segment.",
-   "evidence": "In 2025, BTCS launched Imperium, a business line focused on deploying digital assets into decentralized finance protocols as a liquidity provider and market participant."
-  },
-  {
-   "text": "In 2025, the Company discontinued validator node operations on non-Ethereum blockchains and liquidated most non-Ethereum digital asset holdings.",
-   "evidence": "As part of this transition, the Company discontinued validator node operations on non-Ethereum blockchains and liquidated the majority of its non-Ethereum digital asset holdings."
-  },
-  {
-   "text": "The Company discontinued legacy platforms StakeSeeker in 2024 and ChainQ in 2025.",
-   "evidence": "The Company also discontinued the development and operation of legacy technology service platforms, including StakeSeeker in 2024 and ChainQ in 2025, in order to focus resources on scalable, revenue-generating blockchain infrastructure and DeFi activities."
-  }
- ],
+ "changes": [],
  "dropped": [
-  "product not in text (Imperium): Decentralized finance liquidity provision",
-  "product not in text (Imperium): Lending and borrowing deployments"
- ]
+  "product not in text (Imperium): DeFi liquidity provision"
+ ],
+ "reader": "agent"
 }

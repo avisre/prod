@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0001681348",
+ "issuerName": "VIVOPOWER PLC",
+ "builtAt": "2026-11-16T05:40:06.206Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-049646",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1681348/000149315226049646/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric Vehicles",
+   "products": [],
+   "description": "Sells electric vehicles.",
+   "evidence": "33 Table of Contents Management analyzes the Group's business across six reportable segments: Electric Vehicles, Sustainable Energy Solutions, Solar Development, Digital Assets, Data Center, and Corporate Office."
+  },
+  {
+   "name": "Sustainable Energy Solutions",
+   "products": [],
+   "description": "Provides sustainable energy solutions.",
+   "evidence": "33 Table of Contents Management analyzes the Group's business across six reportable segments: Electric Vehicles, Sustainable Energy Solutions, Solar Development, Digital Assets, Data Center, and Corporate Office."
+  },
+  {
+   "name": "Solar Development",
+   "products": [],
+   "description": "Develops solar projects.",
+   "evidence": "33 Table of Contents Management analyzes the Group's business across six reportable segments: Electric Vehicles, Sustainable Energy Solutions, Solar Development, Digital Assets, Data Center, and Corporate Office."
+  },
+  {
+   "name": "Digital Assets",
+   "products": [],
+   "description": "Holds digital assets.",
+   "evidence": "33 Table of Contents Management analyzes the Group's business across six reportable segments: Electric Vehicles, Sustainable Energy Solutions, Solar Development, Digital Assets, Data Center, and Corporate Office."
+  },
+  {
+   "name": "Data Center",
+   "products": [
+    "data centers"
+   ],
+   "description": "Owns data centre operations.",
+   "evidence": "33 Table of Contents Management analyzes the Group's business across six reportable segments: Electric Vehicles, Sustainable Energy Solutions, Solar Development, Digital Assets, Data Center, and Corporate Office."
+  },
+  {
+   "name": "Corporate Office",
+   "products": [],
+   "description": "Holds corporate costs.",
+   "evidence": "33 Table of Contents Management analyzes the Group's business across six reportable segments: Electric Vehicles, Sustainable Energy Solutions, Solar Development, Digital Assets, Data Center, and Corporate Office."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy vehicles and energy solutions.",
+  "evidence": "Accordingly, Critical Power Services is no longer considered an operating segment."
+ },
+ "changes": [
+  {
+   "text": "Critical Power Services stopped being an operating segment, leaving six reportable segments.",
+   "evidence": "Accordingly, Critical Power Services is no longer considered an operating segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Electric Vehicles): electric vehicles",
+  "product not in text (Sustainable Energy Solutions): sustainable energy solutions",
+  "product not in text (Solar Development): solar development",
+  "product not in text (Digital Assets): digital assets"
+ ],
+ "reader": "agent"
+}

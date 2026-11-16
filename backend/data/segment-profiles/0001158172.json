@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001158172",
+ "issuerName": "COMSCORE, INC.",
+ "builtAt": "2026-11-16T05:39:16.817Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001158172-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1158172/000115817226000009/scor-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research & Insight Solutions",
+   "products": [],
+   "description": "Provides custom research and insight solutions.",
+   "evidence": "• Research & Insight Solutions represents the custom solutions we provide that are tailored to our client"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers and media companies pay for measurement and research.",
+  "evidence": "These syndicated and cross-platform products are used as currency to plan and execute ad campaigns, measure the outcome of ad campaigns, optimize ad campaigns that are in-flight, activate programmatic campaigns, and make content easier for programmatic advertisers to reach."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Research & Insight Solutions): custom research solutions"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001320350",
+ "issuerName": "LENSAR, INC.",
+ "builtAt": "2026-11-16T05:40:07.241Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134587",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1320350/000119312526134587/lnsr-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

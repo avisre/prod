@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002018462",
+ "issuerName": "PicoCELA Inc.",
+ "builtAt": "2026-11-16T05:39:14.773Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-006698",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/2018462/000149315226006698/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PicoCELA",
+   "products": [
+    "wireless mesh solutions"
+   ],
+   "description": "Provides wireless backhaul mesh solutions.",
+   "evidence": "The Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay for its wireless networking equipment.",
+  "evidence": "Segment Reporting ASC Topic 280, Segment Reporting , operating segments are defined as components of an enterprise for which separate financial information is available that is evaluated regularly by the chief operating decision-maker (\"CODM\") in deciding how to allocate resources and in assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

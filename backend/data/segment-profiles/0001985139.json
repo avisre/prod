@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001985139",
+ "issuerName": "Leishen Energy Holding Co., Ltd.",
+ "builtAt": "2026-11-16T05:40:05.381Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-004368",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1985139/000149315226004368/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

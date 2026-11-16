@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001805521",
+ "issuerName": "FARADAY FUTURE INTELLIGENT ELECTRIC INC.",
+ "builtAt": "2026-11-16T05:39:19.305Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022509",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1805521/000162828026022509/ffie-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI Electric Vehicle",
+   "products": [
+    "electric vehicles"
+   ],
+   "description": "Designs and sells AI electric vehicles.",
+   "evidence": "Segment Information We haves two operating segments—AI Electric Vehicle (\"AIEV\"), and digital assets — both segment meet the criteria for separate reporting under ASC 280."
+  },
+  {
+   "name": "digital assets",
+   "products": [],
+   "description": "Holds digital assets.",
+   "evidence": "Segment Information We haves two operating segments—AI Electric Vehicle (\"AIEV\"), and digital assets — both segment meet the criteria for separate reporting under ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its vehicles; it holds digital assets.",
+  "evidence": "Through August 12, 2025, our two Global Co-Chief Executive Officers (\"Global Co-CEOs\"), acting jointly serving as Co-Chief Operating Decision Makers (\"CODMs\"), and regularly evaluated the Company's financial"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (digital assets): digital assets"
+ ],
+ "reader": "agent"
+}

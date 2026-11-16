@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001043186",
+ "issuerName": "Stabilis Solutions, Inc.",
+ "builtAt": "2026-11-16T05:40:06.724Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007090",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1043186/000143774926007090/slng20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

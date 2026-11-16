@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001746473",
+ "issuerName": "PLIANT THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T05:40:05.693Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001746473-26-000037",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1746473/000174647326000037/plrx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "integrin-based therapies",
+   "products": [],
+   "description": "Develops integrin-targeted medicines for fibrosis.",
+   "evidence": "Segment The Company operates and manages its business as one reportable and operating segment, which is the business of developing and commercializing novel integrin-based therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and partners pay for its therapies.",
+  "evidence": "The Company's chief executive officer, who is the chief operating decision maker (\"CODM\"), reviews financial information on an aggregate basis for allocating and evaluating financial performance; h"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (integrin-based therapies): integrin-based therapies"
+ ],
+ "reader": "agent"
+}

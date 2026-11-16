@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001495320",
+ "issuerName": "VERA BRADLEY, INC.",
+ "builtAt": "2026-11-16T05:39:17.564Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021640",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1495320/000162828026021640/vra-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vera Bradley Direct",
+   "products": [
+    "handbags",
+    "accessories"
+   ],
+   "description": "Sells direct to consumers through its stores and online.",
+   "evidence": "The Company has two reportable segments: Vera Bradley Direct (\"VB Direct\") and Vera Bradley Indirect (\"VB Indirect\")."
+  },
+  {
+   "name": "Vera Bradley Indirect",
+   "products": [
+    "handbags",
+    "accessories"
+   ],
+   "description": "Sells wholesale to retailers.",
+   "evidence": "The Company has two reportable segments: Vera Bradley Direct (\"VB Direct\") and Vera Bradley Indirect (\"VB Indirect\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy direct; retailers buy wholesale.",
+  "evidence": "For financial information about our reportable segments, refer to Note 15 of the Notes to Consolidated Financial Statements set forth in Part II, \"Item 8."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

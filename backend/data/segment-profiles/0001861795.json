@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001861795",
+ "issuerName": "Definitive Healthcare Corp.",
+ "builtAt": "2026-11-16T05:39:18.396Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076782",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1861795/000119312526076782/dh-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

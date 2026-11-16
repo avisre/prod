@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002030277",
+ "issuerName": "LEIFRAS Co., Ltd.",
+ "builtAt": "2026-11-16T05:39:17.870Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001829126-26-003281",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/2030277/000182912626003281/leifras_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

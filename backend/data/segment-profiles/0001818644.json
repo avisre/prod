@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001818644",
+ "issuerName": "AEye, Inc.",
+ "builtAt": "2026-11-16T05:40:02.710Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008858",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1818644/000143774926008858/lidr20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AEye",
+   "products": [
+    "lidar sensors"
+   ],
+   "description": "Makes software-defined lidar for vehicle autonomy.",
+   "evidence": "Basis of Presentation We currently conduct our business through one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs and mobility providers buy its lidar systems.",
+  "evidence": "Revenue from these sales is typically recognized at a point in time when the control of the goods is transferred to the customer, generally upon delivery of or shipment to the customer, and when services have been provided."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001577445",
  "issuerName": "Odysight.ai Inc.",
- "builtAt": "2026-11-15T02:50:02.220Z",
+ "builtAt": "2026-11-16T05:40:03.676Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-011691",
@@ -13,13 +13,8 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Customers purchase initial kit sales including vision-based sensors and processing unit, with future recurring revenue from multi-year software subscriptions and upsell opportunities.",
-  "evidence": "Our current business model is to identify customers interested in adding real-time visualization and analytics to their existing or new products. This model includes the initial kit sale including vision-based sensors, and processing unit with embedded software and basic set of algorithms."
- },
+ "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Visual Monitoring AI Solutions"
- ],
- "escalated": "no segments"
+ "dropped": [],
+ "reader": "agent"
 }

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001010470",
+ "issuerName": "PROVIDENT FINANCIAL HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:39:16.351Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001010470-26-000010",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1010470/000101047026000010/prov-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Reportable Segments ​ Management monitors the revenue and expense components of the various products and services the Bank offers, but operations are managed and financial performance is evaluated on a corporation-wide basis in comparison to a business plan which is developed each year."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "The activities of PFC are included in the Bank's operating segment results."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

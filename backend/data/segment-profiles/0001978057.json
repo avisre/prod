@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001978057",
+ "issuerName": "Top Wealth Group Holding Ltd",
+ "builtAt": "2026-11-16T05:40:07.488Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-057962",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1978057/000121390026057962/ea0288319-20f_top.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Top Wealth",
+   "products": [],
+   "description": "Sells jewellery and luxury products.",
+   "evidence": "Management determined that the Company functions as a single operating segment, and thus reports as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its jewellery.",
+  "evidence": "The chief operating decision maker is responsible for allocating resources to its operations and assessing performance and obtains financial information, being the consolidated balance sheets, consolidated statements of operations, and consolidated st"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Top Wealth): jewellery"
+ ],
+ "reader": "agent"
+}

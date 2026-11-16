@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001863218",
+ "issuerName": "Shengfeng Development Limited",
+ "builtAt": "2026-11-16T05:40:07.429Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-035301",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1863218/000121390026035301/ea0282579-20f_shengfeng.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

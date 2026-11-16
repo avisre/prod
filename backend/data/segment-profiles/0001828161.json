@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001828161",
+ "issuerName": "FTC SOLAR, INC.",
+ "builtAt": "2026-11-16T05:40:04.320Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-120372",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828161/000119312526120372/ftci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "solar tracker systems",
+   "products": [
+    "customized components"
+   ],
+   "description": "Makes and services solar tracker systems.",
+   "evidence": "We currently operate in one business segment, the manufacturing and servicing of solar tracker systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Solar project developers buy its trackers.",
+  "evidence": "Product revenue is derived from the sale of solar tracker systems and customized components for those systems, individual part sales for certain specific transactions and the sale of term-based software licenses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (solar tracker systems): solar tracker systems"
+ ],
+ "reader": "agent"
+}

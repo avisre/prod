@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001819574",
+ "issuerName": "BARK, INC.",
+ "builtAt": "2026-11-16T05:40:05.729Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-042242",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819574/000162828026042242/bark-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct-to-Consumer",
+   "products": [],
+   "description": "Sells BARK products directly to consumers.",
+   "evidence": "We sell our products in two segments: Direct-to-Consumer (\"DTC\") and Commerce, through our network of retail partners, which currently spans over 50,000 doors nationwide and online marketplaces including Amazon, Chewy and TikTok."
+  },
+  {
+   "name": "Commerce",
+   "products": [],
+   "description": "Sells through retail partners and marketplaces.",
+   "evidence": "We sell our products in two segments: Direct-to-Consumer (\"DTC\") and Commerce, through our network of retail partners, which currently spans over 50,000 doors nationwide and online marketplaces including Amazon, Chewy and TikTok."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dog owners buy its products direct and through retailers.",
+  "evidence": "All of our products are designed and developed in-house, and are BARK branded."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Direct-to-Consumer): BARK branded products",
+  "product not in text (Commerce): BARK branded products"
+ ],
+ "reader": "agent"
+}

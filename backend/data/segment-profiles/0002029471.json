@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002029471",
+ "issuerName": "Heidmar Maritime Holdings Corp.",
+ "builtAt": "2026-11-16T05:39:19.506Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-197112",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2029471/000119312526197112/hmr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Heidmar",
+   "products": [],
+   "description": "Provides commercial management for tankers.",
+   "evidence": "Segment Reporting The Chief Executive Officer , who is the Chief Operating Decision Maker (\"CODM\"), receives financial information and evaluates the Company's operations by total revenues and not by type of business activity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shipowners pay management fees and profit shares.",
+  "evidence": "As a result, management, including the CODM, reviews operating results solely by consolidated net income, and thus the Company has determined that it oper"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Heidmar): tanker commercial management"
+ ],
+ "reader": "agent"
+}

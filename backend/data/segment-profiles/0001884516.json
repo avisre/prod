@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001884516",
+ "issuerName": "DRILLING TOOLS INTERNATIONAL CORPORATION",
+ "builtAt": "2026-11-16T05:39:16.787Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-095973",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1884516/000119312526095973/dti-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Western Hemisphere",
+   "products": [
+    "drilling tools"
+   ],
+   "description": "Provides drilling tools in the Western Hemisphere.",
+   "evidence": "29 We have two operating segments consisting of the Western Hemisphere segment and the Eastern Hemisphere segment."
+  },
+  {
+   "name": "Eastern Hemisphere",
+   "products": [
+    "drilling tools"
+   ],
+   "description": "Provides drilling tools in the Eastern Hemisphere.",
+   "evidence": "29 We have two operating segments consisting of the Western Hemisphere segment and the Eastern Hemisphere segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas operators rent its drilling tools.",
+  "evidence": "The performance of our operating segments is primarily evaluated based on segment EBITDA (in addition to other measures), which is defined as income before taxes and before interest income (expense), net, other income (expense), net and corporate and other expenses"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

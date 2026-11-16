@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001162896",
+ "issuerName": "Prairie Operating Co.",
+ "builtAt": "2026-11-16T05:40:02.871Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-012036",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1162896/000114036126012036/ef20060649_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "crude oil, natural gas, and NGLs",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Acquires, develops and produces oil, gas and NGLs in the DJ Basin.",
+   "evidence": "63 Table of Contents Segment Information The Company operates in one business segment: the acquisition, development, and production of crude oil, natural gas, and NGLs (the \"Reportable Segment\"), primarily in the DJ Basin."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells oil, gas and NGLs at market prices.",
+  "evidence": "This is consistent with the internal reporting provided to the Company's executive team, made up of the Interim President and Chief Executive Officer and the"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

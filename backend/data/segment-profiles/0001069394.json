@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001069394",
+ "issuerName": "FLEXIBLE SOLUTIONS INTERNATIONAL, INC",
+ "builtAt": "2026-11-16T05:40:04.015Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016796",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069394/000149315226016796/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TPA",
+   "products": [
+    "TPA products"
+   ],
+   "description": "Makes and sells TPA-based products.",
+   "evidence": "These products are made and sold by the Company's TPA division."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial and consumer customers buy its products.",
+  "evidence": "The Company's reportable segments are strategic business units that offer different, but synergistic products and services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

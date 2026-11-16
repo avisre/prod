@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001782223",
+ "issuerName": "Pyxis Oncology, Inc.",
+ "builtAt": "2026-11-16T05:39:16.747Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-118532",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1782223/000119312526118532/pyxs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pyxis Oncology",
+   "products": [
+    "therapies"
+   ],
+   "description": "Develops therapies for cancer.",
+   "evidence": "The Company has one reportable segment related to the development of clinical and preclinical product"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Segment Disclosures Operating segments are defined as components of an enterprise for which separate discrete information is available for evaluation by the chief operating decision maker, or decision making group, in deciding how to allocate resources in assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

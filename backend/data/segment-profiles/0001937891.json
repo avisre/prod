@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001937891",
+ "issuerName": "AMC ROBOTICS CORPORATION",
+ "builtAt": "2026-11-16T05:39:14.781Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-018144",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1937891/000149315226018144/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

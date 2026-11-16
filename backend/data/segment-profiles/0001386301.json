@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001386301",
  "issuerName": "RESEARCH SOLUTIONS, INC.",
- "builtAt": "2026-11-15T14:24:56.102Z",
+ "builtAt": "2026-11-16T05:40:06.269Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-107044",
@@ -13,12 +13,8 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Customers pay annual or monthly subscription fees for the Platforms under auto-renewing license agreements, and pay per transaction for STM articles purchased through the Platforms.",
-  "evidence": "Our cloud-based SaaS Platforms consist of proprietary software and Internet-based interfaces sold to customers through an annual or monthly subscription fee."
- },
+ "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Research software and services"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

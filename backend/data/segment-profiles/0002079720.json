@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002079720",
+ "issuerName": "BUDA JUICE, INC.",
+ "builtAt": "2026-11-16T05:39:16.420Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012988",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2079720/000149315226012988/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Buda Juice",
+   "products": [
+    "juice"
+   ],
+   "description": "Makes and sells cold-pressed juice.",
+   "evidence": "Segment Information The Company operates as a single 1 reportable segment under ASC 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and retailers buy its juice.",
+  "evidence": "The Company's chief operating decision maker (CODM) is the Board of Directors (BOD), which includes the chief executive officer and executive chairman of the BOD."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

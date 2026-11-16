@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001946573",
+ "issuerName": "NAKAMOTO INC.",
+ "builtAt": "2026-11-16T05:39:17.700Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013601",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1946573/000149315226013601/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin Operations",
+   "products": [
+    "bitcoin treasury"
+   ],
+   "description": "Holds bitcoin and invests in Bitcoin companies.",
+   "evidence": "Business Segments As of December 31, 2025, we have two principal business segments: ● Bitcoin Operations: houses our Bitcoin treasury and is utilized to support investments in other Bitcoin related companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns returns on its bitcoin treasury and related businesses.",
+  "evidence": "We offer both in-person and telemedicine options for patients."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

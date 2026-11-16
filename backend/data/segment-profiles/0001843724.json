@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001843724",
+ "issuerName": "LanzaTech Global, Inc.",
+ "builtAt": "2026-11-16T05:39:17.667Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022505",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1843724/000162828026022505/lnza-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LanzaTech",
+   "products": [
+    "carbon recycling technology"
+   ],
+   "description": "Licenses gas fermentation technology to industrial emitters.",
+   "evidence": "Segment Information The Company operates as one operating segment as determined in accordance with ASC Topic 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial emitters pay for its carbon recycling technology.",
+  "evidence": "Industrial emitters can implement LanzaTech's solution onto their existing facility and derive revenue from used carbon."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

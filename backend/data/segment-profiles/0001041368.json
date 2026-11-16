@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001041368",
+ "issuerName": "RIVERVIEW BANCORP INC",
+ "builtAt": "2026-11-16T05:39:14.659Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001041368-26-000007",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1041368/000104136826000007/rvsb-20260331x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Business segments – The Company's operations are managed along two operating segments, consisting of banking operations performed by the Bank and trust and investment services performed by the Trust Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "The trust and investment services segment does not meet the quantitative threshold under GAAP to be considered a reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

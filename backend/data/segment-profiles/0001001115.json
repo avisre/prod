@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001001115",
+ "issuerName": "GEOSPACE TECHNOLOGIES CORP",
+ "builtAt": "2026-11-16T05:39:15.014Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-036009",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1001115/000143774925036009/geos20250930_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

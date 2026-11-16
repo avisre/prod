@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001660334",
+ "issuerName": "Verrica Pharmaceuticals Inc.",
+ "builtAt": "2026-11-16T05:39:16.572Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001660334-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1660334/000166033426000008/vrca-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Verrica",
+   "products": [],
+   "description": "Develops and sells dermatology treatments.",
+   "evidence": "The Company views its operations and manages its business in one operating segment engaged in develo"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clinics and pharmacies pay for its products.",
+  "evidence": "Segments Operating segments are identified as components of an enterprise about which separate and discrete financial information is available for evaluation by the chief operating decision-maker \"CODM\" in making decisions regarding resource allocation and assessing performance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Verrica): dermatology products"
+ ],
+ "reader": "agent"
+}
