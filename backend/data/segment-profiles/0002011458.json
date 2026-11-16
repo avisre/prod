@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002011458",
  "issuerName": "Zenta Group Co Ltd",
- "builtAt": "2026-11-16T05:44:30.557Z",
+ "builtAt": "2026-11-16T11:53:47.173Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-002776",
@@ -10,10 +10,24 @@
   "filingDate": "2026-01-20",
   "url": "https://www.sec.gov/Archives/edgar/data/2011458/000149315226002776/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Professional services",
+   "products": [
+    "industrial park consultation services",
+    "business investment consultation services",
+    "fintech products and services"
+   ],
+   "description": "Provides industrial park consultation, business investment consultation and fintech products and services to clients in Macau.",
+   "evidence": "We are a professional services provider in Macau that engages in the provision of industrial park consultation services, business investment consultation services to clients through LIC, and sales of fintech products and services through LFT, our key operating subsidiaries in Macau."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay the company for industrial park consultation, business investment consultation and sales of fintech products and services.",
+  "evidence": "Currently, our fintech business include selling the Acquired Fintech Products, and we intend to continue acting as an intermediary distributor for other fintech products offered by our supplier, Guo Yan, as well as other future potential suppliers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

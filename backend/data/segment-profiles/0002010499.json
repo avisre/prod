@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002010499",
  "issuerName": "DIGINEX LIMITED",
- "builtAt": "2026-11-16T05:44:29.164Z",
+ "builtAt": "2026-11-16T11:52:43.838Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-037877",
@@ -10,10 +10,37 @@
   "filingDate": "2026-08-13",
   "url": "https://www.sec.gov/Archives/edgar/data/2010499/000149315226037877/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software solutions",
+   "products": [
+    "software platforms"
+   ],
+   "description": "Provides subscription access to the Group's software platforms and white-label software rights to customers.",
+   "evidence": "Revenue in this segment primarily comprises continuous right-to-access subscriptions to the Group's software platforms and the sale of non-exclusive rights to use white-label versions of the Group's software."
+  },
+  {
+   "name": "Advisory",
+   "products": [],
+   "description": "Provides advisory engagements delivered as specific deliverables, customized IT solutions or project milestones to clients.",
+   "evidence": "Where advisory engagements are structured around specific deliverables, customized IT solutions, or project milestones, each deliverable or milestone represents a distinct performance obligation."
+  },
+  {
+   "name": "Data",
+   "products": [
+    "ESG data solutions",
+    "Matter Analytics Platform"
+   ],
+   "description": "Provides ESG data solutions and the Matter Analytics Platform on subscription for continuous access.",
+   "evidence": "Data service revenue is generated through subscriptions to the Group's ESG data solutions or the Matter Analytics Platform."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for software platform subscriptions, data subscriptions, and advisory deliverables or milestones.",
+  "evidence": "Revenue in this segment primarily comprises continuous right-to-access subscriptions to the Group's software platforms and the sale of non-exclusive rights to use white-label versions of the Group's software."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

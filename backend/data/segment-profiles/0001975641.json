@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001975641",
  "issuerName": "Zhengye Biotechnology Holding Limited",
- "builtAt": "2026-11-16T05:44:26.809Z",
+ "builtAt": "2026-11-16T11:49:40.392Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048584",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1975641/000121390026048584/ea0287565-20f_zhengye.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vaccines",
+   "products": [
+    "Swine vaccines",
+    "Poultry vaccines",
+    "Other vaccines"
+   ],
+   "description": "Sells swine, poultry and other vaccines through direct sales, a distribution network and government tenders.",
+   "evidence": "As a whole and hence, we have only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers buy swine, poultry and other vaccines directly, through a distribution network, or via government tenders.",
+  "evidence": "The following table summarizes the revenues generated from different distribution channels for the years ended December 31, 2023, 2024 and 2025"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

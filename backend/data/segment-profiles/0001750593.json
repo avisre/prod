@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001750593",
  "issuerName": "Fangdd Network Group Ltd.",
- "builtAt": "2026-11-16T05:44:25.752Z",
+ "builtAt": "2026-11-16T12:38:22.842Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-052541",
@@ -10,10 +10,20 @@
   "filingDate": "2026-05-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1750593/000121390026052541/ea0286796-20f_fangdd.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate services",
+   "products": [],
+   "description": "Operates internet real estate services in China, with revenue primarily earned from real estate developers.",
+   "evidence": "Foreign ownership in the business involving value-added telecommunications service (except for e-commerce, domestic conferencing, store-and-forward, and call center services), including internet real estate services, is subject to significant restrictions under current PRC laws, rules and regulations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Real estate developers are the primary source of revenue, paying the company for its services.",
+  "evidence": "Accounts receivable are typically unsecured and are primarily derived from revenue earned from real estate developers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

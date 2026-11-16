@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001872529",
  "issuerName": "MDXHEALTH SA",
- "builtAt": "2026-11-16T05:44:26.635Z",
+ "builtAt": "2026-11-16T11:49:28.921Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-039540",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1872529/000121390026039540/ea0283903-20f_mdxhealth.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision diagnostics",
+   "products": [
+    "Confirm mdx",
+    "GPS mdx",
+    "Exo mdx",
+    "Resolve mdx",
+    "Select mdx"
+   ],
+   "description": "Commercial-stage diagnostics company offering non-invasive urologic tests, mainly for prostate cancer, to physicians and patients.",
+   "evidence": "The Company monitors the profitability of the group as a whole given revenues are generated from clinical laboratory service testing and accordingly does not distinguish different business segments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Medicare and commercial payors reimburse the company for the diagnostic tests it performs for patients.",
+  "evidence": "Adoption of our tests has been supported by nationwide reimbursement for Medicare patients, as well as by consistent expansion of coverage by commercial payors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

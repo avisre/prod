@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001825024",
  "issuerName": "Offerpad Solutions Inc.",
- "builtAt": "2026-11-16T05:44:30.782Z",
+ "builtAt": "2026-11-16T11:54:26.294Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-067147",
@@ -10,11 +10,44 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1825024/000119312526067147/opad-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cash Offer",
+   "products": [],
+   "description": "Gives homeowners a competitive cash offer for their home, with a quick closing and no showings.",
+   "evidence": "Our Cash Offer service is the foundation of our business, providing sellers with speed, certainty, and control through the home selling process."
+  },
+  {
+   "name": "Renovate",
+   "products": [],
+   "description": "Provides renovation services to other businesses and homeowners, using the company's logistics and renovation team.",
+   "evidence": "Through our Renovate services, we are able to leverage our existing logistics, operations, technology and skill-sets to provide renovation services to other businesses, allowing other companies and homeowners to utilize our renovations team to update their portfolio of homes for rent or to sell."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Cash Offer Marketplace",
+    "Direct+ partners",
+    "Brokerage Services",
+    "HomePro",
+    "Agent Partnership Program"
+   ],
+   "description": "Routes cash offers to third-party buyers through a marketplace, and offers agent-led brokerage selling pathways.",
+   "evidence": "Our Brokerage Services solution provides sellers with different agent-led pathways to sell their home, including HomePro, which pairs experienced local agents with our platform, data and customer flow for guided, in-person solutions, and Agent Partnership Program, which provides an opportunity for third-party agents to present our cash offer as a potential solution for their customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Other businesses pay the company a renovation project fee plus a service fee based on a percentage of that project fee.",
+  "evidence": "When providing these third-party renovation services, we receive a renovation project fee, and are also typically compensated with a service fee that is based on a percentage of the overall renovation project fee."
+ },
+ "changes": [
+  {
+   "text": "During 2025, the company revised its reportable segments so that Renovate became a separate reportable segment.",
+   "evidence": "During 2025, the Company revised its reportable segments due to changes in the composition of its operating segment financial results, following which, Renovate is a separate reportable segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

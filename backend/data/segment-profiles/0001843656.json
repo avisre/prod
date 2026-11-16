@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001843656",
  "issuerName": "ROYALTY MANAGEMENT HOLDING CORPORATION",
- "builtAt": "2026-11-16T05:44:28.915Z",
+ "builtAt": "2026-11-16T11:52:00.971Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001477932-26-001737",
@@ -10,10 +10,39 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1843656/000147793226001737/rmco_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Royalty Management Corporation (RMC)",
+   "products": [
+    "Fee Income",
+    "Rental Income"
+   ],
+   "description": "Invests in or purchases income-producing assets to generate cash flow for reinvestment.",
+   "evidence": "To invest or purchase assets that have near and medium-term income potential to provide RMC with accretive cash flow from which it can reinvest in new assets or expand cash flow from those existing assets."
+  },
+  {
+   "name": "RMC Environmental Services (RMCES)",
+   "products": [
+    "Environmental Services"
+   ],
+   "description": "Environmental services business supporting residential, municipal, and commercial development.",
+   "evidence": "Environmental services business that supports residential, municipal, and commercial development."
+  },
+  {
+   "name": "Vault Holding Corporation (Vault)",
+   "products": [
+    "Rental Income"
+   ],
+   "description": "Manages the electrical power account for a coal mining complex, planned to support digital currency operations.",
+   "evidence": "Holds a contract to manage the electrical power account for a coal mining complex in Perry County, Kentucky."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns cash flow from streams it structures on acquired assets, plus environmental services fees and rental income.",
+  "evidence": "The model is to acquire and structure cashflow streams around assets that can support the communities by monetizing the current existing cash flow streams while identifying transitionary cash flow from the assets for the future."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

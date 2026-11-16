@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001939780",
  "issuerName": "U Power Limited",
- "builtAt": "2026-11-16T05:44:29.507Z",
+ "builtAt": "2026-11-16T11:52:58.623Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-057792",
@@ -10,10 +10,24 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1939780/000121390026057792/ea0290272-20f_upower.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Auto sourcing",
+   "products": [
+    "UOTTA-powered EVs",
+    "battery-swapping stations",
+    "sourcing services"
+   ],
+   "description": "Sources vehicles for a commission and is developing UOTTA-powered EVs and battery-swapping stations for buyers and operating partners.",
+   "evidence": "As a whole and hence, the Company has only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Sourcing commissions are paid for vehicle sourcing services, and buyers purchase UOTTA-powered EVs and battery-swapping stations.",
+  "evidence": "The commissions from our sourcing services may decline in the future"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

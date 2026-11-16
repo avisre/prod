@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000911147",
  "issuerName": "CENTURY CASINOS, INC.",
- "builtAt": "2026-11-16T05:44:28.774Z",
+ "builtAt": "2026-11-16T11:51:47.776Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000911147-26-000009",
@@ -10,11 +10,67 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/911147/000091114726000009/cnty-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "US East",
+   "products": [
+    "Mountaineer Casino, Resort & Races",
+    "Rocky Gap Casino, Resort & Golf"
+   ],
+   "description": "Casinos, hotels and racetracks in West Virginia and Maryland for gamblers and leisure guests.",
+   "evidence": "In addition to the casino and hotel, MTR has a golf course and a racetrack that holds live thoroughbred races from April to December."
+  },
+  {
+   "name": "US Midwest",
+   "products": [
+    "Century Casino & Hotel - Cape Girardeau",
+    "Century Casino & Hotel - Caruthersville",
+    "Century Casino & Hotel - Central City",
+    "Century Casino & Hotel - Cripple Creek"
+   ],
+   "description": "Casinos and hotels in Missouri and Colorado for gamblers and leisure guests.",
+   "evidence": "CCV and our neighboring hotel, The Farmstead, are located in southeast Missouri along the Mississippi River approximately 95 miles north of Memphis, Tennessee."
+  },
+  {
+   "name": "US West",
+   "products": [
+    "Nugget Casino Resort"
+   ],
+   "description": "Casino resort in Reno-Sparks, Nevada operated for gamblers, convention and leisure guests.",
+   "evidence": "The Nugget is located in Reno-Sparks, Nevada on Interstate 80 approximately three miles from the Reno-Tahoe International Airport."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "Century Casino & Hotel - Edmonton",
+    "Century Casino St. Albert",
+    "Century Mile Racetrack and Casino",
+    "Century Downs Racetrack and Casino"
+   ],
+   "description": "Casinos, racetracks and off-track betting facilities in Alberta, Canada for guests and bettors.",
+   "evidence": "CDR is located in Calgary, Alberta, seven miles from the Calgary International Airport."
+  },
+  {
+   "name": "Poland",
+   "products": [
+    "Casinos Poland"
+   ],
+   "description": "Casinos operated throughout Poland under gaming licenses for gamblers.",
+   "evidence": "CPL has been in operation since 1989 and currently has six casino licenses throughout Poland."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Guests pay the company for casino gaming, hotel rooms, racing wagers, food and beverage, and entertainment.",
+  "evidence": "Pari-mutuel revenue includes live racing, export, advanced deposit wagering and off-track betting."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025, the company reorganized its United States reportable segment into US East, US Midwest and US West.",
+   "evidence": "As a result, we reorganized our reportable segments to provide greater specificity within the United States."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

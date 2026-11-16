@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001490161",
  "issuerName": "SOW GOOD INC.",
- "builtAt": "2026-11-16T05:44:30.249Z",
+ "builtAt": "2026-11-16T11:53:22.802Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-133385",
@@ -10,11 +10,29 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1490161/000119312526133385/sowg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "freeze-dried candy",
+   "products": [
+    "Sow Good Candy",
+    "freeze-dried candy products"
+   ],
+   "description": "Earns a commission on distributor gross receipts from sales of freeze-dried candy and snacks under the Sow Good brand.",
+   "evidence": "The Company operates as one reportable segment, reflecting its capital-light business model under which it earns proceeds from the sale of freeze-dried candy products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The exclusive distributor pays Sow Good a fixed percentage of its gross receipts from sales of Sow Good-branded products.",
+  "evidence": "Our business model is centered on developing and supporting the Sow Good brand, driving consumer demand, and earning a fixed percentage of distributor gross receipts from sales of Sow Good-branded products."
+ },
+ "changes": [
+  {
+   "text": "In December 2025 the company exited its manufacturing and omnichannel sales business and became a commission-based distribution agent.",
+   "evidence": "As a result of the Asset Sale Agreement and Distribution Agreement entered into on December 30 and December 31, 2025, respectively, the Company exited its manufacturing and omnichannel sales business for freeze dried candy and related products."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002033383",
  "issuerName": "FUSEMACHINES INC.",
- "builtAt": "2026-11-16T05:44:25.986Z",
+ "builtAt": "2026-11-16T11:49:25.718Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013285",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/2033383/000149315226013285/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fusemachines Inc.",
+   "products": [
+    "AI Studio",
+    "AI Engines",
+    "AI Agents"
+   ],
+   "description": "Provides enterprise AI solutions, including AI Studio, AI Engines, and AI Agents, plus services, to organizations across industries.",
+   "evidence": "As Fusemachines Inc. is the sole reportable segment, all revenues are attributed to the sole segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Enterprise clients pay for AI software products and implementation services, engaged through software, services, or both.",
+  "evidence": "Clients can choose to engage with Fusemachines through software, services, or a combination of both depending on their requirements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

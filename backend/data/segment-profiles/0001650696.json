@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001650696",
  "issuerName": "Laird Superfood, Inc.",
- "builtAt": "2026-11-16T05:44:27.866Z",
+ "builtAt": "2026-11-16T11:50:40.855Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-010369",
@@ -10,11 +10,31 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1650696/000143774926010369/lsf20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "superfood",
+   "products": [
+    "coffee creamers",
+    "coffee, tea, and hot chocolate products",
+    "hydration and beverage enhancing products",
+    "snacks and other food items"
+   ],
+   "description": "Sells clean, functional superfood food and beverage products to consumers and wholesale customers.",
+   "evidence": "The Company manages their business through one operating and reportable segment: superfood."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers and wholesale partners pay for clean, functional food and beverage products sold through e-commerce and wholesale channels.",
+  "evidence": "The Company generates revenue through two channels: e-commerce and wholesale:"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company decided to discontinue the Picky Bars brand in 2026 to focus on the Laird Superfood brand.",
+   "evidence": "In the third quarter of 2025, we decided that we will be discontinuing the Picky Bars brand in the second quarter of 2026, in order to re-deploy our monetary and human capital into growing the Laird Superfood brand."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

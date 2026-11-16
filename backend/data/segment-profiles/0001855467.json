@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001855467",
  "issuerName": "MOBIX LABS, INC.",
- "builtAt": "2026-11-16T05:44:29.364Z",
+ "builtAt": "2026-11-16T11:52:38.724Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-001921",
@@ -10,10 +10,26 @@
   "filingDate": "2026-01-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1855467/000149315226001921/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "connectivity systems",
+   "products": [
+    "mmWave imaging",
+    "software defined radio",
+    "custom RF integrated circuits",
+    "EMI filter inserts",
+    "filtered and non-filtered connectors"
+   ],
+   "description": "Designs, develops and sells wireless systems, RF, switching and EMI filtering components for defense, aerospace, commercial and industrial customers.",
+   "evidence": "The Company operates as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for wireless systems and interconnect products used in defense, aerospace, commercial and industrial applications.",
+  "evidence": "Our interconnect products, including EMI filter inserts and filtered and non-filtered connectors, are designed for and are currently used in aerospace, military, defense and medical applications."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

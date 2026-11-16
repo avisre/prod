@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001665300",
  "issuerName": "Phunware, Inc.",
- "builtAt": "2026-11-16T05:44:25.593Z",
+ "builtAt": "2026-11-16T11:49:04.400Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-126850",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1665300/000119312526126850/phun-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software Subscriptions & Services",
+   "products": [],
+   "description": "Provides mobile app software subscriptions and services that help companies engage, manage and monetize mobile application portfolios.",
+   "evidence": "Customer B and C above were from our software subscriptions and services operating segment, whereas Customer F was from our Advertising operating segment."
+  },
+  {
+   "name": "Advertising",
+   "products": [],
+   "description": "Sells mobile app advertising campaigns to advertisers and reaches audiences through distribution partners.",
+   "evidence": "Customer B and C above were from our software subscriptions and services operating segment, whereas Customer F was from our Advertising operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Companies pay subscription fees for the cloud-based mobile platform, and advertisers buy mobile app campaigns.",
+  "evidence": "Because revenue is recognized over the term of subscription contracts, sales results are not immediately reflected."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

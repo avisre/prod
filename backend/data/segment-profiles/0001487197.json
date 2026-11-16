@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001487197",
  "issuerName": "BARFRESH FOOD GROUP INC.",
- "builtAt": "2026-11-16T05:44:27.565Z",
+ "builtAt": "2026-11-16T11:50:32.165Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016807",
@@ -10,11 +10,43 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1487197/000149315226016807/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Frozen Beverages and Food",
+   "products": [
+    "Twist & Go",
+    "Easy Pour",
+    "WHIRLZ 100% Juice",
+    "Pop & Go",
+    "smoothies",
+    "shakes",
+    "frappes",
+    "juice pops"
+   ],
+   "description": "Makes and distributes ready-to-drink and ready-to-blend frozen smoothies, shakes, frappes and juice pops for institutional and school customers.",
+   "evidence": "Barfresh is a leader in the creation, manufacturing and distribution of ready-to-drink and ready-to-blend frozen beverages and food."
+  },
+  {
+   "name": "Raw and Processed Milk",
+   "products": [],
+   "description": "Processes and sells raw and processed milk from the acquired Arps Dairy facility to a single significant customer.",
+   "evidence": "Following the Acquisition, we are also engaged in providing raw and processed milk to a single significant customer."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [],
+ "revenueModel": {
+  "text": "Institutional and national account customers, sold through distributors, pay for frozen beverages and food; one customer pays for raw and processed milk.",
+  "evidence": "The Company conducts sales through several channels, including National Accounts, Regional Accounts, and Broadline Distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Arps Dairy acquisition added the Raw and Processed Milk segment alongside Frozen Beverages and Food.",
+   "evidence": "As a result of the Acquisition, we operate in two reportable segments: Frozen Beverages and Food, and Raw and Processed Milk."
+  }
+ ],
+ "dropped": [
+  "product not in text (Raw and Processed Milk): raw and processed milk"
+ ],
  "reader": "agent"
 }

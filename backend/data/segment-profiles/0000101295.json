@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000101295",
  "issuerName": "UNITED-GUARDIAN, INC.",
- "builtAt": "2026-11-16T05:44:30.941Z",
+ "builtAt": "2026-11-16T11:54:21.784Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001171843-26-001973",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/101295/000117184326001973/ug20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Guardian Laboratories",
+   "products": [
+    "Lubrajel",
+    "Natrajel",
+    "Renacidin",
+    "Clorpactin",
+    "B-122",
+    "ORCHID COMPLEX",
+    "LUBRASIL"
+   ],
+   "description": "Makes specialty cosmetic, personal care and sexual wellness ingredients, plus pharmaceuticals and medical lubricants, for manufacturers and marketers.",
+   "evidence": "The Company operates its business under one operating segment, which is also its reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Distributors and wholesalers pay the company for ingredients and pharmaceuticals, which they buy outright for resale to end customers.",
+  "evidence": "These distributors purchase products outright from the Company and provide the main marketing and sales functions for these products on behalf of the Company."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

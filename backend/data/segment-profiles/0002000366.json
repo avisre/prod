@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002000366",
  "issuerName": "Scage Future",
- "builtAt": "2026-11-16T05:44:27.425Z",
+ "builtAt": "2026-11-16T11:50:19.284Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-25-109190",
@@ -10,10 +10,29 @@
   "filingDate": "2025-11-12",
   "url": "https://www.sec.gov/Archives/edgar/data/2000366/000121390025109190/ea0264278-20f_scage.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Heavy-duty NEV trucks",
+   "products": [
+    "Dragon King",
+    "Galaxy II",
+    "Q-truck",
+    "Andromeda",
+    "Andromeda+",
+    "Sky Turtle",
+    "EV-2604—Unmanned Farm Tractor",
+    "EV-2604—Electric Farm Tractor"
+   ],
+   "description": "Develops and commercializes zero-emission heavy-duty NEV trucks and e-fuel solutions for commercial transportation customers.",
+   "evidence": "As a whole and hence, the Group has only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers buy commercial NEV trucks and components from the company.",
+  "evidence": "We generate revenues primarily from sales of commercial NEVs and components."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001218683",
  "issuerName": "Big Digital Energy, Inc.",
- "builtAt": "2026-11-16T05:44:26.950Z",
+ "builtAt": "2026-11-16T11:50:02.327Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037417",
@@ -10,11 +10,26 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1218683/000121390026037417/ea0281617-10k_mawson.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy management and digital asset mining",
+   "products": [],
+   "description": "Earns revenue from energy management programs and Bitcoin mining at its United States data center facilities.",
+   "evidence": "The Company operates as one energy management and digital asset mining segment and uses net income as a measure of profit or loss on a consolidated basis in making decisions regarding resource allocation and performance assessment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Colocation customers pay Mawson fees for use of its digital colocation services and facilities, and demand response programs may compensate it for curtailing power use.",
+  "evidence": "Mawson generates revenue from these customers for their use of our digital colocation services and facilities."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company deconsolidated its Australian subsidiary Mawson AU after it was placed into court-appointed liquidation.",
+   "evidence": "During the year ended December 31, 2024, the investment was written off as part of the deconsolidation of Mawson AU (on April 23, 2024, the Australian entity Mawson AU was placed into an Australian court appointed liquidation and wind-up process)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

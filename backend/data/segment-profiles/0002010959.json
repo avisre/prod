@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002010959",
  "issuerName": "AMBITIONS ENTERPRISE MANAGEMENT CO. L.L.C",
- "builtAt": "2026-11-16T05:44:30.294Z",
+ "builtAt": "2026-11-16T11:53:39.981Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050228",
@@ -10,10 +10,23 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2010959/000121390026050228/ea0287392-20f_ambitions.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Event planning",
+   "products": [
+    "MICE management",
+    "one-stop tourism"
+   ],
+   "description": "Arranges events and travel for companies and associations in the UAE, covering MICE management and one-stop tourism packages.",
+   "evidence": "The Group operates in a single operating segment and has one reportable segment, which includes all activities related to the provision of its event planning and management services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Corporate and association clients pay for planning and running events, and for one-stop travel services.",
+  "evidence": "Our subsidiaries assist their clients, mainly companies and industry associations, with the planning, organizing, and execution of various events including annual meetings, product launch conferences, product exhibitions, and staff gatherings in the UAE."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

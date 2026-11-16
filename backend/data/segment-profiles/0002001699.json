@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002001699",
  "issuerName": "Helport AI Limited",
- "builtAt": "2026-11-16T05:44:28.960Z",
+ "builtAt": "2026-11-16T11:52:07.216Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-25-111531",
@@ -10,11 +10,28 @@
   "filingDate": "2025-11-17",
   "url": "https://www.sec.gov/Archives/edgar/data/2001699/000121390025111531/ea0265214-20f_helport.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI services",
+   "products": [
+    "AI Assist"
+   ],
+   "description": "AI-powered customer engagement software and AI+BPO services for enterprises; users are contact center and sales professionals.",
+   "evidence": "CODM regularly reviews entity-wide operating results and reviews consolidated revenues and net income when making decisions about allocating resources and assessing performance of the segment, and hence, the Group has only one single principal reportable segment, i.e. AI services, which is considered as the primary revenue source of the Group."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Enterprise clients pay for AI Assist software and AI+BPO services that pair AI software with customer contact agents.",
+  "evidence": "For clients in need of customer engagement professionals, we offer our AI+BPO service, which combines AI software with customer contact agents."
+ },
+ "changes": [
+  {
+   "text": "Medical consulting business discontinued after January 2023, within fiscal 2023.",
+   "evidence": "The medical consulting business was discontinued after January 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

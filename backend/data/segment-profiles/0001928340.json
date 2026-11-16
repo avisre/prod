@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001928340",
  "issuerName": "Golden Heaven Group Holdings Ltd.",
- "builtAt": "2026-11-16T05:44:28.605Z",
+ "builtAt": "2026-11-16T11:53:46.837Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-005908",
@@ -10,11 +10,26 @@
   "filingDate": "2026-01-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1928340/000121390026005908/ea0272411-20f_golden.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Amusement parks",
+   "products": [],
+   "description": "Operates amusement parks in China for visitors, earning in-park recreation sales and rental income from leasing parks to third-party operators.",
+   "evidence": "All six parks have been identified as an operating segment and meets the criteria for aggregation due to similar economic characteristics."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Visitors pay charges for access to rides and attractions, and operators and tenants pay rent to the company.",
+  "evidence": "Sales of in-park recreation primarily consist of charges for access to rides and attractions."
+ },
+ "changes": [
+  {
+   "text": "In November and December 2024 the Company transitioned from amusement park operator to amusement park lessor.",
+   "evidence": "The Company transitioned from amusement park operator to amusement park lessor."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

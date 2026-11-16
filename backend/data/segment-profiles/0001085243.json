@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001085243",
  "issuerName": "VirTra, Inc.",
- "builtAt": "2026-11-16T05:44:28.154Z",
+ "builtAt": "2026-11-16T11:51:07.524Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-012903",
@@ -10,10 +10,68 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1085243/000149315226012903/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Simulators and Accessories",
+   "products": [
+    "VirTra simulator",
+    "Simulated recoil kits",
+    "Return first devices",
+    "Taser©",
+    "OC Spray",
+    "low light devices",
+    "refill options"
+   ],
+   "description": "Sells VirTra training simulators and accessories, including recoil kits, return fire devices and refills, to law enforcement and military.",
+   "evidence": "Simulators and Accessories- These include all variations of the VirTra simulator, Simulated recoil kits, Return first devices, Taser©, OC Spray, low light devices and refill options."
+  },
+  {
+   "name": "Extended Service-type warranties",
+   "products": [],
+   "description": "Sells extended service-type warranties covering products beyond their standard first year.",
+   "evidence": "Extended Service-type warranties – Warranties on all products past 1 or more years"
+  },
+  {
+   "name": "Customized software and Custom content",
+   "products": [
+    "Customized software",
+    "Custom content"
+   ],
+   "description": "Designs custom content and software for specific customers under individual contracts with those customers.",
+   "evidence": "Customized software and Custom content- Contracts with specific suppliers who have ask for content related directly to their situations that we design and film or specific software request for there system only"
+  },
+  {
+   "name": "Installation and Training",
+   "products": [
+    "training classes"
+   ],
+   "description": "Installs simulators at customer sites and provides extra training classes onsite, virtually, or at the training center.",
+   "evidence": "Installation and Training – Installation of our simulators at the specific sites as well as extra training classes preformed onsite, virtually or at the VirTra Training Center"
+  },
+  {
+   "name": "Design and Prototyping",
+   "products": [
+    "hardware development"
+   ],
+   "description": "Performs hardware development under specific contracts for individual customers.",
+   "evidence": "Design and Prototyping – Specific contracts related to hardware development for specific customers"
+  },
+  {
+   "name": "STEP",
+   "products": [
+    "simulator products",
+    "V-VICTA interactive coursework"
+   ],
+   "description": "Lets agencies use simulator products and V-VICTA coursework on a subscription basis.",
+   "evidence": "Subscription Training Equipment Partnership (STEP)™ is a program that allows agencies to utilize VirTra's simulator products, accessories, and V-VICTA interactive coursework on a subscription basis."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Government agencies, and commercial buyers through prime contractors, pay for simulators, related products, services and subscriptions.",
+  "evidence": "Commercial customers include selling through prime contractors for military or law enforcement contracts, domestically."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

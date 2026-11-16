@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001356093",
  "issuerName": "CREATIVE REALITIES, INC.",
- "builtAt": "2026-11-16T05:44:27.400Z",
+ "builtAt": "2026-11-16T11:50:07.411Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-012302",
@@ -10,10 +10,27 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1356093/000143774926012302/crex20251231c_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketing technology solutions",
+   "products": [
+    "ReflectView",
+    "Reflect Xperience",
+    "AdLogic",
+    "CPM+",
+    "Clarity",
+    "iShowroomProX"
+   ],
+   "description": "Provides digital signage hardware, design and support services, SaaS software platforms, and AdTech for out-of-home venues.",
+   "evidence": "We currently operate in one reportable segment, marketing technology solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for resold signage hardware, design, installation and support services, and recurring SaaS platform subscriptions.",
+  "evidence": "Recurring subscription licensing and support revenue from our digital signage software platforms, which are generally sold via a SaaS model."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

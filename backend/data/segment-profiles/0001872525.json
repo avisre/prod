@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001872525",
  "issuerName": "STRAN & COMPANY, INC.",
- "builtAt": "2026-11-16T05:44:27.779Z",
+ "builtAt": "2026-11-16T11:50:43.898Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-034104",
@@ -10,11 +10,34 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1872525/000121390026034104/ea0282261-10k_stran.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Stran & Company, Inc.",
+   "products": [
+    "promotional products"
+   ],
+   "description": "Outsourced marketing solutions and promotional products provider for customers across a variety of industries.",
+   "evidence": "The Stran segment's business is focused on being an outsourced marketing solutions and promotional products provider for a variety of customers and industries, working closely with customers to develop sophisticated marketing programs that leverage Stran's promotional products and loyalty incentive expertise."
+  },
+  {
+   "name": "Stran Loyalty Solutions",
+   "products": [],
+   "description": "Reportable segment serving SLS customers with tailored merchandise and marketing solutions for recurring revenues.",
+   "evidence": "The Company operates in two reportable segments: Stran & Company, Inc. and Stran Loyalty Solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for finished promotional products that the company buys from third-party manufacturers and decorators and resells to them.",
+  "evidence": "Stran purchases products and branding through various third-party manufacturers and decorators and resells the finished goods to customers."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company began reporting two reportable segments after it acquired Stran Loyalty Solutions.",
+   "evidence": "The Stran segment's operations have remained consistent for all periods presented, however, the Company only had one operating and reportable segment prior to the acquisition."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

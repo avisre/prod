@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001886894",
  "issuerName": "SNAIL, INC.",
- "builtAt": "2026-11-16T05:44:26.857Z",
+ "builtAt": "2026-11-16T11:49:47.042Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-011617",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1886894/000149315226011617/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Interactive digital entertainment",
+   "products": [
+    "ARK: Survival Ascended",
+    "ARK: Survival Evolved",
+    "ARK: Lost Colony",
+    "Bellwright",
+    "SaltyTV"
+   ],
+   "description": "Develops and publishes interactive digital entertainment games for consumers around the world, sold across consoles, PCs and mobile.",
+   "evidence": "The Company has one operating and reportable segment, as the Company's chief operating decision maker, who is the Company's Chief Executive Officer, reviews financial information on a consolidated basis for purposes of allocating resources and evaluating performance."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Gamers pay for games, downloadable content and in-app virtual goods, sold through digital storefronts, physical discs and mobile app stores.",
+  "evidence": "The Company's revenue is generated from the publishing of software games sold digitally and through physical discs (e.g., packaged goods), the publishing of separate downloadable content that are new feature releases to existing digital full-game downloads that are sold digitally, and in-app purchases of virtual goods used by players of its free-to-play mobile games."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

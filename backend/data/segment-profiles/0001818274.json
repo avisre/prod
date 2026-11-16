@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001818274",
  "issuerName": "Arrive AI Inc.",
- "builtAt": "2026-11-16T05:44:30.603Z",
+ "builtAt": "2026-11-16T11:54:00.161Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016808",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1818274/000149315226016808/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autonomous Last Mile",
+   "products": [
+    "Arrive Point Network",
+    "ALM Marketplace",
+    "AI Services",
+    "ALM Platform"
+   ],
+   "description": "Builds and runs a network of smart lockers, a marketplace, and AI services for drone and robot package delivery.",
+   "evidence": "The Company operates as a 1 single reportable segment, as the CODM, the Chief Executive Officer (\"CEO\"), evaluates the business as a whole and does not receive discrete financial information for multiple business units."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Planned model: customers pay monthly or annual subscription fees for network access, plus installation and related services.",
+  "evidence": "We plan to offer access to this network through monthly and annual subscription fees, along with associated installation, support, maintenance, and infrastructure services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

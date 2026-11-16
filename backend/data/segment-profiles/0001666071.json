@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001666071",
  "issuerName": "CARDLYTICS, INC.",
- "builtAt": "2026-11-16T05:44:25.727Z",
+ "builtAt": "2026-11-16T11:49:21.073Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001666071-26-000010",
@@ -10,11 +10,37 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1666071/000166607126000010/cdlx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardlytics platform",
+   "products": [
+    "Ads Manager",
+    "Ad Server"
+   ],
+   "description": "Financial media network serving marketers through partner banks' digital channels, with offers and rewards for their customers.",
+   "evidence": "Our Cardlytics platform operating segments in the U.S. and U.K. represent our proprietary advertising channels and are aggregated into one reportable segment given their similar economic characteristics, nature of service, types of customers and method of distribution."
+  },
+  {
+   "name": "Bridg platform",
+   "products": [
+    "Rippl"
+   ],
+   "description": "Customer data platform using merchant point-of-sale data to help marketers run targeted loyalty marketing and measure campaign impact.",
+   "evidence": "The Bridg platform is a customer data platform that utilizes POS data from our merchant data partners, including product-level purchase data to enable marketers to perform analytics and targeted loyalty marketing."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Marketers pay the company fees for advertising campaigns and analytics, and part of those fees funds customer rewards.",
+  "evidence": "Through the Cardlytics platform, our financial media network, marketers can deliver advertising content to customers that allows them to earn rewards, which are funded with a portion of the fees we collect from marketers."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company agreed to sell substantially all Bridg platform assets to an affiliate of PAR Technology Corporation.",
+   "evidence": "In January 2026, we entered into a definitive agreement to sell substantially all of the assets primarily related to, or primarily used in, our Bridg platform to an affiliate of PAR Technology Corporation."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

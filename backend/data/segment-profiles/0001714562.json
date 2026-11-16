@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001714562",
  "issuerName": "GAMESQUARE HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:44:28.218Z",
+ "builtAt": "2026-11-16T11:51:13.843Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-015717",
@@ -10,10 +10,51 @@
   "filingDate": "2026-04-08",
   "url": "https://www.sec.gov/Archives/edgar/data/1714562/000149315226015717/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Owned and Operated IP",
+   "products": [
+    "FaZe Esports"
+   ],
+   "description": "Digitally native lifestyle and media brand rooted in gaming and youth culture, monetized through sponsorships, consumer products and esports.",
+   "evidence": "FaZe Esports has several revenue streams including brand sponsorships, consumer products, and Esports."
+  },
+  {
+   "name": "Agency",
+   "products": [
+    "Code Red",
+    "GCN",
+    "Zoned",
+    "Click"
+   ],
+   "description": "Esports and gaming talent agencies and marketing services that represent creators and broker brand activations for brands.",
+   "evidence": "GameSquare's Agency Services segment represents esports agencies which include Code Red, GCN, Zoned and Click."
+  },
+  {
+   "name": "SaaS and managed services",
+   "products": [
+    "Stream Hatchet",
+    "Sideqik",
+    "TubeBuddy"
+   ],
+   "description": "Software and analytics platforms for creators, marketers and the live streaming industry.",
+   "evidence": "Stream Hatchet is the leading provider of data analytics for the live streaming industry."
+  },
+  {
+   "name": "Yield",
+   "products": [
+    "ETH-focused yield generation strategy"
+   ],
+   "description": "Ethereum-based treasury and yield strategy that generates digital asset returns through a partner's platform.",
+   "evidence": "GameSquare's ETH-focused yield generation strategy is built on top of Dialectic Ellipse Feeder Fund LP's (\"Dialectic\") proprietary platform Medici, which applies machine learning models, automated optimization, and multi-layered risk controls to generate returns."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Global brands pay GameSquare for marketing spend that reaches gaming and creator economy audiences.",
+  "evidence": "GameSquare's revenue growth is expected to be driven by increasing marketing spend from global brands that seek exposure to and connections with these gaming and creator economy audiences."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001712178",
  "issuerName": "NaaS Technology Inc.",
- "builtAt": "2026-11-16T05:44:28.248Z",
+ "builtAt": "2026-11-16T11:51:06.077Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001185185-26-001417",
@@ -10,11 +10,26 @@
   "filingDate": "2026-04-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1712178/000118518526001417/naastech20f123125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EV charging",
+   "products": [],
+   "description": "Provides EV charging services and energy solutions to charging station operators, energy asset owners and EV drivers.",
+   "evidence": "Accordingly, the Group has identified a single operating and reportable segment in accordance with the requirements of IFRS 8 Operating Segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay the company for the goods and services it sells in the ordinary course of its activities.",
+  "evidence": "Revenue is measured at the fair value of the consideration received or receivable for the sales of goods or services in the ordinary course of the Group's activities."
+ },
+ "changes": [
+  {
+   "text": "In 2025, NaaS shifted away from capital-intensive, low-margin full station operation business.",
+   "evidence": "In 2025, NaaS kept reinforcing the strategic focus by proactively shifting away from capital-intensive and low-margin full station operation business"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

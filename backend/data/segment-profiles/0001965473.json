@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001965473",
  "issuerName": "Cheche Group Inc.",
- "builtAt": "2026-11-16T05:44:25.701Z",
+ "builtAt": "2026-11-16T11:48:54.125Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019130",
@@ -10,11 +10,30 @@
   "filingDate": "2026-04-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1965473/000149315226019130/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance brokerage",
+   "products": [
+    "Insurance transaction services",
+    "SaaS and technical service",
+    "Easy-Insur"
+   ],
+   "description": "Provides insurance brokerage and technology services in China, mainly insurance transaction services and SaaS.",
+   "evidence": "The Group manages its operations as a single 1 segment engaged in providing insurance brokerage and technology services in China."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insurance carriers and intermediaries pay service fees for facilitating insurance sales, plus fees for SaaS and technical services.",
+  "evidence": "which adversely affected the service fees that we received from facilitating the sale of commercial auto insurance through our Easy-Insur since October 2020"
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company ceased offering its Insurance Marketplace business as a strategic adjustment.",
+   "evidence": "As a result, insurance carriers received lower premiums from selling commercial auto insurance, which adversely affected the service fees that we received from facilitating the sale of commercial auto insurance through our Easy-Insur since October 2020, and through Insurance Marketplace between October 2020 and April 2024, when we ceased to offer Insurance Marketplace due to strategic adjustment of our business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
