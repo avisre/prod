@@ -166,14 +166,16 @@ test('foreign financial and health tools use native currency and compact exact p
 });
 
 test('quote tools and shared adapter suppress ambiguous share-class and ADR ratios', async () => {
-    // BRK.B is no longer ambiguous: its P/E matches Class B alone, so it gets Class B's EPS. Greif's latest
-    // annual is stale and matches neither class within 5%, so GEF-B stays suppressed.
+    // Whether BRK.B or GEF-B matches one class within 5% moves with the quote and the latest annual (the
+    // 11-14 weekly run gave GEF-B a P/E and refused BRK.B's), so those cases are pinned in
+    // per-share-basis.test.js on fixed figures. Here: BRK.B never gets Class A's EPS, and a listing whose
+    // class is not confirmed shows no per-share ratio anywhere. An ADR (MUFG) is never confirmed.
     const brk = ask.loadFund('BRK.B');
-    assert.equal(brk.coverage.perShareAllowed, true);
-    assert.ok(brk.income.annualReports[0].eps > 0 && brk.income.annualReports[0].eps < 1000, 'Class B, not Class A');
-    for (const symbol of ['GEF-B', 'MUFG']) {
+    if (brk.coverage.perShareAllowed) assert.ok(brk.income.annualReports[0].eps > 0 && brk.income.annualReports[0].eps < 1000, 'Class B, not Class A');
+    assert.equal(ask.loadFund('MUFG').coverage.perShareAllowed, false);
+    for (const symbol of ['BRK.B', 'GEF-B', 'MUFG']) {
         const d = ask.loadFund(symbol);
-        assert.equal(d.coverage.perShareAllowed, false);
+        if (d.coverage.perShareAllowed) continue;
         assert.equal(d.marketData?.trailingPE ?? null, null);
         assert.equal(d.marketData?.sharesOutstanding ?? null, null);
         const r = await ask.runTool('get_quote', { symbol });
