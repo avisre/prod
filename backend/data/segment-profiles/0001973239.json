@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001973239",
  "issuerName": "ARM HOLDINGS PLC /UK",
- "builtAt": "2026-11-16T04:40:58.373Z",
+ "builtAt": "2026-11-16T09:07:04.859Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001973239-26-000097",
@@ -10,10 +10,28 @@
   "filingDate": "2026-05-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1973239/000197323926000097/arm-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intellectual Property",
+   "products": [
+    "Arm AGI CPU",
+    "compute subsystems",
+    "CSS",
+    "chiplets",
+    "complete chip solutions",
+    "processor products",
+    "production silicon products"
+   ],
+   "description": "Licenses processor architecture and designs to semiconductor and systems companies, and earns royalties on chips that incorporate its technology.",
+   "evidence": "risks related to our development of production silicon products, such as the Arm AGI CPU, compute subsystems (\"CSS\"), chiplets, complete chip solutions, and other more integrated compute products;"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay license fees and royalties to use Arm processor architecture, processor products and related technology.",
+  "evidence": "Customers may decide to license our architecture and develop their own processors based on our architecture, rather than utilize our processor products pursuant to an implementation license."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

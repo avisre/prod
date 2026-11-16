@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001004315",
  "issuerName": "NATIONAL GRID PLC",
- "builtAt": "2026-11-16T04:41:00.516Z",
+ "builtAt": "2026-11-16T09:13:38.920Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001004315-26-000006",
@@ -10,11 +10,76 @@
   "filingDate": "2026-06-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1004315/000100431526000006/nggtf-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "UK Electricity Transmission",
+   "products": [
+    "electricity transmission services",
+    "the supply of high-voltage electricity",
+    "construction work (principally for connections)"
+   ],
+   "description": "Runs the high-voltage electricity transmission networks in England and Wales, transporting power for generators and consumers.",
+   "evidence": "The UK Electricity Transmission segment principally generates revenue by providing electricity transmission services in England and Wales."
+  },
+  {
+   "name": "UK Electricity Distribution",
+   "products": [
+    "electricity distribution services",
+    "electricity distribution",
+    "construction work (principally for connections)"
+   ],
+   "description": "Runs the electricity distribution networks of NGED in the East Midlands, West Midlands, South West of England and South Wales.",
+   "evidence": "The electricity distribution networks of NGED in the East Midlands, West Midlands and South West of England and South Wales."
+  },
+  {
+   "name": "New England",
+   "products": [
+    "Electricity distribution networks",
+    "high-voltage electricity transmission networks",
+    "gas distribution networks"
+   ],
+   "description": "Runs electricity distribution, high-voltage transmission and gas distribution networks serving customers in New England.",
+   "evidence": "Electricity distribution networks, high-voltage electricity transmission networks and gas distribution networks in New England."
+  },
+  {
+   "name": "New York",
+   "products": [
+    "Electricity distribution networks",
+    "high-voltage electricity transmission networks",
+    "gas distribution networks"
+   ],
+   "description": "Runs electricity distribution, high-voltage transmission and gas distribution networks serving customers in New York.",
+   "evidence": "Electricity distribution networks, high-voltage electricity transmission networks and gas distribution networks in New York."
+  },
+  {
+   "name": "National Grid Ventures",
+   "products": [
+    "electricity interconnectors in the UK",
+    "electricity generation business in the US",
+    "LNG at Providence, Rhode Island in the US",
+    "the Isle of Grain in the UK",
+    "NG Renewables"
+   ],
+   "description": "Holds interconnectors, US electricity generation, LNG operations and renewables investments outside the regulated core business.",
+   "evidence": "Comprises our electricity interconnectors in the UK, our electricity generation business in the US, all commercial operations in LNG at Providence, Rhode Island in the US and the Isle of Grain in the UK, and our investment in NG Renewables, our renewables business in the US."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for electricity transmission, distribution and generation services, with UK transmission revenue invoiced to National Energy System Operator.",
+  "evidence": "The principal revenues of the UK Electricity Transmission segment arise from the provision of electricity transmission services and are invoiced to, and collected from, National Energy System Operator (NESO)."
+ },
+ "changes": [
+  {
+   "text": "In 2025 National Grid Ventures sold its interest in NG Renewables and in Grain LNG.",
+   "evidence": "The Group sold its interest in NG Renewables on 29 May 2025 and in Grain LNG on 28 November 2025 (see note 10)."
+  },
+  {
+   "text": "The UK Electricity System Operator ceased to be a separate operating segment after its disposal to the UK Government in 2025.",
+   "evidence": "Included within the comparative years are the results of the UK Electricity System Operator which also represented a separate operating segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

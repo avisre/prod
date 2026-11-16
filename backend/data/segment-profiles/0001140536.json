@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001140536",
  "issuerName": "WILLIS TOWERS WATSON PLC",
- "builtAt": "2026-11-16T04:40:57.550Z",
+ "builtAt": "2026-11-16T09:05:37.816Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-069307",
@@ -10,11 +10,41 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1140536/000119312526069307/wtw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health, Wealth & Career",
+   "products": [
+    "Health & Benefits",
+    "Global Benefits Management",
+    "Retirement",
+    "Investments",
+    "Work & Rewards",
+    "Employee Experience",
+    "Benefits Delivery & Outsourcing",
+    "LifeSight"
+   ],
+   "description": "Advises employers and institutional investors on health benefits, retirement, investments, rewards and career programs, and delivers benefits administration and technology.",
+   "evidence": "The Health, Wealth & Career ('HWC') segment provides an array of advice, broking, solutions and technology for employee benefit plans, institutional investors, compensation and career programs, and the employee experience overall."
+  },
+  {
+   "name": "Risk & Broking",
+   "products": [],
+   "description": "Acts as intermediary between clients and insurance carriers, advising on risk management and negotiating and placing insurance through a global distribution network.",
+   "evidence": "We manage our business across two integrated reportable operating segments: Health, Wealth & Career and Risk & Broking."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay commissions on the insurance premiums placed on their behalf and fees for broking and consulting services.",
+  "evidence": "We derive the majority of our revenue from either commissions or fees for brokerage or from consulting services."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company recorded a tax benefit on the disposal of the TRANZACT business.",
+   "evidence": "a tax benefit from the capital loss incurred on the sale of TRANZACT"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

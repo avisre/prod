@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001577552",
  "issuerName": "Alibaba Group Holding Ltd",
- "builtAt": "2026-11-16T04:40:58.745Z",
+ "builtAt": "2026-11-16T09:07:31.709Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-231755",
@@ -10,11 +10,74 @@
   "filingDate": "2026-05-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1577552/000119312526231755/baba-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alibaba China E-commerce Group",
+   "products": [
+    "Taobao",
+    "Tmall",
+    "Quick commerce",
+    "Xianyu",
+    "1688.com"
+   ],
+   "description": "Runs Chinese online retail marketplaces, quick commerce and wholesale platforms for consumers, merchants and brands.",
+   "evidence": "Alibaba China E-commerce Group, which includes Taobao, Tmall, Quick commerce, Xianyu, 1688.com and other businesses."
+  },
+  {
+   "name": "Alibaba International Digital Commerce Group",
+   "products": [
+    "AliExpress",
+    "Trendyol",
+    "Lazada",
+    "Alibaba.com"
+   ],
+   "description": "Operates international retail and wholesale commerce platforms for overseas consumers, merchants and businesses.",
+   "evidence": "Our revenue from customer management services is mainly contributed by AliExpress, Trendyol and Lazada."
+  },
+  {
+   "name": "Cloud Intelligence Group",
+   "products": [
+    "Alibaba Cloud"
+   ],
+   "description": "Provides cloud computing and related services to enterprises and developers.",
+   "evidence": "Following this strategic re-alignment, for fiscal year 2026, our business segments are (1) Alibaba China E-Commerce Group, (2) Alibaba International Digital Commerce Group, (3) Cloud Intelligence Group and (4) All others."
+  },
+  {
+   "name": "All others",
+   "products": [
+    "Freshippo",
+    "Cainiao",
+    "Alibaba Health",
+    "Hujing Digital Media and Entertainment Group",
+    "Amap",
+    "Qwen Consumer Business Group",
+    "Lingxi Games",
+    "DingTalk"
+   ],
+   "description": "Holds retail, logistics, healthcare, media, mapping, AI assistant, gaming and collaboration businesses serving consumers and enterprises.",
+   "evidence": "All others, which includes Freshippo, Cainiao, Alibaba Health, Hujing Digital Media and Entertainment Group, Amap, Qwen Consumer Business Group, Lingxi Games, DingTalk and other businesses."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Merchants and brands pay for customer management, commissions, logistics and cloud services, while consumers pay for goods and delivery.",
+  "evidence": "We leverage our leading technologies to provide various value propositions to participants in our ecosystem and monetize by offering different services and creating value under each of our business segments."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2026 the company combined Taobao and Tmall Group, Ele.me and Fliggy into Alibaba China E-commerce Group.",
+   "evidence": "to advance our \"user first\" strategy and enhance user experience, we undertook a strategic combination of Taobao and Tmall Group, Ele.me and Fliggy into Alibaba China E-commerce Group."
+  },
+  {
+   "text": "In fiscal year 2026 the company reclassified Cainiao, Amap and Hujing Digital Media and Entertainment Group into All others.",
+   "evidence": "We simplified the financial reporting structure by reclassifying Cainiao, Amap and Hujing Digital Media and Entertainment Group into \"All others\"."
+  },
+  {
+   "text": "In fiscal year 2025 the company sold Sun Art and Intime.",
+   "evidence": "In fiscal year 2025, the sale of Sun Art was completed and the sale of Intime was substantially completed."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

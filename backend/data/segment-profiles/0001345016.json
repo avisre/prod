@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001345016",
  "issuerName": "YELP INC.",
- "builtAt": "2026-11-16T04:40:57.961Z",
+ "builtAt": "2026-11-16T09:05:47.548Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001345016-26-000019",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1345016/000134501626000019/yelp-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advertising",
+   "products": [
+    "Yelp Ads",
+    "Showcase Ads",
+    "Spotlight Ads",
+    "Yelp Audiences",
+    "Yelp Connect",
+    "Nearby Jobs",
+    "Yelp Guaranteed",
+    "RepairPal Network"
+   ],
+   "description": "Sells performance-based advertising and subscription products to local businesses of all sizes, connecting them with Yelp's high-intent consumer audience.",
+   "evidence": "The Company has determined that it has a single operating and reporting segment managed on a consolidated basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Businesses of all sizes pay Yelp for targeted performance-based advertising and subscription page products that reach its high-intent consumer audience.",
+  "evidence": "We primarily sell performance-based ads, which our advertising platform matches to individual consumers through our automated auction system priced on a CPC basis."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company recast prior period segment information to conform to how it internally managed and monitored its business.",
+   "evidence": "Prior period segment information has been recast to conform to the way the Company internally managed and monitored its business during 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

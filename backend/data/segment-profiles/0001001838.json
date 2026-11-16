@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001001838",
  "issuerName": "SOUTHERN COPPER CORP/",
- "builtAt": "2026-11-16T04:40:59.794Z",
+ "builtAt": "2026-11-16T09:09:14.711Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-021492",
@@ -10,10 +10,50 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1001838/000110465926021492/scco-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Peruvian operations",
+   "products": [
+    "copper",
+    "molybdenum",
+    "silver",
+    "anodes",
+    "refined copper"
+   ],
+   "description": "Mines copper at the Toquepala and Cuajone complexes and processes it into anodes and refined copper for customers worldwide, with molybdenum and silver by-products.",
+   "evidence": "1. Peruvian operations, which include the Toquepala and Cuajone mine complexes and the smelting and refining plants, including a precious metals plant, industrial railroad and port facilities that service both mines."
+  },
+  {
+   "name": "Mexican open-pit operations",
+   "products": [
+    "copper",
+    "zinc",
+    "molybdenum",
+    "silver",
+    "copper rod"
+   ],
+   "description": "Mines and processes ore from the La Caridad and Buenavista complexes into copper, zinc, molybdenum and silver sold to customers worldwide.",
+   "evidence": "2. Mexican open-pit operations, which include the La Caridad and Buenavista mine complexes and the smelting and refining plants, including a precious metals plant and a copper rod plant and support facilities that service both mines."
+  },
+  {
+   "name": "Mexican underground mining operations",
+   "products": [
+    "zinc",
+    "copper",
+    "lead",
+    "silver",
+    "gold"
+   ],
+   "description": "Runs five underground mines and a zinc refinery, producing zinc, copper, lead, silver and gold; known internally as the IMMSA unit.",
+   "evidence": "3. Mexican underground mining operations, which include five underground mines that produce zinc, copper, lead, silver and gold; and a zinc refinery."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "End-user customers pay for copper, molybdenum, silver and zinc bought mostly under annual or longer-term contracts at prevailing commodity prices.",
+  "evidence": "We focus on end-user customers as opposed to selling on the spot market or to trading companies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

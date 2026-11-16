@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001039765",
  "issuerName": "ING GROEP NV",
- "builtAt": "2026-11-16T04:41:00.377Z",
+ "builtAt": "2026-11-16T09:14:28.763Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-011979",
@@ -10,10 +10,76 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1039765/000162828026011979/ing-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Netherlands",
+   "products": [
+    "daily banking",
+    "lending",
+    "savings",
+    "investments",
+    "insurance"
+   ],
+   "description": "Serves private individuals, business banking clients and private banking clients in the Netherlands with daily banking, lending, savings, investments and insurance.",
+   "evidence": "The main products and services offered are daily banking, lending, savings, investments and insurance."
+  },
+  {
+   "name": "Retail Belgium",
+   "products": [
+    "daily banking",
+    "lending",
+    "savings",
+    "investments",
+    "insurance"
+   ],
+   "description": "Serves private individuals, business banking and private banking clients in Belgium and Luxembourg with products similar to those in the Netherlands.",
+   "evidence": "Income from products and services provided to private individuals, business banking clients and private banking clients in Belgium and Luxembourg."
+  },
+  {
+   "name": "Retail Germany",
+   "products": [
+    "daily banking",
+    "lending",
+    "savings",
+    "investments",
+    "insurance"
+   ],
+   "description": "Serves private individuals, business banking and private banking clients in Germany with the same retail products offered in the Netherlands.",
+   "evidence": "Income from products and services provided to private individuals, business banking clients and private banking clients in Germany."
+  },
+  {
+   "name": "Retail Other",
+   "products": [
+    "daily banking",
+    "lending",
+    "savings",
+    "investments",
+    "insurance"
+   ],
+   "description": "Serves private individuals, business banking and private banking clients in the other retail countries.",
+   "evidence": "Income from products and services provided to private individuals, business banking clients and private banking clients in the other retail countries."
+  },
+  {
+   "name": "Wholesale Banking",
+   "products": [
+    "lending",
+    "payments & cash management",
+    "working capital solutions",
+    "trade finance",
+    "financial markets",
+    "corporate finance",
+    "treasury"
+   ],
+   "description": "Serves large corporates, multinationals and institutional clients with lending, payments and cash management, trade finance, financial markets and treasury.",
+   "evidence": "Income from wholesale banking activities, of which the main products are lending, payments & cash management, working capital solutions, trade finance, financial markets, corporate finance and treasury."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay ING for banking products and services: savings accounts, payments, credit cards, mortgages, unsecured lending, investment solutions and insurance, plus fees, commissions and trading income.",
+  "evidence": "ING offers a broad range of banking products and services for private individuals, including savings accounts, payments, credit cards, mortgages, unsecured lending, investment solutions and insurance products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001122411",
  "issuerName": "ASE Technology Holding Co., Ltd.",
- "builtAt": "2026-11-16T04:41:00.616Z",
+ "builtAt": "2026-11-16T09:13:11.649Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-135585",
@@ -10,10 +10,51 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1122411/000119312526135585/d50802d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaging",
+   "products": [
+    "Packaging service"
+   ],
+   "description": "Packages bare semiconductors into finished semiconductors with enhanced electrical and thermal characteristics for chip and electronics customers.",
+   "evidence": "Packaging revenues increased by 17.8% to NT$308,342.6 million (US$9,829.2 million) in 2025 from NT$261,731.4 million in 2024."
+  },
+  {
+   "name": "Testing",
+   "products": [
+    "Testing service",
+    "front-end engineering testing",
+    "wafer probing",
+    "final testing services"
+   ],
+   "description": "Provides testing services, including front-end engineering testing, wafer probing and final testing, to semiconductor customers.",
+   "evidence": "Testing revenues increased by 31.8% to NT$71,900.2 million (US$2,292.0 million) in 2025 from NT$54,561.5 million in 2024."
+  },
+  {
+   "name": "EMS",
+   "products": [
+    "electronic components",
+    "telecommunications equipment motherboards"
+   ],
+   "description": "Designs, assembles, manufactures and sells electronic components and telecommunications equipment motherboards for customers.",
+   "evidence": "Revenues from our EMS business decreased by 5.2% to NT$257,192.7 million (US$8,198.7 million) in 2025 from NT$271,293.3 million in 2024, primarily due to the slow recovery of general communication and automotive products."
+  },
+  {
+   "name": "Others",
+   "products": [
+    "substrate production",
+    "sale and leasing of real estate properties"
+   ],
+   "description": "Covers other activities such as substrate production and the sale and leasing of real estate properties.",
+   "evidence": "The Group engages in other activities such as substrate production as well as sale and leasing of real estate properties."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, largely export customers, pay for semiconductor packaging, testing and electronics manufacturing services sold by the Group.",
+  "evidence": "The Group packages bare semiconductors into finished semiconductors with enhanced electrical and thermal characteristics; provides testing services, including front-end engineering testing, wafer probing and final testing services; engages in the designing, assembling, manufacturing and sale of electronic components and telecommunications equipment motherboards."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

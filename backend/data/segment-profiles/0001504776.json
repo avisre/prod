@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001504776",
  "issuerName": "Warby Parker Inc.",
- "builtAt": "2026-11-16T04:40:57.245Z",
+ "builtAt": "2026-11-16T09:04:30.455Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001504776-26-000006",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1504776/000150477626000006/wrby-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "holistic vision care",
+   "products": [
+    "glasses",
+    "sunglasses",
+    "contacts",
+    "contact lenses",
+    "eye exams",
+    "lens enhancements",
+    "progressives",
+    "premium lenses"
+   ],
+   "description": "Sells eyewear, contacts and eye exams directly to consumers through its retail stores and e-commerce platform as an integrated vision care brand.",
+   "evidence": "The holistic vision care segment sells eyewear products and provides optical services directly to customers through its retail and e-commerce platform."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Warby Parker directly for eyewear, contacts and eye exams through its stores and website, with insurance reimbursing some vision care purchases.",
+  "evidence": "We design our glasses in-house at our New York City headquarters and sell directly to customers, enabling us to make high-quality, designer eyewear more accessible, with simple, unified pricing starting at $95 including prescription lenses."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

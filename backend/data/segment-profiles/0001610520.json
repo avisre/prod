@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001610520",
  "issuerName": "UBS Group AG",
- "builtAt": "2026-11-16T04:40:59.618Z",
+ "builtAt": "2026-11-16T09:08:27.033Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001610520-26-000023",
@@ -10,11 +10,82 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1610520/000161052026000023/ubs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Wealth Management",
+   "products": [
+    "investment management",
+    "estate planning",
+    "corporate finance advice",
+    "wealth management and banking products and services"
+   ],
+   "description": "Serves private wealth and select institutional clients with advice, investment management, estate planning, corporate finance advice and banking products.",
+   "evidence": "Global Wealth Management provides financial services, advice and solutions to private wealth clients, as well as select institutional clients."
+  },
+  {
+   "name": "Personal & Corporate Banking",
+   "products": [
+    "banking",
+    "retirement",
+    "financing",
+    "investments",
+    "strategic transactions"
+   ],
+   "description": "Serves private, corporate and institutional clients in Switzerland through its branch network and digital channels.",
+   "evidence": "Personal & Corporate Banking provides an extensive range of financial products and services, from banking to retirement, financing, investments and strategic transactions, to private, corporate and institutional clients, in Switzerland, through its branch network and digital channels."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "investment capabilities and strategies",
+    "traditional and alternative asset classes",
+    "investing styles"
+   ],
+   "description": "A global asset manager offering investment capabilities and strategies to institutions, wholesale intermediaries and Global Wealth Management clients.",
+   "evidence": "Asset Management is a global, large-scale and diversified asset manager, offering investment capabilities and strategies across all major traditional and alternative asset classes and investing styles to"
+  },
+  {
+   "name": "Investment Bank",
+   "products": [
+    "equities",
+    "foreign exchange",
+    "precious metals",
+    "research",
+    "advisory and capital markets",
+    "rates and credit platform"
+   ],
+   "description": "Helps institutional, corporate, financial sponsor and Global Wealth Management clients raise capital, invest and manage risks.",
+   "evidence": "The Investment Bank provides services to institutional, corporate, financial sponsor and Global Wealth Management clients, helping them raise capital, invest and manage risks."
+  },
+  {
+   "name": "Non-core and Legacy",
+   "products": [
+    "selected assets and liabilities"
+   ],
+   "description": "Holds Credit Suisse and legacy UBS positions judged non-strategic or outside the firm's risk appetite.",
+   "evidence": "Non-core and Legacy incorporates selected assets and liabilities originating from the former Credit Suisse businesses not aligned with UBS's long-term strategic priorities or risk appetite"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay fees and commissions for portfolio management, funds, underwriting, advisory, brokerage and banking services, and the firm earns net interest income.",
+  "evidence": "This category includes fees earned on portfolio management mandates with clients and management and performance fees earned on UBS-managed funds and third-party-managed funds."
+ },
+ "changes": [
+  {
+   "text": "In 2025 UBS completed the sale of the US mortgage servicing business Select Portfolio Servicing, which was managed in Non-core and Legacy.",
+   "evidence": "Includes a gain of USD 128 m from the sale of a stake in a subsidiary, Credit Suisse Securities (China) Limited, and a gain of USD 97 m recognized upon the completion of the sale of the US mortgage servicing business of Credit Suisse, Select Portfolio Servicing, which was managed in Non-core and Legacy."
+  },
+  {
+   "text": "In 2025 UBS sold its wealth management business in India.",
+   "evidence": "Includes a USD 33 m gain from the sale of UBS's wealth management business in India."
+  },
+  {
+   "text": "In 2025 Asset Management sold its Brazilian real estate fund management business.",
+   "evidence": "Includes USD 113 m net gains in Asset Management from the sale of the Brazilian real estate fund management business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001767258",
  "issuerName": "XPEL, INC.",
- "builtAt": "2026-11-16T04:40:57.785Z",
+ "builtAt": "2026-11-16T09:05:12.624Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001767258-26-000014",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1767258/000176725826000014/xpel-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Protective films",
+   "products": [
+    "paint protection film",
+    "automotive window or tint films",
+    "windshield protection film",
+    "architectural window film",
+    "ceramic coating",
+    "pre-cut film products",
+    "Design Access Platform",
+    "installation services"
+   ],
+   "description": "Supplies protective films, coatings and installation services to automobile aftermarket installers, new car dealerships, OEMs and architectural customers.",
+   "evidence": "As a result, these segments have been aggregated into a single reportable segment in accordance with the aggregation criteria under ASC 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Independent installers, new car dealerships, distributors, Company-owned centers, OEMs and online buyers pay for films, installation services and software access.",
+  "evidence": "We sell and distribute our products through independent installers, new car dealerships, third-party distributors, Company-owned installation centers, OEMs, Protex Canada's franchisees, and online."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company restructured segment reporting to geographically segmented business units, which were then aggregated into a single reportable segment.",
+   "evidence": "During the year ended December 31, 2025, the Company restructured its reporting to the CODM to include financial information from geographically segmented business units."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

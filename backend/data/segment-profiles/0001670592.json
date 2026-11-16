@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001670592",
  "issuerName": "YETI Holdings, Inc.",
- "builtAt": "2026-11-16T04:40:57.996Z",
+ "builtAt": "2026-11-16T09:06:03.941Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001670592-26-000013",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1670592/000167059226000013/yeti-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Outdoor Products",
+   "products": [
+    "hard coolers",
+    "soft cooler bags",
+    "bags",
+    "cargo and storage",
+    "outdoor living",
+    "drinkware",
+    "cookware",
+    "apparel"
+   ],
+   "description": "Designs, retails and distributes premium outdoor products such as coolers, drinkware, bags and apparel to consumers and retail partners worldwide.",
+   "evidence": "We operate as one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "YETI sells premium outdoor products to wholesale retail partners and directly to consumers through its DTC channel and retail stores.",
+  "evidence": "We sell our products in our DTC channel to customers on our websites, through YETI Authorized on the Amazon Marketplace, as well as in our retail stores."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001594805",
  "issuerName": "Shopify Inc.",
- "builtAt": "2026-11-16T04:41:00.080Z",
+ "builtAt": "2026-11-16T09:10:38.317Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001594805-26-000007",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1594805/000159480526000007/shop-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commerce platform",
+   "products": [
+    "Shopify Payments",
+    "Shopify Capital",
+    "POS Pro",
+    "Shopify Plus",
+    "Shopify Audiences",
+    "Shop Campaigns",
+    "Sidekick",
+    "Agentic Storefronts"
+   ],
+   "description": "Runs an all-in-one commerce platform that lets merchants of all sizes sell online, in store and everywhere in between.",
+   "evidence": "Shopify's all-in-one platform makes it easier to start, run and grow a business, powering sales online, in store, and everywhere in between."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Merchants pay recurring subscription fees for platform plans and pay merchant solutions fees for payments, lending, shipping and advertising.",
+  "evidence": "Our business model has two revenue components: a recurring subscription component that we call subscription solutions and a merchant success-based component that we call merchant solutions."
+ },
+ "changes": [
+  {
+   "text": "In 2023 Shopify sold its logistics businesses, the majority to Flexport.",
+   "evidence": "In the second quarter of 2023 the Company sold its logistics businesses (the \"divested businesses\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

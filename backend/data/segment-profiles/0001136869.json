@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001136869",
  "issuerName": "ZIMMER BIOMET HOLDINGS, INC.",
- "builtAt": "2026-11-16T04:40:58.130Z",
+ "builtAt": "2026-11-16T09:06:32.724Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-059853",
@@ -10,10 +10,47 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1136869/000119312526059853/zbh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Knees",
+    "Hips",
+    "S.E.T.",
+    "Technology & Data, Bone Cement and Surgical"
+   ],
+   "description": "Sells orthopedic implants, surgical products and robotic technologies to hospitals, surgeons and distributors across the Americas, principally the United States.",
+   "evidence": "Our Americas operating segment is comprised principally of the U.S. and includes other North, Central and South American markets."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Knees",
+    "Hips",
+    "S.E.T.",
+    "Technology & Data, Bone Cement and Surgical"
+   ],
+   "description": "Sells its orthopedic and surgical product portfolio to hospitals, surgeons and distributors across Europe, the Middle East and Africa.",
+   "evidence": "Our EMEA operating segment is comprised principally of Europe and includes the Middle East and African markets."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "Knees",
+    "Hips",
+    "S.E.T.",
+    "Technology & Data, Bone Cement and Surgical"
+   ],
+   "description": "Sells its orthopedic and surgical product portfolio to hospitals, surgeons and dealers across Japan, China, Australia and other Asian and Pacific markets.",
+   "evidence": "Our Asia Pacific operating segment is comprised principally of Japan, China and Australia and includes other Asian and Pacific markets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Orthopedic surgeons, healthcare institutions, stocking distributors and dealers pay for implants, surgical products and robotic technologies used in procedures.",
+  "evidence": "Our primary customers include orthopedic surgeons, neurosurgeons, and other specialists, healthcare institutions, stocking distributors, healthcare dealers and, in their capacity as agents, healthcare purchasing organizations or buying groups."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001144967",
  "issuerName": "HDFC BANK LIMITED",
- "builtAt": "2026-11-16T04:41:00.111Z",
+ "builtAt": "2026-11-16T09:11:42.677Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-322004",
@@ -10,11 +10,56 @@
   "filingDate": "2026-07-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1144967/000119312526322004/d88195d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Banking",
+   "products": [],
+   "description": "Serves retail customers through a branch network, with deposits and credit and debit cards.",
+   "evidence": "The Bank operates in five reportable segments, namely retail banking, wholesale banking, treasury services, insurance services and others."
+  },
+  {
+   "name": "Wholesale Banking",
+   "products": [],
+   "description": "Serves corporate and institutional customers with wholesale banking products and services.",
+   "evidence": "The Bank operates in five reportable segments: wholesale banking, retail banking, insurance services, treasury services and others."
+  },
+  {
+   "name": "Treasury Services",
+   "products": [],
+   "description": "Runs the Bank's treasury activity, including funding between segments, investments, foreign exchange and derivative transactions.",
+   "evidence": "The Bank operates in five reportable segments, namely retail banking, wholesale banking, treasury services, insurance services and others."
+  },
+  {
+   "name": "Insurance Services",
+   "products": [
+    "long-term life insurance solutions"
+   ],
+   "description": "Provides long-term life insurance solutions to policyholders through subsidiary HDFC Life Insurance Company Limited.",
+   "evidence": "Claims and benefits paid pertaining to insurance business is a significant expense for our insurance services segment."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Holds the activities carried through HDFC Limited's other former specialized subsidiaries after the Transaction.",
+   "evidence": "insurance services\", including long-term life insurance solutions provided via our subsidiary HDFC Life Insurance Company Limited, and \"others\", consisting primarily of activities that we carry through HDFC Limited's other former specialized subsidiaries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers and borrowers pay the Bank interest and fees on loans and banking services, while policyholders pay premiums on insurance products.",
+  "evidence": "Premiums related to traditional long-duration products are recognized as revenues when due from policyholders."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Transaction with HDFC Limited added the insurance services and others segments.",
+   "evidence": "As a result of the Transaction, we reflected two new segments in our U.S. GAAP financial statements: \"insurance services\", including long-term life insurance solutions provided via our subsidiary HDFC Life Insurance Company Limited, and \"others\", consisting primarily of activities that we carry through HDFC Limited's other former specialized subsidiaries."
+  },
+  {
+   "text": "In 2024 we divested our holdings in HDFC Credila and HDFC Edu as directed in the context of the Transaction approval.",
+   "evidence": "For example, as directed by the RBI in the context of the regulatory approval of the Transaction, we divested a portion of our interest in HDFC Credila so that we held a 9.99 percent stake as of March 31, 2024, and we completed the sale process to divest our 100 percent stake in HDFC Edu in two stages, on October 18, 2024 and on December 20, 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

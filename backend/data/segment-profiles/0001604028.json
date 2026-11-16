@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001604028",
  "issuerName": "ADVANCED DRAINAGE SYSTEMS, INC.",
- "builtAt": "2026-11-16T04:40:57.085Z",
+ "builtAt": "2026-11-16T09:04:16.098Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001604028-26-000019",
@@ -10,11 +10,53 @@
   "filingDate": "2026-05-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1604028/000160402826000019/wms-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Stormwater",
+   "products": [
+    "Pipe",
+    "Allied Products",
+    "Chambers",
+    "Structures",
+    "Fittings",
+    "Water Quality",
+    "NDS channel drains, catch basins and access boxes"
+   ],
+   "description": "Designs, manufactures and markets thermoplastic corrugated pipe and related water management products for stormwater capture, conveyance, storage and treatment across residential, non-residential, infrastructure and…",
+   "evidence": "Stormwater products include single, double and triple wall corrugated polypropylene and polyethylene pipe (\"Pipe\"); a variety of additional water management products (\"Allied Products\"), including storm retention/detention and onsite wastewater chambers (\"Chambers\"); polyvinyl chloride drainage structures (\"Structures\"); fittings (\"Fittings\"); water quality filters and separators (\"Water Quality\"); and NDS channel drains, catch basins and access boxes; and various complementary products distribu"
+  },
+  {
+   "name": "Wastewater",
+   "products": [
+    "highly engineered plastic chambers",
+    "synthetic aggregate leachfields",
+    "combined treatment and dispersal systems",
+    "plastic tanks",
+    "advanced treatment systems",
+    "Quick4, Quick5 and ARC",
+    "EZflow",
+    "Orenco Controls"
+   ],
+   "description": "Through Infiltrator, designs and manufactures plastic chambers, leachfields, tanks and advanced treatment systems for onsite wastewater and decentralized commercial wastewater treatment customers.",
+   "evidence": "Infiltrator is the leading designer and manufacturer of highly engineered plastic chambers, synthetic aggregate leachfields, combined treatment and dispersal systems, plastic tanks, advanced treatment systems, and related accessories that are used in onsite wastewater systems and decentralized commercial wastewater treatment systems."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Contractors, developers, distributors and end users pay for corrugated pipe and related water management products used in stormwater and onsite wastewater applications.",
+  "evidence": "We design, manufacture and market a complete line of high performance thermoplastic corrugated pipe and related water management products for use in a wide range of end markets."
+ },
+ "changes": [
+  {
+   "text": "In 2026, following the NDS acquisition, the company realigned its reportable segments and renamed the former Infiltrator segment as Wastewater.",
+   "evidence": "Our revised reportable segments consist of Stormwater and Wastewater (formerly referred to as the \"Infiltrator\" reportable segment)."
+  },
+  {
+   "text": "In 2026, segment profitability was changed from adjusted gross profit to Adjusted EBITDA, with historical results recast.",
+   "evidence": "Further, we changed the measure used to evaluate segment profitability from adjusted gross profit to Adjusted EBITDA."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001015328",
  "issuerName": "WINTRUST FINANCIAL CORP",
- "builtAt": "2026-11-16T04:40:57.317Z",
+ "builtAt": "2026-11-16T09:05:30.563Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001015328-26-000007",
@@ -10,11 +10,59 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1015328/000101532826000007/wtfc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "Wintrust Mortgage",
+    "MaxSafe ® deposit accounts",
+    "Veterans First",
+    "Wintrust Commercial Finance",
+    "Wintrust Business Credit",
+    "Wintrust SBA Lending",
+    "Wintrust Commercial Real Estate",
+    "Wintrust Workplace Solutions"
+   ],
+   "description": "Community-oriented personal and commercial banking for individuals, small to mid-sized businesses, local governments and institutional clients in the Chicago area and nearby states.",
+   "evidence": "Through our community banking segment, our banks provide community-oriented, personal and commercial banking services to customers located in our market area."
+  },
+  {
+   "name": "Specialty Finance",
+   "products": [
+    "FIRST Insurance Funding",
+    "Wintrust Life Finance",
+    "FIFC Canada",
+    "Wintrust Asset Finance",
+    "Tricom",
+    "insurance banking services"
+   ],
+   "description": "Finances insurance premiums for businesses and individuals, plus leasing, receivables financing and outsourced administrative services for companies across the United States and Canada.",
+   "evidence": "FIRST Insurance Funding and Wintrust Life Finance engage in the premium finance receivables business, our most significant specialized lending niche, including property and casualty insurance premium finance and life insurance premium finance."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "Wintrust Private Trust Company, N.A.",
+    "Wintrust Investments, LLC",
+    "Great Lakes Advisors, LLC",
+    "Chicago Deferred Exchange Company, LLC"
+   ],
+   "description": "Provides trust, investment, advisory and deferred exchange services to individuals and institutions in the company's market area through four subsidiaries.",
+   "evidence": "we provide a full range of wealth management services primarily to customers in our market area through four separate subsidiaries, Wintrust Private Trust Company, N.A. (\"WPT\"), Wintrust Investments, LLC (\"Wintrust Investments\"), Great Lakes Advisors, LLC (\"Great Lakes Advisors\" or \"GLA\") and Chicago Deferred Exchange Company, LLC (\"CDEC\")."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Depositors, borrowers, businesses and individuals pay the banks for banking services and loans, insurance agents and borrowers pay for premium financing, and clients pay wealth management fees.",
+  "evidence": "Our customers include individuals, small to mid-sized businesses, local governmental units and institutional clients residing primarily in the banks' local service areas."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold its RBA division within its wealth management business.",
+   "evidence": "The decrease was primarily due to a $20.0 million gain recognized in the first quarter of 2024 related to the sale of the Company's RBA division within its wealth management business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001555280",
  "issuerName": "Zoetis Inc.",
- "builtAt": "2026-11-16T04:40:58.270Z",
+ "builtAt": "2026-11-16T09:06:54.752Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001555280-26-000011",
@@ -10,11 +10,52 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000011/zts-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "parasiticides",
+    "vaccines",
+    "dermatology",
+    "anti-infectives",
+    "pain and sedation",
+    "other pharmaceutical",
+    "animal health diagnostics"
+   ],
+   "description": "Sells parasiticides, vaccines, dermatology, anti-infectives, pain and sedation and diagnostics to companion animal and livestock customers in the United States.",
+   "evidence": "Our operating segments are the U.S. and International."
+  },
+  {
+   "name": "International",
+   "products": [
+    "parasiticides",
+    "vaccines",
+    "dermatology",
+    "anti-infectives",
+    "pain and sedation",
+    "other pharmaceutical",
+    "animal health diagnostics"
+   ],
+   "description": "Sells the same animal health portfolio to companion animal and livestock customers in markets outside the United States.",
+   "evidence": "Within each of these operating segments, we offer a diversified product portfolio, including parasiticides, vaccines, dermatology, anti-infectives, pain and sedation, other pharmaceutical and animal health diagnostics, for both companion animal and livestock customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Veterinarians, livestock producers, pet owners and third parties pay for animal health medicines, vaccines, diagnostics and contract manufacturing services.",
+  "evidence": "We directly market our products to veterinarians and livestock producers located in approximately 45 countries across North America, Europe, Africa, Asia, Australia and South America"
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company completed the divestiture of its medicated feed additive product portfolio, certain water soluble products and related assets.",
+   "evidence": "On October 31, 2024, we completed the divestiture of our medicated feed additive product portfolio, certain water soluble products and related assets"
+  },
+  {
+   "text": "In 2023 the company sold a majority interest in its pet insurance business.",
+   "evidence": "a gain on the sale of a majority interest in our pet insurance business"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001089113",
  "issuerName": "HSBC HOLDINGS PLC",
- "builtAt": "2026-11-16T04:40:58.514Z",
+ "builtAt": "2026-11-16T09:09:07.226Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001089113-26-000010",
@@ -10,11 +10,93 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1089113/000108911326000010/hsbc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hong Kong",
+   "products": [
+    "Retail Banking and Wealth",
+    "Retail Banking",
+    "Wealth",
+    "Commercial Banking",
+    "Wholesale Transaction Banking",
+    "Credit and Lending",
+    "Hang Seng Bank"
+   ],
+   "description": "Retail, wealth and commercial banking for personal and business customers in Hong Kong, including Hang Seng Bank.",
+   "evidence": "It comprises Retail Banking and Wealth and Commercial Banking of HSBC Hong Kong and Hang Seng Bank."
+  },
+  {
+   "name": "UK",
+   "products": [
+    "UK Retail Banking and Wealth",
+    "first direct",
+    "M&S Bank",
+    "UK Commercial Banking",
+    "HSBC Innovation Bank",
+    "Wholesale Transaction Banking",
+    "Credit and Lending"
+   ],
+   "description": "Retail, wealth and commercial banking for personal and business customers across the UK, including first direct and M&S Bank.",
+   "evidence": "It comprises UK Retail Banking and Wealth (including first direct and M&S Bank) and UK Commercial Banking, including HSBC Innovation Bank."
+  },
+  {
+   "name": "Corporate and Institutional Banking",
+   "products": [
+    "Wholesale Transaction Banking",
+    "Investment Banking",
+    "Debt and Equity Markets",
+    "Wholesale Credit and Lending",
+    "Global Foreign Exchange",
+    "Securities Services",
+    "Global Payments Solutions",
+    "Global Trade Solutions"
+   ],
+   "description": "Cross-border transaction banking and capital markets for corporate and institutional clients worldwide.",
+   "evidence": "Our CIB business is a market leader in cross-border transaction banking and capital markets."
+  },
+  {
+   "name": "International Wealth and Premier Banking",
+   "products": [
+    "Premier banking",
+    "Retail Banking",
+    "Wealth",
+    "Investment Distribution",
+    "Insurance",
+    "Private Bank",
+    "Asset Management"
+   ],
+   "description": "Premier banking, private banking, asset management and insurance for affluent clients outside Hong Kong and the UK.",
+   "evidence": "Our IWPB business comprises Premier banking outside of Hong Kong and the UK, our Private Bank, Asset Management and Insurance businesses."
+  },
+  {
+   "name": "Corporate Centre",
+   "products": [
+    "Central Treasury"
+   ],
+   "description": "Central Treasury, stewardship costs, consolidation adjustments and the results of the Group's associates and joint ventures.",
+   "evidence": "The results of Corporate Centre primarily comprise the financial impact of certain acquisitions and disposals and the share of profit from our interests in our associates and joint ventures and related impairments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail customers, small businesses, large corporates, institutions and ultra-high net worth individuals pay HSBC for banking, wealth, payments, trade and market products.",
+  "evidence": "We serve clients from small businesses to global institutions, from retail customers to ultra-high net worth individuals."
+ },
+ "changes": [
+  {
+   "text": "In 2025 HSBC reorganised into four businesses: Hong Kong, the UK, Corporate and Institutional Banking, and International Wealth and Premier Banking.",
+   "evidence": "A key catalyst for achieving that acceleration was the introduction in January 2025 of our new organisational structure centred on our four businesses: Hong Kong, the UK, Corporate and Institutional Banking, and International Wealth and Premier Banking."
+  },
+  {
+   "text": "In 2024 HSBC sold its banking businesses in Canada and Argentina.",
+   "evidence": "In 2024, notable items included a net loss of $1.4bn related to business disposals in Canada and Argentina, as well as a $0.2bn loss related to the early redemption of legacy securities."
+  },
+  {
+   "text": "In 2025 HSBC sold its French life insurance business and its private banking business in Germany.",
+   "evidence": "On 31 October 2025, HSBC Continental Europe completed the sale of its French life insurance business, HSBC Assurances Vie (France), to Matmut Société d'Assurance Mutuelle."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

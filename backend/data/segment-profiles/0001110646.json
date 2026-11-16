@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001110646",
  "issuerName": "NETEASE, INC.",
- "builtAt": "2026-11-16T04:41:00.937Z",
+ "builtAt": "2026-11-16T09:14:22.314Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-043468",
@@ -10,10 +10,63 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1110646/000110465926043468/ntes-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Games and related value-added services",
+   "products": [
+    "Westward Journey Online",
+    "Fantasy Westward Journey",
+    "Where Winds Meet",
+    "Once Human",
+    "Marvel Rivals",
+    "Knives Out",
+    "Identity V",
+    "Eggy Party"
+   ],
+   "description": "Develops and operates in-house and licensed online games across PC, mobile and console platforms for players worldwide.",
+   "evidence": "We generate our online game revenues primarily from the sale of in-game virtual items, including avatars, skills, privileges or other in-game consumables, features or functionalities, and gameplay time, as well as other fee-based premium services."
+  },
+  {
+   "name": "Youdao",
+   "products": [
+    "learning services",
+    "smart devices",
+    "online marketing services",
+    "digital content services",
+    "online courses"
+   ],
+   "description": "Provides intelligent learning services, smart devices and online marketing services to learners and advertisers.",
+   "evidence": "Youdao's revenue consists of three parts: learning services, smart devices and online marketing services."
+  },
+  {
+   "name": "NetEase Cloud Music",
+   "products": [
+    "online music services",
+    "membership subscriptions",
+    "social entertainment services",
+    "virtual items"
+   ],
+   "description": "Operates a music streaming platform, selling music memberships and social entertainment virtual items to users.",
+   "evidence": "NetEase Cloud Music's revenue is primarily generated from (i) online music services through the sales of membership subscriptions in various content and service packages and (ii) social entertainment services and others mainly through the sale of virtual items."
+  },
+  {
+   "name": "Innovative businesses and others",
+   "products": [
+    "e-commerce",
+    "advertising services",
+    "other value-added services",
+    "Yanxuan"
+   ],
+   "description": "Runs e-commerce, advertising and other value-added services for consumers, merchants and advertisers.",
+   "evidence": "We derive our innovative businesses and others revenues primarily from e-commerce, advertising services and other value-added services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Players and users pay for in-game virtual items and play time, memberships, courses, smart devices, merchandise and advertising placements.",
+  "evidence": "We generate a substantial part of our revenues through sales of in-game virtual items and play time, merchandise sales, music streaming, advertising services and tuition fees for online courses."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

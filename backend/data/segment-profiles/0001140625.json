@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001140625",
  "issuerName": "EQUINOR ASA",
- "builtAt": "2026-11-16T04:41:00.343Z",
+ "builtAt": "2026-11-16T09:12:13.952Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001140625-26-000013",
@@ -10,11 +10,88 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1140625/000114062526000013/eqnr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration & Production Norway",
+   "products": [
+    "oil and gas"
+   ],
+   "description": "Discovers, develops and produces oil and gas on the Norwegian continental shelf for Equinor and its licensees.",
+   "evidence": "The assets acquired and liabilities assumed were recognised in accordance with the principles in IFRS 3 Business Combinations within the E&P Norway segment, mainly as property, plant, and equipment (USD 610 million), goodwill (USD 476 million) and deferred tax liability (USD 381 million)."
+  },
+  {
+   "name": "Exploration & Production International (E&P International)",
+   "products": [
+    "oil and gas"
+   ],
+   "description": "Discovers, develops and produces oil and gas worldwide outside Norway and the USA.",
+   "evidence": "The estimated fair value of performance based contingent consideration and interim period settlement have been included in the loss of USD 174 million recognised within the E&P International segment in the fourth quarter 2025 and presented in the line-item Operating expenses in the Consolidated statement of income."
+  },
+  {
+   "name": "Exploration & Production USA",
+   "products": [
+    "oil and gas"
+   ],
+   "description": "Discovers, develops and produces oil and gas in the United States.",
+   "evidence": "The Exploration & Production operating segments are responsible for the discovery and appraisal of new resources, commercial development and safe and efficient operation of the oil and gas portfolios within their respective geographical areas: E&P Norway on the Norwegian continental shelf, E&P USA in USA and E&P International worldwide outside of E&P Norway and E&P USA ."
+  },
+  {
+   "name": "Marketing, Midstream & Processing (MMP)",
+   "products": [
+    "crude oil and condensate",
+    "natural gas",
+    "NGL",
+    "refined products",
+    "power and emissions trading",
+    "low carbon solutions"
+   ],
+   "description": "Markets, trades, processes and transports crude oil, gas and refined products, and runs refineries, terminals and processing plants.",
+   "evidence": "MMP is responsible for the marketing, trading, processing and transportation of crude oil and condensate, natural gas, NGL and refined products, and includes refinery, terminals, and processing plant operation."
+  },
+  {
+   "name": "Renewables (REN)",
+   "products": [
+    "offshore wind",
+    "green hydrogen",
+    "storage solutions",
+    "solar power"
+   ],
+   "description": "Develops, invests in and operates renewable energy assets such as offshore wind, green hydrogen, storage and solar.",
+   "evidence": "REN is developing, exploring, investing in, and operating areas within renewable energy such as offshore wind, green hydrogen, storage solutions and solar power."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "oil and gas field development",
+    "well deliveries",
+    "sourcing",
+    "technology development",
+    "digitalisation"
+   ],
+   "description": "Aggregates the Projects, Drilling & Procurement and Technology, Digital & Innovation business areas plus corporate staff and functions.",
+   "evidence": "Based on materiality considerations, the remaining business areas Projects, Drilling & Procurement ( PDP ), Technology, Digital & Innovation ( TDI ) as well as Corporate staff and functions, are aggregated into the reportable segment Other."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Buyers pay for crude oil, condensate, natural gas, NGL, refined products and power that Equinor markets and trades.",
+  "evidence": "MMP is responsible for the marketing, trading, processing and transportation of crude oil and condensate, natural gas, NGL and refined products, and includes refinery, terminals, and processing plant operation."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Equinor established the Power business area, which becomes a reportable segment from the first quarter of 2026.",
+   "evidence": "During the fourth quarter of 2025, Equinor made changes to its organisational structure by establishing the new Power business area (PWR)."
+  },
+  {
+   "text": "In 2025 Equinor sold its operated interest in the Peregrino field in Brazil and agreed to sell the remainder.",
+   "evidence": "On 11 November 2025, Equinor closed a transaction with Prio Tigris Ltda., a subsidiary of PRIO SA, to sell its 40 % operated interest in the Peregrino field in Brazil as part of the ongoing optimisation of Equinor's international upstream portfolio."
+  },
+  {
+   "text": "In 2025 Equinor merged its UK upstream business with Shell into the Adura joint venture.",
+   "evidence": "On 1 December 2025, Equinor closed an agreement with Shell to merge their UK upstream businesses and establish a joint venture, named Adura."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

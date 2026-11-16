@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001668717",
  "issuerName": "Anheuser-Busch InBev SA/NV",
- "builtAt": "2026-11-16T04:40:59.553Z",
+ "builtAt": "2026-11-16T09:09:32.319Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-088105",
@@ -10,11 +10,109 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1668717/000119312526088105/d65314d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Bud Light",
+    "Budweiser",
+    "Michelob ULTRA",
+    "Stella Artois",
+    "Corona",
+    "Busch",
+    "Modelo",
+    "Goose Island"
+   ],
+   "description": "Brews, markets and distributes beer and non-beer beverages to consumers in the United States and Canada.",
+   "evidence": "North America : the United States and Canada;"
+  },
+  {
+   "name": "Middle Americas",
+   "products": [
+    "Corona Extra",
+    "Modelo Especial",
+    "Negra Modelo",
+    "Pilsener",
+    "Presidente Light",
+    "Aguila",
+    "Club Colombia Dorada",
+    "Michelob ULTRA"
+   ],
+   "description": "Sells beer and non-beer beverages to consumers across the Caribbean, Colombia, Mexico, Peru, Central America and the Dominican Republic.",
+   "evidence": "Middle Americas : the Caribbean, Colombia, the Dominican Republic, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Panama, Peru and other Middle Americas countries;"
+  },
+  {
+   "name": "South America",
+   "products": [
+    "Brahma",
+    "Skol",
+    "Antarctica",
+    "Quilmes",
+    "Original",
+    "Bohemia",
+    "Spaten",
+    "Stella Artois"
+   ],
+   "description": "Produces and sells beer and other beverages to consumers in Argentina, Bolivia, Brazil, Chile, Paraguay and Uruguay.",
+   "evidence": "South America : Argentina, Bolivia, Brazil, Chile, Paraguay and Uruguay;"
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Jupiler",
+    "Leffe",
+    "Hoegaarden",
+    "Stella Artois",
+    "Beck's",
+    "Spaten",
+    "Carling Black Label",
+    "Castle Lager"
+   ],
+   "description": "Supplies beer and other beverages to consumers across its European and African markets.",
+   "evidence": "EMEA : Austria, Belgium, France, Germany, Ireland, Italy, Luxembourg, the Netherlands, Spain, Switzerland, the United Kingdom, Botswana, Ghana, Lesotho, Mozambique, Namibia, Nigeria, South Africa, Swaziland, Tanzania, Uganda and Zambia"
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "Budweiser",
+    "Harbin",
+    "Sedrin",
+    "Cass",
+    "Goose Island",
+    "Corona",
+    "Beck's",
+    "Blue Girl"
+   ],
+   "description": "Sells beer and non-beer beverages to consumers in China, South Korea and other Asia Pacific markets.",
+   "evidence": "Asia Pacific : China, India, Japan, New Zealand, South Korea, Vietnam and other South Asian and Southeast Asian countries;"
+  },
+  {
+   "name": "Global Export and Holding Companies",
+   "products": [],
+   "description": "Holds the group's headquarters and export operations, selling products where the group has no local production or operations.",
+   "evidence": "The Global Export and Holding Companies segment includes our headquarters, some non-beverage related businesses, and the countries in which our products are sold only on an export basis and in which we generally do not otherwise have any operations or production activities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers buy the company's beer, soft drinks and other beverages through distributors, retailers and on-premise outlets, generating net revenue per hectoliter sold.",
+  "evidence": "We produce, market, distribute and sell a portfolio of well over 400 beer and malt beverage brands."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company disposed of assets held for sale in Barbados and other Caribbean islands.",
+   "evidence": "In the year ended 31 December 2025, we disposed of assets held for sale in Barbados and other Caribbean islands and we reported a USD 96 million gain in exceptional items."
+  },
+  {
+   "text": "In 2024 the company disposed of its share in associate Ghost Beverages LLC in the U.S. to Keurig Dr. Pepper.",
+   "evidence": "In the year ended 31 December 2024, we disposed of our share in associate Ghost Beverages LLC in the U.S. to Keurig Dr. Pepper and we reported a USD 437 million gain in exceptional items."
+  },
+  {
+   "text": "In 2023 the company disposed of a portfolio of eight beer and beverage brands and associated assets in the US to Tilray Brands, Inc.",
+   "evidence": "Business and assets disposals (including impairment losses) amounted to ( 397 )m US dollar for the year ended 31 December 2023, mainly comprising of a loss of ( 300 )m US dollar the company recognized upon disposal of a portfolio of eight beer and beverage brands and associated assets in the US to Tilray Brands, Inc."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

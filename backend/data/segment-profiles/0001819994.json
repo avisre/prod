@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819994",
  "issuerName": "Rocket Lab Corp",
- "builtAt": "2026-11-16T04:41:00.855Z",
+ "builtAt": "2026-11-16T09:14:32.459Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001819994-26-000013",
@@ -10,10 +10,41 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1819994/000181999426000013/rklb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Launch Services",
+   "products": [
+    "Electron",
+    "Neutron",
+    "Rutherford",
+    "Hypersonic Accelerator Suborbital Test Electron (HASTE)",
+    "kick stage"
+   ],
+   "description": "Provides dedicated or rideshare launch services to orbit for commercial and government satellite customers using Electron, with Neutron in development.",
+   "evidence": "Launch Services provides launch and launch related services to customers on a dedicated mission or ride share basis."
+  },
+  {
+   "name": "Space Systems",
+   "products": [
+    "spacecraft components",
+    "spacecraft design services",
+    "spacecraft manufacturing",
+    "optical systems",
+    "composite structures",
+    "reaction wheels",
+    "star trackers",
+    "solar power solutions"
+   ],
+   "description": "Supplies spacecraft components, spacecraft manufacturing, optical systems and on-orbit management solutions to commercial, aerospace prime contractor and government customers.",
+   "evidence": "Our space systems are the building blocks for spacecraft, which includes composite structures, reaction wheels, star trackers, solar power solutions, radios, separation systems, command and control spacecraft software and optical systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "U.S. Government and commercial customers, aerospace prime contractors included, pay Rocket Lab for launch services and for spacecraft products and services.",
+  "evidence": "The services provided by Rocket Lab are to U.S. Government and commercial customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

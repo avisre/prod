@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000891478",
  "issuerName": "Banco Santander, S.A.",
- "builtAt": "2026-11-16T04:40:59.081Z",
+ "builtAt": "2026-11-16T09:08:28.590Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0000891478-26-000030",
@@ -10,11 +10,90 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/891478/000089147826000030/san-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail & Commercial Banking (Retail)",
+   "products": [
+    "retail banking",
+    "commercial banking"
+   ],
+   "description": "Retail and commercial banking for individuals, small and medium enterprises and corporates across the Group's main markets.",
+   "evidence": "Retail & Commercial Banking (Retail): area that integrates the retail banking business and commercial banking (individuals, SMEs and corporates), except private banking clients and business originated in the consumer finance and the cards businesses."
+  },
+  {
+   "name": "Digital Consumer Bank (Consumer)",
+   "products": [
+    "Openbank",
+    "Open Digital Services (ODS)",
+    "SBNA Consumer"
+   ],
+   "description": "Consumer finance lending and digital banking for retail customers through consumer finance companies, Openbank and SBNA Consumer.",
+   "evidence": "Digital Consumer Bank (Consumer): comprises all business originated in the consumer finance companies, plus Openbank, Open Digital Services (ODS) and SBNA Consumer."
+  },
+  {
+   "name": "Corporate & Investment Banking (CIB)",
+   "products": [
+    "Global Transaction Banking",
+    "Global Banking",
+    "Global Debt Financing",
+    "Corporate Finance",
+    "Global Markets"
+   ],
+   "description": "Global transaction banking, financing, corporate finance and markets products for corporate and institutional customers.",
+   "evidence": "Corporate & Investment Banking (CIB): this business, which includes Global Transaction Banking, Global Banking (Global Debt Financing and Corporate Finance) and Global Markets, offers products and services on a global scale to corporate and institutional customers, and collaborates with other global businesses to better serve our broad customer base."
+  },
+  {
+   "name": "Wealth Management & Insurance (Wealth)",
+   "products": [
+    "Private Banking",
+    "International Private Banking",
+    "Santander Private Banking",
+    "Santander Asset Management",
+    "Santander Insurance",
+    "Portfolio Investments"
+   ],
+   "description": "Private banking, asset management, insurance and investment platforms for affluent clients and the Group's other businesses.",
+   "evidence": "Wealth Management & Insurance (Wealth): includes the corporate unit of Private Banking and International Private Banking in Miami and Switzerland (Santander Private Banking), the asset management business (Santander Asset Management), the insurance business (Santander Insurance) and the unit that manages the investment platforms and stakes that complement Wealth's traditional business (the new vertical, Portfolio Investments)."
+  },
+  {
+   "name": "Payments",
+   "products": [
+    "PagoNxt",
+    "Getnet",
+    "Ebury",
+    "PagoNxt Payments",
+    "Cards"
+   ],
+   "description": "Digital payment solutions and card platforms provided to the Group's banks and open-market customers.",
+   "evidence": "It is structured in two businesses: PagoNxt (Getnet, Ebury and PagoNxt Payments) and Cards (cards platform and business in the countries where we operate)."
+  },
+  {
+   "name": "Corporate Centre",
+   "products": [],
+   "description": "Centralized management of capital, liquidity, structural exchange rate position and equity stakes for the Group.",
+   "evidence": "The Corporate Centre includes the centralized activities relating to equity stakes in financial companies, financial management of the structural exchange rate position, assumed within the sphere of the Group's asset and liability committee, as well as management of liquidity and of shareholders' equity via issuances."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay interest, fees, insurance premiums and asset management charges for banking, payments and wealth services.",
+  "evidence": "Net interest income includes the net amount of the profit and loss account items 'Interest income' and 'Interest expense'."
+ },
+ "changes": [
+  {
+   "text": "In 2025 investment platforms and stakes previously recorded in Retail & Commercial Banking or Corporate & Investment Banking were moved into Wealth Management & Insurance.",
+   "evidence": "To better align reporting with the changes to the management structure in Wealth Management & Insurance, investment platforms (Investment Platforms Unit) and certain stakes in companies, mainly in the real estate sector, that were previously recorded in Retail & Commercial Banking or Corporate & Investment Banking were incorporated into Wealth Management & Insurance."
+  },
+  {
+   "text": "In 2025 the board dissolved the regional structures, so regional information is no longer reported and secondary segments became ten main units, the Corporate Centre and 'Rest of the Group'.",
+   "evidence": "As a result, we no longer report regional information and the secondary segments are structured into the 10 main units (nine countries and DCB Europe), the Corporate Centre and 'Rest of the Group', which includes everything that is not already included in the mentioned units."
+  },
+  {
+   "text": "In 2025 the Polish business was reported as discontinued operations held for sale, while its results remain primarily in Retail & Commercial Banking for primary segment reporting.",
+   "evidence": "In accordance with IFRS 5 requirements, in the statutory profit, results subject to the Poland disposal have been reported under the line 'Profit or loss after tax from discontinued operations' (see Note 3)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001303523",
  "issuerName": "British American Tobacco p.l.c.",
- "builtAt": "2026-11-16T04:40:59.885Z",
+ "builtAt": "2026-11-16T09:09:55.133Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001303523-26-000017",
@@ -10,11 +10,59 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1303523/000130352326000017/bti-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "The U.S.",
+   "products": [
+    "Combustibles",
+    "New Categories",
+    "Vapour",
+    "Heated Products",
+    "Modern Oral",
+    "Traditional Oral"
+   ],
+   "description": "Sells combustible, traditional oral and new category tobacco and nicotine products to adult consumers in the United States.",
+   "evidence": "In respect of the U.S. region, all financial statements and financial information provided by or with respect to the U.S. business or Reynolds American Inc."
+  },
+  {
+   "name": "Americas and Europe (AME)",
+   "products": [
+    "Combustibles",
+    "New Categories",
+    "Vapour",
+    "Heated Products",
+    "Modern Oral",
+    "Traditional Oral"
+   ],
+   "description": "Sells combustible, traditional oral and new category nicotine products to adult consumers across Europe, Latin America and Canada.",
+   "evidence": "Americas and Europe (AME), comprising markets operating in Europe, Latin America and Canada"
+  },
+  {
+   "name": "Asia-Pacific, Middle East and Africa (APMEA)",
+   "products": [
+    "Combustibles",
+    "New Categories",
+    "Vapour",
+    "Heated Products",
+    "Modern Oral",
+    "Traditional Oral"
+   ],
+   "description": "Sells combustible, traditional oral and new category nicotine products to adult consumers across Asia-Pacific, the Middle East and Africa.",
+   "evidence": "Asia-Pacific, Middle East and Africa (APMEA), comprising markets operating in Asia-Pacific, Middle East, Central Asia, Caucasus and Africa"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retailers and distributors pay for tobacco and nicotine products, with revenue recognised when control of the goods transfers to a customer.",
+  "evidence": "For the vast majority of the Group's sales, revenue is recognised when control of the goods is transferred to a customer at a point in time"
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Group disposed of its businesses in Russia and Belarus.",
+   "evidence": "– 2023 – disposal of the Group's businesses in Russia and Belarus;"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

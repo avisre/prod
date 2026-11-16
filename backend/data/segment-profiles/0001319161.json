@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001319161",
  "issuerName": "Warner Music Group Corp.",
- "builtAt": "2026-11-16T04:40:57.059Z",
+ "builtAt": "2026-11-16T09:05:04.233Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001319161-25-000034",
@@ -10,11 +10,52 @@
   "filingDate": "2025-11-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1319161/000131916125000034/wmg-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Recorded Music",
+   "products": [
+    "Digital",
+    "Physical",
+    "Artist services and expanded-rights",
+    "Licensing",
+    "Atlantic Records",
+    "Warner Records",
+    "Elektra Records",
+    "Parlophone Records"
+   ],
+   "description": "Signs, develops and markets recording artists, selling and licensing their recordings through digital services, physical formats and artist services.",
+   "evidence": "Recorded Music mainly involves selling, marketing, distribution and licensing of recorded music produced by the Company's recording artists."
+  },
+  {
+   "name": "Music Publishing",
+   "products": [
+    "musical compositions",
+    "Performance",
+    "Mechanical",
+    "Synchronization",
+    "published sheet music",
+    "songbooks"
+   ],
+   "description": "Owns and licenses musical compositions for songwriters, earning royalties when works are performed, reproduced, synchronized or sold as sheet music.",
+   "evidence": "Music Publishing revenues are earned from the receipt of royalties relating to the licensing of rights in musical compositions and the sale of published sheet music and songbooks."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Digital platforms such as Spotify, YouTube and Apple and record buyers pay the company for licensed access to recordings and compositions, physical products and artist services.",
+  "evidence": "In the fiscal year ended September 30, 2025, the Company had three customers, Spotify, YouTube and Apple, that individually represented 10% or more of total revenues"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company agreed to sell its EMP business within Recorded Music and classified it as held for sale.",
+   "evidence": "In the fourth quarter of 2025, the Company signed a non-binding letter of intent to sell its EMP business within our Recorded Music segment and was classified as held for sale."
+  },
+  {
+   "text": "In 2024 the Company divested certain sound recording and publishing rights and certain non-core owned and operated media properties.",
+   "evidence": "During the fiscal year ended September 30, 2024, the Company recognized a pre-tax gain of $ 32 million in connection with the divestiture of certain sound recording and publishing rights and certain non-core owned and operated media properties."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

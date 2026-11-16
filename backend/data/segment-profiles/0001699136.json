@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001699136",
  "issuerName": "Cactus, Inc.",
- "builtAt": "2026-11-16T04:40:56.887Z",
+ "builtAt": "2026-11-16T09:03:44.450Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012377",
@@ -10,11 +10,43 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1699136/000162828026012377/whd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pressure Control",
+   "products": [
+    "wellhead and pressure control equipment",
+    "Cactus Wellhead",
+    "wellhead systems",
+    "production trees",
+    "frac trees"
+   ],
+   "description": "Designs, manufactures, sells and rents wellhead and pressure control equipment and frac rental equipment for onshore oil and gas operators.",
+   "evidence": "The Pressure Control segment designs, manufactures, sells and rents a range of wellhead and pressure control equipment under the Cactus Wellhead brand."
+  },
+  {
+   "name": "Spoolable Technologies",
+   "products": [
+    "spoolable pipe",
+    "associated end fittings",
+    "FlexSteel",
+    "FlexSteel connectors"
+   ],
+   "description": "Designs, manufactures and sells spoolable pipe and end fittings used as production, gathering and takeaway pipelines by oil and gas operators.",
+   "evidence": "The Spoolable Technologies segment designs, manufactures, and sells spoolable pipe and associated end fittings under the FlexSteel brand."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Oil and gas operators pay for product sales, rentals, and installation and other field services on their wells.",
+  "evidence": "Our revenues are derived from three sources: products, rentals, and field service and other."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company acquired the FlexSteel business, adding the Spoolable Technologies segment.",
+   "evidence": "On February 28, 2023, we completed the acquisition of the FlexSteel business"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

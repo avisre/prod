@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001616000",
  "issuerName": "Xenia Hotels & Resorts, Inc.",
- "builtAt": "2026-11-16T04:40:57.652Z",
+ "builtAt": "2026-11-16T09:05:20.618Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011060",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1616000/000162828026011060/xhr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment in hotel properties",
+   "products": [
+    "Rooms revenues",
+    "Food and beverage revenues",
+    "Other revenues"
+   ],
+   "description": "Owns and leases luxury and upper upscale hotels and resorts, earning rooms, food and beverage and other revenue from guests.",
+   "evidence": "We combine each operating segment into one reportable segment: investment in hotel properties."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Guests pay for rooms, food and beverage and other hotel services; the taxable REIT subsidiary leases the hotels and third-party operators manage them.",
+  "evidence": "which engages third-party eligible independent contractors to manage the hotels."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold the Fairmont Dallas hotel in Dallas, Texas.",
+   "evidence": "The sale closed in April 2025 resulting in a gain of $ 40.0 million."
+  },
+  {
+   "text": "In 2024 the Company sold the Lorien Hotel & Spa in Alexandria, Virginia.",
+   "evidence": "The sale closed in July 2024 resulting in a gain of $ 1.6 million."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

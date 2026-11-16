@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001041061",
  "issuerName": "YUM! BRANDS, INC.",
- "builtAt": "2026-11-16T04:40:58.078Z",
+ "builtAt": "2026-11-16T09:06:20.190Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001041061-26-000084",
@@ -10,10 +10,55 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1041061/000104106126000084/yum-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "KFC Division",
+   "products": [
+    "fried and non-fried chicken products",
+    "sandwiches",
+    "chicken strips",
+    "chicken-on-the-bone"
+   ],
+   "description": "Operates and franchises KFC restaurants worldwide, serving fried and non-fried chicken, sandwiches and chicken-on-the-bone to restaurant customers.",
+   "evidence": "The KFC Division which includes our worldwide operations of the KFC concept"
+  },
+  {
+   "name": "Taco Bell Division",
+   "products": [
+    "Mexican-style food products",
+    "tacos",
+    "burritos",
+    "quesadillas",
+    "salads",
+    "nachos"
+   ],
+   "description": "Operates and franchises Taco Bell restaurants worldwide, selling Mexican-style food such as tacos, burritos, quesadillas, salads and nachos to customers.",
+   "evidence": "The Taco Bell Division which includes our worldwide operations of the Taco Bell concept"
+  },
+  {
+   "name": "Pizza Hut Division",
+   "products": [
+    "ready-to-eat pizza products"
+   ],
+   "description": "Operates and franchises Pizza Hut restaurants worldwide, selling ready-to-eat pizza through delivery, carryout and casual dining to customers.",
+   "evidence": "The Pizza Hut Division which includes our worldwide operations of the Pizza Hut concept"
+  },
+  {
+   "name": "Habit Burger & Grill Division",
+   "products": [
+    "chargrilled burgers",
+    "sandwiches"
+   ],
+   "description": "Operates and franchises Habit Burger & Grill fast-casual restaurants, serving made-to-order chargrilled burgers and sandwiches to customers.",
+   "evidence": "The Habit Burger & Grill Division which includes our worldwide operations of the Habit Burger & Grill concept"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Franchisees pay initial and continuing monthly fees based on a percentage of their restaurants' sales for the right to operate our Concepts.",
+  "evidence": "Franchisees also pay monthly continuing fees based on a percentage of their restaurants' sales (typically between 4% to 6%) and are required to spend a certain amount to advertise and promote the brand."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
