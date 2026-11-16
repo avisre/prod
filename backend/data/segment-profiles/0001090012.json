@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001090012",
  "issuerName": "DEVON ENERGY CORP/DE",
- "builtAt": "2026-11-16T02:59:52.443Z",
+ "builtAt": "2026-11-16T07:30:10.338Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-056485",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526056485/dvn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and gas exploration and production",
+   "products": [
+    "oil",
+    "natural gas",
+    "NGLs",
+    "gathering, transportation, compression and dehydration services"
+   ],
+   "description": "Independent energy company that explores for, develops and produces oil, natural gas and NGLs from U.S. assets for commodity purchasers.",
+   "evidence": "For financial reporting purposes, Devon aggregates its U.S. operating segments into one reporting segment due to the similar nature of these operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Purchasers pay for oil, gas and NGL production volumes delivered, and third-party producers pay for gathering and processing services.",
+  "evidence": "Oil, gas and NGL sales are recognized when production is sold to a purchaser at a fixed or determinable price, delivery has occurred, control has transferred and collectability of the revenue is probable."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

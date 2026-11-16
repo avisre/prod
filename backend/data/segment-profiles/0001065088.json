@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001065088",
  "issuerName": "eBay Inc.",
- "builtAt": "2026-11-16T02:59:52.604Z",
+ "builtAt": "2026-11-16T07:30:35.748Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001065088-26-000027",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1065088/000106508826000027/ebay-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketplace",
+   "products": [
+    "online marketplace located at www.ebay.com",
+    "off-platform marketplaces",
+    "suite of mobile apps",
+    "Marketplace revenues",
+    "Advertising revenues",
+    "Seller Capital",
+    "eBay Live",
+    "Authenticity Guarantee"
+   ],
+   "description": "Runs global online marketplaces and mobile apps that connect buyers and sellers, earning commissions on transactions and fees from sellers' advertising.",
+   "evidence": "This reportable segment includes our online marketplace located at www.ebay.com and its localized counterparts, our off-platform marketplaces and our suite of mobile apps."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Buyers and sellers pay commissions, final value fees, listing and feature fees, store subscriptions and shipping fees, while sellers also pay advertising fees to promote their listings.",
+  "evidence": "We earn revenue primarily through fees collected on paid transactions, first-party advertising and shipping."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

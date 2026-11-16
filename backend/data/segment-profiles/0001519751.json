@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001519751",
  "issuerName": "Fortune Brands Innovations, Inc.",
- "builtAt": "2026-11-16T03:00:17.599Z",
+ "builtAt": "2026-11-16T07:44:09.431Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-063960",
@@ -10,10 +10,59 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1519751/000119312526063960/fbin-20251227.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Innovations",
+   "products": [
+    "faucets",
+    "accessories",
+    "luxury hardware",
+    "kitchen sinks",
+    "waste disposals",
+    "Moen",
+    "ROHL",
+    "Riobel"
+   ],
+   "description": "Makes and sells faucets, sinks, hardware and water products under leading brands to wholesalers, home centers, showrooms and consumers.",
+   "evidence": "Our Water segment manufactures or assembles and sells faucets, accessories, luxury hardware, kitchen sinks and waste disposals, predominantly under the Moen, ROHL, Riobel, Victoria+Albert, Perrin & Rowe, Aqualisa, Shaws, Emtek, Schaub and SpringWell brands."
+  },
+  {
+   "name": "Outdoors",
+   "products": [
+    "fiberglass and steel entry door systems",
+    "storm, screen and security doors",
+    "composite decking, railing and cladding",
+    "urethane millwork",
+    "wide-opening exterior door systems and outdoor enclosures",
+    "Therma-Tru",
+    "Larson",
+    "Fiberon"
+   ],
+   "description": "Manufactures entry doors, decking, railing, millwork and outdoor enclosures under Therma-Tru, Larson, Fiberon, Fypon and Solar Innovations brands for dealers, distributors and home centers.",
+   "evidence": "Our Outdoors segment manufactures and sells fiberglass and steel entry door systems under the Therma-Tru brand, storm, screen and security doors under the Larson brand, composite decking, railing and cladding under the Fiberon brand, urethane millwork under the Fypon brand and wide-opening exterior door systems and outdoor enclosures under the Solar Innovations brand."
+  },
+  {
+   "name": "Security",
+   "products": [
+    "locks",
+    "safety and security devices",
+    "connected and mechanical lock out tag out solutions",
+    "electronic security products",
+    "fire resistant safes",
+    "security containers",
+    "commercial cabinets",
+    "Master Lock"
+   ],
+   "description": "Supplies locks, safes and electronic access products under Master Lock, American Lock, Yale, August and SentrySafe brands to retailers, locksmiths and industrial users.",
+   "evidence": "Our Security segment's products consist of locks, safety and security devices, connected and mechanical lock out tag out solutions and electronic security products manufactured, sourced and distributed primarily under the Master Lock, American Lock, Yale and August brands and fire resistant safes, security containers and commercial cabinets manufactured, sourced and distributed under the SentrySafe brand."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Wholesalers, home centers, mass merchandisers, retailers and dealers pay for home, water and security products sold through the company's own sales force and independent representatives.",
+  "evidence": "This segment sells directly through its own sales force and indirectly through independent manufacturer's representatives, primarily to wholesalers, home centers and mass merchandisers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

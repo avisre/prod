@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001632790",
  "issuerName": "ENERGIZER HOLDINGS, INC.",
- "builtAt": "2026-11-16T02:59:52.949Z",
+ "builtAt": "2026-11-16T07:33:04.925Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001632790-25-000091",
@@ -10,10 +10,43 @@
   "filingDate": "2025-11-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1632790/000163279025000091/enr-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Batteries & Lights",
+   "products": [
+    "Energizer",
+    "Eveready",
+    "Rayovac",
+    "Varta",
+    "Hard Case",
+    "Dolphin",
+    "WeatherReady"
+   ],
+   "description": "Makes and sells household batteries and portable lighting products to retailers and distributors worldwide.",
+   "evidence": "These products are sold globally under the Energizer, Eveready and Rayovac brands, including hearing aid batteries, and the Varta® brand in Latin America and Asia Pacific."
+  },
+  {
+   "name": "Auto Care",
+   "products": [
+    "Armor All",
+    "Nu Finish",
+    "STP",
+    "A/C PRO",
+    "Refresh Your Car!",
+    "LEXOL",
+    "Eagle One",
+    "California Scents"
+   ],
+   "description": "Sells automotive appearance, fragrance, performance and air conditioning recharge products to consumers through retail and business channels.",
+   "evidence": "The appearance and fragrance categories include protectants, wipes, tire and wheel care products, glass cleaners, leather care products, air fresheners and washes designed to clean, shine, refresh, disinfect and protect interior and exterior automobile surfaces under the brand names Armor All®, Nu Finish®, Refresh Your Car!®, LEXOL®, Eagle One®, NEVR-DULL®, California Scents®, Driven®, Bahama & Co®, Carnu®, Grand Prix®, Kit®, Tempo® and Centralsul®."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retailers, distributors and consumers pay for batteries, auto care products and portable lights bought through mass merchandisers, stores and business-to-business channels.",
+  "evidence": "We distribute our products to consumers through numerous retail locations worldwide, including mass merchandisers and warehouse clubs, food, drug and convenience stores, electronics specialty stores and department stores, hardware and automotive centers, e-commerce and military stores."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

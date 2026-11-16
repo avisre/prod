@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001210677",
  "issuerName": "First Advantage Corporation",
- "builtAt": "2026-11-16T03:00:17.206Z",
+ "builtAt": "2026-11-16T07:43:23.630Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076740",
@@ -10,11 +10,56 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1210677/000119312526076740/fa-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "First Advantage Americas",
+   "products": [
+    "pre-onboarding",
+    "post-onboarding",
+    "adjacent products",
+    "fleet and vehicle compliance",
+    "hiring tax credits and incentives",
+    "employment eligibility",
+    "investigative research"
+   ],
+   "description": "Performs background check and compliance services for employers across the workforce lifecycle in the United States, Canada, and Latin America.",
+   "evidence": "First Advantage Americas. This segment pertains to our Legacy First Advantage business and performs a variety of background check and compliance services across all phases of the workforce lifecycle from pre-onboarding services to post-onboarding and ongoing monitoring services, covering employees, contractors, contingent workers, and drivers."
+  },
+  {
+   "name": "First Advantage International",
+   "products": [
+    "pre-onboarding",
+    "post-onboarding",
+    "adjacent products"
+   ],
+   "description": "Provides background screening and compliance services to employers in Europe, India, and Asia Pacific outside the Americas.",
+   "evidence": "The First Advantage International segment pertains to our Legacy First Advantage business and provides services similar to our Americas segment in regions outside of the Americas."
+  },
+  {
+   "name": "Sterling",
+   "products": [
+    "background check and compliance services"
+   ],
+   "description": "Delivers background screening and compliance services globally from the acquired Sterling business, sold to employers worldwide.",
+   "evidence": "The Sterling segment provides similar services as compared to First Advantage's Americas and International segments on a global basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Employers and other customers pay per completed background screening order under contracts typically lasting three years, billed monthly.",
+  "evidence": "We typically bill our customers at the end of each month and recognize revenues as completed orders are reported or otherwise made available to our customers."
+ },
+ "changes": [
+  {
+   "text": "The 2024 Sterling acquisition added Sterling as a separate reportable segment.",
+   "evidence": "\"Sterling\" refers to Sterling Check Corp., which became an indirect, wholly owned subsidiary of First Advantage on October 31, 2024, and now operates as a separate reportable segment"
+  },
+  {
+   "text": "In 2023 the acquired Infinite ID business was included in the First Advantage Americas segment.",
+   "evidence": "Results of operations have been included in our First Advantage Americas segment from the date of the acquisition."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001047862",
  "issuerName": "Consolidated Edison, Inc.",
- "builtAt": "2026-11-16T02:59:52.754Z",
+ "builtAt": "2026-11-16T07:32:25.335Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001047862-26-000031",
@@ -10,11 +10,48 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1047862/000104786226000031/ed-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CECONY",
+   "products": [
+    "electric service",
+    "gas service",
+    "steam service"
+   ],
+   "description": "Regulated utility that delivers electricity, gas and steam to customers in New York City and Westchester County.",
+   "evidence": "Con Edison's principal business segments are CECONY's regulated utility activities, O&R's regulated utility activities and Con Edison Transmission."
+  },
+  {
+   "name": "O&R",
+   "products": [
+    "electric service",
+    "gas service"
+   ],
+   "description": "Regulated utility providing electric service in southeastern New York and northern New Jersey and gas service in southeastern New York.",
+   "evidence": "O&R and its utility subsidiary, Rockland Electric Company (RECO) (together referred to herein as O&R) provide electric service to approximately 0.3 million customers in southeastern New York and northern New Jersey, an approximately 1,300 square mile service area."
+  },
+  {
+   "name": "Con Edison Transmission",
+   "products": [
+    "electric transmission projects",
+    "electric and gas assets"
+   ],
+   "description": "Develops and invests in electric transmission projects and owns electric and gas assets through joint ventures.",
+   "evidence": "Con Edison Transmission, through its subsidiaries, develops and invests in electric transmission projects and owns, through joint ventures, both electric and gas assets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The Utilities charge full-service customers for the energy they supply and all customers for delivery service, under tariffs approved by state regulators.",
+  "evidence": "The Utilities recover from their full-service customers (who purchase energy from them), generally on a current basis, the cost the Utilities pay for energy and charge all of their customers the cost of delivery service."
+ },
+ "changes": [
+  {
+   "text": "In 2023 Con Edison completed the sale of the Clean Energy Businesses, which ceased to be a principal segment.",
+   "evidence": "On March 1, 2023, Con Edison completed the sale of all of the stock of the Clean Energy Businesses."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

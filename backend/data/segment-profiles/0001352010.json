@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001352010",
  "issuerName": "EPAM SYSTEMS, INC.",
- "builtAt": "2026-11-16T02:59:53.495Z",
+ "builtAt": "2026-11-16T07:37:17.453Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001352010-26-000015",
@@ -10,11 +10,40 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1352010/000135201026000015/epam-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [],
+   "description": "Delivers software engineering, cloud, data and AI, and consulting services to enterprise clients whose management sits in the Americas region.",
+   "evidence": "Starting in 2025, we renamed our North America segment to Americas."
+  },
+  {
+   "name": "Europe",
+   "products": [],
+   "description": "Serves the company's enterprise clients managed from Europe, delivering engineering, cloud, data and AI, and consulting work across industries.",
+   "evidence": "During 2025, Europe segment revenues were $2.291 billion, reflecting an increase of $429.3 million, or 23.1%, from the previous year."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Global enterprise and start-up clients pay the company for software engineering, consulting, and cloud, data and AI transformation services delivered by multidisciplinary teams.",
+  "evidence": "We combine software engineering with customer experience design, business consulting, strategy, and technology innovation services in areas such as cloud platforms, cybersecurity and artificial intelligence."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company renamed its North America segment to Americas, a naming change only.",
+   "evidence": "Starting in 2025, we renamed our North America segment to Americas."
+  },
+  {
+   "text": "Russia was a reportable segment in 2023 and no longer appears among the reportable segments in 2024 and 2025.",
+   "evidence": "Year Ended December 31, 2023 Reportable Segments Americas Europe Russia Consolidated Revenues Client Locations Americas (1) $ 2,645,174 $ 96,857 $ 631 $ 2,742,662"
+  },
+  {
+   "text": "Beginning in 2024, revenues from the CEE region are included in the EMEA region.",
+   "evidence": "Beginning in 2024, revenues from the CEE region are included in the EMEA region."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001562528",
  "issuerName": "FRANKLIN BSP REALTY TRUST, INC.",
- "builtAt": "2026-11-16T03:00:17.696Z",
+ "builtAt": "2026-11-16T07:44:44.220Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001562528-26-000008",
@@ -10,11 +10,67 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1562528/000156252826000008/bsprt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Debt",
+   "products": [
+    "first mortgages",
+    "subordinate mortgages",
+    "mezzanine loans",
+    "participations in such loans",
+    "CMBS",
+    "CMBS bonds",
+    "CDO notes",
+    "real estate securities"
+   ],
+   "description": "Originates, acquires and asset-manages commercial real estate debt and real estate securities for its own portfolio.",
+   "evidence": "The real estate debt business focuses on originating, acquiring and asset managing commercial real estate debt investments, including first mortgages, subordinate mortgages, mezzanine loans and participations in such loans."
+  },
+  {
+   "name": "Agency Business",
+   "products": [
+    "Fannie Mae",
+    "Freddie Mac",
+    "Ginnie Mae",
+    "HUD",
+    "agency mortgage loans",
+    "mortgage servicing rights"
+   ],
+   "description": "Originates, sells and services agency mortgage loans for GSEs and Agencies, and services external portfolios of commercial real estate financing products.",
+   "evidence": "The Agency Business focuses on originating, selling, and servicing loans under programs offered by GSE's and Agencies, such as Fannie Mae, Freddie Mac, Ginnie Mae, and HUD."
+  },
+  {
+   "name": "Conduit",
+   "products": [
+    "fixed-rate commercial real estate loans",
+    "mezzanine loans",
+    "CMBS"
+   ],
+   "description": "Originates fixed-rate commercial real estate loans and sells them into the CMBS securitization market at a profit.",
+   "evidence": "The commercial real estate conduit business, operated through the Company's TRS, is focused on generating risk-adjusted returns by originating and subsequently selling fixed-rate commercial real estate loans into the CMBS securitization market at a profit."
+  },
+  {
+   "name": "Real Estate Owned",
+   "products": [
+    "multifamily properties",
+    "office properties"
+   ],
+   "description": "Holds real estate acquired through foreclosure, deed-in-lieu of foreclosure or purchase, and earns rental income from those properties.",
+   "evidence": "The real estate owned business represents real estate acquired by the Company through foreclosure, deed-in-lieu of foreclosure, or purchase."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on commercial real estate loans, and agency loans are sold for gains with servicing fee income.",
+  "evidence": "Net interest income is generated on our interest-earning assets less related interest-bearing liabilities and is recorded as part of our real estate debt, real estate securities, agency and conduit programs."
+ },
+ "changes": [
+  {
+   "text": "The Agency Business became a new business segment after the Company acquired NewPoint in 2025.",
+   "evidence": "On July 1, 2025, through a wholly owned subsidiary, the Company acquired NewPoint Holdings JV LLC (\"NewPoint\"), which now comprises the Company's Agency Business unit."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

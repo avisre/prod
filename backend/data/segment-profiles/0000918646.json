@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000918646",
  "issuerName": "EAGLE MATERIALS INC.",
- "builtAt": "2026-11-16T03:00:17.054Z",
+ "builtAt": "2026-11-16T07:42:39.816Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-230979",
@@ -10,10 +10,52 @@
   "filingDate": "2026-05-19",
   "url": "https://www.sec.gov/Archives/edgar/data/918646/000119312526230979/exp-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cement",
+   "products": [
+    "limestone cement",
+    "slag cement",
+    "cementitious products"
+   ],
+   "description": "Manufactures limestone cement and slag cement at plants and terminals, selling to construction customers building infrastructure, nonresidential and residential projects.",
+   "evidence": "the mining of limestone for the manufacture, production, distribution, and sale of cement, including limestone cement (a basic construction material that is the essential binding ingredient in concrete)"
+  },
+  {
+   "name": "Concrete and Aggregates",
+   "products": [
+    "readymix concrete",
+    "aggregates (crushed stone, sand, and gravel)"
+   ],
+   "description": "Mines aggregates and sells readymix concrete to building contractors and other customers for public infrastructure, private nonresidential and residential construction.",
+   "evidence": "the sale of readymix concrete; and the mining and sale of aggregates (crushed stone, sand, and gravel)."
+  },
+  {
+   "name": "Gypsum Wallboard",
+   "products": [
+    "American Gypsum"
+   ],
+   "description": "Manufactures gypsum wallboard under the American Gypsum name for building-materials dealers, distributors and home-center chains serving residential construction.",
+   "evidence": "Our gypsum wallboard products are marketed under the name American Gypsum."
+  },
+  {
+   "name": "Recycled Paperboard",
+   "products": [
+    "gypsum liner",
+    "containerboard grades",
+    "lightweight packaging grades",
+    "Republic Paperboard Company"
+   ],
+   "description": "Manufactures recycled paperboard, principally gypsum liner, and sells it to gypsum wallboard manufacturers and other industrial paperboard converters.",
+   "evidence": "Although the machine was designed primarily to manufacture gypsum liner products, we are also able to manufacture several alternative products, including containerboard grades and lightweight packaging grades."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Construction contractors, building-materials dealers, distributors and manufacturers buy cement, aggregates, readymix concrete, wallboard and paperboard from the company's plants and distribution network.",
+  "evidence": "Eagle manufactures and sells its products through a network of more than 70 facilities spanning 21 states."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

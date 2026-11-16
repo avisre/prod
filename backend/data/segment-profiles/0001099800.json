@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001099800",
  "issuerName": "EDWARDS LIFESCIENCES CORPORATION",
- "builtAt": "2026-11-16T03:00:16.838Z",
+ "builtAt": "2026-11-16T07:39:48.204Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001099800-26-000009",
@@ -10,10 +10,54 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1099800/000109980026000009/ew-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "Transcatheter Aortic Valve Replacement",
+    "Transcatheter Mitral and Tricuspid Therapies",
+    "Surgical Structural Heart"
+   ],
+   "description": "Sells transcatheter aortic valve replacement, transcatheter mitral and tricuspid therapies, and surgical structural heart products to United States hospitals treating advanced cardiovascular disease.",
+   "evidence": "Edwards Lifesciences conducts operations worldwide and is managed in the following four reportable segments: United States, Europe, Japan, and Rest of World."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Transcatheter Aortic Valve Replacement",
+    "Transcatheter Mitral and Tricuspid Therapies",
+    "Surgical Structural Heart"
+   ],
+   "description": "Sells transcatheter aortic valve replacement, transcatheter mitral and tricuspid therapies, and surgical structural heart products to European hospitals treating advanced cardiovascular disease.",
+   "evidence": "Edwards Lifesciences conducts operations worldwide and is managed in the following four reportable segments: United States, Europe, Japan, and Rest of World."
+  },
+  {
+   "name": "Japan",
+   "products": [
+    "Transcatheter Aortic Valve Replacement",
+    "Transcatheter Mitral and Tricuspid Therapies",
+    "Surgical Structural Heart"
+   ],
+   "description": "Sells transcatheter aortic valve replacement, transcatheter mitral and tricuspid therapies, and surgical structural heart products to Japanese hospitals treating advanced cardiovascular disease.",
+   "evidence": "Edwards Lifesciences conducts operations worldwide and is managed in the following four reportable segments: United States, Europe, Japan, and Rest of World."
+  },
+  {
+   "name": "Rest of World",
+   "products": [
+    "Transcatheter Aortic Valve Replacement",
+    "Transcatheter Mitral and Tricuspid Therapies",
+    "Surgical Structural Heart"
+   ],
+   "description": "Sells transcatheter aortic valve replacement, transcatheter mitral and tricuspid therapies, and surgical structural heart products to hospitals outside the United States, Europe and Japan.",
+   "evidence": "Edwards Lifesciences conducts operations worldwide and is managed in the following four reportable segments: United States, Europe, Japan, and Rest of World."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitals, physicians and health systems pay for structural heart therapies and devices used to treat advanced cardiovascular disease.",
+  "evidence": "Because of the diverse global needs of the population that we serve, our distribution system consists of several direct sales forces as well as independent distributors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

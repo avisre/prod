@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001559865",
  "issuerName": "EVERTEC, Inc.",
- "builtAt": "2026-11-16T03:00:16.795Z",
+ "builtAt": "2026-11-16T07:39:24.736Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001559865-26-000012",
@@ -10,10 +10,66 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1559865/000155986526000012/evtc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payment Services - Puerto Rico & Caribbean",
+   "products": [
+    "ATH debit network",
+    "ATH Movil (person-to-person)",
+    "ATH Business (person-to-merchant)",
+    "EBT"
+   ],
+   "description": "Provides financial institutions and other issuers in Puerto Rico and the Caribbean with network access, card processing and digital transaction services.",
+   "evidence": "The Payment Services - Puerto Rico & Caribbean segment revenues are comprised of revenues related to providing access to the ATH debit network and other card networks to financial institutions"
+  },
+  {
+   "name": "Latin America Payments and Solutions",
+   "products": [
+    "ATH network of ATMs",
+    "card processing services",
+    "payment processing services",
+    "licensed software solutions for risk and fraud management and card payment proce",
+    "core banking",
+    "digital onboarding",
+    "vehicle financing contract registration",
+    "outsourcing of mission critical IT services"
+   ],
+   "description": "Supplies banks and businesses across Latin America with network access, processing and licensed software and outsourcing solutions.",
+   "evidence": "The Latin America Payments and Solutions segment payment revenues consist of revenues related to providing access to the ATH network of ATMs and other card networks to financial institutions"
+  },
+  {
+   "name": "Merchant Acquiring",
+   "products": [
+    "discount fee",
+    "membership fees charged to merchants",
+    "debit network fees",
+    "rental fees from POS devices"
+   ],
+   "description": "Lets merchants accept electronic payment methods and charges them fees for acceptance, membership and terminal rental.",
+   "evidence": "The Merchant Acquiring segment consists of revenues from services that allow merchants to accept electronic methods of payment."
+  },
+  {
+   "name": "Business Solutions",
+   "products": [
+    "core bank processing",
+    "network hosting",
+    "managed services",
+    "managed security services",
+    "IT professional services",
+    "business process outsourcing",
+    "item processing",
+    "cash processing"
+   ],
+   "description": "Delivers business process management, core bank processing, hosting, security and outsourcing services to financial institutions, corporations and governments.",
+   "evidence": "The Business Solutions segment consists of revenues from a full suite of business process management solutions in various product areas such as core bank processing, network hosting, managed services and managed security services, IT professional services, business process outsourcing, item processing, cash processing, and fulfillment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Financial institutions, merchants, corporations and government agencies pay recurring fixed and usage-based fees for transaction processing and related technology services.",
+  "evidence": "Revenues are based on monthly fixed fees and, in several cases, variable fees based on usage."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

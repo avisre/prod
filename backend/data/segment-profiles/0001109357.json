@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001109357",
  "issuerName": "EXELON CORPORATION",
- "builtAt": "2026-11-16T03:00:16.860Z",
+ "builtAt": "2026-11-16T07:41:08.473Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001109357-26-000018",
@@ -10,10 +10,71 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1109357/000110935726000018/exc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ComEd",
+   "products": [
+    "electric sales",
+    "transmission and distribution"
+   ],
+   "description": "Regulated electric transmission and distribution utility serving retail customers in northern Illinois, including the City of Chicago.",
+   "evidence": "Commonwealth Edison Company Purchase and regulated retail sale of electricity"
+  },
+  {
+   "name": "PECO",
+   "products": [
+    "electric sales",
+    "natural gas sales",
+    "transmission and distribution"
+   ],
+   "description": "Regulated utility selling electricity and natural gas and delivering both to retail customers in southeastern Pennsylvania.",
+   "evidence": "PECO Energy Company Purchase and regulated retail sale of electricity and natural gas"
+  },
+  {
+   "name": "BGE",
+   "products": [
+    "electric sales",
+    "natural gas sales",
+    "transmission and distribution"
+   ],
+   "description": "Regulated utility selling and delivering electricity and natural gas to retail customers in central Maryland.",
+   "evidence": "Baltimore Gas and Electric Company Purchase and regulated retail sale of electricity and natural gas"
+  },
+  {
+   "name": "Pepco",
+   "products": [
+    "electric sales",
+    "transmission and distribution"
+   ],
+   "description": "Regulated utility selling electricity and delivering it to retail customers in the District of Columbia and Maryland.",
+   "evidence": "Potomac Electric Power Company Purchase and regulated retail sale of electricity"
+  },
+  {
+   "name": "DPL",
+   "products": [
+    "electric sales",
+    "natural gas sales",
+    "transmission and distribution"
+   ],
+   "description": "Regulated utility selling and delivering electricity and natural gas to retail customers in Delaware and Maryland.",
+   "evidence": "Delmarva Power & Light Company Purchase and regulated retail sale of electricity and natural gas"
+  },
+  {
+   "name": "ACE",
+   "products": [
+    "electric sales",
+    "transmission and distribution"
+   ],
+   "description": "Regulated utility selling electricity and delivering it to retail customers in portions of southern New Jersey.",
+   "evidence": "Atlantic City Electric Company Purchase and regulated retail sale of electricity"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retail customers pay the utility segments for the electricity and natural gas they buy and for transmission and distribution service, at rates regulators set.",
+  "evidence": "For the Utility Registrants, the disaggregation of revenues reflects the two primary utility services of electric sales and natural gas sales (where applicable), with further disaggregation of these tariff sales provided by major customer groups."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

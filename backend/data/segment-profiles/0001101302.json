@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001101302",
  "issuerName": "Entegris, Inc.",
- "builtAt": "2026-11-16T02:59:53.080Z",
+ "builtAt": "2026-11-16T07:33:32.404Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001101302-26-000012",
@@ -10,11 +10,56 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1101302/000110130226000012/entg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Materials Solutions",
+   "products": [
+    "chemical vapor and atomic layer deposition materials",
+    "CMP slurries",
+    "CMP polishing pads",
+    "ion implantation specialty gases",
+    "formulated etch and clean materials",
+    "other specialty materials",
+    "advanced deposition materials",
+    "post-CMP cleaning chemistries"
+   ],
+   "description": "Supplies materials-based solutions such as deposition materials, CMP slurries and pads and specialty gases to semiconductor and high-technology manufacturers.",
+   "evidence": "The Materials Solutions segment, or MS, provides materials-based solutions, such as chemical vapor and atomic layer deposition materials, chemical mechanical planarization (\"CMP\") slurries and pads, ion implantation specialty gases, formulated etch and clean materials, and other specialty materials that enable our customers to achieve better device performance and faster time to yield, while providing lower total cost of ownership."
+  },
+  {
+   "name": "Advanced Purity Solutions",
+   "products": [
+    "filtration, purification and contamination-control solutions",
+    "CMP slurry filters",
+    "high-purity packaging",
+    "fluid monitoring systems",
+    "gas and liquid filtration products",
+    "FOUPs"
+   ],
+   "description": "Offers filtration, purification and contamination-control solutions that keep chemistries, gases and wafers clean for semiconductor and other high-technology manufacturers.",
+   "evidence": "The Advanced Purity Solutions segment, or APS, offers filtration, purification and contamination-control solutions that improve customers' yield, device reliability and cost by ensuring the purity of critical liquid chemistries and gases and the cleanliness of wafers and other substrates used throughout semiconductor manufacturing processes, the semiconductor ecosystem and other high-technology industries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Semiconductor and other high-technology manufacturers pay for advanced materials and process solutions upon shipment or delivery of the products.",
+  "evidence": "The Company recognizes revenue for product sales at a point in time following the transfer of control of such products to the customer, which generally occurs upon shipment or delivery, depending on the terms of the underlying contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company sold QED Technologies International, a business it had acquired with CMC Materials.",
+   "evidence": "On March 1, 2023, the Company completed the sale of QED Technologies International, Inc. (\"QED\"), which became part of the Company with the acquisition of CMC Materials, to an affiliate of Quad-C Management, Inc. for $134.3 million."
+  },
+  {
+   "text": "In 2023 the company sold its Electronic Chemicals business, a separate reporting unit within the MS reportable segment.",
+   "evidence": "On October 2, 2023, the Company completed the sale of its Electronic Chemicals (\"EC\") business to FUJIFILM Holdings America Corporation (\"Fujifilm\") for $675.3 million."
+  },
+  {
+   "text": "In 2024 the company completed the sale of its PIM business.",
+   "evidence": "On March 1, 2024, the Company completed the sale of its PIM business, to SCF Partners, Inc."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

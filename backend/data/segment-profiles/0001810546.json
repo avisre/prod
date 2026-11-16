@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001810546",
  "issuerName": "Eastern Bankshares, Inc.",
- "builtAt": "2026-11-16T02:59:52.617Z",
+ "builtAt": "2026-11-16T07:31:01.120Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-013126",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1810546/000162828026013126/ebc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking business",
+   "products": [
+    "demand deposit accounts",
+    "interest checking accounts",
+    "money market accounts",
+    "savings accounts",
+    "time certificates of deposit accounts",
+    "commercial and industrial",
+    "residential real estate and home equity loans",
+    "wealth management and trust services"
+   ],
+   "description": "Eastern Bank's banking business serves retail, commercial and small business customers with lending, deposit and wealth management and trust services.",
+   "evidence": "The Company has one reportable segment: its banking business, which consists of a full range of banking lending, savings, and small business offerings, and its wealth management and trust operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and customers pay fees for deposit, cash management, and wealth management and trust services.",
+  "evidence": "interest rates, fees charged, customer service levels"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
