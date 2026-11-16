@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001039684",
  "issuerName": "ONEOK, Inc.",
- "builtAt": "2026-11-16T03:59:44.768Z",
+ "builtAt": "2026-11-16T05:16:36.206Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001039684-26-000006",
@@ -10,11 +10,59 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1039684/000103968426000006/oke-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural Gas Gathering and Processing",
+   "products": [
+    "raw natural gas",
+    "residue natural gas",
+    "condensate",
+    "unfractionated NGLs",
+    "NGLs"
+   ],
+   "description": "Gathers, compresses, treats, processes and markets raw natural gas for producers in the Rocky Mountain, Mid-Continent and Permian Basin regions.",
+   "evidence": "In our Natural Gas Gathering and Processing segment, raw natural gas is typically gathered at the wellhead, compressed and transported through pipelines to our processing facilities."
+  },
+  {
+   "name": "Natural Gas Liquids",
+   "products": [
+    "NGLs",
+    "Purity NGLs",
+    "exchange services"
+   ],
+   "description": "Gathers, treats, fractionates and transports NGLs and stores, markets and distributes Purity NGLs for producers and other customers.",
+   "evidence": "our Natural Gas Liquids segment gathers, treats, fractionates and transports NGLs and stores, markets and distributes Purity NGLs"
+  },
+  {
+   "name": "Natural Gas Pipelines",
+   "products": [
+    "natural gas"
+   ],
+   "description": "Transports, stores and markets natural gas under long-term, firm fee-based contracts across its interstate pipeline network.",
+   "evidence": "our Natural Gas Pipelines segment transports, stores and markets natural gas"
+  },
+  {
+   "name": "Refined Products and Crude",
+   "products": [
+    "Refined Products",
+    "crude oil"
+   ],
+   "description": "Gathers, transports, stores, distributes, blends and markets Refined Products and crude oil for refiners and other customers.",
+   "evidence": "our Refined Products and Crude segment gathers, transports, stores, distributes, blends and markets Refined Products and crude oil"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Producers and other customers pay primarily fee-based charges for gathering, processing, fractionation, transportation and storage, with additional earnings from commodity sales and exchange services.",
+  "evidence": "Each of our four reportable segments are primarily fee-based, and our consolidated earnings were approximately 90% fee-based in 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2024, we sold three of our wholly owned interstate natural gas pipeline systems to DT Midstream, Inc., reducing the Natural Gas Pipelines segment.",
+   "evidence": "Included a gain of $ 227 million for the Natural Gas Pipelines segment related to the sale of three of our wholly owned interstate natural gas pipeline systems to DT Midstream, Inc."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

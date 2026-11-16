@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000945841",
  "issuerName": "POOL CORPORATION",
- "builtAt": "2026-11-16T03:59:48.016Z",
+ "builtAt": "2026-11-16T05:16:39.430Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-074833",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/945841/000119312526074833/pool-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Swimming Pool Supplies",
+   "products": [
+    "SCP Distributors (SCP)",
+    "Superior Pool Products (Superior)",
+    "Horizon Distributors (Horizon)",
+    "National Pool Trends (NPT)",
+    "Sun Wholesale Supply (Sun Wholesale)",
+    "irrigation and landscape maintenance products",
+    "hardscapes, tile and stone products",
+    "related leisure products"
+   ],
+   "description": "Wholesale distributor of pool supplies, equipment, irrigation and landscape products and hardscapes to pool builders, service companies, retail stores and landscape contractors.",
+   "evidence": "Since all of our sales centers have similar operations and share similar economic characteristics, we aggregate our sales centers into a single reportable segment and one reportable revenue stream."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers such as pool builders, retail stores, service companies, landscape contractors and others pay for swimming pool supplies, equipment and related leisure products, irrigation products and hardscapes.",
+  "evidence": "Our segment derives revenue from sales centers in North America, Europe and Australia that sell swimming pool supplies, equipment and related leisure products, irrigation and landscape maintenance products and hardscapes, tile and stone products to pool builders, retail stores, service companies, landscape contractors and others."
+ },
+ "changes": [
+  {
+   "text": "National Pool Tile was renamed National Pool Trends (NPT) in November 2025.",
+   "evidence": "National Pool Trends (NPT), formerly National Pool Tile prior to November 2025"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
