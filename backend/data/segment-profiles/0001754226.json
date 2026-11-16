@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001754226",
+ "issuerName": "Orange County Bancorp, Inc.",
+ "builtAt": "2026-11-16T05:23:09.887Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028308",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1754226/000110465926028308/obt-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Provides business banking services.",
+   "evidence": "Business Segments Business Banking ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay interest and fees on loans and deposits.",
+  "evidence": "We offer a full suite of financial products, including checking, savings and money market accounts, certificates of deposit and treasury management services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001609804",
+ "issuerName": "ORION S.A.",
+ "builtAt": "2026-11-16T05:23:48.072Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008601",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1609804/000162828026008601/oec-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Carbon Black",
+   "products": [],
+   "description": "Sells specialty carbon black for polymers and batteries.",
+   "evidence": "Our business is organized into two reportable segments: Specialty Carbon Black and Rubber Carbon Black."
+  },
+  {
+   "name": "Rubber Carbon Black",
+   "products": [],
+   "description": "Sells carbon black for tyres and rubber.",
+   "evidence": "Our business is organized into two reportable segments: Specialty Carbon Black and Rubber Carbon Black."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tyre makers and industrial customers buy its carbon black.",
+  "evidence": "Carbon black products are primarily used as additives for the production of polymers, batteries, printing inks and coatings (\"Specialty Carbon Black\" or \"Specialty\") and in the reinforcement of tires and other rubber applications (\"Rubber Carbon Black\" or \"Rubber\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Specialty Carbon Black): Specialty Carbon Black",
+  "product not in text (Rubber Carbon Black): Rubber Carbon Black"
+ ],
+ "reader": "agent"
+}

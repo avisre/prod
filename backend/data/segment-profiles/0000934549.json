@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000934549",
+ "issuerName": "ACACIA RESEARCH CORP",
+ "builtAt": "2026-11-16T05:23:11.272Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000934549-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/934549/000093454926000010/actg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intellectual Property Operations",
+   "products": [
+    "patent licensing"
+   ],
+   "description": "Licenses and enforces intellectual property.",
+   "evidence": "Refer to Note 22 for additional information regarding our four reportable business segments: Intellectual Property Opera"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Licensees pay royalties and settlements.",
+  "evidence": "F-9 Table of Contents Segment Reporting The Company uses the management approach, which designates the internal organization that is used by management for making operating decisions and assessing performance as the basis of the Company's reportable segments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

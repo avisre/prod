@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001653558",
+ "issuerName": "Priority Technology Holdings, Inc.",
+ "builtAt": "2026-11-16T05:23:08.164Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001653558-26-000066",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1653558/000165355826000066/prth-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Merchant Solutions",
+   "products": [],
+   "description": "Provides acquiring and payment-enabled solutions.",
+   "evidence": "Priority operates at scale across three primary business segments: Merchant Solutions, Payables and Treasury Solutions and is presently serving approximat ely 1."
+  },
+  {
+   "name": "Payables and Treasury Solutions",
+   "products": [
+    "payables",
+    "treasury solutions"
+   ],
+   "description": "Provides payables and treasury management.",
+   "evidence": "Priority operates at scale across three primary business segments: Merchant Solutions, Payables and Treasury Solutions and is presently serving approximat ely 1."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants and businesses pay processing and treasury fees.",
+  "evidence": "Priority's solutions are delivered via internally developed payment applications and services to customers in the following business segments: • Merchant Solutions : Provides full-service acquiring and payment-enabled"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Merchant Solutions): payment acquiring"
+ ],
+ "reader": "agent"
+}

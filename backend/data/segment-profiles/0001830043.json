@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001830043",
+ "issuerName": "Bumble Inc.",
+ "builtAt": "2026-11-16T05:23:08.589Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001830043-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1830043/000183004326000027/bmbl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bumble",
+   "products": [
+    "Bumble app",
+    "Bumble For Friends app",
+    "BFF app",
+    "Badoo app"
+   ],
+   "description": "Runs its dating and connection apps.",
+   "evidence": "50 Table of Contents Components of Results of Operations Our business is organized into a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Members pay for premium features and subscriptions.",
+  "evidence": "In 2025, we operated a family of apps, including Bumble app, Bumble For Friends app, BFF app and Badoo app, where members come to discover new people and connect with each other in a secure and empowering environment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

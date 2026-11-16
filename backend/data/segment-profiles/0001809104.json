@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001809104",
+ "issuerName": "Alight, Inc. / Delaware",
+ "builtAt": "2026-11-16T05:23:08.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011108",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1809104/000162828026011108/alit-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Employer Solutions",
+   "products": [
+    "benefits administration"
+   ],
+   "description": "Provides benefits administration and cloud services to employers.",
+   "evidence": "Principal Services and Segment We currently operate under one reportable segment, Employer Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers pay per-participant fees for services.",
+  "evidence": "We generate primarily all of our revenue, which is highly recurring, from fees for services provided from contracts across all solutions, which is primarily based on a contracted fee charged per participant per period (e."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Employer Solutions): cloud solutions"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001436425",
+ "issuerName": "HOME BANCORP, INC.",
+ "builtAt": "2026-11-16T05:23:06.543Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015669",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1436425/000162828026015669/hbcp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits",
+    "online banking services"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Management considers all of our operations to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "com, and we provide our customers with online banking services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

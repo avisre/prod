@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002069785",
+ "issuerName": "GLOO HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:23:11.357Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-156999",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2069785/000119312526156999/gloo-20260131.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

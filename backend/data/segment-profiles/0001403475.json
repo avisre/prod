@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001403475",
+ "issuerName": "Bank of Marin Bancorp",
+ "builtAt": "2026-11-16T05:23:45.944Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001403475-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1403475/000140347526000018/bmrc-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

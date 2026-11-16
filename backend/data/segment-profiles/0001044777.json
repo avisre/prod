@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001044777",
+ "issuerName": "OneSpan Inc.",
+ "builtAt": "2026-11-16T05:23:06.670Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001044777-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1044777/000104477726000008/ospn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cybersecurity",
+   "products": [
+    "authentication products"
+   ],
+   "description": "Sells authentication and identity security products.",
+   "evidence": "We report our financial results under the following two business divisions, which are our reportable operating segments: Cybersecurity and Digital Agreements."
+  },
+  {
+   "name": "Digital Agreements",
+   "products": [],
+   "description": "Sells digital agreement software.",
+   "evidence": "We report our financial results under the following two business divisions, which are our reportable operating segments: Cybersecurity and Digital Agreements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay subscription and licence fees.",
+  "evidence": "We offer our products primarily through a subscription licensing model and provide multiple deployment options, including cloud-based and on-premises solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cybersecurity): digital identity",
+  "product not in text (Digital Agreements): e-signature software",
+  "product not in text (Digital Agreements): digital agreements"
+ ],
+ "reader": "agent"
+}

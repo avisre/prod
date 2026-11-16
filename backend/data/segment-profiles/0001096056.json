@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001096056",
+ "issuerName": "LUXFER HOLDINGS PLC",
+ "builtAt": "2026-11-16T05:23:11.210Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001096056-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1096056/000109605626000015/lxfr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Elektron",
+   "products": [
+    "magnesium alloys"
+   ],
+   "description": "Makes specialty alloys and materials.",
+   "evidence": "During 2025, Luxfer operated through three business segments: Elektron, Gas Cylinders, and Graphic Arts."
+  },
+  {
+   "name": "Gas Cylinders",
+   "products": [
+    "high-pressure gas cylinders"
+   ],
+   "description": "Makes high-pressure gas cylinders.",
+   "evidence": "During 2025, Luxfer operated through three business segments: Elektron, Gas Cylinders, and Graphic Arts."
+  },
+  {
+   "name": "Graphic Arts",
+   "products": [],
+   "description": "Makes graphic arts products.",
+   "evidence": "During 2025, Luxfer operated through three business segments: Elektron, Gas Cylinders, and Graphic Arts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Aerospace, defense and healthcare customers buy its materials and cylinders.",
+  "evidence": "We develop and manufacture high-performance materials, components, and high-pressure gas containment solutions for customers operating in defense, first response and healthcare, transportation, and specialty industrial markets."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Elektron): zirconium products",
+  "product not in text (Graphic Arts): printing plates"
+ ],
+ "reader": "agent"
+}

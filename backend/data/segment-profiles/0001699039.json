@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001699039",
+ "issuerName": "RANGER ENERGY SERVICES, INC.",
+ "builtAt": "2026-11-16T05:23:50.937Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015248",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1699039/000162828026015248/rngr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High Specification Rigs",
+   "products": [
+    "well completion support",
+    "well workover and maintenance"
+   ],
+   "description": "Provides high-spec rigs and well services.",
+   "evidence": "Our service offerings consist of well completion support, well workover and maintenance, wireline associated services, and other complementary services, as well as installation, commissioning and operating of modular equipment, which are conducted in three reportable segments, as follows: • High Specification Rigs ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas operators pay for rig and well services.",
+  "evidence": "For further information related to our services and financial"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001177648",
+ "issuerName": "ENANTA PHARMACEUTICALS, INC",
+ "builtAt": "2026-11-16T05:23:49.729Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-288121",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1177648/000119312525288121/enta-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

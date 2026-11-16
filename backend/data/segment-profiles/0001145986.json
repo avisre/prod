@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001145986",
+ "issuerName": "ASPEN AEROGELS INC",
+ "builtAt": "2026-11-16T05:23:08.111Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-106453",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1145986/000119312526106453/aspn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Thermal Barrier",
+   "products": [
+    "aerogel insulation"
+   ],
+   "description": "Sells aerogel thermal barriers.",
+   "evidence": "Our core businesses are organized into two reportable segments: Thermal Barrier and Energy Industrial."
+  },
+  {
+   "name": "Energy Industrial",
+   "products": [
+    "aerogel products"
+   ],
+   "description": "Sells aerogels for energy and industrial use.",
+   "evidence": "Our core businesses are organized into two reportable segments: Thermal Barrier and Energy Industrial."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers buy its aerogel insulation.",
+  "evidence": "The following describes our key product offerings and new product innovations by reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

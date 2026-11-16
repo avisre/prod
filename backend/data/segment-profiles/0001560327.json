@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001560327",
+ "issuerName": "RAPID7, INC.",
+ "builtAt": "2026-11-16T05:23:08.487Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001560327-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1560327/000156032726000008/rp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rapid7",
+   "products": [
+    "security products",
+    "subscriptions"
+   ],
+   "description": "Sells security analytics and managed services.",
+   "evidence": "(17) Segment Information and Information about Geographic Areas We operate in a single reportable operating segment, providing product subsc"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscriptions for its products and services.",
+  "evidence": "In 2025, 2024 and 2023 recurring revenue, defined as revenue from term software licenses, content subscriptions, managed services, cloud-based subscriptions and maintenance and support, was 96%, 96% and 95%, respectively, of total revenue."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

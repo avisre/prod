@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001866782",
+ "issuerName": "Codere Online Luxembourg, S.A.",
+ "builtAt": "2026-11-16T05:23:45.360Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001829126-26-004041",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1866782/000182912626004041/codereonline_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001514991",
+ "issuerName": "AMC Global Media Inc.",
+ "builtAt": "2026-11-16T05:23:46.730Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001514991-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1514991/000151499126000011/amcx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Domestic Operations",
+   "products": [
+    "programming networks",
+    "streaming services",
+    "film distribution"
+   ],
+   "description": "Runs its U.S. networks, streaming and studios.",
+   "evidence": "SEGMENTS We manage ou r business through the following two operating segments: • Domestic Operations: Consists of our five programming networks, our streaming services, our AMC Studios operation and our film distribution business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Distributors pay carriage fees and advertisers pay for airtime.",
+  "evidence": "SEGMENTS We manage ou r business through the following two operating segments: • Domestic Operations: Consists of our five programming networks, our streaming services, our AMC Studios operation and our film distribution business."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

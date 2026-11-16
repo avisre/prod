@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001171155",
+ "issuerName": "RADIANT LOGISTICS, INC.",
+ "builtAt": "2026-11-16T05:23:48.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-390768",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1171155/000119312526390768/rlgt-20260630.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

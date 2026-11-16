@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001892492",
+ "issuerName": "Eightco Holdings Inc.",
+ "builtAt": "2026-11-16T05:23:48.807Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016664",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1892492/000149315226016664/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Forever 8",
+   "products": [
+    "e-commerce inventory solutions"
+   ],
+   "description": "Provides e-commerce inventory solutions.",
+   "evidence": "Forever 8 is the Company's sole operating segment and primary source of revenue."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "E-commerce sellers pay for inventory funding and services.",
+  "evidence": "The Company also operates Forever 8, an e-commerce inventory solutions business acquired in October 2022, which represents its sole revenue-generating operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001606366",
+ "issuerName": "EL POLLO LOCO HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:23:46.572Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001606366-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1606366/000160636626000017/loco-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "restaurants",
+   "products": [
+    "fire-grilled chicken"
+   ],
+   "description": "Runs and franchises El Pollo Loco restaurants.",
+   "evidence": "The Company operates in one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests buy meals; franchisees pay fees.",
+  "evidence": "The Company operates in one operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

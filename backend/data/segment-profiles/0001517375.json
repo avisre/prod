@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001517375",
+ "issuerName": "SPROUT SOCIAL, INC.",
+ "builtAt": "2026-11-16T05:23:47.353Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001517375-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1517375/000151737526000015/spt-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

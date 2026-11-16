@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001865200",
+ "issuerName": "Angel Studios, Inc.",
+ "builtAt": "2026-11-16T05:23:06.682Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001865200-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1865200/000186520026000020/angx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Angel Studios",
+   "products": [],
+   "description": "Produces and distributes faith-based films and shows.",
+   "evidence": "Segment Reporting The Company operates as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Audiences pay for content and supporters fund productions.",
+  "evidence": "The Chief Operating Decision Maker (\"CODM\"), Neal Harmon, the Chief Executive Officer, evaluates the Company's financial performance and allocates resources based on consolidated financial results."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Angel Studios): film and television content"
+ ],
+ "reader": "agent"
+}

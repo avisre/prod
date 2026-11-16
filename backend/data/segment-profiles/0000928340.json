@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000928340",
+ "issuerName": "CONSOLIDATED WATER CO. LTD.",
+ "builtAt": "2026-11-16T05:23:08.456Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028587",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/928340/000110465926028587/cwco-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Water Operations",
+   "products": [
+    "water"
+   ],
+   "description": "Sells water to retail customers.",
+   "evidence": "Through our subsidiaries and affiliate, we provide the following products and services to our customers in the Cayman Islands, The Bahamas, the United States and the British Virgin Islands: ​ ● Retail Water Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Households and businesses pay water rates.",
+  "evidence": "We design, construct and sell water production and water treatment plants, and we manage and operate water production plants and water trea"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

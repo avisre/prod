@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001681622",
+ "issuerName": "Varex Imaging Corp",
+ "builtAt": "2026-11-16T05:23:45.239Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001681622-25-000108",
+  "periodEnd": "2025-10-03",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1681622/000168162225000108/var-20251003.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical",
+   "products": [
+    "X-ray imaging components"
+   ],
+   "description": "Sells X-ray imaging components for medical use.",
+   "evidence": "Operating Segments and Products We have two reportable operating segments: Medical and Industrial."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "X-ray imaging components"
+   ],
+   "description": "Sells X-ray imaging components for industrial use.",
+   "evidence": "Operating Segments and Products We have two reportable operating segments: Medical and Industrial."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Imaging system makers buy its X-ray components.",
+  "evidence": "Our products are sold in three geographic regions: the Americas, EMEA, and APAC."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

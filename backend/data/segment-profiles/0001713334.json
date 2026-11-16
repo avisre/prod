@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001713334",
+ "issuerName": "STUDIO CITY INTERNATIONAL HOLDINGS LIMITED",
+ "builtAt": "2026-11-16T05:23:11.150Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-105026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1713334/000119312526105026/d31011d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Macau",
+   "products": [
+    "casino resort",
+    "gaming"
+   ],
+   "description": "Runs its Macau casino resort.",
+   "evidence": "Since we derive all of our revenues from our Macau business and a significant number of our customers come from, and are expected to continue to come from, China, our results of operations and financial condition may be materially and adversely affected by significant regulatory developments in China."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay for gaming, hotel rooms and dining.",
+  "evidence": "The Company monitors the operations and evaluates earnings by reviewing the a"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

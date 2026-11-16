@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001762301",
+ "issuerName": "Fiverr International Ltd.",
+ "builtAt": "2026-11-16T05:23:49.417Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-000858",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1762301/000117891326000858/zk2634486.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001602658",
+ "issuerName": "Investar Holding Corporation",
+ "builtAt": "2026-11-16T05:23:49.291Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008446",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1602658/000143774926008446/istr20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001162194",
+ "issuerName": "STANDARD BIOTOOLS INC.",
+ "builtAt": "2026-11-16T05:23:46.114Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108326",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1162194/000119312526108326/lab-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

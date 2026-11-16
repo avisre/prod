@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001000623",
+ "issuerName": "MATIV HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:23:07.908Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001000623-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1000623/000100062326000016/matv-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

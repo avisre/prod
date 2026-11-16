@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001940941",
+ "issuerName": "mF International Limited",
+ "builtAt": "2026-11-16T05:23:07.481Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-045993",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1940941/000162828026045993/mfi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mF International",
+   "products": [],
+   "description": "Sells financial trading and settlement software.",
+   "evidence": "The Company has one core operating and reportable segment with one business activity – sale"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Financial institutions pay for software and services.",
+  "evidence": "The Company has one core operating and reportable segment with one business activity – sale"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (mF International): financial software"
+ ],
+ "reader": "agent"
+}

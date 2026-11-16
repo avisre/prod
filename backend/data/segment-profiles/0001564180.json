@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001564180",
+ "issuerName": "KNOT Offshore Partners LP",
+ "builtAt": "2026-11-16T05:23:50.963Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044664",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1564180/000110465926044664/knop-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "shuttle tanker",
+   "products": [
+    "shuttle tanker services"
+   ],
+   "description": "Operates shuttle tankers under long-term charters.",
+   "evidence": "7) Segment Information The Partnership has one reportable segment: the shuttle tanker segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil companies pay charter hire for shuttle tankers.",
+  "evidence": "The shuttle tanker segment generates revenues by charging customers for the hir"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

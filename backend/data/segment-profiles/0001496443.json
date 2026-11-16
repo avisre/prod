@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001496443",
+ "issuerName": "PAYSIGN, INC.",
+ "builtAt": "2026-11-16T05:23:50.631Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002180",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1496443/000168316826002180/paysign_i10k-123125.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

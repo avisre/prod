@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001774170",
+ "issuerName": "Powerfleet, Inc.",
+ "builtAt": "2026-11-16T05:23:08.522Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-043187",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1774170/000162828026043187/aiot-20260331.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

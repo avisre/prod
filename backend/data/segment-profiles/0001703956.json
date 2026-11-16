@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001703956",
+ "issuerName": "CONCRETE PUMPING HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:23:50.320Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-001203",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1703956/000143774926001203/bbpp20251031_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

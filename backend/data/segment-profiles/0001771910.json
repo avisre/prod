@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001771910",
+ "issuerName": "ADC Therapeutics SA",
+ "builtAt": "2026-11-16T05:23:11.318Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016491",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1771910/000162828026016491/adc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ADC cancer therapies",
+   "products": [],
+   "description": "Develops antibody-drug conjugates for cancer.",
+   "evidence": "Segment Reporting The Company is managed and operated as one reportable segment, which includes all global activities related to the development and commercialization of targeted ADC cancer therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "The determination of a single reportable segment is consistent with the consolidated financial information regularly provided to the Company's CODM, which is its chief executive o"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (ADC cancer therapies): antibody-drug conjugates"
+ ],
+ "reader": "agent"
+}

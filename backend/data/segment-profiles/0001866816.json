@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001866816",
+ "issuerName": "SYNTEC OPTICS HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:23:10.185Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014180",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1866816/000149315226014180/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Syntec Optics",
+   "products": [
+    "optics"
+   ],
+   "description": "Makes precision optics and photonics.",
+   "evidence": "Note 18 Segment reporting The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Defense and medical customers buy its optics.",
+  "evidence": "The Company has one reporting segment as its operating segments meet the requirements for aggregation."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Syntec Optics): photonic components"
+ ],
+ "reader": "agent"
+}
