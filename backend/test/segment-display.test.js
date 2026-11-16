@@ -144,6 +144,12 @@ test('a one-segment company shows one row at its consolidated revenue; a multi-s
         // One row that leaves revenue out is a partial table, not a one-segment company.
         const thin = store.extract([fact('Revenues', 'Only', 340)], { ...DATA, income: income(1000) }, FILING);
         assert.equal(require('../segments').singleSegmentRow({ ...DATA, income: income(1000), segmentObservations: thin }, 'X'), null);
+        // All of revenue in one segment beside another filed at $0 is a multi-segment company (IAMGOLD:
+        // gold mines $2,907M, exploration and evaluation $0, corporate -$54M).
+        const earning = store.extract([fact('Revenues', 'GoldMineSegments', 1000), fact('Revenues', 'ExplorationAndEvaluationSegment', 0)], { ...DATA, income: income(1000) }, FILING);
+        const view = earning.map(g => store.shown(g)).find(v => v.rows.length === 1 && v.coverage >= 0.98);
+        assert.ok(view, 'the earning segment alone is all of revenue');
+        assert.equal(require('../segments').singleSegmentRow({ ...DATA, income: income(1000), segmentObservations: earning }, 'X'), null);
     } finally { p.verifiedField = original; }
 });
 

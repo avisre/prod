@@ -162,6 +162,11 @@ function singleSegmentRow(data,symbol) {
         .filter(x=>x.view.rows.length===1 && x.view.coverage>=0.98 && x.view.coverage<=1.02 && store.kind(x.g)==='operating segments')
         .sort((a,b)=>String(b.g.periodEnd).localeCompare(String(a.g.periodEnd)))[0];
     if(!one) return null;
+    // All of revenue in one row is one segment only when no other segment is filed beside it. IAMGOLD tags
+    // its gold mines at $2.9B beside an exploration segment at $0, Trump Media its Media line beside Truth.Fi,
+    // and their annual reports name those segments: they are multi-segment companies with one earning.
+    const lone=one.view.rows[0]?.member;
+    if(one.g.entries.some(e=>e.member!==lone && !/(?:Reportable|Operating)Segments?Member$|Consolidat|EntityWide|Elimination|Intersegment/i.test(e.member || ''))) return null;
     const result=store.toolPayload(one.g,data,symbol);
     if(!result) return null;
     const p=require('./sec-coverage');
@@ -169,6 +174,7 @@ function singleSegmentRow(data,symbol) {
     if(!row || !p.verifiedField(data,row,'totalRevenue')) return null;
     // The annual report names the segment; the tag carries a member the profile has been matched to.
     const profile=(()=>{try{return require('./segment-profiles').read(data.cik);}catch(_){return null;}})();
+    if(profile && profile.status==='ok' && Array.isArray(profile.segments) && profile.segments.length>1) return null;
     const named=profile && profile.status==='ok' && Array.isArray(profile.segments) && profile.segments.length===1 ? profile.segments[0] : null;
     const row0=result.segments[0];
     const value=row.totalRevenue;
