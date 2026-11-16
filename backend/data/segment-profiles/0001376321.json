@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0001376321",
+ "issuerName": "ZW Data Action Technologies Inc.",
+ "builtAt": "2026-11-15T14:24:40.674Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-002058",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1376321/000117184326002058/cnet20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Internet advertising and related marketing services",
+   "products": [
+    "internet advertising",
+    "influencer marketing",
+    "precision marketing",
+    "data analysis management system",
+    "marketing strategy and branding consultation"
+   ],
+   "description": "Provides internet advertising, precision marketing, influencer marketing and related data services to SME clients, operating outside mainland China.",
+   "evidence": "Our Internet advertising and related marketing services segment also includes our influencer marketing services."
+  },
+  {
+   "name": "IP Services",
+   "products": [
+    "intellectual property licensing"
+   ],
+   "description": "Licenses intellectual property on agent management, marketing data management, targeted marketing and mass marketing systems and technologies.",
+   "evidence": "Rahula Group is principally engaged in the development and monetization of intellectual property rights on agent management, marketing data management, targeted marketing and mass marketing systems and technologies."
+  },
+  {
+   "name": "Blockchain-based SaaS services",
+   "products": [
+    "BIF platform",
+    "NFT management",
+    "membership management",
+    "blockchain-enabled data storage and analysis",
+    "mobile applications with blockchain functionalities"
+   ],
+   "description": "Provides blockchain-powered SaaS solutions via the BIF platform and buys and sells mobile applications with blockchain functionalities for SMEs.",
+   "evidence": "The SaaS services were designated in providing one-stop blockchain-powered enterprise management solutions via our BIF platform in forms of unique NFT generations, data record, share and storage modules subscriptions etc."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients, mainly SMEs, pay for internet advertising and marketing services, IP licensing, and blockchain-based SaaS subscriptions and applications.",
+  "evidence": "We derive our revenue principally by: ● distributing the right to use search engine marketing service we purchased from key search engines to increase the sales lead conversion rate for our clients' business promotion on both mobile and computer searches; ● providing internet advertising and related marketing services for our clients' businesses; ● providing intellectual property (\"IP\") licensing services; and ● providing Blockchain-based SaaS Services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Rahula Digital Media (HK) Limited, adding a new IP licensing services segment.",
+   "evidence": "On March 7, 2025, ChinaNet Investment Holding Limited (the \"Purchaser\"), a British Virgin Islands company and an indirect wholly-owned subsidiary of ZW Data Action Technologies Inc. acquired the 10,000 shares of Rahula Digital Media (HK) Limited, a Hong Kong company (\"Rahula\") that Vickie Chan, an individual (the \"Seller\") owned."
+  }
+ ],
+ "dropped": [
+  "product not in text (Internet advertising and related marketing services): search engine marketing service distribution",
+  "change not grounded: In 2025, the company wound down its distribution of the right to use search engi"
+ ]
+}

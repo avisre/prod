@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "cik": "0000890394",
+ "issuerName": "Peraso Inc.",
+ "builtAt": "2026-11-15T14:23:36.269Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036514",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/890394/000121390026036514/ea0282892-10k_peraso.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for shipments of mmWave products, licensing of its technologies, and performance of services.",
+  "evidence": "The Company recognized revenue from shipments of products, licensing of its technologies and performance of services to customers by geographical destination as follows"
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: mmWave semiconductor company",
+  "change not grounded: The company initiated an end-of-life of its memory IC products in 2023 and subst"
+ ]
+}

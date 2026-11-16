@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001368458",
+ "issuerName": "SALLY BEAUTY HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:24:24.920Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-280122",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1368458/000119312525280122/sbh-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sally Beauty",
+   "products": [
+    "hair care",
+    "hair color",
+    "styling tools",
+    "nails",
+    "Ion 8 in 1 Airstyler",
+    "Beauty Secrets",
+    "Texture ID",
+    "Inspired by Nature"
+   ],
+   "description": "An omni-channel retailer offering professional-quality beauty supplies at attractive prices to retail consumers and salon professionals in North America, South America and Europe.",
+   "evidence": "Sally Beauty (\"Sally\") – An omni-channel retailer that offers professional-quality beauty supplies at attractive prices and provides education to retail consumers and salon professionals throughout North America, South America and Europe."
+  },
+  {
+   "name": "Beauty Systems Group",
+   "products": [
+    "hair color",
+    "hair care",
+    "K18",
+    "Goddess",
+    "Image Skincare",
+    "Unite",
+    "Color Wow",
+    "Amika"
+   ],
+   "description": "A full-service omni-channel distributor offering professional beauty supplies exclusively to salons and licensed beauty professionals in the U.S. and Canada.",
+   "evidence": "Beauty Systems Group (\"BSG\") – A leading full-service omni-channel distributor that offers professional beauty supplies exclusively to salons and licensed beauty professionals throughout the U.S. and Canada."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling beauty products to retail consumers through Sally stores and digital platforms, and to salons and licensed professionals through BSG stores, consultants and digital platforms.",
+  "evidence": "Sally operates primarily through retail stores (generally operating under the Sally Beauty banner) and digital platforms, including our www.sallybeauty.com website, a mobile commerce-based app, and third-party digital marketplaces."
+ },
+ "changes": [],
+ "dropped": []
+}

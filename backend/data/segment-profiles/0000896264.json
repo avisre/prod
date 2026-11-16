@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000896264",
+ "issuerName": "USANA HEALTH SCIENCES, INC.",
+ "builtAt": "2026-11-15T14:23:52.145Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000896264-26-000021",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/896264/000089626426000021/usna-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Core nutritional",
+   "products": [
+    "nutritional supplements",
+    "functional foods",
+    "personal care products",
+    "skincare products"
+   ],
+   "description": "Develops and manufactures science-based nutritional, personal care and skincare products sold to Brand Partners and Preferred Customers worldwide.",
+   "evidence": "We organize our business into two reportable segments: Core nutritional and Hiya direct-to-consumer."
+  },
+  {
+   "name": "Hiya direct-to-consumer",
+   "products": [
+    "children's health and wellness products"
+   ],
+   "description": "Sells children's health and wellness products to U.S. customers primarily through a subscription model.",
+   "evidence": "Hiya operates and sells products to customers in the United States and, in 2026, is expanding into Canada and the United Kingdom."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including Brand Partners, Preferred Customers and Hiya subscribers, pay USANA for nutritional and wellness products purchased for personal use or resale.",
+  "evidence": "Preferred Customers purchase our products strictly for personal use and are not permitted to resell or to distribute the products."
+ },
+ "changes": [
+  {
+   "text": "In 2022, USANA acquired Rise and Oola, which are reported in the other category alongside the core nutritional segment.",
+   "evidence": "The other category is comprised of Rise Bar Wellness, Inc. (\"Rise\") and Oola Global, LLC (\"Oola\"), which are both businesses we acquired in 2022."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, USANA acquired a 78.85% ownership interest in Hiya, adding the Hiya dir"
+ ]
+}

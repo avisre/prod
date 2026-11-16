@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001437402",
+ "issuerName": "ARDELYX, INC.",
+ "builtAt": "2026-11-15T14:26:20.353Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437402-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1437402/000143740226000013/ardx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical products",
+   "products": [
+    "IBSRELA",
+    "XPHOZAH",
+    "RDX10531"
+   ],
+   "description": "Develops and commercializes innovative biopharmaceutical medicines, including tenapanor-based therapies for IBS-C and hyperphosphatemia in CKD dialysis patients.",
+   "evidence": "We operate in one business segment, which is the development and commercialization of biopharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Ardelyx earns revenue from U.S. product sales of IBSRELA and XPHOZAH, plus upfront payments, milestones, royalties and supply fees from collaboration partners.",
+  "evidence": "In exchange for granting the respective licenses, we receive upfront payments upon contract execution, are eligible to receive development and regulatory milestones upon achievement of respective events and are eligible to receive sales-based royalties and commercialization milestones."
+ },
+ "changes": [],
+ "dropped": []
+}

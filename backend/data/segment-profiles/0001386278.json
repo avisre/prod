@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001386278",
+ "issuerName": "GREEN DOT CORP",
+ "builtAt": "2026-11-15T14:24:54.838Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001386278-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1386278/000138627826000015/gdot-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B2B Services",
+   "products": [
+    "Employer channel",
+    "consumer and small business checking accounts",
+    "prepaid cards",
+    "disbursements services",
+    "PayCard programs",
+    "On demand employee wage access",
+    "instant digital pay options"
+   ],
+   "description": "Provides banking and payment platform services to consumer and technology partners and a payroll platform to corporate enterprises.",
+   "evidence": "Our B2B Services segment consists of revenues and expenses derived from (i) our partnerships with prominent consumer and technology companies that make our banking products and services available to their consumers, partners and workforce through integration with our banking platform (the \"Banking-as-a-Service\", or \"BaaS channel\"), and (ii) a comprehensive payroll platform that we offer to corporate enterprises (the \"Employer channel\"), to facilitate payments for today's workforce."
+  },
+  {
+   "name": "Consumer Services",
+   "products": [
+    "consumer checking accounts",
+    "prepaid cards",
+    "secured credit cards",
+    "gift cards",
+    "GO2bank",
+    "Walmart MoneyCard"
+   ],
+   "description": "Offers deposit account programs to consumers through retail distribution locations and direct marketing channels.",
+   "evidence": "Our Consumer Services segment consists of revenues and expenses derived from deposit account programs, such as consumer checking accounts, prepaid cards, secured credit cards, and gift cards that we offer to consumers (i) through distribution arrangements with more than 90,000 retail locations and neighborhood Financial Service Center locations (the \"Retail channel\"), and (ii) directly through various marketing channels, such as online search engine optimization, online displays, direct mail cam"
+  },
+  {
+   "name": "Money Movement Services",
+   "products": [
+    "money processing services",
+    "cash deposit and disbursements",
+    "tax refund processing services",
+    "tax refund transfers",
+    "Fast Cash Advance"
+   ],
+   "description": "Facilitates movement of cash on behalf of consumers and businesses through money processing and tax refund processing services.",
+   "evidence": "Our Money Movement Services segment consists of revenues and expenses generated on a per transaction basis from our services that specialize in facilitating the movement of cash on behalf of consumers and businesses, such as money processing services and tax refund processing services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Green Dot earns interchange fees from merchants, card and usage fees from accountholders, program management service fees from partners, interest income on deposits, and per-transaction fees from consumers for cash transfer, tax refund transfer and disbursement services.",
+  "evidence": "We earn revenues primarily through fees charged to consumers on a per transaction basis for cash transfer services, tax refund transfers and disbursements."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Green Dot entered into a merger agreement with CommerceOne Financial Corporation and a separation agreement under which Smith Ventures affiliate Payments Buyer would acquire the non-bank Payments Business.",
+   "evidence": "Also on November 23, 2025, we entered into a separation agreement (the \"Separation Agreement\"), with New CommerceOne and Green Dot OpCo, LLC, a newly formed Delaware limited liability company and affiliate of Smith Ventures LLC, an Alabama limited liability company (\"Payments Buyer\")"
+  }
+ ],
+ "dropped": [
+  "product not in text (B2B Services): Banking-as-a-Service (BaaS) channel",
+  "product not in text (Money Movement Services): small business lending to tax preparation providers"
+ ]
+}

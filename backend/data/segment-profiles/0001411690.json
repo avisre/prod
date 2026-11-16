@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001411690",
+ "issuerName": "Bionano Genomics, Inc.",
+ "builtAt": "2026-11-15T14:25:43.297Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001411690-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1411690/000141169026000007/bngo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Genomic analysis",
+   "products": [
+    "OGM systems",
+    "Stratys system",
+    "VIA software",
+    "Ionic Purification system",
+    "consumables",
+    "genome analysis services"
+   ],
+   "description": "Develops and sells optical genome mapping systems, software, purification instruments, consumables and genome analysis services for research and clinical customers.",
+   "evidence": "The Company has determined it has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including clinical research laboratories, academic and governmental research institutions and biopharmaceutical companies, pay for instruments, consumables, software and services.",
+  "evidence": "In the near term, sales of our OGM systems, Ionic Purification system, VIA software, consumables and genome analysis services will depend on levels of research and development spending by clinical research laboratories, academic and governmental research institutions and biopharmaceutical companies"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001433195",
+ "issuerName": "AppFolio, Inc.",
+ "builtAt": "2026-11-15T14:26:11.922Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001433195-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1433195/000143319526000011/appf-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Property management companies pay subscription fees for the AppFolio Platform plans and fees for value added services such as electronic payments, tenant screening, and risk mitigation.",
+  "evidence": "We categorize our products and services into two categories, Subscription Services and Value Added Services."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Real estate technology"
+ ]
+}

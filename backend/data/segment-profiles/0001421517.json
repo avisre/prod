@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001421517",
+ "issuerName": "Energy Recovery, Inc.",
+ "builtAt": "2026-11-15T14:25:59.097Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001421517-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1421517/000142151726000022/erii-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water",
+   "products": [
+    "PX Pressure Exchanger",
+    "low pressure PX",
+    "hydraulic turbochargers",
+    "Ultra High-Pressure PX"
+   ],
+   "description": "Sells energy recovery devices for seawater and brackish reverse osmosis desalination and wastewater treatment to project developers, EPC firms and plant operators.",
+   "evidence": "Revenues associated with our Water segment represented 99% of total revenues during the years ended December 31, 2025 and 2024."
+  },
+  {
+   "name": "Emerging Technologies",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Emerging Technologies): CO2 refrigeration solutions",
+  "segment evidence not verbatim: Emerging Technologies",
+  "revenue model not grounded",
+  "change not grounded: In 2026, the company decided to wind down operations of the CO2 retail grocery b"
+ ]
+}

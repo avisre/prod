@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001419945",
+ "issuerName": "TEEKAY TANKERS LTD.",
+ "builtAt": "2026-11-15T14:25:56.238Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001419945-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1419945/000141994526000007/tnk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tankers",
+   "products": [
+    "Suezmax",
+    "Aframax / LR2",
+    "full service lightering contracts",
+    "ship-to-ship support services",
+    "lightering support services"
+   ],
+   "description": "Operates the company's oil tankers transporting crude oil and refined petroleum products for oil majors, oil traders and other customers.",
+   "evidence": "1) tankers, which consists of the operation of all of the Company's tankers (including the operations from those tankers employed on full service lightering contracts), and the Company's U.S. based ship-to-ship support service operations (including its lightering support services provided as part of full service lightering operations);"
+  },
+  {
+   "name": "Marine Services and Other",
+   "products": [
+    "vessel operational and maintenance services",
+    "management fees"
+   ],
+   "description": "Provides operational and maintenance marine services to the Australian government, Australian energy companies and other third parties.",
+   "evidence": "2) marine services, which consists of operational and maintenance marine services provided to the Australian government, Australian energy companies and other third parties."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded",
+  "change not grounded: In 2025, a management contract related to the company's Australian operations wa"
+ ]
+}

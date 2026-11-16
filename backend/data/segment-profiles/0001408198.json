@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0001408198",
+ "issuerName": "MSCI INC.",
+ "builtAt": "2026-11-15T14:25:34.586Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001408198-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1408198/000140819826000011/msci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Index",
+   "products": [
+    "MSCI Market Cap Indexes",
+    "Factor Indexes",
+    "Fixed Income Indexes",
+    "Private Asset Indexes",
+    "Sustainability Indexes",
+    "Climate Indexes",
+    "Thematic Indexes",
+    "Custom Indexes"
+   ],
+   "description": "Provides indexes used by global investors for indexed products, benchmarking, portfolio construction and asset allocation.",
+   "evidence": "Clients use our indexes to support many areas of the investment process, including for developing indexed financial products (e.g., ETFs, mutual funds, annuities, futures, options, structured products, over-the-counter derivatives), performance benchmarking, portfolio construction and rebalancing, asset allocation, and creating custom indexes."
+  },
+  {
+   "name": "Analytics",
+   "products": [
+    "RiskMetrics RiskManager",
+    "Barra equity models",
+    "fixed income and multi-asset class (\"MAC\") models",
+    "pricing models",
+    "performance attribution",
+    "portfolio optimization",
+    "liquidity risk analytics"
+   ],
+   "description": "Offers risk management, performance attribution and portfolio management content, applications and services across all major asset classes.",
+   "evidence": "Our Analytics segment offers risk management, performance attribution and portfolio management content, applications and services that provide clients with an integrated view of risk and return and tools for analyzing market, credit, liquidity, counterparty and climate risk across all major asset classes, including public and private securities, spanning short-, medium- and long-term time horizons."
+  },
+  {
+   "name": "Sustainability and Climate",
+   "products": [],
+   "description": "Provides sustainability and climate data, insights and applications for investors integrating these considerations into investment processes.",
+   "evidence": "Lead the enablement of sustainability and climate investment integration by delivering data, insights and applications that help clients identify, assess and manage financially material sustainability and climate risks and opportunities."
+  },
+  {
+   "name": "All Other – Private Assets",
+   "products": [],
+   "description": "Combines the Real Assets and Private Capital Solutions operating segments, which did not meet thresholds for separate reportable segment disclosure.",
+   "evidence": "For reporting purposes, the Real Assets and Private Capital Solutions operating segments are combined and presented as All Other – Private Assets, as they did not meet the required thresholds for separate reportable segment disclosure."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay primarily through annual recurring subscriptions for products and services, plus asset-based fees tied to AUM or trading volumes for index-linked investment products.",
+  "evidence": "Our principal business model is generally to license annual, recurring subscriptions for the majority of our products and services for a fee due in advance of the service period."
+ },
+ "changes": [
+  {
+   "text": "In the first quarter of 2025, MSCI retitled its \"ESG and Climate\" segment as \"Sustainability and Climate\" with no change to segment composition.",
+   "evidence": "In the first quarter of 2025, we renamed our \"ESG and Climate\" operating and reportable segment to \"Sustainability and Climate\" to reflect the breadth of our product offerings."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001411207",
+ "issuerName": "ALLISON TRANSMISSION HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:25:41.597Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-065627",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1411207/000119312526065627/alsn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vehicle Propulsion Solutions",
+   "products": [
+    "fully automatic transmissions",
+    "electric hybrid propulsion solutions",
+    "fully electric propulsion solutions",
+    "service parts",
+    "support equipment",
+    "aluminum die cast components",
+    "remanufactured propulsion solutions",
+    "transmission fluids"
+   ],
+   "description": "Manufactures and distributes fully automatic transmissions and propulsion solutions for commercial, off-highway and defense vehicles, plus service parts.",
+   "evidence": "The Company was in one line of business, which was the manufacture and distribution of vehicle propulsion solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Allison is paid primarily by OEMs under long-term agreements, and by distributors, dealers and end users for propulsion solutions, replacement parts and support equipment.",
+  "evidence": "We sell substantially all of our propulsion solutions in the North American on-highway market to OEMs."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: On January 1, 2026, Allison completed the acquisition of the Acquired Off-Highwa"
+ ]
+}

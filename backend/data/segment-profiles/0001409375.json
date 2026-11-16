@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0001409375",
+ "issuerName": "Orion Energy Systems, Inc.",
+ "builtAt": "2026-11-15T14:25:36.807Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-257468",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1409375/000119312526257468/oesx-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lighting",
+   "products": [
+    "LED high bay fixtures",
+    "LED troffer retrofits",
+    "smart lighting controls"
+   ],
+   "description": "Develops and sells LED lighting products and provides construction and engineering services for commercial lighting and energy management systems.",
+   "evidence": "Our lighting segment develops and sells lighting products and provides construction and engineering services for our commercial lighting and energy management systems."
+  },
+  {
+   "name": "Maintenance",
+   "products": [
+    "electrical maintenance services",
+    "repair and replacement services"
+   ],
+   "description": "Provides retailers, distributors and other businesses with maintenance, repair and replacement services for lighting and related electrical components.",
+   "evidence": "Our maintenance segment provides retailers, distributors and other businesses with maintenance, repair and replacement services for the lighting and related electrical components deployed in their facilities."
+  },
+  {
+   "name": "EV",
+   "products": [
+    "EV turnkey installation solutions",
+    "EV charging stations"
+   ],
+   "description": "Offers electric vehicle charging expertise and turnkey EV installation solutions with ongoing support to all commercial verticals.",
+   "evidence": "Our EV segment offers leading electric vehicle charging expertise and provides EV turnkey installation solutions with ongoing support to all commercial verticals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including national account end-users, electrical distributors, contractors and ESCOs, pay Orion for LED lighting products, turnkey installation, maintenance and EV charging solutions, largely on a project-by-project or purchase order basis.",
+  "evidence": "We typically generate substantially all of our lighting revenue from sales of lighting systems and related services to governmental, commercial and industrial customers on a project-by-project basis."
+ },
+ "changes": [
+  {
+   "text": "In October 2022, Orion acquired Voltrek LLC, adding the EV segment.",
+   "evidence": "In October 2022, we acquired Voltrek LLC (\"Voltrek\"), which leveraged our project management and maintenance expertise into the EV sector."
+  },
+  {
+   "text": "In fiscal 2026, Orion expanded its services to include electrical contracting.",
+   "evidence": "In fiscal 2026, we expanded our services to include electrical contracting, which is an increasingly growing area of customer activity."
+  }
+ ],
+ "dropped": [
+  "product not in text (Maintenance): lighting maintenance services",
+  "product not in text (EV): ongoing EV support services"
+ ]
+}

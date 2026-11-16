@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0001409171",
+ "issuerName": "TITAN MACHINERY INC.",
+ "builtAt": "2026-11-15T14:25:36.764Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022376",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1409171/000162828026022376/titn-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agriculture",
+   "products": [
+    "parts",
+    "equipment repair and maintenance services",
+    "equipment rental"
+   ],
+   "description": "Sells and services agricultural equipment, parts and related services to farmers in U.S. farming regions.",
+   "evidence": "We operate our business in four reportable segments, Agriculture, Construction, Europe and Australia, within which we engage in four principal business activities:"
+  },
+  {
+   "name": "Construction",
+   "products": [
+    "parts",
+    "equipment repair and maintenance services",
+    "equipment rental"
+   ],
+   "description": "Sells and services construction equipment, parts and related services for commercial, residential and infrastructure construction customers.",
+   "evidence": "Our Construction stores are located in Colorado, Iowa, Minnesota, Nebraska, North Dakota, South Dakota, and Wisconsin."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "new and used equipment",
+    "parts",
+    "equipment repair and maintenance services",
+    "equipment rental"
+   ],
+   "description": "Operates full service agricultural and construction equipment stores in Bulgaria, Germany, Romania and Ukraine.",
+   "evidence": "Internationally, our European stores are located in Bulgaria, Germany, Romania, and Ukraine, and our Australian stores are located in New South Wales, South Australia, and Victoria in Southeastern Australia."
+  },
+  {
+   "name": "Australia",
+   "products": [
+    "new and used equipment",
+    "parts",
+    "equipment repair and maintenance services",
+    "equipment rental"
+   ],
+   "description": "Operates full service agricultural and construction equipment stores in southeastern Australia.",
+   "evidence": "Our Australian stores are located in New South Wales, South Australia, and Victoria in Southeastern Australia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for new and used equipment, parts, repair and maintenance services, equipment rental and ancillary products such as GPS subscriptions and finance and insurance products.",
+  "evidence": "Within each of our segments, we have four principal sources of revenue: new and used equipment sales, parts sales, equipment repair and maintenance services, and equipment rental and other business activities."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Agriculture): new and used agricultural equipment",
+  "product not in text (Construction): new and used construction equipment"
+ ]
+}

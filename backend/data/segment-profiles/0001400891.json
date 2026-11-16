@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001400891",
+ "issuerName": "IHEARTMEDIA, INC.",
+ "builtAt": "2026-11-15T14:25:19.959Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013221",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1400891/000162828026013221/ihrt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multiplatform Group",
+   "products": [
+    "Broadcast radio",
+    "Premiere Networks",
+    "Total Traffic & Weather Network",
+    "SmartAudio",
+    "BIN: Black Information Network",
+    "Sponsorship & Events",
+    "National Sales Organization"
+   ],
+   "description": null,
+   "evidence": "The Multiplatform Group includes our Markets Group, which includes our 860+ broadcast radio stations in approximately 160 markets; our Events business, which includes both live and virtual events; our SmartAudio suite of data targeting and attribution products; Premiere Networks, which includes the Premiere Networks syndication business and Total Traffic and Weather Network; BIN: Black Information Network and our National Sales Organization."
+  },
+  {
+   "name": "Digital Audio Group",
+   "products": [
+    "Podcasting",
+    "iHeartRadio digital service",
+    "Digital advertising technology",
+    "Websites",
+    "Newsletters",
+    "Digital services and programs"
+   ],
+   "description": "Includes all of the Company's digital businesses, including podcasting, the iHeartRadio digital service, digital ad tech, websites, newsletters and its social media footprint.",
+   "evidence": "Digital Audio Group , which includes all of the Company's Digital businesses including podcasting, the iHeartRadio digital service, its digital advertising technology companies, its websites, newsletters and digital services and programs; and its audio industry-leading social media footprint"
+  },
+  {
+   "name": "Audio & Media Services Group",
+   "products": [
+    "Katz Media Group",
+    "RCS Sound Software"
+   ],
+   "description": "Provides media representation services through Katz Media Group and scheduling and broadcast software and services through RCS Sound Software to the industry at large.",
+   "evidence": "Audio & Media Services Group , which provides other audio and media services, including the Company's media representation business, Katz Media Group, and RCS Sound Software, a provider of scheduling and broadcast software and services to the industry at large."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Advertisers pay the Company for advertising time and spots on its broadcast radio stations, syndicated programs, digital platforms and podcasts, plus sponsorship, endorsement, ticket sales and licensing revenue from events.",
+  "evidence": "Our primary source of revenue is derived from selling advertising time on our domestic broadcast radio stations, generating revenue of $1,633.4 million in 2025, $1,726.9 million in 2024 and $1,752.2 million in 2023."
+ },
+ "changes": [],
+ "dropped": []
+}

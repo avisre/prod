@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001401257",
+ "issuerName": "FORUM ENERGY TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-15T14:25:20.498Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001401257-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1401257/000140125726000015/fet-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drilling and Completions",
+   "products": [
+    "Drilling capital equipment",
+    "Consumable products",
+    "Subsea ROVs and trenchers",
+    "Submarine rescue vehicles",
+    "Hydraulic fracturing pumps",
+    "Wireline cable and pressure control equipment",
+    "Coiled tubing strings",
+    "Coiled line pipe"
+   ],
+   "description": "Designs, manufactures and supplies capital equipment and consumables for drilling, subsea, coiled tubing, well stimulation and intervention markets.",
+   "evidence": "This segment designs, manufactures and supplies products and solutions to the drilling, subsea, coiled tubing, well stimulation and intervention markets, including applications in the oil and natural gas, renewable energy, defense and communications industries."
+  },
+  {
+   "name": "Artificial Lift and Downhole",
+   "products": [
+    "Well construction casing and cementing equipment",
+    "Downhole technology solutions",
+    "Engineered process systems",
+    "Industrial valves"
+   ],
+   "description": "Designs, manufactures and supplies products for the artificial lift, well construction, production and infrastructure markets.",
+   "evidence": "This segment designs, manufactures and supplies products and solutions for the artificial lift, well construction, production and infrastructure markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including oil and gas operators, service companies, pipeline and refinery operators, defense contractors and renewable energy companies, pay for capital equipment, consumable products, and rental and other services.",
+  "evidence": "In 2025, approximately 80% of our revenue was derived from consumable products and activity-based equipment, while the balance was primarily derived from capital products with a small amount from rental and other services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Artificial Lift and Downhole): Artificial lift equipment protection products"
+ ]
+}

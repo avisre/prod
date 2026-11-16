@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0001386570",
+ "issuerName": "NIAGEN BIOSCIENCE, INC.",
+ "builtAt": "2026-11-15T14:24:56.312Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001386570-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1386570/000138657026000013/cdxc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Products",
+   "products": [
+    "Tru Niagen®",
+    "Niagen Plus"
+   ],
+   "description": "Sells finished dietary supplements containing proprietary Niagen® ingredients under the Tru Niagen® brand directly to consumers and through distributors.",
+   "evidence": "Through our consumer products segment, we provide finished dietary supplement products containing our proprietary ingredients, marketed under the Tru Niagen® brand, through direct-to-consumer channels and distributors."
+  },
+  {
+   "name": "Ingredients",
+   "products": [
+    "food-grade Niagen®",
+    "pharmaceutical-grade Niagen®"
+   ],
+   "description": null,
+   "evidence": "Through our Ingredients segment, we develop and commercialize proprietary ingredient technologies, including food-grade Niagen® and pharmaceutical-grade Niagen®."
+  },
+  {
+   "name": "Analytical Reference Standards and Services",
+   "products": [
+    "phytochemicals",
+    "natural products",
+    "plant-based materials",
+    "research services"
+   ],
+   "description": "Provides research and quality-control products and services to dietary supplement, food, cosmetic, pharmaceutical and life sciences industries.",
+   "evidence": "Since 1999, we have provided research and quality-control products and services through our analytical reference standards and services segment."
+  },
+  {
+   "name": "Pharmaceutical",
+   "products": [],
+   "description": "Pursues pharmaceutical development of NAD+ precursors for potential therapeutic applications in advanced aging rare diseases; no revenue yet.",
+   "evidence": "We are pursuing pharmaceutical development of NAD+ precursors for potential therapeutic applications in advanced aging rare diseases."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2026, the company agreed to sell its analytical reference standards and services segment.",
+   "evidence": "On February 24, 2026, we entered into an agreement to sell our analytical reference standards and services segment."
+  },
+  {
+   "text": "In 2025, the company changed its name from ChromaDex Corporation to Niagen Bioscience, Inc.",
+   "evidence": "Effective March 19, 2025, the Company changed its name to \"Niagen Bioscience, Inc.\"."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

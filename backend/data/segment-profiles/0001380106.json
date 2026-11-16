@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001380106",
+ "issuerName": "Rapid Micro Biosystems, Inc.",
+ "builtAt": "2026-11-15T14:24:46.789Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001380106-26-000034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1380106/000138010626000034/rmb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automated microbial quality control",
+   "products": [
+    "Growth Direct system",
+    "proprietary consumables",
+    "LIMS connection and other software",
+    "validation services",
+    "service contracts",
+    "field service (including installation)"
+   ],
+   "description": "Develops, manufactures, markets and sells automated microbial quality control Systems, related software, consumables and services to pharmaceutical manufacturers.",
+   "evidence": "the Company determined that it operates and manages its business as one operating segment that develops, manufactures, markets and sells Systems and related LIMS connection and other software, consumables and services; and, accordingly has one reportable segment for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pharmaceutical manufacturers pay the company for Growth Direct systems, LIMS connection software and consumables (product revenue) and for validation services, service contracts and field service (service revenue).",
+  "evidence": "The Company derives product revenue primarily from the sale of its systems, optional LIMS connection software, which facilitates the transfer of data captured by the system to the customer's existing LIMS software, and proprietary consumables."
+ },
+ "changes": [],
+ "dropped": []
+}

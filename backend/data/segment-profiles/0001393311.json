@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001393311",
+ "issuerName": "Public Storage",
+ "builtAt": "2026-11-15T14:25:03.289Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007696",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1393311/000162828026007696/psa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Self-Storage Operations",
+   "products": [
+    "self-storage facilities",
+    "Same Store Facilities",
+    "Acquired Facilities",
+    "Newly Developed and Expanded Facilities",
+    "Other Non-Same Store Facilities"
+   ],
+   "description": "Owns and operates self-storage facilities offering month-to-month storage space leases for personal and business use.",
+   "evidence": "The Self-Storage Operations reportable segment reflects the aggregated rental operations from the self-storage facilities we own through the following operating segments: (i) Same Store Facilities, (ii) Acquired Facilities, (iii) Newly Developed and Expanded Facilities, and (iv) Other Non-Same Store Facilities."
+  },
+  {
+   "name": "Ancillary Operations",
+   "products": [
+    "tenant reinsurance",
+    "merchandise sales",
+    "third party property management"
+   ],
+   "description": "Combines tenant reinsurance, merchandise sales, and third-party property management operations.",
+   "evidence": "Ancillary Operations reflects the combined operations of our tenant reinsurance, merchandise sales, and third party property management operating segments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay monthly rent for storage space, optionally buy tenant insurance and merchandise, and third-party owners pay management fees.",
+  "evidence": "We acquire, develop, own, and operate self-storage facilities, which offer storage spaces for lease on a month-to-month basis, for personal and business use."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company implemented a bridge lending program providing financing to third-party self-storage owners.",
+   "evidence": "We implemented a lending program in 2024, under which we provide bridge lending financing to third-party self-storage owners for operating properties that we manage."
+  }
+ ],
+ "dropped": []
+}

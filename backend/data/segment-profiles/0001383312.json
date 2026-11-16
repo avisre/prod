@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001383312",
+ "issuerName": "BROADRIDGE FINANCIAL SOLUTIONS, INC.",
+ "builtAt": "2026-11-15T14:24:47.420Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-052243",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1383312/000162828026052243/br-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investor Communication Solutions",
+   "products": [
+    "Regulatory Solutions",
+    "Data-Driven Fund Solutions",
+    "Corporate Issuer Solutions",
+    "Customer Communications Solutions",
+    "ProxyEdge",
+    "Proxy Disclosure",
+    "Pass-Through Voting",
+    "Fund Communication Solutions"
+   ],
+   "description": "Provides proxy, regulatory communications, data-driven fund analytics, and corporate issuer services to banks, broker-dealers, asset managers, public companies and funds.",
+   "evidence": "Our Regulatory Solutions, Data-Driven Fund Solutions, Corporate Issuer Solutions, and Customer Communications Solutions are provided as part of the Investor Communication Solutions segment."
+  },
+  {
+   "name": "Global Technology and Operations",
+   "products": [
+    "Capital Markets Solutions",
+    "Broadridge Trading and Connectivity Solutions",
+    "Post-Trade Processing solutions",
+    "Wealth Management",
+    "Investment Management",
+    "business process outsourcing services"
+   ],
+   "description": "Provides capital markets, wealth management and investment management technology and operations services to global financial institutions and asset managers.",
+   "evidence": "We provide the following services and solutions through our Global Technology and Operations segment: Capital Markets Solutions"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Broadridge earns fees from banks, broker-dealers, asset and wealth managers, public companies, investors and mutual funds for technology-driven solutions, including billing public companies for proxy services at SRO-set reimbursement rates.",
+  "evidence": "We bill public companies for the proxy services performed, collect the fees, and remit to the Nominee its portion of the fees."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Global Technology and Operations): distributed ledger repo solution (DLR)"
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000874501",
+ "issuerName": "Octave Specialty Group, Inc.",
+ "builtAt": "2026-11-15T14:23:03.336Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-014653",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/874501/000162828026014653/ambc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance Distribution",
+   "products": [
+    "insurance broker",
+    "Employer Stop Loss",
+    "Limited Benefit Medical",
+    "Short-term Medical",
+    "Travel and Reinsurance",
+    "supplemental health and benefit products"
+   ],
+   "description": "Specialty P&C insurance underwriting and distribution business comprising MGAs, an insurance broker and related businesses serving specialty risk markets.",
+   "evidence": "Insurance Distribution — Octave's specialty property and casualty (\"P&C\") insurance underwriting and distribution business, includes Managing General Agents and Underwriters (collectively \"MGAs\" or \"MGA/Us\"); an insurance broker; and other distribution, underwriting and related businesses."
+  },
+  {
+   "name": "Specialty Property & Casualty Insurance",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insurance Distribution businesses earn commissions from insurance carriers for underwriting, structuring and administering policies, based on a percentage of premiums placed, plus profit-sharing contingent commissions.",
+  "evidence": "ID's businesses are compensated for their services primarily by commissions paid by insurance carriers for underwriting, structuring and/or administering polices and, in some cases for managing claims under agency agreements."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its Legacy Financial Guarantee business (Ambac Assurance Corporation) and rebranded from Ambac Financial Group to Octave Specialty Group.",
+   "evidence": "On September 29, 2025, the Company completed the sale of its Legacy Financial Guarantee business, inclusive of Ambac Assurance Corporation (\"AAC\") and its wholly owned subsidiary Ambac Assurance UK Limited (\"AUK\")."
+  },
+  {
+   "text": "In 2025, the Company acquired ArmadaCorp, a specialty accident and health MGA.",
+   "evidence": "On October 31, 2025, the Company completed the acquisition of ArmadaCorp Capital, LLC and its subsidiaries (collectively, \"ArmadaCorp\"), a leading specialty accident and health MGA."
+  }
+ ],
+ "dropped": [
+  "product not in text (Insurance Distribution): Managing General Agents and Underwriters (MGAs/MGA/Us)",
+  "product not in text (Specialty Property & Casualty Insurance): Everspan program insurance carriers",
+  "segment evidence not verbatim: Specialty Property & Casualty Insurance"
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000883237",
+ "issuerName": "VIRTUS INVESTMENT PARTNERS, INC.",
+ "builtAt": "2026-11-15T14:23:06.470Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000883237-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/883237/000088323726000009/vrts-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset management",
+   "products": [
+    "Open-end funds",
+    "Closed-end funds",
+    "Retail separate accounts",
+    "Institutional accounts",
+    "Wealth advisory services",
+    "Subadvisory services",
+    "Collateral management of structured products"
+   ],
+   "description": "Provides investment management and related services, including fund administration, distribution and shareholder services, to individual and institutional clients.",
+   "evidence": "The Company operates in one business segment, namely as an asset manager providing investment management and related services for individual and institutional clients."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns asset-based fees from funds and clients, calculated as a percentage of average net assets of the investment portfolios managed, plus distribution, administration and shareholder service fees.",
+  "evidence": "Investment management fees, distribution and service fees, and administration and shareholder service fees are generally calculated as a percentage of average net assets of the investment portfolios managed."
+ },
+ "changes": [],
+ "dropped": []
+}

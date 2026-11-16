@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0000886977",
+ "issuerName": "METHANEX CORPORATION",
+ "builtAt": "2026-11-15T14:23:22.459Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001628280-26-015362",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/886977/000162828026015362/mx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Methanol",
+   "products": [],
+   "description": "Produces and sells methanol to industrial customers worldwide.",
+   "evidence": "mx:MeasurementInputMethanolPriceForecastMember"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Methanol): methanol"
+ ]
+}

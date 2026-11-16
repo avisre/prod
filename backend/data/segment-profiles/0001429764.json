@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001429764",
+ "issuerName": "BLINK     CHARGING CO.",
+ "builtAt": "2026-11-15T14:26:07.836Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014238",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1429764/000149315226014238/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EV Charging",
+   "products": [
+    "Blink Network",
+    "Blink Charging Mobile App"
+   ],
+   "description": "Owns, operates, and provides EV charging equipment and networked charging services for EV drivers, fleets, and commercial property partners in U.S. and international markets.",
+   "evidence": "The CODM organizes the Company, manages resource allocations and measures performance as one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "EV drivers pay charging fees and Property Partners pay for charging equipment, network services, and related solutions, with revenue shared depending on the business model.",
+  "evidence": "Blink offers a comprehensive range of solutions for EV charging equipment and services that generally fall into one of the business models below, differentiated by who owns the equipment and who bears the costs of installation, equipment, maintenance, and the percentage of revenue shared."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the BlinkForward Initiative restructured the company, cutting the workforce and shifting to contract manufacturing, completed in January 2026.",
+   "evidence": "The transition to contract manufacturing was completed in January 2026, and Blink no longer maintains manufacturing facilities in-house."
+  }
+ ],
+ "dropped": [
+  "product not in text (EV Charging): Level 2 chargers (Series 7, 8, 10, EQ, Shasta)",
+  "product not in text (EV Charging): DCFC (30kW-600kW)",
+  "product not in text (EV Charging): International Level 2 AC and DC products",
+  "product not in text (EV Charging): Envoy Mobility car-sharing programs",
+  "change not grounded: In 2025, Blink acquired Zemetric Inc, adding fleet and energy management softwar"
+ ]
+}

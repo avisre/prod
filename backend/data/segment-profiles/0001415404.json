@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001415404",
+ "issuerName": "EchoStar Corporation",
+ "builtAt": "2026-11-15T14:25:49.362Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021817",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1415404/000110465926021817/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pay-TV",
+   "products": [
+    "DISH TV",
+    "SLING TV"
+   ],
+   "description": "Provides direct broadcast satellite pay-TV under the DISH brand and OTT streaming video services under the SLING brand to US subscribers.",
+   "evidence": "We offer pay-TV services under the DISH® brand and the SLING® brand (collectively \"Pay-TV\" services)."
+  },
+  {
+   "name": "Wireless",
+   "products": [
+    "Boost Mobile®",
+    "Gen Mobile®",
+    "premium wireless devices"
+   ],
+   "description": "Provides nationwide wireless communication services and devices to subscribers, operating as a Hybrid MNO and MVNO.",
+   "evidence": "Our Wireless segment provides wireless communication services (\"Wireless\" services) and products. We offer nationwide Wireless services to subscribers primarily under our Boost Mobile® and Gen Mobile® brands."
+  },
+  {
+   "name": "Broadband and Satellite Services",
+   "products": [
+    "broadband satellite technologies",
+    "broadband internet products and services",
+    "managed services",
+    "satellite services",
+    "gateway and terminal equipment",
+    "in-flight network connectivity"
+   ],
+   "description": "Offers broadband internet and satellite technologies to consumers plus managed services, equipment and communications solutions to government and enterprise customers.",
+   "evidence": "We offer broadband satellite technologies and broadband internet products and services to consumer customers. We provide broadband network technologies, managed services, equipment, hardware, satellite services and communications solutions to government and enterprise customers."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "5G Network"
+   ],
+   "description": null,
+   "evidence": "Our Other segment primarily consists of our legacy 5G Network and 5G Network deployment operations that will not be utilized in the Wireless segment's Hybrid MNO business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay subscription fees for Pay-TV, Wireless and Broadband services, while government and enterprise customers pay for satellite services, equipment and communications solutions.",
+  "evidence": "Revenue in our satellite services business depends largely on our ability to make continuous use of our available satellite capacity on behalf of existing customers and our ability to enter into commercial relationships with new customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, EchoStar separated the historical Wireless segment into two segments, the Wireless segment and the Other segment.",
+   "evidence": "To align with management's view of the business, we separated the historical Wireless segment into two segments, the \"Wireless\" segment and the \"Other\" segment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In August 2025, following the AT&T and SpaceX transactions, EchoStar terminated "
+ ]
+}

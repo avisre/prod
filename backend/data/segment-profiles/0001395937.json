@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001395937",
+ "issuerName": "Syndax Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-15T14:25:09.364Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076536",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1395937/000119312526076536/sndx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Syndax Pharmaceuticals",
+   "products": [
+    "Revuforj (revumenib)",
+    "Niktimvo (axatilimab-csfr)"
+   ],
+   "description": "A commercial-stage biopharmaceutical company advancing innovative cancer therapies for patients with acute leukemia and chronic graft-versus-host disease.",
+   "evidence": "The Company manages its business activities on a consolidated basis and operate as a single operating and reportable segment: Syndax Pharmaceuticals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue by selling Revuforj to specialty distributors and specialty pharmacies, plus milestone revenue, in the United States.",
+  "evidence": "The Company derives revenue in the United States through milestone revenue and product sales on the recently approved products, Revuforj and Niktimvo."
+ },
+ "changes": [],
+ "dropped": []
+}

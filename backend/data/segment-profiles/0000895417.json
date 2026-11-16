@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000895417",
+ "issuerName": "EQUITY LIFESTYLE PROPERTIES, INC.",
+ "builtAt": "2026-11-15T14:23:45.487Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008722",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/895417/000162828026008722/els-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property Operations",
+   "products": [
+    "land lease Properties",
+    "Sites",
+    "annual membership subscriptions",
+    "ancillary services"
+   ],
+   "description": "Owns and operates land lease properties, including manufactured home, RV communities and marinas, leasing sites to residents and guests.",
+   "evidence": "The Property Operations segment owns and operates land lease Properties and the Home Sales and Rentals Operations segment purchases, sells and leases homes at the Properties."
+  },
+  {
+   "name": "Home Sales and Rentals Operations",
+   "products": [
+    "home sales",
+    "brokered resales",
+    "home rentals",
+    "home sale brokerage services"
+   ],
+   "description": "Purchases, sells and leases factory-built homes at the properties and offers brokerage services to residents selling their homes.",
+   "evidence": "The Property Operations segment owns and operates land lease Properties and the Home Sales and Rentals Operations segment purchases, sells and leases homes at the Properties."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company to lease developed sites or for right-to-use membership subscriptions, and the company also earns revenue from selling, leasing and brokering homes.",
+  "evidence": "Our customers may lease individual developed areas (\"Sites\") or enter into right-to-use contracts, also known as membership subscriptions, which provide them access to specific Properties for limited stays."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Property Operations): marinas with boat slip and dry storage rentals"
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0001410428",
+ "issuerName": "XWELL, Inc.",
+ "builtAt": "2026-11-15T14:25:41.280Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-038330",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1410428/000110465926038330/xwel-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "XpresSpa®",
+   "products": [
+    "XpresSpa spa locations",
+    "massage",
+    "nail and skin care",
+    "spa and travel products",
+    "Treat"
+   ],
+   "description": "Operates airport spa locations offering travelers premium spa services and related retail products, plus the Treat wellness brand.",
+   "evidence": "XWELL's subsidiary, XpresSpa Holdings, LLC (\"XpresSpa\") has been a global airport retailer of spa services through its XpresSpa spa locations, offering travelers premium spa services, including massage, nail and skin care, as well as spa and travel products."
+  },
+  {
+   "name": "XpresTest®",
+   "products": [
+    "XpresCheck Wellness Centers",
+    "bio surveillance monitoring"
+   ],
+   "description": null,
+   "evidence": "XpresTest began conducting bio surveillance monitoring with the Centers for Disease Control and Prevention (CDC) in collaboration with Concentric by Ginkgo Bioworks Holdings, Inc. (\"Ginkgo Bioworks\") in 2021."
+  },
+  {
+   "name": "Naples Wax Center®",
+   "products": [
+    "face and body waxing",
+    "skincare and cosmetic products"
+   ],
+   "description": "Operates upscale off-airport hair removal locations offering waxing services and skincare and cosmetic products.",
+   "evidence": "operates a group of upscale hair removal locations with core products and service offerings from face and body waxing to a range of skincare and cosmetic products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Travelers pay for spa, waxing and wellness services and retail products at company locations, and government clients pay for bio-surveillance monitoring services.",
+  "evidence": "XpresTest transitioned from providing COVID-19 testing to supporting public health efforts through bio-surveillance programs at international airports."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company acquired Naples Wax Center, adding a new reportable segment.",
+   "evidence": "XWELL's subsidiary Naples Wax, LLC, d/b/a Naples Wax Centers (\"Naples Wax Center\" or \"Naples Wax\") which was acquired on September 12, 2023, for a purchase price of $1,624, operates a group of upscale hair removal locations with core products and service offerings from face and body waxing to a range of skincare and cosmetic products."
+  },
+  {
+   "text": "In 2023, the Company closed all XpresCheck locations and XpresTest ceased diagnostic testing services.",
+   "evidence": "As of December 31, 2023, the Company closed all XpresCheck locations and XpresTest no longer provides diagnostic testing services"
+  },
+  {
+   "text": "In 2025, the former subsidiary HyperPointe ceased operations.",
+   "evidence": "XWELL's former subsidiary, gcg Connect, LLC, operating as HyperPointe, provided direct to business marketing support across a number of health and health-related channels and ceased operations during 2025."
+  }
+ ],
+ "dropped": []
+}

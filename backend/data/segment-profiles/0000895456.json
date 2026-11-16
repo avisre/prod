@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000895456",
+ "issuerName": "ROCKY BRANDS, INC.",
+ "builtAt": "2026-11-15T14:23:49.257Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007634",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/895456/000143774926007634/rcky20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale",
+   "products": [
+    "Muck",
+    "XTRATUF",
+    "Rocky",
+    "Durango",
+    "Georgia Boot",
+    "Lehigh",
+    "Ranger",
+    "Michelin"
+   ],
+   "description": "Distributes branded footwear and apparel through sporting goods stores, outdoor retailers, mass merchants, uniform stores and other wholesale channels worldwide.",
+   "evidence": "We distribute Muck, XTRATUF, Rocky, Durango, Georgia Boot, Lehigh, Ranger, and Michelin products through a wide range of Wholesale distribution channels throughout the world."
+  },
+  {
+   "name": "Retail",
+   "products": [
+    "Lehigh CustomFit",
+    "consumer e-commerce websites",
+    "third-party marketplaces",
+    "Rocky Outdoor Gear Store"
+   ],
+   "description": "Sells branded footwear and apparel directly to consumers through business-to-business web platforms, e-commerce sites, marketplaces and a gear store.",
+   "evidence": "We market products directly to consumers through three retail strategies: ● Lehigh business-to-business including direct sales and through our CustomFit websites; ● Consumer e-commerce websites (B2C) and third-party marketplaces; and ● Our Rocky Outdoor Gear Store."
+  },
+  {
+   "name": "Contract Manufacturing",
+   "products": [
+    "private label contracts"
+   ],
+   "description": "Bids on footwear contracts with the U.S. Military and private label customers, with sales dependent on winning those bids.",
+   "evidence": "In addition to contracts with the U.S. Military, we bid on private label contracts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers, distributors, employers and consumers pay the company for branded footwear and apparel, while the U.S. Military and private label customers pay for contract-manufactured footwear.",
+  "evidence": "Our Contract Manufacturing segment includes sales to the U.S. Military, private label sales and any sales to customers in which we are contracted to manufacture or source a specific footwear product for a customer."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Contract Manufacturing): U.S. Military footwear contracts"
+ ]
+}

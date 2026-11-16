@@ -1,0 +1,85 @@
+{
+ "version": 1,
+ "cik": "0001406234",
+ "issuerName": "BROOKFIELD INFRASTRUCTURE PARTNERS L.P.",
+ "builtAt": "2026-11-15T14:25:31.031Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001406234-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1406234/000140623426000002/bip-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Utilities",
+   "products": [
+    "Regulated Transmission",
+    "Commercial & Residential Distribution",
+    "electricity transmission lines",
+    "natural gas pipelines",
+    "industrial gases production facility",
+    "residential infrastructure and other essential home services",
+    "sub-metering services",
+    "smart meters"
+   ],
+   "description": "Owns regulated or contractual transmission and distribution businesses earning a return on rate base for customers in the Americas, Europe and Asia Pacific.",
+   "evidence": "These include our regulated transmission (natural gas, electricity and industrial gas business) and commercial and residential distribution (electricity, natural gas, water connections, residential infrastructure and other essential home services) operations."
+  },
+  {
+   "name": "Transport",
+   "products": [
+    "Diversified Terminals",
+    "Rail",
+    "Toll Roads",
+    "intermodal logistics"
+   ],
+   "description": "Provides transportation for freight, commodities and passengers through terminals, rail and toll roads across the Americas, Europe and Asia Pacific.",
+   "evidence": "Transport Provide transportation for freight, commodities and passengers • Diversified Terminals • Rail • Toll Roads"
+  },
+  {
+   "name": "Midstream",
+   "products": [
+    "gas storage",
+    "gas pipeline",
+    "transportation, gathering, processing and storage services"
+   ],
+   "description": "Operates North American midstream systems providing transportation, gathering, processing and storage services.",
+   "evidence": "Midstream Systems that provide transportation, gathering, processing and storage services • Midstream • North America"
+  },
+  {
+   "name": "Data",
+   "products": [
+    "Data Transmission & Distribution",
+    "Data Storage",
+    "telecom towers",
+    "AI-related infrastructure"
+   ],
+   "description": "Provides infrastructure and services to telecom companies, technology and cloud computing providers and enterprise clients, including AI-related infrastructure.",
+   "evidence": "Data Provide infrastructure and services to telecom companies, technology and cloud computing providers and enterprise clients, including a growing portfolio of AI-related infrastructure to support the build-out and development of artificial intelligence"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns regulated or contracted revenues from operating infrastructure assets, with returns set by regulators, concession agreements or long-term contracts with customers.",
+  "evidence": "We have a stable cash flow profile with approximately 90% of our Adjusted EBITDA supported by regulated or contracted revenues."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the transport segment acquired Triton International Limited, a global intermodal logistics operation.",
+   "evidence": "On September 28, 2023, our group, through its subsidiary BIPC, completed the acquisition of Triton International Limited (\"Triton\"), a global intermodal logistics operation, for consideration of $1.2 billion."
+  },
+  {
+   "text": "In 2023 the utilities segment acquired HomeServe PLC, a residential infrastructure business in North America and Europe.",
+   "evidence": "On January 4, 2023, Brookfield Infrastructure acquired HomeServe PLC (\"HomeServe\"), a residential infrastructure business operating in North America and Europe, for total equity consideration of approximately $1.2 billion."
+  },
+  {
+   "text": "In 2024 the transport segment deconsolidated its Peruvian toll road operations after terminating its voting agreement.",
+   "evidence": "On June 10, 2024, Brookfield Infrastructure terminated its voting agreement over its Peruvian toll road operations, reverting control over this asset to Brookfield."
+  }
+ ],
+ "dropped": [
+  "product not in text (Data): colocation data centers"
+ ]
+}

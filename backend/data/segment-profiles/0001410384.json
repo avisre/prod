@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001410384",
+ "issuerName": "Q2 Holdings, Inc.",
+ "builtAt": "2026-11-15T14:25:40.018Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001410384-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1410384/000141038426000006/qtwo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital financial solutions",
+   "products": [
+    "digital banking platform",
+    "digital lending and relationship pricing solutions",
+    "risk and fraud solutions",
+    "Q2 Innovation Studio",
+    "Helix"
+   ],
+   "description": "Provides cloud-based digital banking, lending, risk and fraud, and open platform solutions to financial institutions, FinTechs and alternative finance companies.",
+   "evidence": "Revenue-generating activities directly relate to the sale, implementation and support of our solutions within a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Financial institutions and FinTechs pay subscription fees for hosted solutions plus usage-based transactional fees, and professional and implementation services, recognized over customer agreement terms.",
+  "evidence": "We derive the majority of our revenues from subscription fees for the use of our hosted solutions, transactional revenue from bill-pay solutions and remote deposit products, revenues for professional services and implementation services related to our solutions and certain third-party related pass-through fees."
+ },
+ "changes": [],
+ "dropped": []
+}

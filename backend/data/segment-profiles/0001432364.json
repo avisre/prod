@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001432364",
+ "issuerName": "AZUL SA",
+ "builtAt": "2026-11-15T14:26:09.999Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-023423",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1432364/000162828026023423/azul-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "air transport",
+   "products": [
+    "Ancillary revenues"
+   ],
+   "description": "Azul operates airline services, carrying passengers and cargo in Brazil, with ancillary revenues from related services.",
+   "evidence": "The Company considers that it has a single reportable segment: air transport."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Azul for air travel, and the company also earns ancillary revenues from related services.",
+  "evidence": "The Company segregates revenues as shown below: Revenue December 31, 2025 % December 31, 2024 % Air transport 21,282,948 98.3 % 19,278,094 98.7 % Ancillary revenues 357,445 1.7 % 248,114 1.3 %"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (air transport): Air transport"
+ ]
+}

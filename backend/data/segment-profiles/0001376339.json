@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001376339",
+ "issuerName": "MIMEDX GROUP, INC.",
+ "builtAt": "2026-11-15T14:24:41.372Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001376339-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1376339/000137633926000011/mdxg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wound care",
+   "products": [
+    "EPIFIX®",
+    "EPICORD®",
+    "EPIEFFECT®",
+    "AXIOFILL",
+    "HELIOGEN® Fibrillar Collagen Matrix",
+    "CELERA™",
+    "EMERGE™",
+    "RegenKit®-Wound Gel"
+   ],
+   "description": "Develops and sells placental allografts, xenografts and other wound care products for chronic, hard-to-heal and surgical wounds.",
+   "evidence": "The Company assessed that the CODM assesses performance and resources as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling its wound care products to healthcare providers and facilities, including government accounts, through direct and consignment orders.",
+  "evidence": "MIMEDX has supplied several million allografts, through all shipments, filling direct orders and consignment orders, through December 31, 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company broadened its portfolio beyond placental biologics by beginning to offer animal-derived products (xenografts).",
+   "evidence": "However, in 2024, we broadened our portfolio and began offering animal-derived products, or xenografts, and in 2025 and early 2026, we entered into agreements with manufacturers of other wound care modalities to further expand our product offering to serve our large and growing customer base."
+  }
+ ],
+ "dropped": []
+}

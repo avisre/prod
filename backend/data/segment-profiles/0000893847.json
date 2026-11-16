@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000893847",
+ "issuerName": "HAWTHORN BANCSHARES, INC.",
+ "builtAt": "2026-11-15T14:23:40.874Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000893847-26-000037",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/893847/000089384726000037/hwbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bank",
+   "products": [
+    "checking and savings accounts",
+    "internet banking",
+    "debit cards",
+    "certificates of deposit",
+    "brokerage services",
+    "safety deposit boxes",
+    "commercial and industrial loans",
+    "commercial and residential real estate loans"
+   ],
+   "description": "A full-service community bank offering deposit accounts and a wide range of lending services to customers in Missouri.",
+   "evidence": "The Bank is a full service bank and, through the Bank segment, conducts a general banking business, offering its customers checking and savings accounts, internet banking, debit cards, certificates of deposit, brokerage services, safety deposit boxes and a wide range of lending services, including commercial and industrial loans, single payment personal loans, installment loans and commercial and residential real estate loans."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "financial and investment planning services",
+    "trust services"
+   ],
+   "description": "Provides financial and investment planning services for individuals and business owners, as well as trust services.",
+   "evidence": "The Bank also offers, through the Wealth Management segment, a broad range of financial and investment planning services for individuals and business owners, as well as trust services formerly included in the Bank segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns revenue from customers through deposit accounts and a wide range of lending services, including commercial, consumer and real estate loans.",
+  "evidence": "conducts a general banking business, offering its customers checking and savings accounts, internet banking, debit cards, certificates of deposit, brokerage services, safety deposit boxes and a wide range of lending services"
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company identified Wealth Management as a separate reportable segment, moving from one reportable segment (the Bank) to two.",
+   "evidence": "As a result, beginning with the first quarter of 2025, the Company identified its Wealth Management Business as a separate reportable segment and now has two reportable segments: the Bank segment and the Wealth Management segment."
+  }
+ ],
+ "dropped": []
+}

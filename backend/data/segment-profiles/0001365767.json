@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001365767",
+ "issuerName": "ALLOT LTD.",
+ "builtAt": "2026-11-15T14:24:20.205Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001755",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1365767/000117891326001755/zk2634876.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Network security",
+   "products": [
+    "SECaaS",
+    "network filtering and security services"
+   ],
+   "description": "Provides network security products and security-as-a-service solutions to operators and other customers globally.",
+   "evidence": "The Company also generates revenues from services, in which the Company provides network filtering and security services to its customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including operators, resellers, distributors, OEMs and system integrators, pay for security products, maintenance and support, professional services, and usage-based SECaaS contracts.",
+  "evidence": "The Company generates revenues mainly from selling its products along with related maintenance and support services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Network security): products with related maintenance and support services",
+  "product not in text (Network security): professional services such as installation services or training"
+ ]
+}

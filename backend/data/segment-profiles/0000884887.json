@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000884887",
+ "issuerName": "ROYAL CARIBBEAN CRUISES LTD",
+ "builtAt": "2026-11-15T14:23:13.012Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000884887-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/884887/000088488726000007/rcl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cruise vacations",
+   "products": [
+    "Royal Caribbean",
+    "Celebrity Cruises",
+    "Silversea",
+    "Perfect Day",
+    "Royal Beach Club",
+    "Celebrity River Cruises"
+   ],
+   "description": "Operates global cruise vacation brands and private land-based destinations for travelers worldwide.",
+   "evidence": "As a result, our brands have been aggregated as a single reportable segment based on the similarity of their economic characteristics, types of consumers, regulatory environment, maintenance requirements, supporting systems and processes as well as products and services provided."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay ticket prices for cruise vacations, recognized over the duration of each cruise, plus onboard and other revenues from activities, services and packages.",
+  "evidence": "The majority of our revenues are derived from passenger cruise contracts which are reported within Passenger ticket revenues in our consolidated statements of comprehensive income (loss)."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Celebrity Cruises announced the launch of Celebrity River Cruises, a new premium river cruise business.",
+   "evidence": "In 2025, Celebrity Cruises announced the launch of Celebrity River Cruises, offering a premium river cruise vacation with a new fleet including agreements for the commitment of an initial order of 10 ships."
+  }
+ ],
+ "dropped": []
+}

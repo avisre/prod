@@ -1,0 +1,85 @@
+{
+ "version": 1,
+ "cik": "0000894627",
+ "issuerName": "VAALCO ENERGY INC /DE/",
+ "builtAt": "2026-11-15T14:23:43.344Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000894627-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/894627/000089462726000013/egy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gabon",
+   "products": [
+    "crude oil",
+    "Etame Marin block",
+    "Niosi Marin",
+    "Guduma Marin"
+   ],
+   "description": "Operates the offshore Etame Marin block and exploration licenses in Gabon, producing crude oil under production sharing contracts.",
+   "evidence": "We own a 58.8% working interest in the Etame Marin block and we are the designated operator on behalf of the Etame Consortium."
+  },
+  {
+   "name": "Egypt",
+   "products": [
+    "crude oil",
+    "Merged Concession",
+    "South Ghazalat concession"
+   ],
+   "description": "Produces crude oil from concessions in Egypt's Eastern and Western Deserts under production sharing contracts with the Egyptian government.",
+   "evidence": "In Egypt, our interests are spread across two regions: the Eastern Desert, which contains the Merged Concession, and the Western Desert, which contains the South Ghazalat concession."
+  },
+  {
+   "name": "Cote d'Ivoire",
+   "products": [
+    "crude oil",
+    "Baobab field",
+    "Block CI-40",
+    "Kossipo field",
+    "CI-705 block"
+   ],
+   "description": "Holds non-operated and operated interests in deepwater oil blocks offshore Cote d'Ivoire, producing crude oil via an FPSO.",
+   "evidence": "The Company holds a 27.4% non-operated working interest (30.4% paying interest) in CI-40 in the deepwater producing Baobab field in Block CI-40, offshore Cote d'Ivoire in West Africa."
+  },
+  {
+   "name": "Equatorial Guinea",
+   "products": [
+    "Block P",
+    "Venus field"
+   ],
+   "description": "Owns an operated interest in undeveloped Block P offshore Equatorial Guinea, advancing the Venus field development plan.",
+   "evidence": "We currently own a 60% working interest in an undeveloped portion of Block P offshore Equatorial Guinea where we are the designated operator."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "NGLs",
+    "Cardium light oil",
+    "Mannville liquids-rich gas"
+   ],
+   "description": "Produced crude oil, natural gas and NGLs from properties in Harmattan, Alberta, divested in the Canada Asset Divestment.",
+   "evidence": "Prior to the Canada Asset Divestment, we owned production and working interests in Cardium light oil and Mannville liquids-rich gas assets in Harmattan, which is a core play in the Western Canadian Sedimentary Basis, and is located approximately 80 kilometers north of Calgary, Alberta."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2026, the company completed the Canada Asset Divestment, exiting its Canadian oil and gas operations.",
+   "evidence": "The Canada Asset Divestment represents the Company's complete exit of its Canadian oil and gas operations."
+  },
+  {
+   "text": "In 2024, the company acquired Svenska, adding production in Cote d'Ivoire.",
+   "evidence": "For Cote d'Ivoire, reflects sales from April 30, 2024 through December 31, 2024 related to the Svenska Acquisition."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

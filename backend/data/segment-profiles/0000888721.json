@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000888721",
+ "issuerName": "TRINITY BIOTECH PLC",
+ "builtAt": "2026-11-15T14:23:30.780Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001554855-26-000848",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/888721/000155485526000848/trib-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Uni-Gold™ HIV",
+    "TrinScreen",
+    "Premier Hb9210",
+    "Premier Resolution",
+    "Captia",
+    "ImmuBlot",
+    "ImmuLisa"
+   ],
+   "description": "Develops, manufactures and markets medical diagnostic products for clinical laboratory and point-of-care customers located in the Americas.",
+   "evidence": "The Group comprises two main geographical segments (i) the Americas and (ii) Rest of World - Ireland."
+  },
+  {
+   "name": "Rest of World - Ireland",
+   "products": [
+    "Uni-Gold™ HIV",
+    "TrinScreen",
+    "Premier Hb9210",
+    "Premier Resolution",
+    "ImmuBlot",
+    "ImmuLisa"
+   ],
+   "description": "Develops, manufactures and markets medical diagnostic products for clinical laboratory and point-of-care customers outside the Americas, including Ireland.",
+   "evidence": "The Group's geographical segments are determined by the location of the Group's assets and operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024 the company acquired the biosensor and CGM assets of Waveform Technologies, adding continuous glucose monitoring to its business.",
+   "evidence": "In January 2024, we acquired the biosensor and CGM assets of privately held Waveform Technologies, Inc. (\"Waveform\")."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001398659",
+ "issuerName": "GENPACT LIMITED",
+ "builtAt": "2026-11-15T14:25:15.170Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001398659-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1398659/000139865926000004/g-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial Services",
+   "products": [
+    "Advanced Technology Solutions",
+    "Core Business Services",
+    "customer onboarding",
+    "mortgage origination and servicing",
+    "financial crime and risk management services",
+    "claims management",
+    "insurance policy suite"
+   ],
+   "description": "Provides advanced technology and core business services to banking, capital markets and insurance clients.",
+   "evidence": "Our Financial Services segment covers the Advanced Technology Solutions and Core Business Services we provide to clients in the banking, capital markets and insurance sectors."
+  },
+  {
+   "name": "Consumer and Healthcare",
+   "products": [
+    "Advanced Technology Solutions",
+    "Core Business Services",
+    "supply chain planning and management",
+    "digital commerce and customer experience",
+    "regulatory affairs services",
+    "claim lifecycle management",
+    "revenue cycle management"
+   ],
+   "description": "Provides advanced technology and core business services to consumer goods, retail, life sciences and healthcare clients.",
+   "evidence": "Our Consumer and Healthcare segment covers the Advanced Technology Solutions and Core Business Services we provide to clients in the consumer goods, retail, life sciences and healthcare sectors."
+  },
+  {
+   "name": "High Tech and Manufacturing",
+   "products": [
+    "Advanced Technology Solutions",
+    "Core Business Services",
+    "trust and safety",
+    "advertising sales support",
+    "supply chain management",
+    "direct and indirect procurement",
+    "engineering services"
+   ],
+   "description": "Provides advanced technology and core business services to high tech hardware, high tech software and manufacturing clients.",
+   "evidence": "Our High Tech and Manufacturing segment covers the Advanced Technology Solutions and Core Business Services we provide to clients in the high tech hardware, high tech software and manufacturing sectors."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Enterprises pay Genpact for advanced technology solutions and core business process services delivered across industry verticals.",
+  "evidence": "We enable AI-led transformation for our clients through our Advanced Technology Solutions and our Core Business Services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Genpact introduced the Advanced Technology Solutions and Core Business Services revenue disaggregation, replacing the prior Data-Tech-AI and Digital Operations disaggregation.",
+   "evidence": "We introduced the Advanced Technology Solutions and Core Business Services revenue disaggregation in the quarter that began on April 1, 2025."
+  }
+ ],
+ "dropped": []
+}

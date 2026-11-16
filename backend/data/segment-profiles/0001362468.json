@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001362468",
+ "issuerName": "Allegiant Travel Co",
+ "builtAt": "2026-11-15T14:24:10.674Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001362468-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1362468/000136246826000008/algt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Airline",
+   "products": [
+    "Scheduled service air transportation",
+    "Ancillary air-related products and services",
+    "Third party products and services",
+    "Fixed fee contract air transportation"
+   ],
+   "description": "Operates a low-cost passenger airline selling scheduled nonstop flights, ancillary air-related products, third party travel products, and fixed fee charter services to leisure travelers.",
+   "evidence": "The Airline segment operates as a single business unit and includes all scheduled service air transportation, ancillary air-related products and services, third party products and services, fixed fee contract air transportation and other airline-related revenue."
+  },
+  {
+   "name": "Sunseeker Resort",
+   "products": [
+    "Hotel rooms and suites",
+    "Group meeting facilities",
+    "Food and beverage options",
+    "Aileron Golf Course"
+   ],
+   "description": "Operated a resort hotel with rooms, meeting facilities, dining and a golf course until its sale in September 2025.",
+   "evidence": "The Sunseeker Resort segment was operated as a single business unit and included hotel rooms and suites for occupancy, group meeting facilities, food and beverage options, Aileron Golf Course and other Resort amenities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Leisure travelers pay for scheduled air transportation, optional ancillary air-related products, third party travel products, and fixed fee charter arrangements.",
+  "evidence": "We operate a low-cost, low utilization passenger airline marketed primarily to leisure travelers in under-served cities, allowing us to sell air transportation both on a stand-alone basis and bundled with the sale of air-related and third party services and products."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold Sunseeker Resort and is now managed as a single Airline operating segment.",
+   "evidence": "Subsequent to the sale of Sunseeker Resort in September 2025, the Company is managed as a single Airline operating segment."
+  },
+  {
+   "text": "In 2026, the Company announced a proposed acquisition of Sun Country Airlines Holdings, Inc., expected to close in the second half of 2026.",
+   "evidence": "On January 11, 2026, we announced that we plan to acquire Sun Country Airlines Holdings, Inc. (\"Sun Country\") pursuant to an Agreement and Plan of Merger (the \"Merger Agreement\")."
+  }
+ ],
+ "dropped": []
+}

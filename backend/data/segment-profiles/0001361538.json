@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001361538",
+ "issuerName": "Primoris Services Corporation",
+ "builtAt": "2026-11-15T14:24:10.501Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018677",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1361538/000110465926018677/prim-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Utilities",
+   "products": [
+    "natural gas and electric utility distribution and transmission systems",
+    "communications systems"
+   ],
+   "description": "Constructs and maintains natural gas and electric utility distribution and transmission systems and communications systems for utilities throughout the United States.",
+   "evidence": "The Utilities segment operates throughout the United States and specializes in a range of services, including the construction and maintenance of new and existing natural gas and electric utility distribution and transmission systems, and communications systems."
+  },
+  {
+   "name": "Energy",
+   "products": [
+    "engineering",
+    "procurement",
+    "construction",
+    "maintenance services"
+   ],
+   "description": "Provides engineering, procurement, construction and maintenance services for energy, renewable energy, renewable fuels, petroleum and petrochemical industries and state transportation departments in the U.S. and Canada.",
+   "evidence": "The Energy segment operates throughout the United States and Canada and specializes in a range of services that include engineering, procurement, construction, and maintenance services for entities in the energy, renewable energy and energy storage, renewable fuels, and petroleum and petrochemical industries, as well as state departments of transportation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Primoris under Master Service Agreements and specific construction project contracts priced as fixed-price, unit-price, time and material, or cost reimbursable plus fee.",
+  "evidence": "We typically structure contracts as unit-price, time and material, fixed-price or cost reimbursable plus fixed fee."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000883984",
+ "issuerName": "ICU MEDICAL INC/DE",
+ "builtAt": "2026-11-15T14:23:10.333Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000883984-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/883984/000088398426000008/icui-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical products",
+   "products": [
+    "Dedicated and non-dedicated IV sets",
+    "Needlefree IV connectors",
+    "Peripheral IV catheters",
+    "Closed system transfer devices and pharmacy compounding systems",
+    "Respiratory, anesthesia, patient monitoring, and temperature management products"
+   ],
+   "description": "Develops, manufactures and sells innovative medical products used in infusion therapy, vascular access, and vital care applications for clinical customers worldwide.",
+   "evidence": "The segment is organized by and derives revenues from the manufacture and sale of our medical products which are used in infusion therapy, vascular access, and vital care applications."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells products worldwide on credit terms as an OEM supplier to independent medical supply distributors and directly to end customers, who in turn sell to healthcare providers.",
+  "evidence": "We sell products worldwide, on credit terms on an unsecured basis, as an OEM supplier, to independent medical supply distributors and directly to end customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Medical products): Infusion pumps and safety software",
+  "product not in text (Medical products): IV Solutions (on behalf of joint venture)",
+  "change not grounded: In 2025, ICU Medical sold a 60% ownership interest in its IV Solutions business "
+ ]
+}

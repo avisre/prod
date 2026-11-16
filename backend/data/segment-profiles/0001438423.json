@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001438423",
+ "issuerName": "Everspin Technologies, Inc.",
+ "builtAt": "2026-11-15T14:26:24.485Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-014733",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1438423/000162828026014733/mram-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MRAM technology",
+   "products": [
+    "Toggle MRAM",
+    "Spin-Transfer Torque MRAM (STT-MRAM)",
+    "TMR Sensors",
+    "Backend foundry and design services"
+   ],
+   "description": "Develops and sells MRAM-based memory products, licenses and royalties, and foundry services to OEMs and ODMs in industrial, medical, automotive, aerospace and data center markets.",
+   "evidence": "The Company's MRAM technology solutions are sold as products and services through MRAM-based products, licenses and royalties of MRAM and magnetic sensor technology and backend foundry and design services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by distributors, contract manufacturers and direct customers for MRAM products, licenses, royalties and foundry services.",
+  "evidence": "Although we actually sell the products to, and are paid by, the distributors and contract manufacturers, we refer to the end customer as our customer."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (MRAM technology): Licensing, royalty and patent sales"
+ ]
+}

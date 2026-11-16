@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001402829",
+ "issuerName": "ORION GROUP HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:25:26.642Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001402829-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1402829/000140282926000011/orn-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marine segment",
+   "products": [
+    "Transportation facility projects",
+    "Pipeline and utility marine services",
+    "Bridge and causeway construction",
+    "Environmental and coastal restoration",
+    "Dredging",
+    "Specialty services"
+   ],
+   "description": "Provides engineering, construction, dredging and specialty services to federal, state and local governmental agencies and private commercial and industrial enterprises.",
+   "evidence": "Our marine business provides comprehensive engineering, construction, dredging and specialty services to a diverse set of clients that includes federal, state and local governmental agencies as well as private commercial and industrial enterprises."
+  },
+  {
+   "name": "Concrete segment",
+   "products": [
+    "Data centers",
+    "Industrial, warehouse and distribution facilities",
+    "Commercial, multi-family, institutional and mixed-use structures",
+    "Retail, hospitality and recreational facilities"
+   ],
+   "description": "Provides concrete construction services for commercial, industrial, multi-family residential and public projects, including the data center market.",
+   "evidence": "Our concrete business provides construction services for commercial, industrial, multi-family residential and public projects, including the rapidly growing data center market."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns contract revenues from government agencies and private-sector clients for construction projects, with marine backlog driven by public sector work and concrete by private sector work.",
+  "evidence": "Contract revenues for the year ended December 31, 2025 of $852.3 million increased $55.9 million or 7% as compared to $796.4 million in the prior year period."
+ },
+ "changes": [
+  {
+   "text": "In 2026, Orion acquired J.E. McAmis, Inc. and JEM Marine Leasing, LLC, expanding into dredging, jetty and breakwater construction, environmental restoration, and dam and spillway construction.",
+   "evidence": "On February 3, 2026, we entered into a Securities Purchase Agreement (the \"JEM Purchase Agreement\") and completed an acquisition (the \"JEM Acquisition\") of all of the capital stock of J.E. McAmis, Inc., a California corporation, and all of the membership interests in JEM Marine Leasing, LLC, a Washington limited liability company (collectively, \"JEM\")."
+  },
+  {
+   "text": "Beginning in the first quarter of fiscal 2026, corporate expenses will no longer be allocated to the operating segments and will be reported as a separate non-operating segment.",
+   "evidence": "Beginning in the first quarter of fiscal 2026,we will update our reportable segments to better align with how management evaluates performance and allocates resources."
+  }
+ ],
+ "dropped": []
+}

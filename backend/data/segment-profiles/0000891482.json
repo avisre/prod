@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000891482",
+ "issuerName": "FULL HOUSE RESORTS INC",
+ "builtAt": "2026-11-15T14:23:38.499Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000891482-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/891482/000089148226000007/fll-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Midwest & South",
+   "products": [
+    "American Place Casino",
+    "Silver Slipper Casino and Hotel",
+    "Rising Star Casino Resort"
+   ],
+   "description": "Operates casino resorts in Illinois, Mississippi and Indiana serving nearby residents and drive-in tourists.",
+   "evidence": "Midwest & South ​ ​ American Place Casino (\"American Place\") ​ Waukegan, IL (northern suburb of Chicago) Silver Slipper Casino and Hotel (\"Silver Slipper\") Hancock County, MS (near New Orleans) Rising Star Casino Resort (\"Rising Star\") Rising Sun, IN (near Cincinnati)"
+  },
+  {
+   "name": "West",
+   "products": [
+    "Chamonix Casino Hotel",
+    "Bronco Billy's Casino",
+    "Grand Lodge Casino"
+   ],
+   "description": "Operates casinos in Colorado and Nevada, including a leased casino within the Hyatt Regency Lake Tahoe.",
+   "evidence": "West* ​ ​ Chamonix Casino Hotel (\"Chamonix\") and Bronco Billy's Casino (\"Bronco Billy's\") Cripple Creek, CO (near Colorado Springs) Grand Lodge Casino (\"Grand Lodge\"), leased and part of the Hyatt Regency Lake Tahoe Resort, Spa and Casino Incline Village, NV (North Shore of Lake Tahoe)"
+  },
+  {
+   "name": "Contracted Sports Wagering",
+   "products": [],
+   "description": "Licenses sports wagering skins in Colorado, Indiana and Illinois to outside operators for a percentage of revenues.",
+   "evidence": "We historically have contracted with outside companies to operate such skins under their own brands in exchange for a percentage of revenues, as defined in each contract, subject to annual minimum amounts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for casino gaming, hotel stays, food and beverage and other amenities, while sports wagering operators pay a percentage of revenues under skin contracts.",
+  "evidence": "We seek to increase revenues by providing our customers with their favorite games and amenities, high-quality customer service, and appropriate customer loyalty programs."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company completed the phased opening of Chamonix, its newest property adjacent to Bronco Billy's Casino.",
+   "evidence": "In October 2024, we completed the phased opening of Chamonix, our newest property, located adjacent to our existing Bronco Billy's Casino."
+  }
+ ],
+ "dropped": [
+  "product not in text (Contracted Sports Wagering): sports wagering websites (skins)",
+  "change not grounded: In 2025, the company sold Stockman's Casino in two phases, completing the dispos"
+ ]
+}

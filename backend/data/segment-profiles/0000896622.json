@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000896622",
+ "issuerName": "AptarGroup, Inc",
+ "builtAt": "2026-11-15T14:23:53.711Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000896622-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/896622/000089662226000007/atr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharma",
+   "products": [
+    "nasal drug delivery spray pumps",
+    "elastomeric primary packaging components",
+    "digital health solutions",
+    "active material science solutions",
+    "bag-on valve technology",
+    "airless pump systems"
+   ],
+   "description": "Sells proprietary dispensing systems, drug delivery systems, sealing solutions, pharma packaging and services to prescription drug, consumer health care, injectables, active material science and digital health markets.",
+   "evidence": "Operations that sell proprietary dispensing systems, drug delivery systems, sealing solutions, pharma packaging and services to the prescription drug, consumer health care, injectables, active material science solutions and digital health markets form our Pharma segment."
+  },
+  {
+   "name": "Beauty",
+   "products": [
+    "dispensing pumps",
+    "closures",
+    "aerosol valves",
+    "sealing solutions"
+   ],
+   "description": "Sells dispensing systems and sealing solutions to the beauty, personal care and home care markets.",
+   "evidence": "Operations that sell dispensing systems and sealing solutions to the beauty, personal care and home care markets form our Beauty segment."
+  },
+  {
+   "name": "Closures",
+   "products": [
+    "dispensing closures",
+    "sealing solutions",
+    "food service trays"
+   ],
+   "description": "Sells dispensing closures, sealing solutions and food service trays to food, beverage, personal care, home care, beauty and other markets.",
+   "evidence": "Operations that sell dispensing closures, sealing solutions and food service trays to the food, beverage, personal care, home care, beauty and other markets form our Closures segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Pharma): metered dose inhaler valves (MDIs)",
+  "product not in text (Pharma): injectable stoppers and pre-filled syringe components",
+  "revenue model not grounded"
+ ]
+}

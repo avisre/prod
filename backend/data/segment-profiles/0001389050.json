@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001389050",
+ "issuerName": "Archrock, Inc.",
+ "builtAt": "2026-11-15T14:24:59.541Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001389050-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1389050/000138905026000009/aroc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract Operations",
+   "products": [
+    "natural gas compression services",
+    "owned fleet of natural gas compression equipment"
+   ],
+   "description": "Designs, owns, installs, operates and maintains a fleet of natural gas compression equipment to provide compression services to U.S. energy industry customers.",
+   "evidence": "Our contract operations business primarily includes designing, sourcing, owning, installing, operating, servicing, repairing and maintaining our owned fleet of natural gas compression equipment to provide natural gas compression services to our customers."
+  },
+  {
+   "name": "Aftermarket Services",
+   "products": [
+    "operations services",
+    "maintenance services",
+    "reconfiguration services",
+    "parts and components"
+   ],
+   "description": "Provides operations, maintenance, overhaul and reconfiguration services and sells parts to customers that own compression equipment.",
+   "evidence": "Our aftermarket services business provides a full range of services to support the compression needs of our customers that own compression equipment, including operations, maintenance, overhaul and reconfiguration services and sales of parts and components."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay a fixed monthly fee for contract operations services based on horsepower, plus fees for aftermarket services and parts sales.",
+  "evidence": "Our customers pay a fixed monthly fee for our contract operations services, which generally is based on the amount of horsepower associated with a specific application."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Aftermarket Services): overhaul services"
+ ]
+}

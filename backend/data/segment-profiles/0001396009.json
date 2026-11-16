@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001396009",
+ "issuerName": "VULCAN MATERIALS COMPANY",
+ "builtAt": "2026-11-15T14:25:11.567Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009546",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1396009/000162828026009546/vmc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aggregates",
+   "products": [
+    "crushed stone",
+    "sand",
+    "gravel"
+   ],
+   "description": "Supplies construction aggregates used in most types of construction and in producing asphalt mix and ready-mixed concrete for U.S. customers.",
+   "evidence": "Vulcan Materials Company operates primarily in the U.S. and is the nation's largest supplier of construction aggregates (mainly crushed stone, sand and gravel) and a major producer of aggregates-intensive downstream products such as asphalt mix and ready-mixed concrete."
+  },
+  {
+   "name": "Asphalt",
+   "products": [
+    "asphalt mix"
+   ],
+   "description": "Produces asphalt mix in select markets, using internally produced aggregates, to support aggregates-driven returns.",
+   "evidence": "While aggregates are the core of our business, complementary aggregates-intensive asphalt mix and ready-mixed concrete products in select markets support our aggregates-driven returns throughout the cycle."
+  },
+  {
+   "name": "Concrete",
+   "products": [
+    "ready-mixed concrete"
+   ],
+   "description": "Produces ready-mixed concrete in select U.S. markets, using internally produced aggregates almost exclusively when available.",
+   "evidence": "Our downstream businesses use internally produced aggregates almost exclusively when available in the market from a Vulcan aggregates operation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, largely construction contractors and builders, pay Vulcan for construction aggregates and downstream asphalt mix and ready-mixed concrete delivered by trucks, ships, barges and trains.",
+  "evidence": "Delivered by trucks, ships, barges and trains, we provide the materials needed for the infrastructure that maintains and expands the U.S. economy."
+ },
+ "changes": [
+  {
+   "text": "In 2022, Vulcan exited the New Jersey, New York and Pennsylvania concrete markets.",
+   "evidence": "To optimize our asset portfolio consistent with our aggregates-led strategy, we subsequently exited the New Jersey, New York and Pennsylvania concrete markets in 2022, exited the Texas concrete market in 2023, and entered into an agreement to divest our concrete business in California during the fourth quarter of 2025."
+  },
+  {
+   "text": "In 2023, Vulcan exited the Texas concrete market, selling its Texas concrete operations.",
+   "evidence": "During the third quarter of 2023, net assets held for sale (our concrete operations in Texas) with a carrying value of $ 513.3 million were written down to their estimated fair value (less cost to sell) of $ 485.0 million, resulting in an impairment loss of $ 28.3 million; these net assets were subsequently sold during the fourth quarter of 2023 resulting in additional loss on sale of $ 13.8 million."
+  },
+  {
+   "text": "In the fourth quarter of 2025, Vulcan entered into an agreement to divest its California concrete business.",
+   "evidence": "To optimize our asset portfolio consistent with our aggregates-led strategy, we subsequently exited the New Jersey, New York and Pennsylvania concrete markets in 2022, exited the Texas concrete market in 2023, and entered into an agreement to divest our concrete business in California during the fourth quarter of 2025."
+  }
+ ],
+ "dropped": []
+}

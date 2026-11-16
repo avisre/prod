@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0000895728",
+ "issuerName": "ENBRIDGE INC.",
+ "builtAt": "2026-11-15T14:23:49.341Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-049810",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/895728/000119312526049810/enb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Liquids Pipelines",
+   "products": [
+    "Mainline System",
+    "Regional Oil Sands System",
+    "Gulf Coast and Mid-Continent Systems",
+    "Flanagan South",
+    "Spearhead Pipeline",
+    "Seaway Crude Pipeline System",
+    "Gray Oak",
+    "Enbridge Ingleside Energy Center"
+   ],
+   "description": "Transports, stores and exports crude oil and other liquid hydrocarbons through pipelines and terminals in Canada and the US.",
+   "evidence": "Liquids Pipelines, which consists of pipelines and terminals in Canada and the US that transport, store and export various grades of crude oil and other liquid hydrocarbons"
+  },
+  {
+   "name": "Gas Transmission",
+   "products": [
+    "natural gas pipelines",
+    "storage facilities",
+    "Matterhorn Express Pipeline",
+    "Eiger Express Pipeline",
+    "Aitken Creek"
+   ],
+   "description": "Holds investments in natural gas pipelines and gathering, processing and storage facilities in Canada and the US.",
+   "evidence": "Gas Transmission, which consists of investments in natural gas pipelines and gathering, processing and storage facilities in Canada and the US"
+  },
+  {
+   "name": "Gas Distribution and Storage",
+   "products": [
+    "natural gas utility operations"
+   ],
+   "description": "Operates natural gas utilities serving residential, commercial and industrial customers in Canada and the US.",
+   "evidence": "Gas Distribution and Storage, which consists of natural gas utility operations that serve residential, commercial and industrial customers in Canada and the US"
+  },
+  {
+   "name": "Renewable Power Generation",
+   "products": [
+    "solar power generation facilities",
+    "geothermal assets"
+   ],
+   "description": "Invests in wind and solar power generation facilities and geothermal assets in North America and Europe.",
+   "evidence": "Renewable Power Generation, which consists primarily of investments in wind and solar power generation facilities, as well as geothermal assets, in North America and Europe"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay tolls and fees under long-term contracts, regulated cost-of-service tolling frameworks, power purchase agreements and other low-risk commercial arrangements for transporting, storing, distributing and generating energy.",
+  "evidence": "Our assets are underpinned by long-term contracts, regulated cost-of-service tolling frameworks, power purchase agreements (PPAs), and other low-risk commercial arrangements."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Gas Transmission): gathering and processing facilities",
+  "product not in text (Renewable Power Generation): wind power generation facilities"
+ ]
+}

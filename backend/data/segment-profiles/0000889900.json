@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000889900",
+ "issuerName": "Patterson-UTI Energy, Inc.",
+ "builtAt": "2026-11-15T14:23:33.453Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000889900-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/889900/000088990026000013/pten-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "drilling services",
+   "products": [
+    "contract drilling services",
+    "directional drilling services",
+    "APEX® rigs",
+    "electrical controls and automation"
+   ],
+   "description": "Provides contract drilling and directional drilling services to oil and natural gas operators in the United States, Colombia and Ecuador.",
+   "evidence": "Our contract drilling business operates in the continental United States and internationally in Colombia and Ecuador and, from time to time, we pursue contract drilling opportunities in other select markets."
+  },
+  {
+   "name": "completion services",
+   "products": [
+    "hydraulic fracturing",
+    "wireline and pumping",
+    "completion support",
+    "cementing",
+    "power solutions natural gas fueling",
+    "proppant last mile logistics and storage"
+   ],
+   "description": "Provides integrated well completion services, including hydraulic fracturing, wireline, pumping and cementing, in active U.S. basins.",
+   "evidence": "Our well completion services business consists of services for hydraulic fracturing, wireline and pumping, completion support, and cementing."
+  },
+  {
+   "name": "drilling products",
+   "products": [
+    "drill bits",
+    "downhole tools"
+   ],
+   "description": "Manufactures and distributes drill bits and downhole tools for energy and mining markets in North America and internationally.",
+   "evidence": "We serve the energy and mining markets by manufacturing and distributing drill bits and downhole tools throughout North America and internationally in over 30 countries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and natural gas exploration and production companies pay Patterson-UTI under drilling contracts, generally on a daywork basis, and for completion services and drill bit products.",
+  "evidence": "Our drilling contracts provide for payment on a da"
+ },
+ "changes": [
+  {
+   "text": "The oilfield rentals business was divested in April 2025.",
+   "evidence": "Other consists of our oilfield rentals business, prior to its divestiture in April 2025, along with the results of our non-operating ownership interest in oil and natural gas assets located in Texas and New Mexico."
+  }
+ ],
+ "dropped": [
+  "product not in text (completion services): Vertex™ completions process",
+  "product not in text (completion services): eos™ digital completions management platform"
+ ]
+}

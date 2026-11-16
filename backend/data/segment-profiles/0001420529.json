@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001420529",
+ "issuerName": "ATA Creativity Global",
+ "builtAt": "2026-11-15T14:25:56.412Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-037267",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1420529/000110465926037267/aacg-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Overseas art study services",
+   "products": [
+    "portfolio training",
+    "overseas study counselling services"
+   ],
+   "description": "Provides educational services for students in China interested in applying for overseas art study.",
+   "evidence": "The Group classified the operating segments for the years ended December 31, 2023, 2024 and 2025 into (i) Overseas art study services (ii) Other educational services and (iii) Other services."
+  },
+  {
+   "name": "Other educational services",
+   "products": [
+    "research-based learning services",
+    "project-based learning services",
+    "short-term art courses"
+   ],
+   "description": "Provides other educational services, including research-based and project-based learning offerings.",
+   "evidence": "The Group classified the operating segments for the years ended December 31, 2023, 2024 and 2025 into (i) Overseas art study services (ii) Other educational services and (iii) Other services."
+  },
+  {
+   "name": "Other services",
+   "products": [],
+   "description": "Provides other services not classified as overseas art study or other educational services.",
+   "evidence": "The Group classified the operating segments for the years ended December 31, 2023, 2024 and 2025 into (i) Overseas art study services (ii) Other educational services and (iii) Other services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students and clients in China pay the company for educational services such as portfolio training, research-based learning and overseas study counselling.",
+  "evidence": "Our primary business operations, including our portfolio training business, research-based learning services, overseas study counselling services and other educational services, are conducted primarily through our PRC subsidiary Huanqiuyimeng and its subsidiaries."
+ },
+ "changes": [],
+ "dropped": []
+}

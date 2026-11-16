@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001371489",
+ "issuerName": "Information Services Group Inc.",
+ "builtAt": "2026-11-15T14:24:33.492Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024573",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1371489/000110465926024573/iii-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology research and advisory",
+   "products": [
+    "ISG Digital",
+    "ISG Enterprise",
+    "ISG Research",
+    "ISG GovernX®",
+    "ISG Inform™",
+    "ISG Tango",
+    "ISG Network and Software Advisory",
+    "ISG iFlex™"
+   ],
+   "description": "A global AI-centered technology research and advisory firm providing digital transformation, sourcing advisory, research and platform solutions to private- and public-sector clients.",
+   "evidence": "ISG is a leading global provider of digital transformation and technology advisory services, helping organizations optimize performance, reduce costs, and accelerate innovation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay ISG fees for professional services, either based on time and materials at agreed hourly rates or under fixed-fee contract structures.",
+  "evidence": "We principally derive revenues from fees for services generated on a project-by-project basis."
+ },
+ "changes": [],
+ "dropped": []
+}

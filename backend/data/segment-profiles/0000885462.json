@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000885462",
+ "issuerName": "GULF RESOURCES, INC.",
+ "builtAt": "2026-11-15T14:23:15.457Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193805-26-001105",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-08-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/885462/000119380526001105/e665350_10k-gulf.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chemical products",
+   "products": [
+    "bromine",
+    "crude salt",
+    "natural gas",
+    "chemical products used in oil and gas field explorations",
+    "papermaking chemical agents",
+    "materials for human and animal antibiotics"
+   ],
+   "description": "Manufactures and trades bromine, crude salt and natural gas, and sells chemical products for oil and gas exploration, papermaking and antibiotics, within China.",
+   "evidence": "We manufacture and trade bromine and crude salt, natural gas, manufacture and sell chemical products used in oil and gas field explorations and papermaking chemical agents, and materials for human and animal antibiotics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in China pay the company for bromine, crude salt, natural gas and specialty chemical products it manufactures and trades.",
+  "evidence": "To date, our products have been sold only within the People's Republic of China."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its subsidiary Shouguang Yuxin Chemical Industry Co., Limited, exiting the specialty chemicals business.",
+   "evidence": "On December 10, 2025, Shouguang City Haoyuan Chemical Company Limited, an indirect wholly owned subsidiary of Gulf Resources, Inc. (the \"Company\"), entered into an equity transfer agreement to sell 100% of the equity interests in Shouguang Yuxin Chemical Industry Co., Limited to Shandong Rongyuan Pharmaceutical Co., Ltd."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001412095",
+ "issuerName": "TROOPS, Inc.",
+ "builtAt": "2026-11-15T14:25:44.328Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-052000",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1412095/000110465926052000/troo-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Money lending",
+   "products": [
+    "money lending services"
+   ],
+   "description": "Provides money lending services in Hong Kong through subsidiaries such as Giant Credit Limited and Vision Lane Limited.",
+   "evidence": "The principal activity of Giant Credit Limited is money lending in Hong Kong."
+  },
+  {
+   "name": "Property investment",
+   "products": [],
+   "description": "Holds and invests in properties in Hong Kong through investment holding subsidiaries.",
+   "evidence": "11 Hau Fook Street Limited is an investment holding company which owns two properties located at No. 11 Hau Fook Street, Tsim Sha Tsui, Kowloon, Hong Kong."
+  },
+  {
+   "name": "Financial marketplace",
+   "products": [
+    "advisory services",
+    "consultancy services",
+    "referral services"
+   ],
+   "description": "Provides advisory, consultancy and referral services for various products and services through its FinNet mobile application.",
+   "evidence": "Riches Holdings Limited consists of a group of subsidiaries specialized in provision of advisory, consultancy and referral services for various products and services through its unique mobile application (FinNet)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, TROOPS acquired Riches Holdings Limited and formed FOR THE FUTURE, Inc., adding the FinNet advisory platform and the FTF cryptocurrency platform.",
+   "evidence": "On May 9, 2024, TROOPS entered into a Sale and Purchase Agreement with LIANTENG LIMITED, for the purchase of the entire issued and outstanding share capital of Riches Holdings Limited, a company incorporated under the laws of Cayman Islands."
+  }
+ ],
+ "dropped": [
+  "product not in text (Property investment): property investment",
+  "product not in text (Financial marketplace): FinNet mobile application",
+  "segment name not in text: Cryptocurrency platform"
+ ]
+}

@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0001402057",
+ "issuerName": "CDW CORP",
+ "builtAt": "2026-11-15T14:25:26.486Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001402057-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1402057/000140205726000011/cdw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate",
+   "products": [
+    "hardware",
+    "software",
+    "cloud solutions",
+    "integrated IT solutions"
+   ],
+   "description": null,
+   "evidence": "Our Corporate segment primarily serves US private sector business customers with more than 250 employees."
+  },
+  {
+   "name": "Small Business",
+   "products": [
+    "hardware",
+    "software",
+    "cloud solutions",
+    "integrated IT solutions"
+   ],
+   "description": null,
+   "evidence": "Our Small Business segment primarily serves US private sector business customers with up to 250 employees."
+  },
+  {
+   "name": "Public",
+   "products": [
+    "hardware",
+    "software",
+    "cloud solutions",
+    "integrated IT solutions"
+   ],
+   "description": "Serves US government agencies and education and healthcare institutions with IT solutions.",
+   "evidence": "Our Public segment is comprised of government agencies and education and healthcare institutions in the US."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "hardware",
+    "software",
+    "cloud solutions",
+    "integrated IT solutions"
+   ],
+   "description": "Comprises CDW UK and CDW Canada operating segments that do not meet reportable segment thresholds.",
+   "evidence": "We also have two other operating segments: CDW UK and CDW Canada, each of which do not meet the reportable segment quantitative thresholds and, accordingly, are included in an all other category (\"Other\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay CDW for hardware, software, cloud and integrated IT solutions that CDW procures from vendor partners and wholesale distributors for resale.",
+  "evidence": "We may purchase all or only some of the products and services our vendor partners offer for resale to our customers or for inclusion in the solutions we offer."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective January 1, 2026, CDW will realign into three reportable segments: Comm"
+ ]
+}

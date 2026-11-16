@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001437578",
+ "issuerName": "BRIGHT HORIZONS FAMILY SOLUTIONS INC.",
+ "builtAt": "2026-11-15T14:26:21.105Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437578-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1437578/000143757826000006/bfam-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Full service center-based child care",
+   "products": [
+    "traditional center-based early education and child care",
+    "preschool",
+    "elementary education"
+   ],
+   "description": "Provides center-based early education and child care at or near employer worksites and community locations for working families.",
+   "evidence": "Full service center-based child care includes traditional center-based early education and child care, preschool, and elementary education."
+  },
+  {
+   "name": "Back-up care",
+   "products": [
+    "center-based back-up child care",
+    "in-home care for children and seniors",
+    "school-age programs (including camps and tutoring)",
+    "pet care",
+    "self-sourced reimbursed care",
+    "Sittercity"
+   ],
+   "description": "Provides dependent care coverage for all ages when regular care is unavailable, plus care coordination tools for families.",
+   "evidence": "Back-up care includes center-based back-up child care, in-home care for children and seniors, school-age programs (including camps and tutoring), pet care, self-sourced reimbursed care, and Sittercity, an online marketplace for families and caregivers."
+  },
+  {
+   "name": "Educational advisory services",
+   "products": [
+    "tuition assistance and student loan repayment program management",
+    "workforce education",
+    "related educational advising",
+    "college admissions counseling services"
+   ],
+   "description": "Provides education-related services helping employees upskill and advance careers and families achieve higher education goals.",
+   "evidence": "Educational advisory services consist of tuition assistance and student loan repayment program management, workforce education, related educational advising, and college admissions counseling services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

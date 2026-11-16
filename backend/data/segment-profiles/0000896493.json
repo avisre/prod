@@ -1,0 +1,101 @@
+{
+ "version": 1,
+ "cik": "0000896493",
+ "issuerName": "HYPERSCALE DATA, INC.",
+ "builtAt": "2026-11-15T14:23:53.672Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001214659-26-004697",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/896493/000121465926004697/hdi32026010k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sentinum",
+   "products": [
+    "crypto asset mining",
+    "colocation and hosting services",
+    "digital asset treasury activities"
+   ],
+   "description": "Mines Bitcoin and provides colocation and hosting services for AI ecosystems and other industries, while transitioning toward HPC and AI operations.",
+   "evidence": "Sentinum: crypto asset mining operations, colocation and hosting services for emerging AI ecosystems and other industries, and our digital asset treasury activities;"
+  },
+  {
+   "name": "Energy and Infrastructure",
+   "products": [
+    "crane rental",
+    "lifting solutions"
+   ],
+   "description": null,
+   "evidence": "Energy and Infrastructure (\"Energy\"): crane rental and lifting solutions provider for oilfield, construction, commercial and infrastructure markets through Circle 8;"
+  },
+  {
+   "name": "AGREE",
+   "products": [
+    "hotel operations",
+    "commercial real estate holdings"
+   ],
+   "description": "Operates hotels and holds other commercial real estate.",
+   "evidence": "AGREE: hotel operations and other commercial real estate holdings;"
+  },
+  {
+   "name": "Gresham",
+   "products": [
+    "Radio Frequency Solutions",
+    "Precision Electronic Solutions",
+    "Power Electronics & Displays",
+    "automated test solutions",
+    "power electronics"
+   ],
+   "description": "Provides defense electronics, test solutions and power electronics through Enertec, Relec, Microphase and Giga-tronics for defense and healthcare markets.",
+   "evidence": "Gresham: defense solutions with operations conducted by Enertec, Relec, Microphase and Giga-tronics;"
+  },
+  {
+   "name": "TurnOnGreen",
+   "products": [
+    "commercial electronics solutions",
+    "electric vehicle (\"EV\") charging solutions"
+   ],
+   "description": "Provides commercial electronics through Digital Power and EV charging solutions through TOG Technologies.",
+   "evidence": "TurnOnGreen: commercial electronics solutions with operations conducted by Digital Power, and electric vehicle (\"EV\") charging solutions through TOG Technologies."
+  },
+  {
+   "name": "Technology and Finance",
+   "products": [
+    "commercial lending",
+    "trading"
+   ],
+   "description": "Conducts commercial lending and trading through Ault Lending.",
+   "evidence": "Technology and Finance (\"Fintech\"): commercial lending and trading through Ault Lending; and"
+  },
+  {
+   "name": "ROI",
+   "products": [
+    "OnlyBulls"
+   ],
+   "description": "Operates the OnlyBulls financial research and market intelligence platform and develops an online predictions market platform through Bitnile.com.",
+   "evidence": "ROI: includes askROI, which operates OnlyBulls, a consumer-facing financial research and market intelligence platform developed and operated by askROI as well as ROI's own operations, which includes its ownership of 100% of Bitnile.com, which is engaged in the development of an online predictions market platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company operates as a holding company earning revenue from subsidiary operations including Bitcoin mining, colocation and hosting fees, equipment sales and rentals, hotel operations, and commercial lending.",
+  "evidence": "We operate as a holding company with operations conducted primarily through our subsidiaries, which are described below."
+ },
+ "changes": [
+  {
+   "text": "In 2024, AGREE subsidiary Third Avenue sold its St. Petersburg, Florida real property.",
+   "evidence": "On December 13, 2024 (the \"Closing Date\"), Third Avenue Apartments LLC (\"Third Avenue\"), which was a subsidiary of AGREE, completed the sale of its real property located at the southeast corner of 5th Street North and 3rd Avenue North in St. Petersburg, Florida"
+  },
+  {
+   "text": "The company is transitioning its data centers away from Bitcoin mining toward high-performance computing and AI operations.",
+   "evidence": "we are in the process of transitioning our data centers away from Bitcoin mining to operations dedicated to high-performance computing (\"HPC\") and AI purposes"
+  }
+ ],
+ "dropped": [
+  "product not in text (ROI): Bitnile.com online predictions market platform",
+  "change not grounded: In 2024, Gresham filed a voluntary Chapter 11 bankruptcy petition and operated a"
+ ]
+}

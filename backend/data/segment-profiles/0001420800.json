@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001420800",
+ "issuerName": "Enovis Corp",
+ "builtAt": "2026-11-15T14:25:57.885Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001420800-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1420800/000142080026000012/cfx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prevention & Recovery",
+   "products": [
+    "rigid and soft orthopedic bracing",
+    "hot and cold therapy",
+    "bone growth stimulators",
+    "vascular therapy systems",
+    "compression garments",
+    "electrical stimulators used for pain management",
+    "physical therapy products"
+   ],
+   "description": "Provides non-surgical orthopedic devices and related products used by healthcare professionals, athletes and patients for injury prevention, pain management and rehabilitation.",
+   "evidence": "Our P&R product lines include rigid and soft orthopedic bracing, hot and cold therapy, bone growth stimulators, vascular therapy systems and compression garments, electrical stimulators used for pain management and physical therapy products."
+  },
+  {
+   "name": "Reconstructive",
+   "products": [
+    "implants",
+    "instrumentation",
+    "enabling technologies",
+    "surgical productivity tools"
+   ],
+   "description": "Develops, manufactures and distributes surgical implants, instrumentation and enabling technologies for joint replacement and reconstructive procedures serving orthopedic surgeons and healthcare systems worldwide.",
+   "evidence": "Our portfolio includes a broad range of differentiated implants, instrumentation, and enabling technologies used in elective and non-elective joint replacement, limb reconstruction, and foot & ankle procedures."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enovis sells medical devices and related products to orthopedic specialists, other healthcare professionals and retail consumers through independent distributors and direct salespeople.",
+  "evidence": "We reach a diverse customer base through multiple distribution channels, that include both independent distributors and direct salespeople, and provide a wide range of medical devices and related products to orthopedic specialists and other healthcare professionals operating in a variety of patient treatment settings and to retail consumers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company completed four acquisitions within its Reconstructive segment and three within its Prevention & Recovery segment.",
+   "evidence": "During the year ended December 31, 2025, we completed four acquisitions within our Reconstructive segment and three acquisitions within our Prevention & Recovery segment."
+  }
+ ],
+ "dropped": []
+}

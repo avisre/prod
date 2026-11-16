@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001400438",
+ "issuerName": "Largo Inc.",
+ "builtAt": "2026-11-15T14:25:18.224Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001778",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1400438/000106299326001778/exhibit99-2.htm",
+  "exhibit": "exhibit99-2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sales & trading",
+   "products": [
+    "standard and high purity grade vanadium products",
+    "V2O5"
+   ],
+   "description": "Sells and trades vanadium products produced at the Maracás Menchen Mine to customers.",
+   "evidence": "The Company has six operating segments: sales & trading, mine properties, corporate, exploration and evaluation properties (\"E&E properties\") (included as part of inter-segment transactions & other), clean energy and Largo Physical Vanadium."
+  },
+  {
+   "name": "Mine properties",
+   "products": [
+    "vanadium products"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Clean Energy",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Largo Physical Vanadium",
+   "products": [],
+   "description": "Holds physical vanadium as an investment product, with no revenue in the period.",
+   "evidence": "Write-down of vanadium assets - - - - 294 - 294"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling vanadium products, including under an exclusive off-take agreement for standard and high purity grade vanadium products.",
+  "evidence": "In 2021, the Company signed a 10-year exclusive off-take agreement with a third party for the purchase of all standard and high purity grade vanadium products the third party produces."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company recorded a gain on disposal of its interest in a subsidiary within the Clean Energy segment.",
+   "evidence": "Gain on disposal of interest in subsidiary - - - 5,179 - - 5,179"
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Mine properties",
+  "segment evidence not verbatim: Clean Energy",
+  "change not grounded: In January 2026, the off-take agreement with a third-party vanadium producer was"
+ ]
+}

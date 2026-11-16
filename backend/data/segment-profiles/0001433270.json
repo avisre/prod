@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001433270",
+ "issuerName": "ANTERO RESOURCES CORPORATION",
+ "builtAt": "2026-11-15T14:26:12.613Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-013386",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1433270/000110465926013386/ar-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and production",
+   "products": [
+    "natural gas",
+    "NGLs",
+    "oil"
+   ],
+   "description": "Explores, develops and produces natural gas, NGLs and oil, primarily in the Appalachian Basin in the United States.",
+   "evidence": "We have three reportable segments: exploration and production, our equity method investment in Antero Midstream and marketing."
+  },
+  {
+   "name": "Equity method investment in Antero Midstream",
+   "products": [
+    "midstream services"
+   ],
+   "description": "Holds an equity method investment in Antero Midstream, which provides midstream services to the company's operations.",
+   "evidence": "Therefore, we operate in the following reportable segments: (i) the exploration, development and production of natural gas, NGLs and oil (\"exploration and production\"); (ii) midstream services through our equity method investment in Antero Midstream (\"equity method investment in Antero Midstream\") and (iii) marketing of excess firm transportation capacity (\"marketing\")."
+  },
+  {
+   "name": "Marketing",
+   "products": [
+    "excess firm transportation capacity"
+   ],
+   "description": "Markets the company's excess firm transportation capacity on major pipelines.",
+   "evidence": "Therefore, we operate in the following reportable segments: (i) the exploration, development and production of natural gas, NGLs and oil (\"exploration and production\"); (ii) midstream services through our equity method investment in Antero Midstream (\"equity method investment in Antero Midstream\") and (iii) marketing of excess firm transportation capacity (\"marketing\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling the natural gas, NGLs and oil it produces to customers, with prices significantly impacting revenues and cash flows.",
+  "evidence": "Prices for natural gas, NGLs and oil that we produce significantly impact our revenues and cash flows."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company agreed to sell substantially all of its Utica Shale oil and gas assets in Ohio, expected to close in February 2026.",
+   "evidence": "On December 5, 2025, we entered into a definitive agreement with two third-party buyers (collectively, the \"Buyer Parties\") to sell substantially all of our Utica Shale oil and gas assets (the \"Utica Shale Properties\") for aggregate cash consideration of $800 million, subject to the terms and conditions thereof."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company agreed to acquire HG Energy II Production Holdings, adding "
+ ]
+}

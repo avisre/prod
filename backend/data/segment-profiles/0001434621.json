@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0001434621",
+ "issuerName": "LendingTree, Inc.",
+ "builtAt": "2026-11-15T14:26:14.615Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016084",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1434621/000162828026016084/tree-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home",
+   "products": [
+    "purchase mortgage",
+    "refinance mortgage",
+    "home equity loans and lines of credit"
+   ],
+   "description": "Matches consumers seeking home loans with a nationwide network of lender Network Partners on the online marketplace.",
+   "evidence": "Our Home segment includes the following products: purchase mortgage, refinance mortgage, and home equity loans and lines of credit."
+  },
+  {
+   "name": "Consumer",
+   "products": [
+    "credit cards",
+    "personal loans",
+    "small business loans",
+    "auto loans",
+    "deposit accounts",
+    "debt settlement"
+   ],
+   "description": "Offers consumers comparison shopping and access to multiple offers for non-mortgage lending and deposit products.",
+   "evidence": "Our Consumer segment includes the following products: credit cards, personal loans, small business loans, auto loans, deposit accounts, and other credit products such as debt settlement."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "insurance quote products",
+    "insurance policies"
+   ],
+   "description": "Matches consumers with insurance carriers, earning fees for delivered consumer requests, clicks and calls.",
+   "evidence": "Our Insurance segment consists of insurance quote products and insurance policies in our agency businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "LendingTree does not charge consumers; Network Partners pay upfront match fees, click, call, closed loan and card approval fees when consumer requests are delivered.",
+  "evidence": "We generate revenue from our Network Partners, generally at the time of transmitting a consumer request to them, in the form of a match fee."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company ceased offering credit repair products when it shut down its Ovation business.",
+   "evidence": "We ceased offering credit repair products at the end of the second quarter of 2023 when we shut-down our Ovation business."
+  },
+  {
+   "text": "In 2025 the company exited the insurance agency business.",
+   "evidence": "We exited the insurance agency business in the second quarter of 2025."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001362004",
+ "issuerName": "ICF International, Inc.",
+ "builtAt": "2026-11-15T14:24:10.651Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082536",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1362004/000119312526082536/icfi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Professional Services",
+   "products": [
+    "Advisory Services",
+    "Program Implementation",
+    "Analytics Services",
+    "Digital Services",
+    "Engagement Services"
+   ],
+   "description": "Provides management, technology, and policy consulting and implementation services to government and commercial clients.",
+   "evidence": "We report operating results and financial data in one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government and commercial clients pay the company for professional services and technology-based solutions delivered under contracts.",
+  "evidence": "We provide professional services and technology-based solutions, including management, technology, and policy consulting and implementation services, to government and commercial clients."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company divested its non-core U.S. commercial marketing and Canadian mobile and SMS messaging aggregator businesses and wound down non-core commercial marketing and communication businesses in the U.K. and Belgium.",
+   "evidence": "During the year ended December 31, 2023, the Company completed the divestitures of its non-core U.S. commercial marketing and Canadian mobile and SMS messaging aggregator businesses."
+  }
+ ],
+ "dropped": []
+}

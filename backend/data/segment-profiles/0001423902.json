@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001423902",
+ "issuerName": "WESTERN MIDSTREAM PARTNERS, LP",
+ "builtAt": "2026-11-15T14:26:01.589Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001423902-26-000030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1423902/000142390226000030/wes-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Midstream",
+   "products": [],
+   "description": "Operates midstream infrastructure that gathers, processes, treats, and transports natural gas, NGLs, crude oil, and produced water for producers in Texas, New Mexico, and the Rocky Mountains.",
+   "evidence": "Our operations are organized into a single operating segment that engages in gathering, compressing, treating, processing, and transporting natural gas; gathering, stabilizing, and transporting condensate, NGLs, and crude oil; and gathering, transporting, recycling, treating, supplying, and disposing of produced water."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily producers, pay fees under midstream service contracts, often fee-based with risk-reducing protections such as minimum-volume commitments.",
+  "evidence": "We intend to continue generating low-volatility cash flows through commodity-price cycles by pursuing fee-based contracts with risk-reducing protections in place, such as minimum-volume commitments."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Aris Water Solutions, adding produced-water infrastructure assets in New Mexico and West Texas.",
+   "evidence": "During the fourth quarter of 2025, we closed on the acquisition of Aris by merger in a transaction valued at $2.0 billion, including the cash and equity merger consideration, Aris's outstanding debt of $80.0 million in revolving credit facility borrowings that were repaid at closing, and $500.0 million in principal amount of senior notes."
+  },
+  {
+   "text": "In 2024, the company sold equity interests in Mont Belvieu JV, Whitethorn LLC, Panola, and Saddlehorn.",
+   "evidence": "During the first quarter of 2024, we closed on the sale of the following equity investments to third parties: (i) the 25.00% interest in Mont Belvieu JV, (ii) the 20.00% interest in Whitethorn LLC, (iii) the 15.00% interest in Panola, and (iv) the 20.00% interest in Saddlehorn."
+  }
+ ],
+ "dropped": [
+  "product not in text (Midstream): natural-gas gathering, compressing, treating, processing, and transporting",
+  "product not in text (Midstream): condensate, NGLs, and crude-oil gathering, stabilizing, and transporting",
+  "product not in text (Midstream): produced-water gathering, transporting, recycling, treating, supplying, and disp",
+  "change not grounded: In 2024, the company sold its 33.75% interest in the Marcellus Interest systems."
+ ]
+}

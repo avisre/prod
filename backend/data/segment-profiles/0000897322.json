@@ -1,0 +1,74 @@
+{
+ "version": 1,
+ "cik": "0000897322",
+ "issuerName": "GILAT SATELLITE NETWORKS LTD.",
+ "builtAt": "2026-11-15T14:23:56.922Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-000929",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/897322/000117891326000929/zk2634518.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gilat Defense",
+   "products": [
+    "SkyEdge IV",
+    "SSPAs",
+    "BUCs",
+    "transceivers",
+    "defense ground systems",
+    "field services"
+   ],
+   "description": "Provides secure, rapid-deployment satellite communications solutions for military organizations, government agencies, and defense integrators.",
+   "evidence": "Our Gilat Defense Division provides secure, rapid-deployment solutions for military organizations, government agencies, defense integrators, and other strategic governmental customers, with a strong focus on the U.S. Department of Defense resulting from our strategic acquisition of DataPath."
+  },
+  {
+   "name": "Gilat Commercial",
+   "products": [
+    "SkyEdge IIc",
+    "SkyEdge IV",
+    "VSAT terminals",
+    "modems",
+    "IFC ESA antennas and terminals",
+    "SSPAs",
+    "BUCs",
+    "transceivers"
+   ],
+   "description": "Provides advanced broadband satellite communication networks for in-flight connectivity, enterprise, and cellular backhaul to service providers, satellite operators, and enterprises.",
+   "evidence": "Our Gilat Commercial Division provides advanced broadband satellite communication networks for IFC, Enterprise, and Cellular Backhaul, supporting High Throughput Satellites, or HTS, Very High Throughput Satellites, or VHTS, and Non-Geostationary Satellite Orbit, or NGSO, constellations with turnkey solutions for service providers, satellite operators, and enterprises."
+  },
+  {
+   "name": "Gilat Peru",
+   "products": [
+    "technology integration",
+    "managed networks and services",
+    "connectivity solutions",
+    "internet access",
+    "voice access"
+   ],
+   "description": "Specializes in end-to-end telco solutions and large-scale network projects, providing managed services and connectivity across Peru.",
+   "evidence": "Our Gilat Peru Division specializes in end-to-end telco solutions, including the operation and implementation of large-scale network projects."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Satellite operators, service providers, MNOs, system integrators, government and defense organizations, and end-users pay Gilat for ground-segment equipment sales and managed connectivity services.",
+  "evidence": "For the year ended December 31, 2025, approximately 73% of our revenues were derived from equipment sales and 27% from services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company replaced its prior segments (Satellite Networks, Integrated Solutions and Network Infrastructure and Services) with three new segments: Gilat Defense, Gilat Commercial, and Gilat Peru.",
+   "evidence": "From 2022 through 2024, we operated in three operating segments, Satellite Networks, Integrated Solutions and Network Infrastructure and Services."
+  },
+  {
+   "text": "In 2025, Gilat completed the acquisition of SBS, a U.S. provider of next-generation SATCOM terminal solutions, strengthening its in-flight connectivity offering.",
+   "evidence": "The acquisition was completed on January 6, 2025, and the initial closing cash payment of $98 million ($108 million as adjusted) was funded through a combination of existing cash resources and $60 million drawn under a new secured credit line that we entered into with HSBC Bank USA, N.A., and Bank Hapoalim B.M."
+  }
+ ],
+ "dropped": [
+  "product not in text (Gilat Defense): Deployable Ku/Ka/X-band Earth Terminal (DKET)"
+ ]
+}

@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0001392380",
+ "issuerName": "GEVO, INC.",
+ "builtAt": "2026-11-15T14:25:01.656Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001392380-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1392380/000139238026000006/gevo-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gevo",
+   "products": [
+    "gasoline blendstocks",
+    "diesel fuel",
+    "ethylene",
+    "butenes",
+    "Verity platforms"
+   ],
+   "description": "Conducts research and development for future SAF and other renewable hydrocarbons, chemicals, and maintains intellectual property and corporate oversight.",
+   "evidence": "The Gevo segment is responsible for all research and development activities related to the future production of SAF, commercial opportunities for other renewable hydrocarbon products, such as hydrocarbons for gasoline blendstocks and diesel fuel; ingredients for the chemical industry, such as ethylene and butenes; plastics and materials; and other chemicals."
+  },
+  {
+   "name": "GevoFuels",
+   "products": [
+    "Alcohol-to-Jet projects",
+    "ATJ-30",
+    "sustainable aviation fuel"
+   ],
+   "description": "Develops, constructs and operates Alcohol-to-Jet projects producing sustainable aviation fuel in the U.S.",
+   "evidence": "This segment is dedicated to the development, construction, and operation of Alcohol-to-Jet projects that are not only good for the environment but also cost-effective for businesses and consumers."
+  },
+  {
+   "name": "GevoRNG",
+   "products": [
+    "renewable natural gas"
+   ],
+   "description": "Uses anaerobic digestion to capture and convert methane emissions from livestock farming into renewable natural gas.",
+   "evidence": "The Renewable Natural Gas segment includes GevoRNG which is an innovative project that leverages anaerobic digestion technology to capture and convert methane emissions into renewable natural gas."
+  },
+  {
+   "name": "GevoND",
+   "products": [
+    "low-carbon ethanol",
+    "corn fiber ethanol",
+    "distillers grains",
+    "low-carbon animal feed",
+    "vegetable oil",
+    "carbon capture and sequestration"
+   ],
+   "description": "Operates acquired Red Trail Energy low-carbon ethanol and carbon capture and sequestration assets in North Dakota.",
+   "evidence": "The GevoND segment includes the assets acquired in the business combination completed in January 2025, with Red Trail Energy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Gevo for renewable fuels and related products, including ethanol, distillers grains, animal feed, vegetable oil and renewable natural gas.",
+  "evidence": "The principal products manufactured by our ethanol plant include ethanol and distillers grains."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Gevo added the GevoND segment following its acquisition of substantially all the assets of Red Trail Energy.",
+   "evidence": "The GevoND segment is a new operating segment for 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Gevo): sustainable aviation fuel (SAF)"
+ ]
+}

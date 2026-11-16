@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001405495",
+ "issuerName": "INTERDIGITAL, INC.",
+ "builtAt": "2026-11-15T14:25:30.630Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001405495-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1405495/000140549526000011/idcc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology licensing",
+   "products": [
+    "Wireless technologies",
+    "Patent licensing"
+   ],
+   "description": "A global research and development company that designs foundational wireless, video and AI technologies and licenses them to makers of devices and cloud-based service providers.",
+   "evidence": "Consequently, we view the entire organization as one reportable segment and the strategic purpose of all operating activities is to support that one segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "InterDigital derives revenue primarily from licensing its patented innovations to companies making wireless devices, consumer electronics, IoT devices, vehicles and cloud-based services.",
+  "evidence": "InterDigital derives revenue primarily from licensing our patented innovations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Technology licensing): Video coding and processing technologies",
+  "product not in text (Technology licensing): Artificial intelligence technologies",
+  "product not in text (Technology licensing): HDR production, distribution and display solutions"
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001436126",
+ "issuerName": "Mistras Group, Inc.",
+ "builtAt": "2026-11-15T14:26:17.662Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016765",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1436126/000162828026016765/mg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "NDT",
+    "inspection services",
+    "in-laboratory testing",
+    "mechanical services",
+    "engineering services",
+    "OneSuite",
+    "PCMS"
+   ],
+   "description": "Provides asset protection solutions in the United States and Canada, including NDT, inspection, lab testing, mechanical and engineering services, plus software and data analytics.",
+   "evidence": "North America provides asset protection solutions with the largest concentration in the United States, followed by Canada, consisting primarily of NDT, inspection, in-laboratory testing, mechanical and engineering services that are used to evaluate the structural integrity and reliability of critical energy, industrial and public infrastructure and commercial aerospace components."
+  },
+  {
+   "name": "International",
+   "products": [
+    "NDT",
+    "inspection services",
+    "asset protection products and systems"
+   ],
+   "description": "Offers services, products and systems similar to the other segments in Europe, the Middle East, Africa, Asia and South America, excluding China and South Korea.",
+   "evidence": "International offers services, products and systems similar to those of the other segments to select markets within Europe, the Middle East, Africa, Asia and South America, which are served by the Products and Systems segment."
+  },
+  {
+   "name": "Products and Systems",
+   "products": [
+    "asset protection monitoring products and systems",
+    "equipment",
+    "instrumentation"
+   ],
+   "description": "Designs, manufactures, sells, installs and services the Company's asset protection monitoring products and systems, predominantly in the United States.",
+   "evidence": "Products and Systems designs, manufactures, sells, installs and services the Company's asset protection monitoring products and systems, including equipment and instrumentation, predominantly in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, largely asset-intensive industrial operators, pay for recurring inspection, testing, maintenance and engineering services performed at their facilities or the Company's laboratories, plus software subscriptions and monitoring products.",
+  "evidence": "Under our operating model, many customers outsource inspection and integrity management activities to the Company on a \"run and maintain\" basis."
+ },
+ "changes": [],
+ "dropped": []
+}

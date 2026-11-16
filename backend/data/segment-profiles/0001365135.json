@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001365135",
+ "issuerName": "THE WESTERN UNION COMPANY",
+ "builtAt": "2026-11-15T14:24:19.793Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-061340",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1365135/000119312526061340/wu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Money Transfer",
+   "products": [
+    "Retail money transfer",
+    "Branded Digital",
+    "Websites and mobile applications",
+    "Third-party digital partners' websites and mobile applications"
+   ],
+   "description": "Enables consumers to send money worldwide, usually within minutes, through retail agent locations, Company-operated locations, and digital channels.",
+   "evidence": "Our Consumer Money Transfer service enables people to use our well-recognized brands to send money around the world, usually within minutes."
+  },
+  {
+   "name": "Consumer Services",
+   "products": [
+    "Bill payment services",
+    "Money order services",
+    "Travel money services",
+    "Check acceptance services",
+    "Media network",
+    "Prepaid cards",
+    "Lending partnerships",
+    "Digital wallets"
+   ],
+   "description": "Provides consumer financial services including bill payments, money orders, media network, prepaid cards, lending partnerships, and digital wallets.",
+   "evidence": "Our Consumer Services segment includes our bill payment services, money order services, travel money services, check acceptance services, media network, prepaid cards, lending partnerships, and digital wallets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay fees set by Western Union to transfer money, with revenue varying by channel, locations, funding method, principal amount, and foreign exchange spread.",
+  "evidence": "Our revenues are primarily derived from consideration paid by customers to transfer money."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Western Union completed the sale of its Business Solutions business and no longer reports it as a separate segment.",
+   "evidence": "On August 4, 2021, we entered into an agreement to sell our Business Solutions business to Goldfinch Partners LLC and The Baupost Group LLC, and the final closing for this transaction occurred on July 1, 2023."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001368622",
+ "issuerName": "AEROVIRONMENT, INC.",
+ "builtAt": "2026-11-15T14:24:26.858Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-078906",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1368622/000110465926078906/avav-20260430x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autonomous Systems (\"AxS\")",
+   "products": [
+    "Puma LE",
+    "Puma 3 AE",
+    "Puma VTOL",
+    "P550",
+    "Raven B",
+    "VAPOR 55 CLE",
+    "JUMP 20",
+    "JUMP 20-X"
+   ],
+   "description": "Provides uncrewed aircraft, loitering munitions, counter-UAS, electronic warfare, maritime and ground systems for defense customers and warfighters.",
+   "evidence": "Effective May 1, 2025 in connection with our acquisition of BlueHalo Financing Topco, LLC (\"BlueHalo\"), we operate our business in two reportable segments: (1) Autonomous Systems (\"AxS\") and (2) Space, Cyber and Directed Energy (\"SCDE\")."
+  },
+  {
+   "name": "Space, Cyber and Directed Energy (\"SCDE\")",
+   "products": [
+    "BADGER",
+    "WASP",
+    "PANTHER",
+    "LOCUST Laser Weapon System (\"LWS\")",
+    "LOCUST TATS",
+    "LOCUST X2",
+    "LOCUST X3",
+    "Space-Qualified Hardware"
+   ],
+   "description": "Provides space technology, directed energy laser systems, and cyber and mission solutions for U.S. defense, intelligence, and national security customers.",
+   "evidence": "Our Cyber and Mission Solutions Group provides advanced cyber, intel, defense operations, and basic/applied R&D solutions that deliver mission-critical expertise and prototype development for U.S. defense, intelligence community, and national security customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily defense and national security agencies, pay the company for its products and services, and some customers require substantial financing to fund purchases.",
+  "evidence": "Some of our customers may require substantial financing in order to fund their operations and make purchases from us."
+ },
+ "changes": [
+  {
+   "text": "In March 2026, the company closed its acquisition of ESAero, the most recent in a series of acquisitions beginning in February 2021.",
+   "evidence": "In March 2026, we closed our acquisition of ESAero, the most recent in a series of acquisitions beginning in February 2021, with the acquisition of Arcturus and the Intelligent Systems Group business segment (\"ISG\")."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective May 1, 2025, the company began operating in two reportable segments, A"
+ ]
+}

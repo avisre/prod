@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001368514",
+ "issuerName": "ADMA BIOLOGICS, INC.",
+ "builtAt": "2026-11-15T14:24:25.126Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-006815",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1368514/000114036126006815/ef20059416_10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ADMA BioManufacturing",
+   "products": [
+    "ASCENIV",
+    "BIVIGAM",
+    "Nabi-HB",
+    "SG-001"
+   ],
+   "description": "Manufactures, markets and develops FDA-approved specialty plasma-derived biologics for immunodeficient and infection-risk patients.",
+   "evidence": "Through our ADMA BioManufacturing business segment, we currently have three products with U.S. Food and Drug Administration (the \"FDA\") approval, all of which are currently marketed and commercially available"
+  },
+  {
+   "name": "Plasma Collection Centers",
+   "products": [
+    "source plasma",
+    "hyperimmune plasma"
+   ],
+   "description": "Operates FDA-licensed source plasma collection facilities supplying plasma for the company's products and selling surplus plasma to third parties.",
+   "evidence": "This business unit, which we refer to as our Plasma Collection Centers business segment, provides us with the blood plasma required for the manufacture of our products, and also allows us to sell certain quantities of source and hyperimmune plasma to third-party customers for further manufacturing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of its FDA-approved immunoglobulin products to customers and from selling source and hyperimmune plasma to third-party customers.",
+  "evidence": "Plasma collected from ADMA BioCenters' facilities that is not used to manufacture our products is sold to third-party customers in the U.S. and in other locations outside the U.S. where we are approved under supply agreements or in the open \"spot\" market."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the company agreed to divest three plasma collection centers, with two sold as of the filing date and the third expected to close in the first quarter of 2026.",
+   "evidence": "In December 2025, we entered into an agreement for the divestiture of three of our plasma collection centers for an aggregate purchase price of $12.0 million."
+  }
+ ],
+ "dropped": []
+}

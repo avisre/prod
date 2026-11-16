@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001408075",
+ "issuerName": "Graphic Packaging Holding Co",
+ "builtAt": "2026-11-15T14:25:33.494Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001408075-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1408075/000140807526000009/gpk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas Paperboard Packaging",
+   "products": [
+    "paperboard cartons",
+    "carriers",
+    "containers",
+    "cups",
+    "lids",
+    "food containers"
+   ],
+   "description": "Sells paperboard packaging to consumer packaged goods companies and cups, lids and food containers to foodservice companies and quick-service restaurants in the Americas.",
+   "evidence": "Americas Paperboard Packaging includes paperboard packaging sold primarily to consumer packaged goods (\"CPG\") companies serving the food, beverage and consumer product markets and cups, lids and food containers sold primarily to foodservice companies and quick-service restaurants in the Americas."
+  },
+  {
+   "name": "International Paperboard Packaging",
+   "products": [
+    "paperboard cartons",
+    "carriers",
+    "containers"
+   ],
+   "description": "Sells paperboard packaging to consumer packaged goods companies serving food, foodservice, beverage and consumer product markets outside the Americas.",
+   "evidence": "International Paperboard Packaging includes paperboard packaging sold primarily to CPG companies serving the food, foodservice, beverage and consumer product markets, including healthcare and beauty, outside of the Americas."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumer packaged goods companies, foodservice companies, quick-service restaurants and other consumer products companies pay the Company for paperboard packaging products, and independent and integrated producers pay for open-market paperboard.",
+  "evidence": "The Company also sells paperboard in the open market to independent and integrated paperboard packaging producers."
+ },
+ "changes": [
+  {
+   "text": "In the first quarter of 2025, the Company realigned its financial reporting structure under two reportable segments, Americas Paperboard Packaging and International Paperboard Packaging.",
+   "evidence": "During the first quarter of 2025, the Company realigned its financial reporting structure under two reportable segments, Americas Paperboard Packaging and International Paperboard Packaging."
+  },
+  {
+   "text": "In May 2024, the Company sold its Augusta, Georgia bleached paperboard manufacturing facility to Clearwater Paper Corporation.",
+   "evidence": "In May 2024, the Company completed the sale of its Augusta, Georgia bleached paperboard manufacturing facility (the \"Augusta Divestiture\") to Clearwater Paper Corporation for a total consideration of $711 million."
+  },
+  {
+   "text": "In November 2023, the Company completed the sale of its two packaging facilities in Russia.",
+   "evidence": "In November 2023, the Company completed the sale of its two packaging facilities in Russia."
+  }
+ ],
+ "dropped": []
+}

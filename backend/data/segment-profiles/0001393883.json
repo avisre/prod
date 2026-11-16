@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001393883",
+ "issuerName": "DHI Group, Inc.",
+ "builtAt": "2026-11-15T14:25:07.174Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001393883-26-000041",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1393883/000139388326000041/dhx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ClearanceJobs",
+   "products": [
+    "Recruitment packages",
+    "Talent profiles",
+    "Job postings",
+    "Employer Branding",
+    "AgileATS",
+    "Premium Candidate Experience",
+    "ClearanceJobs Live",
+    "Talent sourcing services"
+   ],
+   "description": "Online career community connecting security-cleared professionals with government contractors, federal agencies and other employers.",
+   "evidence": "ClearanceJobs is the leading online career community dedicated to connecting security-cleared professionals with employers in a secure and private environment to fill the jobs that safeguard our nation."
+  },
+  {
+   "name": "Dice",
+   "products": [
+    "Recruitment packages",
+    "Job postings",
+    "IntelliSearch",
+    "Dice Employer Experience Platform",
+    "Dice Recruiter App",
+    "Employer Branding",
+    "Talent profiles",
+    "TopResume Integration"
+   ],
+   "description": "Technology and engineering career marketplace in the United States connecting tech professionals with employers and recruiters.",
+   "evidence": "Dice has been a go-to destination for technology and engineering talent in the United States for 35 years."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers and recruiters pay subscription fees, annually, quarterly or monthly, for recruitment packages to post jobs and access searchable resume databases, plus advertising and lead generation revenue.",
+  "evidence": "We derive the majority of our revenues from customers who pay fees, either annually, quarterly or monthly, to post jobs on our websites and to access our searchable databases of resumes."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company split its single Tech-focused reportable segment into two reportable segments, ClearanceJobs and Dice.",
+   "evidence": "The Company previously reported one segment, Tech-focused. Information previously reported in the Tech-focused segment has been separated into ClearanceJobs (\"CJ\") and Dice, and the Company has two reportable segments: ClearanceJobs and Dice."
+  },
+  {
+   "text": "In 2025, the ClearanceJobs segment acquired AgileATS, an applicant tracking system for government contractors hiring security-cleared professionals.",
+   "evidence": "On July 31, 2025, the Company's ClearanceJobs reportable segment acquired AgileATS, a leading applicant tracking system (ATS) purpose-built for government contractors and employers hiring security-cleared professionals."
+  }
+ ],
+ "dropped": []
+}

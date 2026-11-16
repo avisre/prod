@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000887151",
+ "issuerName": "Capstone Holding Corp.",
+ "builtAt": "2026-11-15T14:23:25.387Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-012459",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/887151/000143774926012459/caps20251225_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TotalStone",
+   "products": [
+    "thin veneer stone",
+    "natural stone",
+    "manufactured stone",
+    "masonry and hardscape products"
+   ],
+   "description": "Wholesale distribution of thin veneer and natural and manufactured stone products through Instone and Canadian Stone Industries across the U.S. and Canada.",
+   "evidence": "The Company has two reportable segments: (i) the TotalStone segment, which includes the operations of TotalStone, LLC and Canadian Stone Industries"
+  },
+  {
+   "name": "Carolina Stone",
+   "products": [
+    "thin veneer stone",
+    "related masonry products",
+    "stone installation services"
+   ],
+   "description": "Distributes and installs thin veneer stone and related masonry products for residential, commercial, and multi-family projects in the Southeast U.S.",
+   "evidence": "Carolina Stone distributes and installs thin veneer stone and related masonry products for residential, commercial, and multi-family projects in the Southeast United States from two locations in North Carolina."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from wholesale distribution and installation of stone and masonry products sold to masonry dealers, contractors, builders, and homeowners.",
+  "evidence": "Together, our platform offers over 3,000 SKUs across nine warehouse and distribution center locations, serving a diverse base of masonry dealers, contractors, builders, and homeowners."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Carolina Stone Holdings, creating the Carolina Stone segment.",
+   "evidence": "On August 22, 2025, through its indirect subsidiary CS Purchase Holdings, LLC, the Company acquired 100% of the membership interests of Carolina Stone Holdings, LLC (\"CSH\")."
+  },
+  {
+   "text": "In 2025, the Company acquired Fraser Canyon Holdings and Continental Stone Industries, expanding the TotalStone segment into Canada and the U.S. West Coast.",
+   "evidence": "This acquisition marked the Company's entry into the Canadian market and the U.S. West Coast, and is reported within the Company's Instone/TotalStone segment."
+  }
+ ],
+ "dropped": []
+}

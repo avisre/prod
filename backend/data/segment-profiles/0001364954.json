@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001364954",
+ "issuerName": "CHEGG, INC",
+ "builtAt": "2026-11-15T14:24:19.771Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001364954-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1364954/000136495426000021/chgg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Learning platform",
+   "products": [
+    "Chegg Skilling",
+    "Academic Services",
+    "Chegg Study Pack",
+    "Chegg Study",
+    "Chegg Writing",
+    "Chegg Math",
+    "language learning platform",
+    "workforce skilling programs"
+   ],
+   "description": "Chegg operates a learning platform offering skilling, language learning, and AI-driven academic support services to students, lifelong learners, and businesses.",
+   "evidence": "Accordingly, we have determined that we have a single operating and reportable segment and operating unit structure."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Chegg earns subscription revenues from students and lifelong learners for its learning services and from businesses for workforce skilling programs, plus advertising delivered with programmatic partners.",
+  "evidence": "Our customers include learners and businesses."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001417663",
+ "issuerName": "SANUWAVE Health, Inc.",
+ "builtAt": "2026-11-15T14:25:50.446Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021443",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1417663/000162828026021443/snwv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wound care",
+   "products": [
+    "UltraMIST system"
+   ],
+   "description": "Develops and markets noninvasive ultrasound directed-energy products, primarily the UltraMIST system, for treating acute and chronic wounds.",
+   "evidence": "Sanuwave is a medical device company providing directed energy products into the wound care space."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly U.S. healthcare providers, buy UltraMIST systems and then purchase sterile single-use applicators for each treatment under a razor/razor blade model.",
+  "evidence": "UltraMIST is sold using a simple \"razor/razor blade\" model. Customers purchase an UltraMIST system and then each treatment utilizes a sterile, single use applicator sold in cases of 12."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wound care): UltraMIST consumable applicators"
+ ]
+}

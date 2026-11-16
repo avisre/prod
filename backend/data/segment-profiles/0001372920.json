@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001372920",
+ "issuerName": "NEW ORIENTAL EDUCATION & TECHNOLOGY GROUP INC.",
+ "builtAt": "2026-11-15T14:24:33.811Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-397192",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-09-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1372920/000119312526397192/d157159d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Educational services and test preparation courses",
+   "products": [
+    "educational services",
+    "test preparation courses",
+    "online education"
+   ],
+   "description": "Provides educational services, test preparation courses and online education to students in China.",
+   "evidence": "We recognize revenues from course fees collected for enrollment in our educational services and test preparation courses and online education proportionally as we deliver the instruction over the period of the course."
+  },
+  {
+   "name": "Private label products and livestreaming e-commerce",
+   "products": [
+    "private label products",
+    "livestreaming e-commerce"
+   ],
+   "description": "Sells private label products through livestreaming e-commerce to consumers.",
+   "evidence": "Net revenues from private label products and livestreaming e-commerce accounted for 20.9%, 12.2% and 14.3%, respectively, of our total net revenues in the fiscal years ended May 31, 2024, 2025 and 2026."
+  },
+  {
+   "name": "Overseas study consulting services",
+   "products": [],
+   "description": "Provides consulting services to students planning to study overseas.",
+   "evidence": "Net revenues from overseas study consulting services decreased by 1.0% from US$516.4 million for the fiscal year ended May 31, 2025 to US$511.3 million for the fiscal year ended May 31, 2026, primarily due to the decreased number of students who planned to study overseas."
+  },
+  {
+   "name": "Others",
+   "products": [
+    "educational materials and distribution"
+   ],
+   "description": "Comprises the educational materials and distribution operating segment that did not exceed the quantitative reporting threshold.",
+   "evidence": "Our operating segment, educational materials and distribution, individually did not exceed the 10% quantitative threshold during the fiscal year ended May 31, 2026, and as a result, was aggregated in others."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Students pay course fees for educational services and test preparation, customers pay for private label products sold through livestreaming e-commerce, and students pay for overseas study consulting services.",
+  "evidence": "We recognize revenues from course fees collected for enrollment in our educational services and test preparation courses and online education proportionally as we deliver the instruction over the period of the course."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Overseas study consulting services): overseas study consulting services",
+  "change not grounded: In fiscal year 2026, the educational materials and distribution operating segmen"
+ ]
+}

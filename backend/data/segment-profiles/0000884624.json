@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000884624",
+ "issuerName": "Orthofix Medical Inc.",
+ "builtAt": "2026-11-15T14:23:12.891Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-065189",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/884624/000119312526065189/ofix-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Spine",
+   "products": [
+    "Bone Growth Therapies",
+    "Spinal Implants",
+    "Biologics",
+    "Enabling Technologies",
+    "7D FLASH Navigation System",
+    "CervicalStim",
+    "SpinalStim",
+    "Physio"
+   ],
+   "description": "Provides implantable medical devices, biologics, enabling technologies and regenerative solutions for patients with spine diseases and traumas.",
+   "evidence": "Within the Global Spine segment, we provide implantable medical devices, biologics, enabling technologies, and other regenerative solutions which aim to restore the quality of life of patients suffering from diseases and traumas of the spine."
+  },
+  {
+   "name": "Global Limb Reconstruction",
+   "products": [],
+   "description": null,
+   "evidence": "Orthofix operates the business through two reporting segments, Global Spine and Global Limb Reconstruction (formerly \"Global Orthopedics\"), which accounted for 84% and 16% of our total net sales in 2025, respectively."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net sales from selling medical devices and tissue products to healthcare providers through distributors and direct sales representatives, plus marketing service fees.",
+  "evidence": "The chart below presents reported net sales, which includes product sales and marketing service fees, by reporting segment for each of the years ended December 31, 2025, 2024, and 2023."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Orthofix completed a merger of equals with SeaSpine Holdings Corporation via an all-stock merger.",
+   "evidence": "In January 2023, we completed a \"merger of equals\" transaction with SeaSpine Holdings Corporation (\"SeaSpine\") whereby we acquired SeaSpine via an all-stock merger (the \"Merger\")."
+  },
+  {
+   "text": "The Global Orthopedics segment was renamed Global Limb Reconstruction.",
+   "evidence": "Orthofix operates the business through two reporting segments, Global Spine and Global Limb Reconstruction (formerly \"Global Orthopedics\"), which accounted for 84% and 16% of our total net sales in 2025, respectively."
+  }
+ ],
+ "dropped": []
+}

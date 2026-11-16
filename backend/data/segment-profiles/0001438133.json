@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001438133",
+ "issuerName": "Tandem Diabetes Care, Inc.",
+ "builtAt": "2026-11-15T14:26:23.972Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001438133-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1438133/000143813326000010/tndm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insulin Pumps and Supplies",
+   "products": [
+    "t:slim X2",
+    "Tandem Mobi",
+    "Control-IQ+",
+    "Tandem Device Updater",
+    "Tandem Source",
+    "Sugarmate",
+    "single-use insulin cartridges",
+    "infusion sets"
+   ],
+   "description": "Designs, develops and commercializes insulin pumps, supplies and diabetes technology for people with insulin-dependent diabetes worldwide.",
+   "evidence": "Accordingly, the Company is organized as a single operating segment and therefore a single reportable segment: Insulin Pumps and Supplies."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells pumps and single-use supplies through distributors and a direct sales force, with revenue also recognized through the pharmacy channel and third-party reimbursement.",
+  "evidence": "The Company primarily sells its products through national and regional distributors in the United States on a non-exclusive basis, and through distribution partners internationally."
+ },
+ "changes": [],
+ "dropped": []
+}

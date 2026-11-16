@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000884219",
+ "issuerName": "Pursuit Attractions and Hospitality, Inc.",
+ "builtAt": "2026-11-15T14:23:10.848Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071582",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/884219/000119312526071582/prsu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Attractions and hospitality",
+   "products": [
+    "Banff Gondola",
+    "Lake Minnewanka Cruise",
+    "Columbia Icefield Adventure",
+    "Columbia Icefield Skywalk",
+    "Golden Skybridge",
+    "Jasper SkyTram",
+    "Sky Lagoon",
+    "Tabacón Thermal Resort & Spa"
+   ],
+   "description": "Owns and operates sightseeing attractions, lodges, and integrated food and beverage, retail and transportation offerings in iconic destinations for travelers.",
+   "evidence": "We are managed on a consolidated basis for purposes of assessing performance and making operating decisions. Accordingly, we are deemed to be a single operating segment in this Form 10-K."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay for attraction admissions, lodging, food and beverage, retail, and sightseeing transportation experiences across the company's collections.",
+  "evidence": "Our elevated hospitality experiences include 17 world-class point-of-interest sightseeing attractions and 29 distinctive lodges, along with integrated food and beverage, retail and transportation offerings that enable visitors to discover and connect with stunning national parks and renowned global travel locations."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Pursuit (formerly Viad Corp) sold its GES Exhibitions and Spiro reportable segments and relaunched as Pursuit.",
+   "evidence": "During the year ended December 31, 2024, we completed the sale of the GES Business to Truelink Capital (the \"GES Sale\") and relaunched Viad Corp as Pursuit."
+  },
+  {
+   "text": "In 2025, the company acquired Tabacón Thermal Resort & Spa in Costa Rica.",
+   "evidence": "On July 1, 2025, we entered into a Share Purchase Agreement with the shareholders of Inversiones Turísticas Arenal, S.A. (\"ITA\"), pursuant to which we acquired all of the issued and outstanding shares of ITA."
+  },
+  {
+   "text": "In 2026, Pursuit entered into a definitive agreement to sell all of its Flyover attractions to Brogent Technologies Inc.",
+   "evidence": "On January 21, 2026, Pursuit entered into a definitive agreement to sell all of its Flyover attractions (the \"Flyover Attractions\") to Brogent Technologies Inc. (\"Brogent\") for approximately $78.4 million in cash, subject to post-closing adjustments (the \"Flyover Attractions Sale\")."
+  }
+ ],
+ "dropped": []
+}

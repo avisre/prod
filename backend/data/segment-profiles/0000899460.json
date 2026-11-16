@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000899460",
+ "issuerName": "MannKind Corporation",
+ "builtAt": "2026-11-15T14:24:02.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073516",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/899460/000119312526073516/mnkd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Afrezza (insulin human) Inhalation Powder",
+    "Furoscix (furosemide injection)",
+    "V-Go wearable insulin delivery device",
+    "Tyvaso DPI (treprostinil) inhalation powder"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns product revenue from sales to wholesale distributors, specialty and retail pharmacies, DMEs and direct purchasers, plus collaboration revenue and royalties on United Therapeutics' net sales of Tyvaso DPI.",
+  "evidence": "The Company receives a royalty on net sales and a margin on supplies of Tyvaso DPI that it manufactures for its development and marketing partner, United Therapeutics."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Biopharmaceutical",
+  "change not grounded: In 2025, MannKind acquired scPharma, adding Furoscix revenue and expenses beginn"
+ ]
+}

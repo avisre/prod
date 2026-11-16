@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000898293",
+ "issuerName": "JABIL INC",
+ "builtAt": "2026-11-15T14:23:59.408Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-067038",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/898293/000162828026067038/jbl-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regulated Industries",
+   "products": [
+    "automotive and transportation",
+    "healthcare and packaging",
+    "renewable and energy infrastructure"
+   ],
+   "description": "Serves customers in regulated markets, primarily automotive and transportation, healthcare and packaging, and renewable and energy infrastructure industries.",
+   "evidence": "Our Regulated Industries segment is focused on regulated markets and includes revenues from customers primarily in the automotive and transportation, healthcare and packaging, and renewable and energy infrastructure industries."
+  },
+  {
+   "name": "Intelligent Infrastructure",
+   "products": [
+    "capital equipment",
+    "cloud and data center infrastructure",
+    "networking and communications",
+    "AI infrastructure"
+   ],
+   "description": "Serves the modern digital ecosystem including AI infrastructure, with customers primarily in capital equipment, cloud and data center infrastructure, and networking and communications.",
+   "evidence": "Our Intelligent Infrastructure segment is focused on the modern digital ecosystem including artificial intelligence (\"AI\") infrastructure and includes revenues from customers primarily in the capital equipment, cloud and data center infrastructure, and networking and communications industries."
+  },
+  {
+   "name": "Connected Living and Digital Commerce",
+   "products": [
+    "connected living",
+    "digital commerce",
+    "warehouse automation and robotics"
+   ],
+   "description": "Focused on digitalization and automation, including warehouse automation and robotics, serving connected living and digital commerce customers.",
+   "evidence": "Our Connected Living and Digital Commerce segment is focused on digitalization and automation, including warehouse automation and robotics, and includes revenues from customers primarily in the connected living and digital commerce industries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Jabil for engineering, supply chain, and manufacturing solutions spanning design, production, and product management services across the product lifecycle.",
+  "evidence": "We deliver comprehensive design, production, and product management services to companies across a diverse range of industries and end markets."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Beginning September 1, 2026, the Connected Living and Digital Commerce segment w"
+ ]
+}

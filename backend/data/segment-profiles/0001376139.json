@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001376139",
+ "issuerName": "CVR ENERGY INC",
+ "builtAt": "2026-11-15T14:24:39.649Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001376139-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1376139/000137613926000014/cvi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Petroleum",
+   "products": [
+    "gasoline",
+    "diesel",
+    "jet fuel",
+    "distillates"
+   ],
+   "description": "Refines and markets high value transportation fuels from two refineries in Kansas and Oklahoma, with supporting crude gathering and logistics, for customers in the mid-continent region.",
+   "evidence": "Petroleum Segment includes the refining and marketing of high value transportation fuels which consist of gasoline, diesel, jet fuel, and distillates."
+  },
+  {
+   "name": "Renewables",
+   "products": [
+    "renewable diesel"
+   ],
+   "description": "Refines renewable feedstocks such as soybean oil and corn oil into renewable diesel and markets renewables products.",
+   "evidence": "Renewables Segment includes the refining of renewable feedstocks, such as soybean oil, corn oil, and other renewable feedstocks, into renewable diesel and marketing of renewables products."
+  },
+  {
+   "name": "Nitrogen Fertilizer",
+   "products": [
+    "ammonia",
+    "urea ammonium nitrate (\"UAN\")"
+   ],
+   "description": "Produces and distributes nitrogen fertilizer products, primarily ammonia and UAN, for the farming industry through CVR Partners.",
+   "evidence": "Nitrogen Fertilizer Segment includes the production and distribution of nitrogen fertilizer products, primarily in the form of ammonia and urea ammonium nitrate (\"UAN\"), for the farming industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells refined transportation fuels in bulk at spot market prices and via rack sales at posted prices to retailers, railroads, farm cooperatives and other refiners/marketers, and sells nitrogen fertilizer products to the farming industry.",
+  "evidence": "We typically sell bulk products to long-standing customers at spot market prices based on a Group 3 basis differential to prices quoted on the New York Mercantile Exchange (\"NYMEX\") subject to other terms or adjustments, which are reported by industry market-related indices such as Platts and Oil Price Information Service."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the company reverted the renewable diesel unit at the Wynnewood Refinery back to hydrocarbon processing service, a change expected to alter reportable segments in 2026.",
+   "evidence": "In December 2025, the Company reverted the renewable diesel unit (\"RDU\") at the Wynnewood Refinery (defined below) back to hydrocarbon processing service, considering the unfavorable economics of the renewables business and to optimize feedstock and relieve certain logistical constraints within the refining business."
+  }
+ ],
+ "dropped": []
+}

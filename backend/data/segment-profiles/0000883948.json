@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000883948",
+ "issuerName": "ATLANTIC UNION BANKSHARES CORPORATION",
+ "builtAt": "2026-11-15T14:23:08.930Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000883948-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/883948/000088394826000021/aub-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale Banking",
+   "products": [
+    "loans",
+    "leasing",
+    "deposit services",
+    "treasury management",
+    "capital market services",
+    "equipment finance",
+    "wealth management and trust services"
+   ],
+   "description": "Provides lending, leasing, deposit, treasury management, capital market, equipment finance and wealth management services to CRE, commercial, industrial and wealth clients.",
+   "evidence": "Our Wholesale Banking segment provides loan, leasing, deposit services, treasury management, and capital market services to our wholesale customers throughout Virginia, Maryland, Washington, D.C., North Carolina, and South Carolina."
+  },
+  {
+   "name": "Consumer Banking",
+   "products": [
+    "deposit services",
+    "retail brokerage services",
+    "home loan division",
+    "investment management and advisory services"
+   ],
+   "description": "Provides loans, deposits, retail brokerage, home loans and investment management services to consumers and small businesses in the Mid-Atlantic.",
+   "evidence": "Our Consumer Banking segment provides loan and deposit services and retail brokerage services to consumers and small businesses throughout Virginia, Maryland, Washington, D.C. and North Carolina."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The bank earns interest on loans and investments funded by customer deposits, plus fee-based revenue from treasury management, capital markets, wealth management and brokerage services.",
+  "evidence": "Treasury management services generate fee-based revenue, deepen client relationships, and support our core deposit franchise."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold performing CRE loans acquired in the Sandy Spring acquisition.",
+   "evidence": "On June 26, 2025, we completed the sale of performing CRE loans acquired in the Sandy Spring acquisition with an unpaid principal balance of $2.0 billion, which we marked to fair value at $1.8 billion and classified as held for sale as of the April 1, 2025 acquisition date."
+  }
+ ],
+ "dropped": [
+  "product not in text (Consumer Banking): loan services",
+  "change not grounded: In 2025, the company completed its merger with Sandy Spring Bancorp, adding more"
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001410098",
+ "issuerName": "CORMEDIX INC.",
+ "builtAt": "2026-11-15T14:25:39.992Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-023889",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1410098/000121390026023889/ea0278169-10k_cormedix.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug Product",
+   "products": [
+    "DefenCath",
+    "REZZAYO",
+    "MINOCIN IV",
+    "VABOMERE",
+    "KIMYRSA",
+    "ORBACTIV",
+    "BAXDELA",
+    "TOPROL-XL"
+   ],
+   "description": "Biopharmaceutical company commercializing DefenCath and the Melinta Portfolio of hospital- and clinic-focused anti-infective and cardiovascular products.",
+   "evidence": "The Company has determined that it has one reportable segment- Drug Product primarily sold in the United States with contract revenue consisting of BARDA in the US and product, royalty and milestone revenues outside of the US."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns product sales primarily from outpatient dialysis clinics and inpatient hospitals, largely reimbursed by third-party payors such as Medicare, plus contract revenue from BARDA for research and development services.",
+  "evidence": "We expect to continue to sell DefenCath primarily to outpatient dialysis clinics and inpatient hospitals."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Melinta Therapeutics, adding six marketed infectious disease products and TOPROL-XL to its portfolio.",
+   "evidence": "On August 29, 2025, the Company acquired Melinta Therapeutics, LLC, a Delaware limited liability company (\"Melinta\"), which expanded the Company's team, commercial platform and increased the commercial portfolio with six marketed, hospital- and clinic-focused infectious disease products"
+  }
+ ],
+ "dropped": []
+}

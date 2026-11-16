@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001395064",
+ "issuerName": "Takeda Pharmaceutical Company Limited",
+ "builtAt": "2026-11-15T14:25:09.194Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001395064-26-000177",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1395064/000139506426000177/tak-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceuticals",
+   "products": [
+    "ENTYVIO",
+    "VYVANSE/ELVANSE",
+    "TRINTELLIX",
+    "AZILVA",
+    "GAMMAGARD LIQUID/KIOVIG",
+    "HYQVIA",
+    "CUVITRU",
+    "TAKHZYRO"
+   ],
+   "description": "A global R&D-driven biopharmaceutical company delivering treatments in gastrointestinal and inflammation, neuroscience, oncology, plasma-derived therapies and vaccines.",
+   "evidence": "Takeda is a global R&D-driven biopharmaceutical company focused on discovering and delivering life-transforming treatments in our core therapeutic areas of gastrointestinal and inflammation, neuroscience and oncology, as well as through our plasma-derived therapies and vaccines business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Takeda earns revenue from sales of its pharmaceutical products to healthcare payers and purchasers, including government-controlled health authorities, publicly funded health programs, insurance companies and managed care organizations.",
+  "evidence": "healthcare payers around the globe, in particular government-controlled health authorities, publicly funded or subsidized health programs, insurance companies and managed care organizations, increasingly pursue initiatives to reduce the overall cost of healthcare"
+ },
+ "changes": [],
+ "dropped": []
+}

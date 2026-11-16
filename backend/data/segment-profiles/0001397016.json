@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001397016",
+ "issuerName": "OPTEX SYSTEMS HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:25:12.950Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-25-028071",
+  "periodEnd": "2025-09-28",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1397016/000149315225028071/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Optex Systems – Richardson",
+   "products": [
+    "Electronic M17 Day/Thermal Periscopes",
+    "Digital Periscopes",
+    "Vision Blocks",
+    "Back Up Sights",
+    "M36 Thermal Periscope"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Applied Optics Center",
+   "products": [
+    "Optical Assemblies",
+    "Reticles",
+    "Day Windows",
+    "Binoculars",
+    "Specialty Thin Film Coatings"
+   ],
+   "description": "Manufactures laser filters, optical assemblies, reticles, day windows and thin film coatings for military and commercial markets.",
+   "evidence": "The units will be manufactured at the Applied Optics Center segment (\"Applied Optics Center\" or \"AOC\") location in Dallas, Texas."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by the U.S. Department of Defense, foreign militaries, defense prime contractors and commercial customers for build-to-customer print optical products delivered under multi-year contracts.",
+  "evidence": "We deliver high volume products, under multi-year contracts, to large defense contractors and government customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Optex Systems – Richardson): Laser & Non-Laser Protected Plastic & Glass Periscopes (ICWS)",
+  "product not in text (Optex Systems – Richardson): Digital Day and Night Sighting Systems (DDAN)",
+  "product not in text (Optex Systems – Richardson): Commander Weapon Station Sight (CWSS)",
+  "segment evidence not verbatim: Optex Systems – Richardson",
+  "product not in text (Applied Optics Center): Laser Interference Filter (LIF)",
+  "product not in text (Applied Optics Center): Laser Filter Units (LFU)"
+ ]
+}

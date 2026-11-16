@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001377789",
+ "issuerName": "Aviat Networks, Inc.",
+ "builtAt": "2026-11-15T14:24:44.148Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-059187",
+  "periodEnd": "2026-07-03",
+  "filingDate": "2026-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1377789/000162828026059187/avnw-20260703.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wireless networking and access networking",
+   "products": [
+    "wireless access networking solutions",
+    "routers",
+    "hosted private cloud-based software tools and applications",
+    "professional services and support"
+   ],
+   "description": "Designs, manufactures and sells wireless transport and access networking products, solutions and services to communications service providers and private network operators globally.",
+   "evidence": "Aviat operates in one reportable business segment: the design, manufacturing and sale of a range of wireless networking and access networking products, solutions and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including communications service providers and private network operators, pay for wireless networking products, professional services, maintenance and support contracts, and hosted software-as-a-service.",
+  "evidence": "Revenue from product sales, recognized at a point-in-time, is generated predominately from the sales of products manufactured by third-party manufacturers to whom we have outsourced our manufacturing processes."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wireless networking and access networking): microwave networking solutions",
+  "product not in text (Wireless networking and access networking): third-party equipment (antennas, power supplies, optical transmission equipment)"
+ ]
+}

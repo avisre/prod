@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000897448",
+ "issuerName": "AMARIN CORP PLC\\UK",
+ "builtAt": "2026-11-15T14:23:57.454Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085818",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/897448/000119312526085818/amrn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical",
+   "products": [
+    "VASCEPA",
+    "VAZKEPA"
+   ],
+   "description": "Develops and commercializes the prescription drug VASCEPA/VAZKEPA for cardiovascular risk reduction, directly in the U.S. and through partners internationally.",
+   "evidence": "The Company operates in one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Amarin is paid by major wholesalers and pharmacy distributors for VASCEPA supply in the U.S., and by partners who compensate it for supply and pay royalties and milestones abroad.",
+  "evidence": "VASCEPA is sold principally to a limited number of major wholesalers, as well as selected regional wholesalers and retail and mail order pharmacy providers, or collectively, our distributors or our customers, most of whom in turn resell VASCEPA to retail pharmacies for subsequent resale to patients."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, Amarin licensed rights to VAZKEPA in 59 European countries to Recordati"
+ ]
+}

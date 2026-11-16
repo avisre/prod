@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0000101295",
+ "issuerName": "UNITED-GUARDIAN, INC.",
+ "builtAt": "2026-11-15T14:23:03.306Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-001973",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/101295/000117184326001973/ug20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Distributors buy cosmetic ingredients outright for resale to cosmetic manufacturers, drug wholesalers purchase pharmaceuticals for resale to pharmacies and hospitals, and medical lubricants are sold directly to medical product marketers.",
+  "evidence": "We sell our cosmetic ingredients directly to those distributors, which in turn resell our products to their customers for use in the formulation of one or more of the customers' personal care and cosmetic products."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Specialty ingredients and healthcare products"
+ ]
+}

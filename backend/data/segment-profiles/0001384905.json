@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001384905",
+ "issuerName": "RingCentral, Inc.",
+ "builtAt": "2026-11-15T14:24:49.688Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001384905-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1384905/000138490526000021/rng-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud Business Communications",
+   "products": [
+    "RingEX",
+    "RingCentral Contact Center",
+    "RingCX",
+    "RingCentral Customer Engagement Bundle",
+    "RingCentral for Microsoft Teams",
+    "RingCentral Events"
+   ],
+   "description": "Provides AI-powered cloud business communications, including UCaaS, CCaaS, video and events solutions, to enterprise and small and medium-sized businesses.",
+   "evidence": "We operate as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay subscription fees for cloud offerings varying by functionality, services and number of users, with AI-led products on usage-based pricing, plus other revenue from pre-configured phones and professional services.",
+  "evidence": "Our cloud-based offerings, including RingEX, RingCentral Contact Center and RingCX are primarily subscription based and made available at different rates varying by the specific functionalities, services, and number of users."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cloud Business Communications): RingCentral AI Solutions (AIR, AVA, ACE)"
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000886163",
+ "issuerName": "LIGAND PHARMACEUTICALS INCORPORATED",
+ "builtAt": "2026-11-15T14:23:20.314Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000886163-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/886163/000088616326000006/lgnd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "development and licensing of biopharmaceutical assets",
+   "products": [
+    "Captisol",
+    "NITRICIL"
+   ],
+   "description": "A biopharmaceutical royalty company that invests in and licenses technologies to acquire diversified royalty streams from high-value medicines commercialized by partners.",
+   "evidence": "The Company has one operating and one reportable segment: development and licensing of biopharmaceutical assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Ligand is paid by biopharmaceutical partners primarily through royalties on sales of commercialized products, supplemented by Captisol material sales and contract revenue from license fees and milestone payments.",
+  "evidence": "Our revenue is generated primarily from royalties on sales of products commercialized by our partners, supplemented by Captisol material sales and contract revenue from license fees and milestone payments."
+ },
+ "changes": [
+  {
+   "text": "In 2022, Ligand spun off its OmniAb antibody discovery business, which was classified as a discontinued operation.",
+   "evidence": "The Company determined that the spin-off of the OmniAb Business in November 2022 in connection with the OmniAb Transactions met the criteria for classification as a discontinued operation in accordance with ASC Subtopic 205-20, Discontinued Operations (\"ASC 205-20\")."
+  },
+  {
+   "text": "In 2023, Ligand spun off its Pelican Expression Technology subsidiary.",
+   "evidence": "Following the spin-off of our OmniAb antibody discovery business in November 2022 and our Pelican Expression Technology subsidiary in September 2023, and continuing through and after the carve-out of our Pelthos Therapeutics business in July 2025 in connection with the Pelthos Transaction, our focus has been to continue to expand our pipeline by aggregating royalty rights in mid- to late-stage development and commercial biopharma products, while maintaining a lean infrastructure and high-margin "
+  },
+  {
+   "text": "In 2025, Ligand carved out its Pelthos Therapeutics business in connection with the Pelthos Transaction.",
+   "evidence": "Following the spin-off of our OmniAb antibody discovery business in November 2022 and our Pelican Expression Technology subsidiary in September 2023, and continuing through and after the carve-out of our Pelthos Therapeutics business in July 2025 in connection with the Pelthos Transaction, our focus has been to continue to expand our pipeline by aggregating royalty rights in mid- to late-stage development and commercial biopharma products, while maintaining a lean infrastructure and high-margin "
+  }
+ ],
+ "dropped": [
+  "product not in text (development and licensing of biopharmaceutical assets): royalty interests in biopharmaceutical products"
+ ]
+}

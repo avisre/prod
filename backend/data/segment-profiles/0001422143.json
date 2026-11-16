@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001422143",
+ "issuerName": "KURA ONCOLOGY, INC.",
+ "builtAt": "2026-11-15T14:25:59.680Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-092567",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1422143/000119312526092567/kura-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision medicines for the treatment of cancer",
+   "products": [
+    "KOMZIFTI",
+    "ziftomenib"
+   ],
+   "description": "Discovers, develops and commercializes precision medicines for the treatment of patients with cancer in the United States.",
+   "evidence": "We operate in a single industry segment which is the discovery, development and commercialization of precision medicines for the treatment of cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from commercial sales of KOMZIFTI in the United States and expects potential milestone payments and royalties under its license agreement with Kyowa Kirin.",
+  "evidence": "the potential milestone payments and royalties under the collaboration and license agreement that we entered into with Kyowa Kirin in November 2024, or the Kyowa License Agreement;"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001390777",
+ "issuerName": "THE BANK OF NEW YORK MELLON CORPORATION",
+ "builtAt": "2026-11-15T14:25:00.829Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001390777-26-000033",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1390777/000139077726000033/bk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Securities Services",
+   "products": [
+    "Asset Servicing",
+    "Issuer Services"
+   ],
+   "description": "Provides custody, asset servicing and issuer services to financial institutions, governments and corporations.",
+   "evidence": "The Bank of New York Mellon, a New York state-chartered bank, which houses our Securities Services businesses, including Asset Servicing and Issuer Services"
+  },
+  {
+   "name": "Market and Wealth Services",
+   "products": [
+    "Payments",
+    "Trade and Clearance and Collateral Management",
+    "Pershing"
+   ],
+   "description": "Provides payments, clearance and collateral management and Pershing platform services to institutional and market clients.",
+   "evidence": "certain Market and Wealth Services businesses, including Payments and Trade and Clearance and Collateral Management"
+  },
+  {
+   "name": "Investment and Wealth Management",
+   "products": [
+    "Investment Management",
+    "Wealth Management"
+   ],
+   "description": "Provides investment management and wealth management services to institutional and individual clients.",
+   "evidence": "Our Investment and Wealth Management business competes with domestic and international investment management and wealth management firms, hedge funds, investment banking companies and other financial services companies"
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Includes corporate treasury activities, securities portfolio, tax credit and other corporate investments, insurance and certain business exits.",
+   "evidence": "We also have an Other segment, which includes the corporate treasury activities (including our securities portfolio), tax credit investments and other corporate investments, corporate and bank-owned life insurance, derivatives and other trading activity, and certain business exits."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

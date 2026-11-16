@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001437925",
+ "issuerName": "Meridian Holdings Inc./NV",
+ "builtAt": "2026-11-15T14:26:22.753Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-001750",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1437925/000147793226001750/meridian_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MeridianBet Group",
+   "products": [
+    "retail sports betting",
+    "retail casinos",
+    "online sports betting",
+    "online casinos",
+    "bars"
+   ],
+   "description": "Operates retail and online sports betting, casinos and bars across Serbia, Bosnia, Montenegro, Africa, Central and South America, and other European regions.",
+   "evidence": "This segment includes revenues from retail sports betting, retail casinos, online sports betting, online casinos, and bars operated by MeridianBet Group companies across Serbia, Bosnia, Montenegro, Africa, Central and South America, and other European regions."
+  },
+  {
+   "name": "GMAG",
+   "products": [
+    "third-party gaming content"
+   ],
+   "description": "Generates revenue by reselling third-party gaming content, primarily serving customers in the Asia-Pacific region.",
+   "evidence": "This segment generates revenue through the Company's resale of third-party gaming content, primarily serving customers in the Asia-Pacific region."
+  },
+  {
+   "name": "RKings & CFAC",
+   "products": [
+    "pay-to-enter prize competitions",
+    "trade promotions"
+   ],
+   "description": "Runs pay-to-enter prize competitions and trade promotions through RKings in the UK and Classics in Australia.",
+   "evidence": "This segment includes revenues from pay-to-enter prize competitions and trade promotions, conducted through RKings in the UK and Classics in Australia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for sports betting and casino gaming, resold third-party gaming content, and pay-to-enter prize competitions and trade promotions.",
+  "evidence": "The Company's chief operating decision makers and management utilize revenues and operating income as the primary profit measures for its reportable segments."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company closed the acquisition of the MeridianBet Group, which became its primary operating platform.",
+   "evidence": "On April 9, 2024 (the \" Closing Date \"), Golden Matrix closed the acquisition of the MeridianBet Group pursuant to the MeridianBet Purchase Agreement (the \" MeridianBet Acquisition \") and we acquired 100% of MeridianBet Group, effective for all purposes as of April 1, 2024."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the Company acquired an 80% ownership interest in Classics Holdings, op"
+ ]
+}

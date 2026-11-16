@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001368265",
+ "issuerName": "CLEAN ENERGY FUELS CORP.",
+ "builtAt": "2026-11-15T14:24:24.788Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019215",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1368265/000110465926019215/clne-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural gas vehicle fuel",
+   "products": [
+    "Renewable natural gas (RNG)",
+    "O&M services",
+    "Virtual natural gas pipelines"
+   ],
+   "description": "Supplies RNG and conventional natural gas as CNG and LNG vehicle fuel, plus related services and environmental credits, to fleet operators in the U.S. and Canada.",
+   "evidence": "The Company operates as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Fleet customers pay for CNG and LNG vehicle fuel through contracts or per fill-up, obligated parties buy Environmental Credits, and station customers pay fixed or per-use fees for O&M services.",
+  "evidence": "Our CNG vehicle fuel sales are primarily made through contracts with our customers or on a per fill-up basis at prices we set at public access fueling stations based on prevailing market conditions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Natural gas vehicle fuel): Compressed natural gas (CNG)",
+  "product not in text (Natural gas vehicle fuel): Liquefied natural gas (LNG)",
+  "product not in text (Natural gas vehicle fuel): Environmental Credits (RINs and LCFS Credits)",
+  "product not in text (Natural gas vehicle fuel): Compressors and other station equipment"
+ ]
+}

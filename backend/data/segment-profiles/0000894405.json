@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000894405",
+ "issuerName": "ARCBEST CORPORATION",
+ "builtAt": "2026-11-15T14:23:43.159Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019699",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/894405/000110465926019699/arcb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset-Based",
+   "products": [
+    "ABF Freight"
+   ],
+   "description": "Provides less-than-truckload freight transportation services through ABF Freight System, Inc. and certain other subsidiaries.",
+   "evidence": "Asset-Based, which consists of ABF Freight System, Inc. and certain other subsidiaries (\"ABF Freight\")"
+  },
+  {
+   "name": "Asset-Light",
+   "products": [
+    "Panther Premium Logistics",
+    "managed transportation solutions",
+    "U-Pack",
+    "Vaux Freight Movement System",
+    "Vaux Smart Autonomy",
+    "Vaux Vision"
+   ],
+   "description": "Provides truckload brokerage, ground expedite, managed transportation, household goods moving, and technology solutions.",
+   "evidence": "Asset-Light, which includes MoLo, Panther, and certain other subsidiaries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay ArcBest for freight transportation, logistics, and expedited shipping services, with LTL revenue based on billed revenue per hundredweight including fuel surcharges.",
+  "evidence": "Our Asset-Based billed revenue per hundredweight, including fuel surcharges, decreased 1.3% for 2025, compared to 2024."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company sold FleetNet America, Inc., which was reported as discontinued operations.",
+   "evidence": "On February 28, 2023, the Company sold FleetNet America, Inc. (\"FleetNet\"), a wholly owned subsidiary of the Company, for an aggregate adjusted cash purchase price of $100.9 million, including post-closing adjustments."
+  }
+ ],
+ "dropped": [
+  "product not in text (Asset-Based): less-than-truckload (LTL) service",
+  "product not in text (Asset-Light): MoLo Solutions, LLC (MoLo)"
+ ]
+}

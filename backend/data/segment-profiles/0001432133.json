@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001432133",
+ "issuerName": "Kaltura, Inc.",
+ "builtAt": "2026-11-15T14:26:09.558Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018182",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1432133/000162828026018182/kltr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Enterprise, Education, and Technology",
+   "products": [
+    "Virtual and Hybrid Events",
+    "Webinars",
+    "Online Learning",
+    "AI-assisted content creation tools",
+    "Conversational rich media agents"
+   ],
+   "description": "Serves customers using Kaltura's platform for customer-, employee-, and learner-facing rich media use cases such as buyer enablement, recruiting, learning, and teaching.",
+   "evidence": "This segment encompasses customers utilizing Kaltura's solutions to deliver agentic rich-media experiences for their customers, employees, and learners such as buyer enablement, employee recruiting, learning and teaching."
+  },
+  {
+   "name": "Media and Telecom",
+   "products": [
+    "TVCMS",
+    "TV Streaming Applications",
+    "Online Video Platform"
+   ],
+   "description": "Serves media companies and telecom providers delivering entertainment and streaming experiences to consumer audiences.",
+   "evidence": "The M&T segment includes revenue from customers using Kaltura to deliver entertainment and streaming use cases to their audiences, along with the associated professional services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for the platform plus professional services; telecom TV customers pay per end-subscriber and media customers pay on a platform usage-license basis.",
+  "evidence": "For customers of our telecom TVCMS and TV Streaming Applications, revenue is recognized primarily on a per end‑subscriber basis, while media customers leveraging our Online Video Platform are billed on a platform usage‑license basis."
+ },
+ "changes": [],
+ "dropped": []
+}

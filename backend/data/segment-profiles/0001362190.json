@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001362190",
+ "issuerName": "AUDIOEYE INC",
+ "builtAt": "2026-11-15T14:24:10.662Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027159",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1362190/000110465926027159/aeye-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital accessibility platform",
+   "products": [
+    "automated fixes",
+    "24/7 monitoring",
+    "periodic auditing",
+    "custom fixes by experts",
+    "legal support services",
+    "PDF remediation services",
+    "mobile application and audit reporting services"
+   ],
+   "description": "Provides a SaaS digital accessibility platform with automated and human-assisted fixes and monitoring to help businesses and organizations achieve website accessibility compliance.",
+   "evidence": "The Company has a single reportable segment focused around sale of similar products and related services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "AudioEye generates revenue primarily by selling subscriptions for its SaaS digital accessibility solutions, purchased directly, through partners, resellers, or the Marketplace.",
+  "evidence": "AudioEye primarily generates revenue through the sale of subscriptions for our software-as-a-service (\"SaaS\") accessibility solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Digital accessibility platform): SaaS accessibility subscriptions"
+ ]
+}

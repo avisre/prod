@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000886136",
+ "issuerName": "Saga Communications, Inc",
+ "builtAt": "2026-11-15T14:23:20.288Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-043166",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/886136/000110465926043166/sga-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Radio",
+   "products": [
+    "broadcast radio advertising",
+    "paid search advertising",
+    "targeted digital display advertising",
+    "streaming advertising",
+    "social media advertising",
+    "online video advertising",
+    "website-based advertising",
+    "on-line news services"
+   ],
+   "description": "Operates broadcast radio stations and complementary digital marketing services serving local, regional and national advertisers in mid-sized markets.",
+   "evidence": "We serve twenty-eight radio markets (reporting units) that aggregate into one operating segment (Radio), which also qualifies as a reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Local and national advertisers pay for advertising time on the company's radio stations and for complementary digital advertising services.",
+  "evidence": "Our primary source of revenue continues to be the sale of advertising to local and national businesses seeking to reach consumers in the markets we serve."
+ },
+ "changes": [],
+ "dropped": []
+}

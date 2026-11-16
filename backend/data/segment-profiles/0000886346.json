@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000886346",
+ "issuerName": "KADANT INC",
+ "builtAt": "2026-11-15T14:23:22.435Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000886346-26-000018",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/886346/000088634626000018/kai-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flow Control",
+   "products": [
+    "Rotary joints",
+    "Syphons",
+    "Turbulator ® bars",
+    "Expansion joints",
+    "Engineered steam and condensate systems",
+    "Doctor systems and holders",
+    "Doctor blades",
+    "Cleaning showers and fabric-conditioning systems"
+   ],
+   "description": "Provides custom-engineered products, systems, and technologies that control the flow of fluids in industrial and commercial applications for packaging, paper, tissue, food, energy, and defense sectors.",
+   "evidence": "Through our Flow Control segment, we provide custom-engineered products, systems, and technologies that control the flow of fluids used in industrial and commercial applications to keep critical processes running efficiently in the packaging, paper and tissue, food, energy, defense and numerous other industrial sectors."
+  },
+  {
+   "name": "Industrial Processing",
+   "products": [
+    "Ring and rotary debarkers",
+    "Stranders",
+    "Chippers",
+    "Engineered knife systems",
+    "Industrial automation and control",
+    "Recycling and approach flow systems",
+    "Virgin pulping process equipment",
+    "Boiler cleaning technologies"
+   ],
+   "description": "Provides equipment, machinery, and technologies to recycle paper and paperboard, process timber, and optimize industrial steam boiler efficiency for packaging, paper, tissue, wood products, and food processing…",
+   "evidence": "Through our Industrial Processing segment, we provide equipment, machinery, and technologies used to recycle paper and paperboard, process timber and optimize industrial steam boiler efficiency for use in the packaging, paper, tissue, wood products, and food processing industries, among others."
+  },
+  {
+   "name": "Material Handling",
+   "products": [
+    "Vibratory equipment",
+    "Baling equipment",
+    "Horizontal channel balers",
+    "Vertical balers",
+    "Conveyors",
+    "Compactors",
+    "Bale wrapping machines",
+    "Fiber-based Products"
+   ],
+   "description": "Provides products and engineered systems to handle bulk and discrete materials for secondary processing or transport in aggregates, mining, food, and waste management industries, plus biodegradable absorbent granules.",
+   "evidence": "Through our Material Handling segment, we provide products and engineered systems used to handle bulk and discrete materials for secondary processing or transport in the aggregates, mining, food, and waste management industries, among others."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial manufacturers and distributors in process industries pay Kadant for engineered products, systems, services, and related parts and consumables, sold through direct sales, independent sales agents, and distributors.",
+  "evidence": "We market and sell our engineered products, services, and systems to process industries using a combination of direct sales, independent sales agents, and distributors depending on the market and product being sold."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Kadant acquired Babbini and Clyde Industries, both added to the Industrial Processing segment.",
+   "evidence": "On July 9, 2025, we acquired all the outstanding equity securities of Babbini S.p.A and G.P.S. Engineering S.r.l (collectively, Babbini), two Italy-based companies specializing in industrial dewatering and engineered power transmission solutions, for approximately $16.5 million, net of cash acquired."
+  }
+ ],
+ "dropped": []
+}

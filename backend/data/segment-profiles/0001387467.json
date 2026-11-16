@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001387467",
+ "issuerName": "Alpha and Omega Semiconductor Limited",
+ "builtAt": "2026-11-15T14:24:56.531Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-059261",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1387467/000162828026059261/aosl-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power semiconductors",
+   "products": [
+    "Power discrete",
+    "Power IC",
+    "MOSFETs",
+    "IGBTs",
+    "Power integrated circuits",
+    "Packaging and testing services"
+   ],
+   "description": "Designs, develops and globally supplies a broad portfolio of power semiconductors for computing, consumer electronics, communication and industrial applications.",
+   "evidence": "The Company is organized as, and operates in, one operating segment: the design, development and supply of power semiconductor products for computing, consumer electronics, communication and industrial applications."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells its power semiconductor products primarily to distributors in the Asia Pacific region, who in turn sell to end customers.",
+  "evidence": "The Company sells its products primarily to distributors in the Asia Pacific region, who in turn sell these products to end customers."
+ },
+ "changes": [],
+ "dropped": []
+}

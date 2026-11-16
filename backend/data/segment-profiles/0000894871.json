@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0000894871",
+ "issuerName": "THE ARENA GROUP HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:23:45.357Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018153",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/894871/000162828026018153/aren-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sports & Leisure",
+   "products": [
+    "Athlon Sports",
+    "The Spun",
+    "Lindy's Sports",
+    "Men's Journal",
+    "Men's Fitness",
+    "Adventure Network",
+    "Surfer",
+    "Powder"
+   ],
+   "description": "Digital media brands covering sports and enthusiast leisure interests for fans and outdoor audiences.",
+   "evidence": "Sports & Leisure Vertical - our Sports & Leisure vertical is anchored by iconic legacy brands and high-velocity digital properties that capture the full spectrum of fan and enthusiast interests."
+  },
+  {
+   "name": "Finance",
+   "products": [
+    "TheStreet",
+    "Autoblog"
+   ],
+   "description": "Business news, market data, analysis and investigative journalism serving high-intent finance and automotive audiences.",
+   "evidence": "Finance Vertical – our Finance vertical delivers high-intent audience segments through its business news coverage, market data and analysis, and investigative journalism."
+  },
+  {
+   "name": "Lifestyle",
+   "products": [
+    "Parade",
+    "PetHelpful",
+    "Parade Pets",
+    "TravelHost",
+    "DenGarden",
+    "Parade Home & Garden"
+   ],
+   "description": "Entertainment and lifestyle content brands driving daily engagement across broad consumer interests.",
+   "evidence": "Lifestyle Vertical – our Lifestyle vertical leverages widespread brand recognition to drive daily engagement across a broad range of consumer interests through entertainment and lifestyle content."
+  },
+  {
+   "name": "Platform & Other",
+   "products": [
+    "Platform",
+    "Monetization Solutions"
+   ],
+   "description": "Proprietary publishing and monetization platform serving independent Publisher Partner websites.",
+   "evidence": "Platform & Other Vertical - in addition to the owned-and-operated brands included in the verticals above, we empower an ecosystem of Publisher Partners."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from advertisers, affiliate and performance marketing partners, digital subscribers, and Publisher Partners who pay to use its publishing and monetization platform.",
+  "evidence": "Our Platform offers audiences bespoke content with optimized design and page construction."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Men's Journal was reclassified from Lifestyle into the Sports & Leisure vertical, with prior periods recast.",
+   "evidence": "The brand Men's Journal is organized under the subject matter vertical of Sports & Leisure for the year ending December 31, 2025."
+  },
+  {
+   "text": "In early 2024, the company ceased publishing FanNation sites, reducing Sports & Leisure digital advertising revenue.",
+   "evidence": "a $6,064 decrease in digital advertising revenue due to the cessation of publishing FanNation sites in early 2024"
+  },
+  {
+   "text": "In 2025, the company acquired the ShopHQ brand, Lindy's Sports, and Autoblog, expanding into commerce and new verticals.",
+   "evidence": "Leveraging our 2025 acquisition of the ShopHQ brand and its extensive first-party customer data to bridge the gap between media and marketplace."
+  }
+ ],
+ "dropped": []
+}

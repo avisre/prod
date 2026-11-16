@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001375877",
+ "issuerName": "Canadian Solar Inc.",
+ "builtAt": "2026-11-15T14:24:38.565Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-041976",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1375877/000110465926041976/csiq-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacturing",
+   "products": [
+    "solar modules",
+    "solar cells",
+    "battery energy storage solutions",
+    "solar system kits",
+    "EPC services"
+   ],
+   "description": "Manufactures and sells solar modules, cells, energy storage solutions and solar system kits to customers worldwide.",
+   "evidence": "The following table summarizes the segment financial results for Manufacturing (formerly disclosed as CSI Solar segment) and Recurrent Energy, including revenues, gross profit, operating expenses, income (loss) from operations and interest by segment."
+  },
+  {
+   "name": "Recurrent Energy",
+   "products": [
+    "solar power projects",
+    "battery energy storage projects",
+    "EPC services"
+   ],
+   "description": "Develops solar power and battery energy storage projects, selling them to end customers and third parties.",
+   "evidence": "Canadian Solar Inc. transferred aggregate cash of $84.4 million, $16.5 million and $2.4 million in the form of capital contributions and loans to our Recurrent Energy subsidiaries in 2023, 2024 and 2025, respectively, primarily to fund solar power and battery energy storage projects."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for solar modules, battery energy storage solutions, solar system kits and EPC services, and Recurrent Energy sells solar power and battery storage projects.",
+  "evidence": "CSI Solar's operations are generally funded through cash flows generated from the international sales of solar modules, battery energy storage solutions and solar system kits, as well as domestic borrowings."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Manufacturing segment was renamed from the formerly disclosed CSI Solar segment.",
+   "evidence": "The following table summarizes the segment financial results for Manufacturing (formerly disclosed as CSI Solar segment) and Recurrent Energy, including revenues, gross profit, operating expenses, income (loss) from operations and interest by segment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company formed a new joint venture, CS PowerTech, holding a 75.1% c"
+ ]
+}

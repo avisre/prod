@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001414767",
+ "issuerName": "NETCAPITAL INC.",
+ "builtAt": "2026-11-15T14:25:48.072Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001641172-25-023248",
+  "periodEnd": "2025-04-30",
+  "filingDate": "2025-08-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1414767/000164117225023248/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fintech services",
+   "products": [],
+   "description": "Operates an SEC-registered crowdfunding funding portal, a broker-dealer, and consulting services enabling private companies to raise capital from investors.",
+   "evidence": "The Company operates in a single operating segment, which is the provision of fintech services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Private companies pay listing fees, a percentage-based portal/success fee on capital raised, and ancillary service fees, with consulting clients paying cash fees and previously equity.",
+  "evidence": "The Netcapital funding portal charges a $5,000 listing fee, a 4.9% portal fee for capital raised at closing, and beginning in fiscal year 2025, a 1% success fee paid for with equity of the funding portal customer."
+ },
+ "changes": [
+  {
+   "text": "In November 2024, subsidiary Netcapital Securities received FINRA approval to operate as a broker-dealer, expanding the model to Regulation A offerings.",
+   "evidence": "In November 2024, wholly owned subsidiary, Netcapital Securities Inc. received approval from FINRA to become a FINRA-member broker dealer."
+  },
+  {
+   "text": "The company did not seek consulting engagements in fiscal 2025 and does not plan to in fiscal 2026, ending its consulting business.",
+   "evidence": "Given our limited staff, we did not seek consulting engagements in fiscal 2025 and we do not plan to seek them in fiscal 2026."
+  }
+ ],
+ "dropped": [
+  "product not in text (Fintech services): Netcapital funding portal (www.netcapital.com)",
+  "product not in text (Fintech services): Netcapital Advisors consulting",
+  "product not in text (Fintech services): Netcapital Securities broker-dealer (Reg A offerings)",
+  "product not in text (Fintech services): Game website subscriptions",
+  "change not grounded: Beginning in fiscal year 2025, the funding portal added a 1% success fee paid in"
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001425287",
+ "issuerName": "WORKHORSE GROUP INC.",
+ "builtAt": "2026-11-15T14:26:03.253Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022417",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1425287/000162828026022417/wkhs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric vehicles",
+   "products": [
+    "step vans",
+    "shuttle buses",
+    "box trucks",
+    "work trucks"
+   ],
+   "description": "Designs and manufactures all-electric medium-duty trucks and buses for last-mile delivery and specialized commercial fleet applications.",
+   "evidence": "Workhorse Group Inc. (\"Workhorse\", the \"Company\", \"we\", \"us\", or \"our\") is a North American manufacturer of medium-duty electric trucks and buses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for the sale of vehicles, parts, and services.",
+  "evidence": "Accounts receivable primarily consists of amounts that are due and payable from our customers for the sale of vehicles, parts, and services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Workhorse completed a reverse merger with Motiv Power Systems, which became its indirect wholly owned subsidiary and broadened its product portfolio.",
+   "evidence": "On December 15, 2025 (the \"Closing Date\"), we completed our merger with Motiv Power Systems, Inc. (\"Motiv\"), pursuant to which Motiv became our indirect, wholly owned subsidiary (the \"Merger\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Electric vehicles): Workhorse® brand vehicles",
+  "product not in text (Electric vehicles): Motiv® brand vehicles"
+ ]
+}

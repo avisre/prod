@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000887733",
+ "issuerName": "Central Garden & Pet Company",
+ "builtAt": "2026-11-15T14:23:27.827Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000887733-25-000041",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/887733/000088773325000041/cent-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pet",
+   "products": [
+    "dog and cat supplies",
+    "treats and chews",
+    "toys",
+    "beds and containment",
+    "grooming items",
+    "waste management and training pads",
+    "equine and livestock products"
+   ],
+   "description": "Supplies pet products for dogs, cats, aquatics, small animals, birds, equine and livestock, plus animal health and insect control items.",
+   "evidence": "Our Pet segment offers a broad range of products for dog and cat supplies, including treats and chews, toys, beds and containment, grooming items, waste management and training pads."
+  },
+  {
+   "name": "Garden",
+   "products": [
+    "grass seed",
+    "vegetable, flower and herb packet seed",
+    "wild bird feed",
+    "bird houses and other birding accessories",
+    "weed, grass, and other herbicides, insecticide and pesticide products",
+    "fertilizers",
+    "live plants"
+   ],
+   "description": "Provides lawn and garden consumables such as seed, wild bird feed, controls, fertilizers and live plants to garden consumers.",
+   "evidence": "Our Garden segment includes lawn and garden consumables such as grass seed; vegetable, flower and herb packet seed; wild bird feed, bird houses and other birding accessories; weed, grass, and other herbicides, insecticide and pesticide products; fertilizers and live plants."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers, including Walmart, Home Depot, Costco, Lowe's and Amazon, pay Central for branded and private label pet and garden products and third-party brands it distributes.",
+  "evidence": "We produce both branded and private label products for our customers as well as distribute third-party brands that give our retail partners a breadth of selection from ultra-premium to value offerings."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2023, Central acquired TDBBS, a premium natural dog chews and treats provider, and divested its low-margin distribution business serving the independent garden channel.",
+   "evidence": "Recent examples include our fiscal 2023 acquisition of TDBBS, LLC (\"TDBBS\"), a leader in the attractive pet treat segment with robust eCommerce capabilities."
+  },
+  {
+   "text": "In fiscal 2023, Central exited its pottery business and sold its U.K. operations as part of its Cost and Simplicity agenda.",
+   "evidence": "As part of these efforts, we have consolidated portions of our dog and cat treat and toy operations, combined multiple garden manufacturing facilities, merged our outdoor cushion business with our pet bed business to leverage synergies in sourcing, manufacturing and innovation, consolidated legacy garden distribution locations into modern fulfillment centers, exited our pottery business and sold our U.K. operations."
+  }
+ ],
+ "dropped": [
+  "product not in text (Pet): aquatics, small animals, reptiles and pet bird supplies"
+ ]
+}

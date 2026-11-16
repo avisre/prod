@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000890564",
+ "issuerName": "Everforth, Inc.",
+ "builtAt": "2026-11-15T14:23:36.463Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000890564-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/890564/000089056426000013/asgn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial",
+   "products": [
+    "Consulting",
+    "Assignment",
+    "Cloud and Infrastructure",
+    "Data and AI",
+    "Software Development and Engineering",
+    "Customer Experience",
+    "Cybersecurity",
+    "Enterprise Platforms"
+   ],
+   "description": null,
+   "evidence": "Our Commercial Segment (70 percent of 2025 consolidated revenues) provides IT solutions to Fortune 1000 and large mid-market clients across six harmonized solutions areas: (i) Cloud and Infrastructure, (ii) Data and AI, (iii) Software Development and Engineering, (iv) Customer Experience, (v) Cybersecurity, and (vi) Enterprise Platforms"
+  },
+  {
+   "name": "Federal Government",
+   "products": [
+    "Data and AI",
+    "Cybersecurity",
+    "Software and engineering",
+    "Enterprise platforms"
+   ],
+   "description": "Delivers advanced IT consulting solutions to federal agencies in defense, intelligence, and national security under multi-year contracts.",
+   "evidence": "Our Federal Government Segment (30 percent of 2025 consolidated revenues) delivers advanced solutions in data and AI, cybersecurity, software and engineering, and enterprise platforms to some of the world's leading agencies in the public and private sectors."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay for IT consulting services and billable professionals under time-and-materials, fixed-price, cost reimbursable, and firm-fixed-price contracts.",
+  "evidence": "The Commercial Segment provides services under time-and-materials and fixed-price contracts."
+ },
+ "changes": [
+  {
+   "text": "In November 2025, ASGN announced its intent to rebrand to Everforth, unifying its six brands under a single identity, with the transition slated for the first half of 2026.",
+   "evidence": "In November 2025, ASGN announced its intent to rebrand to Everforth, a new parent brand that will unify our six brands — Apex Systems, Creative Circle, CyberCoders, ECS, GlideFast, and TopBloc — under a single identity."
+  },
+  {
+   "text": "In 2025, the Company acquired TopBloc, LLC, a Workday consultancy, which became part of the Commercial Segment.",
+   "evidence": "On March 4, 2025, the Company acquired TopBloc, LLC (\"TopBloc\"), a leading, tech-enabled Workday consultancy, for $ 340.0 million, consisting of 90 percent cash and 10 percent equity."
+  }
+ ],
+ "dropped": []
+}

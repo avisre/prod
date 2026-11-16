@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000891532",
+ "issuerName": "PERMA FIX ENVIRONMENTAL SERVICES INC",
+ "builtAt": "2026-11-15T14:23:40.036Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012314",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/891532/000149315226012314/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Treatment Segment",
+   "products": [
+    "mixed waste treatment",
+    "hazardous and non-hazardous waste treatment",
+    "R&D activities"
+   ],
+   "description": "Treats, processes and disposes of nuclear, mixed, hazardous and non-hazardous waste through four licensed facilities for government and commercial customers.",
+   "evidence": "TREATMENT SEGMENT, which includes: - nuclear, low-level radioactive, mixed (waste containing both hazardous and low-level radioactive waste), hazardous and non-hazardous waste treatment, processing and disposal services primarily through four uniquely licensed (Nuclear Regulatory Commission or state equivalent) and permitted (U.S. Environmental Protection Agency (\"EPA\") or state equivalent) treatment and storage facilities"
+  },
+  {
+   "name": "Services Segment",
+   "products": [
+    "Technical services",
+    "Nuclear services",
+    "health physics services",
+    "radiological measurement and site survey",
+    "license termination support",
+    "equipment calibration and maintenance laboratory"
+   ],
+   "description": "Provides technical, nuclear, health physics and D&D services plus instrument calibration to government and commercial customers.",
+   "evidence": "SERVICES SEGMENT, which includes: - Technical services: ○ professional radiological measurement and site survey of large government and commercial installations using advanced methods, technology and engineering"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including government entities (directly or via prime contractors), commercial companies, research institutions and public utilities, pay for waste treatment, processing, disposal and technical/nuclear services.",
+  "evidence": "A significant amount of our revenues are generated indirectly as subcontractors for others who are contractors to federal government authorities, which include the DOE and DOW, or directly as the prime contractor to federal government authorities."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Treatment Segment): nuclear waste treatment",
+  "product not in text (Treatment Segment): low-level radioactive waste treatment",
+  "product not in text (Treatment Segment): waste processing and disposal services",
+  "product not in text (Treatment Segment): PFAS destruction (Perma-FAS system)",
+  "product not in text (Services Segment): decontamination and decommissioning (D&D)"
+ ]
+}

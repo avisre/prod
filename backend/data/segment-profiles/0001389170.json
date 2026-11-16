@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001389170",
+ "issuerName": "TARGA RESOURCES CORP.",
+ "builtAt": "2026-11-15T14:25:00.352Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-059296",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1389170/000119312526059296/trgp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gathering and Processing",
+   "products": [
+    "natural gas gathering",
+    "compression",
+    "treating",
+    "processing",
+    "transportation",
+    "purchase and sale of natural gas"
+   ],
+   "description": "Gathers, treats and processes raw natural gas into merchantable natural gas and NGLs, and gathers and terminals crude oil, for producers across major U.S. basins.",
+   "evidence": "Our Gathering and Processing segment includes assets used in the gathering and/or purchase and sale of natural gas produced from oil and gas wells, removing impurities and processing this raw natural gas into merchantable natural gas by extracting NGLs; and assets used for the gathering and terminaling and/or purchase and sale of crude oil."
+  },
+  {
+   "name": "Logistics and Transportation",
+   "products": [
+    "NGL fractionation",
+    "NGL transportation",
+    "NGL storage",
+    "NGL marketing",
+    "NGL pipeline system"
+   ],
+   "description": "Converts mixed NGLs into NGL products and provides transporting, storing, fractionating, terminaling and marketing services, including to LPG exporters.",
+   "evidence": "Our Logistics and Transportation segment includes the activities and assets necessary to convert mixed NGLs into NGL products and also includes other assets and value-added services such as transporting, storing, fractionating, terminaling, and marketing of NGLs and NGL products, including services to LPG exporters and certain natural gas supply and marketing activities in support of our other businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay fees for midstream services and the company earns margins from purchasing and selling natural gas, NGLs, NGL products and crude oil.",
+  "evidence": "Revenues: Sales of commodities $ 14,403.5 $ 13,891.8 $ 511.7 4 % Fees from midstream services 2,624.8 2,489.7 135.1 5 %"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Gathering and Processing): crude oil gathering and terminaling",
+  "product not in text (Logistics and Transportation): NGL terminaling",
+  "product not in text (Logistics and Transportation): LPG export services"
+ ]
+}

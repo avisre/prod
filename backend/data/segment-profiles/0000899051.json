@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000899051",
+ "issuerName": "ALLSTATE CORP",
+ "builtAt": "2026-11-15T14:24:01.641Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000899051-26-000031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/899051/000089905126000031/all-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Allstate Protection",
+   "products": [
+    "private passenger auto",
+    "homeowners",
+    "specialty auto",
+    "other personal lines",
+    "commercial lines",
+    "Answer Financial"
+   ],
+   "description": "Sells private passenger auto, homeowners, other personal lines and commercial insurance to consumers through exclusive agents, independent agents, contact centers and online.",
+   "evidence": "Offers private passenger auto, homeowners, other personal lines and commercial insurance through exclusive agents, independent agents, contact centers and online under the Allstate, National General, Direct Auto and Answer Financial brands"
+  },
+  {
+   "name": "Run-off Property-Liability",
+   "products": [],
+   "description": null,
+   "evidence": "Relates to property and casualty insurance policies written from the 1960s through the mid-1980s with exposure to asbestos, environmental and other claims in run-off"
+  },
+  {
+   "name": "Protection Services",
+   "products": [
+    "Protection Plans",
+    "Roadside",
+    "Dealer Services",
+    "Identity Protection",
+    "Arity"
+   ],
+   "description": "Provides consumer product protection plans, roadside assistance, automotive protection and insurance products, identity protection and telematics-based mobility intelligence services.",
+   "evidence": "Protection Plans, Roadside, Dealer Services, Identity Protection and Arity provide consumer product protection plans, roadside assistance, automotive protection and insurance products, identity protection and restoration, and mobility intelligence services and analytic solutions using automotive telematics information"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay insurance premiums for auto, homeowners and other protection coverages, and retailers, dealers and other partners pay fees for protection plans and related services.",
+  "evidence": "Our Allstate Protection segment accounted for 93.9% of Allstate's 2025 consolidated insurance premiums and contract charges and 18.1% of Allstate's December 31, 2025 PIF."
+ },
+ "changes": [],
+ "dropped": []
+}

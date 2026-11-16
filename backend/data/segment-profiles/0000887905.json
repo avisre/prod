@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000887905",
+ "issuerName": "LTC PROPERTIES INC",
+ "builtAt": "2026-11-15T14:23:29.806Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019178",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/887905/000110465926019178/ltc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Investments Segment",
+   "products": [
+    "Triple-Net Portfolio",
+    "Financing receivables",
+    "Mortgage loans",
+    "Notes receivable",
+    "Unconsolidated joint ventures"
+   ],
+   "description": "Owns seniors housing and skilled nursing properties under triple-net leases and holds financing receivables, mortgage loans, notes and joint venture investments.",
+   "evidence": "i) real estate investments segment (\"Real Estate Investments Segment\"), which consists of our Triple-Net Portfolio, financing receivables, mortgage loans, notes receivable and unconsolidated joint ventures"
+  },
+  {
+   "name": "SHOP",
+   "products": [
+    "Seniors housing communities"
+   ],
+   "description": "Owns seniors housing communities managed on the company's behalf by independent third-party operators under management agreements.",
+   "evidence": "At December 31, 2025, our SHOP segment was comprised of 25 seniors housing communities located in ten states that are managed on our behalf by seven independent operators pursuant to separate management agreements."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns rental income from triple-net leases, resident fees and services, and interest on financing receivables, mortgage loans and notes receivable, plus income from unconsolidated joint ventures.",
+  "evidence": "Substantially all of our revenues and sources of cash flows from operations are derived from rental income from triple net operating leases, resident fees and services, interest earned on financing receivables, interest earned on outstanding mortgage loans receivable, interest earned on outstanding notes receivable and income from investments in unconsolidated joint ventures."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company began using the RIDEA structure and established a new SHOP segment, splitting its previously single business into two operating segments.",
+   "evidence": "As described above, we began utilizing the RIDEA structure in the second quarter of 2025 and established a SHOP segment."
+  }
+ ],
+ "dropped": []
+}

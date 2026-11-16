@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0000889331",
+ "issuerName": "LITTELFUSE INC /DE",
+ "builtAt": "2026-11-15T14:23:32.162Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009585",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/889331/000162828026009585/lfus-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronics",
+   "products": [
+    "fuses and fuse accessories",
+    "PTC resettable fuses",
+    "electromechanical switches and interconnect solutions",
+    "varistors",
+    "reed switch based magnetic sensing",
+    "gas discharge tubes"
+   ],
+   "description": "Designs, manufactures and sells a broad range of electronic components, modules and semiconductor products providing circuit protection, power control and sensing for diverse end markets.",
+   "evidence": "Electronics Segment : Consists of one of the broadest product offerings in the industry, including fuses and fuse accessories, positive temperature coefficient (\"PTC\") resettable fuses, electromechanical switches and interconnect solutions, polymer electrostatic discharge (\"ESD\") suppressors, varistors, reed switch based magnetic sensing, gas discharge tubes; semiconductor products such as discrete transient voltage suppressor (\"TVS\") diodes, TVS diode arrays, protection and switching thyristors"
+  },
+  {
+   "name": "Transportation",
+   "products": [
+    "blade fuses",
+    "battery cable protectors",
+    "resettable fuses",
+    "high-current fuses",
+    "high-voltage fuses",
+    "sensor products",
+    "circuit breakers",
+    "relays"
+   ],
+   "description": "Supplies circuit protection, power control and sensing technologies to global OEMs, Tier-one suppliers and aftermarket distributors in passenger and commercial vehicle markets.",
+   "evidence": "Transportation Segment: Consists of a wide range of circuit protection, power control and sensing technologies for global original equipment manufacturers (\"OEMs\"), Tier-one suppliers and parts and aftermarket distributors in passenger vehicles, heavy-duty truck and bus, off-road and recreational vehicles, material handling, agricultural equipment, construction equipment and other commercial vehicle end markets."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "industrial fuses",
+    "protection relays",
+    "residual current devices and monitors",
+    "ground fault circuit interrupters",
+    "solid state switches",
+    "arc fault detection devices",
+    "contactors"
+   ],
+   "description": "Designs and sells industrial circuit protection, protective and monitoring relays, and industrial controls and sensors for applications such as data centers, grid infrastructure, renewable energy and HVAC.",
+   "evidence": "Industrial Segment: Consists of industrial circuit protection (industrial fuses), protective and monitoring relays (protection relays, residual current devices and monitors, ground fault circuit interrupters, solid state switches, and arc fault detection devices), and industrial controls and sensors (contactors, transformers, and temperature sensors) for use in various applications such as data center – computing and communication, data center and communications infrastructure, industrial contro"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells its products worldwide through distributors, direct sales force, and manufacturers' representatives to OEMs, Tier-one suppliers and aftermarket customers.",
+  "evidence": "The Company's products are sold worldwide through distributors, direct sales force, and manufacturers' representatives in certain regions."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Basler Electric, which is reported within the Industrial segment.",
+   "evidence": "On December 11, 2025, the Company completed the acquisition of Basler Electric Company (\"Basler\")."
+  },
+  {
+   "text": "In 2024, the Company acquired the Dortmund Fab wafer fab, reported in the Electronics-Semiconductor business within the Electronics segment.",
+   "evidence": "On December 31, 2024, the Company completed the acquisition of a 200mm wafer fab located in Dortmund, Germany (\"Dortmund Fab\") from Elmos Semiconductor SE."
+  }
+ ],
+ "dropped": [
+  "product not in text (Electronics): polymer ESD suppressors",
+  "product not in text (Electronics): TVS diodes and TVS diode arrays",
+  "product not in text (Industrial): transformers and temperature sensors"
+ ]
+}

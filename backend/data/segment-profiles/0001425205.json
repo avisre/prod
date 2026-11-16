@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001425205",
+ "issuerName": "IOVANCE BIOTHERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:26:03.207Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018899",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1425205/000110465926018899/iova-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Amtagvi (lifileucel)",
+    "Proleukin (aldesleukin)"
+   ],
+   "description": "Develops and commercializes tumor infiltrating lymphocyte cell therapies for patients with solid tumor cancers.",
+   "evidence": "Our two commercial products include Amtagvi ® (lifileucel) and Proleukin ® (aldesleukin), an interleukin-2, or IL-2, product used in the Amtagvi ® treatment regimen and other applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by distributors and third-party clients for Proleukin across oncology, manufacturing, and research channels, and by payors for Amtagvi therapy.",
+  "evidence": "We sell Proleukin ® (aldesleukin), an interleukin-2, or IL-2, product to three main distributors in the U.S., distributors outside the U.S., and numerous third-party clients across the three revenue channels: 1) use in the Amtagvi ® treatment regimen, or other approved oncology uses, or the primary channel, 2) use in the manufacturing process for Amtagvi ® and other cell therapies and 3) use in clinical and research settings."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company terminated its contract manufacturing agreement and transitioned all Amtagvi and lifileucel manufacturing to its internal iCTC facility.",
+   "evidence": "Our contract manufacturer concluded production of Amtagvi ® and lifileucel and our agreement terminated in the first quarter of 2026."
+  }
+ ],
+ "dropped": []
+}

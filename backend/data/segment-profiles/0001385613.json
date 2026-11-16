@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001385613",
+ "issuerName": "GREENLIGHT CAPITAL RE, LTD.",
+ "builtAt": "2026-11-15T14:24:53.593Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001385613-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1385613/000138561326000010/glre-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Open Market",
+   "products": [
+    "Casualty",
+    "Financial",
+    "Health",
+    "Multiline",
+    "Property",
+    "Specialty"
+   ],
+   "description": "Provides treaty reinsurance to insurance companies globally on a proportional or non-proportional basis across multiple P&C lines.",
+   "evidence": "We provide treaty reinsurance to insurance companies on a global basis, written on a proportional or non-proportional (also known as excess of loss) basis."
+  },
+  {
+   "name": "Innovations",
+   "products": [
+    "Syndicate 3456",
+    "Viridis Re",
+    "captive-as-a-service"
+   ],
+   "description": "Supports innovative, technology-driven insurance partners through seed capital investments and reinsurance capacity, mainly in the insurtech industry.",
+   "evidence": "Since 2018, our Innovations business unit has supported innovative, technology-driven insurance partners, both in the form of seed capital and reinsurance capacity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Innovations): strategic investments in startup companies and MGAs",
+  "product not in text (Innovations): reinsurance capacity to program partners",
+  "revenue model not grounded",
+  "change not grounded: In 2022 the company created Syndicate 3456, a Lloyd's syndicate-in-a-box, to cap",
+  "change not grounded: In 2023 the company acquired GCM, a Lloyd's corporate member providing underwrit"
+ ]
+}

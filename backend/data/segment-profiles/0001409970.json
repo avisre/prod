@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001409970",
+ "issuerName": "Happen, Inc.",
+ "builtAt": "2026-11-15T14:25:38.585Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001409970-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1409970/000140997026000018/lc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LendingClub Bank",
+   "products": [
+    "Personal Loans",
+    "Major Purchase Finance",
+    "Auto Refinance",
+    "LevelUp Savings",
+    "LevelUp Checking",
+    "Certificates of Deposit"
+   ],
+   "description": "The national bank entity originates consumer and small business loans, retains or sells loans to marketplace investors, and manages deposit relationships.",
+   "evidence": "This segment provides a full complement of financial products and solutions, including loans and deposits."
+  },
+  {
+   "name": "LendingClub Corporation (Parent Only)",
+   "products": [
+    "Purchased servicing assets"
+   ],
+   "description": "The holding company entity reflects pre-bank operations, including servicing fee revenue on purchased servicing assets and interest income and expense from pre-bank transactions.",
+   "evidence": "This activity includes, but is not limited to, servicing fee revenue on purchased servicing assets, and interest income and interest expense related to transactions entered into prior to LC Bank's formation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay origination fees, marketplace investors pay servicing fees on loans sold to them, and the company earns net interest income on retained loans and deposits.",
+  "evidence": "As a bank, we benefit from two distinct revenue streams: (i) marketplace revenue in the form of origination fees from borrowers and servicing fees on loans sold to marketplace investors, which provides attractive in-period income, and (ii) net interest income earned from retaining loans and Structured Program securities, offset by interest expense on our deposits, which provides a recurring and resilient revenue source."
+ },
+ "changes": [
+  {
+   "text": "In the first quarter of 2023, the company ceased originating commercial real estate loans and equipment leases.",
+   "evidence": "In the first quarter of 2023, we ceased originating commercial real estate loans and equipment leases and currently intend to retain the existing loan portfolios to maturity."
+  }
+ ],
+ "dropped": [
+  "product not in text (LendingClub Bank): SBA commercial loans"
+ ]
+}

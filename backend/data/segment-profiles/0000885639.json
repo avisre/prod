@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000885639",
+ "issuerName": "KOHL’S CORP",
+ "builtAt": "2026-11-15T14:23:16.597Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115982",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/885639/000119312526115982/kss-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Omnichannel Retail",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories",
+    "beauty",
+    "home products",
+    "Apt. 9",
+    "Croft & Barrow",
+    "Sonoma Goods for Life"
+   ],
+   "description": "Operates Kohl's stores and a website selling moderately-priced proprietary and national brand merchandise to retail customers.",
+   "evidence": "We are an omnichannel retailer that operates as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Kohl's for merchandise purchased in its stores or online.",
+  "evidence": "Our Kohl's stores and website sell moderately-priced proprietary and national brand apparel, footwear, accessories, beauty, and home products."
+ },
+ "changes": [],
+ "dropped": []
+}

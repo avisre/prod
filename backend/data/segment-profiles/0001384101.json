@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001384101",
+ "issuerName": "VERACYTE, INC.",
+ "builtAt": "2026-11-15T14:24:48.890Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001384101-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1384101/000138410126000010/vcyt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Testing",
+   "products": [
+    "Decipher Prostate",
+    "Afirma",
+    "Decipher Bladder",
+    "TrueMRD"
+   ],
+   "description": "Provides laboratory developed tests through CLIA-certified labs to help clinicians diagnose and guide cancer treatment decisions.",
+   "evidence": "In the United States, we offer laboratory developed tests, or LDTs, through our centralized Clinical Laboratory Improvement Amendments of 1988, or CLIA, certified laboratories in South San Francisco and San Diego, California."
+  },
+  {
+   "name": "Product",
+   "products": [
+    "Prosigna"
+   ],
+   "description": "Provides in vitro diagnostic tests distributed to laboratories and hospitals outside the United States that perform the tests locally.",
+   "evidence": "Outside of the United States, we provide in vitro diagnostic, or IVD, tests to patients through distribution to laboratories and hospitals that can perform the tests locally."
+  },
+  {
+   "name": "Biopharmaceutical and Other",
+   "products": [],
+   "description": "Provides biopharmaceutical services, including contract manufacturing and testing, to biopharma customers.",
+   "evidence": "vcyt:BiopharmaceuticalAndOtherMember vcyt:ReportableSegmentMember 2025-01-01 2025-12-31"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from payers and physicians for its diagnostic tests and from biopharmaceutical customers for services such as contract manufacturing and testing.",
+  "evidence": "The majority of our revenue presently comes from sales of our Decipher Prostate and Afirma tests."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Veracyte disposed of Veracyte SAS.",
+   "evidence": "us-gaap:DisposalGroupDisposedOfByMeansOtherThanSaleNotDiscontinuedOperationsMember vcyt:VeracyteSASMember 2025-08-01"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, Veracyte acquired C2i Genomics, adding its MRD technology."
+ ]
+}

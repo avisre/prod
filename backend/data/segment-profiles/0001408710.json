@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001408710",
+ "issuerName": "FABRINET",
+ "builtAt": "2026-11-15T14:25:35.119Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001408710-26-000028",
+  "periodEnd": "2026-06-26",
+  "filingDate": "2026-08-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1408710/000140871026000028/fn-20260626.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract manufacturing",
+   "products": [
+    "optical communications devices",
+    "industrial lasers",
+    "sensors",
+    "customized optics",
+    "customized glass"
+   ],
+   "description": "Provides advanced optical packaging and precision optical, electro-mechanical and electronic manufacturing services to OEMs of complex products.",
+   "evidence": "We provide advanced optical packaging and precision optical, electro-mechanical and electronic manufacturing services to original equipment manufacturers (\"OEMs\") of complex products such as optical communication components, modules and sub-systems, industrial lasers, automotive components, medical devices and sensors."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "OEM customers pay Fabrinet for outsourced manufacturing services and for customized optics and glass sold in the merchant market.",
+  "evidence": "We incorporate our customized optics and glass into many of the products we manufacture for our OEM customers, and we also sell customized optics and glass in the merchant market."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of fiscal year 2026, the company updated its revenue category presentation from two categories to three: data center, communications infrastructure, and automotive, industrial and other markets.",
+   "evidence": "To better reflect our current business profile, beginning in the fourth quarter of fiscal year 2026, we updated our revenue category presentation from two categories (optical communications and non-optical communications) to three categories: (1) data center, (2) communications infrastructure, and (3) automotive, industrial and other markets."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001412558",
+ "issuerName": "Evotec SE",
+ "builtAt": "2026-11-15T14:25:45.781Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-040767",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1412558/000110465926040767/evo-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Just – Evotec Biologics",
+   "products": [
+    "antibody molecular optimization",
+    "product and process design",
+    "single-use disposable, perfusion-based continuous bioprocessing platforms",
+    "commercial biomanufacturing"
+   ],
+   "description": "Discovers, optimizes, develops and manufactures bio-therapeutics for pharmaceutical and biotechnology partners, from early stage to commercial biomanufacturing.",
+   "evidence": "Just – Evotec Biologics is our advanced approach to discovering, optimizing, developing and manufacturing bio-therapeutics."
+  },
+  {
+   "name": "Discovery & Preclinical Development",
+   "products": [
+    "drug discovery and preclinical development services",
+    "target validation",
+    "lead optimization",
+    "ADME-Tox Solutions"
+   ],
+   "description": "Provides drug discovery and preclinical development services and solutions to pharmaceutical and biotechnology partners, from patient-data-derived ideas through to IND application.",
+   "evidence": "D&PD primarily includes drug discovery and preclinical development services and solutions, starting with sourcing novel treatment ideas derived from patient data and continues with target validation and lead optimization."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Evotec is paid by pharmaceutical and biotechnology partners primarily through fee-for-service and FTE-rate contracts, plus milestone and royalty payments on partnered assets and technology licenses.",
+  "evidence": "We generate revenue primarily through three core collaboration routes: (1) by providing our drug discovery and development capabilities on a fee-for-service and FTE-rate basis; (2) by receiving milestones and royalties on partnered assets; and (3) by creating value through equity ownership in emerging, highly innovative biotechnology companies and translational academic institutional projects."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Evotec replaced its former EVT Execute and EVT Innovate segments with the new reportable segments Shared R&D and Just – Evotec Biologics.",
+   "evidence": "As of January 1, 2024, a new segment reporting was introduced and moved from the segments EVT Execute and EVT Innovate towards Shared R&D and Just – Evotec Biologics to better steer our business and to reflect the underlying trends, evolutions and activities of the various business areas we are involved in."
+  },
+  {
+   "text": "In 2025, the segment formerly known as Shared R&D was renamed Discovery & Preclinical Development.",
+   "evidence": "In 2025, the Management Board made the decision to rename the segment previously known as \"Shared R&D\" to Discovery & Preclinical Development (\"D&PD\") to better reflect Evotec's strategic focus."
+  },
+  {
+   "text": "In 2025, Evotec sold its Just - Evotec Biologics EU SAS subsidiary in Toulouse, France to Sandoz AG, exiting large-scale biologics manufacturing at that site.",
+   "evidence": "By share purchase agreement (SPA) signed on November 4, 2025 and with closing effective as of December 5, 2025, Evotec SE disposed of 100 % of the shares in its subsidiary Just - Evotec Biologics EU SAS, Toulouse, France (subsequently: Just EU) to Sandoz AG, Basel, Switzerland."
+  }
+ ],
+ "dropped": [
+  "product not in text (Discovery & Preclinical Development): IND application support"
+ ]
+}

@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000891103",
+ "issuerName": "Match Group, Inc.",
+ "builtAt": "2026-11-15T14:23:38.288Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000891103-26-000025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/891103/000089110326000025/mtch-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tinder",
+   "products": [
+    "Tinder Plus®",
+    "Tinder Gold®",
+    "Tinder Platinum®",
+    "Super Likes™",
+    "Boosts"
+   ],
+   "description": null,
+   "evidence": "Tinder consists of the world-wide activity of the brand Tinder®."
+  },
+  {
+   "name": "Hinge",
+   "products": [
+    "Hinge+",
+    "HingeX"
+   ],
+   "description": "Operates the Hinge brand, a mobile-only app for users seeking intentional, relationship-oriented connections.",
+   "evidence": "Hinge consists of the world-wide activity of the brand Hinge®."
+  },
+  {
+   "name": "Evergreen & Emerging",
+   "products": [
+    "Match®",
+    "Meetic®",
+    "OkCupid®",
+    "Plenty Of Fish®",
+    "BLK®",
+    "Chispa™",
+    "The League®",
+    "Archer®"
+   ],
+   "description": "Operates established online dating brands and newer affinity-based brands serving specific communities and demographics worldwide.",
+   "evidence": "Evergreen & Emerging (\"E&E\") consists of the world-wide activity of our Evergreen brands, including Match®, Meetic®, OkCupid®, Plenty Of Fish®, and a number of demographically focused brands, and our Emerging brands, including BLK®, Chispa™, The League®, Archer®, Upward®, Yuzu™, Salams®, HER™, and other smaller brands."
+  },
+  {
+   "name": "Match Group Asia",
+   "products": [
+    "Pairs™",
+    "Azar®"
+   ],
+   "description": "Operates the Pairs and Azar brands serving Asian and Middle Eastern dating and video chat markets.",
+   "evidence": "Match Group Asia (\"MG Asia\") consists of the world-wide activity of the brands Pairs™ and Azar®."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Users pay directly for subscriptions and à la carte premium features, and the company also earns advertising revenue from third parties.",
+  "evidence": "Direct Revenue is revenue that is received directly from end users of our services and includes both subscription and à la carte revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company terminated certain live streaming services and shut down the Hakuna app.",
+   "evidence": "impairments of intangible assets at E&E and MG Asia in the prior year as a result of the termination of certain of our live streaming services and the Hakuna app in 2024."
+  }
+ ],
+ "dropped": []
+}

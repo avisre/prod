@@ -1,0 +1,86 @@
+{
+ "version": 1,
+ "cik": "0000889132",
+ "issuerName": "POSCO HOLDINGS INC.",
+ "builtAt": "2026-11-15T14:23:31.312Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-188766",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/889132/000119312526188766/d26797d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steel Segment",
+   "products": [
+    "steel products"
+   ],
+   "description": "Produces and sells steel products through POSCO, one of the largest steel producers in the world.",
+   "evidence": "Our Steel Segment includes the production and sale of steel products."
+  },
+  {
+   "name": "Trading Segment",
+   "products": [
+    "global trading activities",
+    "natural resources development activities",
+    "power generation activities"
+   ],
+   "description": "Conducts global trading of steel and other products, natural resources development and power generation through POSCO INTERNATIONAL.",
+   "evidence": "The Trading Segment of our Infrastructure Business consists primarily of the global trading activities, natural resources development activities and power generation activities of POSCO INTERNATIONAL."
+  },
+  {
+   "name": "Construction Segment",
+   "products": [
+    "industrial plants",
+    "civil engineering projects",
+    "commercial and residential buildings"
+   ],
+   "description": "Plans, designs and constructs industrial plants, civil engineering projects and buildings in Korea and overseas through POSCO E&C.",
+   "evidence": "The Construction Segment of our Infrastructure Business consists primarily of the planning, designing and construction of industrial plants, civil engineering projects and commercial and residential buildings, both in Korea and overseas, by POSCO E&C."
+  },
+  {
+   "name": "Logistics and Others Segment",
+   "products": [
+    "information technology and operational technology services",
+    "integrated logistics services"
+   ],
+   "description": "Provides IT and operational technology services via POSCO DX and integrated logistics services via POSCO FLOW.",
+   "evidence": "The Logistics and Others Segment of our Infrastructure Business consists primarily of the information technology and operational technology services of POSCO DX and the integrated logistics services of POSCO FLOW."
+  },
+  {
+   "name": "Rechargeable Battery Materials Segment",
+   "products": [
+    "cathode materials",
+    "anode materials",
+    "lithium hydroxide",
+    "lithium carbonate"
+   ],
+   "description": "Manufactures and sells cathode and anode materials for rechargeable batteries and invests in lithium production projects.",
+   "evidence": "Our Rechargeable Battery Materials Segment includes (i) the manufacturing and sale of various energy-related and other industrial materials by POSCO Future M, including cathode and anode materials for rechargeable batteries and (ii) investments made by us in production projects relating to other materials such as lithium."
+  },
+  {
+   "name": "Others Segment",
+   "products": [],
+   "description": "Comprises POSCO HOLDINGS INC. and entities below reporting thresholds, exploring diversification opportunities.",
+   "evidence": "Our Others Segment includes POSCO HOLDINGS INC. and all other entities which fall below the reporting thresholds."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in Korea and abroad pay the company for steel products, traded goods, construction, IT and logistics services, and rechargeable battery materials sold primarily to electric vehicle battery manufacturers.",
+  "evidence": "We sell our rechargeable battery materials primarily to electric vehicle battery manufacturers in Korea and abroad."
+ },
+ "changes": [
+  {
+   "text": "In 2022, POSCO spun off its steel business into a new wholly-owned subsidiary named POSCO and renamed itself POSCO HOLDINGS INC.",
+   "evidence": "The registration of the Spin-off occurred on March 2, 2022. As part of the Spin-off, we amended our name from POSCO to POSCO HOLDINGS INC., and the newly created wholly-owned subsidiary was named POSCO."
+  },
+  {
+   "text": "In 2023, POSCO Energy merged into POSCO INTERNATIONAL, adding power generation to the Trading Segment.",
+   "evidence": "On January 1, 2023, POSCO Energy, Korea's largest domestic private power utility company and a provider of alternative low-carbon energy solutions, merged into POSCO INTERNATIONAL."
+  }
+ ],
+ "dropped": []
+}

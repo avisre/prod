@@ -1,0 +1,79 @@
+{
+ "version": 1,
+ "cik": "0000885590",
+ "issuerName": "Bausch Health Companies Inc.",
+ "builtAt": "2026-11-15T14:23:15.484Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000885590-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/885590/000088559026000023/bhc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Salix",
+   "products": [
+    "Xifaxan®",
+    "Relistor®",
+    "Trulance®"
+   ],
+   "description": "Sells gastroenterology products in the U.S., led by the Xifaxan product line.",
+   "evidence": "The Salix segment consists of sales in the U.S. of GI products."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Bedoyecta®",
+    "Jublia®",
+    "Bisocard®",
+    "Diclofenac",
+    "Contrave® / Mysimba®",
+    "Ryaltris®",
+    "Espaven®"
+   ],
+   "description": "Sells branded, branded generic and OTC pharmaceutical products outside the U.S.",
+   "evidence": "The International segment consists of sales, with the exception of sales of Bausch + Lomb products and Solta Medical aesthetic medical devices, outside the U.S. of branded pharmaceutical products, branded generic pharmaceutical products and OTC products."
+  },
+  {
+   "name": "Solta Medical",
+   "products": [
+    "Thermage®",
+    "Clear + Brilliant®",
+    "Fraxel®",
+    "VASERlipo®"
+   ],
+   "description": "Sells aesthetic medical devices globally, primarily skin tightening technologies.",
+   "evidence": "The Solta Medical segment consists of global sales of Solta Medical aesthetic medical devices."
+  },
+  {
+   "name": "Diversified",
+   "products": [
+    "Dermatology products",
+    "Generic pharmaceutical products",
+    "Dentistry products"
+   ],
+   "description": "Sells U.S. neurology, dermatology, generic and dentistry pharmaceutical products.",
+   "evidence": "The Diversified segment consists of sales in the U.S. of: (i) pharmaceutical products in the areas of neurology and certain other therapeutic classes, (ii) dermatology products, (iii) generic pharmaceutical products and (iv) dentistry products."
+  },
+  {
+   "name": "Bausch + Lomb",
+   "products": [
+    "Bausch + Lomb Vision Care",
+    "Surgical",
+    "Pharmaceuticals"
+   ],
+   "description": "Sells eye health products globally, including contact lenses, surgical devices and ophthalmic pharmaceuticals.",
+   "evidence": "The Bausch + Lomb segment consists of global sales of Bausch + Lomb Vision Care, Surgical and Pharmaceuticals products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Diversified): Neurology pharmaceutical products",
+  "revenue model not grounded",
+  "change not grounded: In 2022, Bausch Health completed the IPO of Bausch + Lomb, retaining approximate"
+ ]
+}

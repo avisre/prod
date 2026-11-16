@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001383650",
+ "issuerName": "Cheniere Energy Partners, L.P.",
+ "builtAt": "2026-11-15T14:24:48.301Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001383650-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1383650/000138365026000005/cqp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LNG",
+   "products": [
+    "natural gas"
+   ],
+   "description": "Operates the Sabine Pass LNG terminal, liquefaction project and Creole Trail Pipeline, selling LNG and regasification services to global energy customers.",
+   "evidence": "All of the above customers contribute to our LNG revenues through SPA contracts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay fixed fees under long-term SPAs and TUAs for LNG cargoes and reserved regasification capacity, whether or not they use the capacity.",
+  "evidence": "SPLNG has a long-term, third party TUA for 1 Bcf/d with TotalEnergies Gas & Power North America, Inc. (\"TotalEnergies\") , under which TotalEnergies is required to pay fixed monthly fees, whether or not it uses the regasification capacity it has reserved."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (LNG): LNG",
+  "product not in text (LNG): regasification services"
+ ]
+}

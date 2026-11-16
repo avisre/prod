@@ -1,0 +1,112 @@
+{
+ "version": 1,
+ "cik": "0001381640",
+ "issuerName": "MELCO RESORTS & ENTERTAINMENT LIMITED",
+ "builtAt": "2026-11-15T14:24:47.103Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-105023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1381640/000119312526105023/d55680d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "City of Dreams",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Entertainment, retail and other"
+   ],
+   "description": "Integrated resort and casino property in Macau offering gaming, hotel, dining and entertainment to visitors.",
+   "evidence": "The Company monitors its operations and evaluates earnings by reviewing the assets and operations of each of its reportable segment which includes City of Dreams, Studio City, Altira Macau, Mocha and Other, City of Dreams Manila, City of Dreams Mediterranean and Other and Other Operations ."
+  },
+  {
+   "name": "Studio City",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Entertainment, retail and other"
+   ],
+   "description": "Integrated resort and casino property in Macau serving guests with gaming, hotel, dining and entertainment offerings.",
+   "evidence": "The Company monitors its operations and evaluates earnings by reviewing the assets and operations of each of its reportable segment which includes City of Dreams, Studio City, Altira Macau, Mocha and Other, City of Dreams Manila, City of Dreams Mediterranean and Other and Other Operations ."
+  },
+  {
+   "name": "Altira Macau",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Entertainment, retail and other"
+   ],
+   "description": "Casino and hotel property in Macau serving gaming and hospitality customers.",
+   "evidence": "The Company monitors its operations and evaluates earnings by reviewing the assets and operations of each of its reportable segment which includes City of Dreams, Studio City, Altira Macau, Mocha and Other, City of Dreams Manila, City of Dreams Mediterranean and Other and Other Operations ."
+  },
+  {
+   "name": "Mocha and Other",
+   "products": [
+    "Casino",
+    "Food and beverage",
+    "Entertainment, retail and other"
+   ],
+   "description": "Mocha clubs casinos in Macau, previously including Grand Dragon Casino before its closure.",
+   "evidence": "Mocha and Other segment included the operation of Grand Dragon Casino before its closure and was changed to Mocha segment effective on September 23, 2025."
+  },
+  {
+   "name": "City of Dreams Manila",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Entertainment, retail and other"
+   ],
+   "description": "Integrated resort and casino in the Philippines serving gaming and hospitality customers.",
+   "evidence": "The Company monitors its operations and evaluates earnings by reviewing the assets and operations of each of its reportable segment which includes City of Dreams, Studio City, Altira Macau, Mocha and Other, City of Dreams Manila, City of Dreams Mediterranean and Other and Other Operations ."
+  },
+  {
+   "name": "City of Dreams Mediterranean and Other",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Entertainment, retail and other"
+   ],
+   "description": "Integrated resort in Cyprus plus licensed satellite casinos serving European gaming and hospitality customers.",
+   "evidence": "has been renamed to City of Dreams Mediterranean and Other segment which included the operation of City of Dreams Mediterranean and the licensed satellite casinos in Cyprus."
+  },
+  {
+   "name": "Other Operations",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Entertainment, retail and other"
+   ],
+   "description": "Operations in Sri Lanka including the Sri Lanka Casino and management services to Nüwa Sri Lanka.",
+   "evidence": "the operations in Sri Lanka including the provision of management services to Nüwa Sri Lanka effective from its opening on July 15, 2025, which were previously reported under the Corporate and Other category, has been included in the Other Operations segment for the year ended December 31, 2025 and 2024."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for casino gaming, hotel rooms, food and beverage, and entertainment, retail and other services at its integrated resorts.",
+  "evidence": "Segment operating revenues: Casino $ 2,370,998 $ 1,163,917 $ 86,605 $ 101,983 $ 308,418 $ 205,526 $ 9,578 $ 4,247,025 Rooms 170,802 167,085 12,149 — 50,329 43,620 — 443,985 Food and beverage 105,741 84,730 8,106 4,748 43,369 42,645 1,379 290,718 Entertainment, retail and other 89,234 62,630 162 319 8,988 8,379 1,557 171,269"
+ },
+ "changes": [
+  {
+   "text": "In 2025, Sri Lanka operations including the Sri Lanka Casino and management services to Nüwa Sri Lanka moved from Corporate and Other into the Other Operations segment.",
+   "evidence": "the operations in Sri Lanka including the provision of management services to Nüwa Sri Lanka effective from its opening on July 15, 2025, which were previously reported under the Corporate and Other category, has been included in the Other Operations segment for the year ended December 31, 2025 and 2024."
+  },
+  {
+   "text": "In 2025, the Mocha and Other segment was changed to the Mocha segment after Grand Dragon Casino closed.",
+   "evidence": "Mocha and Other segment included the operation of Grand Dragon Casino before its closure and was changed to Mocha segment effective on September 23, 2025."
+  },
+  {
+   "text": "In 2023, the Cyprus Operations segment was renamed to City of Dreams Mediterranean and Other following the soft opening of City of Dreams Mediterranean.",
+   "evidence": "Effective from June 12, 2023, with the soft opening of City of Dreams Mediterranean, the Cyprus Operations segment which previously included the operation of the temporary casino before its closure on June 9, 2023 and the licensed satellite casinos in Cyprus, has been renamed to City of Dreams Mediterranean and Other segment"
+  }
+ ],
+ "dropped": []
+}

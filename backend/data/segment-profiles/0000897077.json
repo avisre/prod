@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000897077",
+ "issuerName": "ALAMO GROUP INC.",
+ "builtAt": "2026-11-15T14:23:55.707Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000897077-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/897077/000089707726000016/alg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vegetation Management",
+   "products": [
+    "tractor mounted mowing equipment",
+    "land maintenance and recycling equipment",
+    "rotary cutters",
+    "flail mowers",
+    "agricultural implements",
+    "after-market parts and services"
+   ],
+   "description": "Manufactures mowing, land maintenance and agricultural equipment sold to dealers, contractors, farmers and governmental users.",
+   "evidence": "Product categories include vocational products (vacuum trucks, street sweepers, roadside safety equipment, excavators, and snow removal equipment) and light machinery (tractor mounted mowing equipment, land maintenance and recycling equipment) as well as related after-market parts and services."
+  },
+  {
+   "name": "Industrial Equipment",
+   "products": [
+    "vacuum trucks",
+    "street sweepers",
+    "roadside safety equipment",
+    "excavators",
+    "snow removal equipment",
+    "after-market parts and services"
+   ],
+   "description": "Manufactures vocational equipment such as sweepers, vacuum trucks, excavators and snow removal equipment for infrastructure and governmental markets.",
+   "evidence": "The Company presents two reportable operating segments within its financial statements: Vegetation Management and Industrial Equipment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue primarily from product sales to independent equipment dealers, contractors and municipalities, recognized upon shipment or delivery of the product.",
+  "evidence": "Our products are sold to independent equipment dealers and directly to contractors and municipalities."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company sold substantially all of the assets of its Herschel aftermarket farm equipment business.",
+   "evidence": "In 2024, the Company sold substantially all of the assets of its Herschel business."
+  },
+  {
+   "text": "In 2023, the Company sold the pothole patcher product line assets that had been merged into the Schwarze operation.",
+   "evidence": "This product line was merged into the Schwarze operation and, in 2023, the product line assets were sold."
+  }
+ ],
+ "dropped": []
+}

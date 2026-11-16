@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000895421",
+ "issuerName": "MORGAN STANLEY",
+ "builtAt": "2026-11-15T14:23:48.637Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000895421-26-000086",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/895421/000089542126000086/ms-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Institutional Securities",
+   "products": [
+    "originating",
+    "trading",
+    "managing",
+    "underwriting",
+    "sales",
+    "financing",
+    "market-making activities"
+   ],
+   "description": "Provides capital markets, investment banking and trading services to corporations, governments and financial institutions.",
+   "evidence": "We are a global financial services firm that maintains significant market positions in each of our business segments: Institutional Securities, Wealth Management and Investment Management."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "advisor led",
+    "workplace",
+    "digital direct"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Investment Management",
+   "products": [
+    "investment strategies",
+    "alternative investment products"
+   ],
+   "description": "Manages assets and offers investment products, including alternatives, to institutional and individual clients.",
+   "evidence": "Within our Investment Management business segment, our ability to compete successfully is affected by several factors, including our reputation, quality of investment professionals, performance of investment strategies or product offerings relative to peers and appropriate benchmark indices, advertising and sales promotion efforts, fee levels, the effectiveness of and access to distribution channels and investment pipelines, the types of products offered, and regulatory restrictions specific to "
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients, including corporations, governments, financial institutions and individuals, pay the firm for advising, originating, trading, managing and distributing capital and for asset management services.",
+  "evidence": "Through our subsidiaries and affiliates, we provide a wide variety of products and services to a large and diversified group of clients and customers, including corporations, governments, financial institutions and individuals."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Institutional Securities): advising",
+  "product not in text (Institutional Securities): distributing capital",
+  "segment evidence not verbatim: Wealth Management"
+ ]
+}

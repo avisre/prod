@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000874716",
+ "issuerName": "IDEXX LABORATORIES INC /DE",
+ "builtAt": "2026-11-15T14:23:03.361Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000874716-26-000038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/874716/000087471626000038/idxx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Companion Animal Group",
+   "products": [
+    "IDEXX VetLab analyzers",
+    "Catalyst One Chemistry Analyzer",
+    "ProCyte One hematology analyzer",
+    "SediVue Dx Analyzer",
+    "IDEXX inVue Dx Cellular Analyzer",
+    "SNAP rapid assay test kits",
+    "VetConnect PLUS",
+    "ezyVet"
+   ],
+   "description": "Provides diagnostic and information management products and services, including point-of-care diagnostics, reference laboratory services, and veterinary software, to companion animal veterinarians.",
+   "evidence": "Companion Animal Group (\"CAG\") - Diagnostic and information management products and services for the companion animal veterinary industry, including point-of-care diagnostic solutions, outside reference laboratory services, and veterinary software and services."
+  },
+  {
+   "name": "Water quality products",
+   "products": [],
+   "description": "Sells products that test water for certain microbiological contaminants.",
+   "evidence": "Products that test water for certain microbiological contaminants."
+  },
+  {
+   "name": "Livestock, Poultry and Dairy",
+   "products": [
+    "Alertys Milk Pregnancy Test",
+    "Alertys Ruminant Pregnancy Test",
+    "Alertys On-Farm Pregnancy Test",
+    "Rapid Visual Pregnancy Test",
+    "SNAP Beta-Lactam ST",
+    "SNAPduo ST Plus"
+   ],
+   "description": "Provides diagnostic and health-monitoring products for livestock, poultry, and dairy producers and veterinarians.",
+   "evidence": "Diagnostic and health-monitoring products for livestock, poultry, and dairy; and"
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Combines the human medical diagnostic products business with an out-licensing arrangement that does not meet reportable segment thresholds.",
+   "evidence": "Our Other operating segment combines and presents our human medical diagnostic products business with our out-licensing arrangement because they do not meet the quantitative or qualitative thresholds for reportable segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Veterinarians, producers, water testing customers, and human medical facilities pay IDEXX for instruments, consumables, rapid assay test kits, reference laboratory and consulting services, and software subscriptions.",
+  "evidence": "Sales of consumables to customers who use our chemistry analyzers provide the majority of our instrument consumables revenues from our installed base of IDEXX VetLab instruments."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Other): Point-of-care analyzers and related consumables for human medical use"
+ ]
+}

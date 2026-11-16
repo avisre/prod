@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001427570",
+ "issuerName": "VYOME HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:26:05.822Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-029500",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1427570/000121390026029500/ea0280821-10k_vyomehold.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical segment",
+   "products": [
+    "dandruff lotion",
+    "shampoo",
+    "Luliconazole topical cream"
+   ],
+   "description": "Legacy business selling reformulated topical anti-fungal products in India under licensing and marketing agreements with Sun Pharma.",
+   "evidence": "our pharmaceutical segment comprises our antifungal products."
+  },
+  {
+   "name": "Biotechnology segment",
+   "products": [
+    "VT-1953",
+    "VT-1908",
+    "VB-1953"
+   ],
+   "description": "Clinical-stage development of next-generation therapeutics for immune-inflammatory and rare diseases, with no products yet approved for sale.",
+   "evidence": "Our biotechnology segment comprises our operations around our VT-1953, VT-1908, and VB-1953 programs that are in development"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company receives a net service fee payment from Sun Pharma for sales of its topical anti-fungal products in India, and has generated no revenue from product sales in the biotechnology segment.",
+  "evidence": "the Company will no longer be responsible for purchasing and selling inventory of the products, but instead will receive a net service fee payment for sales of such products made by Sun Pharma."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company completed its merger with Vyome Therapeutics and was renamed Vyome Holdings, Inc.",
+   "evidence": "On August 15, 2025, ReShape Lifesciences Inc. (now known as Vyome Holdings, Inc.) (the \"Company\") completed the merger pursuant to the Agreement and Plan of Merger, dated as of July 8, 2024, as amended (the \"Merger Agreement\")"
+  },
+  {
+   "text": "In 2024, one of the agreements for supply of dandruff products to Sun Pharma was terminated.",
+   "evidence": "One of the agreements for the supply of dandruff products to Sun Pharma was terminated in December 2024."
+  },
+  {
+   "text": "In 2023, the Company amended its Sun Pharma arrangement so it no longer purchases and sells inventory but receives a net service fee.",
+   "evidence": "During 2023, the Company amended its arrangement with Sun Pharma such that the Company will no longer be responsible for purchasing and selling inventory of the products, but instead will receive a net service fee payment for sales of such products made by Sun Pharma."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001373670",
+ "issuerName": "Green Brick Partners, Inc.",
+ "builtAt": "2026-11-15T14:24:36.036Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011798",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1373670/000162828026011798/grbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Builder operations",
+   "products": [
+    "Trophy Signature Homes",
+    "CB JENI Homes",
+    "Normandy Homes",
+    "Southgate",
+    "Centre Living",
+    "The Providence Group of Georgia",
+    "GRBK GHO Homes"
+   ],
+   "description": "Builds and sells single family homes, townhomes, condos, luxury and patio homes to homebuyers in Texas, Georgia and Florida markets.",
+   "evidence": "Selling, general and administrative expenses as a percentage of revenue for builder operations was 11.0% compared to 10.9% in the prior year period."
+  },
+  {
+   "name": "Land development",
+   "products": [
+    "Finished lots",
+    "Option lots"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuyers pay the company for homes it builds and sells, and buyers of land parcels pay for lots and tracts of land sold.",
+  "evidence": "We currently generate income from home sales in Texas, Georgia, and Florida."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Trophy Signature Homes builder expanded into the Austin and Houston, Texas markets.",
+   "evidence": "In 2025 we expanded into the Austin and Houston, Texas markets."
+  },
+  {
+   "text": "In 2025 the BHome Mortgage joint venture wound down and was replaced by the wholly-owned GRBK Mortgage subsidiary.",
+   "evidence": "primarily due to the winding down of our BHome Mortgage joint venture and ramping up of our wholly-owned subsidiary GRBK Mortgage during the year ended December 31, 2025."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Land development"
+ ]
+}

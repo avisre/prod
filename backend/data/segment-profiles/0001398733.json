@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001398733",
+ "issuerName": "Aquestive Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:25:15.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001398733-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1398733/000139873326000018/aqst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical",
+   "products": [
+    "Anaphylm™ (dibutepinephrine) sublingual film",
+    "AQST-108 (epinephrine) topical gel",
+    "AdrenaVerse™ epinephrine prodrug platform",
+    "Libervant®",
+    "Sympazan®"
+   ],
+   "description": "Develops and manufactures pharmaceutical products using oral film and epinephrine prodrug delivery technologies for patients with severe allergic reactions and other conditions.",
+   "evidence": "For the years ended December 31, 2025 and 2024, the Company has identified one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns manufacture and supply revenue, license and royalty revenue, co-development and research fees, and proprietary product revenue from licensees and collaboration partners.",
+  "evidence": "The net losses and accumulated deficits were partially offset by gross margins from sales of commercialized licensed and proprietary products, license fees, milestone and royalty payments from commercial licensees and co-development parties."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Pharmaceutical): PharmFilm® oral film technology"
+ ]
+}

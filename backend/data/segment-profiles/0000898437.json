@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000898437",
+ "issuerName": "Anika Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:24:00.333Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-001275",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/898437/000117184326001275/anik20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling HA-based products to J&J MedTech under exclusive U.S. licensing agreements, to international distributors, and through commercial sales and marketing partners worldwide.",
+  "evidence": "we are the exclusive supplier responsible for the manufacture and sale Monovisc and Orthovisc to J&J MedTech in the United States, while J&J MedTech is responsible for the mark"
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company sold Arthrosurface Incorporated as part of a strategic shift to concentrate on OA Pain Management and Regenerative Solutions.",
+   "evidence": "This strategic decision involved the sale of Arthrosurface Incorporated on October 31, 2024 and the sale of Parcus Medical, LLC on March 7, 2025, both of which were acquired in early 2020 under a previous management strategy."
+  },
+  {
+   "text": "In 2025, the company completed the sale of Parcus Medical, LLC to Medacta.",
+   "evidence": "On March 7, 2025 (the \"Parcus Closing Date\"), we completed the sale of all of the outstanding equity interests of Parcus Medical, LLC, a Wisconsin limited liability company and former wholly-owned subsidiary of the Company (\"Parcus\"), to Medacta Americas Manufacturing, Inc."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Hyaluronic acid products"
+ ]
+}

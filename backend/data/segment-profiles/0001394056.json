@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001394056",
+ "issuerName": "One Stop Systems, Inc.",
+ "builtAt": "2026-11-15T14:25:07.953Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-114051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526114051/oss-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Edge computing",
+   "products": [
+    "Customized computers",
+    "Flash arrays",
+    "Torrey Break",
+    "Sensor Concentrator",
+    "Cernis",
+    "Donati",
+    "Ponto"
+   ],
+   "description": "Designs, manufactures and markets rugged high-performance edge computing, switch fabric and storage systems for AI/ML, sensor processing and autonomy in commercial and defense markets.",
+   "evidence": "The Company's continuing operations comprise a single reportable segment, which provides edge computing products, including customized computers and flash arrays."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily OEMs and government/military buyers, pay OSS for rugged edge computing hardware, software and related engineering services and warranties.",
+  "evidence": "The Company designs, manufactures, and markets specialized rugged high-performance compute (\"HPC\"), high speed switch fabrics, and storage systems, which are designed to target edge applications for artificial intelligence (\"AI\") / machine learning (\"ML\"), sensor processing, sensor fusion, and autonomy."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its German subsidiary Bressner (OSS GmbH), which is classified as discontinued operations.",
+   "evidence": "On December 30, 2025, the Company signed and closed a definitive agreement to sell all Bressner through a sale of all shares of OSS GmbH."
+  }
+ ],
+ "dropped": [
+  "product not in text (Edge computing): Short-depth Servers (SDS)"
+ ]
+}

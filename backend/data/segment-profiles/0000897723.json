@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000897723",
+ "issuerName": "Sanmina Corporation",
+ "builtAt": "2026-11-15T14:23:59.106Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000897723-25-000042",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/897723/000089772325000042/sanm-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated Manufacturing Solutions (\"IMS\")",
+   "products": [
+    "printed circuit board (\"PCB\") assembly and test",
+    "high-level assembly and test",
+    "direct order fulfillment"
+   ],
+   "description": null,
+   "evidence": "IMS is a single operating segment consisting of printed circuit board (\"PCB\") assembly and test, high-level assembly and test and direct order fulfillment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Sanmina earns revenue primarily from sales of manufactured products and services to OEM customers, typically under long-term supply agreements of three to five years covering products made to customers' specifications.",
+  "evidence": "We typically enter into long-term supply agreements with our major OEM customers."
+ },
+ "changes": [
+  {
+   "text": "In October 2025, after fiscal 2025 year end, Sanmina completed the acquisition of ZT Systems' data center infrastructure manufacturing business to expand its cloud and AI presence.",
+   "evidence": "On October 27, 2025 (the \"Closing Date\"), we completed the acquisition of ZT Systems (the \"ZT Acquisition\") for an aggregate consideration of $1.6 billion"
+  }
+ ],
+ "dropped": []
+}

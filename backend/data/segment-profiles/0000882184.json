@@ -1,0 +1,117 @@
+{
+ "version": 1,
+ "cik": "0000882184",
+ "issuerName": "D.R. Horton, Inc.",
+ "builtAt": "2026-11-15T14:23:05.718Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000882184-25-000081",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/882184/000088218425000081/dhi-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Northwest",
+   "products": [
+    "Single-family detached homes"
+   ],
+   "description": "Homebuilding operations in Colorado, Oregon, Utah and Washington for entry-level to luxury buyers.",
+   "evidence": "Northwest: Colorado, Oregon, Utah and Washington"
+  },
+  {
+   "name": "Southwest",
+   "products": [
+    "Single-family detached homes"
+   ],
+   "description": "Homebuilding operations in Arizona, California, Hawaii, Nevada and New Mexico.",
+   "evidence": "Southwest: Arizona, California, Hawaii, Nevada and New Mexico"
+  },
+  {
+   "name": "South Central",
+   "products": [
+    "Single-family detached homes"
+   ],
+   "description": "Homebuilding operations in Arkansas, Oklahoma and Texas.",
+   "evidence": "South Central: Arkansas, Oklahoma and Texas"
+  },
+  {
+   "name": "Southeast",
+   "products": [
+    "Single-family detached homes"
+   ],
+   "description": "Homebuilding operations in Alabama, Florida, Louisiana and Mississippi.",
+   "evidence": "Southeast: Alabama, Florida, Louisiana and Mississippi"
+  },
+  {
+   "name": "East",
+   "products": [
+    "Single-family detached homes"
+   ],
+   "description": "Homebuilding operations in Georgia, North Carolina, South Carolina and Tennessee.",
+   "evidence": "East: Georgia, North Carolina, South Carolina and Tennessee"
+  },
+  {
+   "name": "North",
+   "products": [
+    "Single-family detached homes"
+   ],
+   "description": "Homebuilding operations across eighteen states from Delaware to Wisconsin.",
+   "evidence": "North: Delaware, Illinois, Indiana, Iowa, Kansas, Kentucky, Maryland, Minnesota, Missouri, Nebraska, New Jersey, Ohio, Pennsylvania, Virginia, West Virginia and Wisconsin"
+  },
+  {
+   "name": "Rental",
+   "products": [
+    "Single-family rental homes",
+    "Apartment communities"
+   ],
+   "description": "Constructs, leases and sells single-family and multi-family rental properties, mostly apartment communities.",
+   "evidence": "Our rental segment consists of single-family and multi-family rental operations."
+  },
+  {
+   "name": "Forestar",
+   "products": [
+    "Residential single-family lots",
+    "Tract acres"
+   ],
+   "description": "Majority-owned residential lot development company selling developed lots to homebuilders, primarily D.R. Horton.",
+   "evidence": "Forestar's revenues are primarily derived from sales of single-family residential lots to local, regional and national homebuilders and land bankers for homebuilders."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "Title insurance policies",
+    "Examination, underwriting and closing services"
+   ],
+   "description": "Provides mortgage financing and title agency services primarily to D.R. Horton homebuyers.",
+   "evidence": "Our financial services operations provide mortgage financing and title agency services to homebuyers in many of our homebuilding markets."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Insurance-related operations",
+    "Water rights and other water-related assets",
+    "Non-residential real estate including ranch land and improvements"
+   ],
+   "description": "Holds immaterial insurance, water-related and non-residential real estate activities grouped together as other.",
+   "evidence": "The results of these operations are immaterial for separate reporting and therefore are grouped together and presented as other."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Homebuyers pay for completed homes, land and lots; renters and bulk buyers pay for rental properties; homebuilders pay Forestar for lots; and homebuyers pay mortgage origination and title fees.",
+  "evidence": "Most of our homebuilding revenue is generated from the sale of completed homes and to a lesser extent from the sale of land and lots."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Northwest): Attached homes (townhomes and duplexes)",
+  "product not in text (Southwest): Attached homes (townhomes and duplexes)",
+  "product not in text (South Central): Attached homes (townhomes and duplexes)",
+  "product not in text (Southeast): Attached homes (townhomes and duplexes)",
+  "product not in text (East): Attached homes (townhomes and duplexes)",
+  "product not in text (North): Attached homes (townhomes and duplexes)",
+  "product not in text (Rental): Multi-family rental properties",
+  "product not in text (Financial Services): DHI Mortgage mortgage financing"
+ ]
+}

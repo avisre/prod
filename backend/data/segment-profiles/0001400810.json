@@ -1,0 +1,87 @@
+{
+ "version": 1,
+ "cik": "0001400810",
+ "issuerName": "HCI Group, Inc.",
+ "builtAt": "2026-11-15T14:25:19.071Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076743",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1400810/000119312526076743/hci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance Operations",
+   "products": [
+    "Homeowners' property and casualty insurance",
+    "Captive reinsurance",
+    "Claim adjusting and processing services"
+   ],
+   "description": "Provides homeowners' property and casualty insurance, primarily in Florida and other northeast and southeast U.S. states, through HCPCI and TTIC.",
+   "evidence": "We currently have two operating property and casualty insurance subsidiaries: Homeowners Choice Property & Casualty Insurance Company, Inc. (\"HCPCI\") and TTIC."
+  },
+  {
+   "name": "Exzeo",
+   "products": [
+    "Turn-key insurance technology and operations solutions",
+    "Purpose-built software and data analytics applications"
+   ],
+   "description": "Majority-owned subsidiary providing insurance technology and operations solutions for the property and casualty insurance ecosystem.",
+   "evidence": "Exzeo provides turn-key insurance technology and operations solutions based on a proprietary platform of purpose-built software and data analytics applications that are specifically designed for the property and casualty insurance ecosystem."
+  },
+  {
+   "name": "Reciprocal Exchange Operations",
+   "products": [
+    "Attorney-in-fact services"
+   ],
+   "description": "Manages consolidated reciprocal insurance exchanges owned by their policyholders, providing AIF services such as administration, underwriting and claims adjusting.",
+   "evidence": "We also provide attorney-in-fact (\"AIF\") services for reciprocal insurance exchanges owned by their policyholders."
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "Marinas",
+    "Retail shopping centers",
+    "Corporate office parks",
+    "Office buildings",
+    "Undeveloped land"
+   ],
+   "description": "Develops and operates commercial properties for investment purposes or for the company's own use, leasing space to unaffiliated tenants.",
+   "evidence": "we have a commercial real estate group that is primarily engaged in the business of developing and operating commercial properties for investment purposes or for our own use."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [
+    "Attorney-in-fact services"
+   ],
+   "description": "Comprises the holding company and other operations that do not meet reportable segment thresholds, including AIF services to reciprocal insurance exchanges.",
+   "evidence": "Corporate and Other is comprised of our holding company, HCI Group, Inc., plus other operations that do not meet the quantitative and qualitative thresholds for a reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums for homeowners' property and casualty insurance, tenants pay rent on leased commercial properties, and reciprocal insurance exchanges pay for attorney-in-fact and technology services.",
+  "evidence": "Except for the undeveloped land, we generate income from our investment properties by leasing vacancies to unaffiliated tenants."
+ },
+ "changes": [
+  {
+   "text": "In July 2024, TypTap Insurance Company was transferred from Exzeo to HCI Group, Inc. to align all insurance operations under a single operating structure.",
+   "evidence": "July 2024 – TypTap Insurance Company (\"TTIC\"), a property and casualty insurance carrier subsidiary, was transferred from Exzeo to HCI Group, Inc."
+  },
+  {
+   "text": "In February 2024, Condo Owners Reciprocal Exchange, a consolidated reciprocal insurance exchange providing commercial residential multiple peril insurance, commenced business operations.",
+   "evidence": "February 2024 – Condo Owners Reciprocal Exchange (\"CORE\"), a consolidated reciprocal insurance exchange which provides commercial residential multiple peril insurance, commenced business operations."
+  },
+  {
+   "text": "In February 2025, Tailrow Insurance Exchange, a consolidated reciprocal insurance exchange specializing in fire and homeowners multiple peril insurance, commenced business operations.",
+   "evidence": "February 2025 – Tailrow Insurance Exchange (\"Tailrow\"), a consolidated reciprocal insurance exchange which specializes in fire and homeowners multiple peril insurance, commenced business operations."
+  }
+ ],
+ "dropped": [
+  "product not in text (Insurance Operations): Surplus lines insurance (perRisk Insurance Company)",
+  "product not in text (Reciprocal Exchange Operations): Commercial residential multiple peril insurance (CORE)",
+  "product not in text (Reciprocal Exchange Operations): Fire and homeowners multiple peril insurance (Tailrow)"
+ ]
+}

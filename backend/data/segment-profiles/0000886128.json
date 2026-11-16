@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000886128",
+ "issuerName": "FUELCELL ENERGY, INC.",
+ "builtAt": "2026-11-15T14:23:18.395Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-25-122302",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/886128/000110465925122302/fcel-20251031x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fuel cell technology",
+   "products": [
+    "fuel cell power platforms",
+    "molten carbonate power generation",
+    "solid oxide electrolysis technology",
+    "carbon capture technology",
+    "hydrogen production"
+   ],
+   "description": "Develops and commercializes fuel cell technology and products, including carbonate and solid oxide platforms, for distributed power and hydrogen customers.",
+   "evidence": "the development and commercialization by FuelCell Energy, Inc. and its subsidiaries (\"FuelCell Energy,\" \"Company,\" \"we,\" \"us\" and \"our\") of fuel cell technology and products and the market for such products"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for power platform and component sales, service agreements, power purchase agreements, and Advanced Technologies contracts, generally billed on contractual milestones or costs incurred.",
+  "evidence": "We bill customers for power platform and power platform component sales based on certain contractual milestones being reached."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the company implemented a global restructuring that re-focused the business on its core carbonate technologies.",
+   "evidence": "Our development timeline for bringing our solid oxide electrolysis technology to market has shifted as a result of delays in adoption of clean energy technologies generally and implementation of our recent global restructuring actions, which have re-focused our business on our core carbonate technologies."
+  }
+ ],
+ "dropped": []
+}

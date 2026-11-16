@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001370637",
+ "issuerName": "ETSY, INC",
+ "builtAt": "2026-11-15T14:24:31.241Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001370637-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1370637/000137063726000019/etsy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketplace",
+   "products": [
+    "Etsy marketplace",
+    "Depop"
+   ],
+   "description": "Operates two-sided online marketplaces connecting creative entrepreneurs and independent sellers with buyers of unique, creative goods worldwide.",
+   "evidence": "Etsy operates two-sided online marketplaces that connect millions of creative entrepreneurs with buyers around the world."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Sellers pay Etsy required fees (transaction, payments processing, listing) and optional fees for services such as on-site advertising and shipping labels.",
+  "evidence": "We generate revenue primarily from marketplace activities, including transaction fees (inclusive of offsite advertising), payments processing fees, and listing fees, as well as from optional seller services such as on-site advertising and shipping labels."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Etsy completed the sale of Reverb, its musical instrument marketplace, leaving two operating segments, Etsy and Depop, aggregated as one reportable segment.",
+   "evidence": "Following the sale of Reverb in the second quarter of 2025, the Company determined it has two operating segments, Etsy and Depop, which each have separate operating results that are reviewed by the Chief Operating Decision Maker (\"CODM\"), the Company's Chief Executive Officer, to assess performance and allocate resources at the segment level."
+  },
+  {
+   "text": "In 2026, Etsy entered an agreement to sell Depop to eBay, with Depop to be classified as discontinued operations beginning in the first quarter of fiscal year 2026.",
+   "evidence": "On February 15, 2026, Etsy and eBay Inc. (\"eBay\") entered into a Sale and Purchase Agreement (the \"Purchase Agreement\") for eBay to purchase Depop, for $1.2 billion in cash, subject to certain adjustments as set forth in the Purchase Agreement."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2023, Etsy completed the sale of Elo7, a Brazil-based marketplace for handmad"
+ ]
+}

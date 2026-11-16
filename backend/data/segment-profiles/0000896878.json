@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000896878",
+ "issuerName": "INTUIT INC.",
+ "builtAt": "2026-11-15T14:23:54.107Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000896878-26-000037",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/896878/000089687826000037/intu-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Business Solutions",
+   "products": [
+    "QuickBooks",
+    "Intuit Enterprise Suite",
+    "Intuit Accountant Suite",
+    "Mailchimp",
+    "QuickBooks Checking",
+    "QuickBooks Capital",
+    "QuickBooks Workforce",
+    "QuickBooks Live Expert Assisted"
+   ],
+   "description": "Serves small and mid-market businesses and accountants worldwide with an all-in-one platform for financial management, payments, capital, payroll, and marketing.",
+   "evidence": "Global Business Solutions : This segment serves small and mid-market businesses and accountants around the world."
+  },
+  {
+   "name": "Consumer",
+   "products": [
+    "TurboTax",
+    "Credit Karma",
+    "Credit Karma Money",
+    "Lacerte",
+    "ProSeries",
+    "ProConnect Tax Online",
+    "ProFile",
+    "ProTax Online"
+   ],
+   "description": "Serves consumers and professional accountants with do-it-yourself and assisted tax preparation, personal finance, and professional tax offerings in the U.S. and Canada.",
+   "evidence": "Consumer : This segment primarily serves consumers and professional accountants."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and small and mid-market businesses pay Intuit for subscriptions and services such as tax preparation, accounting, payments, payroll, and marketing, and Intuit also earns financing and payment processing revenue.",
+  "evidence": "We offer financing options for small and mid-market businesses to help them get the capital they need to succeed."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, Intuit recast prior period segment information, moving certain costs from the Consumer segment to other corporate expenses to conform to the current presentation.",
+   "evidence": "The recast of prior period information had no impact on our consolidated balance sheets, consolidated income statements, or consolidated cash flow statements."
+  }
+ ],
+ "dropped": []
+}

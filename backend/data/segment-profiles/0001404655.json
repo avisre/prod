@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001404655",
+ "issuerName": "HubSpot, Inc.",
+ "builtAt": "2026-11-15T14:25:26.670Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-046646",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1404655/000119312526046646/hubs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Customer platform",
+   "products": [
+    "Marketing",
+    "Sales",
+    "Service",
+    "Operations",
+    "Content",
+    "Commerce",
+    "Smart CRM",
+    "AI-powered agents"
+   ],
+   "description": null,
+   "evidence": "We provide an agentic customer platform that helps marketing, sales, and customer service teams drive business growth."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

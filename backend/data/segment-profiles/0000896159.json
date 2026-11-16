@@ -1,0 +1,90 @@
+{
+ "version": 1,
+ "cik": "0000896159",
+ "issuerName": "CHUBB LIMITED",
+ "builtAt": "2026-11-15T14:23:51.620Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000896159-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/896159/000089615926000005/cb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Commercial P&C Insurance",
+   "products": [
+    "Commercial Insurance",
+    "Major Accounts",
+    "Westchester",
+    "Chubb Bermuda",
+    "Chubb Global Casualty",
+    "Surety",
+    "Accident & Health (A&H)"
+   ],
+   "description": "Provides property and casualty and accident and health insurance and services to large, middle market, and small commercial businesses in the U.S., Canada, and Bermuda.",
+   "evidence": "The North America Commercial P&C Insurance segment comprises operations that provide P&C and A&H insurance and services to large, middle market, and small commercial businesses in the U.S., Canada, and Bermuda."
+  },
+  {
+   "name": "North America Personal P&C Insurance",
+   "products": [
+    "Homeowners",
+    "Automobile",
+    "Valuables",
+    "Umbrella liability",
+    "Recreational marine"
+   ],
+   "description": "Provides personal property and casualty insurance to individuals in North America.",
+   "evidence": "Chubb operates through six business segments: North America Commercial P&C Insurance, North America Personal P&C Insurance, North America Agricultural Insurance, Overseas General Insurance, Global Reinsurance, and Life Insurance."
+  },
+  {
+   "name": "North America Agricultural Insurance",
+   "products": [],
+   "description": "Provides agricultural insurance products to farmers and agribusinesses in North America.",
+   "evidence": "Chubb operates through six business segments: North America Commercial P&C Insurance, North America Personal P&C Insurance, North America Agricultural Insurance, Overseas General Insurance, Global Reinsurance, and Life Insurance."
+  },
+  {
+   "name": "Overseas General Insurance",
+   "products": [],
+   "description": "Provides commercial and consumer property and casualty and A&H insurance outside North America.",
+   "evidence": "Chubb operates through six business segments: North America Commercial P&C Insurance, North America Personal P&C Insurance, North America Agricultural Insurance, Overseas General Insurance, Global Reinsurance, and Life Insurance."
+  },
+  {
+   "name": "Global Reinsurance",
+   "products": [],
+   "description": "Provides reinsurance coverage to insurers managing their exposures worldwide.",
+   "evidence": "Chubb operates through six business segments: North America Commercial P&C Insurance, North America Personal P&C Insurance, North America Agricultural Insurance, Overseas General Insurance, Global Reinsurance, and Life Insurance."
+  },
+  {
+   "name": "Life Insurance",
+   "products": [
+    "Chubb Life",
+    "Chubb Benefits",
+    "Workplace Solutions",
+    "A&H products",
+    "Savings products"
+   ],
+   "description": "Provides life insurance and accident and health products to individuals and groups in international markets.",
+   "evidence": "Chubb operates through six business segments: North America Commercial P&C Insurance, North America Personal P&C Insurance, North America Agricultural Insurance, Overseas General Insurance, Global Reinsurance, and Life Insurance."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Chubb earns premiums from insureds, who typically purchase policies through insurance brokers or agents to whom Chubb pays a commission, and also earns investment income on its portfolio.",
+  "evidence": "For most commercial and personal lines of business we offer, insureds typically use the services of an insurance broker or agent. We obtain business from the local and major international insurance brokers and typically pay a commission to brokers for business accepted and bound."
+ },
+ "changes": [
+  {
+   "text": "In 2022, Chubb expanded its A&H and life insurance business by acquiring Cigna's business in several Asian markets.",
+   "evidence": "We expanded our personal accident and supplemental health (A&H), and life insurance business with the acquisition of Cigna's business in several Asian markets in 2022."
+  },
+  {
+   "text": "In 2023, Chubb acquired a controlling majority interest in Huatai Group, a Chinese financial services holding company.",
+   "evidence": "We further advanced our goal of greater product, customer, and geographical diversification with incremental purchases that led to a controlling majority interest in Huatai Insurance Group Co. Ltd (Huatai Group), a Chinese financial services holding company with separate P&C, life, and asset management subsidiaries (collectively, Huatai) on July 1, 2023."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective July 1, 2023, Huatai Group's non-insurance operations results were inc"
+ ]
+}

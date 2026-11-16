@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001378590",
+ "issuerName": "Bridgeline Digital, Inc.",
+ "builtAt": "2026-11-15T14:24:44.985Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-038337",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1378590/000143774925038337/blin20250930_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software",
+   "products": [
+    "HawkSearch",
+    "Celebros Search",
+    "WooRank by Bridgeline",
+    "Unbound",
+    "OrchestraCMS",
+    "TruPresence",
+    "Hawk AI suite"
+   ],
+   "description": "Provides AI-powered marketing technology software, including site search, SEO auditing, and digital experience platforms, to mid-sized and large companies.",
+   "evidence": "The Company operates as one operating segment, Software, in the business of marketing technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for cloud-based SaaS software arrangements, plus maintenance, hosting, and professional services fees.",
+  "evidence": "The Software segment provides marketing technology to customers under software-as-a-service arrangements."
+ },
+ "changes": [],
+ "dropped": []
+}

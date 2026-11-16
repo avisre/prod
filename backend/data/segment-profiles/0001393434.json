@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001393434",
+ "issuerName": "OCULAR THERAPEUTIX, INC",
+ "builtAt": "2026-11-15T14:25:04.714Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-010664",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1393434/000110465926010664/ocul-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ophthalmology",
+   "products": [
+    "DEXTENZA",
+    "OTX-TIC",
+    "ELUTYX"
+   ],
+   "description": "Develops and commercializes innovative therapies for retinal diseases and other eye conditions using its ELUTYX bioresorbable hydrogel technology.",
+   "evidence": "The Company operates as a single operating segment. Its operations consist of developing and commercializing innovative therapies for retinal diseases and other eye conditions based on its ELUTYX proprietary bioresorbable hydrogel-based formulation technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from sales of DEXTENZA in the United States and collaboration revenue from a customer in China under its license agreement with AffaMed.",
+  "evidence": "For the years ended December 31, 2025, 2024 and 2023, respectively, the Company generated all of its Product Revenue, net, in the United States. Collaboration revenue is attributable to a customer in China (Note 3)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Ophthalmology): AXPAXLI (OTX-TKI)"
+ ]
+}

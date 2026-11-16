@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0000899751",
+ "issuerName": "TITAN INTERNATIONAL, INC.",
+ "builtAt": "2026-11-15T14:24:04.687Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000899751-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/899751/000089975126000007/twi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agricultural",
+   "products": [
+    "Goodyear Farm Tire",
+    "Titan Tire",
+    "Carlstar",
+    "ACES",
+    "Voltyre-Prom",
+    "wheels",
+    "tires",
+    "components"
+   ],
+   "description": "Manufactures agricultural wheels, tires and components for equipment such as tractors and combines, sold to OEMs and aftermarket customers.",
+   "evidence": "Titan's agricultural wheels, tires, and components are manufactured for use on various agricultural equipment, including tractors, combines, skidders, plows, planters, and irrigation equipment, and are sold directly to OEMs and to the aftermarket through independent distributors, equipment dealers, and Titan's distribution centers."
+  },
+  {
+   "name": "Earthmoving/Construction",
+   "products": [
+    "wheels",
+    "undercarriage systems and components",
+    "wheel and tire assembly"
+   ],
+   "description": "Manufactures wheels, tires and undercarriage systems for off-the-road earthmoving, mining, military, construction and forestry equipment OEMs and aftermarket customers.",
+   "evidence": "The Company manufactures wheels, tires, and undercarriage systems and components for various types of OTR earthmoving, mining, military, construction, and forestry equipment, including skid steers, aerial lifts, cranes, graders and levelers, scrapers, self-propelled shovel loaders, articulated dump trucks, load transporters, haul trucks, backhoe loaders, crawler tractors, lattice cranes, shovels, and hydraulic excavators."
+  },
+  {
+   "name": "Consumer",
+   "products": [
+    "Carlstar",
+    "ITP",
+    "Black Rock",
+    "Goodyear",
+    "Unique",
+    "bias truck tires",
+    "light truck tires",
+    "custom rubber stock mixing"
+   ],
+   "description": "Makes and distributes wheels and tires for outdoor power equipment, power sports and trailer markets, plus small to midsize agricultural tires and other sales.",
+   "evidence": "In February 2024, Titan acquired Carlstar (now also known as Titan Specialty), which is a global manufacturer and distributor of wheels and tires for a variety of end-market verticals including outdoor power equipment, power sports, and high speed trailers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Titan is paid by OEMs and aftermarket customers such as independent distributors and equipment dealers for wheels, tires, assemblies and undercarriage products.",
+  "evidence": "Titan produces a broad range of products to meet the specifications of original equipment manufacturers (\"OEMs\") and aftermarket customers in the agricultural, earthmoving/construction, and consumer markets."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Titan acquired Carlstar (Titan Specialty), a global manufacturer and distributor of wheels and tires for consumer and other end markets.",
+   "evidence": "In February 2024, Titan acquired Carlstar (now also known as Titan Specialty), which is a global manufacturer and distributor of wheels and tires for a variety of end-market verticals including outdoor power equipment, power sports, and high speed trailers."
+  }
+ ],
+ "dropped": [
+  "product not in text (Earthmoving/Construction): OTR tires"
+ ]
+}

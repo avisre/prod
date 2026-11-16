@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001374328",
+ "issuerName": "FITLIFE BRANDS, INC.",
+ "builtAt": "2026-11-15T14:24:37.977Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010680",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1374328/000143774926010680/ftlf20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nutritional Supplements",
+   "products": [
+    "NDS Products",
+    "iSatori Products",
+    "MRC Products",
+    "MusclePharm",
+    "Irwin Products"
+   ],
+   "description": "Provider of nutritional supplements and wellness products for health-conscious consumers sold through GNC franchise stores, wholesale customers, and online e-commerce platforms.",
+   "evidence": "FitLife Brands, Inc. (the \" Company \") is a provider of innovative and proprietary nutritional supplements and wellness products for health-conscious consumers"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by wholesale customers, GNC franchise stores, and end consumers for nutritional supplement and wellness products sold online and through wholesale channels.",
+  "evidence": "Payments for sales are generally made by check, credit card, or wire transfer."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired substantially all of the assets of Irwin Naturals, adding the Irwin Products brands.",
+   "evidence": "On August 8, 2025, the Company acquired substantially all of the assets and assumed certain liabilities of Irwin Naturals and its related affiliates (\" Irwin \") through an asset purchase transaction under Section 363 of the U.S. Bankruptcy Code."
+  }
+ ],
+ "dropped": []
+}

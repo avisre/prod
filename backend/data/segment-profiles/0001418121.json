@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001418121",
+ "issuerName": "APPLE HOSPITALITY REIT, INC.",
+ "builtAt": "2026-11-15T14:25:51.619Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1418121/000119312526064008/aple-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lodging",
+   "products": [
+    "Independent boutique hotel in New York"
+   ],
+   "description": "A self-advised REIT that owns rooms-focused upscale hotels across the U.S., operated by third-party managers under Marriott, Hilton and other brands.",
+   "evidence": "The Company has no foreign operations or assets, and its operating structure includes only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns room revenue from hotel guests at its owned hotels, which are operated and managed by third-party hotel management companies under franchise brands.",
+  "evidence": "Average Daily Rate (\"ADR\") is calculated as room revenue divided by the number of rooms sold, and revenue per available room (\"RevPAR\") is calculated as occupancy multiplied by ADR."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company recovered possession of its New York independent boutique hotel and reinstated hotel operations through a third-party manager.",
+   "evidence": "On April 4, 2025, the Company recovered possession of this property and reinstated operations of the hotel's 209 guest rooms through a third-party manager engaged by the Company."
+  }
+ ],
+ "dropped": [
+  "product not in text (Lodging): Hotels operated under Marriott brands",
+  "product not in text (Lodging): Hotels operated under Hilton brands"
+ ]
+}

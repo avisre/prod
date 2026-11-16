@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001424929",
+ "issuerName": "Fox Factory Holding Corp.",
+ "builtAt": "2026-11-15T14:26:01.660Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001424929-26-000012",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1424929/000142492926000012/foxf-20260102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PVG",
+   "products": [
+    "shocks",
+    "suspension systems"
+   ],
+   "description": "Sells shocks to off-road and power sports OEM and aftermarket businesses that sell directly to dealers and distributors.",
+   "evidence": "PVG is comprised of sales to off-road and power sports OEM and aftermarket businesses that sell shocks directly to dealers and distributors."
+  },
+  {
+   "name": "AAG",
+   "products": [
+    "tuning",
+    "suspension",
+    "lift kits",
+    "upfitting",
+    "wheel and tire solutions"
+   ],
+   "description": "Aftermarket businesses offering custom vehicle shock, tuning, suspension, lift kit, upfitting, and wheel and tire solutions for enthusiasts.",
+   "evidence": "AAG is comprised of aftermarket businesses that offer custom vehicle shock, tuning, suspension, lift kit, upfitting, and wheel and tire solutions for automotive and power sports enthusiasts."
+  },
+  {
+   "name": "SSG",
+   "products": [
+    "bike suspension",
+    "component products",
+    "baseball and softball equipment"
+   ],
+   "description": "Sells components for performance mountain bikes, e-bikes, and gravel bikes, plus premium baseball and softball equipment through OEM, aftermarket, dealer, distributor, and direct-to-customer channels.",
+   "evidence": "SSG consists of sales to OEM and aftermarket businesses that provide components for performance mountain bikes, e-bikes, and gravel bikes, as well as sales through dealers, distributors, and direct-to-customer channels, offering premium baseball and softball equipment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns virtually all revenue from product sales to OEM customers, dealers, distributors, and direct-to-consumer channels.",
+  "evidence": "Virtually all of our revenue was from our product sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (AAG): custom vehicle shocks"
+ ]
+}

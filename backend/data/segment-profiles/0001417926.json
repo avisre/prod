@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001417926",
+ "issuerName": "INVO Fertility, Inc.",
+ "builtAt": "2026-11-15T14:25:51.049Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-026775",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1417926/000149315226026775/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fertility Clinic Services",
+   "products": [
+    "INVOcell"
+   ],
+   "description": "Operates fertility clinics, including WFI and the Atlanta Clinic, providing assisted reproductive technology services to patients.",
+   "evidence": "The Clinics Services operating segment consists of financial information for WFI and the Atlanta Clinic."
+  },
+  {
+   "name": "INVOcell Device",
+   "products": [
+    "INVOcell"
+   ],
+   "description": "Manufactures and sells the proprietary INVOcell intravaginal culture device to fertility clinics.",
+   "evidence": "The INVOcell Device operating segment consists of financial information relating to the Company's manufacture and sales of the INVOcell."
+  },
+  {
+   "name": "Therapeutics",
+   "products": [],
+   "description": null,
+   "evidence": "The Therapeutics segment consists of financial information relating to the Company's recently acquired subsidiary, NTI."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patients pay the company for fertility services at its clinics, and third-party clinics pay for INVOcell devices.",
+  "evidence": "We also continue to engage in the sale and distribution of our INVOcell technology solution into third-party owned and operated fertility clinics."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Fertility Clinic Services): in vitro fertilization (IVF)",
+  "product not in text (Fertility Clinic Services): intravaginal culture (IVC) procedure",
+  "change not grounded: In 2025, the company divested 80.1% of NTI, and the Therapeutics segment reflect"
+ ]
+}

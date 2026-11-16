@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001411579",
+ "issuerName": "AMC ENTERTAINMENT HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:25:41.622Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001411579-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1411579/000141157926000016/amc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. markets",
+   "products": [
+    "box office admissions",
+    "theatre food and beverage sales",
+    "AMC Stubs A-List",
+    "AMC Stubs Premiere",
+    "AMC Stubs Premiere GO!",
+    "AMC Stubs Insider",
+    "on-screen advertising",
+    "private theatre rentals"
+   ],
+   "description": "Theatrical exhibition of films in the United States, including admissions, food and beverage, and ancillary revenues for moviegoers.",
+   "evidence": "Our business is operated in two theatrical exhibition reportable segments, U.S. markets and International markets."
+  },
+  {
+   "name": "International markets",
+   "products": [
+    "box office admissions",
+    "theatre food and beverage sales",
+    "on-screen advertising",
+    "private theatre rentals"
+   ],
+   "description": "Theatrical exhibition of films in European markets, operated mainly through Odeon and Nordic cinema businesses.",
+   "evidence": "Substantially all of our international operations are attributed to Odeon Cinemas Group Limited (\"OCGL\") and its subsidiaries, Odeon and UCI Cinemas Holdings Limited (\"Odeon\") and Nordic Cinema Group Holding AB (\"Nordic\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay primarily for box office admissions and theatre food and beverage, with the balance from ancillary sources such as on-screen advertising, loyalty program fees, auditorium rentals and online ticketing fees.",
+  "evidence": "Our theatrical exhibition revenues are generated primarily from box office admissions and theatre food and beverage sales."
+ },
+ "changes": [],
+ "dropped": []
+}

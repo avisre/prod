@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0001402388",
+ "issuerName": "WEST FRASER TIMBER CO. LTD.",
+ "builtAt": "2026-11-15T14:25:26.609Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001402388-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1402388/000140238826000009/exhibit993-2025annualmda.htm",
+  "exhibit": "exhibit993-2025annualmda.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lumber",
+   "products": [
+    "wood chips",
+    "other residuals"
+   ],
+   "description": "Manufactures and sells softwood lumber for residential construction, repair and remodelling and industrial applications in North America.",
+   "evidence": "On November 6, 2025, we announced the permanent closure of our lumber mills in Augusta, Georgia and 100 Mile House, British Columbia."
+  },
+  {
+   "name": "North America Engineered Wood Products",
+   "products": [
+    "OSB",
+    "plywood",
+    "LVL",
+    "MDF",
+    "particleboard",
+    "veneer"
+   ],
+   "description": "Produces oriented strand board and other engineered wood panel products for North American residential construction and repair and remodelling markets.",
+   "evidence": "The most significant uses for our North American lumber, OSB and engineered wood panel products are residential construction, repair and remodelling and industrial applications."
+  },
+  {
+   "name": "Europe Engineered Wood Products",
+   "products": [
+    "OSB",
+    "MDF",
+    "particleboard",
+    "plywood"
+   ],
+   "description": "Manufactures engineered wood panel products in the U.K. and Europe, with OSB growing as an alternative to plywood.",
+   "evidence": "Operating earnings for the Europe EWP Segment increased by $74 million compared to 2024 due to the reasons explained above."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay West Fraser for commodity wood products — lumber, engineered wood panels, pulp and paper — at prices sensitive to supply and demand.",
+  "evidence": "Most of our revenues are from sales of commodity products for which prices are sensitive to variations in supply and demand."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company disposed of its pulp mills, exiting the pulp and paper business.",
+   "evidence": "Selling, general and administration costs decreased by $2 million compared to 2024 due primarily to the impact of the pulp mill disposals and other facility closures and curtailments, and the strengthening of the USD against the CAD."
+  }
+ ],
+ "dropped": [
+  "product not in text (Lumber): lumber",
+  "change not grounded: In 2025 West Fraser permanently closed its Augusta, Georgia and 100 Mile House, "
+ ]
+}

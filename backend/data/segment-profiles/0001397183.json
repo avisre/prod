@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001397183",
+ "issuerName": "IVEDA SOLUTIONS, INC.",
+ "builtAt": "2026-11-15T14:25:13.481Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014179",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1397183/000149315226014179/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "US",
+   "products": [
+    "IvedaAI",
+    "vumastAR",
+    "IvedaXpress",
+    "Cerebro",
+    "IvedaSPS",
+    "Utilus",
+    "IoT sensors and devices"
+   ],
+   "description": "US operations offering AI-driven video surveillance, IoT platforms and smart city technologies to commercial clients and service providers.",
+   "evidence": "The Company operates and manages its business as two reportable and operating segments."
+  },
+  {
+   "name": "Taiwan",
+   "products": [
+    "video surveillance systems",
+    "integrated security solutions"
+   ],
+   "description": "Iveda Taiwan deploys and integrates video surveillance systems for airports, government, banks and other customers, and serves as the R&D arm.",
+   "evidence": "Iveda Taiwan, our subsidiary in Taiwan, specializes in deploying new, and integrating existing, video surveillance systems for airports, commercial buildings, government customers, data centers, shopping centers, hotels, banks, and Safe City."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Iveda sells IoT hardware and AI/IoT software to service providers and end users, with vumastAR sold as a license per device with a monthly subscription for cloud access.",
+  "evidence": "vumastAR is sold as a license per device with a monthly subscription requirement for cloud access to trained AI models."
+ },
+ "changes": [
+  {
+   "text": "In 2014, the company changed its business model from direct project-based sales to selling IoT hardware to service providers.",
+   "evidence": "In 2014, we changed our business model from direct project-based sales to selling IoT hardware to service providers such as telecommunications companies, integrators, and other technology resellers already providing services to an existing customer base."
+  },
+  {
+   "text": "In 2025, the company redomiciled as a Delaware corporation.",
+   "evidence": "On March 14, 2025, the Company redomiciled as a Delaware corporation following approval of a majority of the Company's shareholders at its reconvened 2024 Annual Meeting of Shareholders held on March 4, 2025."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001437958",
+ "issuerName": "COASTAL FINANCIAL CORPORATION",
+ "builtAt": "2026-11-15T14:26:22.952Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437958-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1437958/000143795826000013/ck1437958-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community bank",
+   "products": [
+    "commercial and industrial loans",
+    "commercial real estate loans",
+    "multi-family loans",
+    "construction and development loans",
+    "residential real estate loans",
+    "consumer loans",
+    "SBA loans",
+    "mobile banking application"
+   ],
+   "description": "Provides a wide range of banking products and services to consumers and small to medium sized businesses in the Puget Sound region of Washington.",
+   "evidence": "The community bank segment includes all community banking activities, with a primary focus on providing a wide range of banking products and services to consumers and small to medium sized businesses in the broader Puget Sound region in the state of Washington and through the Internet and our mobile banking application."
+  },
+  {
+   "name": "CCBX",
+   "products": [
+    "installment loans",
+    "credit cards",
+    "commercial loans",
+    "consumer loans",
+    "capital call lines"
+   ],
+   "description": "Provides banking as a service that allows digital financial service partners to offer their customers banking services nationwide.",
+   "evidence": "The CCBX segment provides BaaS that allows our digital financial service partners to offer their customers banking services."
+  },
+  {
+   "name": "treasury & administration",
+   "products": [],
+   "description": "Includes investments, debt and other reporting items that are not specific to the community bank or CCBX segments.",
+   "evidence": "The treasury & administration segment includes investments, debt and other reporting items that are not specific to the community bank or CCBX segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest on loans from borrowers and fee income from digital financial service partners for banking as a service.",
+  "evidence": "We generate most of our community bank revenue from interest on loans and CCBX revenue from BaaS fee income and interest on loans."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CCBX): banking as a service (BaaS)"
+ ]
+}

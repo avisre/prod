@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000884269",
+ "issuerName": "Alpha Pro Tech, Ltd.",
+ "builtAt": "2026-11-15T14:23:11.263Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007797",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/884269/000143774926007797/apt20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Building Supply",
+   "products": [
+    "Housewrap",
+    "Housewrap accessories: window and door flashing and seam tape",
+    "Synthetic roof underlayment",
+    "Synthetic roof underlayment accessories: self-adhered roof underlayment",
+    "Other woven material"
+   ],
+   "description": "Manufactures construction weatherization products sold to construction supply and roofing distributors.",
+   "evidence": "Our products are grouped into two business segments: (1) the Building Supply segment, consisting of construction weatherization products, such as housewrap, housewrap accessories including window and door flashing and seam tape, synthetic roof underlayment and synthetic roof underlayment accessories, as well as other woven materials"
+  },
+  {
+   "name": "Disposable Protective Apparel",
+   "products": [
+    "Shoecovers",
+    "Bouffant caps",
+    "Gowns",
+    "Coveralls",
+    "Lab coats",
+    "Frocks",
+    "Face masks",
+    "Face shields"
+   ],
+   "description": "Manufactures disposable protective garments, face masks and face shields for cleanroom, industrial, pharmaceutical, medical and dental markets.",
+   "evidence": "the Disposable Protective Apparel segment, consisting of disposable protective garments (including shoecovers, bouffant caps, coveralls, gowns, frocks and lab coats), face masks and face shields."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

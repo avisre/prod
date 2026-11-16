@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001388658",
+ "issuerName": "iRhythm Holdings, Inc.",
+ "builtAt": "2026-11-15T14:24:58.991Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001388658-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1388658/000138865826000011/irtc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global ambulatory cardiac monitoring business",
+   "products": [
+    "Zio LTCM Service",
+    "short-term continuous monitoring",
+    "MCT Services",
+    "iRhythm ACM System"
+   ],
+   "description": "Provides ambulatory cardiac monitoring services combining a wearable patch biosensor with cloud-based analytics to help physicians detect and diagnose cardiac arrhythmias.",
+   "evidence": "The Company has one reportable and one operating segment, its global ambulatory cardiac monitoring business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by third-party payors, government payors like CMS, and healthcare institutions for its ambulatory cardiac monitoring services, with some customers paying directly upon patient registration or device shipment.",
+  "evidence": "Certain of the Company's customers pay the Company directly for the Zio LTCM Service upon patient registration or shipment of devices."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Global ambulatory cardiac monitoring business): Zio System"
+ ]
+}

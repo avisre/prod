@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000894556",
+ "issuerName": "CitroTech Inc.",
+ "builtAt": "2026-11-15T14:23:43.306Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002356",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/894556/000168316826002356/citrotech_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Environmentally sustainable specialty chemicals",
+   "products": [
+    "CitroTech fire inhibitor",
+    "CitroSafe Systems",
+    "wood coating products"
+   ],
+   "description": "Develops and sells environmentally sustainable fire inhibitor chemicals and proactive wildfire defense systems for lumber, wood products, wildland fire and residential home protection markets.",
+   "evidence": "Accordingly, we determined we operate in a single reporting segment - environmentally sustainable specialty chemicals for fire prevention and protection in the lumber and wood products, wildland fire and residential home industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by lumber and wood product companies, home, industrial and commercial users, and fire departments that purchase its CitroTech fire inhibitor products and defense systems.",
+  "evidence": "CitroTech markets its product primarily to lumber and wood product companies, home, industrial and commercial users, as well as fire departments."
+ },
+ "changes": [],
+ "dropped": []
+}

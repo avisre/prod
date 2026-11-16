@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000895419",
+ "issuerName": "WOLFSPEED, INC.",
+ "builtAt": "2026-11-15T14:23:47.005Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000895419-26-000054",
+  "periodEnd": "2026-06-28",
+  "filingDate": "2026-08-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/895419/000089541926000054/wolf-20260628.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wide bandgap semiconductors",
+   "products": [
+    "silicon carbide bare wafers",
+    "epitaxial wafers",
+    "GaN epitaxial layers on silicon carbide wafers",
+    "silicon carbide Schottky diodes",
+    "MOSFETs",
+    "power modules"
+   ],
+   "description": "Develops and manufactures silicon carbide materials and power devices for automotive, industrial and energy, aerospace and defense customers.",
+   "evidence": "The Company has one reportable segment representing the entity as a whole, aligning with our organizational structure and with the way our chief operating decision maker (\"CODM\"), who is our Chief Executive Officer, makes operating decisions, allocates resources, and manages the growth and profitability of the Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wolfspeed earns revenue by selling silicon carbide materials and power devices directly to customers and through distributors who resell to their own customer bases.",
+  "evidence": "Power products are sold to customers and distributors for use in applications such as electric vehicles, including charging infrastructure, server power supplies, solar inverters, uninterruptible power supplies, industrial power supplies, AI data centers, grid modernization and other applications."
+ },
+ "changes": [],
+ "dropped": []
+}

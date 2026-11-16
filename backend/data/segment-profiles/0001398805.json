@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001398805",
+ "issuerName": "BEAM GLOBAL",
+ "builtAt": "2026-11-15T14:25:17.316Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-011890",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1398805/000143774926011890/beem20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clean-technology innovation",
+   "products": [
+    "EV ARC™",
+    "BeamSpot™",
+    "BeamWell™",
+    "BeamTrak™",
+    "battery management systems (BMS)",
+    "power electronics including inverters, charge controllers, power supplies and LE"
+   ],
+   "description": "Develops, designs, engineers, manufactures and sells renewably energized infrastructure products for EV and AV charging, energy security, disaster preparedness and Smart Cities customers.",
+   "evidence": "The Company has a single reportable segment focused around providing clean-technology innovation focused on providing high-quality, renewably energized products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Beam for rapidly deployed, renewably energized infrastructure products that enable EV and AV charging and other services, and networks of EV ARC systems can be monetized through sponsorship and naming-rights agreements.",
+  "evidence": "We are agnostic to the EV charging service equipment as we do not sell EV charging, rather we sell products which enable it."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company acquired Amiga in Serbia, adding over thirty years of street-lighting, transportation, energy and telecommunications infrastructure experience.",
+   "evidence": "We have over thirty years of experience deploying street-lighting, transportation, energy and telecommunications infrastructure products as a result of our 2023 acquisition of Amiga in Serbia."
+  }
+ ],
+ "dropped": [
+  "product not in text (Clean-technology innovation): streetlighting and street furniture products"
+ ]
+}

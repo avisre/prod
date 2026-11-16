@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000891014",
+ "issuerName": "MINERALS TECHNOLOGIES INC.",
+ "builtAt": "2026-11-15T14:23:37.194Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000891014-26-000067",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/891014/000089101426000067/form10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer & Specialties",
+   "products": [
+    "Household & Personal Care",
+    "Specialty Additives",
+    "Precipitated Calcium Carbonate (PCC)",
+    "Ground Calcium Carbonate (GCC)",
+    "filtration media",
+    "fabric care products",
+    "personal care ingredients"
+   ],
+   "description": "Serves consumer end markets with mineral-to-market household products and specialty mineral-based additives for consumer and industrial goods.",
+   "evidence": "The Consumer & Specialties segment serves consumer end markets directly with mineral-to-market finished products and also provides specialty mineral-based solutions and technologies that are an essential component of our customers' finished products."
+  },
+  {
+   "name": "Engineered Solutions",
+   "products": [
+    "High-Temperature Technologies",
+    "Environmental & Infrastructure",
+    "Green Sand Bonds",
+    "ADDITROL® blends",
+    "monolithic and pre-cast refractory products",
+    "MINSCAN® refractory application machines",
+    "calcium metal",
+    "metallurgical wire products"
+   ],
+   "description": "Serves industrial end markets with engineered systems, mineral blends, and technologies that improve customers' manufacturing processes and projects.",
+   "evidence": "The Engineered Solutions segment serves industrial end markets with engineered systems, mineral blends, and technologies that are designed to improve our customers' manufacturing processes and projects ."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for specialty mineral products and engineered solutions, often under long-term evergreen satellite plant agreements supplying substantially all of a customer's requirements.",
+  "evidence": "Generally, the Company and its customers enter into long-term evergreen agreements, initially ten to fifteen years in length, pursuant to which the Company supplies substantially all of the customers' requirements."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Consumer & Specialties): SIVO™ cat litter"
+ ]
+}

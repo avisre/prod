@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0001367644",
+ "issuerName": "EMERGENT BIOSOLUTIONS INC.",
+ "builtAt": "2026-11-15T14:24:23.152Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001367644-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1367644/000136764426000015/ebs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Products",
+   "products": [
+    "NARCAN® (naloxone HCl) Nasal Spray",
+    "KLOXXADO® (naloxone HCl) Nasal Spray"
+   ],
+   "description": "Sells naloxone nasal sprays for emergency treatment of opioid overdose to pharmacies, governments and community customers in the U.S. and Canada.",
+   "evidence": "our Commercial Product Segment consisting of NARCAN ® Nasal Spray and KLOXXADO ® (naloxone HCl) Spray"
+  },
+  {
+   "name": "MCM Products",
+   "products": [
+    "ANTHRASIL®",
+    "BioThrax®",
+    "CYFENDUS®",
+    "Raxibacumab injection",
+    "ACAM2000®",
+    "CNJ-016® (VIGIV)",
+    "TEMBEXA®",
+    "BAT®"
+   ],
+   "description": "Provides medical countermeasures against anthrax, smallpox, botulism and Ebola, primarily procured by the U.S. government and international governments.",
+   "evidence": "our MCM Products Segment consisting of Anthrax—MCM products, Smallpox—MCM products and Other Products (as discussed below)"
+  },
+  {
+   "name": "All other revenues",
+   "products": [
+    "Bioservices (CDMO)",
+    "Contracts and Grants"
+   ],
+   "description": "Contains the de-emphasized Bioservices CDMO business and contracts and grants revenue after Services ceased to be a reportable segment.",
+   "evidence": "as such is categorized within \"All other revenues\" along with \"Contracts and Grants\"."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of its products to commercial and government customers, from bioservices provided to third-party customers, and from non-dilutive contract and grant funding for R&D projects.",
+  "evidence": "Our revenues are derived from a combination of the sale and procurement of our product/product candidate portfolio (described below), the provision of our bioservices to external customers, and non-dilutive contract and grant funding for research and development ( \" R&D \" ) projects from various third-party sources."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company sold its travel health business, including Vivotif and Vaxchora, to Bavarian Nordic.",
+   "evidence": "In 2023, we completed the sale of our Commercial Products Segment's travel health business, including rights to Vivotif ® , the licensed typhoid vaccine; Vaxchora ® , the licensed cholera vaccine; the development-stage chikungunya vaccine candidate CHIKV VLP; the Company's manufacturing site in Bern, Switzerland; and certain of its development facilities in San Diego, California to Bavarian Nordic."
+  },
+  {
+   "text": "In 2024, the company sold its worldwide rights to RSDL to SERB Pharmaceuticals.",
+   "evidence": "In July 2024, we entered into a Stock and Asset Purchase Agreement (the \"RSDL ® Agreement\") with SERB Pharmaceuticals, through its wholly owned subsidiary BTG International Inc. (collectively, \"SERB\"), pursuant to which, among other things, we sold our worldwide rights to RSDL ® to SERB (the \"RSDL ® Transaction\")."
+  },
+  {
+   "text": "As of the first quarter of 2025, the Services operating segment no longer met reportable segment thresholds and was moved into All other revenues.",
+   "evidence": "Therefore, as of the first quarter of 2025, the Company's Services operating segment no longer met the quantitative thresholds of a reportable segment and did not meet the aggregation criteria set forth in Accounting Standards Codification 280, Segment Reporting, and as such is categorized within \"All other revenues\" along with \"Contracts and Grants\"."
+  }
+ ],
+ "dropped": []
+}

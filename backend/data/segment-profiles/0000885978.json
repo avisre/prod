@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000885978",
+ "issuerName": "U S PHYSICAL THERAPY INC /NV",
+ "builtAt": "2026-11-15T14:23:18.326Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-007170",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/885978/000114036126007170/ef20060831_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Physical Therapy Operations",
+   "products": [
+    "physical therapy clinics",
+    "occupational therapy clinics",
+    "home-care physical and speech therapy practices",
+    "management contract services",
+    "athletic trainers for schools"
+   ],
+   "description": "Operates outpatient physical, speech and occupational therapy clinics and home-care practices providing pre- and post-operative care and orthopedic rehabilitation for patients.",
+   "evidence": "Our physical therapy operations segment consists of physical therapy, speech therapy and occupational therapy clinics and home-care physical and speech therapy practices that provide pre- and post-operative care and treatment for a variety of orthopedic-related disorders, sports-related injuries, and rehabilitation of injured workers."
+  },
+  {
+   "name": "Industrial Injury Prevention Services",
+   "products": [
+    "injury prevention and rehabilitation",
+    "performance optimization",
+    "post-offer employment testing",
+    "functional capacity evaluations",
+    "ergonomic assessments"
+   ],
+   "description": null,
+   "evidence": "Services provided by the industrial injury prevention services (\"IIP\") segment include onsite services for clients' employees including injury prevention and rehabilitation, performance optimization, post-offer employment testing, functional capacity evaluations and ergonomic assessments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clinics charge patients and third-party payors for outpatient treatment on a per procedure basis, while IIP services are contracted and paid for directly by employers.",
+  "evidence": "We provide services at our clinics on an outpatient basis and generally charge for treatment on a per procedure basis."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Physical Therapy Operations): speech therapy clinics"
+ ]
+}

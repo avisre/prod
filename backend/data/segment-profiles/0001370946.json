@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0001370946",
+ "issuerName": "Owens Corning",
+ "builtAt": "2026-11-15T14:24:31.735Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001370946-26-000067",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1370946/000137094626000067/oc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Roofing",
+   "products": [
+    "laminate asphalt roofing shingles",
+    "roofing components",
+    "composite lumber",
+    "oxidized asphalt",
+    "glass mat",
+    "specialty veil materials"
+   ],
+   "description": "Makes asphalt roofing shingles and related components, oxidized asphalt and glass mat materials for residential construction and industrial customers.",
+   "evidence": "Our primary products in the Roofing segment are laminate asphalt roofing shingles."
+  },
+  {
+   "name": "Insulation",
+   "products": [
+    "thermal and acoustical batts",
+    "loosefill insulation",
+    "spray foam insulation",
+    "wet use chopped strand",
+    "foam sheathing and accessories",
+    "glass fiber pipe insulation",
+    "bonded and granulated stone wool insulation",
+    "cellular glass insulation"
+   ],
+   "description": "Provides residential, commercial and industrial insulation products across the United States, Canada, Europe and Latin America.",
+   "evidence": "Our Insulation segment includes a diverse portfolio of high, mid and low-temperature products with a geographic mix of United States, Canada, Europe and Latin America."
+  },
+  {
+   "name": "Doors",
+   "products": [
+    "residential interior and exterior doors",
+    "door components such as frames, sills, weather-stripping, hinges and locks",
+    "aluminum-framed glass doors",
+    "window solutions for luxury homes"
+   ],
+   "description": "Makes residential interior and exterior doors and door systems for repair, remodel and new construction markets.",
+   "evidence": "Our primary products in the Doors segment are residential interior and exterior doors made of wood, glass, fiberglass and metal, and door components such as frames, sills, weather-stripping, hinges and locks."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells building products to distributors, home centers, lumberyards, retailers, contractors, installers and dealers across wholesale and retail channels.",
+  "evidence": "We sell shingles and roofing components primarily through distributors, home centers and lumberyards in the United States."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company agreed to sell its global glass reinforcements business, historically part of the Composites segment, which is now reported as discontinued operations.",
+   "evidence": "Effective January 1, 2025, the GR business's financial results are reflected in the Company's consolidated financial statements as discontinued operations for all periods presented."
+  },
+  {
+   "text": "In 2024, the company acquired Masonite International Corporation, creating the Doors segment.",
+   "evidence": "On May 15, 2024, the Company acquired all of the outstanding shares of Masonite International Corporation (\"Masonite\"), a leading global designer, manufacturer, marketer and distributor of interior and exterior doors and door systems for the residential new construction and residential repair and remodeling markets."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective January 1, 2025, the company changed its reportable segments to Roofin"
+ ]
+}

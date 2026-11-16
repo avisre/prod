@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000896156",
+ "issuerName": "Ethan     Allen Interiors Inc.",
+ "builtAt": "2026-11-15T14:23:51.134Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-029578",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/896156/000143774926029578/eth20260630c_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "wholesale",
+   "products": [
+    "Home Accents",
+    "Lighting",
+    "Area Rugs",
+    "Upholstery",
+    "Case Goods"
+   ],
+   "description": "Manufactures and sells Ethan Allen home furnishings to independent design centers, independent retailers, contract clients and the retail segment.",
+   "evidence": "Our wholesale segment net sales include sales to our retail segment, which are eliminated in consolidation, and sales to our independent retailers and other third parties."
+  },
+  {
+   "name": "retail",
+   "products": [
+    "Ethan Allen home furnishings",
+    "complimentary interior design service"
+   ],
+   "description": "Sells home furnishings and interior design services to clients through Company-operated design centers and online.",
+   "evidence": "We sell home furnishings and accents to clients through our 141 Company-operated design centers that make up our retail segment and 43 independently operated design centers located in the U.S., Asia, the Middle East and Europe, which are included within our wholesale segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of home furnishings to retail clients through its design centers and online, and from wholesale sales to independent retailers and other third parties.",
+  "evidence": "Our wholesale segment net sales include sales to our retail segment, which are eliminated in consolidation, and sales to our independent retailers and other third parties."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (wholesale): Ethan Allen furniture",
+  "product not in text (wholesale): Outdoor products"
+ ]
+}

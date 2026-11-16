@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001435064",
+ "issuerName": "CEMTREX, INC.",
+ "builtAt": "2026-11-15T14:26:17.278Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-25-029383",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1435064/000149315225029383/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security",
+   "products": [
+    "browser-based video monitoring systems",
+    "analytics-based recognition systems",
+    "cameras",
+    "servers",
+    "access control systems"
+   ],
+   "description": "Provides end-to-end security and video surveillance solutions under the Vicon brand for corporate, industrial, and governmental customers.",
+   "evidence": "Cemtrex's Security segment operates under the brand of its majority owned subsidiary, Vicon Industries, Inc. (\"Vicon\"), which provides end-to-end security solutions to meet the toughest corporate, industrial, and governmental security challenges."
+  },
+  {
+   "name": "Industrial Services",
+   "products": [
+    "rigging",
+    "millwrighting",
+    "in plant maintenance",
+    "equipment erection",
+    "relocation",
+    "disassembly",
+    "specialty welding services",
+    "scaffolding"
+   ],
+   "description": "Offers single-source rigging, millwrighting, maintenance, and equipment installation services under the AIS brand to diversified industrial customers.",
+   "evidence": "Cemtrex's Industrial Services segment operates under the brand, Advanced Industrial Services (\"AIS\"), which offers single-source expertise and services for rigging, millwrighting, in plant maintenance, equipment erection, relocation, and disassembly to diversified customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

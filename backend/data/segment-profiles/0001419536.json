@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001419536",
+ "issuerName": "CAPITAL BANCORP INC",
+ "builtAt": "2026-11-15T14:25:53.991Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001419536-26-000073",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1419536/000141953626000073/cbnk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "commercial real estate lending",
+    "construction lending",
+    "lender finance loans"
+   ],
+   "description": "Provides relationship-driven commercial banking, lending and deposit services to businesses and organizations from North Carolina to Delaware and nationwide verticals.",
+   "evidence": "Our Commercial Banking division's commercial loan officers and commercial real estate loan officers provide C&I, commercial real estate, including lender finance loans, and construction lending solutions to business clients in Capital Bank's operating markets."
+  },
+  {
+   "name": "OpenSky™",
+   "products": [
+    "secured credit cards",
+    "unsecured credit cards"
+   ],
+   "description": "Provides nationwide, digitally-originated secured, partially secured and unsecured credit cards to under-banked populations and credit rebuilders.",
+   "evidence": "OpenSky ™ provides nationwide, digitally-originated and served, secured, partially-secured, and unsecured credit cards to under-banked populations and those looking to rebuild their credit scores."
+  },
+  {
+   "name": "Windsor Advantage™",
+   "products": [],
+   "description": "Offers community banks and credit unions an outsourced SBA and USDA lending platform, earning fees from servicing, processing and packaging loans.",
+   "evidence": "Windsor Advantage™ is a loan service provider that offers community banks and credit unions a comprehensive outsourced SBA and USDA lending platform."
+  },
+  {
+   "name": "Capital Bank Home Loans",
+   "products": [
+    "government guaranteed residential mortgage loans"
+   ],
+   "description": "Originates residential mortgage loans nationwide, primarily for sale into the secondary market and in some cases for the loan portfolio.",
+   "evidence": "Capital Bank Home Loans (\"CBHL\") originates conventional and government guaranteed residential mortgage loans on a nationwide basis primarily for sale into the secondary market and, in certain circumstances, for our loan portfolio."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns interest on loans, credit card balances and deposits, loan sale and mortgage banking revenue, credit card fees, and service charges from deposit and loan servicing clients.",
+  "evidence": "Loans, investments, and deposits and fees provide the revenues in the Commercial Bank, loan sales provide the revenues in CBHL, credit card loan interest and fees provide the revenues in OpenSky ™ , and service charges and ancillary fees provide the revenues in Windsor Advantage ™ ."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company acquired IFH and Windsor Advantage™, adding the Windsor Advantage™ segment.",
+   "evidence": "On October 1, 2024, the Company completed its acquisition of IFH."
+  }
+ ],
+ "dropped": [
+  "product not in text (Commercial Banking): C&I lending",
+  "product not in text (Commercial Banking): government guaranteed lending (USDA and SBA loans)",
+  "product not in text (Commercial Banking): deposit services for HOAs, title companies, PACs and not-for-profits",
+  "product not in text (OpenSky™): partially secured credit cards",
+  "product not in text (Windsor Advantage™): SBA and USDA loan servicing",
+  "product not in text (Windsor Advantage™): loan processing and packaging",
+  "product not in text (Capital Bank Home Loans): conventional residential mortgage loans",
+  "change not grounded: Effective January 1, 2025, the Company eliminated the Corporate reportable segme"
+ ]
+}

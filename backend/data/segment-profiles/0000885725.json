@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000885725",
+ "issuerName": "BOSTON SCIENTIFIC CORPORATION",
+ "builtAt": "2026-11-15T14:23:17.724Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000885725-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/885725/000088572526000010/bsx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MedSurg",
+   "products": [
+    "Endoscopy",
+    "Urology",
+    "Neuromodulation"
+   ],
+   "description": "Develops and manufactures minimally invasive devices for endoscopic, urological and neuromodulation treatments for physicians and patients.",
+   "evidence": "Our core businesses are organized into two reportable segments: MedSurg and Cardiovascular."
+  },
+  {
+   "name": "Cardiovascular",
+   "products": [
+    "Interventional Cardiology and Vascular Therapies (ICVT)",
+    "Electrophysiology",
+    "Cardiac Rhythm Management"
+   ],
+   "description": "Develops and manufactures devices and technologies for diagnosing and treating heart, peripheral arterial, venous diseases and various cancers.",
+   "evidence": "Our Cardiovascular business develops and manufactures devices and medical technologies for diagnosing and treating a variety of diseases and abnormalities of the heart, as well as products to diagnose and treat peripheral arterial and venous diseases and various forms of cancer."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns net sales from selling medical devices to customers such as hospitals and physicians who use them to diagnose and treat patients.",
+  "evidence": "Our portfolio of devices and therapies helps physicians diagnose and treat complex cardiovascular, respiratory, digestive, oncological, neurological and urological diseases and conditions."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the legacy Cardiology and Peripheral Interventions businesses were combined into a single Cardiovascular business, with no impact on reportable segments.",
+   "evidence": "In the fourth quarter of 2025, an organizational change combined our legacy Cardiology and Peripheral Interventions businesses into a single Cardiovascular business."
+  }
+ ],
+ "dropped": [
+  "product not in text (Cardiovascular): WATCHMAN Left Atrial Appendage Closure Devices",
+  "change not grounded: In 2025, the company announced the discontinuation of worldwide sales of the ACU"
+ ]
+}

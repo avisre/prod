@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0001433660",
+ "issuerName": "JBT Marel Corporation",
+ "builtAt": "2026-11-15T14:26:14.370Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001433660-26-000053",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1433660/000143366026000053/jbt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Protein Solutions",
+   "products": [
+    "primary processing systems",
+    "cut-up",
+    "bone detection and removal",
+    "portioning",
+    "robotic batching"
+   ],
+   "description": "Provides solutions for initial stage processing and harvesting of animal proteins, focusing on poultry, pork, fish, and beef.",
+   "evidence": "The Protein Solutions segment includes businesses that provide solutions for initial stage processing and harvesting of animal proteins, primarily focusing on poultry, pork, fish, and beef."
+  },
+  {
+   "name": "Prepared Food and Beverage Solutions",
+   "products": [
+    "meat preparation",
+    "forming",
+    "cutting",
+    "slicing",
+    "cooking",
+    "freezing",
+    "filling",
+    "packaging"
+   ],
+   "description": "Offers solutions for downstream value-added preparation, preservation, and packaging of foods and beverages into ready to eat or drink products.",
+   "evidence": "The Prepared Food and Beverage Solutions segment includes businesses that offer solutions predominantly for downstream value-added preparation, preservation, and packaging of foods and beverages into ready to eat or drink products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Food and beverage companies pay for customized processing systems and equipment, plus recurring aftermarket parts, service, re-build services, and operating leases on certain extractors.",
+  "evidence": "Our historically strong position in the markets we serve has provided us with a large installed base of systems and equipment that is a source of recurring revenue from our aftermarket parts and service offerings and re-build services for customer-owned equipment."
+ },
+ "changes": [
+  {
+   "text": "In 2025, JBT completed the acquisition of Marel hf. and changed its name to JBT Marel Corporation.",
+   "evidence": "On January 2, 2025, we completed the acquisition of Marel hf. (\"Marel\"), s ubsequently renamed JBT Marel ehf. (such acquisition, the \"Marel Transaction\")."
+  },
+  {
+   "text": "In the fourth quarter of 2025, the company realigned its reportable segments from JBT and Marel to Protein Solutions and Prepared Food and Beverage Solutions.",
+   "evidence": "During the fourth quarter of 2025, we realigned our reportable segments to better reflect the integration of our new operating model."
+  },
+  {
+   "text": "In 2023, the company sold its AeroTech business segment to Oshkosh Corporation to become a pure-play food and beverage solutions provider.",
+   "evidence": "On August 1, 2023, we completed the sale of the AeroTech business segment (\"AeroTech\")."
+  }
+ ],
+ "dropped": []
+}

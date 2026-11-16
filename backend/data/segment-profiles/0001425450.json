@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001425450",
+ "issuerName": "OrthoPediatrics Corp",
+ "builtAt": "2026-11-15T14:26:05.754Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001425450-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1425450/000142545026000013/kids-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "OrthoPediatrics",
+   "products": [
+    "PediLoc®",
+    "PediPlates®",
+    "The Fassier-Duval Telescopic Intramedullary System®",
+    "ApiFix® Mid-C System",
+    "Mitchell Ponseti®",
+    "Boston Brace 3D®",
+    "Orthex®"
+   ],
+   "description": "Designs, develops and markets anatomically appropriate implants, instruments and specialized braces for children with orthopedic conditions.",
+   "evidence": "We have one operating and reportable segment, OrthoPediatrics, which designs, develops and markets anatomically appropriate specialized braces, implants and devices for children with orthopedic problems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by hospitals, physicians and distributors for sales of its pediatric orthopedic implants, instruments, braces and O&P clinic services.",
+  "evidence": "Product sales attributed to a country or region includes product sales to hospitals, physicians and distributors and is based on the final destination where the products are sold."
+ },
+ "changes": [
+  {
+   "text": "In 2025, management decided to exit the Telos regulatory consulting business, writing off its goodwill and customer relationship intangibles.",
+   "evidence": "Management made the decision to exit its Telos regulatory consulting business, in the third quarter of 2025, resulting in a write-off of its entire goodwill balance."
+  }
+ ],
+ "dropped": [
+  "product not in text (OrthoPediatrics): RESPONSE™ Spine"
+ ]
+}

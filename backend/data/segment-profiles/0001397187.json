@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001397187",
+ "issuerName": "lululemon athletica inc.",
+ "builtAt": "2026-11-15T14:25:15.015Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001397187-26-000020",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1397187/000139718726000020/lulu-20260201.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "technical athletic apparel",
+    "footwear",
+    "accessories"
+   ],
+   "description": "Designs, distributes and retails lululemon branded apparel, footwear and accessories across the Americas through stores, e-commerce, wholesale and other channels.",
+   "evidence": "We report three segments, Americas, China Mainland, and Rest of World, which is comprised of the APAC and EMEA regions on a combined basis."
+  },
+  {
+   "name": "China Mainland",
+   "products": [
+    "technical athletic apparel",
+    "footwear",
+    "accessories"
+   ],
+   "description": "Sells lululemon branded apparel, footwear and accessories in China Mainland through company-operated stores, a WeChat store and third-party online marketplaces.",
+   "evidence": "We operate lululemon branded retail locations in China Mainland in a variety of different formats including different sizes of company-operated stores, outlets, pop-ups, and other temporary locations."
+  },
+  {
+   "name": "Rest of World",
+   "products": [
+    "technical athletic apparel",
+    "footwear",
+    "accessories"
+   ],
+   "description": "Sells lululemon branded apparel, footwear and accessories across APAC and EMEA through company-operated stores, licensed locations, websites and online marketplaces.",
+   "evidence": "We report three segments, Americas, China Mainland, and Rest of World, which is comprised of the APAC and EMEA regions on a combined basis."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Guests pay the company for lululemon branded apparel, footwear and accessories sold through company-operated stores, e-commerce, outlets, wholesale partners, licensees and the Like New re-commerce program.",
+  "evidence": "We generate net revenue in the Americas through our lululemon branded retail locations which include different sizes of company-operated stores, outlets, pop-ups, and other temporary locations."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company acquired the lululemon branded retail locations and operations in Mexico previously run by a third-party licensee, allocated to the Americas segment.",
+   "evidence": "On September 10, 2024, we acquired the lululemon branded retail locations and operations in Mexico previously run by a third-party licensee."
+  }
+ ],
+ "dropped": []
+}

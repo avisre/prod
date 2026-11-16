@@ -1,0 +1,91 @@
+{
+ "version": 1,
+ "cik": "0000887936",
+ "issuerName": "FTI CONSULTING, INC",
+ "builtAt": "2026-11-15T14:23:29.947Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000887936-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/887936/000088793626000013/fcn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate Finance",
+   "products": [
+    "Transactions",
+    "Transformation",
+    "Turnaround & Restructuring",
+    "Diligence (Financial, Tax, HR, IT, Synergy and Regulatory)",
+    "Investment Banking",
+    "Valuation & Financial Advisory Services",
+    "Insolvency",
+    "Interim Management"
+   ],
+   "description": "Advises companies, boards, investors, lenders and governments on strategic, operational, financial, transactional and capital needs.",
+   "evidence": "Our Corporate Finance segment focuses on the strategic, operational, financial, transactional and capital needs of our clients around the world."
+  },
+  {
+   "name": "Forensic and Litigation Consulting",
+   "products": [
+    "Construction, Projects & Assets and Environmental Solutions",
+    "Data & Analytics",
+    "Dispute Advisory Services",
+    "Healthcare Risk Management & Advisory",
+    "Risk & Investigations",
+    "Forensic Accounting & Fraud Investigations",
+    "Cybersecurity Investigations",
+    "Monitorships"
+   ],
+   "description": "Provides law firms, companies, boards and government entities with risk, investigations and dispute services, focused on highly regulated industries.",
+   "evidence": "Our FLC segment provides law firms, companies, boards of directors, government entities, private equity firms and other interested parties with a multidisciplinary and independent range of services across risk & investigations and disputes, supported by our data & analytics technology-enabled solutions, with a focus on highly regulated industries."
+  },
+  {
+   "name": "Economic Consulting",
+   "products": [
+    "Antitrust & Competition Economics",
+    "Financial Economics",
+    "International Arbitration",
+    "M&A-related Antitrust",
+    "Securities Litigation & Risk Management",
+    "Valuation"
+   ],
+   "description": "Through Compass Lexecon, provides economic analyses and expert testimony for arbitration, legal and regulatory proceedings and strategic decision making.",
+   "evidence": "Our Economic Consulting segment, including subsidiary Compass Lexecon LLC (\"Compass Lexecon\"), provides law firms, companies, government entities and other interested parties with analyses of complex economic issues for use in international arbitration, legal and regulatory proceedings and strategic decision making and public policy debates around the world."
+  },
+  {
+   "name": "Technology",
+   "products": [
+    "Blockchain & Digital Assets",
+    "Information Governance",
+    "Privacy & Security"
+   ],
+   "description": "Provides technology-enabled solutions supporting investigations, disputes and data challenges for clients.",
+   "evidence": "We report financial results for the following five reportable segments: • Corporate Finance; • Forensic and Litigation Consulting (\"FLC\"); • Economic Consulting; • Technology; and • Strategic Communications."
+  },
+  {
+   "name": "Strategic Communications",
+   "products": [
+    "Corporate Reputation",
+    "Financial Communications",
+    "Public Affairs"
+   ],
+   "description": "Provides communications and public affairs advisory services to corporations and other clients.",
+   "evidence": "We report financial results for the following five reportable segments: • Corporate Finance; • Forensic and Litigation Consulting (\"FLC\"); • Economic Consulting; • Technology; and • Strategic Communications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients, including corporations, law firms, private equity firms, banks and governments, pay FTI Consulting for expert professional services.",
+  "evidence": "We derive the majority of our revenues from providing professional services to clients in the U.S."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company renamed its Corporate Finance & Restructuring segment to Corporate Finance, with no change to the segment's composition.",
+   "evidence": "The Company renamed its Corporate Finance & Restructuring segment to Corporate Finance to better align with the segment's business activities, structure and strategy, as of December 31, 2025."
+  }
+ ],
+ "dropped": []
+}

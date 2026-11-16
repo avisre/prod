@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0001393818",
+ "issuerName": "Blackstone Inc.",
+ "builtAt": "2026-11-15T14:25:06.156Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082531",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1393818/000119312526082531/d48618d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate",
+   "products": [
+    "BREP",
+    "Core+",
+    "BPP",
+    "BREIT",
+    "BEPIF",
+    "BREDS",
+    "BXMT"
+   ],
+   "description": "Global real estate investing across opportunistic, stabilized and debt strategies for institutional and individual investors.",
+   "evidence": "Our Real Estate business is a global leader in real estate investing, with $319.3 billion of Total Assets Under Management as of December 31, 2025."
+  },
+  {
+   "name": "Private Equity",
+   "products": [
+    "Tactical Opportunities",
+    "BXPE",
+    "BXCM"
+   ],
+   "description": "Global private equity, infrastructure, secondaries and capital markets businesses for institutional and individual investors.",
+   "evidence": "Our Private Equity segment encompasses global businesses with a total of approximately 720 employees managing $416.4 billion of Total Assets Under Management as of December 31, 2025."
+  },
+  {
+   "name": "Credit & Insurance",
+   "products": [
+    "Infrastructure and asset based credit",
+    "Insurance platform"
+   ],
+   "description": "Corporate and asset based credit management, including CLOs and insurance investment management, for clients and borrowers.",
+   "evidence": "BXCI offers its clients and borrowers a comprehensive solution across corporate and asset based credit, including investment grade and non-investment grade debt."
+  },
+  {
+   "name": "Multi-Asset Investing",
+   "products": [
+    "Absolute Return",
+    "Multi-Strategy",
+    "Total Portfolio Management"
+   ],
+   "description": "Discretionary allocation to hedge funds and multi-asset portfolio construction across public and private markets.",
+   "evidence": "BXMA, the world's largest discretionary allocator to hedge funds, is a leader in building multi-asset portfolios."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Blackstone earns management fees and performance revenues from investors in its funds and vehicles.",
+  "evidence": "Perpetual Capital strategies represent a significant and growing portion of our overall business, and the management fees and performance revenues we receive."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Private Equity): Corporate Private Equity (BCP)",
+  "product not in text (Private Equity): Blackstone Life Sciences (BXLS)",
+  "product not in text (Private Equity): Blackstone Growth (BXG)",
+  "product not in text (Private Equity): Infrastructure (BIP, BXINFRA)",
+  "product not in text (Private Equity): Secondaries (Strategic Partners, Blackstone GP Stakes)",
+  "product not in text (Credit & Insurance): Private corporate credit (BCRED, BXSL, ECRED)",
+  "product not in text (Credit & Insurance): Liquid corporate credit (CLOs)",
+  "product not in text (Multi-Asset Investing): Public Real Assets (Harvest)"
+ ]
+}

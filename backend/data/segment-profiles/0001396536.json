@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001396536",
+ "issuerName": "Duos Technologies Group, Inc.",
+ "builtAt": "2026-11-15T14:25:11.643Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001079973-26-000405",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1396536/000107997326000405/duos_10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology Solutions",
+   "products": [
+    "Edge Data Centers",
+    "colocation and infrastructure services",
+    "manufacturer-agnostic infrastructure sourcing",
+    "intelligent inspection and analytics solutions",
+    "energy consulting services"
+   ],
+   "description": "Duos designs, deploys and operates modular Edge Data Centers, related infrastructure sourcing and fulfillment services, and legacy intelligent technology solutions for enterprise, education, healthcare and public-sector…",
+   "evidence": "Duos also continues to operate as a technology company which designs, develops, deploys and operates intelligent technology solutions with a focus on software applications and artificial intelligence (\"AI\") in addition to large project, consulting, implementation and asset management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for initial Edge Data Center deployments plus long-term recurring colocation and infrastructure services fees, along with project-based sourcing, procurement and fulfillment services.",
+  "evidence": "These deployments are designed to generate both initial deployment revenue and long-term recurring revenue streams tied to infrastructure utilization and services."
+ },
+ "changes": [
+  {
+   "text": "During fiscal 2024, the Company significantly expanded its focus from legacy inspection and analytics solutions into deploying modular Edge Data Centers and digital infrastructure.",
+   "evidence": "During fiscal 2024, the Company significantly expanded its focus on deploying modular EDCs and building a repeatable platform to support distributed compute workloads across education, healthcare, service provider, enterprise, and public sector customers."
+  },
+  {
+   "text": "The Company recently launched Duos Technologies Solutions, an infrastructure solutions business unit complementary to Duos Edge AI.",
+   "evidence": "In addition to owning and deploying infrastructure, the Company recently launched Duos Technologies Solutions, an infrastructure solutions line of business as a complementary business unit to Duos Edge AI that provides manufacturer-agnostic sourcing, logistics coordination, and fulfillment services."
+  }
+ ],
+ "dropped": [
+  "product not in text (Technology Solutions): logistics coordination and fulfillment services"
+ ]
+}

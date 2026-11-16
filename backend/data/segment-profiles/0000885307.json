@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000885307",
+ "issuerName": "JEWETT-CAMERON TRADING COMPANY LTD.",
+ "builtAt": "2026-11-15T14:23:13.926Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001553350-25-000164",
+  "periodEnd": "2025-08-31",
+  "filingDate": "2025-12-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/885307/000155335025000164/jctc_10k-083125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pet, Fencing and Other",
+   "products": [
+    "Adjust-A-Gate®",
+    "Fit-Right™",
+    "Lucky Dog®",
+    "Lifetime Steel Post®",
+    "fencing products",
+    "lawn, garden, and pet related products"
+   ],
+   "description": "Sells lawn, garden, pet and fencing products, primarily to home centers, eCommerce providers, retailers and consumers.",
+   "evidence": "We have concentrated on building a customer base for lawn, garden, and pet related products. Fencing is our largest component of this segment."
+  },
+  {
+   "name": "Industrial wood products",
+   "products": [
+    "specialty wood products"
+   ],
+   "description": "Greenwood wholesale distributes specialty wood products focused on the transportation industry, shipped just-in-time to customers.",
+   "evidence": "Greenwood is a wholesale distributor of a variety of specialty wood products. Current products are focused on the transportation industry."
+  },
+  {
+   "name": "Seed processing and sales",
+   "products": [
+    "agricultural seed"
+   ],
+   "description": null,
+   "evidence": "JCSC processed and distributed agricultural seed. Most of this segment's sales came from selling seed to distributors with a lesser amount of sales derived from cleaning seed."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling manufactured and sourced fencing, pet, lawn, garden and wood products to home centers, eCommerce providers, other retailers and direct consumers.",
+  "evidence": "Primary customers are home centers, eCommerce providers, other retailers, and direct sales to consumers."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In fiscal 2023 the Company decided to close its JCSC seed division, ending regul"
+ ]
+}

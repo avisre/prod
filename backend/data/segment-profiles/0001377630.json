@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001377630",
+ "issuerName": "NATIONAL CINEMEDIA, INC.",
+ "builtAt": "2026-11-15T14:24:42.496Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076788",
+  "periodEnd": "2026-01-01",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1377630/000119312526076788/ncmi-20260101.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advertising",
+   "products": [
+    "The Noovie Show",
+    "The CineLife Show",
+    "NCMx"
+   ],
+   "description": "Sells cinema advertising and entertainment shows to national, regional and local businesses on movie screens and lobby screens across the U.S.",
+   "evidence": "Advertising is the principal business activity of the Company and is the Company's only operating and reportable segment under the requirements of ASC 280— Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives revenue primarily from selling advertising to national, regional and local businesses through its cinema advertising shows and related promotional platforms.",
+  "evidence": "We derive revenue primarily from selling advertising to national, regional and local businesses through The Noovie Show and the CineLife Show, our cinema advertising and entertainment shows seen on movie screens across the U.S."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Spotlight, a U.S. cinema advertising company serving art house, luxury and dine-in exhibitors, adding the CineLife Show to its platform.",
+   "evidence": "On November 14, 2025, the Company acquired Spotlight, the only U.S. cinema advertising company dedicated to serving art house, luxury and dine-in exhibitors."
+  }
+ ],
+ "dropped": [
+  "product not in text (Advertising): Lobby Entertainment Network (LEN)"
+ ]
+}

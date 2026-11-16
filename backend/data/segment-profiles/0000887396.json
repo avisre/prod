@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000887396",
+ "issuerName": "EMPIRE PETROLEUM CORPORATION",
+ "builtAt": "2026-11-15T14:23:27.447Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027675",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/887396/000110465926027675/ep-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and gas",
+   "products": [
+    "Oil",
+    "Natural gas"
+   ],
+   "description": "Empire explores, develops and produces oil, natural gas and NGLs in New Mexico, North Dakota, Montana, Texas and Louisiana.",
+   "evidence": "The Company operates as one operating segment and one reportable segment which is engaged in the exploration, development, and production of oil, gas, and NGLs in New Mexico, North Dakota, Montana, Texas, and Louisiana, from which all of its revenues are derived and expenses incurred."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Empire for delivered oil, natural gas and NGLs at market-based prices, with revenue recognized when control transfers at delivery.",
+  "evidence": "Revenues are recognized at a point in time when production is sold to a purchaser at a determinable price, delivery has occurred, control has transferred and it is probable substantially all of the consideration will be collected."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Oil and gas): Natural gas liquids (NGLs)"
+ ]
+}

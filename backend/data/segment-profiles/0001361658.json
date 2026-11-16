@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001361658",
+ "issuerName": "Travel & Leisure Co.",
+ "builtAt": "2026-11-15T14:24:10.637Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001361658-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1361658/000136165826000009/tnl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vacation Ownership",
+   "products": [
+    "Club Wyndham",
+    "WorldMark",
+    "Margaritaville Vacation Club",
+    "Sports Illustrated Resorts",
+    "Eddie Bauer Adventure Club",
+    "Accor Vacation Club"
+   ],
+   "description": "Develops, markets, and sells vacation ownership interests to individual consumers, provides consumer financing, and provides property management services at resorts.",
+   "evidence": "Vacation Ownership — develops, markets, and sells vacation ownership interests (\"VOIs\") to individual consumers, provides consumer financing in connection with the sale of VOIs, and provides property management services at resorts."
+  },
+  {
+   "name": "Travel and Membership",
+   "products": [
+    "RCI",
+    "Travel + Leisure GO",
+    "Travel + Leisure For Business"
+   ],
+   "description": "Operates travel businesses including vacation exchange brands, travel technology platforms, travel memberships, and direct-to-consumer rentals for members and partners.",
+   "evidence": "Travel and Membership — operates a variety of travel businesses, including vacation exchange brands, travel technology platforms, travel memberships, and direct-to-consumer rentals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay for vacation ownership interests, financing, and maintenance fees, while members and business partners pay fees for exchange and travel club services.",
+  "evidence": "In 2025, we generated 46% of our revenues from the sale of vacation ownership interests, 40% from our fee-for-service revenue streams, 11% from our consumer financing revenue stream, and 3% from other ancillary revenue streams."
+ },
+ "changes": [
+  {
+   "text": "In 2021, the company acquired the Travel + Leisure brand and was renamed from Wyndham Destinations, Inc. to Travel + Leisure Co.",
+   "evidence": "In connection with this acquisition, on February 17, 2021, Wyndham Destinations, Inc. was renamed Travel + Leisure Co. and trades on the NYSE under the ticker symbol TNL."
+  }
+ ],
+ "dropped": []
+}

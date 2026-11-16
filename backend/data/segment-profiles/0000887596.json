@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000887596",
+ "issuerName": "THE CHEESECAKE FACTORY INCORPORATED",
+ "builtAt": "2026-11-15T14:23:27.689Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018643",
+  "periodEnd": "2025-12-30",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/887596/000110465926018643/cake-20251230x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "The Cheesecake Factory Restaurants",
+   "products": [
+    "proprietary cheesecakes",
+    "SkinnyLicious menu"
+   ],
+   "description": "Operates upscale casual dining restaurants offering an extensive menu and premium desserts to a broad customer base in the United States and Canada.",
+   "evidence": "As of February 23, 2026, we operated 216 The Cheesecake Factory restaurants, which strive to provide a distinctive, high-quality dining experience at moderate prices by offering an extensive, innovative and evolving menu in an upscale casual, high-energy setting with attentive, efficient and friendly service."
+  },
+  {
+   "name": "North Italia",
+   "products": [
+    "North Italia restaurants"
+   ],
+   "description": "Operates the North Italia brand of restaurants, one of the company's reportable segments.",
+   "evidence": "Based on quantitative thresholds set forth in ASC 280, Segment Reporting, The Cheesecake Factory, North Italia and the other FRC brands are the only businesses that meet the criteria of a reportable operating segment ."
+  },
+  {
+   "name": "Other FRC",
+   "products": [],
+   "description": "Comprises the additional restaurant brands within the Fox Restaurant Concepts portfolio, reported as a reportable segment.",
+   "evidence": "additional brands within our Fox Restaurant Concepts (\"Other FRC\") portfolio (55 locations)."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Flower Child restaurants"
+   ],
+   "description": "Combines the Flower Child and bakery operating segments, businesses not qualifying as operating segments, and unallocated corporate expenses.",
+   "evidence": "The remaining operating segments (Flower Child and our bakery division) along with our businesses that do not qualify as operating segments are combined in Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Restaurant customers pay for dining and off-premise meals, international licensees pay licensing fees, and third-party bakery customers purchase cheesecakes and baked products.",
+  "evidence": "Our bakery division operates two facilities that produce quality cheesecakes and other baked products for our restaurants, international licensees and third-party bakery customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (The Cheesecake Factory Restaurants): The Cheesecake Factory restaurants",
+  "product not in text (Other FRC): Fox Restaurant Concepts portfolio brands",
+  "product not in text (Other): bakery division products"
+ ]
+}

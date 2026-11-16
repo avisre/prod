@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000886986",
+ "issuerName": "TECK RESOURCES LIMITED",
+ "builtAt": "2026-11-15T14:23:24.975Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0000886986-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Copper",
+   "products": [
+    "Molybdenum",
+    "Gold",
+    "Silver"
+   ],
+   "description": "Copper mining segment producing copper and associated by-products for global metals markets.",
+   "evidence": "ifrs-full:OperatingSegmentsMember teck:CopperSegmentMember teck:CopperMember 2025-01-01 2025-12-31 0000886986"
+  },
+  {
+   "name": "Zinc",
+   "products": [
+    "Lead",
+    "Silver",
+    "Germanium"
+   ],
+   "description": "Zinc segment producing zinc, lead and by-products, including Trail operations, for metals and other customers.",
+   "evidence": "ifrs-full:OperatingSegmentsMember teck:ZincSegmentMember teck:ZincMember 2025-01-01 2025-12-31 0000886986"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, Teck sold its steelmaking coal business (Elk Valley Resources) to Glencore and classified it as discontinued operations.",
+   "evidence": "teck:ElkValleyResourcesLtdMember teck:GlencoreMember 2024-07-01 2024-07-31 0000886986 ifrs-full:DiscontinuedOperationsMember 2024-07-01 2024-07-31 0000886986"
+  }
+ ],
+ "dropped": [
+  "product not in text (Copper): Copper",
+  "product not in text (Zinc): Zinc",
+  "product not in text (Zinc): Fertilizers and other products and services"
+ ]
+}

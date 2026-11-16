@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "cik": "0001413329",
+ "issuerName": "Philip Morris International Inc.",
+ "builtAt": "2026-11-15T14:25:47.915Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-005939",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1413329/000162828026005939/pm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe Region",
+   "products": [
+    "Marlboro",
+    "IQOS",
+    "ZYN",
+    "VEEV",
+    "HEETS",
+    "TEREA"
+   ],
+   "description": "Sells PMI's cigarettes and smoke-free products across Europe, and also includes the Wellness business.",
+   "evidence": "Europe Region is headquartered in Lausanne, Switzerland, and covers all the European Union countries, Switzerland, the United Kingdom, and also Ukraine, Moldova and Southeast Europe; it also includes our Wellness business;"
+  },
+  {
+   "name": "South and Southeast Asia, Commonwealth of Independent States, Middle East and Af",
+   "products": [
+    "Marlboro",
+    "IQOS",
+    "ZYN",
+    "Sampoerna A",
+    "Dji Sam Soe"
+   ],
+   "description": "Sells cigarettes and smoke-free products across South and Southeast Asia, Africa, the Middle East, Turkey, Central Asia, Caucasus and Russia.",
+   "evidence": "South and Southeast Asia, Commonwealth of Independent States, Middle East and Africa Region (\"SSEA, CIS & MEA\") is headquartered in Dubai, United Arab Emirates."
+  },
+  {
+   "name": "East Asia, Australia, and PMI Global Travel Retail (\"EA, AU & PMI GTR\")",
+   "products": [
+    "Marlboro",
+    "IQOS",
+    "HEETS",
+    "TEREA",
+    "ZYN"
+   ],
+   "description": "Sells cigarettes and smoke-free products in East Asia and Australia, consolidated with the global travel retail business.",
+   "evidence": "East Asia, Australia, and PMI Global Travel Retail (\"EA, AU & PMI GTR\") is headquartered in Hong Kong, and includes the consolidation of our global travel retail business with East Asia & Australia;"
+  },
+  {
+   "name": "Americas Region",
+   "products": [
+    "Marlboro",
+    "IQOS",
+    "ZYN",
+    "Parliament",
+    "Chesterfield"
+   ],
+   "description": "Sells cigarettes and smoke-free products in the United States, Canada and Latin America.",
+   "evidence": "Americas Region is headquartered in Stamford, Connecticut, and covers the United States, Canada and Latin America."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "PMI earns net revenues from selling cigarettes and smoke-free products to retailers, distributors, wholesalers, trade partners and consumers through direct sales, distributors and its own e-commerce and brand retail infrastructure.",
+  "evidence": "We use the term net revenues to refer to our operating revenues from the sale of our products, including shipping and handling charges billed to customers, net of sales and promotion incentives, and excise taxes."
+ },
+ "changes": [
+  {
+   "text": "In 2024, PMI sold Vectura Group Ltd. and, in January 2025, moved the ongoing Wellness results into the Europe segment.",
+   "evidence": "Following the sale of Vectura Group Ltd. on December 31, 2024, we updated our segment reporting in January 2025 by including the ongoing Wellness results (previously referred to as Wellness & Healthcare) in the Europe segment."
+  },
+  {
+   "text": "In the first quarter of 2025, PMI renamed its PMI Duty Free business to PMI Global Travel Retail and renamed the segment to East Asia, Australia & PMI Global Travel Retail.",
+   "evidence": "In addition, we renamed our \"PMI Duty Free\" business to \"PMI Global Travel Retail\" effective in the first quarter of 2025."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective January 1, 2026, the four geographic segments were replaced with three"
+ ]
+}

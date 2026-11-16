@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0000887225",
+ "issuerName": "KOREA ELECTRIC POWER CORPORATION",
+ "builtAt": "2026-11-15T14:23:25.932Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-190113",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/887225/000119312526190113/d86100d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Transmission and distribution",
+   "products": [
+    "electricity transmission",
+    "electricity distribution",
+    "sale of electricity to end-users"
+   ],
+   "description": "Transmits, distributes and sells electricity purchased from generation subsidiaries and independent power producers to end-users in Korea.",
+   "evidence": "The transmission and distribution segment, which is operated by us, the parent company, consists of operations related to the transmission, distribution and sale to end-users of electricity purchased from our generation subsidiaries, as well as from independent power producers."
+  },
+  {
+   "name": "Electric power generation (Nuclear)",
+   "products": [
+    "nuclear power generation",
+    "hydroelectric power generation"
+   ],
+   "description": "Nuclear and hydroelectric power generation by the wholly-owned subsidiary KHNP, sold to the parent company through the Korea Power Exchange.",
+   "evidence": "The nuclear power generation segment is operated by our one nuclear generation subsidiary and non-nuclear power generation segment is operated by our five non-nuclear generation subsidiaries, which consist of operations related to the generation of electricity sold to the parent company through the Korea Power Exchange."
+  },
+  {
+   "name": "Electric power generation (Non-nuclear)",
+   "products": [
+    "coal-fired generation",
+    "renewable energy generation",
+    "pumped-storage hydro"
+   ],
+   "description": "Non-nuclear electricity generation by five wholly-owned subsidiaries (KOSEP, KOMIPO, KOWEPO, KOSPO and EWP), sold to the parent company.",
+   "evidence": "Our five non-nuclear generation subsidiaries are KOSEP, KOMIPO, KOWEPO, KOSPO and EWP, each of which is wholly owned by us and is incorporated in Korea."
+  },
+  {
+   "name": "Plant maintenance & engineering service",
+   "products": [],
+   "description": "Provides maintenance and engineering services for power plants.",
+   "evidence": "The remainder of our operation consists primarily of operations related to the plant maintenance and engineering service and others including mainly overseas businesses."
+  },
+  {
+   "name": "Others",
+   "products": [
+    "overseas businesses"
+   ],
+   "description": "Manages the company's foreign operations.",
+   "evidence": "others mainly represent the business unit that manages the Company's foreign operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay government-regulated electricity tariff rates for electricity sold, and generation subsidiaries sell electricity to the parent company through the Korea Power Exchange.",
+  "evidence": "Most importantly, the electricity tariff rates we charge to our customers are regulated by the Government taking into account, among others, our needs to recover fair operating costs, make capital investments and recoup a fair return on capital invested by us, as well as the Government's overall policy considerations, such as inflation."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electric power generation (Non-nuclear)): LNG generation",
+  "product not in text (Plant maintenance & engineering service): plant maintenance services",
+  "product not in text (Plant maintenance & engineering service): engineering services"
+ ]
+}

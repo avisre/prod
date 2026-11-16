@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001385280",
+ "issuerName": "Cinemark Holdings, Inc.",
+ "builtAt": "2026-11-15T14:24:52.226Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-056015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1385280/000119312526056015/cnk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. markets",
+   "products": [
+    "theatrical exhibition",
+    "XD auditoriums",
+    "IMAX auditoriums",
+    "ScreenX auditoriums",
+    "concessions",
+    "mobile concession ordering"
+   ],
+   "description": "Operates movie theaters across the United States, providing filmed entertainment exhibition, premium formats, and food and beverage offerings to moviegoers.",
+   "evidence": "As of December 31, 2025, we managed our business under two reportable segments: U.S. markets and international markets."
+  },
+  {
+   "name": "International markets",
+   "products": [
+    "theatrical exhibition",
+    "screen advertising",
+    "alternative content"
+   ],
+   "description": null,
+   "evidence": "Our Latin America circuit operated 193 theaters and 1,396 screens across 13 countries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from moviegoers through box office admissions and concession sales, plus screen advertising, screen rental and other streams.",
+  "evidence": "We generate revenue primarily from filmed entertainment box office receipts and concession sales, with additional revenue from screen advertising, screen rental and other revenue streams, such as transactional fees, studio trailer placements, promotional income, meeting rentals, and games located in some of our facilities."
+ },
+ "changes": [],
+ "dropped": []
+}

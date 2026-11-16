@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001412408",
+ "issuerName": "Phreesia, Inc.",
+ "builtAt": "2026-11-15T14:25:44.921Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001412408-26-000079",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1412408/000141240826000079/phr-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology solutions",
+   "products": [
+    "SaaS-based integrated tools that manage patient access, registration and payment",
+    "clinical assessments",
+    "healthcare payment card",
+    "MediFind provider directory",
+    "PhreesiaPads",
+    "Arrivals Kiosks",
+    "Network Solutions"
+   ],
+   "description": "Provides software, payments and engagement solutions that improve operational and financial performance of healthcare organizations and patient health outcomes.",
+   "evidence": "Accordingly, the Company has determined that it operates in a single reportable operating segment, managed on a consolidated basis, which the Company refers to as the Technology solutions segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare organizations pay recurring subscription fees and payment processing and financing fees, while life sciences companies and other organizations pay per-engagement fees under annual contracts.",
+  "evidence": "Our business model provides meaningful visibility into future revenue, as our revenue is primarily derived from recurring subscription fees and re-occurring payment processing fees and financing fees."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2026, Phreesia completed the acquisition of AccessOne, expanding its addressable market for healthcare payments.",
+   "evidence": "In fiscal year 2026, we completed the acquisition (the \"AccessOne Acquisition\") of AccessOne Parent Holdings, Inc. (together with its subsidiaries, \"AccessOne\"), which expands our addressable market for healthcare payments."
+  },
+  {
+   "text": "In fiscal year 2026, the payment solutions revenue stream was renamed from payment processing fees to include financing fees as well.",
+   "evidence": "We generate revenue through a diversified model that includes three revenue streams: subscription and related services; payment solutions (previously labeled payment processing fees), which include payment processing fees and financing fees; and Network Solutions"
+  }
+ ],
+ "dropped": [
+  "product not in text (Technology solutions): patient communication tools"
+ ]
+}

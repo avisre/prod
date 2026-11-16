@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001437226",
+ "issuerName": "MASTECH DIGITAL, INC.",
+ "builtAt": "2026-11-15T14:26:19.455Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-112845",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1437226/000119312526112845/mhh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data and Analytics Services",
+   "products": [
+    "data modernization",
+    "master data management",
+    "data governance",
+    "data integration",
+    "analytics",
+    "customer experience solutions"
+   ],
+   "description": "Provides consulting and managed services for data management, analytics, customer experience and digital technology initiatives to mid-sized and large enterprises globally.",
+   "evidence": "This segment provides consulting and managed services focused on data management, analytics, customer experience, and related digital technology initiatives."
+  },
+  {
+   "name": "IT Staffing Services",
+   "products": [
+    "MAS-REMOTE",
+    "offshore staffing services",
+    "engineering staffing services",
+    "digital learning services"
+   ],
+   "description": "Delivers IT staffing and project-based services in digital and mainstream technologies for businesses and institutions with recurring staffing needs.",
+   "evidence": "Our IT Staffing Services segment combines technical expertise with business process experience to deliver a broad range of services in digital and mainstream technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (IT Staffing Services): digital technology staffing",
+  "product not in text (IT Staffing Services): mainstream technologies staffing",
+  "revenue model not grounded"
+ ]
+}

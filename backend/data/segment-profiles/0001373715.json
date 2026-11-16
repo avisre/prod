@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001373715",
+ "issuerName": "SERVICENOW, INC.",
+ "builtAt": "2026-11-15T14:24:36.347Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001373715-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1373715/000137371526000007/now-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software-as-a-service",
+   "products": [
+    "ServiceNow AI Platform",
+    "Now Assist",
+    "Workflow Data Fabric",
+    "RaptorDB"
+   ],
+   "description": "ServiceNow provides a cloud-based platform with AI-powered applications and services that help public and private organizations automate and govern workflows across the enterprise.",
+   "evidence": "Our chief operating decision maker (\"CODM\"), the Chief Executive Officer, manages the Company's business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Organizations pay ServiceNow for subscriptions to its software-as-a-service platform and AI-powered applications that automate and manage enterprise workflows.",
+  "evidence": "our experience operating a software-as-a-service platform at scale gives us operational expertise in maintaining reliability, security, and performance standards that enterprise customers require"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Software-as-a-service): IT Operations Management (ITOM)",
+  "product not in text (Software-as-a-service): IT Service Management (ITSM)",
+  "product not in text (Software-as-a-service): Risk Management (RM)"
+ ]
+}

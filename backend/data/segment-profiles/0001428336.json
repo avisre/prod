@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001428336",
+ "issuerName": "HEALTHEQUITY, INC.",
+ "builtAt": "2026-11-15T14:26:06.349Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001428336-26-000010",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1428336/000142833626000010/hqy-20260131.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns service fees from Clients, Network Partners, and members, custodial revenue from Depository and insurance partners on HSA cash, and interchange fees from merchants on member card payments.",
+  "evidence": "We earn service revenue mainly from fees paid by our Clients, Network Partners, and account holders, which we refer to as members, for the administration services we provide in connection with the HSAs and other CDBs we offer."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: HSA and CDB administration"
+ ]
+}

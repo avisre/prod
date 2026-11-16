@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000889971",
+ "issuerName": "LIGHTPATH TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-15T14:23:34.627Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-030106",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/889971/000143774926030106/lpth20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Optics",
+   "products": [
+    "precision molded lenses",
+    "infrared optical components",
+    "lens assemblies",
+    "infrared camera systems",
+    "infrared coatings"
+   ],
+   "description": "Designs and manufactures optical components, assemblies, modules, cameras and infrared materials for defense, industrial, commercial, medical and telecom customers.",
+   "evidence": "The Company has one reportable operating segment, the optics segment that is managed on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including defense contractors, OEMs and industrial companies, pay LightPath for optical components, assemblies, cameras and engineered optical solutions.",
+  "evidence": "By tapping into the domain knowledge and design, assembly and testing capabilities of solutions providers like LightPath, the customer can avoid making the large investment needed for them to develop those capabilities in-house."
+ },
+ "changes": [
+  {
+   "text": "In January 2026, the company acquired the assets of Amorphous Materials, Inc., a specialist in infrared glass fabrication.",
+   "evidence": "In January 2026, we acquired the assets of Amorphous Materials, Inc. through our newly-formed, wholly-owned subsidiary, Amorphous Materials, LLC, a Delaware limited liability company (\"AML\")."
+  },
+  {
+   "text": "In July 2026, the company agreed to sell its Chinese subsidiary LPOIZ, expected to close in September 2026.",
+   "evidence": "In July 2026, we announced that we had entered into a definitive agreement to sell and transfer 100% of our equity interest in LPOIZ, including the Zhenjiang Facility and its operations in China, to Hengtu Optical Technology Co., Ltd."
+  }
+ ],
+ "dropped": [
+  "product not in text (Optics): optical assemblies and modules",
+  "product not in text (Optics): Mantis multispectral camera",
+  "product not in text (Optics): BlackDiamond chalcogenide glass",
+  "change not grounded: In February 2025, the company acquired G5 Infrared, a manufacturer of high-perfo"
+ ]
+}

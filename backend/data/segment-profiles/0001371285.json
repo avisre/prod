@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001371285",
+ "issuerName": "TRUPANION, INC",
+ "builtAt": "2026-11-15T14:24:33.205Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001371285-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1371285/000137128526000018/trup-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "subscription business",
+   "products": [
+    "Trupanion branded product",
+    "Powered by Trupanion",
+    "Furkin",
+    "PHI Direct"
+   ],
+   "description": "Provides direct-to-consumer medical insurance for cats and dogs to pet parents in North America and Continental Europe on a recurring subscription basis.",
+   "evidence": "We generate revenue in our subscription business segment primarily through insurance premiums, which we refer to as subscription payments, from direct-to-consumer products."
+  },
+  {
+   "name": "other business",
+   "products": [
+    "U.S. Department of Veterans Affairs program",
+    "employer-sponsored programs"
+   ],
+   "description": "Underwrites pet insurance policies on behalf of third parties in business-to-business relationships, including Pets Best, at a lower margin profile.",
+   "evidence": "Our other business segment generates revenue from other product offerings, primarily by underwriting policies on behalf of third parties with whom we generally have a business-to-business relationship."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pet parents pay recurring subscription premiums priced per pet, and third parties pay the company to underwrite policies or commissions on third-party-underwritten products.",
+  "evidence": "We generate revenue in our subscription business segment primarily through insurance premiums, which we refer to as subscription payments, from direct-to-consumer products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (other business): Pets Best underwriting"
+ ]
+}

@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001395942",
+ "issuerName": "OPENLANE, Inc.",
+ "builtAt": "2026-11-15T14:25:10.386Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001395942-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1395942/000139594226000006/opln-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketplace",
+   "products": [
+    "Auction and related fees",
+    "SaaS and other revenue",
+    "Purchased vehicle sales",
+    "Vehicle inspection and certification",
+    "Transportation logistics",
+    "Reconditioning"
+   ],
+   "description": "Digital marketplace for wholesale used vehicles connecting dealers and commercial sellers with buyers in the United States, Canada and Europe.",
+   "evidence": "Revenue from the Marketplace segment increased $143.4 million, or 11%, to $1,500.8 million for the year ended December 31, 2025, compared with $1,357.4 million for the year ended December 31, 2024."
+  },
+  {
+   "name": "Finance",
+   "products": [
+    "Floorplan financing",
+    "Value-added products and services"
+   ],
+   "description": "Provides short-term inventory-secured floorplan financing and affiliated solutions to independent used vehicle dealers across North America.",
+   "evidence": "This is provided primarily to independent used vehicle dealers (\"independent vehicle dealers\") through our wholly-owned subsidiary, AFC, which has approximately 90 branch locations (hybrid of physical locations and a digital servicing network) throughout North America."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company charges buy and sell fees to vehicle sellers and buyers, sells value-added ancillary products and services, earns finance revenue from floorplan financing, and records gross selling price on vehicles it purchases and resells.",
+  "evidence": "We generate revenue through buy and sell fees charged to vehicle sellers and buyers on both sides of the transaction, as well as through the sale of value-added ancillary products and services, including SaaS-based remarketing and other supporting technology services, transportation logistics, reconditioning, vehicle inspection and certification, titling, administrative and collateral recovery services and floorplan financing."
+ },
+ "changes": [
+  {
+   "text": "In 2023, KAR rebranded to OPENLANE and merged its technology platforms into a single marketplace experience.",
+   "evidence": "KAR rebranded to \"OPENLANE,\" in 2023."
+  },
+  {
+   "text": "In 2022, the company sold ADESA's U.S. physical assets.",
+   "evidence": "the sale of ADESA's U.S. physical assets in 2022"
+  },
+  {
+   "text": "In 2019, the company completed a tax-free spin-off of IAA.",
+   "evidence": "a successful tax-free spin-off of IAA in 2019"
+  }
+ ],
+ "dropped": []
+}

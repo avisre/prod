@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000883241",
+ "issuerName": "SYNOPSYS INC",
+ "builtAt": "2026-11-15T14:23:07.279Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000883241-25-000028",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/883241/000088324125000028/snps-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Design Automation",
+   "products": [
+    "EDA software",
+    "Synopsys Cloud",
+    "Digital Design Family",
+    "Custom Design Family",
+    "Silicon Lifecycle Management (SLM)",
+    "Ansys solutions",
+    "professional services"
+   ],
+   "description": "Provides EDA software, hardware, simulation and analysis solutions and services used by engineers to design, verify and test chips and electronic systems.",
+   "evidence": "Our Design Automation segment includes the EDA, Ansys and Other revenue groups."
+  },
+  {
+   "name": "Design IP",
+   "products": [
+    "interface IP",
+    "security IP",
+    "embedded processor IP",
+    "IP subsystems",
+    "IP implementation services"
+   ],
+   "description": "Provides pre-designed semiconductor IP components and related services that chip designers use to reduce development risk and speed time to market.",
+   "evidence": "Design IP includes our interface, foundation, security, and embedded processor IP, IP subsystems, and IP implementation services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for software licenses (typically time-based TSL subscriptions of two to three years), hardware, support and services, plus royalties when customers sell products incorporating Synopsys IP.",
+  "evidence": "The duration of our TSL contracts is generally two to three years, though it may vary for specific arrangements."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Synopsys completed its acquisition of Ansys, adding simulation and analysis products to the Design Automation segment.",
+   "evidence": "With ANSYS, Inc, (Ansys) now part of Synopsys, we can maximize the capabilities of product R&D teams broadly enabling them to rapidly innovate AI-powered products."
+  }
+ ],
+ "dropped": [
+  "product not in text (Design Automation): verification hardware products",
+  "product not in text (Design IP): foundation IP"
+ ]
+}

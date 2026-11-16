@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000893538",
+ "issuerName": "SM ENERGY CO",
+ "builtAt": "2026-11-15T14:23:40.065Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000893538-26-000032",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/893538/000089353826000032/sm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E&P Segment",
+   "products": [
+    "oil",
+    "gas",
+    "NGLs"
+   ],
+   "description": "Explores, develops, and produces oil, gas, and NGLs onshore in the United States, deriving all revenue from these production activities.",
+   "evidence": "As a result of these factors, the Company has one reportable segment : the oil, gas, and NGL exploration and production segment (\"E&P Segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company earns revenue from selling its share of produced oil, gas, and NGLs from its Midland Basin, South Texas, and Uinta Basin assets to purchasers.",
+  "evidence": "The Company recognizes its share of revenue from the sale of produced oil, gas, and NGLs from its Midland Basin, South Texas, and Uinta Basin assets."
+ },
+ "changes": [],
+ "dropped": []
+}

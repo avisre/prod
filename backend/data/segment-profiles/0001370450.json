@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001370450",
+ "issuerName": "WILLDAN GROUP, INC.",
+ "builtAt": "2026-11-15T14:24:29.919Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020767",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1370450/000110465926020767/wldn-20260102x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy",
+   "products": [
+    "Energy Efficiency",
+    "Program Design and Implementation",
+    "Direct Customer Support",
+    "Turnkey Facility and Infrastructure Projects",
+    "performance contracting",
+    "measurement and verification services",
+    "software and data analytics"
+   ],
+   "description": "Provides energy efficiency, program design, demand reduction, and turnkey infrastructure solutions to businesses, utilities, municipalities, and non-profit organizations.",
+   "evidence": "Our Energy segment provides specialized, innovative, and comprehensive energy solutions to businesses, utilities, state agencies, municipalities, and non-profit organizations."
+  },
+  {
+   "name": "Engineering and Consulting",
+   "products": [
+    "Building and Safety",
+    "civil engineering and construction management",
+    "city engineering and planning support",
+    "geotechnical services",
+    "materials testing",
+    "economic and financial consulting",
+    "traffic and transportation engineering"
+   ],
+   "description": "Provides engineering, building and safety, and financial consulting services to public agencies supporting community development and infrastructure.",
+   "evidence": "Willdan provides public agencies with a comprehensive suite of engineering, building and safety, and financial consulting services designed to support safe, sustainable, and fiscally responsible community development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities, public agencies, and private industry pay Willdan under contracts with fixed price, time-and-materials, or unit-based pricing provisions, with revenue recognized over time based on costs incurred, milestones, or pre-agreed schedules.",
+  "evidence": "We enter into contracts with our clients that contain various types of pricing provisions, including fixed price, time-and-materials, and unit-based p"
+ },
+ "changes": [],
+ "dropped": []
+}

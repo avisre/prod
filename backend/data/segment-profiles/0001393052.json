@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001393052",
+ "issuerName": "Veeva Systems Inc.",
+ "builtAt": "2026-11-15T14:25:03.185Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001393052-26-000014",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1393052/000139305226000014/veev-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industry cloud solutions",
+   "products": [
+    "Veeva Development Cloud",
+    "Veeva Quality Cloud",
+    "Veeva Commercial Cloud",
+    "Veeva Data Cloud",
+    "Veeva AI",
+    "Professional Services and Support",
+    "Veeva Business Consulting"
+   ],
+   "description": "Provides industry cloud software, data, and business consulting solutions for the global life sciences industry, from R&D through commercialization.",
+   "evidence": "Accordingly, the Company operates as a single operating and reportable segment that is focused on providing industry cloud solutions tailored to the global life sciences industry."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Life sciences companies pay subscription fees for Veeva's cloud software and data solutions and fees for professional services and business consulting.",
+  "evidence": "We group our revenues into two product areas: Commercial Solutions and R&D and Quality Solutions."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001421461",
+ "issuerName": "INTREPID POTASH, INC.",
+ "builtAt": "2026-11-15T14:25:58.725Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001421461-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1421461/000142146126000008/ipi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Potash",
+   "products": [
+    "Salt",
+    "Magnesium chloride",
+    "Brines"
+   ],
+   "description": "Produces and sells potash as fertilizer, animal feed nutrient, and industrial input, along with mining byproducts.",
+   "evidence": "We sell potash into three primary markets: the agricultural market as a fertilizer input, the animal feed market as a nutrient supplement, and the industrial market as a component in drilling and fracturing fluids for oil and gas wells and an input to other industrial processes."
+  },
+  {
+   "name": "Trio®",
+   "products": [],
+   "description": "Produces a low-chloride specialty fertilizer delivering potassium, sulfur, and magnesium in a single particle for domestic and international crop markets.",
+   "evidence": "Trio ® is our specialty fertilizer that is low in chloride and delivers potassium, sulfur, and magnesium in a single particle."
+  },
+  {
+   "name": "Oilfield Solutions",
+   "products": [
+    "Water",
+    "Brine",
+    "Caliche",
+    "Right-of-way agreements",
+    "Surface damages and easements",
+    "Produced water royalty"
+   ],
+   "description": "Sells water and oilfield-related products and services to support oil and gas development in the Permian Basin.",
+   "evidence": "Our water sales and other products and services offered through our oilfield solutions segment are driven by demand from oil and gas exploration companies drilling in the Permian Basin."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for potash, Trio®, salt, water, and other products at quoted prices on a delivered or plant pick-up basis, with sales determined by quantities sold and prices realized.",
+  "evidence": "For potash, Trio ® , and salt, we quote prices to customers both on a delivered basis and on the basis of pick-up at our plants and warehouses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Potash): Muriate of potash (potassium chloride)",
+  "product not in text (Potash): Granular potash",
+  "product not in text (Potash): Standard potash",
+  "product not in text (Potash): Fine standard potash",
+  "product not in text (Trio®): Trio® specialty fertilizer",
+  "product not in text (Trio®): Premium Trio®",
+  "product not in text (Trio®): Granular Trio®",
+  "product not in text (Trio®): Standard Trio®",
+  "product not in text (Trio®): Fine standard Trio®"
+ ]
+}

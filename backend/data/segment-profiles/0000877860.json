@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000877860",
+ "issuerName": "National Health Investors, Inc.",
+ "builtAt": "2026-11-15T14:23:03.386Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000877860-26-000053",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/877860/000087786026000053/nhi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Investments",
+   "products": [
+    "Mortgage and other notes receivable"
+   ],
+   "description": "Owns and leases senior housing and medical facilities to third-party operators under triple-net leases and earns interest income from financing arrangements.",
+   "evidence": "In our Real Estate Investments segment, our revenues primarily relate to triple-net leases with third-party operators at our properties."
+  },
+  {
+   "name": "Senior Housing Operating Portfolio",
+   "products": [],
+   "description": "Owns senior housing communities operated by third-party managers on its behalf, generating resident fees and services revenue.",
+   "evidence": "Our SHOP segment is comprised of senior housing communities from which we generate revenues from resident fees and services on each unit."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "NHI is paid rent by triple-net tenants, interest by borrowers on financing arrangements, and resident fees and services by residents of its SHOP communities.",
+  "evidence": "For the year ended December 31, 2025, our total revenues were $375.6 million, an increase of 12.1% over the prior year, consisting of $271.6 million of rental income, $80.1 million of resident fees and services and $24.0 million of interest and other income."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Real Estate Investments): Senior housing properties (SHO)",
+  "product not in text (Real Estate Investments): Independent living facilities (ILF)",
+  "product not in text (Real Estate Investments): Assisted living facilities (ALF)",
+  "product not in text (Real Estate Investments): Entrance fee communities (EFC)",
+  "product not in text (Real Estate Investments): Senior living campuses (SLC)",
+  "product not in text (Real Estate Investments): Skilled nursing facilities (SNF)",
+  "product not in text (Real Estate Investments): Hospitals (HOSP)",
+  "product not in text (Senior Housing Operating Portfolio): Independent living facilities (ILF)",
+  "product not in text (Senior Housing Operating Portfolio): Senior living campuses (SLC)",
+  "product not in text (Senior Housing Operating Portfolio): Assisted living facilities (ALF)"
+ ]
+}

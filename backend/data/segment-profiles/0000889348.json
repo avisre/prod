@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0000889348",
+ "issuerName": "CPI AEROSTRUCTURES, INC.",
+ "builtAt": "2026-11-15T14:23:33.378Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001999371-26-007357",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/889348/000199937126007357/cvu-10k_123125.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by the U.S. government and commercial contractors, primarily under long-term contracts, typically at a fixed fee per product, recognized over time or at a point in time.",
+  "evidence": "The majority of the Company's revenues are from long-term contracts with the U.S. government and commercial contractors."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Aerospace manufacturing"
+ ]
+}

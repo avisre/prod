@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001433642",
+ "issuerName": "HAMILTON LANE INC",
+ "builtAt": "2026-11-15T14:26:13.359Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001433642-26-000019",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1433642/000143364226000019/hlne-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private market investment solutions",
+   "products": [
+    "Customized Separate Accounts",
+    "Specialized Funds",
+    "Advisory Services",
+    "Distribution Management",
+    "Reporting, Monitoring, Data and Analytics"
+   ],
+   "description": "Provides private markets investment solutions, including customized separate accounts, specialized funds, advisory and related services, to institutional and private wealth clients worldwide.",
+   "evidence": "The Company is managed as one reportable segment that provides private market investment solutions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay management and advisory fees, incentive fees and subscription fees for private markets investment solutions and services.",
+  "evidence": "A significant portion of our management and advisory fee revenue base is contractual in nature and is based on the long-term nature of our specialized funds and customized separate accounts as well as long-term relationships with many of our clients"
+ },
+ "changes": [],
+ "dropped": []
+}

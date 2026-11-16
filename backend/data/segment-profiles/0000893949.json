@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000893949",
+ "issuerName": "Pediatrix Medical Group, Inc.",
+ "builtAt": "2026-11-15T14:23:41.764Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-058074",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/893949/000119312526058074/md-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Physician services",
+   "products": [
+    "Neonatal care",
+    "Maternal-fetal care",
+    "Pediatric intensive care",
+    "Pediatric surgery",
+    "Newborn nursery program",
+    "Newborn hearing screening program"
+   ],
+   "description": "Provides newborn, maternal-fetal and other pediatric subspecialty physician services, primarily hospital-based, to patients, hospitals and payors nationwide.",
+   "evidence": "The Company has one reportable segment, which is also its single reporting unit, for purposes of presenting financial information in accordance with the accounting guidance for segment reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by government healthcare programs and third-party insurance payors for patient services rendered by affiliated physicians, plus hospitals for administrative fees and medical director services.",
+  "evidence": "Almost all of the Company's patient service revenue is reimbursed by GHC Programs and third-party insurance payors."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company exited almost all affiliated office-based practices other than maternal-fetal medicine.",
+   "evidence": "During 2024, we formalized our practice portfolio management plans, resulting in a decision to exit almost all of our affiliated office-based practices, other than maternal-fetal medicine."
+  },
+  {
+   "text": "In 2024 the company exited its primary and urgent care service line.",
+   "evidence": "Additionally, we exited our primary and urgent care service line during 2024 based on a review of the cost and time that would be required to build the platform to scale."
+  }
+ ],
+ "dropped": [
+  "product not in text (Physician services): Pediatric hospitalist care"
+ ]
+}

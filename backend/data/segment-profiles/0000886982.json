@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000886982",
+ "issuerName": "The Goldman Sachs Group, Inc.",
+ "builtAt": "2026-11-15T14:23:23.271Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000886982-26-000091",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/886982/000088698226000091/gs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Banking & Markets",
+   "products": [
+    "Advisory",
+    "Equity underwriting",
+    "Debt underwriting",
+    "FICC intermediation",
+    "FICC financing",
+    "Equities intermediation",
+    "Equities financing",
+    "Transaction banking"
+   ],
+   "description": "Serves institutional clients with advisory, underwriting, market-making, financing and transaction banking across fixed income, currency, commodity and equity products.",
+   "evidence": "Global Banking & Markets generates revenues from investment banking fees, including advisory, and equity and debt underwriting fees, Fixed Income, Currency and Commodities (FICC) intermediation and financing activities and Equities intermediation and financing activities, as well as relationship lending and acquisition financing (and related hedges), investing activities related to our Global Banking & Markets activities and transaction banking."
+  },
+  {
+   "name": "Asset & Wealth Management",
+   "products": [
+    "Management and other fees",
+    "Incentive fees",
+    "Private banking and lending",
+    "Investments"
+   ],
+   "description": "Manages assets for clients and provides wealth management, private banking, lending and investment services.",
+   "evidence": "Asset & Wealth Management generates revenues from management and other fees, incentive fees, private banking and lending and investments."
+  },
+  {
+   "name": "Platform Solutions",
+   "products": [
+    "Apple Card",
+    "Deposits from Apple Card customers"
+   ],
+   "description": "Provides consumer credit cards and related deposit-taking, largely for Apple Card customers, plus exited businesses.",
+   "evidence": "Substantially all of the revenues in Platform Solutions are from activities related to issuing credit cards to and raising deposits from Apple Card customers and related to businesses that have been exited."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients, including corporations, financial institutions, governments and individuals, pay Goldman Sachs fees for advisory, underwriting, intermediation, financing, asset management and consumer banking services.",
+  "evidence": "Goldman Sachs is a leading global financial institution that delivers a broad range of financial services to a large and diversified client base that includes corporations, financial institutions, governments and individuals."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025, transaction banking moved from Platform Solutions (Other) into Global Banking & Markets.",
+   "evidence": "Global Banking & Markets additionally includes the results from our transaction banking business, which are reported in Other (previously reported in Platform Solutions)."
+  },
+  {
+   "text": "In the fourth quarter of 2025, results from facilitating institutional primary loans for syndication and structured letters of credit moved from Other into FICC financing within Global Banking & Markets.",
+   "evidence": "Within Global Banking & Markets, results related to facilitating institutional primary loans for syndication and providing structured letters of credit to corporate clients are reported in FICC financing (previously reported in Other)."
+  },
+  {
+   "text": "In the fourth quarter of 2025, Urban Investment Group results previously reported in Asset & Wealth Management were allocated across all three segments, and Equity Investments and Debt Investments in Asset & Wealth Management began to be reported in aggregate.",
+   "evidence": "Results from our Urban Investment Group, which makes investments in connection with our activities to satisfy requirements under the Community Reinvestment Act (CRA), are allocated across all three segments to reflect the shared nature of such requirements (previously reported in Asset & Wealth Management)."
+  }
+ ],
+ "dropped": []
+}

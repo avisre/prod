@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000883569",
+ "issuerName": "Fossil Group, Inc.",
+ "builtAt": "2026-11-15T14:23:08.401Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000883569-26-000017",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/883569/000088356926000017/fosl-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "watches",
+    "jewelry",
+    "handbags",
+    "small leather goods",
+    "belts",
+    "sunglasses"
+   ],
+   "description": "Sells watches and fashion accessories to wholesale, distributor and direct-to-consumer customers in the United States, Canada and Latin America.",
+   "evidence": "The Americas segment is comprised of sales from our operations in the United States, Canada and Latin America."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "watches",
+    "jewelry",
+    "handbags",
+    "small leather goods",
+    "belts",
+    "sunglasses"
+   ],
+   "description": "Sells watches and fashion accessories to wholesale, distributor and direct-to-consumer customers in Europe, the Middle East and Africa.",
+   "evidence": "The Europe segment is comprised of sales to customers based in European countries, the Middle East and Africa."
+  },
+  {
+   "name": "Asia",
+   "products": [
+    "watches",
+    "jewelry",
+    "handbags",
+    "small leather goods",
+    "belts",
+    "sunglasses"
+   ],
+   "description": "Sells watches and fashion accessories to wholesale, distributor and direct-to-consumer customers across Asia-Pacific markets including greater China, Japan and Australia.",
+   "evidence": "The Asia segment is comprised of sales to customers based in Australia, China (including Hong Kong SAR, Macau SAR, and Taiwan), India, Indonesia, Japan, Malaysia, New Zealand, Singapore, South Korea and Thailand."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns net sales from wholesale and distributor customers and from consumers through Company-owned retail stores, outlets and e-commerce websites.",
+  "evidence": "Each reportable operating segment includes sales to wholesale and distributor customers, and sales through Company-owned retail stores and e-commerce activities based on the location of the selling entity."
+ },
+ "changes": [],
+ "dropped": []
+}

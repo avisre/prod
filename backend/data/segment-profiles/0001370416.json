@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0001370416",
+ "issuerName": "WESTPORT FUEL SYSTEMS INC.",
+ "builtAt": "2026-11-15T14:24:28.868Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001370416-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1370416/000137041626000005/wprt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High-Pressure Controls",
+   "products": [
+    "pressure regulators",
+    "valves",
+    "filters",
+    "electronic control units (\"ECUs\")",
+    "high-pressure hydrogen components",
+    "GFI-branded products",
+    "AFS-branded products"
+   ],
+   "description": null,
+   "evidence": "The High-Pressure Controls segment designs, engineers, manufacturers, and supplies components for transportation and industrial applications, using gaseous fuels such as hydrogen."
+  },
+  {
+   "name": "Heavy-Duty OEM",
+   "products": [
+    "HPDI related fuel system solutions and components"
+   ],
+   "description": null,
+   "evidence": "The Heavy-Duty OEM segment represents historical results from our heavy-duty business for the period January 1, 2024, until the formation of the Cespira joint venture which occurred on June 3, 2024."
+  },
+  {
+   "name": "Cespira",
+   "products": [
+    "LNG HPDI 2.0 fuel systems",
+    "HPDI fuel system technology",
+    "hydrogen (H2) HPDI fuel system",
+    "engineering services"
+   ],
+   "description": "Joint venture with Volvo that designs, assembles and supplies HPDI fuel systems and engineering services to engine manufacturers and commercial vehicle OEMs.",
+   "evidence": "Cespira designs, assembles, and supplies LNG HPDI 2.0 fuel systems, related components, and engineering services to engine manufacturers and commercial vehicle OEMs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, Westport sold its Light-Duty segment and now reports three reportable segments.",
+   "evidence": "On July 29, 2025, the Company sold its Light-Duty segment to the Purchaser (note 5)."
+  },
+  {
+   "text": "In 2024, Westport and Volvo formed the Cespira joint venture to commercialize HPDI fuel system technology.",
+   "evidence": "On July 5, 2024, we officially launched \"Cespira\", a joint venture between Westport and Volvo Group focused on promoting, developing, and further accelerating the commercialization of the HPDI TM fuel system technology."
+  },
+  {
+   "text": "In 2025, the Heavy-Duty OEM segment's transitional services agreement with Cespira ended.",
+   "evidence": "On June 30, 2025, the transitional services agreement (TSA) ended."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

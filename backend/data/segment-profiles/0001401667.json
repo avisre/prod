@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001401667",
+ "issuerName": "PUMA BIOTECHNOLOGY, INC.",
+ "builtAt": "2026-11-15T14:25:21.209Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005891",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1401667/000143774926005891/pbyi20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development and commercialization of innovative products to enhance cancer care",
+   "products": [
+    "NERLYNX",
+    "alisertib"
+   ],
+   "description": null,
+   "evidence": "Management has determined that the Company operates in one reporting segment, which is the development and commercialization of innovative products to enhance cancer care."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from selling NERLYNX to specialty pharmacies and specialty distributors in the United States, plus license and royalty revenue from sub-licensees selling NERLYNX outside the United States.",
+  "evidence": "The Company derives its global product, license and royalty revenue through the sales of NERLYNX®."
+ },
+ "changes": [],
+ "dropped": []
+}

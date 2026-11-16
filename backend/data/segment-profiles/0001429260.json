@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0001429260",
+ "issuerName": "Fortress Biotech, Inc.",
+ "builtAt": "2026-11-15T14:26:07.787Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037874",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1429260/000110465926037874/fbio-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Journey",
+   "products": [
+    "Emrosi",
+    "Qbrexza",
+    "Accutane",
+    "Amzeeq",
+    "Zilxi",
+    "Exelderm Cream and Solution",
+    "Targadox",
+    "Luxamend"
+   ],
+   "description": "Commercializes branded dermatology products approved by the FDA for sale in the United States.",
+   "evidence": "Through our partner company Journey we market the following branded dermatology products approved by the FDA for sale in the United States:"
+  },
+  {
+   "name": "Avenue",
+   "products": [
+    "ATX-04 (clenbuterol)"
+   ],
+   "description": "Develops biopharmaceutical assets, including a licensed product candidate for lysosomal storage diseases.",
+   "evidence": "Avenue entered into a license agreement with Duke University (\"Duke\"), pursuant to which Avenue obtained from Duke an exclusive, worldwide license to certain patents and know-how for the development and commercialization of products, including ATX-04 (clenbuterol), for the treatment of lysosomal storage diseases"
+  },
+  {
+   "name": "Checkpoint",
+   "products": [
+    "UNLOXCYT (cosibelimab-ipdl)"
+   ],
+   "description": null,
+   "evidence": "Checkpoint results through May 2025 due to deconsolidation as a result of acquisition by Sun Pharma (see Note 3)."
+  },
+  {
+   "name": "Mustang",
+   "products": [],
+   "description": "A biopharmaceutical subsidiary focused on acquiring, developing and commercializing assets in different therapeutic and disease areas.",
+   "evidence": "Each public subsidiary is a biopharmaceutical company focused on acquiring, developing, and commercializing assets in different therapeutic and disease areas."
+  },
+  {
+   "name": "Fortress",
+   "products": [
+    "Triplex",
+    "ZYCUBO (copper histidinate, also referred to as CUTX-101)"
+   ],
+   "description": "Comprises the parent entity and private subsidiaries, including Cellvation, Cyprium, Helocyte, Oncogenuity and Urica, primarily funded by Fortress.",
+   "evidence": "Includes Fortress and private subsidiaries primarily funded by Fortress, including Cellvation, Cyprium, Helocyte, Oncogenuity and Urica; and intercompany eliminations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fortress earns product revenue from Journey's dermatology product sales, plus milestone, royalty and dividend streams from subsidiaries and partners.",
+  "evidence": "Fortress Biotech, Inc. (\"Fortress\" or the \"Company\") is a biopharmaceutical company focused on acquiring and advancing assets to enhance long-term value for shareholders through product revenue, equity holding and dividend and royalty revenue streams."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Checkpoint was acquired by Sun Pharma and was deconsolidated.",
+   "evidence": "Checkpoint results through May 2025 due to deconsolidation as a result of acquisition by Sun Pharma (see Note 3)."
+  },
+  {
+   "text": "In 2025, Baergic, previously a subsidiary of Avenue, was acquired by Axsome.",
+   "evidence": "Baergic Bio, Inc. (\"Baergic\"), previously a subsidiary of Avenue, was acquired by Axsome in November 2025."
+  }
+ ],
+ "dropped": []
+}

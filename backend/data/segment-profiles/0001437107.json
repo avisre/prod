@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0001437107",
+ "issuerName": "Warner Bros. Discovery, Inc.",
+ "builtAt": "2026-11-15T14:26:18.728Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437107-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1437107/000143710726000020/wbd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Streaming",
+   "products": [
+    "HBO Max",
+    "discovery+",
+    "HBO",
+    "TVN/Player"
+   ],
+   "description": "Premium pay-TV and direct-to-consumer streaming services serving global subscribers with entertainment, sports and non-fiction programming.",
+   "evidence": "Our Streaming segment primarily consists of our premium pay-TV and streaming services."
+  },
+  {
+   "name": "Studios",
+   "products": [
+    "Warner Bros. Motion Picture Group",
+    "Warner Bros. Television Group",
+    "Warner Bros. Games",
+    "DC Studios",
+    "feature films",
+    "television programs",
+    "console games",
+    "consumer products and themed experience licensing"
+   ],
+   "description": "Produces and releases feature films and television programs, distributes content across home entertainment and streaming, and includes gaming and consumer products.",
+   "evidence": "Our Studios segment primarily consists of the production and release of feature films for initial exhibition in theaters, production and initial licensing of television programs to third parties and our networks/streaming services, distribution of our films and television programs to various third party and internal television and streaming services, distribution through the home entertainment market (physical and digital), related consumer products and themed experience licensing, and interacti"
+  },
+  {
+   "name": "Global Linear Networks",
+   "products": [
+    "Discovery Channel",
+    "CNN",
+    "TNT Sports",
+    "TBS",
+    "Food Network",
+    "TLC",
+    "Adult Swim",
+    "Turner Classic Movies"
+   ],
+   "description": "Domestic and international linear television networks delivering entertainment, news, sports and lifestyle programming.",
+   "evidence": "Our Global Linear Networks segment primarily consists of our domestic and international television networks."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns distribution fees from distributors and DTC subscribers, advertising sales on networks and digital platforms, content revenue from film and TV licensing, theatrical release, games and IP licensing, and other revenue such as studio tours.",
+  "evidence": "We generate revenue from fees charged to distributors that carry our network brands and programming, including cable, direct-to-home (\"DTH\") satellite, telecommunication and digital service providers, as well as through direct-to-consumer (\"DTC\") subscription services (distribution revenue); the sale of advertising on our networks and digital platforms (advertising revenue); the release of feature films for initial exhibition in theaters, the licensing of feature films and television programs to"
+ },
+ "changes": [
+  {
+   "text": "In the first quarter of 2025, the Company renamed its DTC reportable segment to Streaming and its Networks reportable segment to Global Linear Networks.",
+   "evidence": "In the first quarter of 2025, the Company renamed its DTC reportable segment to Streaming and its Networks reportable segment to Global Linear Networks."
+  }
+ ],
+ "dropped": [
+  "product not in text (Streaming): Premium Sports Products"
+ ]
+}

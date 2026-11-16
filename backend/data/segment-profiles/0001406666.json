@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001406666",
+ "issuerName": "Calix, Inc",
+ "builtAt": "2026-11-15T14:25:31.405Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001406666-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1406666/000140666626000005/calx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Broadband platform",
+   "products": [
+    "Calix Cloud",
+    "Calix Agent Workforce",
+    "Calix Access Edge",
+    "Calix Experience Edge",
+    "SmartLife managed services",
+    "SmartHome",
+    "SmartTown",
+    "SmartBiz"
+   ],
+   "description": "Calix develops, markets and sells an appliance-based broadband platform, cloud and managed services that enable communication service providers to transform their businesses.",
+   "evidence": "We develop, market and sell an appliance-based broadband platform, cloud and managed services, and there are no segment managers who are held accountable for operations, operating results and plans for levels or components below the unit level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Communication service providers pay Calix for its platform, cloud, software, appliances and SmartLife managed services, including multi-year subscriptions and extended warranty support.",
+  "evidence": "We capitalize certain sales commissions related primarily to multi-year subscriptions and extended warranty support for which the expected amortization period is greater than one year."
+ },
+ "changes": [],
+ "dropped": []
+}

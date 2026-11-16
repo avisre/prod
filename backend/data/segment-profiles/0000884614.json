@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000884614",
+ "issuerName": "UGI CORPORATION",
+ "builtAt": "2026-11-15T14:23:12.286Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000884614-25-000053",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/884614/000088461425000053/ugi-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Utilities",
+   "products": [
+    "PA Gas Utility",
+    "WV Gas Utility",
+    "Electric Utility"
+   ],
+   "description": "Regulated natural gas and electric distribution utility serving residential, commercial and industrial customers in Pennsylvania and West Virginia.",
+   "evidence": "Utilities - Reportable segment comprising UGI Utilities and Mountaintop Energy Holdings, LLC"
+  },
+  {
+   "name": "Midstream & Marketing",
+   "products": [
+    "Energy Services",
+    "GHI",
+    "Pine Run",
+    "Hunlock Creek Energy Center"
+   ],
+   "description": "Midstream energy marketing business providing natural gas storage, gathering, peaking and electricity generation services.",
+   "evidence": "Midstream & Marketing - Reportable segment comprising Energy Services and subsidiaries including UGID"
+  },
+  {
+   "name": "UGI International",
+   "products": [
+    "LPG distribution",
+    "Flaga",
+    "AvantiGas",
+    "UGI France"
+   ],
+   "description": "International liquefied petroleum gas distribution business serving customers primarily in Europe.",
+   "evidence": "UGI International - Reportable segment principally comprising UGI International, LLC and its foreign operations"
+  },
+  {
+   "name": "AmeriGas Propane",
+   "products": [
+    "propane distribution",
+    "AmeriGas Cylinder Exchange"
+   ],
+   "description": "Retail propane distribution business serving residential, commercial, industrial and agricultural customers in the United States.",
+   "evidence": "AmeriGas Propane - Reportable segment comprising AmeriGas Propane, Inc. and its subsidiaries, including AmeriGas Partners and AmeriGas OLP"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for delivered propane and LPG, regulated natural gas and electric distribution service, and midstream energy services.",
+  "evidence": "Comprises (1) firm residential, commercial and industrial customers to whom Utilities has a statutory obligation to provide service who purchase their natural gas or electricity from Utilities"
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, UGI sold UGID, a subsidiary of Energy Services, and exited the UGI International energy marketing business in Europe.",
+   "evidence": "a $55 million loss on disposal of UGID"
+  },
+  {
+   "text": "In fiscal 2025, UGI sold UniverGas, an indirect wholly owned subsidiary of UGI International.",
+   "evidence": "UniverGas - UniverGas Italia S.r.l, an indirect wholly owned subsidiary of UGI International, LLC prior to its sale in June 2025"
+  }
+ ],
+ "dropped": []
+}

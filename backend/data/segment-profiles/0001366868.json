@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001366868",
+ "issuerName": "GLOBALSTAR, INC.",
+ "builtAt": "2026-11-15T14:24:22.262Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001366868-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1366868/000136686826000012/gsat-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobile Satellite Services",
+   "products": [
+    "Commercial IoT",
+    "SPOT",
+    "Duplex",
+    "wholesale satellite capacity services",
+    "government services",
+    "terrestrial spectrum and network solutions",
+    "XCOM RAN"
+   ],
+   "description": "Provides voice and data satellite communications to retail, business and governmental customers, plus wholesale capacity, government and terrestrial spectrum services.",
+   "evidence": "The Company's only reportable segment is its MSS business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers pay for communications services and equipment, and wholesale customers (chiefly Apple) pay fixed service fees plus expense, capital expenditure and bonus payments for satellite capacity.",
+  "evidence": "payments to us include a fixed service fee, fees relating to certain service-related operating expenses and capital expenditures, additional fees related to expanded services, and potential bonus payments subject to satisfaction of certain licensing, service and related criteria."
+ },
+ "changes": [],
+ "dropped": []
+}

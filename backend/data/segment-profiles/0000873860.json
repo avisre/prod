@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000873860",
+ "issuerName": "Onity Group Inc.",
+ "builtAt": "2026-11-15T14:23:03.318Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008625",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/873860/000162828026008625/ocn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Servicing",
+   "products": [
+    "residential forward mortgage servicing",
+    "reverse mortgage servicing",
+    "small commercial mortgage servicing",
+    "subservicing",
+    "special servicing",
+    "master servicing"
+   ],
+   "description": "Services and subservices residential forward, reverse and small commercial mortgage loans for large financial institutions, GSEs, Ginnie Mae and MSR investors.",
+   "evidence": "Our Servicing business is primarily comprised of our residential forward mortgage servicing business that currently accounts for the majority of our total revenues, our reverse mortgage servicing business, and our small commercial mortgage servicing business."
+  },
+  {
+   "name": "Originations",
+   "products": [
+    "forward mortgage loans",
+    "reverse mortgage loans",
+    "retail lending / consumer direct",
+    "correspondent lending",
+    "wholesale lending",
+    "MSR purchases"
+   ],
+   "description": "Originates and purchases forward and reverse residential mortgage loans, sells them servicing retained, and acquires MSRs and new subservicing clients.",
+   "evidence": "The primary source of revenue in our Originations segment is gain on loan sales."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Onity earns contractual monthly servicing and subservicing fees, typically a fixed percentage of unpaid principal balance, plus ancillary fees, and gains on loan sales and reverse loans and HMBS-related borrowings.",
+  "evidence": "We earn contractual monthly servicing fees (which are typically payable as a fixed percentage of UPB) pursuant to servicing agreements as well as other ancillary fees relating to our servicing activities such as late fees."
+ },
+ "changes": [
+  {
+   "text": "In 2025, PHH agreed to sell its HECM loan portfolio and HMBS-related borrowings to Finance of America Reverse LLC and discontinue its reverse originations business upon closing.",
+   "evidence": "In November 2025, PHH agreed to sell at book value its HECM loan portfolio and HMBS related borrowings to Finance of America Reverse LLC (\"FAR\") and subservice the sold portfolio and additional loans from FAR for an initial three-year term."
+  }
+ ],
+ "dropped": []
+}

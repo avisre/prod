@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001419612",
+ "issuerName": "SOLAREDGE TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-15T14:25:54.673Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001178913-26-000632",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1419612/000117891326000632/zk2634374.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Smart energy technology",
+   "products": [
+    "Power Optimizers",
+    "Inverters",
+    "Batteries",
+    "EV chargers",
+    "Cloud-based Monitoring Platform",
+    "Energy management software",
+    "Energy storage systems"
+   ],
+   "description": "Develops and sells DC optimized inverter systems and smart energy solutions for residential, commercial and small utility scale solar installations.",
+   "evidence": "We operate in one reportable segment, which includes the following products: SolarEdge Power Optimizer."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells its products indirectly through large distributors and electrical equipment wholesalers to solar installers, and directly to large solar installers and EPCs.",
+  "evidence": "We primarily sell our products indirectly to thousands of solar installers through large distributors and electrical equipment wholesalers and directly to large solar installers and engineering, procurement, and construction firms, or EPCs."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company sold its Automation Machines business and discontinued its Energy Storage activity, after which it operates as one operating segment.",
+   "evidence": "Following the sale of Automation Machines and the discontinuation of the Company's Energy Storage activity in 2024, we operate as one operating segment that constitutes consolidated results."
+  },
+  {
+   "text": "The company discontinued its e-Mobility, energy storage and PV Tracker businesses in recent years.",
+   "evidence": "discontinuation of our e-Mobility business, energy storage business, and PV Tracker business"
+  }
+ ],
+ "dropped": []
+}

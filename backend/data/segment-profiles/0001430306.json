@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001430306",
+ "issuerName": "TONIX PHARMACEUTICALS HOLDING CORP.",
+ "builtAt": "2026-11-15T14:26:09.285Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001999371-26-005730",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1430306/000199937126005730/tnxp-10k_123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "TONMYA (cyclobenzaprine HCl sublingual tablets)",
+    "Zembrace SymTouch (sumatriptan injection)",
+    "Tosymra (sumatriptan nasal spray)",
+    "TNX-102 SL",
+    "TNX-1500",
+    "TNX-1300",
+    "TNX-2900",
+    "TNX-801"
+   ],
+   "description": "A fully-integrated biopharmaceutical company commercializing and developing therapies for CNS disorders, immunology, infectious diseases, and rare diseases.",
+   "evidence": "We (\"Tonix\" or the \"Company\") are a fully-integrated biopharmaceutical company commercializing and developing innovative therapies for central nervous system (\"CNS\") disorders, immunology, infectious diseases, and rare diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from selling its commercial prescription products, TONMYA, Zembrace SymTouch and Tosymra, to wholesale and other third-party distributors and pharmacies.",
+  "evidence": "The Company currently generates revenue from the sale of its commercial products, TONMYA, Zembrace SymTouch and Tosymra."
+ },
+ "changes": [],
+ "dropped": []
+}

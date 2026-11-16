@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001423221",
+ "issuerName": "QUANEX BUILDING PRODUCTS CORPORATION",
+ "builtAt": "2026-11-15T14:26:00.674Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001423221-25-000100",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1423221/000142322125000100/nx-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hardware Solutions",
+   "products": [
+    "window and door hardware",
+    "screens",
+    "fenestration components"
+   ],
+   "description": "Manufactures engineered window and door hardware, screens, and other fenestration components for residential and light-commercial building markets.",
+   "evidence": "Our Hardware Solutions segment manufactures engineered window and door hardware, screens, and other fenestration components primarily serving the residential and light-commercial building markets."
+  },
+  {
+   "name": "Extruded Solutions",
+   "products": [
+    "insulating-glass spacers",
+    "vinyl profiles",
+    "composite profiles",
+    "sealing solutions",
+    "weatherstripping",
+    "vinyl extrusions",
+    "decking",
+    "roofing systems"
+   ],
+   "description": "Supplies insulating glass spacers, vinyl and composite profiles, and sealing solutions for windows, doors, conservatories, and roofs across North America and Europe.",
+   "evidence": "Our Extruded Solutions segment manufactures insulating-glass spacers, vinyl and composite profiles, and sealing solutions used in the fabrication of windows, doors, conservatories, roofs, and related building applications."
+  },
+  {
+   "name": "Custom Solutions",
+   "products": [
+    "interior building components",
+    "specialty access systems",
+    "custom-formulated compounds",
+    "wood products",
+    "mixing solutions",
+    "building access solutions"
+   ],
+   "description": "Delivers engineered wood, metal, and elastomeric product solutions for residential, commercial, and industrial end markets.",
+   "evidence": "Our Custom Solutions segment delivers a diverse range of engineered product solutions across wood, metal, and elastomeric materials that serve residential, commercial, and industrial end markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Quanex sells custom-engineered components manufactured to customer specifications to national and regional OEMs, distributors, and contractors, largely in North America and the U.K.",
+  "evidence": "We currently manufacture and distribute components for original equipment manufacturers (OEM) in the building products industry, including window, door, solar, refrigeration, custom mixing, building access, and cabinetry markets."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Quanex completed the acquisition of Tyman plc, adding complementary building products businesses.",
+   "evidence": "Most recently, on August 1, 2024, we completed our acquisition of Tyman plc, a company incorporated in England and Wales (\"Tyman\")."
+  },
+  {
+   "text": "In 2025, Quanex restructured into three reportable segments: Hardware Solutions, Extruded Solutions, and Custom Solutions.",
+   "evidence": "As a result, we now report three reportable segments: Hardware Solutions, which provides window and door hardware and screens; Extruded Solutions, which supplies insulating glass spacers, vinyl window and door profiles, seals, and weatherstripping; and Custom Solutions, which provides wood, mixing, and building access solutions."
+  }
+ ],
+ "dropped": []
+}

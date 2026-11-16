@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000895126",
+ "issuerName": "EXPAND ENERGY CORPORATION",
+ "builtAt": "2026-11-15T14:23:45.463Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000895126-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/895126/000089512626000011/exe-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and production",
+   "products": [
+    "natural gas",
+    "oil",
+    "NGL"
+   ],
+   "description": "Develops and produces natural gas, oil and NGL from the Haynesville and Appalachian shales for energy markets.",
+   "evidence": "We have concluded that we have one reportable segment, due to the similar nature of the exploration and production business across Expand Energy and its consolidated subsidiaries and the fact that our marketing activities are ancillary to our operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by purchasers of natural gas, oil and NGL for its production.",
+  "evidence": "Our accounts receivable are primarily from purchasers of natural gas, oil and NGL and from exploration and production companies that own interests in properties we operate."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company completed the Southwestern Merger, creating a premier natural gas company.",
+   "evidence": "On October 1, 2024, we completed the Southwestern Merger, creating a premier energy company that we believe is underpinned by a leading natural gas portfolio adjacent to the highest demand markets, premium inventory, a resilient financial foundation and an investment grade balance sheet."
+  }
+ ],
+ "dropped": []
+}

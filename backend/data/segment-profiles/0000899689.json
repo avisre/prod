@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000899689",
+ "issuerName": "Vornado Realty Trust",
+ "builtAt": "2026-11-15T14:24:03.496Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000899689-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/899689/000089968926000009/vno-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "New York",
+   "products": [
+    "office space",
+    "street retail space",
+    "residential properties",
+    "Sunset Pier 94 Studios",
+    "623 Fifth Avenue",
+    "signage",
+    "Building Maintenance Services LLC"
+   ],
+   "description": "Owns and operates office, retail, residential and development properties primarily in Manhattan for commercial and residential tenants.",
+   "evidence": "We operate in the following reportable segments: New York and Other."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "THE MART, Chicago",
+    "555 California Street, San Francisco",
+    "Rosslyn Plaza, VA",
+    "Fashion Centre Mall / Washington Tower, VA",
+    "Annapolis, MD"
+   ],
+   "description": "Owns and operates office, retail, trade show and residential properties outside the New York segment, mainly in Chicago, San Francisco and other markets.",
+   "evidence": "The 3.7 million square foot THE MART in Chicago; • A 70% controlling interest in 555 California Street, a three-building office complex in San Francisco's financial district aggregating 1.8 million square feet; and • Other real estate and investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vornado earns rental income from tenants leasing its office, retail, residential and other properties, plus income from investments and services.",
+  "evidence": "Principal factors of competition are rents charged, tenant concessions offered, attractiveness of location, the quality of the property and the breadth and the quality of services provided."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (New York): PENN District development sites",
+  "product not in text (Other): Wayne Towne Center, NJ"
+ ]
+}

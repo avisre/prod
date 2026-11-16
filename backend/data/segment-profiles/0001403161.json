@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001403161",
+ "issuerName": "VISA INC.",
+ "builtAt": "2026-11-15T14:25:26.657Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001403161-26-000134",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1403161/000140316126000134/v-20260930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payment Services",
+   "products": [
+    "Visa-branded payment products",
+    "VisaNet",
+    "Visa Commercial Solutions",
+    "Visa Direct",
+    "Value-added services",
+    "Visa Intelligent Commerce",
+    "Visa Stablecoin Platform"
+   ],
+   "description": "Operates a global digital payments network providing authorization, clearing, settlement and value-added services to financial institutions, sellers, consumers and governments.",
+   "evidence": "The Company has one reportable segment, Payment Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Visa earns service, data processing, international transaction and other revenue from financial institution clients, sellers and partners for payment transaction processing, value-added services, brand licensing and currency conversion.",
+  "evidence": "Visa earns revenue by facilitating money movement across more than 200 countries and territories, among a global set of consumers, sellers, financial institutions and government entities, through innovative technologies."
+ },
+ "changes": [],
+ "dropped": []
+}

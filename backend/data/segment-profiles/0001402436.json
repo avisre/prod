@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001402436",
+ "issuerName": "SS&C TECHNOLOGIES HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:25:26.629Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076745",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1402436/000119312526076745/ssnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software-enabled services",
+   "products": [
+    "software-enabled outsourcing services",
+    "subscription-based on-demand cloud solutions",
+    "specialized software products",
+    "fund administration services",
+    "transfer agency services"
+   ],
+   "description": "Provides software-enabled services, software products and healthcare technology solutions to clients in the financial services and healthcare industries.",
+   "evidence": "We operate in one operating segment and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay SS&C under one-to-five year contracts with monthly or quarterly payments for software-enabled services, plus perpetual or term software licenses and annually renewable maintenance contracts.",
+  "evidence": "Our software-enabled services are generally provided under contracts with initial terms of one to five years that require monthly or quarterly payments and are subject to automatic annual renewal at the end of the initial term unless terminated by either party."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Software-enabled services): Intralinks virtual data room solutions",
+  "product not in text (Software-enabled services): Blue Prism intelligent automation and RPA",
+  "product not in text (Software-enabled services): SS&C Health pharmacy and medical claims processing"
+ ]
+}

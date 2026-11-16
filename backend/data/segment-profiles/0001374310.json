@@ -1,0 +1,99 @@
+{
+ "version": 1,
+ "cik": "0001374310",
+ "issuerName": "Cboe Global Markets, Inc.",
+ "builtAt": "2026-11-15T14:24:36.528Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1374310/000162828026010013/cboe-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Options",
+   "products": [
+    "index options",
+    "equity options",
+    "multi-listed options",
+    "SPX options",
+    "VIX options",
+    "proprietary options market data",
+    "index licensing"
+   ],
+   "description": null,
+   "evidence": "The Options segment includes options on market indices (\"index options\"), as well as on the stocks of individual corporations (\"equity options\") and on ETPs such as exchange-traded funds (\"ETFs\") and exchange-traded notes (\"ETNs\"), which are \"multi-listed\" options and listed on a non-exclusive basis."
+  },
+  {
+   "name": "North American Equities",
+   "products": [
+    "U.S. equities and ETP transaction services",
+    "BIDS Trading platform",
+    "Cboe BIDS Canada",
+    "corporate listing services on Cboe Canada",
+    "ETP listings on BZX",
+    "proprietary equities market data"
+   ],
+   "description": "Provides U.S. and Canadian equities and ETP trading, block trading via BIDS, listings, market data and access services.",
+   "evidence": "The North American Equities segment includes U.S. equities and ETP transaction services that occur on fully electronic exchanges owned and operated by BZX, BYX, EDGX, and EDGA, equities transactions that occur on the BIDS Trading platform in the U.S. and the Cboe BIDS Canada platform, and Canadian equities and other transaction services that occur on or through Cboe Canada's order books."
+  },
+  {
+   "name": "Europe and Asia Pacific",
+   "products": [
+    "pan-European derivatives transaction services",
+    "ETPs",
+    "international depository receipts",
+    "Cboe Clear Europe clearing",
+    "proprietary market data"
+   ],
+   "description": "Operates pan-European equities and derivatives venues, Cboe Australia, and Cboe Clear Europe clearing, plus market data and access services.",
+   "evidence": "The Europe and Asia Pacific segment includes the pan-European derivatives transaction services, ETPs, including exchange traded funds, exchange traded notes, and exchange traded commodities, and international depository receipts that are hosted on MTFs operated by Cboe Europe Equities (Cboe Europe and Cboe NL equities exchanges) and CEDX."
+  },
+  {
+   "name": "Futures",
+   "products": [
+    "VIX futures",
+    "other futures products",
+    "cash-settled Bitcoin and Ether futures",
+    "Cboe Digital Exchange",
+    "Cboe Clear U.S.",
+    "proprietary market data"
+   ],
+   "description": "Operates CFE, a fully electronic futures exchange, including Digital activity such as Cboe Clear U.S., plus market data and access services.",
+   "evidence": "The Futures segment includes transaction services provided by CFE, a fully electronic futures exchange, which includes offerings for trading of VIX futures and other futures products, the licensing of proprietary market data, as well as access and capacity services."
+  },
+  {
+   "name": "Global FX",
+   "products": [
+    "institutional FX trading services",
+    "Cboe SEF",
+    "Cboe Fixed Income",
+    "proprietary market data"
+   ],
+   "description": "Provides institutional FX trading on Cboe FX, NDFs on Cboe SEF, and U.S. government securities trading on Cboe Fixed Income.",
+   "evidence": "The Global FX segment includes institutional FX trading services that occur on the Cboe FX fully electronic trading platform, non-deliverable forward FX transactions (\"NDFs\") offered for execution on Cboe SEF, as well as revenue generated from the licensing of proprietary market data and from access and capacity services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cboe earns transaction and clearing fees from trading participants, plus market data licensing, access and capacity fees, and listing and routing fees.",
+  "evidence": "This includes associated transaction and clearing fees on our equities and FX markets and clearing business, the portion of market data fees relating to associated U.S. tape plan market data fees, associated regulatory fees, and associated other revenue from Cboe's North American Equities, Europe and Asia Pacific, and Global FX segments."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Cboe initiated the wind down of its Japanese equities business and a sales process for Cboe Australia and Cboe Canada.",
+   "evidence": "In 2025, following a comprehensive strategic review of its global business operations, Cboe initiated the wind down of its Japanese equities business, including the cessation of operations of its Cboe Japan proprietary trading system and Cboe BIDS Japan block trading platform, initiated a sales process for its Cboe Australia and Cboe Canada businesses, discontinued its U.S. and European Corporate Listings efforts, and reduced costs associated with its U.S. and European ETP Listings businesses, C"
+  }
+ ],
+ "dropped": [
+  "product not in text (North American Equities): Cboe Canada equities transaction services",
+  "product not in text (Europe and Asia Pacific): Cboe Europe Equities MTFs",
+  "product not in text (Europe and Asia Pacific): Cboe Australia equities services",
+  "product not in text (Global FX): non-deliverable forward FX transactions (NDFs)",
+  "product not in text (Global FX): U.S. government securities transaction services",
+  "change not grounded: As of January 1, 2025, the Digital operating segment was reorganized into the Fu",
+  "change not grounded: Subsequent to December 31, 2025, Cboe initiated the wind down of CEDX, its pan-E"
+ ]
+}

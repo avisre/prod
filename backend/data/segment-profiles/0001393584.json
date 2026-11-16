@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001393584",
+ "issuerName": "American Well Corporation",
+ "builtAt": "2026-11-15T14:25:05.563Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-048776",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1393584/000119312526048776/amwl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital care",
+   "products": [
+    "Amwell Platform",
+    "Carepoint devices",
+    "virtual primary care solution",
+    "urgent care solution",
+    "automated care programs",
+    "digital mental health services"
+   ],
+   "description": "Provides an enterprise cloud platform and services enabling health systems, health plans, employers and government entities to deliver hybrid in-person, virtual and automated care.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay recurring subscription fees for use of the Amwell Platform, plus fees for patient visits, related professional services and hardware sales.",
+  "evidence": "The Company generates revenues from the use of the Amwell Platform in the form of recurring subscription fees for use. We also generate revenue from the performance of patient visits and other related professional services and hardware sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Digital care): Amwell Medical Group (AMG)"
+ ]
+}
