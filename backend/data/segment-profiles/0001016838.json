@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001016838",
  "issuerName": "RADCOM LTD.",
- "builtAt": "2026-11-16T05:30:15.120Z",
+ "builtAt": "2026-11-16T10:45:30.601Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-036862",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1016838/000121390026036862/ea0282925-20f_radcom.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automated assurance",
+   "products": [
+    "RADCOM ACE",
+    "RADCOM NetTalk TM",
+    "Virtual Drive Test",
+    "RADCOM RAN Analytics Solution",
+    "RADCOM High-Capacity User Analytics Solution",
+    "Smart Network Visibility Solution",
+    "RADCOM Neura",
+    "RADCOM Network Intelligence"
+   ],
+   "description": "Provides cloud-native network intelligence and service assurance solutions that give telecom operators real-time subscriber analytics across their networks.",
+   "evidence": "We are a leader in automated assurance and intelligent analytics for telecom operators."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Telecom operators and communications service providers pay for cloud-native network assurance, subscriber analytics and related products and services.",
+  "evidence": "The customers in our market consist primarily of mobile and fixed CSPs who are responsible for providing mobile and fixed telecommunications services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

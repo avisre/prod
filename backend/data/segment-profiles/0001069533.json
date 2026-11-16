@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001069533",
  "issuerName": "RGC Resources, Inc.",
- "builtAt": "2026-11-16T05:30:16.388Z",
+ "builtAt": "2026-11-16T10:46:19.868Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-25-036827",
@@ -10,10 +10,33 @@
   "filingDate": "2025-12-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1069533/000143774925036827/rgco20250930_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gas Utility",
+   "products": [
+    "natural gas",
+    "renewable natural gas",
+    "transportation service",
+    "storage capacity"
+   ],
+   "description": "Distributes and sells natural gas to residential, commercial and industrial customers in its Virginia service territory under SCC-approved tariffs.",
+   "evidence": "The natural gas distribution segment of the Company generates revenue from its tariff rates and other regulatory mechanisms through which it provides for the sale and distribution of natural gas to its residential, commercial and industrial customers."
+  },
+  {
+   "name": "Investment in Affiliates",
+   "products": [
+    "Mountain Valley Pipeline"
+   ],
+   "description": "Holds the Company's equity investment in the LLC that owns and operates an interstate natural gas pipeline.",
+   "evidence": "The investment in affiliates segment reflects the income generated through the activities of the Company's investment in the LLC."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Roanoke Gas customers pay tariff rates authorized by the SCC for natural gas sold and delivered through its distribution system.",
+  "evidence": "Substantially all of Roanoke Gas' revenues are derived from rates authorized by the SCC through its tariffs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

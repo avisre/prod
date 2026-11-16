@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001743340",
  "issuerName": "Token Cat Limited",
- "builtAt": "2026-11-16T05:30:15.768Z",
+ "builtAt": "2026-11-16T10:46:02.460Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-053942",
@@ -10,11 +10,42 @@
   "filingDate": "2026-05-08",
   "url": "https://www.sec.gov/Archives/edgar/data/1743340/000121390026053942/ea0287389-20f_tokencat.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive Electronics Resale Business",
+   "products": [
+    "automotive electronic component equipment and accessories",
+    "communication device",
+    "power module",
+    "automotive electronics products",
+    "specified automotive electronic components"
+   ],
+   "description": "Sources, holds and resells automotive electronics products procured from third-party suppliers, delivering them to customers through the company's own sales channels.",
+   "evidence": "Our automotive electronics resale business focuses on sourcing, holding, and reselling automotive electronics products."
+  },
+  {
+   "name": "Advertising business",
+   "products": [],
+   "description": "The advertising business is the company's second reportable segment, reported beside the automotive electronics resale business it now operates.",
+   "evidence": "We derive our revenue from two reportable operating segments: (i) Sales of automotive electronic component equipment and accessories, mainly consisting of communication device, power module, etc. and (ii) Advertising business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay the company negotiated prices for automotive electronic components it procures from third-party suppliers and resells through its sales channels.",
+  "evidence": "We procure products from third-party suppliers and resell them to customers through our sales channels."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company disposed of substantially all of its legacy business segments in transactions that closed in October 2025.",
+   "evidence": "In the last quarter of 2025, we disposed of substantially all of our legacy business segments in a series of transactions that closed in October 2025."
+  },
+  {
+   "text": "The auto show business was discontinued, and in 2025 the company operated only an automobile electronics resale business launched that quarter.",
+   "evidence": "We no longer operate this business segment, and it constitutes discontinued operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

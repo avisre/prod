@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001200375",
  "issuerName": "Codexis, Inc.",
- "builtAt": "2026-11-16T05:30:16.783Z",
+ "builtAt": "2026-11-16T10:46:36.693Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001200375-26-000006",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1200375/000120037526000006/cdxs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "technology solutions",
+   "products": [
+    "ECO Synthesis manufacturing platform",
+    "small molecule pharma biocatalysis",
+    "enzymes",
+    "biocatalysts",
+    "pharmaceutical intermediates",
+    "Codex biocatalyst panels and kits"
+   ],
+   "description": "Engineers and supplies enzymes, biocatalysts and RNAi manufacturing technology and services to pharmaceutical and CDMO customers.",
+   "evidence": "Product revenue consists of sales of biocatalysts, pharmaceutical intermediates and Codex biocatalyst panels and kits."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Pharmaceutical companies and contract manufacturers pay the company for enzymes, biocatalyst products and development services.",
+  "evidence": "Our revenues are derived primarily from product revenue and collaborative research and development agreements."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Performance Enzymes and Novel Biotherapeutics operating segments were combined into a single reportable segment.",
+   "evidence": "our previous Performance Enzymes and Novel Biotherapeutics operating segments were combined into a single reportable segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

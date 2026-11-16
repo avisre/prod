@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001422142",
  "issuerName": "WHITEHAWK THERAPEUTICS, INC.",
- "builtAt": "2026-11-16T05:30:16.516Z",
+ "builtAt": "2026-11-16T10:46:12.398Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-104158",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1422142/000119312526104158/whwk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oncology therapeutics",
+   "products": [
+    "ADC Therapies",
+    "HWK-007",
+    "HWK-016",
+    "HWK-206"
+   ],
+   "description": "Clinical-stage oncology company developing in-licensed antibody drug conjugates against tumor targets for patients with difficult-to-treat cancers.",
+   "evidence": "The Company has identified its Chief Executive Officer as the chief operating decision maker and the Company views its operations and manages its business in one operating segment"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Revenue came from sales of FYARRO, the company's only product, which was divested in 2025; the company now funds development of its ADC Therapies with no approved product.",
+  "evidence": "The Company's revenues relate to sales of FYARRO, which was divested as of March 25, 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company divested its FYARRO Business to KAKEN and no longer operates it.",
+   "evidence": "The divestiture transaction closed on March 25, 2025 and, as a result, we no longer operate the FYARRO Business."
+  },
+  {
+   "text": "In 2024 the company in-licensed three ADC assets and transitioned to a new pipeline with different targets and indications.",
+   "evidence": "Through the License Agreement, we have transitioned to a new pipeline and are pursuing different targets and indications from those we have historically pursued, which has risks."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

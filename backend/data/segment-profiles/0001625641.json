@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001625641",
  "issuerName": "CS Disco, Inc.",
- "builtAt": "2026-11-16T05:30:15.530Z",
+ "builtAt": "2026-11-16T10:45:29.598Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001625641-26-000044",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1625641/000162564126000044/law-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "legal product offerings",
+   "products": [
+    "DISCO Hold",
+    "DISCO Request",
+    "DISCO Ediscovery",
+    "DISCO Review",
+    "DISCO Case Builder",
+    "Cecilia Q&A",
+    "Cecilia Timelines",
+    "Auto Review"
+   ],
+   "description": "Sells cloud-native, AI-powered legal product offerings for legal hold, legal request, ediscovery, legal document review and case management to enterprises, law firms and governments.",
+   "evidence": "All of our revenue-generating activities directly relate to the sale and support of our legal product offerings within a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay monthly for their usage of the product offerings, or commit to a minimum data volume over a period under subscription contracts.",
+  "evidence": "Our usage-based revenue is derived from contracts under which customers are typically billed monthly based on their usage of our offerings."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

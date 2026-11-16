@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001531177",
  "issuerName": "SIGHT SCIENCES, INC.",
- "builtAt": "2026-11-16T05:30:13.214Z",
+ "builtAt": "2026-11-16T10:43:47.600Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-091558",
@@ -10,11 +10,40 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1531177/000119312526091558/sght-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Interventional Glaucoma",
+   "products": [
+    "OMNI® Surgical System",
+    "Ergo Series OMNI Surgical System",
+    "OMNI Edge Surgical System",
+    "SION® Surgical Instrument"
+   ],
+   "description": "Sells implant-free, minimally invasive glaucoma surgery systems and instruments to ophthalmic surgeons at ambulatory surgery centers and hospital outpatient departments.",
+   "evidence": "The products for the Interventional Glaucoma segment consist of the OMNI® Surgical System family of products (\"OMNI\") and the SION® Surgical Instrument (\"SION\")."
+  },
+  {
+   "name": "Interventional Dry Eye",
+   "products": [
+    "TearCare® System",
+    "TearCare SmartHubs"
+   ],
+   "description": "Sells wearable open-eye eyelid treatment devices to optometrists and ophthalmologists for meibomian gland evacuation in dry eye disease.",
+   "evidence": "Our Interventional Dry Eye revenue consists of sales of the TearCare® System (\"TearCare\"), and related components and accessories."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Ambulatory surgery centers, hospital outpatient departments and eyecare practices pay for the devices, which are used in procedures then billed to Medicare and private payors.",
+  "evidence": "We sell our Interventional Glaucoma products primarily to ASCs and HOPDs, who in turn bill various third-party payors, such as Medicare and private health insurance plans for the healthcare services and resources rendered to treat a patient."
+ },
+ "changes": [
+  {
+   "text": "The two operating segments were renamed in 2025 from Surgical Glaucoma and Dry Eye to Interventional Glaucoma and Interventional Dry Eye.",
+   "evidence": "The Company's operating segments, which were renamed in 2025, and which also qualify as reportable segments include: (i) Interventional Glaucoma (formerly \"Surgical Glaucoma\") and (ii) Interventional Dry Eye (formerly \"Dry Eye\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001701758",
  "issuerName": "THE LOVESAC COMPANY",
- "builtAt": "2026-11-16T05:30:15.683Z",
+ "builtAt": "2026-11-16T10:45:37.698Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-022929",
@@ -10,11 +10,35 @@
   "filingDate": "2026-04-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1701758/000162828026022929/love-20260201.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Furniture",
+   "products": [
+    "Sactionals",
+    "Sacs",
+    "StealthTech",
+    "PillowSac Chair",
+    "Sactionals Reclining Seat",
+    "Snugg",
+    "AnyTable",
+    "Footsac blankets"
+   ],
+   "description": "Designs, manufactures and sells modular couches, beanbag chairs and home theater seating, selling directly to consumers through showrooms and online.",
+   "evidence": "The Company has one operating segment which aligns with the way our CODM group evaluates performance and allocates resources within the Company."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for furniture purchased through its own showrooms, its website and other touchpoints.",
+  "evidence": "We market and sell our products through an omni-channel platform that includes direct-to-consumer touch points in the form of our own showrooms and online directly at www.lovesac.com."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company discontinued its Best Buy shop-in-shop partnership, closing all remaining locations.",
+   "evidence": "In June 2025, the Company discontinued its partnership with Best Buy, resulting in the closure of all remaining Best Buy shop-in-shop locations as of February 1, 2026."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

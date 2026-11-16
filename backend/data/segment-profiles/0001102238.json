@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001102238",
  "issuerName": "American Realty Investors, Inc",
- "builtAt": "2026-11-16T05:30:13.765Z",
+ "builtAt": "2026-11-16T10:44:41.153Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001102238-26-000004",
@@ -10,10 +10,37 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1102238/000110223826000004/arl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential Segment",
+   "products": [
+    "apartments",
+    "multifamily properties",
+    "parking and storage space rental",
+    "other tenant services"
+   ],
+   "description": "Owns, develops and operates multifamily apartment properties in the Southern United States, renting apartments and tenant services such as parking and storage to residents.",
+   "evidence": "The services for our multifamily segment include primarily rental of apartments and other tenant services, including parking and storage space rental."
+  },
+  {
+   "name": "Commercial Segment",
+   "products": [
+    "office space",
+    "office buildings",
+    "commercial properties",
+    "parking and storage space rental",
+    "other tenant services"
+   ],
+   "description": "Owns and manages office buildings and commercial properties, leasing office space and providing tenant services such as parking and storage to business tenants.",
+   "evidence": "The services for our commercial segment include primarily rental of office space and other tenant services, including parking and storage space rental."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Residents and commercial tenants pay rent and fees for apartments or office space, parking and storage.",
+  "evidence": "The services for our segments include rental of property and other tenant services, including parking and storage space rental."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

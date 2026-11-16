@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001677703",
  "issuerName": "CONDUENT INC",
- "builtAt": "2026-11-16T05:30:13.052Z",
+ "builtAt": "2026-11-16T10:44:06.268Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001677703-26-000024",
@@ -10,11 +10,62 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1677703/000167770326000024/cndt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial",
+   "products": [
+    "Customer Experience Management",
+    "Business Process as a Service",
+    "Integrated Digital Solutions",
+    "payment integrity",
+    "document and claims processing",
+    "health plan administration"
+   ],
+   "description": "Business process services spanning commercial clients' front-office and back-office operations, reducing costs, improving efficiencies and enabling revenue growth.",
+   "evidence": "Our Commercial segment provides business process services that span our clients' business processes end-to-end from the front-office to the back-office for a variety of commercial industries."
+  },
+  {
+   "name": "Government",
+   "products": [
+    "Government Healthcare Solutions",
+    "Government Service Solutions",
+    "Medicaid management",
+    "pharmacy benefits management",
+    "eligibility and enrollment support",
+    "case management",
+    "Conduent Medicaid Suite"
+   ],
+   "description": "Government-centric services for U.S. federal, state, local and foreign governments, covering public assistance, healthcare program administration, transaction processing, eligibility, payments and case management.",
+   "evidence": "Our Government segment provides government-centric services and solutions to U.S. federal, state, local and foreign governments for public assistance, healthcare program administration, transaction processing, eligibility and enrollment processing, payment services and case management."
+  },
+  {
+   "name": "Transportation",
+   "products": [
+    "toll and fare collections",
+    "mobility and digital payments",
+    "public transit",
+    "road usage charging"
+   ],
+   "description": "Systems and payment solutions for government agencies and transportation authorities worldwide, serving toll and fare collections, mobility and digital payments.",
+   "evidence": "Our Transportation segment provides government agencies and transportation authorities around the world with systems, support and revenue-generating solutions serving toll and fare collections as well as mobility and digital payments that help streamline operations and increase revenue to government and transportation agencies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Businesses and governments pay for outsourced business process services, priced per call, per agent, per document, per image or per employee covered.",
+  "evidence": "The CXM business generally generates income on a per call, per agent, or per percentage of sales made basis."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company agreed to transfer its BenefitWallet Portfolio, reported within the Commercial segment.",
+   "evidence": "In September 2023, the Company entered into a Custodial Transfer and Asset Purchase Agreement (the \"Purchase Agreement\") to transfer its BenefitWallet Portfolio, which was reported within the Company's Commercial segment."
+  },
+  {
+   "text": "In 2024 the Casualty Claims Solutions businesses were reclassified out of Commercial and the Curbside Management and Public Safety Solutions businesses out of Transportation.",
+   "evidence": "Casualty Claims Solutions businesses (both of which were reclassified from our Commercial segment in 2024) and our Curbside Management and Public Safety Solutions businesses (which was reclassified from our Transportation segment in 2024)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

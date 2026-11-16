@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001512762",
  "issuerName": "Coherus Oncology, Inc.",
- "builtAt": "2026-11-16T05:30:14.614Z",
+ "builtAt": "2026-11-16T10:45:04.815Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-025308",
@@ -10,11 +10,34 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1512762/000110465926025308/chrs-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology",
+   "products": [
+    "LOQTORZI",
+    "casdozokitug (CHS-388, formerly SRF388)",
+    "tagmokitug (CHS-114, formerly SRF114)"
+   ],
+   "description": "Develops and commercializes oncology medicines, led by LOQTORZI for nasopharyngeal carcinoma, and advances immuno-oncology product candidates through clinical development.",
+   "evidence": "We view our operations and measure our business as one reportable segment operating primarily in the United States."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company is paid by U.S. wholesalers for sales of its approved oncology product, LOQTORZI.",
+  "evidence": "Substantially all of the Company's revenues are from sales in the United States to three wholesalers."
+ },
+ "changes": [
+  {
+   "text": "In 2024 and 2025 the company disposed of its biosimilar product lines YUSIMRY, CIMERLI and UDENYCA, leaving LOQTORZI as its only commercial product.",
+   "evidence": "Net revenue for product sales of UDENYCA, YUSIMRY and CIMERLI effectively ceased following the disposition of these product lines on April 11, 2025, June 26, 2024 and March 1, 2024, respectively"
+  },
+  {
+   "text": "In 2025 the company changed its corporate name from Coherus BioSciences, Inc. to Coherus Oncology, Inc.",
+   "evidence": "On May 29, 2025, we changed our corporate name from \"Coherus BioSciences, Inc.\" to \"Coherus Oncology, Inc.\" to better align with our exclusive focus on proprietary innovative immuno-oncology medicines"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

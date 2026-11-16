@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001816431",
  "issuerName": "QUANTUM-SI INCORPORATED",
- "builtAt": "2026-11-16T05:30:16.619Z",
+ "builtAt": "2026-11-16T10:46:26.986Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001816431-26-000011",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1816431/000181643126000011/qsi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Proteomics research",
+   "products": [
+    "Platinum NGPS instrument",
+    "Platinum Analysis Software",
+    "consumable kits",
+    "Platinum Pro benchtop sequencer",
+    "Proteus"
+   ],
+   "description": "Sells single-molecule protein sequencing instruments, consumables and analysis software to researchers and clinicians studying the proteome.",
+   "evidence": "The Company's platform includes its Platinum NGPS instrument, Platinum Analysis Software, and consumable kits for use with its Platinum line of instruments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for instruments, consumable kits and software, plus service maintenance contracts that include analysis software access and advanced training.",
+  "evidence": "Product revenue is primarily generated from the sales of instruments and consumables used in protein sequencing and analysis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001098151",
  "issuerName": "FIDELITY D & D BANCORP INC",
- "builtAt": "2026-11-16T05:30:13.726Z",
+ "builtAt": "2026-11-16T10:44:29.187Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-008215",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1098151/000143774926008215/fdbc20260301_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "traditional banking services",
+    "personal and corporate trust department",
+    "alternative financial and insurance products",
+    "asset management services",
+    "residential real estate",
+    "commercial real estate loans"
+   ],
+   "description": "Community bank subsidiary offering traditional banking, trust, asset management and insurance services to individuals and businesses in northeastern and eastern Pennsylvania.",
+   "evidence": "The Bank has offered a full range of traditional banking services since it commenced operations in 1903."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the bank for traditional banking services, trust services, and alternative financial, insurance and asset management products.",
+  "evidence": "The Bank has a personal and corporate trust department and also provides alternative financial and insurance products with asset management services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

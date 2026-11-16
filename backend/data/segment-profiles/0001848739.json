@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001848739",
  "issuerName": "GDEV Inc.",
- "builtAt": "2026-11-16T05:30:13.193Z",
+ "builtAt": "2026-11-16T10:43:48.626Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-037847",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1848739/000110465926037847/gdev-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nexters Global Ltd",
+   "products": [
+    "Hero Wars",
+    "Island Hoppers"
+   ],
+   "description": "Mobile, web and social game development and publishing for players worldwide, built around the Hero Wars franchise.",
+   "evidence": "The Group operates through six operating segments based on the types of games, which are Nexters Global Ltd, Cubic Games Studio Ltd, MX Capital Ltd, Castcrown Ltd, Gamegears Ltd and Lighthour Ltd, while the last five of them are not considered to be reportable segments based on the criteria (quantitative thresholds) of IFRS 8."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Players pay for in-game purchases in the company's free-to-play games, and advertisers pay for advertising.",
+  "evidence": "Unlike traditional casual games, which rely primarily on advertising monetization, or mid-core games, which depend largely on in-app purchases from a smaller but more engaged player base, hybrid-casual titles are designed to attract a broad audience through simple core gameplay while retaining and monetizing players through layered progression and live operations features."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

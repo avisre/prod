@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001392272",
  "issuerName": "Chain Bridge Bancorp, Inc.",
- "builtAt": "2026-11-16T05:30:15.338Z",
+ "builtAt": "2026-11-16T10:45:20.671Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-020177",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1392272/000162828026020177/chnbrdg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "deposit accounts",
+    "loans",
+    "treasury management",
+    "trust and wealth management services",
+    "payments",
+    "commercial lending",
+    "residential mortgage financing",
+    "asset custody"
+   ],
+   "description": "The Company provides commercial and personal banking, deposits, treasury management, loans, and trust and wealth management services to businesses, political organizations, and individuals.",
+   "evidence": "The Company operates as a single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients such as businesses, political organizations and individuals pay the Bank interest and fees for deposits, treasury management, payments, loans and trust services.",
+  "evidence": "We offer a range of commercial and personal banking services, including deposits, treasury management, payments, loans, commercial lending, residential mortgage financing, consumer loans, trusts and estate administration, wealth management, and asset custody."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001617553",
  "issuerName": "ZIPRECRUITER, INC.",
- "builtAt": "2026-11-16T05:30:13.919Z",
+ "builtAt": "2026-11-16T10:44:39.124Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001617553-26-000016",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1617553/000161755326000016/zip-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketplace",
+   "products": [
+    "Time-based job posting plans",
+    "Upsell services",
+    "Resume database plans",
+    "Performance-based revenue",
+    "ZipRecruiter Applicant Tracking System",
+    "job posting enhancements",
+    "Phil"
+   ],
+   "description": "ZipRecruiter runs an AI-powered hiring marketplace that matches job seekers with employers through job postings, resume search and candidate matching tools.",
+   "evidence": "The Company operates as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Employers pay subscription fees for job posting plans, upsells and resume database access, while performance-based customers pay per click by job applicant.",
+  "evidence": "Performance-based revenue consists of customers who pay on a per click by job applicant basis for the job postings they wish to distribute through the Company's software."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

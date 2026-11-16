@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001626450",
  "issuerName": "Commerce.com, Inc.",
- "builtAt": "2026-11-16T05:30:15.878Z",
+ "builtAt": "2026-11-16T10:46:18.644Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-085687",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1626450/000119312526085687/bigc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commerce solutions",
+   "products": [
+    "BigCommerce",
+    "Feedonomics",
+    "Makeswift",
+    "Catalyst"
+   ],
+   "description": "Provides an open commerce technology ecosystem, ecommerce platform, product data syndication and visual site building, to merchants of every size and type.",
+   "evidence": "The Company conducts business as a single operating and reportable segment, which is based upon the Company's current organizational and management structure, as well as information used by the chief operating decisions makers (CODMs) to allocate resources and assess company performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Businesses of all sizes pay for access to the company's ecommerce platform, product data management and syndication, and visual site-building tools.",
+  "evidence": "Our platform supports a range of business models, including business-to-consumer (\"B2C\"), business-to-business (\"B2B\"), and small businesses (\"SB\") use cases, and is designed to provide the infrastructure necessary to operate online storefronts, manage catalogs and orders, distribute product data, and develop digital content across multiple channels."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

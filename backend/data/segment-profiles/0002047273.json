@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002047273",
  "issuerName": "BUUU Group Limited",
- "builtAt": "2026-11-16T05:30:13.421Z",
+ "builtAt": "2026-11-16T10:44:07.870Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-114422",
@@ -10,10 +10,27 @@
   "filingDate": "2026-10-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2047273/000121390026114422/ea0309667-20f_buuugroup.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Event Management",
+   "products": [
+    "Event management services",
+    "Stage production services",
+    "furniture pieces",
+    "essential decor items",
+    "stage equipment",
+    "installation service"
+   ],
+   "description": "Provides customized event management and stage production services, including event design, logistics and installations, to customers in Hong Kong.",
+   "evidence": "The Company operated during the fiscal years presented as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay fixed transaction prices for customized event management services and for stage production goods and installation; all revenue comes from third parties in Hong Kong.",
+  "evidence": "The Company provides customized event management services upon requests from its customers in exchange for a fixed transaction price."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

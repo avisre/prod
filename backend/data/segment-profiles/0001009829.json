@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001009829",
  "issuerName": "JAKKS PACIFIC INC",
- "builtAt": "2026-11-16T05:30:14.169Z",
+ "builtAt": "2026-11-16T10:45:12.501Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001185185-26-000723",
@@ -10,10 +10,39 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1009829/000118518526000723/jakk10k123125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Toys/Consumer Products",
+   "products": [
+    "action figures",
+    "vehicles",
+    "play sets",
+    "plush products",
+    "dolls",
+    "electronic products",
+    "construction toys",
+    "infant and pre-school toys"
+   ],
+   "description": "Designs, develops, markets and distributes action figures, vehicles, play sets, plush, dolls, role play toys and kids' furniture for children and retailers.",
+   "evidence": "The Toys/Consumer Products (\"TCP\") segment includes action figures, vehicles, play sets, plush products, dolls, electronic products, construction toys, infant and pre-school toys, child-sized and hand-held role play toys and everyday costume play, foot-to-floor ride-on vehicles, wagons, novelty toys, seasonal and outdoor products, kids' indoor and outdoor furniture, and related products."
+  },
+  {
+   "name": "Costumes",
+   "products": [
+    "every-day and special occasion dress-up costumes",
+    "related accessories",
+    "Disguise"
+   ],
+   "description": "Designs and sells every-day and special occasion dress-up costumes and accessories under the Disguise brand for Halloween and costume play.",
+   "evidence": "The Costumes segment, under its Disguise branding, designs, develops, markets and sells a wide range of every-day and special occasion dress-up costumes and related accessories in support of Halloween, Carnival, Children's Day, Book Day/Week, and every-day/any-day costume play."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retailers, wholesalers and distributors pay for toys, consumer products and costumes sold through our sales staff, e-commerce sites and third-party distributors.",
+  "evidence": "We sell our products through our in-house sales staff and independent sales representatives to toy and mass-market retail chain stores, department stores, office supply stores, drug and grocery store chains, club stores, value-oriented dollar stores, toy specialty stores and wholesalers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

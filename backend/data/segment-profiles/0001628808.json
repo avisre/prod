@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001628808",
  "issuerName": "PROFOUND MEDICAL CORP.",
- "builtAt": "2026-11-16T05:30:14.812Z",
+ "builtAt": "2026-11-16T10:45:01.220Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-024153",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1628808/000110465926024153/prof-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical technology",
+   "products": [
+    "TULSA-PRO system",
+    "Sonalleve system",
+    "Thermal Boost module",
+    "one-time-use devices"
+   ],
+   "description": "Develops and sells MRI-guided focused ultrasound ablation systems and single-use devices that physicians use to ablate prostate tissue and other diseased tissue.",
+   "evidence": "The chief executive officer, who is the CODM, views the Company's operations and manages its business in one operating segment, which is medical technology focused on magnetic resonance guided ablation procedures for the treatments to ablate the prostate gland, uterine fibroids, osteoid osteoma and nerves for palliative pain relief for patients with metastatic bone disease."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hospitals, physicians and distributors pay for capital equipment systems and for recurring non-capital equipment, including one-time-use devices for each patient treated and related services.",
+  "evidence": "Our business model consists of two components - sales of capital equipment and recurring non-capital equipment which includes one-time-use devices for each patient treated and related services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001111485",
  "issuerName": "RxSight, Inc.",
- "builtAt": "2026-11-16T05:30:14.709Z",
+ "builtAt": "2026-11-16T10:45:03.369Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-071775",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1111485/000119312526071775/rxst-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Light adjustable lenses",
+   "products": [
+    "RxSight Light Adjustable Lens",
+    "LAL",
+    "LAL+",
+    "RxSight Light Delivery Device",
+    "LDD",
+    "related accessories"
+   ],
+   "description": "Sells light adjustable intraocular lenses and light delivery devices to cataract surgeons, who customize patients' vision after surgery.",
+   "evidence": "The Company determined that it operates and manages its business (including its non-U.S. subsidiaries) in one reportable segment: the research and development, manufacture and sale of light adjustable lenses and related capital equipment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Ophthalmology practices and surgeons buy the light delivery device and lenses; patients pay out-of-pocket fees for premium procedures beyond insurer-covered cataract surgery.",
+  "evidence": "In the U.S., Medicare and private insurers typically cover the full cost of spherical monofocal IOL procedures, while premium IOL procedures require patients to pay an incremental out-of-pocket fee, typically ranging from $2,000 to $5,000 per eye depending on the specific premium IOL used."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

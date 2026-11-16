@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001945415",
  "issuerName": "HUHUTECH International Group Inc.",
- "builtAt": "2026-11-16T05:30:14.476Z",
+ "builtAt": "2026-11-16T10:44:46.166Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048296",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1945415/000121390026048296/ea0287116-20f_huhutech.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High-purity process systems",
+   "products": [
+    "special gas supply systems",
+    "chemical supply systems",
+    "facility monitoring & control systems (FMCS)",
+    "gas monitoring systems",
+    "secondary power distribution for equipment"
+   ],
+   "description": "Designs, installs and maintains high-purity gas and chemical process systems and factory monitoring and control systems for semiconductor and electronics manufacturers.",
+   "evidence": "The Company determined it operates as one consolidated segment and therefore has one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Industrial clients, mainly semiconductor and electronics manufacturers, pay for customized high-purity process systems, facility monitoring and control systems, installation and value-added services.",
+  "evidence": "We offer the overall solution design, installation and value-added services such as ancillary engineering, testing, plant hosting, calibration and maintenance."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

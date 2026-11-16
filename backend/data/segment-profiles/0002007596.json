@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002007596",
  "issuerName": "TWFG, Inc.",
- "builtAt": "2026-11-16T05:30:14.982Z",
+ "builtAt": "2026-11-16T10:45:06.044Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-016162",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/2007596/000162828026016162/twfg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "independent distribution platform",
+   "products": [
+    "Insurance Services",
+    "TWFG MGA",
+    "Agency-in-a-Box",
+    "Corporate Branches"
+   ],
+   "description": "Independent distribution platform placing personal and commercial insurance for independent agents, branches and MGA agencies across the U.S.",
+   "evidence": "The Company operates as a single operating and reportable segment, which reflects its business as an independent distribution platform for personal and commercial insurance in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insurance carriers pay commissions and fees for placing insurance contracts with clients, with a portion shared with Branches and MGA Agencies.",
+  "evidence": "We earn our commission revenue by placing insurance contracts between carriers and clients, acting as both the client's agent and the carrier's representative."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

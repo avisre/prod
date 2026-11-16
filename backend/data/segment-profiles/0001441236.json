@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001441236",
  "issuerName": "CLEARWATER PAPER CORPORATION",
- "builtAt": "2026-11-16T05:30:17.049Z",
+ "builtAt": "2026-11-16T10:46:34.218Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001441236-26-000007",
@@ -10,11 +10,32 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1441236/000144123626000007/clw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Paperboard",
+   "products": [
+    "SBS paperboard",
+    "Folding carton",
+    "Food Service",
+    "Sheeting and distribution",
+    "Pulp and other"
+   ],
+   "description": "Manufactures and supplies SBS paperboard packaging products for independent converters, merchants and commercial printers in North America.",
+   "evidence": "Clearwater Paper is recognized as a leading manufacturer and supplier of Solid Bleached Sulfate (SBS) paperboard packaging products, serving independent converters throughout North America."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Packaging converters, merchants and commercial printers in North America pay for paperboard sold to them, including sheeting and distribution services.",
+  "evidence": "The majority of our paperboard is sold to packaging converters in North America through sales managers located throughout the United States, with a smaller percentage channeled through distribution to commercial printers."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company divested its tissue business, previously reported as the Consumer Products segment.",
+   "evidence": "Subsequently, in October 2024, our tissue business, previously reported as the Consumer Products segment and focused on producing private label tissue items, was divested to Sofidel America Corp, a wholly owned subsidiary of Sofidel S.p.A.."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

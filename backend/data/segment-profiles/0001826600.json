@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001826600",
  "issuerName": "MONTAUK RENEWABLES, INC.",
- "builtAt": "2026-11-16T05:30:17.218Z",
+ "builtAt": "2026-11-16T10:46:42.128Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-102364",
@@ -10,10 +10,37 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1826600/000119312526102364/mntk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Renewable Natural Gas",
+   "products": [
+    "RNG",
+    "RINs",
+    "LCFS credits",
+    "Natural gas commodity",
+    "Natural gas environmental attributes"
+   ],
+   "description": "Produces renewable natural gas from landfill and livestock farm biogas and sells the gas and its environmental attributes to off-take counterparties.",
+   "evidence": "We record revenues from the production and sale of RNG and the generation and sale of the Environmental Attributes derived from RNG, such as RINs and LCFS credits."
+  },
+  {
+   "name": "Renewable Electricity Generation",
+   "products": [
+    "Renewable Electricity",
+    "RECs",
+    "Electric commodity",
+    "Electric environmental attributes"
+   ],
+   "description": "Generates electricity at biogas-to-electricity plants and sells the power and related environmental attributes under long-term fixed-price contracts.",
+   "evidence": "We record revenues from the production and sale of Renewable Electricity and the generation and sale of the Environmental Attributes, such as RECs, derived from Renewable Electricity."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Utilities and fuel off-take counterparties pay for RNG, Renewable Electricity and the Environmental Attributes generated from them under off-take agreements, PPAs and fixed-price contracts.",
+  "evidence": "Our Renewable Natural Gas and Renewable Electricity Generation segments' revenues are primarily driven by the prices under our off-take agreements and PPAs and the amount of RNG and Renewable Electricity that we produce."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

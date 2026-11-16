@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001837014",
  "issuerName": "SMARTRENT, INC.",
- "builtAt": "2026-11-16T05:30:15.274Z",
+ "builtAt": "2026-11-16T10:45:34.917Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-089953",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1837014/000119312526089953/smrt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Smart home solutions",
+   "products": [
+    "Hosted Services",
+    "Hub Device",
+    "door-locks",
+    "thermostats",
+    "sensors",
+    "light switches",
+    "SmartRent Manager",
+    "Resident App"
+   ],
+   "description": "Provides an enterprise smart home platform of software, hardware and professional services for property owners, operators, site teams and residents.",
+   "evidence": "The Company operates as a single operating segment, which is also its only reportable segment as its CODM"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Property owners, property managers and residents pay subscription fees for Hosted Services and buy smart home devices with installation and implementation services.",
+  "evidence": "We generate revenue primarily from sales of smart home systems that enable property owners and property managers to have visibility and control over assets, while providing all-in-one home control offerings for residents."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

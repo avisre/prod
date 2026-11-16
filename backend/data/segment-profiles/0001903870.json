@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001903870",
  "issuerName": "FORAFRIC GLOBAL PLC",
- "builtAt": "2026-11-16T05:30:13.515Z",
+ "builtAt": "2026-11-16T10:44:28.556Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-023781",
@@ -10,11 +10,56 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1903870/000149315226023781/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Soft Wheat",
+   "products": [
+    "flour",
+    "desserts",
+    "sauces"
+   ],
+   "description": "Produces and sells soft wheat flour used to make desserts and sauces, serving food manufacturers and other customers.",
+   "evidence": "The Soft Wheat segment includes the production and sale of soft wheat yielding flour that is used to make desserts and sauces."
+  },
+  {
+   "name": "Durum Wheat",
+   "products": [
+    "hard wheat",
+    "flour"
+   ],
+   "description": "Produces and sells hard wheat flour used to make pasta for customers in Morocco and export markets.",
+   "evidence": "The Durum Wheat segment includes the production and sale of hard wheat yielding flour that is used to make pasta."
+  },
+  {
+   "name": "Couscous and Pasta",
+   "products": [
+    "couscous",
+    "pasta"
+   ],
+   "description": "Secondarily processes wheat into couscous and pasta sold to end customers.",
+   "evidence": "The Couscous and Pasta segment includes the secondary processing of products including couscous and pasta sold to end customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "End customers and other buyers pay the company for wheat flour, couscous and pasta it produces and sells.",
+  "evidence": "The Couscous and Pasta segment includes the secondary processing of products including couscous and pasta sold to end customers."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company initiated a plan for the potential disposal of several assets and businesses as part of a Morocco and soft wheat focus.",
+   "evidence": "As part of its new strategy with a Morocco and soft wheat focus, the Company initiated in November 2024 a plan for the potential disposal of several assets and businesses."
+  },
+  {
+   "text": "In 2025 the company completed the sale of a subsidiary operating in logistic activities.",
+   "evidence": "In August 2025, the Company completed the sale of its 100% equity interest in a subsidiary operating in logistic activities for total consideration of $ 8,286 ."
+  },
+  {
+   "text": "In 2026 the company completed the sale of long-term assets of a durum wheat mill located in Casablanca.",
+   "evidence": "In March 2026, the Company completed the sale all long-term assets belonging to a durum wheat mill with a capacity of 240 tons per day, located in Casablanca, Morocco for total consideration of approximately $ 18,700 ."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

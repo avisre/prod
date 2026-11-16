@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001074902",
  "issuerName": "LCNB CORP",
- "builtAt": "2026-11-16T05:30:16.039Z",
+ "builtAt": "2026-11-16T10:46:13.427Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-007758",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1074902/000143774926007758/lcnb20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "commercial and industrial loans",
+    "commercial and residential real estate loans",
+    "agricultural loans",
+    "construction loans",
+    "consumer loans",
+    "Small Business Administration loans",
+    "home equity lines of credit",
+    "Wealth Management"
+   ],
+   "description": "Community bank operations offering loans, deposits, trust and wealth management services to individuals and businesses in Ohio and Kentucky.",
+   "evidence": "Loan products offered include commercial and industrial loans, commercial and residential real estate loans, agricultural loans, construction loans, various types of consumer loans, and Small Business Administration loans."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Banking customers pay interest and fees on loans and deposit accounts, and the bank also earns revenue from its investments.",
+  "evidence": "Loans, investments, and deposits provide the revenues in the banking operation."
+ },
+ "changes": [
+  {
+   "text": "In 2024 LCNB acquired Eagle Financial Bancorp, Inc., whose bank was merged into LCNB National Bank.",
+   "evidence": "On April 12, 2024, LCNB acquired Eagle Financial Bancorp, Inc. (\"EFBI\"), the holding company for EAGLE.bank, an Ohio state-chartered bank."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
