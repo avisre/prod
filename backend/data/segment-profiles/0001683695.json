@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001683695",
  "issuerName": "INTERNATIONAL MONEY EXPRESS, INC.",
- "builtAt": "2026-11-16T05:23:10.368Z",
+ "builtAt": "2026-11-16T10:30:29.903Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-015647",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1683695/000162828026015647/imxi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Money remittance services",
+   "products": [
+    "online payment options",
+    "pre-paid debit cards",
+    "direct deposit payroll cards",
+    "mobile wallets",
+    "home delivery in selected markets",
+    "Remittance-as-a-Service (\"RaaS\")"
+   ],
+   "description": "Provides omnichannel money remittance services from the United States, Canada and Europe to Latin America, Africa and Asia through agents, stores and digital channels.",
+   "evidence": "Our business is organized around one reportable segment that provides money remittance services primarily between the U.S. and Canada to Mexico, Guatemala and other countries in Latin America, Africa and Asia through a network of authorized agents located in various unaffiliated retail establishments and 118 Company-operated stores throughout the U.S., Canada, Spain, Italy and Germany, as well as digitally through the Internet via our websites and mobile device applications."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Consumers sending funds pay fees, which the company shares with sending agents, digital partners and paying agents, plus foreign exchange spreads and fees from digital partners.",
+  "evidence": "We generate money remittance revenue from fees paid by consumers (i.e., the senders of funds), which we share with our sending agents and digital partners in the originating country and our paying agents in the destination country."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001759186",
  "issuerName": "Z Squared Inc.",
- "builtAt": "2026-11-16T05:23:07.956Z",
+ "builtAt": "2026-11-16T10:28:24.140Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-002026",
@@ -10,11 +10,43 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1759186/000168316826002026/coeptis_i10k-123125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "CD38-GEAR-NK",
+    "CD38-Diagnostic",
+    "SNAP-CAR",
+    "GEAR-NK",
+    "DVX201",
+    "Unmodified Natural Killer Cells"
+   ],
+   "description": "Non-revenue generating segment that develops cell therapy product candidates for cancer, autoimmune and infectious diseases.",
+   "evidence": "Biotechnology Segment: This segment is non-revenue generating and incurs expenses by developing its biotechnology product pipeline."
+  },
+  {
+   "name": "Technology",
+   "products": [
+    "AI-powered marketing software",
+    "robotic process automation tools",
+    "NexGenAI Affiliates Network Platform"
+   ],
+   "description": "Revenue generating segment that acquires technology assets, offering AI-powered marketing software and robotic process automation to business customers.",
+   "evidence": "Technology Segment: This segment is revenue generating and incurs expenses by acquiring technology assets to support and enhance operational capabilities through advanced technologies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The Technology segment earns sales from its AI-powered marketing software and robotic process automation offerings, while the Biotechnology segment generates no revenue.",
+  "evidence": "Technology Segment: This segment is revenue generating and incurs expenses by acquiring technology assets to support and enhance operational capabilities through advanced technologies."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company began operating in two segments, Biotechnology and Technology.",
+   "evidence": "Effective in 2024, the Company began operating in two segments: Biotechnology and Technology."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

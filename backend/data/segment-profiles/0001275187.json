@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001275187",
  "issuerName": "AngioDynamics, Inc.",
- "builtAt": "2026-11-16T05:23:07.530Z",
+ "builtAt": "2026-11-16T10:27:58.261Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-048138",
@@ -10,11 +10,56 @@
   "filingDate": "2026-07-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1275187/000162828026048138/ango-20260531.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Med Tech",
+   "products": [
+    "Auryon Atherectomy System",
+    "AlphaVac Mechanical Thrombectomy System",
+    "AngioVac venous drainage cannula",
+    "Uni-Fuse system",
+    "Uni-Fuse+ system",
+    "NanoKnife IRE Ablation System"
+   ],
+   "description": "Provides technology portfolio of atherectomy, thrombus management and ablation platforms to interventional physicians treating cardiovascular disease and cancer.",
+   "evidence": "The Med Tech segment is comprised of our technology portfolio including Auryon, the thrombus management platform and NanoKnife."
+  },
+  {
+   "name": "Med Device",
+   "products": [
+    "Soft-Vu Angiographic Catheters",
+    "Mariner Hydrophilic Catheters",
+    "Accu-Vu Sizing Catheters",
+    "ADx Peripheral Vascular Guidewire",
+    "NiT-Vu High Performance Micro Guidewires",
+    "Total Abscession Drainage Catheters",
+    "Mini Stick MAX Coaxial Microintroducer Kits",
+    "Micro-Introducer Kits"
+   ],
+   "description": "Supplies angiographic catheters, guidewires, drainage products and ports to physicians performing minimally invasive vascular and oncology procedures.",
+   "evidence": "The Med Device segment is comprised of our Core, Venous, Ports and other Oncology products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Hospitals and clinicians pay for the medical devices the company designs, manufactures and sells for treating cardiovascular disease and cancer.",
+  "evidence": "AngioDynamics is a dynamic, diversified medical technology company committed to expanding treatment options and improving patient outcomes and quality of life by designing, manufacturing and selling products and technologies which aid clinicians in the treatment of patients with cardiovascular disease and cancer diagnoses."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company completed the sale of its dialysis and BioSentry businesses.",
+   "evidence": "On June 8, 2023, the Company completed the sale of the dialysis and BioSentry businesses to Merit Medical Systems, Inc."
+  },
+  {
+   "text": "In 2024 the company completed the sale of its PICC and Midline businesses.",
+   "evidence": "On February 15, 2024, the Company completed the sale of its PICC and Midline businesses, which included the C3 Wave tip location asset, to Spectrum Vascular."
+  },
+  {
+   "text": "In 2024 the company discontinued the RadioFrequency Ablation and Syntrax product lines.",
+   "evidence": "As of February 29, 2024, the Company discontinued the RadioFrequency Ablation and Syntrax product lines."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

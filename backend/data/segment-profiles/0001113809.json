@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001113809",
  "issuerName": "BUILD-A-BEAR WORKSHOP INC",
- "builtAt": "2026-11-16T05:23:08.722Z",
+ "builtAt": "2026-11-16T10:29:09.218Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-012501",
@@ -10,10 +10,51 @@
   "filingDate": "2026-04-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1113809/000143774926012501/bbw20251218c_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct to Consumer",
+   "products": [
+    "plush products to be stuffed",
+    "pre-stuffed plush products",
+    "sounds and scents",
+    "clothing, shoes and accessories",
+    "teddy bears and other stuffed animals",
+    "Bear-Builder",
+    "Bear Cave",
+    "buildabear.com"
+   ],
+   "description": "Operates corporately-managed stores in the U.S., Canada, the U.K., Ireland and company e-commerce sites, selling make-your-own furry friends directly to guests.",
+   "evidence": "Direct to Consumer (\"DTC\") – Corporately-managed retail stores located in the U.S., Canada, the U.K., Ireland, and two e-commerce sites"
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "wholesale product sales",
+    "licensing our intellectual property",
+    "entertainment properties",
+    "branded pre-stuffed products",
+    "non-plush consumer categories"
+   ],
+   "description": "Sells products wholesale to other businesses and licenses Build-A-Bear intellectual property, including entertainment properties, to third parties.",
+   "evidence": "Commercial – Transactions with other businesses, mainly comprised of wholesale product sales and licensing our intellectual property, including entertainment properties, for third-party use"
+  },
+  {
+   "name": "International franchising",
+   "products": [
+    "Royalties",
+    "product and fixture sales",
+    "franchise agreements"
+   ],
+   "description": "Licenses franchise agreements for store locations in Asia, Australia, the Middle East, Africa and South America, earning royalties and fixture sales.",
+   "evidence": "International franchising – Royalties as well as product and fixture sales from other international operations under franchise agreements."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Guests pay for personalized make-your-own plush experiences in stores and online, while wholesale, licensing and franchise partners pay for products, intellectual property and franchise rights.",
+  "evidence": "we sell our products on a wholesale basis to other companies that then, in turn, execute our retail experience"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

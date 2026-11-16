@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001692705",
  "issuerName": "High Templar Tech Ltd",
- "builtAt": "2026-11-16T05:23:09.030Z",
+ "builtAt": "2026-11-16T10:29:35.311Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-041728",
@@ -10,10 +10,22 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1692705/000110465926041728/htt-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Finance lease",
+   "products": [
+    "finance lease receivables"
+   ],
+   "description": "Leases assets and provides finance leasing to clients in mainland China, Australia and New Zealand, earning revenue and finance lease receivables.",
+   "evidence": "Financial assets that potentially expose the Company to borrower default risk are finance lease receivables."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients in mainland China, Australia and New Zealand pay the company for its finance leases and related services.",
+  "evidence": "During the years ended December 31, 2023, 2024, and 2025, although the Company generated substantially all of its revenue from clients in mainland China, Australia and New Zealand, it did not maintain material long-lived assets outside of mainland China and Hong Kong."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001669779",
  "issuerName": "CAMPING WORLD HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:23:07.820Z",
+ "builtAt": "2026-11-16T10:28:10.123Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-021548",
@@ -10,10 +10,44 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1669779/000110465926021548/cwh-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Good Sam Services and Plans",
+   "products": [
+    "Roadside Assistance",
+    "Tire Rescue",
+    "TravelAssist",
+    "Extended Service Plans",
+    "Good Sam Insurance Agency",
+    "Windshield Protection",
+    "Product Protection Plans",
+    "Good Sam Campgrounds"
+   ],
+   "description": "Provides protection plans, roadside assistance, insurance, travel programs and campground access to RV owners and travelers.",
+   "evidence": "Our Good Sam Services and Plans segment consists of programs, plans and services that are geared towards protecting, insuring and promoting the RV & travel lifestyles, and include services such as extended vehicle service contracts, vehicle roadside assistance, property and casualty insurance, travel protection, travel planning and directories, and publications."
+  },
+  {
+   "name": "RV and Outdoor Retail",
+   "products": [
+    "New vehicles",
+    "Used vehicles",
+    "Products, service and other",
+    "Finance and insurance, net",
+    "Good Sam Club",
+    "Vehicle financing",
+    "Protection Plans",
+    "Repair and Maintenance"
+   ],
+   "description": "Sells new and used RVs, parts, accessories, financing and protection plans, and services RVs through dealerships and service centers.",
+   "evidence": "Our RV and Outdoor Retail segment consists of all aspects of our RV dealership operations, which includes selling new and used RVs, assisting with the financing of new and used RVs, selling protection and insurance related services and plans for RVs, servicing and repairing new and used RVs, installing RV parts and accessories, and selling RV and outdoor related products, parts and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for RVs, parts, service, protection plans and memberships, and the company earns commissions from third-party lenders on financed purchases.",
+  "evidence": "Through arrangements with third-party lenders we are able to facilitate financing for most of the new and used RVs we sell through our store locations."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

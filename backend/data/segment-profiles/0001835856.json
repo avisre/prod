@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001835856",
  "issuerName": "Better Home & Finance Holding Company",
- "builtAt": "2026-11-16T05:23:06.859Z",
+ "builtAt": "2026-11-16T10:27:34.291Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-017747",
@@ -10,11 +10,44 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1835856/000162828026017747/aurcu-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home Finance",
+   "products": [
+    "purchase mortgages",
+    "refinance mortgages",
+    "home equity lines of credit",
+    "closed-end second lien loans",
+    "real estate services",
+    "insurance services",
+    "title insurance"
+   ],
+   "description": "Provides home ownership services to consumers, including purchase and refinance mortgages, home equity lending and related real estate and insurance services.",
+   "evidence": "Home Finance – this segment provides home ownership services such as purchase mortgages, refinance mortgages, and home equity lines of credit and closed-end second lien loans for home purchase and refinance, including cash-out refinance and debt consolidation as well as mortgage related product offerings such as real estate services and insurance services, which includes title insurance."
+  },
+  {
+   "name": "Banking",
+   "products": [],
+   "description": "Provides a range of financial products and services to consumers and small businesses in the United Kingdom through Birmingham Bank.",
+   "evidence": "Banking – this segment provides a range of financial products and services to consumers and small businesses through Birmingham Bank."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company earns revenue by selling the mortgage loans it originates to loan purchasers such as GSEs, banks, insurers and asset managers, and by collecting fees and interest.",
+  "evidence": "We sell the mortgage loans we originate into a network of loan purchasers, including GSEs, banks, insurance companies, asset managers, and mortgage real estate investment trusts, and we earn revenue upon the sale of each loan."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company reassessed its operating segments and reclassified the prior year period to reflect that segment reclassification.",
+   "evidence": "The prior year period presented was recast to reflect the impact of the preceding segment reclassification."
+  },
+  {
+   "text": "The company is exiting its non-core international operations in 2025.",
+   "evidence": "We are in the process of exiting our non-core international operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

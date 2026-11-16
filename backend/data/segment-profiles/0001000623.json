@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001000623",
  "issuerName": "MATIV HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:23:07.908Z",
+ "builtAt": "2026-11-16T10:28:19.350Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001000623-26-000016",
@@ -10,11 +10,44 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1000623/000100062326000016/matv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Filtration & Advanced Materials",
+   "products": [
+    "Filtration & netting",
+    "Advanced films",
+    "filtration media and components",
+    "coating and converting solutions",
+    "extruded mesh products"
+   ],
+   "description": "Engineered polymer, resin and fiber-based substrates, filtration media, nets and films for system integrators and manufacturers in water, air, transportation and medical markets.",
+   "evidence": "Filtration & Advanced Materials is focused on manufacturing and selling highly engineered polymer, resin and fiber-based substrates, nets, films and other performance materials for demanding end-use applications."
+  },
+  {
+   "name": "Sustainable & Adhesive Solutions",
+   "products": [
+    "Tapes, labels & liners",
+    "Paper & packaging",
+    "Healthcare & other",
+    "release liners and carriers",
+    "performance labels and cable wrapping"
+   ],
+   "description": "Precision-coated tapes, labels, release liners, specialty papers, packaging and healthcare materials sold to distributors, converters, retailers and end customers.",
+   "evidence": "Sustainable & Adhesive Solutions leverages a diverse array of production techniques, including precision coating, adhesive application, saturation and advanced converting, to manufacture specialty products that are highly customized for specific, demanding applications and often service specialty segments of large, global categories."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers such as system integrators, downstream manufacturers, distributors, converters and retailers pay for engineered specialty materials and customized components delivered to their specifications.",
+  "evidence": "SAS sells its products through a number of channels, including authorized distributors, converters, major retailers, as well as directly to customers and system integrators."
+ },
+ "changes": [
+  {
+   "text": "The company sold its Engineered Papers business in 2023, exiting tobacco-based product markets.",
+   "evidence": "On November 30, 2023, we completed the sale of our Engineered Papers business (\"EP business\") to Evergreen Hill Enterprise Pte. Ltd. (\"Evergreen Hill Enterprise\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

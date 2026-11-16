@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001708055",
  "issuerName": "RIBBON COMMUNICATIONS INC.",
- "builtAt": "2026-11-16T05:23:07.215Z",
+ "builtAt": "2026-11-16T10:28:12.278Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001708055-26-000012",
@@ -10,10 +10,40 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1708055/000170805526000012/rbbn-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud and Edge",
+   "products": [
+    "Session Border Controller (\"SBC\") products",
+    "Network Transformation products",
+    "Acumen AIOps and Automation platform",
+    "large data analytics",
+    "fraud detection and prevention",
+    "element management"
+   ],
+   "description": "Provides secure software and hardware products and services for VoIP, VoLTE, VoNR and unified communications to service providers and enterprises, increasingly cloud-native.",
+   "evidence": "The Cloud and Edge segment provides secure and reliable software and hardware products, solutions, and services for VoIP communications, Voice Over LTE (\"VoLTE\") and Voice Over 5G (\"VoNR\") communications, as well as unified communications-related (\"UC\") services to both service provider and enterprise customers."
+  },
+  {
+   "name": "IP Optical Networks",
+   "products": [
+    "IP networking",
+    "optical transport",
+    "metro and edge aggregation",
+    "core networking",
+    "data center interconnect",
+    "legacy transformation"
+   ],
+   "description": "Provides high-performance, secure IP networking and optical transport solutions for service providers, enterprises and industry verticals with critical transport networks.",
+   "evidence": "The IP Optical Networks segment provides high-performance, secure solutions for IP networking and optical transport, supporting wireless networks including 5G, metro and edge aggregation, core networking, data center interconnect, legacy transformation and transport solutions for wholesale carriers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Service providers and enterprises pay for software, high-performance hardware, network solutions and services that securely deliver data and voice communications and connectivity.",
+  "evidence": "We provide a broad range of software and high-performance hardware products, network solutions, and services that enable the secure delivery of data and voice communications"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

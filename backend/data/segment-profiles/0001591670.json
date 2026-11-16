@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001591670",
  "issuerName": "Farmland Partners Inc.",
- "builtAt": "2026-11-16T05:23:09.926Z",
+ "builtAt": "2026-11-16T10:30:13.927Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-017533",
@@ -10,11 +10,33 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1591670/000110465926017533/fpi-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Farmland",
+   "products": [
+    "Fixed Farm Rent",
+    "Variable Rent",
+    "Solar, Wind and Recreation Rent",
+    "Tenant Reimbursements",
+    "Crop Sales",
+    "FPI Loan Program"
+   ],
+   "description": "Owns and leases high-quality U.S. farmland to farm operators, earning fixed and variable rent and crop sales.",
+   "evidence": "Accordingly, the Company has identified a single operating segment which is the entire entity for reporting purposes in accordance with GAAP and no aggregation of segments is required."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Tenants pay rent under farm leases, and the company also earns crop sales, tenant reimbursements, solar and wind rent and loan interest.",
+  "evidence": "Our principal source of revenue is rent from tenants that conduct farming operations on our farmland pursuant to leases with terms ranging primarily from one to three years."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold MWA, its auction, brokerage and third-party management business, to a third party.",
+   "evidence": "In November 2025, we sold MWA to a third party, and therefore no longer operate these businesses."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

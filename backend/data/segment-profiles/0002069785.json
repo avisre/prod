@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002069785",
  "issuerName": "GLOO HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:23:11.357Z",
+ "builtAt": "2026-11-16T10:30:47.248Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-156999",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/2069785/000119312526156999/gloo-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gloo",
+   "products": [
+    "Gloo 360",
+    "Gloo Workspace",
+    "Content Studio",
+    "Communications",
+    "Ministry Chat",
+    "Gloo Media Network",
+    "Gloo AI Studio",
+    "Outreach"
+   ],
+   "description": "Provides AI-enabled technology platform, media and donor engagement solutions to churches, frontline organizations and network capability providers in the faith and flourishing ecosystem.",
+   "evidence": "The Company operates as a single operating segment, the Gloo segment, consistent with how its CODM, CEO , Scott Beck, reviews financial information and allocates resources."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Churches, frontline organizations and network capability providers pay subscription and services fees for technology modernization, media execution and donor engagement offerings.",
+  "evidence": "Gloo 360 is a subscription-based offering for NCPs designed to modernize, operate and transform core IT infrastructure."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

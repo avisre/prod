@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001462056",
  "issuerName": "BACKBLAZE, INC.",
- "builtAt": "2026-11-16T05:23:09.586Z",
+ "builtAt": "2026-11-16T10:30:04.966Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-016395",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1462056/000162828026016395/blze-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Backblaze Storage Cloud",
+   "products": [
+    "B2 Cloud Storage",
+    "Computer Backup",
+    "B2 Overdrive"
+   ],
+   "description": "Provides cloud storage and backup services on its Backblaze Storage Cloud platform to individuals, developers, large enterprises and neocloud platforms.",
+   "evidence": "The Company has a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for cloud storage used on the platform, either pay-as-you-go or through capacity and committed contracts, and by subscription.",
+  "evidence": "B2 Cloud Storage operates as an IaaS model, enabling customers to scale up and down as needed on a pay-as-you-go basis or to purchase capacity or committed contracts for greater predictability."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

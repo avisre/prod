@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001005229",
  "issuerName": "Columbus McKinnon Corporation",
- "builtAt": "2026-11-16T05:23:10.902Z",
+ "builtAt": "2026-11-16T10:30:42.408Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001005229-26-000022",
@@ -10,10 +10,29 @@
   "filingDate": "2026-06-08",
   "url": "https://www.sec.gov/Archives/edgar/data/1005229/000100522926000022/cmco-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Material Handling",
+   "products": [
+    "Hoists",
+    "Lifting and securement hardware",
+    "High-precision conveying systems",
+    "Digital power control and delivery systems",
+    "Actuators and rotary unions",
+    "Industrial cranes",
+    "Technology & Specialty Solutions",
+    "Elevator application drive systems"
+   ],
+   "description": "Designs, manufactures and distributes material handling and lifting solutions, including hoists, cranes and conveyors, for industrial and commercial customers.",
+   "evidence": "As of March 31, 2026, the Company's one segment consists of four reporting units."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for material handling and lifting products, which are sold mainly through commercial distributors and, to a lesser extent, directly to end-users.",
+  "evidence": "Our products are typically manufactured for stock or assembled to order from standard components and are sold primarily through a variety of commercial distributors and, to a lesser extent, directly to end-users."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

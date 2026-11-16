@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001818383",
  "issuerName": "MediaAlpha, Inc.",
- "builtAt": "2026-11-16T05:23:09.492Z",
+ "builtAt": "2026-11-16T10:30:09.517Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001818383-26-000049",
@@ -10,11 +10,30 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1818383/000181838326000049/max-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Customer Acquisition",
+   "products": [
+    "Consumer Referrals",
+    "Private Marketplace",
+    "proprietary websites"
+   ],
+   "description": "Operates a technology platform connecting insurance carriers and distributors with high-intent consumers to buy and sell Consumer Referrals.",
+   "evidence": "We generate revenue by earning a fee for each Consumer Referral sold on our platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Insurance carriers and distributors pay a fee for each Consumer Referral sold to them on the platform.",
+  "evidence": "A buyer or a Demand Partner within our ecosystem is generally an insurance carrier, agent or distributor seeking to reach high-intent insurance consumers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company significantly scaled back its health business serving consumers below the Medicare age.",
+   "evidence": "we have scaled back our business in under-65 health significantly"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

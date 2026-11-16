@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001729173",
  "issuerName": "Uxin Ltd",
- "builtAt": "2026-11-16T05:23:07.332Z",
+ "builtAt": "2026-11-16T10:28:50.672Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-020425",
@@ -10,11 +10,28 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1729173/000149315226020425/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "used car",
+   "products": [
+    "used car superstore"
+   ],
+   "description": "Operates used car superstores in China, selling used cars directly to retail customers.",
+   "evidence": "The Group operates as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Retail customers in China pay for used cars bought through its superstores.",
+  "evidence": "Substantially all revenue was derived from customers located in China."
+ },
+ "changes": [
+  {
+   "text": "The company divested its loan facilitation and salvage car businesses along with its dealer-facing operations.",
+   "evidence": "See \"Item 4.A. History and Development of the Company—Divestitures of Our Loan Facilitation, Salvage Car and 2B Businesses.\""
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

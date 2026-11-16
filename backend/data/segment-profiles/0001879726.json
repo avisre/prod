@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001879726",
  "issuerName": "SIDUS SPACE, INC.",
- "builtAt": "2026-11-16T05:23:07.141Z",
+ "builtAt": "2026-11-16T10:27:44.418Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014547",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1879726/000149315226014547/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Space and Defense",
+   "products": [
+    "LizzieSat®",
+    "GeoLizzie™",
+    "LunarLizzie™",
+    "Orlaith™",
+    "FeatherEdge™",
+    "Cielo™",
+    "Fortis™ VPX",
+    "Sidus Single Board Computer (SSBC)"
+   ],
+   "description": "Designs and manufactures satellites, AI-enabled computing systems and space hardware, and provides mission operations and data services for commercial, government and defense customers.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Government, defense, intelligence and commercial customers pay for satellite platforms, payload hosting, engineering services, hardware manufacturing and space-derived data.",
+  "evidence": "Sidus provides flexible and scalable offerings to commercial, government, defense, and intelligence customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

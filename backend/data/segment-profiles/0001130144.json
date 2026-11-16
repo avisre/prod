@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001130144",
  "issuerName": "SIERRA BANCORP",
- "builtAt": "2026-11-16T05:23:06.850Z",
+ "builtAt": "2026-11-16T10:27:35.131Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-021479",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1130144/000110465926021479/bsrr-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "loans",
+    "deposits",
+    "checking accounts",
+    "savings accounts",
+    "money market demand accounts",
+    "time deposits",
+    "retirement accounts",
+    "sweep accounts"
+   ],
+   "description": "Community bank segment that lends to and takes deposits from individuals and businesses across California through Bank of the Sierra.",
+   "evidence": "The chief operating decision maker makes operating decisions and assesses performance based on an ongoing review of the Company's community banking activities (loan and deposit products), which constitutes the Company's only operating segment for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans, while depositors and businesses pay for deposit account products and related banking services.",
+  "evidence": "Our chief products and services are making loans and accepting deposits."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

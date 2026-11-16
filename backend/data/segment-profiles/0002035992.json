@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002035992",
  "issuerName": "Charming Medical Limited",
- "builtAt": "2026-11-16T05:23:06.708Z",
+ "builtAt": "2026-11-16T10:27:30.476Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-083325",
@@ -10,10 +10,24 @@
   "filingDate": "2026-07-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2035992/000121390026083325/ea0298998-20f_charming.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wellness",
+   "products": [
+    "wellness services",
+    "wellness and postpartum",
+    "beauty"
+   ],
+   "description": "Provides beauty, wellness and postpartum services in Hong Kong through its operating subsidiaries, selling to retail customers who pay for treatments.",
+   "evidence": "Based on management's assessment, the Company has determined that it has only one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for beauty, wellness and postpartum services, settling largely by credit card through financial institutions.",
+  "evidence": "Accounts receivable mainly represent amounts due from financial institutions in which customers settled the payment by credit cards for purchase of services of beauty, and wellness and postpartum, which are all recorded net of allowance for the Group's expected credit losses."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

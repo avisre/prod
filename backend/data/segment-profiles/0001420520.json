@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001420520",
  "issuerName": "ATOMERA INCORPORATED",
- "builtAt": "2026-11-16T05:23:10.064Z",
+ "builtAt": "2026-11-16T10:30:16.462Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-001291",
@@ -10,10 +10,24 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1420520/000168316826001291/atomera_i10k-123125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor",
+   "products": [
+    "Mears Silicon Technology™",
+    "MSTcad ®",
+    "integration engineering services"
+   ],
+   "description": "Develops and licenses MST silicon technology and simulation software to foundries, integrated device manufacturers and fabless chipmakers, earning license fees and royalties.",
+   "evidence": "The Company operates as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Foundries, integrated device manufacturers and fabless chipmakers pay upfront license fees and royalties on MST-enabled products they sell.",
+  "evidence": "Under our licensing model, the R&D license fee is due upon installation of MST in a tool at our customer's fab and a larger HVM license fee will be due when our customer completes qualification of MST in their process and before they can sell MST -enabled products to their customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

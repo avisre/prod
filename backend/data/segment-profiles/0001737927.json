@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001737927",
  "issuerName": "Canopy Growth Corporation",
- "builtAt": "2026-11-16T05:23:09.290Z",
+ "builtAt": "2026-11-16T10:29:50.681Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-270260",
@@ -10,11 +10,54 @@
   "filingDate": "2026-06-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1737927/000119312526270260/cgc-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cannabis",
+   "products": [
+    "dried flower",
+    "pre-rolled joints",
+    "oil",
+    "softgel capsules",
+    "edibles including gummies",
+    "vapes",
+    "beverages"
+   ],
+   "description": "Produces, distributes and sells cannabis and cannabis-related products for medical patients and adult-use consumers in Canada and international markets.",
+   "evidence": "Cannabis - includes the global production, distribution and sale of a diverse range of cannabis and cannabis-related products."
+  },
+  {
+   "name": "Storz & Bickel",
+   "products": [
+    "vaporizers",
+    "accessories",
+    "medically approved vaporizers",
+    "herbal vaporizer devices",
+    "Storz & Bickel devices"
+   ],
+   "description": "Produces, distributes and sells vaporizers and accessories, including medically approved herbal vaporizer devices, to medical and adult-use consumers worldwide.",
+   "evidence": "Storz & Bickel - includes the production, distribution and sale of vaporizers and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Provincial wholesalers, medical patients and adult-use consumers pay for cannabis products, while consumers and patients buy Storz & Bickel vaporizers and accessories.",
+  "evidence": "For adult-use cannabis, we devote significant time to our relationship with provincial wholesalers to ensure that our products are present in retail stores and readily available for customers to purchase."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the company changed the structure of its internal management reporting, replacing Canada cannabis, International markets cannabis, Storz & Bickel and This Works with Cannabis and Storz & Bickel.",
+   "evidence": "Following a change in our CODM (as defined below) and internal reorganizations initiated by us in the three months ended March 31, 2025, we changed the structure of our internal management reporting."
+  },
+  {
+   "text": "The This Works segment was sold in December 2023 and its results left the reported segments.",
+   "evidence": "On December 18, 2023, the Company completed the sale of This Works and as of such date, the results of This Works are no longer included in the Company's financial results"
+  },
+  {
+   "text": "BioSteel was deconsolidated and its results classified as discontinued operations in fiscal 2024.",
+   "evidence": "For the year-end March 31, 2024, the Company deconsolidated BioSteel and classified its results as discontinued operations"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

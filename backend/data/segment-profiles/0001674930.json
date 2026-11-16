@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001674930",
  "issuerName": "FULGENT GENETICS, INC.",
- "builtAt": "2026-11-16T05:23:06.878Z",
+ "builtAt": "2026-11-16T10:27:47.804Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-079169",
@@ -10,11 +10,42 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1674930/000119312526079169/flgt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Laboratory Services",
+   "products": [
+    "Precision diagnostics",
+    "Anatomic pathology",
+    "BioPharma services",
+    "COVID-19"
+   ],
+   "description": "Provides technical laboratory and genetic testing services, anatomic pathology and result interpretation by licensed physicians to insurers, hospitals, institutions and patients.",
+   "evidence": "The laboratory services operating segment offers technical laboratory and testing services and professional interpretation of laboratory results by licensed physicians who specialize in pathology and oncology."
+  },
+  {
+   "name": "Therapeutic Development",
+   "products": [
+    "FID-007",
+    "FID-022",
+    "ADCs",
+    "BioPharma services"
+   ],
+   "description": "Pharmaceutical research and development entity developing nanoencapsulated cancer drug candidates and licensing its technologies to pharmaceutical, biotech and research partners.",
+   "evidence": "The therapeutic development operating segment is a pharmaceutical research and development entity."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insurers, hospitals, institutions and patients pay for laboratory tests and interpretations; pharmaceutical and biotech partners pay for licensed technologies.",
+  "evidence": "The Company currently receives payments from primarily three different customer types: (i) Insurance, (ii) Institutional customers, including hospitals, medical institutions, other laboratories, governmental bodies, and large corporations, and (iii) Patients, who pay directly."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company reorganized and increased its reportable segments from one segment to two.",
+   "evidence": "In 2023, the Company changed the structure of its internal organization and increased the number of reportable segments from one segment to two segments, a laboratory services business and a therapeutic development business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

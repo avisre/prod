@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001576942",
  "issuerName": "STITCH FIX, INC.",
- "builtAt": "2026-11-16T05:23:09.455Z",
+ "builtAt": "2026-11-16T10:29:37.685Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-063365",
@@ -10,11 +10,35 @@
   "filingDate": "2026-09-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1576942/000162828026063365/sfix-20260801.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online Personal Styling",
+   "products": [
+    "Fix",
+    "Freestyle",
+    "StyleFile",
+    "Style Pass",
+    "Owned Private Label Brands",
+    "apparel",
+    "shoes",
+    "accessories"
+   ],
+   "description": "Sells apparel, shoes and accessories to clients in the United States through curated Fix shipments chosen by Stylists and Freestyle direct purchases.",
+   "evidence": "The Company has one operating segment and, as a result, one reportable segment related to the sale of merchandise directly to clients who received a curated shipment of items or purchased directly from its website or mobile app."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay a styling fee for each Fix, credited toward any merchandise purchased, and also buy items directly through Freestyle.",
+  "evidence": "We charge clients a styling fee of $20 for each Fix, which is credited toward any merchandise purchased."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024 the company ceased operations of its U.K. business and reported it as a discontinued operation.",
+   "evidence": "In fiscal 2024, we ceased operations of our U.K. business and met the accounting requirements for reporting the UK business as a discontinued operation."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000108985",
  "issuerName": "YORK WATER COMPANY",
- "builtAt": "2026-11-16T05:23:08.197Z",
+ "builtAt": "2026-11-16T10:29:19.366Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000108985-26-000015",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/108985/000010898526000015/form10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "water and wastewater",
+   "products": [
+    "Water service",
+    "wastewater collection systems",
+    "wastewater collection and treatment systems",
+    "billing and collection services"
+   ],
+   "description": "Impounds, purifies and distributes drinking water, and operates wastewater collection and treatment systems, for customers in its franchised Pennsylvania territory.",
+   "evidence": "The Company is regulated by the Pennsylvania Public Utility Commission, or PPUC, for both water and wastewater in the areas of billing, payment procedures, dispute processing, terminations, service territory, debt and equity financing and rate setting."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay regulated water and wastewater rates approved by the PPUC for water supplied and wastewater collected and treated in its franchise territory.",
+  "evidence": "Increases in revenues are generally dependent on the Company's ability to obtain rate increases from the PPUC in a timely manner and in adequate amounts and to increase volumes of water sold through increased consumption and increases in the number of customers served."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

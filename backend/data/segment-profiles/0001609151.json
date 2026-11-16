@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001609151",
  "issuerName": "Weave Communications, Inc.",
- "builtAt": "2026-11-16T05:23:11.234Z",
+ "builtAt": "2026-11-16T10:30:43.202Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001609151-26-000016",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1609151/000160915126000016/weav-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Weave platform",
+   "products": [
+    "AI-receptionist",
+    "Unified Phone Number",
+    "Customized Phone System",
+    "Softphones",
+    "Text Messaging",
+    "Weave Payments",
+    "Weave Digital Forms",
+    "Online Scheduling"
+   ],
+   "description": "Provides communications and payments services to small and medium-sized healthcare practices through a single SaaS software platform.",
+   "evidence": "The Company has one reportable segment: Weave platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Healthcare practices pay subscription fees for access to the software platform and phone service, plus payment processing services.",
+  "evidence": "Subscriptions revenue (software and phone service) is generated from fees that provide customers access to one or more of the Company's software applications and related services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

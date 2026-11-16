@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001636651",
  "issuerName": "Ovid Therapeutics Inc.",
- "builtAt": "2026-11-16T05:23:10.494Z",
+ "builtAt": "2026-11-16T10:30:27.868Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-019438",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1636651/000162828026019438/ovid-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brain disorders",
+   "products": [
+    "OV329",
+    "OV4071",
+    "KCC2 activators",
+    "OV888 (GV101)",
+    "KCC2 library"
+   ],
+   "description": "Develops small molecule medicines for brain disorders with significant unmet need, targeting neuronal hyperexcitation in epilepsies and psychoses.",
+   "evidence": "The Company has determined that it operates as one segment focused on developing medicines for brain disorders with significant unmet need."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Collaboration partners and licensees pay through strategic collaborations and partnerships, and through clinical and commercial milestones from the pipeline.",
+  "evidence": "Additionally, we seek to create stockholder value by establishing multiple sources of potential revenue via clinical and commercial milestones from our pipeline, strategic collaborations and partnerships."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

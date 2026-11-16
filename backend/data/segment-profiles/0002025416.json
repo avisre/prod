@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002025416",
  "issuerName": "OBOOK Holdings Inc.",
- "builtAt": "2026-11-16T05:23:06.674Z",
+ "builtAt": "2026-11-16T10:27:36.738Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-191909",
@@ -10,10 +10,57 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/2025416/000119312526191909/owls-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payment services",
+   "products": [
+    "payment gateway services",
+    "payout services",
+    "OwlPay Payment",
+    "PayNow",
+    "OwlPay Wallet Pro",
+    "OwlPay Cash",
+    "OwlPay Harbor"
+   ],
+   "description": "Provides payment solutions to business and individual customers, including payment gateway services and payout services for cross-border transactions.",
+   "evidence": "Payment service mainly provides payment solutions to customers, including payment gateway services and payout services."
+  },
+  {
+   "name": "Hospitality-related software services",
+   "products": [
+    "OwlNest PMS",
+    "OwlNest"
+   ],
+   "description": "Sells subscriptions to the OwlNest property management system, which hospitality businesses use for inventory management and bookings.",
+   "evidence": "The Company has five reportable segments: Payment services, Hospitality-related software services, Hospitality-related platform services, E-commerce platform, and Other."
+  },
+  {
+   "name": "Hospitality-related platform services",
+   "products": [],
+   "description": "Operates the group's hospitality platform services, alongside its hospitality software services, for hospitality businesses.",
+   "evidence": "The Company has five reportable segments: Payment services, Hospitality-related software services, Hospitality-related platform services, E-commerce platform, and Other."
+  },
+  {
+   "name": "E-commerce platform",
+   "products": [],
+   "description": "Operates the group's e-commerce platform and related services for businesses and consumers.",
+   "evidence": "The Company has five reportable segments: Payment services, Hospitality-related software services, Hospitality-related platform services, E-commerce platform, and Other."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "OwlTing Blockchain Services"
+   ],
+   "description": "Holds other services, mainly small-scale blockchain services projects conducted in collaboration with the Taiwan government.",
+   "evidence": "Revenues from other services primarily consist of transactions related to small-scale OwlTing Blockchain Services projects conducted in collaboration with the Taiwan government."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Businesses and individuals involved in cross-border commercial activity pay the company for payment, hospitality and e-commerce services.",
+  "evidence": "We provide solutions across three main business segments: payments, hospitality, and e-commerce, serving businesses and individuals whose commercial activities involve cross-border transactions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

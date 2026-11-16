@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001774170",
  "issuerName": "Powerfleet, Inc.",
- "builtAt": "2026-11-16T05:23:08.522Z",
+ "builtAt": "2026-11-16T10:28:51.800Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-043187",
@@ -10,10 +10,28 @@
   "filingDate": "2026-06-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1774170/000162828026043187/aiot-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AIoT solutions",
+   "products": [
+    "Unity",
+    "Powerfleet for Warehouse, Yard and Site",
+    "Powerfleet for On-Road",
+    "Pointer",
+    "Cellocator",
+    "MiX by Powerfleet",
+    "Fleet Complete"
+   ],
+   "description": "Provides AIoT devices, the Unity SaaS platform and analytics so businesses track and manage high-value mobile assets.",
+   "evidence": "We are a global provider of Artificial Intelligence-of-Things (\"AIoT\") solutions providing valuable connected business intelligence for managing high-value enterprise and mid-market assets that improve operational efficiencies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for hardware devices and for recurring subscription services, professional implementation and other non-recurring services.",
+  "evidence": "Service revenue consists primarily of recurring subscription services as well as professional implementation and other non-recurring services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001532286",
  "issuerName": "Nine Energy Service, Inc.",
- "builtAt": "2026-11-16T05:23:08.635Z",
+ "builtAt": "2026-11-16T10:28:55.029Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001532286-26-000005",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1532286/000153228626000005/nine-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Completions Solutions",
+   "products": [
+    "cementing services",
+    "customized cementing slurries",
+    "plug-and-perf services",
+    "wireline units",
+    "composite, hybrid, or dissolvable frac plugs",
+    "large-diameter coiled tubing units"
+   ],
+   "description": "Provides services and products integral to completing unconventional wells for exploration and production customers, from cementing through stage isolation and plug drill-out.",
+   "evidence": "The Completions Solutions segment provides services and products integral to the completion of unconventional wells through a full range of tools and methodologies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Exploration and production customers pay the company for services and tools used to cement, isolate and complete unconventional wells for production.",
+  "evidence": "We derive revenue by providing services integral to the completion of unconventional wells through a full range of tools and methodologies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
