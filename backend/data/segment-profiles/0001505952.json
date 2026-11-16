@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001505952",
  "issuerName": "DOMO, INC.",
- "builtAt": "2026-11-16T05:53:03.637Z",
+ "builtAt": "2026-11-16T12:35:40.061Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-025356",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1505952/000162828026025356/domo-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data products platform",
+   "products": [
+    "Domo Apps",
+    "Domo Appstore",
+    "Magic ETL"
+   ],
+   "description": "Cloud-based AI and data platform that lets organizations connect data, analyze it, automate actions and build applications.",
+   "evidence": "Domo is a cloud-based AI and data products platform designed to help organizations connect data, derive insight, and operationalize intelligence across their business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees to access the cloud platform, through consumption-based or subscription-based agreements, plus professional services.",
+  "evidence": "We derive our revenue primarily from subscription revenue, which consists of consumption-based agreements and subscription-based agreements for our cloud-based platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

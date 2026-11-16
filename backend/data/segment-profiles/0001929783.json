@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001929783",
  "issuerName": "WORK Medical Technology Group LTD",
- "builtAt": "2026-11-16T05:53:01.205Z",
+ "builtAt": "2026-11-16T12:33:15.857Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-010301",
@@ -10,10 +10,23 @@
   "filingDate": "2026-01-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1929783/000121390026010301/ea0274393-20f_workmedical.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "masks",
+    "disposable medical masks"
+   ],
+   "description": "Sells medical devices, including masks, through its PRC subsidiaries to customers, doctors and patients.",
+   "evidence": "As a result of the assessment made by CODM, the Group has only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for medical devices, mainly masks, that its PRC subsidiaries sell.",
+  "evidence": "Furthermore, our net revenue from sales of masks decreased to $640,428, or approximately 6.50% of our total net revenue, for the fiscal year ended September 30, 2025."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

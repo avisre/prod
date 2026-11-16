@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001708341",
  "issuerName": "ALL IN FUTURETECH ALLIANCE, INC.",
- "builtAt": "2026-11-16T05:53:01.875Z",
+ "builtAt": "2026-11-16T12:33:43.155Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001171843-26-003627",
@@ -10,10 +10,38 @@
   "filingDate": "2026-05-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1708341/000117184326003627/f10k_051126.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E-sports",
+   "products": [
+    "Allied Esports"
+   ],
+   "description": "Runs video game events and tournaments for gaming audiences through Allied Esports.",
+   "evidence": "E-sports, provided through Allied Esports, including video game events and tournaments."
+  },
+  {
+   "name": "Casual mobile gaming",
+   "products": [
+    "Z-Tech"
+   ],
+   "description": "Develops and operates casual mobile games, including card and Mahjong-related titles, through Z-Tech.",
+   "evidence": "Casual mobile gaming, provided through Z-Tech."
+  },
+  {
+   "name": "Live concert promotion and events organizing",
+   "products": [
+    "Skyline"
+   ],
+   "description": "Promotes and organizes live concerts and events through Skyline.",
+   "evidence": "Live concert promotion and events organizing, provided through Skyline."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for in-person esports and entertainment events, multiplatform content, and casual mobile games.",
+  "evidence": "The Company provides a broad range of gaming, entertainment, and experiential services, including esports tournaments, live and virtual entertainment events, influencer and creator activations, original content programming, fan engagement experiences, and gaming-related community events designed to serve Gen Y, Gen Z, and Gen Alpha audiences globally."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

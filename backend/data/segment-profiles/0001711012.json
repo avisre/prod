@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001711012",
  "issuerName": "VALOR ENERGY INC.",
- "builtAt": "2026-11-16T05:53:06.091Z",
+ "builtAt": "2026-11-16T12:37:36.265Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-073684",
@@ -10,11 +10,38 @@
   "filingDate": "2026-06-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1711012/000121390026073684/ea0295105-10k_senmiao.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automobile Transaction and Related Services",
+   "products": [
+    "Auto Operating Leasing",
+    "Auto Financing",
+    "Service for NEVs Leasing",
+    "Auto Commissions",
+    "Service for Automobile Purchase",
+    "Default Revenue",
+    "Other Services"
+   ],
+   "description": "Provides automobile operating leases, auto financing and related services to ride-hailing drivers in China.",
+   "evidence": "We operate our business in one segment: Automobile Transaction and Related Services (as defined herein below), which constituted a series of services as follows:"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Lessees and automobile purchasers pay for leases, financing, services and default fees.",
+  "evidence": "Automobile purchase services are paid by automobile purchasers for a series of the services we provided to them throughout the purchase process such as credit assessment, installment of GPS devices, ride-hailing driver qualification and other administrative procedures, which are based on the sales price of the automobiles and relevant services provided."
+ },
+ "changes": [
+  {
+   "text": "The online ride-hailing platform segment was discontinued in 2024 after its sale.",
+   "evidence": "On August 20, 2024, the Acquisition was completed and Senmiao disposed of its 100% equity interest in XXTX and its subsidiaries to the Purchaser, effectively discontinued our operations in the online ride-hailing platform service segment."
+  },
+  {
+   "text": "The Sichuan automobile transaction services were disposed of in 2025.",
+   "evidence": "On December 31, 2025, the Disposition was completed and we ceased our automobile Transactions and Related Services in Sichuan Province of China."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

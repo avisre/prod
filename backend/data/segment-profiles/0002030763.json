@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002030763",
  "issuerName": "DataMeds AI, Inc.",
- "builtAt": "2026-11-16T05:53:03.955Z",
+ "builtAt": "2026-11-16T12:36:04.703Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-012004",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-20",
   "url": "https://www.sec.gov/Archives/edgar/data/2030763/000149315226012004/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical care",
+   "products": [
+    "Wellgistics Pharmacy",
+    "wholesale operations",
+    "technology division",
+    "DelivMeds technology platform"
+   ],
+   "description": "Holding company for pharmacy, wholesale and technology operations serving patients, providers, manufacturers and payors.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for pharmaceutical dispensing, care management services offered to patients and manufacturing clients, and SaaS platform fees.",
+  "evidence": "Upon closing of the Wood Sage Acquisition and the Wellgistics Acquisition, our revenues are derived from (i) pharmaceutical dispensing of products, (ii) care management services we deliver to patients and offer to pharmaceutical manufacturing clients, and (iii) SaaS fees for use of our platform technology services"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

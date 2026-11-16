@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001494558",
  "issuerName": "AMBOW EDUCATION HOLDING LTD.",
- "builtAt": "2026-11-16T05:53:01.508Z",
+ "builtAt": "2026-11-16T12:33:51.337Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-016592",
@@ -10,11 +10,48 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1494558/000121390026016592/ea0275738-10k_ambow.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Educational programs and services",
+   "products": [
+    "NewSchool of Architecture & Design",
+    "Architecture",
+    "Construction Management",
+    "Product Design",
+    "Graphic Design & Interactive Media",
+    "Interior Architecture and Design"
+   ],
+   "description": "Delivers educational programs and services to undergraduate students, including NewSchool's architecture and design programs.",
+   "evidence": "The Company has two reportable segments. One reportable segment generates revenue from providing educational programs and services to undergraduate students."
+  },
+  {
+   "name": "HybriU licensing and sales",
+   "products": [
+    "HybriU Education",
+    "HybriU Conference",
+    "HybriU Events",
+    "HybriU Knowledge Capture",
+    "HybriU 3D Mobile Station",
+    "WeSpeak™",
+    "HybriU Adaptive Teach",
+    "HybriU Global Learning Network (HGLN)"
+   ],
+   "description": "Sells and licenses HybriU AI-powered hybrid solutions for education, corporate conferencing and events.",
+   "evidence": "The other reportable segment generates revenue from the sales and licensing of HybriU solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Students pay tuition and fees for educational programs, and customers pay for licensing and sales of HybriU solutions.",
+  "evidence": "The Company generates revenue through the delivery of educational programs and licensing and sales of HybriU solutions."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Board of Trustees voted to permanently close Bay State College at the end of the 2022-2023 academic year.",
+   "evidence": "On April 11, 2023, the Board of Trustees voted to permanently close Bay State College at the end of the 2022-2023 academic year, and this permanent closure was completed on August 31, 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

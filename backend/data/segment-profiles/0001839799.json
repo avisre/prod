@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001839799",
  "issuerName": "Grandstand Limited",
- "builtAt": "2026-11-16T05:53:03.247Z",
+ "builtAt": "2026-11-16T12:35:19.295Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001839799-26-000048",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1839799/000183979926000048/gamb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online gambling affiliate",
+   "products": [
+    "Performance marketing",
+    "Advertising and other",
+    "Data Subscription"
+   ],
+   "description": "Earns revenue by referring online gamblers to operators and by selling data, analytics and advertising services.",
+   "evidence": "the CODM operates and manages the Group's entire operations as one segment, which is consistent with the Group's internal organization and reporting system."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Online gambling operators pay the company per referred player through CPA fees, revenue share, or both, and subscribers pay for data services.",
+  "evidence": "CPA fees for each referred player are recognized when earned upon acceptance of the referral by the online gambling operator."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001826011",
  "issuerName": "Parabolic Technologies, Inc.",
- "builtAt": "2026-11-16T05:53:04.755Z",
+ "builtAt": "2026-11-16T12:36:28.449Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-134714",
@@ -10,11 +10,41 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1826011/000119312526134714/bnzi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banzai Operating Co, Inc.",
+   "products": [],
+   "description": "SaaS marketing and sales tools for businesses of all sizes, leveraging data, analytics and AI.",
+   "evidence": "The Company has three reportable operating segments, Banzai Operating Co, Inc., OpenReel, and Vidello."
+  },
+  {
+   "name": "OpenReel",
+   "products": [],
+   "description": "AI-powered video creation platform for remotely recording, editing, hosting and sharing videos.",
+   "evidence": "OpenReel is an AI-powered video creation platform that enables users to remotely record, edit, host, and share high-quality videos from any location."
+  },
+  {
+   "name": "Vidello",
+   "products": [],
+   "description": "Video hosting and marketing platform helping businesses manage, customize and optimize video content.",
+   "evidence": "Vidello is a comprehensive video hosting and marketing platform designed to help businesses manage, customize, and optimize their video content."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [],
+ "revenueModel": {
+  "text": "Customers pay recurring SaaS subscription licences for most products, on contracts from single months to multiple years.",
+  "evidence": "We sell most of our products using a recurring subscription license model typical in SaaS businesses, with customer contracts that vary in term length from single months to multiple years."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Vidello was added as a reportable segment following its acquisition earlier that year.",
+   "evidence": "The Vidello acquisition occurred on January 31, 2025"
+  }
+ ],
+ "dropped": [
+  "product not in text (OpenReel): OpenReel",
+  "product not in text (Vidello): Vidello"
+ ],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001844971",
  "issuerName": "VULCAN INFRASTRUCTURE AND POWER INC.",
- "builtAt": "2026-11-16T05:53:06.330Z",
+ "builtAt": "2026-11-16T12:37:44.461Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001844971-26-000011",
@@ -10,10 +10,20 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1844971/000184497126000011/gree-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Datacenter Operations",
+   "products": [],
+   "description": "Runs datacenters that host bitcoin mining equipment, self-mines bitcoin, and sells power and capacity to the grid.",
+   "evidence": "The Datacenter Operations segment primarily derives revenue through datacenter hosting, crypto-currency self-mining, and power and capacity sales."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Third-party miners pay for hosting, power and technical support services; the NYISO grid pays for capacity, energy and ancillary services.",
+  "evidence": "The Company generates revenue primarily by (1) earning bitcoin, with miners that are owned by the Company, as rewards and transaction fees for supporting the global bitcoin network, (2) providing hosting, power and technical support services to third-party owned bitcoin mining equipment, and (3) selling capacity, energy, and ancillary services to the wholesale power grid managed by the NYISO."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

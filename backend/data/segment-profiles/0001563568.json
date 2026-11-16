@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001563568",
  "issuerName": "Azio AI Holdings, Inc.",
- "builtAt": "2026-11-16T05:53:01.938Z",
+ "builtAt": "2026-11-16T12:34:06.272Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-012170",
@@ -10,11 +10,51 @@
   "filingDate": "2026-04-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1563568/000143774926012170/adom20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric vehicles",
+   "products": [
+    "Class 2 through 4 logistics vans",
+    "Class 4 through 5 urban trucks",
+    "school buses",
+    "electric forklifts",
+    "street sweepers",
+    "neighborhood EVs",
+    "right-hand drive vans and urban trucks"
+   ],
+   "description": "Sells and services electric commercial vehicles, including vans, trucks, school buses and forklifts, to fleets and institutions.",
+   "evidence": "Our EV segment serves commercial and last-mile fleets, school districts, public and private transportation service companies and colleges and universities to meet their demand for light to heavy-duty EVs."
+  },
+  {
+   "name": "Medical Supplies",
+   "products": [
+    "protective apparel and related products"
+   ],
+   "description": "Manufactures medical supplies, including protective apparel, for government, healthcare and institutional customers through Maddox Industries.",
+   "evidence": "We utilize semi-automated manufacturing systems to produce medical supplies, including protective apparel and related products, in compliance with applicable regulatory and contractual standards."
+  },
+  {
+   "name": "Drones",
+   "products": [
+    "heavy-lift, industrial-grade drone platforms",
+    "high-payload agricultural drone"
+   ],
+   "description": "Developing heavy-lift industrial drones for agricultural, fire suppression and forestry customers; commercial sales have not started.",
+   "evidence": "Our drone segment is focused on the development of heavy-lift, industrial-grade drone platforms designed for agricultural, fire suppression, and forestry applications."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Commercial fleets, school districts, transit companies and universities pay for EVs, and government and healthcare institutions pay for medical supplies.",
+  "evidence": "Our EV segment serves commercial and last-mile fleets, school districts, public and private transportation service companies and colleges and universities to meet their demand for light to heavy-duty EVs."
+ },
+ "changes": [
+  {
+   "text": "The medical supplies segment was established with the late 2024 acquisition of Maddox Industries.",
+   "evidence": "This segment was established upon our acquisition of Maddox Industries in late 2024, to support U.S.-based manufacturing, supply chain resiliency, and government procurement requirements."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

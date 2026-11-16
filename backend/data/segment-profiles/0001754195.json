@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001754195",
  "issuerName": "TRULIEVE CANNABIS CORP.",
- "builtAt": "2026-11-16T05:53:05.889Z",
+ "builtAt": "2026-11-16T12:37:28.511Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001754195-26-000019",
@@ -10,11 +10,23 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1754195/000175419526000019/tcnnf-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cannabis products",
+   "products": [],
+   "description": "Cultivates, produces and sells medicinal and adult-use cannabis products through vertically integrated retail and wholesale operations.",
+   "evidence": "Specifically, performance is continuously monitored at the consolidated level as the Company is engaged in essentially the same business, which consists of cultivation, production, and sale of cannabis products, either for medicinal-use and/or adult-use, depending on applicable state laws and regulations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Medical and adult-use customers pay in cash for cannabis products bought at the company's retail dispensaries.",
+  "evidence": "Management does not believe that the Company has significant credit risk related to its customers, as the Company's revenue is generated primarily through cash transactions."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "product not in text (Cannabis products): cannabis products"
+ ],
  "reader": "agent"
 }

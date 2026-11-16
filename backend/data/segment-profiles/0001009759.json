@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001009759",
  "issuerName": "Capstone Energy Plus, Inc.",
- "builtAt": "2026-11-16T05:53:02.089Z",
+ "builtAt": "2026-11-16T12:34:35.357Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-077817",
@@ -10,10 +10,25 @@
   "filingDate": "2026-06-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1009759/000110465926077817/cgeh-20260331x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Microturbine energy systems",
+   "products": [
+    "turbine generator sets",
+    "related parts",
+    "services",
+    "rentals"
+   ],
+   "description": "Designs, manufactures, sells and rents microturbine power generation systems, with related parts and services, for industrial and commercial customers.",
+   "evidence": "The Company operates as a single reportable segment encompassing the development, manufacture, sale, and rental of microturbine energy systems and their related parts and services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for microturbine systems, parts, services, rentals, and energy-as-a-service agreements such as power purchase, leasing, and long-term service contracts.",
+  "evidence": "To support evolving customer needs, Capstone also offers flexible Energy as a Service (\"EaaS\") solutions, including power purchase or energy service agreements (PPAs/ESAs), leasing, rentals, and long-term service agreements designed to reduce upfront costs, accelerate deployment, and provide life-cycle cost predictability."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

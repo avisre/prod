@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001640384",
  "issuerName": "POWERCOMPUTE, INC.",
- "builtAt": "2026-11-16T05:53:05.239Z",
+ "builtAt": "2026-11-16T12:36:49.461Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-133333",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1640384/000119312526133333/lmfa-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Finance",
+   "products": [],
+   "description": "Provides funding and customized financial products to incorporated nonprofit community associations, mainly in Florida.",
+   "evidence": "With respect to our specialty finance business, the Company has historically engaged in the business of providing funding to nonprofit community associations primarily located in the state of Florida."
+  },
+  {
+   "name": "Mining and Treasury Operations",
+   "products": [
+    "Bitcoin mining business",
+    "Bitcoin treasury operations"
+   ],
+   "description": "Mines Bitcoin with its own computing power and holds Bitcoin as a long-term treasury investment.",
+   "evidence": "We conduct this business through a wholly owned subsidiary, US Digital, which we formed in 2021 to develop and operate our Bitcoin mining business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Florida nonprofit community associations receive funding and financial products from the company; mining earns Bitcoin for validating transactions on the network.",
+  "evidence": "With respect to our specialty finance business, the Company has historically engaged in the business of providing funding to nonprofit community associations primarily located in the state of Florida."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

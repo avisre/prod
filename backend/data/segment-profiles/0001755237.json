@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001755237",
  "issuerName": "Korsana Biosciences, Inc.",
- "builtAt": "2026-11-16T05:53:03.775Z",
+ "builtAt": "2026-11-16T12:35:55.821Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-132193",
@@ -10,11 +10,32 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1755237/000119312526132193/cycn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "neuropsychiatric",
+   "products": [
+    "CYC-126"
+   ],
+   "description": "Develops an individualized anesthetic-based therapy for treatment-resistant depression and other neuropsychiatric conditions.",
+   "evidence": "The Company operates and manages its business as a single segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Licensing partners would pay the company for rights to its legacy sGC stimulator assets, if such license agreements are realized.",
+  "evidence": "We are leveraging our legacy sGC stimulator assets with the goal of generating revenues through potential license agreements, which, if realized, would be used to help fund our strategic building plan and provide value to our stockholders."
+ },
+ "changes": [
+  {
+   "text": "Sold to Tisento as part of the Asset Purchase Agreement in July 2023.",
+   "evidence": "Sold to Tisento as part of the Asset Purchase Agreement in July 2023."
+  },
+  {
+   "text": "The olinciguat license option agreement, entered into in 2024, was terminated in 2025.",
+   "evidence": "We also entered into a non-binding license option agreement for olinciguat in 2024 which was terminated in 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

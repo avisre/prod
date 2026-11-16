@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001587987",
  "issuerName": "NEWTEKONE, INC.",
- "builtAt": "2026-11-16T05:53:06.562Z",
+ "builtAt": "2026-11-16T12:38:14.978Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-016503",
@@ -10,11 +10,57 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1587987/000162828026016503/newt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "SBA 7(a) loans",
+    "SBA 504 loans",
+    "C&I loans",
+    "CRE loans",
+    "ABL loans",
+    "depository services"
+   ],
+   "description": "Originates, sells and services SBA, commercial and real estate loans, and offers depository services to business owners.",
+   "evidence": "The banking segment includes Newtek Bank as well as its consolidated subsidiary SBL."
+  },
+  {
+   "name": "Alternative Lending",
+   "products": [
+    "Alternative Lending Program",
+    "ALP loans"
+   ],
+   "description": "Originates Alternative Lending Program loans with intent to securitize them through Newtek ALP Holdings.",
+   "evidence": "Alternative Lending includes Newtek ALP Holdings (NALH) and its subsidiaries."
+  },
+  {
+   "name": "NSBF",
+   "products": [
+    "SBA 7(a) loans"
+   ],
+   "description": "Winding down its legacy portfolio of SBA loans held outside the bank, under an SBA wind-down agreement.",
+   "evidence": "NSBF includes NSBF's legacy portfolio of SBA 7(a) loans held outside Newtek Bank."
+  },
+  {
+   "name": "Payments",
+   "products": [
+    "NMS",
+    "POS",
+    "Mobil Money"
+   ],
+   "description": "Provides card processing, check approval and processing equipment and software to business clients.",
+   "evidence": "Payments includes NMS, POS and Mobil Money."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Independent business owner clients pay for loans and payment services, and the bank keeps the interest on loans it retains.",
+  "evidence": "Our SBA 7(a) business model is to originate SBA 7(a) loans, sell the guaranteed portions of the SBA 7(a) loans, typically within 180 days of origination, and retain the unguaranteed portions."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "change not grounded: The Company divested of NTS on January 2, 2025, and it is no longer a reportable"
+ ],
  "reader": "agent"
 }

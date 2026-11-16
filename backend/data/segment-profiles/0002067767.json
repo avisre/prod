@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002067767",
  "issuerName": "NextBoat Inc.",
- "builtAt": "2026-11-16T05:53:04.655Z",
+ "builtAt": "2026-11-16T12:36:19.553Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014063",
@@ -10,10 +10,33 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2067767/000149315226014063/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dealerships",
+   "products": [
+    "new and pre-owned boats",
+    "financing and insurance products",
+    "warranty sales",
+    "slip and storage accommodations"
+   ],
+   "description": "Buys, sells and wholesales new and pre-owned yachts and boats, also arranging financing, warranties and storage.",
+   "evidence": "The Dealership segment engages in the sale of new and pre-owned boats, arranges financing and insurance products, provides warranty sales, and offers slip and storage accommodations in certain locations."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "financing products"
+   ],
+   "description": "Recreational loan broker and lender providing financing to individuals, dealerships and brokerages.",
+   "evidence": "The financing service segment engages in providing financing products to individuals for marine, aviation and recreational vehicle purchases."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Boat buyers and dealers pay for pre-owned vessels, and individual borrowers and industry partners use its financing services.",
+  "evidence": "Azure Funding's customers are primarily individual buyers seeking financing for new or pre-owned recreational assets."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

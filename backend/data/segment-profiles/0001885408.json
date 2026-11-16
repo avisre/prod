@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001885408",
  "issuerName": "Nexera Technologies Ltd",
- "builtAt": "2026-11-16T05:53:01.181Z",
+ "builtAt": "2026-11-16T12:32:57.500Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-038003",
@@ -10,11 +10,40 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1885408/000121390026038003/ea0281989-20f_nexera.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E-commerce",
+   "products": [
+    "KnifePlanet",
+    "CC-Exquisite",
+    "PetEvo",
+    "Whoobli",
+    "Fort"
+   ],
+   "description": "Acquires, improves and operates brands sold mainly through online marketplaces, including Amazon, for consumers.",
+   "evidence": "The Company has two operating and reportable segments: (i) E-commerce, which consist primarily of the acquisition, improvement and operation of the Group's Brands sold mainly through online marketplaces (including Amazon), and (ii) Logistics, which consists of warehousing and distribution services provided by Pure Logistics."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "Pure Logistics"
+   ],
+   "description": "Provides warehousing and distribution services from a New Jersey logistics center to the group and third parties.",
+   "evidence": "Pure Logistics provides logistics services to us, SciSparc Nutraceuticals, and other third parties."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers buying the company's brands on online marketplaces pay for the products, and clients pay for warehousing and distribution services.",
+  "evidence": "The Company has two operating and reportable segments: (i) E-commerce, which consist primarily of the acquisition, improvement and operation of the Group's Brands sold mainly through online marketplaces (including Amazon), and (ii) Logistics, which consists of warehousing and distribution services provided by Pure Logistics."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Logistics segment was added when Smart Repair Pro acquired Pure Logistics.",
+   "evidence": "On March 18, 2025, Smart Repair Pro closed the acquisition of Pure Logistics, a New Jersey limited liability company that operates a strategically located approximately 53,000 square foot logistics center equipped with 12 loading docks in New Jersey."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

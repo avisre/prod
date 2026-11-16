@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001019034",
  "issuerName": "BIO-key International, Inc.",
- "builtAt": "2026-11-16T05:53:01.973Z",
+ "builtAt": "2026-11-16T12:34:05.617Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-020446",
@@ -10,10 +10,26 @@
   "filingDate": "2026-06-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1019034/000143774926020446/bkyi20251231c_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IAM platform",
+   "products": [
+    "PortalGuard",
+    "PortalGuard IDaaS",
+    "WEB-key",
+    "MobileAuth",
+    "BIO-key PortalGuard Desktop"
+   ],
+   "description": "Provides multi-factor authentication and identity access management platforms, biometric services and hardware to enterprise, education and government customers.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Enterprise, education and government customers use the company's MFA, identity and biometric products to secure workforce and customer access.",
+  "evidence": "Our customers use BIO-key to (i) manage and secure work-related IT access of their employees, contractors and supply chain partners, which we call workforce identity; and (ii) manage and secure the identities of users of their web properties, which we call customer identity."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

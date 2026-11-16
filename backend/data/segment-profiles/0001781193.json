@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001781193",
  "issuerName": "QUHUO Ltd",
- "builtAt": "2026-11-16T05:53:05.269Z",
+ "builtAt": "2026-11-16T12:36:56.646Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-039520",
@@ -10,10 +10,22 @@
   "filingDate": "2026-04-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1781193/000121390026039520/ea0284278-20f_quhuo.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "on-demand delivery solutions",
+   "products": [
+    "On-demand delivery solution services"
+   ],
+   "description": "Delivers orders for industry customers' online ordering platforms, paid per completed order.",
+   "evidence": "The Company identified on-demand delivery solutions as one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Industry customers pay a fixed fee per completed delivery order, adjusted for monthly performance against their key performance indicators.",
+  "evidence": "The Company charges delivery service fees to industry customers based on the number of orders completed at a fixed rate per order, subject to adjustments based on the monthly performance against key performance indicators set by each customer."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

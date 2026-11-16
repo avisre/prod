@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001981662",
  "issuerName": "NEWGENIVF GROUP LIMITED",
- "builtAt": "2026-11-16T05:53:01.198Z",
+ "builtAt": "2026-11-16T12:33:09.796Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-037687",
@@ -10,10 +10,33 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1981662/000121390026037687/ea0283766-20f_newgenivf.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IVF Revenue",
+   "products": [
+    "IVF treatment service",
+    "traditional IVF",
+    "egg donation"
+   ],
+   "description": "Revenue from IVF treatment services, including traditional IVF and egg donation, delivered at the company's clinics.",
+   "evidence": "IVF treatment involves the performance of a series of medical treatment and procedures that are not separately distinct and only brings benefits to clients when embryo is successfully implanted, therefore revenue from IVF treatment is recognized at a point in time when it is completed in clinic."
+  },
+  {
+   "name": "Fertility Referral Revenue",
+   "products": [
+    "Fertility referral services",
+    "surrogacy services"
+   ],
+   "description": "Referral commissions from agents for customers the company refers to them for surrogacy services in Kyrgyzstan.",
+   "evidence": "We also generate revenue from fertility referral services in Kyrgyzstan."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Patients pay the company for IVF treatment, including traditional IVF and egg donation, and agents pay referral commissions for surrogacy referrals.",
+  "evidence": "For customers who were interested in surrogacy services in Kyrgyzstan, we referred the customers to our agents and the surrogacy mother services were provided by our agents independently while we received the referral commission from our agents."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

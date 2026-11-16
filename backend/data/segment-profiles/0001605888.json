@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001605888",
  "issuerName": "CIRCLE8 GROUP INC.",
- "builtAt": "2026-11-16T05:53:02.506Z",
+ "builtAt": "2026-11-16T12:34:31.618Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001605888-26-000017",
@@ -10,10 +10,23 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1605888/000160588826000017/altn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial staffing solutions",
+   "products": [
+    "temporary placement services",
+    "permanent placement and other services"
+   ],
+   "description": "Provides commercial staffing solutions, placing light industrial temporary workers and permanent professionals with employer customers.",
+   "evidence": "Therefore, the Company has one reportable segment, which is the business of providing commercial staffing solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay hourly fees for light industrial temporary staffing and placement fees for permanent professional hires.",
+  "evidence": "The Company derives revenue from hourly fees charged from the placement of \"light industrial\" temporary staffing and placement fees earned from the placement of professional permanent 78 employees at its customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

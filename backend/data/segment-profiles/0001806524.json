@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001806524",
  "issuerName": "Lion Group Holding Ltd.",
- "builtAt": "2026-11-16T05:53:01.190Z",
+ "builtAt": "2026-11-16T12:33:14.223Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050410",
@@ -10,11 +10,68 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1806524/000121390026050410/ea0288087-20f_lion.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Futures and securities brokerage services",
+   "products": [
+    "futures products",
+    "stocks"
+   ],
+   "description": "Commission-earning trading of futures and securities for customers across global markets.",
+   "evidence": "The Group's futures and securities brokerage segment generates commission income by enabling customers to trade in futures and securities markets throughout the world."
+  },
+  {
+   "name": "Market making (CFD) trading",
+   "products": [
+    "contracts for difference (CFD) trading services"
+   ],
+   "description": "Acts as counterparty to customers in CFD derivative transactions, earning trading gains and losses.",
+   "evidence": "The Group engages in market making (CFD trading) activities where it serves as the counterparty to its customers in derivative transactions."
+  },
+  {
+   "name": "TRS trading",
+   "products": [
+    "total return swap (TRS) trading business"
+   ],
+   "description": "Earns commissions and interest from total return swap trading for customers.",
+   "evidence": "The Group generated income from TRS trading business including the commission income from the securities trading and interest income from the loan to customers."
+  },
+  {
+   "name": "OTC stock option trading",
+   "products": [
+    "OTC stock options"
+   ],
+   "description": "Trading gains and losses from OTC stock option contracts where the group is the counterparty.",
+   "evidence": "The Group also generated trading gains or losses from the OTC stock options where it serves as the counterparty in the option contracts."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "insurance brokerage services",
+    "proprietary trading",
+    "NFT platform",
+    "Metaverse games"
+   ],
+   "description": "Residual businesses: insurance brokerage, proprietary trading, NFT platform and Metaverse games, and corporate overhead.",
+   "evidence": "Other businesses include the following: (1) insurance brokerage segment which generates commissions by providing insurance brokerage services to high-net-worth individuals; (2) proprietary trading activities in investment securities, futures and derivatives, (3) sale of NFT and development NFT platform and Metaverse games, and (4) executive management functions and corporate overhead."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay commission income for futures and securities trades, and the company earns trading gains and interest on CFD, TRS and OTC option business.",
+  "evidence": "The Group's futures and securities brokerage segment generates commission income by enabling customers to trade in futures and securities markets throughout the world."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the group disposed of its insurance brokerage services.",
+   "evidence": "In June 2024, the Group disposed of its insurance brokerage services."
+  },
+  {
+   "text": "In 2025 the group exited futures and securities brokerage services in Hong Kong markets.",
+   "evidence": "In 2025, the Group exited from its futures and securities brokerage services in Hong Kong markets."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001046179",
  "issuerName": "Taiwan Semiconductor Manufacturing Company Limited",
- "builtAt": "2026-11-16T05:53:01.215Z",
+ "builtAt": "2026-11-16T12:33:27.744Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-025362",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/tsm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "foundry segment",
+   "products": [
+    "integrated circuits",
+    "semiconductor devices",
+    "masks"
+   ],
+   "description": "Manufactures, packages, tests and designs integrated circuits and masks for customers worldwide.",
+   "evidence": "The foundry segment engages mainly in the manufacturing, sales, packaging, testing and computer-aided design of integrated circuits and other semiconductor devices and the manufacturing of masks."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hundreds of customers worldwide pay for manufacturing, packaging, testing and computer-aided design of integrated circuits and masks.",
+  "evidence": "While we generate revenue from hundreds of customers worldwide"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

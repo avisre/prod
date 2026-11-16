@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002001794",
  "issuerName": "CONCORDE INTERNATIONAL GROUP LTD",
- "builtAt": "2026-11-16T05:53:02.230Z",
+ "builtAt": "2026-11-16T12:34:22.591Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-054960",
@@ -10,10 +10,26 @@
   "filingDate": "2026-05-12",
   "url": "https://www.sec.gov/Archives/edgar/data/2001794/000121390026054960/ea0289419-20f_concorde.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security Services",
+   "products": [],
+   "description": "Provides security services to customers, with all business units operating in Singapore.",
+   "evidence": "Based on management's assessment, the Group has determined that it has two operating segments, which are (i) security services; and (ii) training school."
+  },
+  {
+   "name": "Training school",
+   "products": [],
+   "description": "Operates a training school reported as a separate operating segment from security services.",
+   "evidence": "Based on management's assessment, the Group has determined that it has two operating segments, which are (i) security services; and (ii) training school."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay the Group under contracts for security services, and revenue depends on securing and renewing those contracts.",
+  "evidence": "Our business and revenue growth depend significantly on our ability to secure new contracts and renew existing contracts."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

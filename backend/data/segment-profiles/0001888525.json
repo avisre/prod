@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001888525",
  "issuerName": "MindForge Inc.",
- "builtAt": "2026-11-16T05:53:04.181Z",
+ "builtAt": "2026-11-16T12:35:57.429Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-112533",
@@ -10,10 +10,25 @@
   "filingDate": "2026-10-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1888525/000121390026112533/ea0306456-20f_mindforge.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "value-added services",
+   "products": [
+    "digital promotion services",
+    "risk assessment services",
+    "value-added bundled benefits",
+    "sales of goods and other services"
+   ],
+   "description": "Provides AI-driven value-added services to insurance carriers and brokers, including digital promotion, risk assessment and bundled benefits.",
+   "evidence": "The Company operates and manages its business as a single segment and has one operating and reportable segment, providing value-added services using artificial intelligence-driven technology to businesses within the insurance industry."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients, mainly insurance carriers and brokers, pay for digital promotion, risk assessment reports, bundled benefits and goods.",
+  "evidence": "We help our institutional clients obtain visibility on various social media platforms and generate our revenue based on consumers' clicks, views or our clients' promotion time through those channels."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

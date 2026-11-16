@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002000756",
  "issuerName": "K Wave Media Ltd.",
- "builtAt": "2026-11-16T05:53:04.559Z",
+ "builtAt": "2026-11-16T12:36:25.104Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001829126-26-005357",
@@ -10,11 +10,54 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/2000756/000182912626005357/kwavemedia_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Content Merchandising",
+   "products": [
+    "Content goods and merchandises"
+   ],
+   "description": "Sells content goods and merchandise to customers.",
+   "evidence": "For the years ended December 31, 2025 and 2024, content merchandising segment revenue increased by KRW 16,036 million (USD $10.0 million)."
+  },
+  {
+   "name": "Food and beverages",
+   "products": [
+    "coffee and bakery products",
+    "Franchise royalties and fees"
+   ],
+   "description": "Sells coffee and bakery products and earns franchise royalties and fees.",
+   "evidence": "Food and beverages segment generates revenue through the sale of coffee and bakery products, with key raw materials consisting primarily of milk, fresh cream, flour, butter, and related ingredients."
+  },
+  {
+   "name": "Content production",
+   "products": [
+    "Media production"
+   ],
+   "description": "Produces media content under production service contracts for customers.",
+   "evidence": "The increase in content production segment revenue and content investment segment revenue is primarily due to incremental revenues from the acquisition of Six Korean Entities."
+  },
+  {
+   "name": "Content investment",
+   "products": [
+    "Investment management revenue",
+    "Investment funds for Korean film"
+   ],
+   "description": "Provides investment management services that manage financial assets for clients.",
+   "evidence": "The content investment revenues are received in exchange for investment management services that include a series of fund administration services, fund compliance, fund transfer agent services and fund distribution services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Investment management clients pay a contractual percentage of the financial assets the company manages for them.",
+  "evidence": "Investment management revenues are calculated as a contractual percentage of financial assets the Company manages for clients on either a discretionary or non-discretionary basis."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company added the Content production and Content investment segments through its acquisition of the Six Korean Entities.",
+   "evidence": "The increase in content production segment revenue and content investment segment revenue is primarily due to incremental revenues from the acquisition of Six Korean Entities."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001290877",
  "issuerName": "CLINUVEL PHARMACEUTICALS LIMITED",
- "builtAt": "2026-11-16T05:53:02.607Z",
+ "builtAt": "2026-11-16T12:34:42.161Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-049364",
@@ -10,10 +10,22 @@
   "filingDate": "2026-10-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1290877/000149315226049364/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "biopharmaceutical sector",
+   "products": [
+    "SCENESSE®"
+   ],
+   "description": "Researches, develops and commercializes melanocortin-based treatments, mainly the SCENESSE® drug for adult EPP patients.",
+   "evidence": "The Company operates in a single operating segment: the biopharmaceutical sector."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for SCENESSE® implants sold in the United States and Europe, and for supply under special access reimbursement programs.",
+  "evidence": "The Company's revenue from contracts with customers is derived primarily from the sale of SCENESSE® implants in the United States and Europe, as well as from sales under special access reimbursement programs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

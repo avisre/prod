@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001854445",
  "issuerName": "Brightline Interactive, Inc./NV",
- "builtAt": "2026-11-16T05:53:02.045Z",
+ "builtAt": "2026-11-16T12:34:10.179Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-044574",
@@ -10,11 +10,28 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1854445/000149315226044574/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "immersive technology software development and commercialization",
+   "products": [
+    "SpatialCore"
+   ],
+   "description": "Develops and commercializes immersive technology software, mainly the SpatialCore platform provided primarily to the Department of War.",
+   "evidence": "The Company has one reportable segment managed on a consolidated basis: immersive technology software development and commercialization."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for integrating their systems, sensors, platforms or data sources into SpatialCore, then for ongoing consumption of the platform.",
+  "evidence": "The first is integration: customers pay us to connect their systems, sensors, platforms, or data sources to SpatialCore, and we designed this work so that it can be reused across future customers and programs."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company divested or discontinued non-core operations including Glimpse Learning LLC, and in August 2026 renamed itself Brightline Interactive, Inc.",
+   "evidence": "Consistent with that conclusion, we divested or discontinued non-core operations, including Glimpse Learning LLC, and in August 2026 changed our corporate name to Brightline Interactive, Inc. and our Nasdaq ticker symbol from \"GGRP\" to \"BTLN\" to reflect this focus, and have positioned ourselves as a pureplay Physical AI infrastructure company."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001948864",
  "issuerName": "Host Digital Inc.",
- "builtAt": "2026-11-16T05:53:03.323Z",
+ "builtAt": "2026-11-16T12:35:39.992Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-010208",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1948864/000149315226010208/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Grocery",
+   "products": [
+    "Ada's Natural Market",
+    "Paradise Health & Nutrition",
+    "Mother Earth's Storehouse",
+    "Green's Natural Foods",
+    "Ellwood Thompson's",
+    "GreenAcres Market",
+    "Greenleaf Grill"
+   ],
+   "description": "Runs natural and organic grocery stores and sells dietary supplements to consumers seeking healthier daily choices.",
+   "evidence": "The Company operates as a single reportable segment, as the CODM reviews financial performance and makes decisions on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Store shoppers pay for groceries and supplements at the point of sale, and vendors pay for advertising in its sales channels.",
+  "evidence": "Retail Sales: At the point of sale when payment is received, products are physically transferred, and title passes."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

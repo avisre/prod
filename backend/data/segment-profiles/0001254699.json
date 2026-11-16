@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001254699",
  "issuerName": "QVC Group, Inc.",
- "builtAt": "2026-11-16T05:53:05.484Z",
+ "builtAt": "2026-11-16T12:37:05.554Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001254699-26-000004",
@@ -10,10 +10,39 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1254699/000125469926000004/qvc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "QxH",
+   "products": [
+    "QVC",
+    "HSN",
+    "QVC2",
+    "QVC3",
+    "HSN2",
+    "QVC.com",
+    "HSN.com"
+   ],
+   "description": "Live video retail of consumer products through QVC and HSN television channels, websites and digital platforms for U.S. customers.",
+   "evidence": "QxH's televised shopping programs, including live and recorded content, are broadcast across multiple channels nationally on a full time basis, including the main QVC and HSN channels as well as the additional channels of QVC2, QVC3 and HSN2."
+  },
+  {
+   "name": "QVC-International",
+   "products": [
+    "broadcast networks",
+    "websites",
+    "mobile applications",
+    "social media pages"
+   ],
+   "description": "Live video retail for customers outside the U.S., mainly in Japan, Germany, the U.K. and Italy, across broadcast, web and apps.",
+   "evidence": "QVC has two reportable segments: QxH and QVC-International."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay QVC for consumer products such as home, apparel, beauty and jewelry bought through televised programs, websites and mobile apps.",
+  "evidence": "is a retailer of a wide range of consumer products, which are marketed and sold primarily by merchandise-focused televised shopping programs, the internet and mobile applications."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

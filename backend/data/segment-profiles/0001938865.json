@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001938865",
  "issuerName": "Top KingWin Ltd",
- "builtAt": "2026-11-16T05:53:02.806Z",
+ "builtAt": "2026-11-16T12:35:23.404Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-041488",
@@ -10,11 +10,31 @@
   "filingDate": "2026-04-08",
   "url": "https://www.sec.gov/Archives/edgar/data/1938865/000121390026041488/ea0283373-20f_topking.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hardware Sales Business",
+   "products": [
+    "computing and data collection and analysis equipment",
+    "TK-D2C AI Robots",
+    "corporate training services",
+    "consulting services"
+   ],
+   "description": "Sells data collection and analysis hardware and AI robots, plus corporate training and consulting, to SME clients in China.",
+   "evidence": "Additionally, we launched a new business segment selling AI robots in 2025, which enabled our AI business development to keep pace with customer needs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Entrepreneurs and executives of SMEs in China pay for corporate training seminars, consulting services, and IT solution hardware such as devices and AI robots.",
+  "evidence": "Our main clients are entrepreneurs and executives in SMEs in China."
+ },
+ "changes": [
+  {
+   "text": "In December 2024, the Company sold its corporate consulting services business, Insights Consulting LTD and its subsidiaries, as discontinued operations.",
+   "evidence": "Due to uncertainty in the future of the business, in December 2024, the Company sold all of its assets and liabilities related to the corporate consulting services of Insights Consulting LTD and its subsidiaries with an effective date of December 31, 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

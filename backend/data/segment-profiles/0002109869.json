@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002109869",
  "issuerName": "Exascale Labs Holdings Inc.",
- "builtAt": "2026-11-16T05:53:06.492Z",
+ "builtAt": "2026-11-16T12:37:51.110Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001829126-26-010462",
@@ -10,10 +10,23 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/2109869/000182912626010462/exascalelabs_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "GPU computing platform",
+   "products": [
+    "GaaS",
+    "GPU cluster management and operational services"
+   ],
+   "description": "Provides reserved and on-demand GPU compute capacity and GPU cluster management services to AI workloads and AI data center operators.",
+   "evidence": "The Company manages its business in a centralized manner and operates as a single segment and accordingly has only one operating and reportable segment, the provision of GPU computing platform services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for reserved and on-demand access to GPU compute capacity and for GPU cluster management and operational services.",
+  "evidence": "These services are offered through both on-demand and reserved usage models and are designed to support a range of AI workloads, including large-scale model training, fine-tuning, and high-concurrency inference."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

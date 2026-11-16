@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002011053",
  "issuerName": "POWERBANK Corp",
- "builtAt": "2026-11-16T05:53:04.822Z",
+ "builtAt": "2026-11-16T12:36:39.115Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-044636",
@@ -10,11 +10,37 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/2011053/000149315226044636/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development & EPC",
+   "products": [
+    "solar photovoltaic power generation projects"
+   ],
+   "description": "Development and construction of solar photovoltaic power generation projects.",
+   "evidence": "Development and EPC consist of development and construction of solar photovoltaic power generation projects."
+  },
+  {
+   "name": "IPP Production",
+   "products": [
+    "solar photovoltaic power facilities",
+    "BESS projects"
+   ],
+   "description": "Operates solar photovoltaic power facilities and BESS projects.",
+   "evidence": "IPP consists of the operation of solar photovoltaic power facilities and BESS projects."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers engage the company for operation and maintenance, repairs and reinstallation of power facilities, and non-recurrent solar project work.",
+  "evidence": "Corporate and other includes corporate activities and the operation and maintenance of power facilities, repairs and reinstallation of power facilities, and non-recurrent solar photovoltaic power generation project related work engaged by customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company changed the composition of its reportable segments and retrospectively adjusted the 2024 segment disclosures.",
+   "evidence": "We also have audited the adjustments to the 2024 financial statements to retrospectively adjust the disclosures for a change in the composition of reportable segments in 2025, in Note 27 to the financial statements."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001799191",
  "issuerName": "Starling Oncology, Inc.",
- "builtAt": "2026-11-16T05:53:05.613Z",
+ "builtAt": "2026-11-16T12:37:22.737Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001799191-26-000007",
@@ -10,10 +10,44 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1799191/000179919126000007/toi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Patient services",
+   "products": [
+    "physician services",
+    "in-house infusion",
+    "radiation",
+    "outpatient blood product transfusions",
+    "24/7 patient support"
+   ],
+   "description": "Fee-for-service and value-based oncology care delivered through affiliated clinics, covering physician visits, infusion, radiation and patient support.",
+   "evidence": "TOI provides medical care on a fee-for service basis for physician services, in-house infusion, radiation, and innovative programs like outpatient blood product transfusions, along with 24/7 patient support."
+  },
+  {
+   "name": "Specialty pharmacy",
+   "products": [
+    "specialty and retail pharmacies",
+    "oral, IV, and injectable medications"
+   ],
+   "description": "Specialty and retail pharmacies filling oral, IV and injectable medications for oncology patients, billed to pharmacy benefit managers.",
+   "evidence": "TOI operates specialty and retail pharmacies in all 5 states through which we are capable of filling medication orders that are incidental or coincidental to our patients' oncology care."
+  },
+  {
+   "name": "Clinical trials & other",
+   "products": [
+    "clinical trial services",
+    "palliative care"
+   ],
+   "description": "Clinical trial services for pharmaceutical companies and contract research organizations, plus palliative care for patients.",
+   "evidence": "The Company operates its business and reports its results through three operating and reportable segments: specialty pharmacy, patient services, and clinical trials & other in accordance with ASC 280."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Managed care payors pay a fixed monthly amount per enrolled member, and insurers and pharmacy benefit managers pay for visits and prescriptions.",
+  "evidence": "Capitation revenue is paid monthly to the Company based on the number of enrollees assigned to the Company by the contracted managed care organization (per member, per month; or \"PMPM\")."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

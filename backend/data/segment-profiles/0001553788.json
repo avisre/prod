@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001553788",
  "issuerName": "Endovia Health Sciences, Inc.",
- "builtAt": "2026-11-16T05:53:03.125Z",
+ "builtAt": "2026-11-16T12:34:58.271Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001731122-26-000577",
@@ -10,11 +10,34 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1553788/000173112226000577/e7552_10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Splash Beverage",
+   "products": [
+    "Chispo Tequila"
+   ],
+   "description": "Manufactures and distributes non-alcoholic and alcoholic beverages for its customers, including the Chispo Tequila brand.",
+   "evidence": "We have two reportable operating segments: (1) the manufacture and distribution of non-alcoholic and alcoholic beverages, and (2) the retail sale of beverages and groceries online."
+  },
+  {
+   "name": "E-Commerce",
+   "products": [],
+   "description": "Sells beverages and groceries online at retail to its customers.",
+   "evidence": "We have two reportable operating segments: (1) the manufacture and distribution of non-alcoholic and alcoholic beverages, and (2) the retail sale of beverages and groceries online."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Distributors and retail accounts pay for beverages the company ships to them, and online shoppers pay for beverages and groceries.",
+  "evidence": "In March 2026, we shipped initial inventory to a distributor which we expect will permit us to recognize revenue for the three months ended March 31, 2026."
+ },
+ "changes": [
+  {
+   "text": "Operations of the Subsidiaries are reported as discontinued operations in the 2025 financial statements.",
+   "evidence": "The following table presents the major classes of assets and liabilities of the discontinued operations related to the Subsidiaries"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
