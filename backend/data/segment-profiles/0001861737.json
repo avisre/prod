@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001861737",
+ "issuerName": "Hesai Group",
+ "builtAt": "2026-11-16T05:01:46.266Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-048025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1861737/000110465926048025/hsai-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LiDAR products",
+   "products": [],
+   "description": "Designs, makes and sells LiDAR sensors.",
+   "evidence": "The Group operates in one operating segment, which includes all activities related to the development, manufacturing, and delivery of LiDAR products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Automakers and robotics companies buy its LiDAR sensors.",
+  "evidence": "The Group operates in one operating segment, which includes all activities related to the development, manufacturing, and delivery of LiDAR products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (LiDAR products): LiDAR products"
+ ],
+ "reader": "agent"
+}

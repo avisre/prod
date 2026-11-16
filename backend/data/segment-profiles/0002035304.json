@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0002035304",
+ "issuerName": "TITAN AMERICA SA",
+ "builtAt": "2026-11-16T05:01:48.575Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002035304-26-000047",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/2035304/000203530426000047/ttam-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Florida",
+   "products": [
+    "cement",
+    "aggregates",
+    "ready-mix concrete",
+    "concrete block"
+   ],
+   "description": "Makes and sells cement and concrete products in Florida.",
+   "evidence": "Due to the regional nature of our business, we report our operating results in two reportable segments: Florida"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Construction contractors and builders buy its cement and concrete.",
+  "evidence": "We operate and maintain two cement plants, three multi-product marine import terminals, seven active mine locations, 82 ready-mix locations with 96 batch plants, eight concrete block locations with 13 production lines, seven fly ash plants and 22 distribution hubs that can handle various combinations of our products."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

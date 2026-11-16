@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001277866",
+ "issuerName": "ENDEAVOUR SILVER CORP.",
+ "builtAt": "2026-11-16T05:01:50.406Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001662",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1277866/000106299326001662/exhibit99-2.htm",
+  "exhibit": "exhibit99-2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration",
+   "products": [
+    "exploration projects"
+   ],
+   "description": "Holds exploration and evaluation projects in Mexico, Chile and the USA.",
+   "evidence": "The Exploration segment consists of projects in the exploration and evaluation phases in Mexico, Chile and the USA."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells silver and gold concentrates from its mines.",
+  "evidence": "SEGMENT DISCLOSURES The Company's operating segments are based on internal management reports that are reviewed by the Company's executives (the chief operating decision makers) in assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

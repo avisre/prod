@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001690680",
+ "issuerName": "NEWMARK GROUP, INC.",
+ "builtAt": "2026-11-16T05:01:45.164Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013160",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1690680/000162828026013160/nmrk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capital Markets",
+   "products": [
+    "investment sales",
+    "commercial mortgage origination",
+    "loan sales",
+    "structured finance"
+   ],
+   "description": "Advises on property sales and arranges commercial mortgages.",
+   "evidence": "Our investor/owner services and products include: • Capital Markets, consisting of investment sales (including the placement and raising of equity) and commercial mortgage origination (which includes GSEs and FHA lending, as well as the placement of debt, loan sales, and structured finance on behalf of third parties); •"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Property owners and investors pay transaction and advisory fees.",
+  "evidence": "We offer a diverse array of integrated services and products designed to meet the full needs of our clients."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

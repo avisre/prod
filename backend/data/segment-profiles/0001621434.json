@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001621434",
+ "issuerName": "Black Stone Minerals, L.P.",
+ "builtAt": "2026-11-16T05:01:48.551Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001621434-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1621434/000162143426000018/bsm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and natural gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Owns mineral and royalty interests in oil and gas properties.",
+   "evidence": "Segment Reporting The Partnership operates in a single reportable segment, which consists of a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns royalties on oil and gas sold by operators.",
+  "evidence": "The Partnership generates revenue from the sale of oil and natural gas, as well as lease bonus and other income that is derived from our oil and natural gas properties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

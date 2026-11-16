@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001340677",
+ "issuerName": "SILVERCORP METALS INC.",
+ "builtAt": "2026-11-16T05:01:50.681Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-079021",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1340677/000110465926079021/svm-20260331xex99d2.htm",
+  "exhibit": "svm-20260331xex99d2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

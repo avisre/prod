@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0002062440",
+ "issuerName": "Kyivstar Group Ltd.",
+ "builtAt": "2026-11-16T05:02:12.503Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002062440-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2062440/000206244026000006/kyiv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Kyivstar",
+   "products": [
+    "mobile and fixed-line voice and data",
+    "digital services"
+   ],
+   "description": "Provides connectivity and digital services in Ukraine.",
+   "evidence": "we operate one operating segment, Kyivstar, with revenue of US$1,157 million, US$919 million, and US$915 million for each"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers pay for mobile, fixed-line and digital services.",
+  "evidence": "We provide a broad range of connectivity and digital services, including mobile and fixed-line voice and data, ride-hailing, e-health, digital TV, and enterprise solutions such as Big Data, cloud, and cybersecurity."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

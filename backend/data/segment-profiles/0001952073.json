@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001952073",
+ "issuerName": "MADISON SQUARE GARDEN ENTERTAINMENT CORP.",
+ "builtAt": "2026-11-16T05:01:46.378Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-056286",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1952073/000162828026056286/msge-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MSG Entertainment",
+   "products": [
+    "live entertainment",
+    "venue operations"
+   ],
+   "description": "Runs venues and live entertainment experiences.",
+   "evidence": "We manage our business through one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests buy tickets and sponsors pay for exposure.",
+  "evidence": "As of June 30, 2026, we managed our business through one reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

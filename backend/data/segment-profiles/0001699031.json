@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001699031",
+ "issuerName": "GRAIL, Inc.",
+ "builtAt": "2026-11-16T05:01:48.309Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017319",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1699031/000162828026017319/gral-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "multi-cancer early detection testing",
+   "products": [
+    "Galleri"
+   ],
+   "description": "Sells multi-cancer early detection blood tests.",
+   "evidence": "Segments The Company operates and manages its business as one reportable operating segment which provides multi-cancer early detection testing and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Health systems and employers pay for its screening test.",
+  "evidence": "We designed Galleri to detect cancer early, when it is more amenable to curative treatment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

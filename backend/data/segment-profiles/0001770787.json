@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001770787",
+ "issuerName": "10x Genomics, Inc.",
+ "builtAt": "2026-11-16T05:01:47.655Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007822",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1770787/000162828026007822/txg-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001993344",
+ "issuerName": "ALLIED GOLD CORPORATION",
+ "builtAt": "2026-11-16T05:01:45.472Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001628280-26-022512",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1993344/000162828026022512/aaue-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

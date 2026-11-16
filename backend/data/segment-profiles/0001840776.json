@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001840776",
+ "issuerName": "HAGERTY, INC.",
+ "builtAt": "2026-11-16T05:01:45.182Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001840776-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840776/000184077626000013/hgty-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

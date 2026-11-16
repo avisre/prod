@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001040470",
+ "issuerName": "AEHR TEST SYSTEMS",
+ "builtAt": "2026-11-16T05:01:46.221Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-006919",
+  "periodEnd": "2026-05-29",
+  "filingDate": "2026-07-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1040470/000165495426006919/aehr_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

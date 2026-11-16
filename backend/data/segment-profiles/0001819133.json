@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001819133",
+ "issuerName": "Tango Therapeutics, Inc.",
+ "builtAt": "2026-11-16T05:01:48.627Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-092518",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819133/000119312526092518/tngx-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

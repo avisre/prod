@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001847367",
+ "issuerName": "Alumis Inc.",
+ "builtAt": "2026-11-16T05:01:50.354Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001847367-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1847367/000184736726000006/alms-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "autoimmune disorders",
+   "products": [
+    "medicines"
+   ],
+   "description": "Researches and develops medicines for autoimmune disorders.",
+   "evidence": "Segment and Geographical Information The Company operates and manages its business as one reportable and operating segment, which is the business of researching and developing medicines for autoimmune disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Segment and Geographical Information The Company operates and manages its business as one reportable and operating segment, which is the business of researching and developing medicines for autoimmune disorders."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

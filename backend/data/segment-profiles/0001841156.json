@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001841156",
+ "issuerName": "Paymentus Holdings, Inc.",
+ "builtAt": "2026-11-16T05:01:48.410Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064510",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1841156/000119312526064510/pay-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electronic bill payment",
+   "products": [
+    "electronic bill payment technology"
+   ],
+   "description": "Runs its bill payment network.",
+   "evidence": "Segment Information Effective January 1, 2025, the Company changed its reporting segment structure to a single reporting segment, and the composition of the information pack"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Billers and partners pay transaction fees on payments.",
+  "evidence": "Our IPN enables our partners, which include leading consumer technology providers, retailers and financial institutions, to access our next-generation electronic bill payment technology using the same integrated platform we provide directly to our billers."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Changed to a single reporting segment from January 1, 2025."
+ ],
+ "reader": "agent"
+}

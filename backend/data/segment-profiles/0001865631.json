@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001865631",
+ "issuerName": "NextNav Inc.",
+ "builtAt": "2026-11-16T05:01:47.153Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001554855-26-000328",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1865631/000155485526000328/nn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NextNav",
+   "products": [],
+   "description": "Provides terrestrial positioning and timing services.",
+   "evidence": "Segments NextNav operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Agencies and partners pay for positioning services.",
+  "evidence": "NextNav's chief operating decision maker (\"CODM\") is its Chief Executive Officer, who reviews financial information presented on an entity-wide basis for purposes of making operating decisions, assessing financial performance and allocating resources."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (NextNav): positioning and timing services"
+ ],
+ "reader": "agent"
+}

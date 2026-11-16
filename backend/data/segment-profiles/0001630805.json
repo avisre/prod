@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001630805",
+ "issuerName": "BABCOCK & WILCOX ENTERPRISES, INC",
+ "builtAt": "2026-11-16T05:01:48.380Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001630805-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1630805/000163080526000018/bw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B&W",
+   "products": [
+    "aftermarket parts",
+    "construction",
+    "maintenance",
+    "engineered upgrades",
+    "field services"
+   ],
+   "description": "Provides equipment, parts and services for power and industrial plants.",
+   "evidence": "As a result of this assessment, we have determined we have one reportable segment, labeled as B&W."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities and industrial operators buy parts and services.",
+  "evidence": "We provide aftermarket parts, construction, maintenance, engineered upgrades and field services for our installed base as well as the installed base of other original equipment manufacturers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

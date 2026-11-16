@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001854587",
+ "issuerName": "Cellebrite DI Ltd.",
+ "builtAt": "2026-11-16T05:01:46.480Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-013790",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1854587/000162828026013790/cele-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cellebrite",
+   "products": [
+    "forensic tools"
+   ],
+   "description": "Sells digital forensics and investigative tools.",
+   "evidence": "The Company operates in one operating segment, and this segment is the only reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Law enforcement and agencies pay for software and licences.",
+  "evidence": "Segment information The Company identifies operating segments in accordance with ASC Topic 280, \"Segment Reporting\" as components of an entity for which discrete financial information is available and is regularly reviewed by the chief operating decision maker, or decision-making group, in making decisions regarding resource allocation"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cellebrite): digital intelligence products"
+ ],
+ "reader": "agent"
+}

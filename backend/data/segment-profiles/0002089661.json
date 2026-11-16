@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0002089661",
+ "issuerName": "SUNOCOCORP LLC",
+ "builtAt": "2026-11-16T05:01:45.384Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002089661-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/2089661/000208966126000016/sunc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fuel Distribution",
+   "products": [
+    "motor fuel"
+   ],
+   "description": "Distributes motor fuel to dealers and distributors.",
+   "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+  },
+  {
+   "name": "Pipeline Systems",
+   "products": [
+    "pipelines"
+   ],
+   "description": "Runs refined product pipelines.",
+   "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+  },
+  {
+   "name": "Terminals",
+   "products": [],
+   "description": "Operates terminals and storage.",
+   "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+  },
+  {
+   "name": "Refinery",
+   "products": [
+    "refined products"
+   ],
+   "description": "Runs its refinery.",
+   "evidence": "Our business is comprised of four reportable segments: Fuel Distribution, Pipeline Systems, Terminals and Refinery."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dealers, distributors and shippers pay for fuel and transport.",
+  "evidence": "We purchase motor fuel primarily from independent refiners and major oil companies and distribute it across the United States, Canada and the Greater Caribbean to: • approximately 9,200"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Terminals): terminals"
+ ],
+ "reader": "agent"
+}

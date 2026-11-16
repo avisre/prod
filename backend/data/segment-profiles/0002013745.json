@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002013745",
+ "issuerName": "Calumet, Inc. /DE",
+ "builtAt": "2026-11-16T05:01:48.116Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002013745-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2013745/000201374526000007/clmt-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

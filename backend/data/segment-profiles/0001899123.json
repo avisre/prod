@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001899123",
+ "issuerName": "BITDEER TECHNOLOGIES GROUP",
+ "builtAt": "2026-11-16T05:01:45.001Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-049770",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

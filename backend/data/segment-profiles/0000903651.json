@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000903651",
+ "issuerName": "INNODATA INC.",
+ "builtAt": "2026-11-16T05:01:47.630Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020655",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/903651/000110465926020655/inod-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Innodata",
+   "products": [
+    "AI data"
+   ],
+   "description": "Provides data engineering and AI training data services.",
+   "evidence": "These practices represent internal capability groupings rather than separate operating segments or standalone businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Technology companies pay for data engineering work.",
+  "evidence": "Through this work, we developed and refined techniques for generating, curating, and validating human-created data used to train probabilistic, learning-based AI systems, and recognized that data quality and structure were critical determinants of model performance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Innodata): data engineering services"
+ ],
+ "reader": "agent"
+}

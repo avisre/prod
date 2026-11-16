@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001866364",
+ "issuerName": "Webull Corporation",
+ "builtAt": "2026-11-16T05:01:46.418Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-041653",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1866364/000121390026041653/ea0283691-20f_webull.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Webull",
+   "products": [
+    "brokerage services",
+    "margin financing"
+   ],
+   "description": "Runs its online brokerage platform.",
+   "evidence": "Segment Reporting We operate as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Traders pay commissions and margin interest.",
+  "evidence": "During 2025, we provided margin financing services to a significant portion our fully disclosed margin brokerage account customers in the United States through Apex Clearing, our clearing partner, who provided the funding for these services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

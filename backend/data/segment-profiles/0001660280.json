@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001660280",
+ "issuerName": "TENABLE HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:01:50.327Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001660280-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1660280/000166028026000005/tenb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tenable",
+   "products": [],
+   "description": "Sells exposure management and security software.",
+   "evidence": "Segment Information We operate as one operating segment as our Co-Chief Executive Officers, who are our chief operating decision makers (\"CODMs\"), review financial information on a consolidated basis for purposes of making operating decisions, allocating resources, and evaluating financial performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and governments pay subscriptions for its platform.",
+  "evidence": "Segment Information We operate as one operating segment as our Co-Chief Executive Officers, who are our chief operating decision makers (\"CODMs\"), review financial information on a consolidated basis for purposes of making operating decisions, allocating resources, and evaluating financial performance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Tenable): exposure management software"
+ ],
+ "reader": "agent"
+}

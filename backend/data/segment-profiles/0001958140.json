@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001958140",
+ "issuerName": "ATLANTA BRAVES HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:01:46.242Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020650",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1958140/000110465926020650/batra-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Baseball",
+   "products": [
+    "ticket sales",
+    "broadcasting"
+   ],
+   "description": "Runs the Atlanta Braves baseball club and its stadium.",
+   "evidence": "Braves Holdings manages its business based on the following reportable segments: Baseball and Mixed-Use Development."
+  },
+  {
+   "name": "Mixed-Use Development",
+   "products": [
+    "office and retail rental income",
+    "parking and advertising sponsorships"
+   ],
+   "description": "Owns and leases the mixed-use development around the ballpark.",
+   "evidence": "Braves Holdings manages its business based on the following reportable segments: Baseball and Mixed-Use Development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fans buy tickets and media pay for rights; tenants pay rent.",
+  "evidence": "In addition, Braves Holdings derives revenue from office and retail rental income (including overage rent and tenant reimbursements) and, to a lesser extent, parking and advertising sponsorships at the Mixed-Use Development."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Baseball): baseball"
+ ],
+ "reader": "agent"
+}

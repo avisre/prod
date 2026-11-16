@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001904856",
+ "issuerName": "Enerflex Ltd",
+ "builtAt": "2026-11-16T05:01:46.412Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-072743",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1904856/000119312526072743/efxt-ex99_2.htm",
+  "exhibit": "efxt-ex99_2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Eastern Hemisphere",
+   "products": [
+    "engineered systems",
+    "energy infrastructure"
+   ],
+   "description": "Supplies engineered systems and energy infrastructure in the Eastern Hemisphere.",
+   "evidence": "Evaluation of goodwill impairment – Eastern Hemisphere operating segment Description of the Matter At December 31, 2025, the Company's goodwill was $430 million, of that, $264 million relates to the Eastern"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Energy producers pay for engineered systems and service work.",
+  "evidence": "Measurement of revenue recognized from the supply of engineered systems Description of the Matter For the year ended December 31, 2025, the Company recognized $1,456 million of revenue from the supply of engineered systems."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

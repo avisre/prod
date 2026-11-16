@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000925261",
+ "issuerName": "Andina Bottling Co Inc",
+ "builtAt": "2026-11-16T05:01:45.127Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-038506",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/925261/000110465926038506/akoa-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Operation in Chile",
+   "products": [
+    "beverages"
+   ],
+   "description": "Bottles and sells beverages in Chile.",
+   "evidence": "Therefore, the following operating segments have been determined based on geographic location: ● Operation in Chile F-17 Table of Contents ● Operation in Brazil ● Operation in Argentina ● Operation in Paraguay 2."
+  },
+  {
+   "name": "Operation in Brazil",
+   "products": [
+    "beverages"
+   ],
+   "description": "Bottles and sells beverages in Brazil.",
+   "evidence": "Therefore, the following operating segments have been determined based on geographic location: ● Operation in Chile F-17 Table of Contents ● Operation in Brazil ● Operation in Argentina ● Operation in Paraguay 2."
+  },
+  {
+   "name": "Operation in Argentina",
+   "products": [
+    "beverages"
+   ],
+   "description": "Bottles and sells beverages in Argentina.",
+   "evidence": "Therefore, the following operating segments have been determined based on geographic location: ● Operation in Chile F-17 Table of Contents ● Operation in Brazil ● Operation in Argentina ● Operation in Paraguay 2."
+  },
+  {
+   "name": "Operation in Paraguay",
+   "products": [
+    "beverages"
+   ],
+   "description": "Bottles and sells beverages in Paraguay.",
+   "evidence": "Therefore, the following operating segments have been determined based on geographic location: ● Operation in Chile F-17 Table of Contents ● Operation in Brazil ● Operation in Argentina ● Operation in Paraguay 2."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors buy its bottled beverages.",
+  "evidence": "4 Financial reporting by operating segment \"IFRS 8 Operating Segments\" requires that entities disclose information on the results of operating segments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002062583",
+ "issuerName": "MiniMed Group, Inc.",
+ "builtAt": "2026-11-16T05:01:47.172Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-045915",
+  "periodEnd": "2026-04-24",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/2062583/000162828026045915/mdt-20260424.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

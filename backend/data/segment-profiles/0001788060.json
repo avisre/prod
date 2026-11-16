@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001788060",
+ "issuerName": "Voyager Technologies, Inc./TX",
+ "builtAt": "2026-11-16T05:01:51.174Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016543",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1788060/000162828026016543/voyg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Defense & National Security",
+   "products": [
+    "defense systems",
+    "intelligence systems"
+   ],
+   "description": "Supplies defense and intelligence systems.",
+   "evidence": "These capabilities are organized across three operating segments: Defense & National Security, Space Solutions and Starlab Space Stations."
+  },
+  {
+   "name": "Space Solutions",
+   "products": [
+    "space infrastructure"
+   ],
+   "description": "Provides space infrastructure and systems.",
+   "evidence": "These capabilities are organized across three operating segments: Defense & National Security, Space Solutions and Starlab Space Stations."
+  },
+  {
+   "name": "Starlab Space Stations",
+   "products": [
+    "space stations"
+   ],
+   "description": "Develops commercial space stations.",
+   "evidence": "These capabilities are organized across three operating segments: Defense & National Security, Space Solutions and Starlab Space Stations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government and commercial customers buy its systems.",
+  "evidence": "We design, develop and operate advanced systems and infrastructure that support defense, intelligence, civil and commercial missions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001964504",
+ "issuerName": "Aris Mining Corp",
+ "builtAt": "2026-11-16T05:01:45.134Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001964504-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1964504/000196450426000012/aris-20251231_d2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
