@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001690820",
  "issuerName": "CARVANA CO.",
- "builtAt": "2026-11-16T02:36:26.659Z",
+ "builtAt": "2026-11-16T07:23:40.291Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001690820-26-000009",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1690820/000169082026000009/cvna-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Used Cars",
+   "products": [
+    "vehicle service contract",
+    "GAP",
+    "auto insurance",
+    "integrated financing",
+    "patented car vending machines",
+    "seven-day return policy",
+    "home delivery option"
+   ],
+   "description": "Sells used cars online to U.S. consumers, with delivery, pickup, financing and complementary protection products.",
+   "evidence": "We collectively refer to VSC, GAP, and auto insurance as complementary products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for used vehicles, in-house financing, and complementary products including vehicle service contracts, GAP and auto insurance.",
+  "evidence": "For customers who choose not to utilize our financing, we also accept payment in cash or financing from third party lenders, such as banks or credit unions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

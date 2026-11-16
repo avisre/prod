@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001070985",
  "issuerName": "CORECIVIC, INC.",
- "builtAt": "2026-11-16T02:46:58.498Z",
+ "builtAt": "2026-11-16T07:24:38.118Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-060669",
@@ -10,10 +10,41 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1070985/000119312526060669/cxw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CoreCivic Safety",
+   "products": [
+    "correctional and detention facilities",
+    "transportation services",
+    "TransCor America, LLC"
+   ],
+   "description": "Owns, leases and manages correctional and detention facilities for government agencies, plus transportation services for governmental agencies.",
+   "evidence": "CoreCivic Safety segment, consisting of 44 correctional and detention facilities that are owned or controlled via a long-term lease and managed by CoreCivic, as well as those correctional and detention facilities owned by third parties but managed by CoreCivic."
+  },
+  {
+   "name": "CoreCivic Community",
+   "products": [
+    "residential reentry centers",
+    "electronic monitoring and case management services"
+   ],
+   "description": "Operates residential reentry centers and provides electronic monitoring and case management for government agencies.",
+   "evidence": "CoreCivic Community segment, consisting of 20 residential reentry centers that are owned or controlled via a long-term lease and managed by CoreCivic."
+  },
+  {
+   "name": "CoreCivic Properties",
+   "products": [
+    "correctional real estate properties"
+   ],
+   "description": "Owns correctional real estate leased to government agencies under long-term lease agreements.",
+   "evidence": "CoreCivic Properties segment, consisting of five correctional real estate properties owned by CoreCivic held for lease to government agencies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Government agencies pay a per diem for bed capacity and correctional, detention, and residential reentry services, and pay rent under long-term leases.",
+  "evidence": "In our CoreCivic Safety and CoreCivic Community segments, we are compensated for providing bed capacity and correctional, detention, and residential reentry services at a per diem rate based upon actual or minimum guaranteed occupancy levels."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

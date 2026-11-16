@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001308547",
  "issuerName": "Dolby Laboratories, Inc.",
- "builtAt": "2026-11-16T02:46:59.046Z",
+ "builtAt": "2026-11-16T07:26:41.051Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001308547-25-000007",
@@ -10,10 +10,29 @@
   "filingDate": "2025-11-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1308547/000130854725000007/dlb-20250926.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Audio and video technology",
+   "products": [
+    "Branded Audio Codecs",
+    "Dolby Atmos",
+    "Dolby Vision",
+    "Audio Patents",
+    "Imaging Patents",
+    "Dolby Cinema",
+    "Dolby OptiView",
+    "DD+"
+   ],
+   "description": "Licenses audio and video technologies and patents to device manufacturers and sells cinema hardware and services to movie exhibitors and content creators.",
+   "evidence": "We operate as a single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Device manufacturers and cinema exhibitors pay royalties, fees and hardware prices to license Dolby technology, brand and patents and to buy cinema products and services.",
+  "evidence": "We generate most of our revenue by licensing technology, our brand, and patents to device manufacturers, and selling cinema hardware and services to movie exhibitors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

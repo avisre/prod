@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001599617",
  "issuerName": "DNOW INC.",
- "builtAt": "2026-11-16T02:46:59.370Z",
+ "builtAt": "2026-11-16T07:27:59.172Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-072828",
@@ -10,10 +10,45 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1599617/000119312526072828/dnow-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "pumps",
+    "valves",
+    "valve actuation",
+    "process and production equipment",
+    "measurement",
+    "automation and controls",
+    "spoolable and coated steel-pipe and composite pipe",
+    "gas products"
+   ],
+   "description": "Distributes PVF, pumps and process equipment from U.S. locations to upstream, midstream, gas utility, downstream, renewable energy and industrial customers.",
+   "evidence": "We have approximately 210 locations in the U.S., which are strategically positioned to serve the upstream, midstream, gas utility, downstream and renewable energy and industrial markets."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "jointed and spoolable composite pipe"
+   ],
+   "description": "Supplies energy, mining, drilling, engineering and contracting businesses in western Canada with products similar to those offered in the U.S.",
+   "evidence": "Our Canada segment primarily supports energy, mining, drilling, engineering and contracting businesses with products and solutions similar to those offered in the U.S."
+  },
+  {
+   "name": "International",
+   "products": [
+    "electrical products"
+   ],
+   "description": "Serves oil and gas development and downstream processing customers outside the U.S. and Canada, adding electrical product distribution in several overseas markets.",
+   "evidence": "We serve the needs of our international customers from approximately 55 locations outside the U.S. and Canada, which are strategically located in major oil and gas development and downstream processing areas."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in the upstream, midstream, gas utilities, downstream and industrial markets pay for distributed pipe, valves and fittings, pumps, fabricated equipment and supply chain solutions.",
+  "evidence": "As a supply chain partner, we deliver value by managing vendor networks and aggregating, stocking and distributing a broad assortment of products from numerous manufacturers near customer operating locations."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

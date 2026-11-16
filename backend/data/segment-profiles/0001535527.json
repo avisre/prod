@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001535527",
  "issuerName": "CrowdStrike Holdings, Inc.",
- "builtAt": "2026-11-16T02:36:26.355Z",
+ "builtAt": "2026-11-16T07:23:17.449Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001535527-26-000010",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1535527/000153552726000010/crwd-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cybersecurity",
+   "products": [
+    "corporate endpoint and cloud workload security",
+    "managed security services",
+    "security and vulnerability management",
+    "IT operations management",
+    "identity protection",
+    "threat intelligence services",
+    "data protection",
+    "SaaS security posture management"
+   ],
+   "description": "Cloud-native cybersecurity platform whose cloud modules protect endpoints, cloud workloads, identities and AI systems for organizations worldwide.",
+   "evidence": "CrowdStrike's Chief Operating Decision Maker (\"CODM\"), the Chief Executive Officer, manages the Company's business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for cloud modules on the Falcon platform, with additional professional services.",
+  "evidence": "Today, we offer 33 cloud modules on our Falcon platform via a SaaS subscription-based model that spans multiple large markets, including corporate endpoint and cloud workload security, managed security services, security and vulnerability management, IT operations management, identity protection, next-generation security information and event management (\"SIEM\") and log management, threat intelligence services, data protection, SaaS security posture management, Security Orchestration, Automation"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

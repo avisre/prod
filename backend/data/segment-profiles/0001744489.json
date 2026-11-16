@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001744489",
  "issuerName": "WALT DISNEY CO/",
- "builtAt": "2026-11-16T02:46:58.980Z",
+ "builtAt": "2026-11-16T07:26:21.992Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001744489-25-000155",
@@ -10,11 +10,65 @@
   "filingDate": "2025-11-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1744489/000174448925000155/dis-20250927.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Entertainment",
+   "products": [
+    "Disney+",
+    "Hulu",
+    "Hulu Live TV service",
+    "ABC Network",
+    "Freeform",
+    "FX",
+    "National Geographic",
+    "Stage Plays"
+   ],
+   "description": "Produces and distributes non-sports focused film and episodic content to viewers, distributors and advertisers worldwide.",
+   "evidence": "The Entertainment segment generally encompasses the Company's non-sports focused global film and episodic content production and distribution activities."
+  },
+  {
+   "name": "Sports",
+   "products": [
+    "ESPN",
+    "ESPN DTC plans",
+    "ESPN Unlimited",
+    "ESPN Select"
+   ],
+   "description": "Provides sports programming and networks, including ESPN, to distributors, advertisers and streaming subscribers.",
+   "evidence": "Subscribers to both Disney+ and one of the ESPN DTC plans (see Sports segment discussion) have access to certain sports content through Disney+."
+  },
+  {
+   "name": "Experiences",
+   "products": [
+    "Walt Disney World Resort",
+    "parks and resorts",
+    "cruise ships",
+    "consumer products"
+   ],
+   "description": "Operates theme parks, resorts, cruise ships and consumer products licensing for guests and visitors.",
+   "evidence": "Hurricanes have caused park closures and other impacts to the operations of Walt Disney World Resort, adversely affecting segment results, and may do so in the future."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Subscribers, advertisers and distributors pay subscription, advertising and affiliate fees for streaming and linear programming, and guests pay for parks and experiences.",
+  "evidence": "The majority of Direct-to-Consumer revenue is derived from subscription fees and advertising."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2023, the media and entertainment operations previously reported in one segment were reorganized into two segments, Entertainment and Sports.",
+   "evidence": "in fiscal 2023, we reorganized our media and entertainment operations, which had been previously reported in one segment, into two segments, Entertainment and Sports"
+  },
+  {
+   "text": "In fiscal 2024, Star India was transferred into a joint venture, with related impairment charges recorded.",
+   "evidence": "in fiscal 2024, we transferred Star India into a joint venture and recorded related impairment charges"
+  },
+  {
+   "text": "In fiscal 2025, certain Hulu Live TV assets were combined with Fubo, with the Company retaining an interest in the combined entity.",
+   "evidence": "On October 29, 2025, the Company and FuboTV Inc. (Fubo), a publicly traded vMVPD, combined certain of Hulu Live TV assets, including its carriage agreements, subscription agreements and related data, advertising and sponsorship agreements and intellectual property exclusively related to the \"Live TV\" brand, with Fubo."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

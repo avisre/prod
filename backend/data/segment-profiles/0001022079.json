@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001022079",
  "issuerName": "Quest Diagnostics Inc",
- "builtAt": "2026-11-16T02:46:58.908Z",
+ "builtAt": "2026-11-16T07:25:46.192Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001022079-26-000015",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1022079/000102207926000015/dgx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DIS business",
+   "products": [
+    "Routine clinical testing and other services",
+    "Gene-based and esoteric (including advanced diagnostics) testing services",
+    "Anatomic pathology testing services",
+    "COVID-19 testing services",
+    "Advanced Diagnostics™",
+    "Collaborative Lab Solutions",
+    "reference testing",
+    "QuestHealth.com"
+   ],
+   "description": "Provides diagnostic information services through laboratory testing to physicians, hospitals, patients and consumers, principally within the United States.",
+   "evidence": "The DIS business provides diagnostic information services to a broad range of customers within its primary customer channels - physicians, hospitals, and patients and consumers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Physicians, hospitals, patients and consumers, health plans, employers and government agencies pay Quest for diagnostic information services and laboratory testing.",
+  "evidence": "We play a critical role in healthcare decisions for customers across the healthcare ecosystem, including physicians, hospitals, patients and consumers, health plans, government agencies, employers, retailers, pharmaceutical companies and insurers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

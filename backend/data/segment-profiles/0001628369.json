@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001628369",
  "issuerName": "Cushman & Wakefield Ltd.",
- "builtAt": "2026-11-16T02:36:26.713Z",
+ "builtAt": "2026-11-16T07:23:59.039Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628369-26-000008",
@@ -10,11 +10,53 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1628369/000162836926000008/cwk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Services",
+    "Leasing",
+    "Capital markets",
+    "Valuation and other"
+   ],
+   "description": "Commercial real estate services across the United States, Canada and other North and South American markets for occupiers and investors.",
+   "evidence": "The following table summarizes the results of operations of our Americas reportable segment for the years ended December 31, 2025 and 2024 (in millions):"
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Services",
+    "Leasing",
+    "Capital markets",
+    "Valuation and other"
+   ],
+   "description": "Commercial real estate services in the United Kingdom, France, the Netherlands and other European and Middle Eastern markets for clients.",
+   "evidence": "EMEA includes operations in the United Kingdom, France, the Netherlands and other markets in Europe and the Middle East."
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "Services",
+    "Leasing",
+    "Capital markets",
+    "Valuation and other"
+   ],
+   "description": "Commercial real estate services in Australia, Singapore, India and other Asia Pacific markets for occupiers and investors.",
+   "evidence": "APAC includes operations in Australia, Singapore, India and other markets in the Asia Pacific region."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Real estate occupiers and investors pay fees for services, leasing, capital markets and valuation work.",
+  "evidence": "For real estate occupiers, we offer integrated facilities management, portfolio administration, transaction management and strategic consulting."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold a non-core Services business within the Americas segment.",
+   "evidence": "The Disposal Group was not considered discontinued operations as the sale of the Disposal Group neither represented a strategic shift nor did it have a material impact on the Company's operations and financial results."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

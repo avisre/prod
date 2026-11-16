@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001286681",
  "issuerName": "Domino’s Pizza, Inc.",
- "builtAt": "2026-11-16T02:47:37.959Z",
+ "builtAt": "2026-11-16T07:28:51.602Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-062321",
@@ -10,10 +10,49 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1286681/000119312526062321/dpz-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Stores",
+   "products": [
+    "pizza products",
+    "bread products",
+    "wings",
+    "boneless chicken",
+    "pastas",
+    "oven-baked sandwiches",
+    "soft drink products",
+    "desserts"
+   ],
+   "description": "Operates franchised and Company-owned Domino's stores in the U.S., earning royalties from franchisees and sales from Company-owned restaurants.",
+   "evidence": "Our U.S. stores segment is comprised primarily of our franchise operations, which consisted of 6,924 franchised stores located in the U.S. as of December 28, 2025."
+  },
+  {
+   "name": "Supply Chain",
+   "products": [
+    "food",
+    "other products",
+    "hand-tossed dough"
+   ],
+   "description": "Distributes food and other products from supply chain centers to franchisees and Company-owned stores in the U.S. and Canada.",
+   "evidence": "The supply chain segment primarily includes the distribution of food, and to a lesser extent, other products, from the Company's supply chain center operations in the U.S. and Canada."
+  },
+  {
+   "name": "International Franchise",
+   "products": [
+    "royalty payments",
+    "technology fees",
+    "master franchise agreements"
+   ],
+   "description": "Franchises Domino's stores in international markets through master franchisees, earning royalties and technology fees from their retail sales.",
+   "evidence": "During 2025, our international franchise segment accounted for $338.7 million, or 6.9%, of our consolidated revenues."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Franchisees pay royalties and fees and buy food and other products through the Company's supply chain, while store customers pay for food.",
+  "evidence": "Domino's generates revenues and earnings by charging royalties and fees to our franchisees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001035201",
  "issuerName": "CALIFORNIA WATER SERVICE GROUP",
- "builtAt": "2026-11-16T02:46:58.362Z",
+ "builtAt": "2026-11-16T07:24:26.273Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012444",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1035201/000162828026012444/cwt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water services",
+   "products": [
+    "sale of water for domestic, industrial, public, and irrigation uses",
+    "water for domestic and municipal fire protection services",
+    "wastewater collection and treatment services",
+    "treatment that allows water recycling",
+    "full water system operation",
+    "meter reading",
+    "billing services",
+    "lease of communication antenna sites"
+   ],
+   "description": "Supplies, treats and distributes water and provides wastewater collection and treatment, plus non-regulated water system operation, to homes, businesses and municipalities.",
+   "evidence": "We operate in one reportable segment, the supply and distribution of water services and the provision of wastewater services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers in our regulated service areas pay commission-set water and wastewater rates, while municipalities and private companies pay negotiated fees for contracted services.",
+  "evidence": "The Commissions have plenary powers to set both rates and operating standards."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

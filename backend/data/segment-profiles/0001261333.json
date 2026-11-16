@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001261333",
  "issuerName": "DOCUSIGN, INC.",
- "builtAt": "2026-11-16T02:46:59.426Z",
+ "builtAt": "2026-11-16T07:28:30.095Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001261333-26-000021",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1261333/000126133326000021/docu-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agreement Management",
+   "products": [
+    "eSignature",
+    "IAM platform",
+    "CLM",
+    "Navigator",
+    "Maestro",
+    "Docusign Iris",
+    "Agreement Desk",
+    "AI-Assisted Review"
+   ],
+   "description": "Provides agreement management software, e-signature and contract lifecycle management to businesses of all sizes worldwide, from global enterprises to very small businesses.",
+   "evidence": "Docusign's core offerings — our Intelligent Agreement Management (\"IAM\") platform, the world's leading e-signature solution, and contract lifecycle management (\"CLM\") solution — allow organizations to boost productivity, accelerate contract review cycles, and transform agreement data into insights and actions, while providing a customer-centric experience."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees, generally under multi-year contracts, to access the software platform and related support, with some deployment and integration services.",
+  "evidence": "We generate revenue primarily from sales of subscriptions to access our software platform and related subscriptions of our customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
