@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000785557",
  "issuerName": "DLH HOLDINGS CORP.",
- "builtAt": "2026-11-16T05:40:04.677Z",
+ "builtAt": "2026-11-16T11:36:32.118Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000785557-25-000159",
@@ -10,10 +10,24 @@
   "filingDate": "2025-12-10",
   "url": "https://www.sec.gov/Archives/edgar/data/785557/000078555725000159/dlhc-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Transformation",
+   "products": [
+    "Digital Transformation and Cyber Security",
+    "Science Research and Development",
+    "Systems Engineering and Integration"
+   ],
+   "description": "Provides technology-enabled business process, program management and digital transformation solutions, mainly to U.S. government agencies.",
+   "evidence": "The Company reports operating results and financial data in one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "U.S. federal government agencies pay the company under prime contracts, mainly time-and-materials, firm fixed price and cost reimbursable contracts, for health and defense services.",
+  "evidence": "We deliver services primarily through prime contracts awarded by the federal government through competitive bidding processes."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

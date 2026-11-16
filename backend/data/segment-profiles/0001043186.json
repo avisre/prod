@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001043186",
  "issuerName": "Stabilis Solutions, Inc.",
- "builtAt": "2026-11-16T05:40:06.724Z",
+ "builtAt": "2026-11-16T12:38:21.219Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-007090",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1043186/000143774926007090/slng20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Small-scale LNG",
+   "products": [
+    "LNG Product",
+    "Rental",
+    "Service",
+    "Other"
+   ],
+   "description": "Turnkey production, storage, transportation and fueling solutions using liquefied natural gas for multiple end markets.",
+   "evidence": "the Company has determined that it has a single operating and reporting segment"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for delivered LNG per gallon, rental of cryogenic equipment by day or month, and engineering and field support services.",
+  "evidence": "The Company generates revenue by selling and delivering LNG to our customers, renting cryogenic equipment and providing engineering and field support services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

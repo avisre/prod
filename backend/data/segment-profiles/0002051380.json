@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002051380",
  "issuerName": "GrabAGun Digital Holdings Inc.",
- "builtAt": "2026-11-16T05:40:04.768Z",
+ "builtAt": "2026-11-16T11:36:54.548Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-104172",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/2051380/000119312526104172/pew-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "eCommerce retailer",
+   "products": [
+    "firearms",
+    "ammunition",
+    "related accessories"
+   ],
+   "description": "Online retailer selling firearms, ammunition and related accessories to customers through its eCommerce platform.",
+   "evidence": "GrabAGun is a digitally native and multi-brand eCommerce retailer of firearms, ammunition and related accessories."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers buy firearms, ammunition and accessories online, delivered through federal firearm licensed dealers or directly to customers.",
+  "evidence": "Our firearms products are purchased by customers online through our eCommerce site and delivered to the customers' choice of federal firearm licensed dealers within our network or, with respect to most accessories and other eligible products, delivered directly to customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

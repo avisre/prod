@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002026514",
  "issuerName": "Namib Minerals",
- "builtAt": "2026-11-16T05:40:04.480Z",
+ "builtAt": "2026-11-16T11:36:43.100Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-038838",
@@ -10,11 +10,38 @@
   "filingDate": "2026-04-02",
   "url": "https://www.sec.gov/Archives/edgar/data/2026514/000121390026038838/ea0280623-20f_namib.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "How Mine",
+   "products": [],
+   "description": "Underground gold mine in Zimbabwe and the company's only currently producing mine.",
+   "evidence": "Our How Mine is an established, underground gold mine with a strong track record of operations having produced an aggregate of approximately 1.84Moz of gold from 1941 through December 31, 2025."
+  },
+  {
+   "name": "Mazowe Mine",
+   "products": [],
+   "description": "Historically producing gold mine in Zimbabwe on care and maintenance, with preparatory work underway to restart operations.",
+   "evidence": "In order to unlock this resource potential, we have begun preparatory work to restart operations at the Mazowe Mine."
+  },
+  {
+   "name": "Redwing Mine",
+   "products": [],
+   "description": "Historically producing gold mine near Mutare, Zimbabwe, on care and maintenance, with preparatory work underway to restart operations.",
+   "evidence": "The Redwing Mine is the largest mine in our portfolio and is located 20km North-Northeast of Mutare, Zimbabwe."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company earns revenue from selling gold extracted from the How Mine.",
+  "evidence": "Our royalties expense decreased by $0.1 million, or 3%, to $4.1 million for the year ended December 31, 2025, from $4.3 million for the year ended December 31, 2024, in line with our sales of gold extracted from How Mine."
+ },
+ "changes": [
+  {
+   "text": "For the year ended 2024, the segment report was disaggregated further under an IFRIC Agenda Decision and the comparatives were restated.",
+   "evidence": "As a result, the comparatives for the year ended December 31, 2024 have also been disaggregated further and restated."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

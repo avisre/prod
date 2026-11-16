@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001460329",
  "issuerName": "Fluent, Inc.",
- "builtAt": "2026-11-16T05:40:07.854Z",
+ "builtAt": "2026-11-16T11:38:46.865Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-010679",
@@ -10,11 +10,34 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1460329/000143774926010679/flnt20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fluent",
+   "products": [
+    "Commerce Media Solutions",
+    "O&O Sites",
+    "Call Solutions"
+   ],
+   "description": "Commerce media and performance customer acquisition for advertisers, reached through partner sites, apps and owned digital properties.",
+   "evidence": "The Company determined that it has one reportable segment, \"Fluent,\" for the purposes of segment reporting."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Advertisers pay Fluent per click, per lead or per action for customer acquisition, while media partners are paid on a revenue share or impression basis.",
+  "evidence": "We are predominantly compensated on a negotiated or market-driven \"per click,\" \"per lead,\" or other \"per action\" basis aligned with the customer acquisition cost targets of our clients."
+ },
+ "changes": [
+  {
+   "text": "In January 2026, the Company sold its Call Solutions business by selling all membership interests of Winopoly, LLC.",
+   "evidence": "On January 31, 2026, we completed the sale of our Call Solutions business through the sale of all the membership interests of Winopoly, LLC, an indirect subsidiary."
+  },
+  {
+   "text": "In May 2024, the Company conveyed True North Loyalty, LLC to Caspian Ventures, LLC.",
+   "evidence": "On May 1, 2024, the Company and Caspian Ventures, LLC (\"Caspian\") entered into a membership interest purchase agreement pursuant to which the Company conveyed 100 % of the membership interests of True North Loyalty, LLC and its direct and indirect subsidiaries (collectively, \"True North\") to Caspian (the \"True North Conveyance\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

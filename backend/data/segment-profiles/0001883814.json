@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001883814",
  "issuerName": "SOUTHLAND HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:40:06.788Z",
+ "builtAt": "2026-11-16T11:38:20.180Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-035302",
@@ -10,11 +10,48 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1883814/000110465926035302/slnd-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Civil",
+   "products": [
+    "water pipeline",
+    "pump stations",
+    "lift stations",
+    "water and wastewater treatment plants",
+    "concrete and structural steel",
+    "outfall",
+    "tunneling"
+   ],
+   "description": "Designs and builds water pipelines, pump and lift stations, water treatment plants and tunnels across North America for public and private clients.",
+   "evidence": "This segment focuses on projects throughout North America that include the design and construction of water pipeline, pump stations, lift stations, water and wastewater treatment plants, concrete and structural steel, outfall, and tunneling."
+  },
+  {
+   "name": "Transportation",
+   "products": [
+    "bridges",
+    "roadways",
+    "marine",
+    "dredging",
+    "ship terminals",
+    "piers",
+    "specialty structures and facilities"
+   ],
+   "description": "Designs and builds bridges, roadways, marine works, dredging, ship terminals, piers and specialty structures for public and private clients across North America.",
+   "evidence": "This segment operates throughout North America and specializes in services that include the design and construction of bridges, roadways, marine, dredging, ship terminals, and piers, and specialty structures and facilities."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Public and private customers pay Southland to design and construct infrastructure projects, mostly under contracts won through competitive bidding.",
+  "evidence": "Our contracts are primarily obtained through competitive bidding."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Southland stopped pursuing large-scale concrete and asphalt production on paving projects and sold related assets.",
+   "evidence": "The Company will not be pursuing production of concrete and asphalt products for use on self-performed paving projects where the majority of the scope of work contains large-scale concrete and asphalt production or sale of asphalt and concrete products to third parties."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

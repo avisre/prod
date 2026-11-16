@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001227636",
  "issuerName": "NEURONETICS, INC.",
- "builtAt": "2026-11-16T05:40:03.858Z",
+ "builtAt": "2026-11-16T11:35:49.531Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-029004",
@@ -10,11 +10,37 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1227636/000110465926029004/stim-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "medical device",
+   "products": [
+    "NeuroStar Advanced Therapy System"
+   ],
+   "description": "Sells the NeuroStar Advanced Therapy System, an office-based TMS system, to healthcare providers.",
+   "evidence": "We designed the NeuroStar Advanced Therapy System as a non-invasive therapeutic alternative to treat patients who suffer from MDD and to address many of the key limitations of existing treatment options."
+  },
+  {
+   "name": "clinic services",
+   "products": [
+    "Treatment Centers",
+    "SPRAVATO"
+   ],
+   "description": "Operates Greenbrook Treatment Centers across the U.S. offering NeuroStar Advanced Therapy and SPRAVATO for mental health treatment.",
+   "evidence": "The Company reports the results of our operations as two segments in our consolidated financial statements: (i) medical device and (ii) clinic services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Provider customers pay for NeuroStar systems, service contracts and recurring treatment sessions; clinic revenue comes from Treatment Centers.",
+  "evidence": "We generate NeuroStar revenues from clinic revenue, capital sales of our systems, sales of our recurring treatment sessions, service and repair and extended warranty contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company moved from one reportable segment to two reportable segments: medical device and clinic services.",
+   "evidence": "Effective October 1, 2025, the Company realigned its reportable segments to reflect the way the Company's CODM assesses performance and allocates resources."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

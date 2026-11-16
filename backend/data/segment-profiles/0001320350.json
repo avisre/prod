@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001320350",
  "issuerName": "LENSAR, INC.",
- "builtAt": "2026-11-16T05:40:07.241Z",
+ "builtAt": "2026-11-16T11:38:19.782Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-134587",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1320350/000119312526134587/lnsr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Robotic Cataract Laser",
+   "products": [
+    "ALLY System",
+    "LENSAR Laser System",
+    "ALLY Robotic Cataract Laser System"
+   ],
+   "description": "Makes and leases the ALLY robotic cataract laser systems and the consumables used in each cataract procedure.",
+   "evidence": "Our growth depends on our ability to gain regulatory clearances and certifications, as well as our ability to meet production goals for our ALLY System."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for the sale or lease of the Systems, plus procedure licenses and the consumables used in each procedure.",
+  "evidence": "We have historically derived our revenue from the sale or lease of our Systems as well as the associated procedure licenses and sale of consumables used in each procedure involving our Systems."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

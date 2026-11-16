@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001386301",
  "issuerName": "RESEARCH SOLUTIONS, INC.",
- "builtAt": "2026-11-16T05:40:06.269Z",
+ "builtAt": "2026-11-16T11:37:49.070Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-107044",
@@ -10,10 +10,26 @@
   "filingDate": "2026-09-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1386301/000110465926107044/rsss-20260630x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SaaS Platforms",
+   "products": [
+    "Scite.ai",
+    "Resolute.ai",
+    "Article Galaxy",
+    "Article Galaxy Scholar",
+    "References"
+   ],
+   "description": "Cloud-based SaaS platforms and per-article document delivery helping research-intensive organizations and researchers find, access and manage STM content.",
+   "evidence": "Our cloud-based SaaS Platforms consist of proprietary software and Internet-based interfaces sold to customers through an annual or monthly subscription fee."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Corporate, academic, government and individual researchers pay subscription fees for SaaS platforms, plus per-article fees for STM content delivered.",
+  "evidence": "We offer various software platforms (\"Platform\" or \"Platforms\") that are typically sold to corporate, academic, government and individual researchers as cloud-based SaaS via auto-renewing license agreements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

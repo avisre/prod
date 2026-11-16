@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001985139",
  "issuerName": "Leishen Energy Holding Co., Ltd.",
- "builtAt": "2026-11-16T05:40:05.381Z",
+ "builtAt": "2026-11-16T11:37:23.925Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-004368",
@@ -10,10 +10,58 @@
   "filingDate": "2026-01-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1985139/000149315226004368/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clean-energy equipment",
+   "products": [
+    "Ultra-High Pressure Reciprocating Compressor Units",
+    "Expansion Units",
+    "Electromagnetic/Solar Dual Effect Oil Well Electromagnetic Heating Units",
+    "Solar Powered Wellhead Safety Control System"
+   ],
+   "description": "Designs and manufactures ultra-high pressure compressors, expansion units, electromagnetic heating and wellhead safety equipment for the upstream oil and gas industry.",
+   "evidence": "Our expansion units attract demand in various scenarios where natural gas transmission pressure difference exists."
+  },
+  {
+   "name": "Digitalization and integration equipment",
+   "products": [
+    "digitally managed oilfields",
+    "digitalized oil and gas transportation",
+    "intelligent manufacturing and warehousing",
+    "intelligent hardware"
+   ],
+   "description": "Provides informatization solutions for oilfields and oil and gas transportation, including intelligent manufacturing, warehousing and intelligent hardware.",
+   "evidence": "Our Digitalization and Integration business is designed to provide informatization solutions for the industry chain which is being met with industrial intelligence, mobility, industrial interconnection and big data trends."
+  },
+  {
+   "name": "New energy production and operation",
+   "products": [
+    "LNG",
+    "CNG",
+    "solar energy",
+    "expander differential pressure power generation"
+   ],
+   "description": "Produces, stores and transports LNG and CNG, and develops solar and distributed energy as clean-energy alternatives to traditional fuels.",
+   "evidence": "Our New Energy Production and Operation business focuses on the production, storage and transportation of natural gas (LNG/CNG), the substitution of traditional fuels, development of distributed energy, and the planning and operation of new energy and new energy industries."
+  },
+  {
+   "name": "Oil and gas engineering technical services",
+   "products": [
+    "equipment maintenance",
+    "spare parts supply",
+    "upgrading and customization",
+    "other technical services"
+   ],
+   "description": "Provides equipment maintenance, spare parts supply, upgrading, customization and other technical services to oil and gas customers.",
+   "evidence": "Based on management's assessment, the Company determined it has four operating segments: clean-energy equipment, digitalization and integration equipment, new energy production and operation and oil and gas engineering technical services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for sales of clean-energy equipment, digitalization and integration equipment, new energy, and delivery of oil and gas engineering technical services.",
+  "evidence": "The Company derives its revenues mainly from: sales of clean-energy equipment, sales of digitalization and integration equipment, sales of new energy and delivery of oil and gas engineering technical services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

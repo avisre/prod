@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001822791",
  "issuerName": "Clene Inc.",
- "builtAt": "2026-11-16T05:40:04.032Z",
+ "builtAt": "2026-11-16T11:36:04.424Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-008502",
@@ -10,11 +10,26 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1822791/000143774926008502/clnn20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Products",
+   "products": [
+    "CNM-Au8",
+    "CNM-ZnAg",
+    "CNM-AgZn17",
+    "Zinc Factor™",
+    "Gold Factor™"
+   ],
+   "description": "Develops and commercializes clean-surfaced nanocrystal therapeutics for central nervous system disorders such as ALS, multiple sclerosis and Parkinson's disease.",
+   "evidence": "We determined that the Company is a single operating and reportable segment (\"Products\") focused on treating central nervous system disorders through discovery, development, and commercialization of our novel CSN therapeutics."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
  "reader": "agent"
 }

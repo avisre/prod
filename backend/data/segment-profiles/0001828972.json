@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001828972",
  "issuerName": "BuzzFeed, Inc.",
- "builtAt": "2026-11-16T05:40:06.038Z",
+ "builtAt": "2026-11-16T11:37:42.605Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001828972-26-000030",
@@ -10,11 +10,34 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1828972/000182897226000030/bzfd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital media",
+   "products": [
+    "BuzzFeed",
+    "HuffPost",
+    "Tasty"
+   ],
+   "description": "Premier digital media company across pop culture, entertainment, shopping, food and news, sold to advertisers and brands.",
+   "evidence": "The Company has one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Advertisers and leading brands pay for advertising, content, and commerce and other.",
+  "evidence": "BuzzFeed derives its revenue primarily from advertising, content, and commerce and other sold to leading brands."
+ },
+ "changes": [
+  {
+   "text": "Complex Networks was disposed of in 2024 to refocus the business around scalable, high-margin, and tech-led revenue streams.",
+   "evidence": "The Company disposed of Complex Networks in order to refocus its business around scalable, high-margin, and tech-led revenue streams."
+  },
+  {
+   "text": "First We Feast was sold in 2024 to refocus the business around higher-margin revenue streams.",
+   "evidence": "The Company sold First We Feast to finalize its strategy to refocus its business around higher-margin revenue streams such as programmatic advertising and affiliate commerce, as well as tech-led initiatives."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

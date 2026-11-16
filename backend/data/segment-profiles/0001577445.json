@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001577445",
  "issuerName": "Odysight.ai Inc.",
- "builtAt": "2026-11-16T05:40:03.676Z",
+ "builtAt": "2026-11-16T11:34:24.370Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-011691",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1577445/000149315226011691/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vision-Based Platform Solutions",
+   "products": [
+    "vision-based sensors",
+    "processing unit",
+    "embedded software",
+    "algorithms",
+    "fleet management solutions",
+    "cloud management"
+   ],
+   "description": "Visual monitoring AI solutions with small sensors deployed to monitor critical safety components in hard-to-reach harsh environments for multiple industries.",
+   "evidence": "The Company has one reportable segment specializing in vision-based platform solutions as described in Note 1."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for initial kit sales including vision-based sensors and processing unit, with future recurring revenue from multi-year software subscriptions.",
+  "evidence": "This strategy allows for immediate revenue generation from system sales, while also setting a base that we believe will allow us in the future to create a steady stream of recurring revenue from multi-year software subscriptions services when the warranty expires."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

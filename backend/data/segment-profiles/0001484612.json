@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001484612",
  "issuerName": "Outset Medical, Inc.",
- "builtAt": "2026-11-16T05:40:04.357Z",
+ "builtAt": "2026-11-16T11:36:14.470Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-051278",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1484612/000119312526051278/om-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hemodialysis",
+   "products": [
+    "Tablo Hemodialysis System",
+    "Tablo consoles",
+    "Tablo cartridges",
+    "service agreements"
+   ],
+   "description": "Sells the Tablo hemodialysis system and consumables, plus service, for hospitals, clinics and home dialysis.",
+   "evidence": "Product revenue consists primarily of sales of Tablo consoles and related consumables, including Tablo cartridges and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for Tablo consoles, related consumables and service agreements.",
+  "evidence": "Service and other revenue consists primarily of revenue generated from service agreements and other revenue from shipping and handling charged to customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

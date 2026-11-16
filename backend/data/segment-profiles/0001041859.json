@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001041859",
  "issuerName": "THE CHILDREN’S PLACE, INC.",
- "builtAt": "2026-11-16T05:40:05.794Z",
+ "builtAt": "2026-11-16T11:37:38.991Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-024672",
@@ -10,10 +10,34 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1041859/000162828026024672/plce-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "The Children's Place U.S.",
+   "products": [
+    "U.S. and Puerto Rico-based stores",
+    "e-commerce business",
+    "U.S.-based wholesale business"
+   ],
+   "description": "Operates U.S. and Puerto Rico stores, e-commerce sites and U.S. wholesale business selling children's apparel, accessories and footwear.",
+   "evidence": "Included in The Children's Place U.S. segment are our U.S. and Puerto Rico-based stores and revenue from our U.S.-based wholesale business."
+  },
+  {
+   "name": "The Children's Place International",
+   "products": [
+    "Canadian-based stores",
+    "e-commerce business",
+    "international franchisees"
+   ],
+   "description": "Operates Canadian stores and sells products and royalties through international franchisees, offering children's apparel, accessories and footwear.",
+   "evidence": "Included in The Children's Place International segment are our Canadian-based stores and revenue from international franchisees."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Shoppers pay for apparel, accessories and footwear bought in stores or online; franchisees pay for products and sales royalties.",
+  "evidence": "We generate revenue from our franchisees from the sale of products and sales royalties."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

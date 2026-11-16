@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001941158",
  "issuerName": "Wetour Robotics Limited",
- "builtAt": "2026-11-16T05:40:03.949Z",
+ "builtAt": "2026-11-16T11:35:56.069Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-116149",
@@ -10,8 +10,15 @@
   "filingDate": "2026-11-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1941158/000121390026116149/ea0308910-20f_wetour.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Robotics",
+   "products": [],
+   "description": "The Group reports one operating segment, covering the whole consolidated business; the text does not describe its products.",
+   "evidence": "and hence, the Group has only one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

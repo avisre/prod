@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001826889",
  "issuerName": "The Beachbody Company, Inc.",
- "builtAt": "2026-11-16T05:40:06.748Z",
+ "builtAt": "2026-11-16T12:38:21.402Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-100284",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1826889/000119312526100284/body-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fitness and nutrition",
+   "products": [
+    "BODi",
+    "Shakeology®",
+    "Beachbody Performance®",
+    "P90X®",
+    "Insanity®",
+    "LIFT4®"
+   ],
+   "description": "Sells digital fitness subscriptions and nutrition products to consumers through its e-commerce and affiliate channels.",
+   "evidence": "The Company has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for digital subscriptions and nutritional products, often bundled together, sold through its e-commerce and affiliate channels.",
+  "evidence": "Our revenue is primarily generated from the sale of digital subscriptions and nutritional products that are often bundled together."
+ },
+ "changes": [
+  {
+   "text": "The Company ceased selling connected fitness equipment inventory in 2025.",
+   "evidence": "The Company ceased the sale of connected fitness equipment inventory in the first quarter of 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

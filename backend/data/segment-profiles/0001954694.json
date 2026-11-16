@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001954694",
  "issuerName": "Lucas GC Ltd",
- "builtAt": "2026-11-16T05:40:06.507Z",
+ "builtAt": "2026-11-16T11:38:00.047Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-018091",
@@ -10,10 +10,27 @@
   "filingDate": "2026-04-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1954694/000149315226018091/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "human capital management",
+   "products": [
+    "Columbus",
+    "Star Career",
+    "recruitment services",
+    "outsourcing services",
+    "information technology services",
+    "training services"
+   ],
+   "description": "Online human capital management platform connecting professionals and corporate customers through recruitment, outsourcing and other services in China.",
+   "evidence": "As the Company operates businesses as a whole and does not distinguish business line from its subsidiaries, the Company has only one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Corporate customers pay service fees for recruitment and outsourcing, with outsourcing paid on project acceptance.",
+  "evidence": "Pursuant to the outsourcing service agreement that we sign with the corporate customers, we will receive scheduled payments upon project acceptance and satisfaction of key performance indicators."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

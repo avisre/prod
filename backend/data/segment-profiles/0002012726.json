@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002012726",
  "issuerName": "Fifth District Bancorp, Inc.",
- "builtAt": "2026-11-16T05:40:04.861Z",
+ "builtAt": "2026-11-16T11:36:58.520Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-033945",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-24",
   "url": "https://www.sec.gov/Archives/edgar/data/2012726/000110465926033945/fdsb-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "checking accounts",
+    "money market accounts",
+    "certificates of deposit",
+    "home equity lines of credit",
+    "commercial real estate loans",
+    "commercial and industrial loans",
+    "mobile banking",
+    "bill pay"
+   ],
+   "description": "Federally chartered savings bank offering deposit accounts and mostly fixed-rate residential mortgage loans in the New Orleans area.",
+   "evidence": "The Company has a single operating segment and thus a single reporting segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers pay interest on the residential and other loans the bank originates and keeps in its portfolio, and customers pay fees for banking services.",
+  "evidence": "We typically retain in our portfolio the loans that we originate."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

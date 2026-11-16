@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001296774",
  "issuerName": "The9 LTD",
- "builtAt": "2026-11-16T05:40:04.575Z",
+ "builtAt": "2026-11-16T11:36:41.694Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-043910",
@@ -10,10 +10,30 @@
   "filingDate": "2026-04-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1296774/000110465926043910/ncty-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cryptocurrency Mining",
+   "products": [
+    "mining machines"
+   ],
+   "description": "Cryptocurrency mining business that deployed mining machines and holds cryptocurrencies as assets.",
+   "evidence": "Prior to termination, the Group deployed total of 2,094 mining machines with a total hash rate of 188,460 TH."
+  },
+  {
+   "name": "Online game services",
+   "products": [
+    "the9bit"
+   ],
+   "description": "Provides online game services through its gaming platform.",
+   "evidence": "From January 2026 up to the report date, the Group has received 1,425,000,000 9BIT tokens in relation to its gaming platform the9bit."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers in Greater China, Asia/Eastern Europe and North America pay the Group, generating its revenue from the two segments.",
+  "evidence": "The Group generates its revenues from customers in Greater China, Asia/Eastern Europe, and North America."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

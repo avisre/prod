@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001720250",
  "issuerName": "Kandi Technologies Group, Inc.",
- "builtAt": "2026-11-16T05:40:05.750Z",
+ "builtAt": "2026-11-16T11:37:20.961Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048312",
@@ -10,10 +10,27 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1720250/000121390026048312/ea0287095-20f_kandi.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric off-road vehicles",
+   "products": [
+    "EV parts",
+    "EV products",
+    "Off-road vehicles and associated parts",
+    "Electric Scooters, Electric Self-Balancing Scooters and associated parts",
+    "Battery exchange equipment and battery exchange service",
+    "Lithium-ion cells"
+   ],
+   "description": "Designs, makes and sells pure electric off-road vehicles, EV parts and lithium-ion cells to distributors, retailers and e-commerce buyers.",
+   "evidence": "As a result of the assessment made by CODM, the Company has only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for pure electric off-road vehicles, EV parts and related products bought through the company's distributors and retail stores.",
+  "evidence": "The Company also provides products to end users through retail stores and our distributors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001145255",
  "issuerName": "HENNESSY ADVISORS, INC.",
- "builtAt": "2026-11-16T05:40:04.295Z",
+ "builtAt": "2026-11-16T11:36:07.853Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-25-036795",
@@ -10,10 +10,23 @@
   "filingDate": "2025-12-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1145255/000143774925036795/hnna20250930_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment advisory",
+   "products": [
+    "Hennessy Mutual Funds",
+    "Hennessy Funds"
+   ],
+   "description": "Provides investment advisory services to the Hennessy Funds, earning fees calculated as a percentage of their average daily net asset values.",
+   "evidence": "The Company operates in one business segment, which is its investment advisory business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The Hennessy Funds pay the company investment advisory fees for managing their portfolios, plus shareholder service fees, both calculated as percentages of average daily net asset values.",
+  "evidence": "The fees we receive for investment advisory and shareholder services are calculated as a percentage of the average daily net asset values of the Hennessy Funds."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

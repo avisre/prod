@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002009312",
  "issuerName": "Powerus Corp",
- "builtAt": "2026-11-16T05:40:05.099Z",
+ "builtAt": "2026-11-16T11:37:05.847Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014320",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2009312/000149315226014320/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Golf operations",
+   "products": [
+    "Kissimmee Bay Country Club",
+    "The Remington Golf Club"
+   ],
+   "description": "Operates golf country clubs in Florida offering golf, merchandise, food and beverage, and ancillary services to local residents and tourists.",
+   "evidence": "Based on management's assessment, the Company has determined that it has only one operating segment as defined by ASC 280, because the Company provides golf operations, sales of merchandise, food and beverage and provides ancillary services to customers in most instances, and has only one team to provide products and services to customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Golf players and customers pay the company by credit card or cash for golf services, merchandise, and food and beverages.",
+  "evidence": "Accounts receivable mainly represent credit cards or cash deposits in transit, amounts due from customers paid by credit cards for provision of golf operations services and sales of merchandise and food and beverages which are recorded net of allowance for expected credit losses."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
