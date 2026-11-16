@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001766600",
+ "issuerName": "SNDL Inc.",
+ "builtAt": "2026-11-16T05:27:40.112Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-102524",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1766600/000119312526102524/sndl-ex99_2.htm",
+  "exhibit": "sndl-ex99_2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

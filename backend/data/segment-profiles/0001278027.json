@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001278027",
+ "issuerName": "B&G FOODS, INC.",
+ "builtAt": "2026-11-16T05:27:45.300Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-022961",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1278027/000110465926022961/bgs-20260103x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty",
+   "products": [
+    "Crisco",
+    "Clabber Girl",
+    "Bear Creek",
+    "Polaner",
+    "Underwood",
+    "B&G",
+    "Grandma's",
+    "New York Style"
+   ],
+   "description": "Sells its specialty food brands.",
+   "evidence": "​ ​ ​ Reportable Segments We have four reportable segments (also referred to as business units), as follows: (1) Specialty, which includes, among others, the Crisco , Clabber Girl , Bear Creek , Polaner , Underwood , B&G , Grandma's , New York Style , B&M , Baker's Joy , Regina , TrueNorth , Static Guard, SugarTwin and Brer Rabbit brands and included the Don Pepino and Sclafani"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Grocery retailers buy its branded foods.",
+  "evidence": "​ ​ ​ Reportable Segments We have four reportable segments (also referred to as business units), as follows: (1) Specialty, which includes, among others, the Crisco , Clabber Girl , Bear Creek , Polaner , Underwood , B&G , Grandma's , New York Style , B&M , Baker's Joy , Regina , TrueNorth , Static Guard, SugarTwin and Brer Rabbit brands and included the Don Pepino and Sclafani"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

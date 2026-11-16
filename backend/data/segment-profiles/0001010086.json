@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001010086",
+ "issuerName": "Siga Technologies INC",
+ "builtAt": "2026-11-16T05:27:44.560Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007557",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1010086/000143774926007557/siga20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Siga",
+   "products": [],
+   "description": "Develops and sells antiviral medicines.",
+   "evidence": "The entire business is managed by a single management team that reports to the Chief Executive Officer, who is the Chief Operating Decision Maker (\"CODM\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Governments and pharmacies pay for its antiviral products.",
+  "evidence": "Refer to Note 11 for further information on the Company's reportable segment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Siga): antiviral medicines"
+ ],
+ "reader": "agent"
+}

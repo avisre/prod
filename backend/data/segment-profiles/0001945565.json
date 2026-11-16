@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001945565",
+ "issuerName": "BGIN BLOCKCHAIN LIMITED",
+ "builtAt": "2026-11-16T05:27:39.790Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048532",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1945565/000121390026048532/ea0287441-20f_bgin.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

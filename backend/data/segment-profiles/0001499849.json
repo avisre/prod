@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001499849",
+ "issuerName": "BrasilAgro – Brazilian Agricultural Real Estate Company",
+ "builtAt": "2026-11-16T05:27:39.752Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-114187",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1499849/000121390026114187/ea0309497-20f_brasilagro.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

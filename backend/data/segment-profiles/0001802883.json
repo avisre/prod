@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001802883",
+ "issuerName": "Agora, Inc.",
+ "builtAt": "2026-11-16T05:28:38.872Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-155920",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1802883/000119312526155920/api-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001675644",
+ "issuerName": "FVCBankcorp, Inc.",
+ "builtAt": "2026-11-16T05:28:42.386Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001675644-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1675644/000167564426000017/fvcb-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

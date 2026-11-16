@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001484769",
+ "issuerName": "FuboTV Inc.",
+ "builtAt": "2026-11-16T05:28:43.718Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-009420",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1484769/000162828025009420/fubo-20241231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

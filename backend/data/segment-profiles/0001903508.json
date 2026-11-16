@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001903508",
+ "issuerName": "Public Policy Holding Company, Inc.",
+ "builtAt": "2026-11-16T05:27:42.943Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022359",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1903508/000162828026022359/pphc-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

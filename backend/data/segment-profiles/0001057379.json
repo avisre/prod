@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001057379",
+ "issuerName": "Hackett Group, Inc.",
+ "builtAt": "2026-11-16T05:28:44.032Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082863",
+  "periodEnd": "2025-12-26",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1057379/000119312526082863/hckt-20251226.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global S&BT",
+   "products": [
+    "advisory services"
+   ],
+   "description": "Provides business and technology advisory.",
+   "evidence": "In accordance with ASC 280, management made the determination to present three operating segments, three reportable segments and three reporting units as follows: (1) Global S&BT, (2) Oracle Solutions, and (3) SAP Solutions."
+  },
+  {
+   "name": "Oracle Solutions",
+   "products": [],
+   "description": "Provides Oracle implementation services.",
+   "evidence": "In accordance with ASC 280, management made the determination to present three operating segments, three reportable segments and three reporting units as follows: (1) Global S&BT, (2) Oracle Solutions, and (3) SAP Solutions."
+  },
+  {
+   "name": "SAP Solutions",
+   "products": [],
+   "description": "Provides SAP implementation services.",
+   "evidence": "In accordance with ASC 280, management made the determination to present three operating segments, three reportable segments and three reporting units as follows: (1) Global S&BT, (2) Oracle Solutions, and (3) SAP Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay fees for advisory and implementation work.",
+  "evidence": "A reporting unit is an operating segment or one level below an operating segment to which goodwill is assigned."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Oracle Solutions): Oracle consulting",
+  "product not in text (SAP Solutions): SAP consulting"
+ ],
+ "reader": "agent"
+}

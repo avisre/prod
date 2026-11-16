@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001769663",
+ "issuerName": "Pioneer Bancorp, Inc./MD",
+ "builtAt": "2026-11-16T05:27:41.879Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027092",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1769663/000110465926027092/pbfs-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

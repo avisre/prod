@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001114927",
+ "issuerName": "FIRST NORTHERN COMMUNITY BANCORP",
+ "builtAt": "2026-11-16T05:28:43.063Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008040",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1114927/000143774926008040/fnrn20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "As resource allocation and performance decisions are not made based on discrete financial information of individual lines of business, the Company considers its current business and operations as a single reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "The Company's operations are managed, and financial performance is evaluated, by our chief operating decision maker on a Company-wide basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

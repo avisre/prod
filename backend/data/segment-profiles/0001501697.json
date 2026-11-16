@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001501697",
+ "issuerName": "X4 PHARMACEUTICALS, INC",
+ "builtAt": "2026-11-16T05:27:40.040Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001501697-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1501697/000150169726000018/xfor-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "X4",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops and sells medicines for WHIM syndrome and other conditions.",
+   "evidence": "We have determined that we operate in a single operating segment and have a single reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicine.",
+  "evidence": "We have determined that we operate in a single operating segment and have a single reporting unit."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

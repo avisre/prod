@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001297107",
+ "issuerName": "COASTALSOUTH BANCSHARES, INC.",
+ "builtAt": "2026-11-16T05:28:39.236Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104114",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1297107/000119312526104114/coso-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001347178",
+ "issuerName": "VANDA PHARMACEUTICALS INC.",
+ "builtAt": "2026-11-16T05:27:40.335Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007460",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1347178/000162828026007460/vnda-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vanda",
+   "products": [
+    "therapies"
+   ],
+   "description": "Develops and commercialises therapies for unmet needs.",
+   "evidence": "Segments The Company operates in one reportable segment, which includes all activities related to the development and commercialization of innovative therapies to address high unmet medical needs and improve the lives of patients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "The determination of a single reportable segment is consistent with the consolidated financial information regularly provided to the Company's chief"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

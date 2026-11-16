@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001898795",
+ "issuerName": "LiveWire Group, Inc.",
+ "builtAt": "2026-11-16T05:28:41.496Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001898795-26-000028",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1898795/000189879526000028/lvwr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric Motorcycles",
+   "products": [],
+   "description": "Makes electric motorcycles.",
+   "evidence": "The Company assessed that it has two reportable segments based upon how management reviews the operations of the business: Electric Motorcycles (\"Electric Motorcycles\") and STACYC (\"STACYC\")."
+  },
+  {
+   "name": "STACYC",
+   "products": [
+    "electric balance bikes"
+   ],
+   "description": "Makes STACYC electric balance bikes.",
+   "evidence": "The Company assessed that it has two reportable segments based upon how management reviews the operations of the business: Electric Motorcycles (\"Electric Motorcycles\") and STACYC (\"STACYC\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Riders buy its motorcycles and bikes through dealers.",
+  "evidence": "The Company's reportable segments are strategic business units that offer different products and services and are managed separately based on the fundamental differences in their operation"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electric Motorcycles): electric motorcycles"
+ ],
+ "reader": "agent"
+}

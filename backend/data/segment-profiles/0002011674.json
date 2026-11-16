@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002011674",
+ "issuerName": "YD Bio Limited",
+ "builtAt": "2026-11-16T05:28:39.900Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050282",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2011674/000121390026050282/ea0286160-20f_ydbio.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

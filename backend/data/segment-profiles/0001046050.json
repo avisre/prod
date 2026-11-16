@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001046050",
+ "issuerName": "TIMBERLAND BANCORP, INC.",
+ "builtAt": "2026-11-16T05:28:38.900Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000939057-25-000319",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1046050/000093905725000319/tsbk-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank in Washington.",
+   "evidence": "All of the Company's operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "The Company's financial performance is monitored on a consolidated basis by the Company's Chief Executive Officer, President and Chief Financial Officer, which are considered the Company's chief operating decision makers (\"CODMs\") for financial oversight."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

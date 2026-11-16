@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001842279",
+ "issuerName": "OPAL FUELS INC",
+ "builtAt": "2026-11-16T05:27:39.807Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017908",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1842279/000162828026017908/wdq-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RNG",
+   "products": [
+    "renewable natural gas"
+   ],
+   "description": "Produces and markets renewable natural gas.",
+   "evidence": "We sell the RNG produced by the Biogas Conversion Projects through RNG marketi"
+  },
+  {
+   "name": "Fuel Station Services",
+   "products": [
+    "construction and maintenance services",
+    "fuel dispensing",
+    "environmental credits"
+   ],
+   "description": "Builds and maintains fuelling stations and dispenses fuel.",
+   "evidence": "Through the Fuel Station Services segment , we provide construction and maintenance services to third-party owners of vehicle Fueling Stations and perform fuel dispensing activities including generation and minting of environmental credits."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fuel buyers and station owners pay for gas, construction and credits.",
+  "evidence": "Through the Fuel Station Services segment , we provide construction and maintenance services to third-party owners of vehicle Fueling Stations and perform fuel dispensing activities including generation and minting of environmental credits."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

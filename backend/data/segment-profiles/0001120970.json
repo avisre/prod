@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001120970",
+ "issuerName": "Comstock Inc.",
+ "builtAt": "2026-11-16T05:28:40.315Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009589",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1120970/000143774926009589/lode20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Strategic Investments",
+   "products": [
+    "minority equity investments"
+   ],
+   "description": "Holds minority equity investments.",
+   "evidence": "Our Strategic Investments Segment includes our minority equity investments in Green Li-ion Pte Limited (\"Green Li-ion\") (lithium ion battery material processor for precursor cathode active materials (\"PCAM\") production), and Sierra Springs Opportunity Fund (\"SSOF\") (direct investments i"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Its investments earn returns and it sells products and services.",
+  "evidence": "OPERATING SEGMENTS We group our business activities into two high-growth operating segments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

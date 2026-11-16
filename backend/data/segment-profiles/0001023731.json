@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001023731",
+ "issuerName": "8x8, Inc.",
+ "builtAt": "2026-11-16T05:28:40.409Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001023731-26-000041",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1023731/000102373126000041/eght-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "8x8",
+   "products": [
+    "cloud communications",
+    "contact center software"
+   ],
+   "description": "Sells cloud communications and contact centre software.",
+   "evidence": "\" Geographic Areas We have one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay subscriptions per user.",
+  "evidence": "Annual revenue from customers using three or more products now represents more than one-third of our recurring revenue, validating the long-term value of our integrated platform approach."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

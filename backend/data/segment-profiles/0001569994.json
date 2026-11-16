@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001569994",
+ "issuerName": "Waterstone Financial, Inc.",
+ "builtAt": "2026-11-16T05:27:44.519Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005853",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1569994/000143774926005853/wsbf20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "deposits",
+    "loans"
+   ],
+   "description": "Provides consumer and business banking.",
+   "evidence": "As described in the notes to consolidated financial statements, we have two reportable segments: community banking and mortgage banking."
+  },
+  {
+   "name": "mortgage banking",
+   "products": [
+    "mortgage loans"
+   ],
+   "description": "Originates and sells residential mortgages.",
+   "evidence": "As described in the notes to consolidated financial statements, we have two reportable segments: community banking and mortgage banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and mortgage fees.",
+  "evidence": "The community banking segment provides consumer and business banking products and services to customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

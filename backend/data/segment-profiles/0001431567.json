@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001431567",
+ "issuerName": "OAK VALLEY BANCORP",
+ "builtAt": "2026-11-16T05:28:43.104Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009757",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1431567/000143774926009757/ovly20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank branches.",
+   "evidence": "Business Segments Management has determined that because all of the banking products and services offered by the Company are available in each branch of the Bank, all branches are located within the same economic environment, and management does not allocate resources based on the performance of different lending or transaction activities, it is appropriate to aggregate the Ban"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "Business Segments Management has determined that because all of the banking products and services offered by the Company are available in each branch of the Bank, all branches are located within the same economic environment, and management does not allocate resources based on the performance of different lending or transaction activities, it is appropriate to aggregate the Ban"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

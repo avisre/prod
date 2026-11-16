@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001277902",
+ "issuerName": "MVB Financial Corp",
+ "builtAt": "2026-11-16T05:27:44.249Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001277902-26-000030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1277902/000127790226000030/mvbf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CoRe Banking",
+   "products": [
+    "deposit accounts",
+    "loans",
+    "debit cards"
+   ],
+   "description": "Provides community bank products and services.",
+   "evidence": "Fintech Banking We provide innovative strat"
+  },
+  {
+   "name": "Fintech Banking",
+   "products": [],
+   "description": "Provides banking to fintech companies.",
+   "evidence": "Fintech Banking We provide innovative strat"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers and fintech partners pay interest and fees.",
+  "evidence": "CoRe Banking We offer our customers a full range of products and services including: l Various demand deposit accounts, savings accounts, money market accounts and certificates of deposit; l Commercial, consumer and real estate mortgage loans and lines of credit; l Debit cards; l Cashier's checks; and l Safe deposit rental facilities."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Fintech Banking): fintech banking services"
+ ],
+ "reader": "agent"
+}

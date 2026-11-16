@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001173643",
  "issuerName": "TRX GOLD Corporation",
- "builtAt": "2026-11-15T13:56:08.094Z",
+ "builtAt": "2026-11-16T05:27:42.332Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001171843-25-007686",
@@ -15,8 +15,6 @@
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Mineral Exploration and Development"
- ],
- "escalated": "no segments"
+ "dropped": [],
+ "reader": "agent"
 }

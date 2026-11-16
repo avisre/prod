@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001643303",
+ "issuerName": "NANO DIMENSION LTD.",
+ "builtAt": "2026-11-16T05:27:40.382Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134641",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1643303/000119312526134641/nndm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nano Dimension",
+   "products": [
+    "additive manufacturing systems"
+   ],
+   "description": null,
+   "evidence": "In the market approach, we can reference the Company's market capitalization as a value indication given the Company's single operating segment and reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Manufacturers buy its additive manufacturing systems.",
+  "evidence": "Its products are equipped with a sophisticated software package which makes extensive and efficient material management possible."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001528356",
+ "issuerName": "Genie Energy Ltd.",
+ "builtAt": "2026-11-16T05:27:40.806Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-014294",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1528356/000143774926014294/gne20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "GRE",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Supplies electricity and natural gas to retail customers.",
+   "evidence": "REPORTABLE SEGMENTS We have two reportable business segments: GRE and GREW."
+  },
+  {
+   "name": "GREW",
+   "products": [
+    "renewable energy"
+   ],
+   "description": "Develops and sells renewable energy solutions.",
+   "evidence": "REPORTABLE SEGMENTS We have two reportable business segments: GRE and GREW."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Households and businesses buy electricity, gas and solar.",
+  "evidence": "Our reportable segments are distinguished by types of service, customers and customer geography."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

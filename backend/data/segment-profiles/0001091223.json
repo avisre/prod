@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001091223",
+ "issuerName": "MATERIALISE NV",
+ "builtAt": "2026-11-16T05:27:42.162Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-047671",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1091223/000110465926047671/mtls-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

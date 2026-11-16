@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001423869",
+ "issuerName": "PCB BANCORP",
+ "builtAt": "2026-11-16T05:27:43.349Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001423869-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1423869/000142386926000006/pcb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bank",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Bank",
+  "revenue model not grounded"
+ ],
+ "reader": "agent"
+}

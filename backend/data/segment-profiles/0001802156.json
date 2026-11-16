@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001802156",
+ "issuerName": "Xponential Fitness, Inc.",
+ "builtAt": "2026-11-16T05:28:43.134Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001802156-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1802156/000180215626000016/xpof-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

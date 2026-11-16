@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001761612",
  "issuerName": "Bicycle Therapeutics plc",
- "builtAt": "2026-11-15T14:14:20.977Z",
+ "builtAt": "2026-11-16T05:28:39.149Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-028971",
@@ -10,17 +10,23 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1761612/000110465926028971/bcyc-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bicycle",
+   "products": [
+    "bicyclic peptides"
+   ],
+   "description": "Develops bicyclic peptide therapeutics.",
+   "evidence": "The Company operates and manages its business as a single operating segment, which is developing a unique"
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Pharmaceutical collaboration partners pay the company upfront license fees, research and development service payments, option fees, milestone payments and royalties on net sales of future products.",
-  "evidence": "The terms of these arrangements typically include payment to the Company of one or more of the following: non-refundable, upfront license fees; payments for research and development services and reimbursement of certain expenses incurred; fees upon the exercise of options to obtain additional services or licenses; payments based upon the achievement of defined collaboration objectives; future regulatory and sales-based milestone payments; and royalties on net sales of future products."
+  "text": "Partners pay collaboration revenue and milestones.",
+  "evidence": "​ Segment and geographic information Operating segments are defined as components of a business for which separate discrete financial information is available for evaluation by the chief operating decision maker in deciding how to allocate resources and assess performance."
  },
  "changes": [],
- "dropped": [
-  "segment name not in text: Pharmaceutical development",
-  "change not grounded: In 2026, the company announced a strategic reprioritization of its clinical port",
-  "change not grounded: In 2026, the company decided to no longer develop BT7480 internally after report"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

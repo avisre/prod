@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001319947",
+ "issuerName": "DESIGNER BRANDS INC.",
+ "builtAt": "2026-11-16T05:27:40.063Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001319947-26-000022",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1319947/000131994726000022/dsw-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "footwear",
+    "accessories"
+   ],
+   "description": "Runs its DSW and other retail stores.",
+   "evidence": "We operate in two reportable segments: the Retail segment and the Brand Portfolio segment."
+  },
+  {
+   "name": "Brand Portfolio",
+   "products": [
+    "exclusive and licensed brands",
+    "Vince Camuto",
+    "Keds",
+    "Topo"
+   ],
+   "description": "Sells its own brands wholesale and direct.",
+   "evidence": "We operate in two reportable segments: the Retail segment and the Brand Portfolio segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shoppers buy in its stores; retailers buy its brands wholesale.",
+  "evidence": "The Brand Portfolio segment primarily earns revenue from the wholesale of our exclusive and licensed brands to retailers, our Retail segment, and international distributors and the sale of our Vince Camuto, Keds, and Topo brands through direct-to-consumer e-commerce sites."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

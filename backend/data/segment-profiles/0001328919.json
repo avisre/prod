@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001328919",
+ "issuerName": "STEALTHGAS INC.",
+ "builtAt": "2026-11-16T05:27:40.444Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-183385",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1328919/000119312526183385/d66975d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "StealthGas",
+   "products": [],
+   "description": "Operates LPG carriers on charter.",
+   "evidence": "Thus, the Company has determined that it operates under one reportable segment as well as one o"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay hire for its LPG carriers.",
+  "evidence": "Segment Reporting: The Chief Executive Officer, who is the Chief Operating Decision Maker (\"CODM\"), receives financial information and evaluates the Company's operations by total charter revenues and not by the type of vessel, length of vessel employment, customer or type of charter."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (StealthGas): LPG carrier chartering"
+ ],
+ "reader": "agent"
+}

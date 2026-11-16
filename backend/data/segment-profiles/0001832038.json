@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001832038",
  "issuerName": "INVIVYD, INC.",
- "builtAt": "2026-11-15T14:15:18.634Z",
+ "builtAt": "2026-11-16T05:28:38.863Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-092547",
@@ -10,15 +10,23 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1832038/000119312526092547/ivvd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "infectious diseases",
+   "products": [
+    "antibody therapies"
+   ],
+   "description": "Develops products to prevent and treat infectious diseases.",
+   "evidence": "The Company views its operations and manages its business in one operating segment, which is the business of discovering, developing and commercializing differentiated products for the prevention and treatment of infectious diseases."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company earns net product revenue from sales of PEMGARDA to third-party specialty distributors, infusion centers and healthcare providers in the U.S.",
-  "evidence": "During the year ended December 31, 2025 , the Company's net product revenue was generated from sales to third-party specialty distributors, infusion centers and healthcare providers in the U.S."
+  "text": "Governments and partners pay for its antibody products.",
+  "evidence": "Segment Information The Company manages its operations as a single reportable and operating segment for the purposes of assessing performance and"
  },
  "changes": [],
- "dropped": [
-  "segment name not in text: Infectious disease products"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

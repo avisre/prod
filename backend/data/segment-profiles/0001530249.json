@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001530249",
+ "issuerName": "FS Bancorp, Inc.",
+ "builtAt": "2026-11-16T05:28:40.578Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008243",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1530249/000143774926008243/fsbw20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial and consumer banking",
+   "products": [
+    "deposits",
+    "loans"
+   ],
+   "description": "Provides commercial and consumer banking.",
+   "evidence": "Segment Reporting – The Company operates in two business segments through the Bank: commercial and consumer banking and home lending."
+  },
+  {
+   "name": "home lending",
+   "products": [
+    "mortgage loans"
+   ],
+   "description": "Originates home loans.",
+   "evidence": "Segment Reporting – The Company operates in two business segments through the Bank: commercial and consumer banking and home lending."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "Local commercial banks pose the primary competition in the commercial business segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

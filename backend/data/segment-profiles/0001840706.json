@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001840706",
+ "issuerName": "SOPHiA GENETICS SA",
+ "builtAt": "2026-11-16T05:27:42.220Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001840706-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840706/000184070626000006/soph-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

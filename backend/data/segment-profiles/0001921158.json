@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001921158",
+ "issuerName": "BitFuFu Inc.",
+ "builtAt": "2026-11-16T05:27:43.751Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048533",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1921158/000121390026048533/ea0286816-20f_bitfufu.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

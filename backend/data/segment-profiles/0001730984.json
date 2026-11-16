@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001730984",
+ "issuerName": "BAYCOM CORP",
+ "builtAt": "2026-11-16T05:27:44.466Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001730984-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1730984/000173098426000016/bcml-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "BayCom",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "We do not target any specific industries or business segments; rather, we look to the quality of the client relationship."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "Moreover, climate change may adversely affect regional and local economic activity, harming our customers and the communities in which we operate."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001357971",
+ "issuerName": "Energy Services of America CORP",
+ "builtAt": "2026-11-16T05:27:43.732Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-25-121185",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1357971/000110465925121185/esoa-20250930x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Underground Infrastructure Construction",
+   "products": [],
+   "description": "Builds underground utility infrastructure.",
+   "evidence": "Segments Energy Services' reportable segments are: Underground Infrastructure Construction, Industrial Construction, and Building Construction."
+  },
+  {
+   "name": "Industrial Construction",
+   "products": [],
+   "description": "Builds industrial facilities.",
+   "evidence": "Segments Energy Services' reportable segments are: Underground Infrastructure Construction, Industrial Construction, and Building Construction."
+  },
+  {
+   "name": "Building Construction",
+   "products": [],
+   "description": "Builds commercial buildings.",
+   "evidence": "Segments Energy Services' reportable segments are: Underground Infrastructure Construction, Industrial Construction, and Building Construction."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities and industrial clients pay for construction work.",
+  "evidence": "SEGMENT INFORMATION Energy Services' operations are managed by senior executives who report to the Company's President and CEO (the \"President\"), the chief operating decision maker."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Underground Infrastructure Construction): underground infrastructure construction",
+  "product not in text (Industrial Construction): industrial construction",
+  "product not in text (Building Construction): building construction"
+ ],
+ "reader": "agent"
+}

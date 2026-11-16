@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001517022",
+ "issuerName": "AKEBIA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T05:28:43.646Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001517022-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1517022/000151702226000020/akba-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Akebia",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops and sells medicines for kidney disease.",
+   "evidence": "The Company operates in one operating segment which the Company considers to be the only reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "Segment Information Operating segments are defined as components of an enterprise about which separate discrete information is available for evaluation by the chief operating decision maker, or CODM , or decision-making group, in deciding how to allocate resources and in ass"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

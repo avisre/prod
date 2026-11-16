@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0002009684",
+ "issuerName": "Seaport Entertainment Group Inc.",
+ "builtAt": "2026-11-16T05:28:40.432Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-023561",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/2009684/000110465926023561/seg-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hospitality",
+   "products": [],
+   "description": "Runs its hospitality venues.",
+   "evidence": "We primarily analyze our portfolio of assets through the lens of our three operating segments: (1) Hospitality, (2) Entertainment (previously Sponsorships, Events, and Entertainment), and (3) Landlord Operations, and are focused on realizing value for stockholders primarily through dedicated management of existing assets, expansion of partnerships, strategic acquisitions, and c"
+  },
+  {
+   "name": "Entertainment",
+   "products": [
+    "entertainment events"
+   ],
+   "description": "Runs entertainment and events.",
+   "evidence": "We primarily analyze our portfolio of assets through the lens of our three operating segments: (1) Hospitality, (2) Entertainment (previously Sponsorships, Events, and Entertainment), and (3) Landlord Operations, and are focused on realizing value for stockholders primarily through dedicated management of existing assets, expansion of partnerships, strategic acquisitions, and c"
+  },
+  {
+   "name": "Landlord Operations",
+   "products": [],
+   "description": "Runs its landlord operations.",
+   "evidence": "We primarily analyze our portfolio of assets through the lens of our three operating segments: (1) Hospitality, (2) Entertainment (previously Sponsorships, Events, and Entertainment), and (3) Landlord Operations, and are focused on realizing value for stockholders primarily through dedicated management of existing assets, expansion of partnerships, strategic acquisitions, and c"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests and tenants pay for events, food and space.",
+  "evidence": "We primarily analyze our portfolio of assets through the lens of our three operating segments: (1) Hospitality, (2) Entertainment (previously Sponsorships, Events, and Entertainment), and (3) Landlord Operations, and are focused on realizing value for stockholders primarily through dedicated management of existing assets, expansion of partnerships, strategic acquisitions, and c"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Hospitality): hospitality venues",
+  "product not in text (Landlord Operations): real estate leasing"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000929351",
+ "issuerName": "Starz Entertainment Corp.",
+ "builtAt": "2026-11-16T05:27:39.774Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000929351-25-000038",
+  "periodEnd": "2025-03-31",
+  "filingDate": "2025-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/929351/000092935125000038/starz-20250331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Starz Networks",
+   "products": [
+    "streaming"
+   ],
+   "description": "Runs its Starz premium networks and streaming.",
+   "evidence": "As of March 31, 2025, Starz manages and reports its operating results through one reportable segment, Starz Networks , which now includes its Canadian operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Distributors pay carriage fees and subscribers pay for streaming.",
+  "evidence": "Effective the fourth quarter of fiscal 2025, the measure of segment operating performance used by the Company's chief operating decision maker (\"CODM\") changed and, as a result, Starz's disclosed measure of segment pr"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Starz Networks): premium television networks"
+ ],
+ "reader": "agent"
+}

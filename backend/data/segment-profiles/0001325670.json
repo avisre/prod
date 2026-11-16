@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001325670",
+ "issuerName": "PRIMIS FINANCIAL CORP.",
+ "builtAt": "2026-11-16T05:27:42.467Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028599",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1325670/000110465926028599/frst-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

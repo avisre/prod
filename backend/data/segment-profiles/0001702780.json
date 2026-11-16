@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001702780",
+ "issuerName": "Optimum Communications, Inc.",
+ "builtAt": "2026-11-16T05:28:39.759Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001702780-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1702780/000170278026000013/optu-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

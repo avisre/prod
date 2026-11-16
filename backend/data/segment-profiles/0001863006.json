@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001863006",
+ "issuerName": "Valens Semiconductor Ltd.",
+ "builtAt": "2026-11-16T05:27:43.526Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-020108",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1863006/000121390026020108/ea0276757-20f_valens.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cross Industry Business",
+   "products": [
+    "semiconductor products"
+   ],
+   "description": "Sells connectivity semiconductors for cross-industry applications.",
+   "evidence": "In 2025 we experienced an increase in demand for our semiconductor products in our Cross Industry Business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Equipment makers buy its connectivity chips.",
+  "evidence": "We continuously seek to improve the connectivity solutions we offer, at higher bandwidth, zero latency, and lower costs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

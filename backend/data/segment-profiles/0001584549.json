@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001584549",
+ "issuerName": "VILLAGE FARMS INTERNATIONAL, INC.",
+ "builtAt": "2026-11-16T05:28:41.695Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104189",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1584549/000119312526104189/vff-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Produce",
+   "products": [],
+   "description": "Grows and sells greenhouse produce.",
+   "evidence": "CANADIAN CANNABIS SEGMENT RESULTS The Cannabis Canada segment consists of Pure Sunfarms and Rose LifeScience."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Grocery retailers buy its produce and cannabis.",
+  "evidence": "The consolidated results include all five of our operating segments, Produce, Cannabis-Canada, Cannabis-U."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Produce): produce"
+ ],
+ "reader": "agent"
+}

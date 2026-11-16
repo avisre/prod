@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001982961",
+ "issuerName": "ENIGMATIG LTD",
+ "builtAt": "2026-11-16T05:28:43.220Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-006963",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1982961/000149315226006963/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

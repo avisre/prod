@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001634117",
+ "issuerName": "BARNES & NOBLE EDUCATION, INC.",
+ "builtAt": "2026-11-16T05:27:44.593Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001634117-26-000070",
+  "periodEnd": "2026-05-02",
+  "filingDate": "2026-07-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1634117/000163411726000070/bned-20260502.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
