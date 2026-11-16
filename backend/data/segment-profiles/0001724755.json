@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001724755",
  "issuerName": "GreenTree Hospitality Group Ltd.",
- "builtAt": "2026-11-16T05:39:14.789Z",
+ "builtAt": "2026-11-16T11:01:00.630Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050417",
@@ -10,10 +10,34 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1724755/000121390026050417/ea0287763-20f_greentree.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hotel business",
+   "products": [
+    "Leased-and-operated hotels",
+    "Franchised-and-managed hotels",
+    "Wholesale and others"
+   ],
+   "description": "Operates leased-and-operated and franchised-and-managed hotels, earning room revenue and franchise and management fees from guests and franchisees.",
+   "evidence": "The Group reports its financial results in two operating segments: (1) Hotel Business, which consists of leased-and-operated hotels and franchised-and-managed hotels operating under the hotel related brand,"
+  },
+  {
+   "name": "Restaurant business",
+   "products": [
+    "Leased-and-operated restaurants",
+    "Franchised-and-managed restaurants",
+    "Wholesale and others"
+   ],
+   "description": "Runs leased-and-operated and franchised-and-managed restaurants and supplies wholesale food products and other goods.",
+   "evidence": "Revenues from leased-and-operated restaurants are primarily derived from restaurant operations, including the dine-in orders in restaurants and take-out orders sold through third-party platforms."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Guests pay for hotel rooms and restaurant meals, while franchisees pay initial and continuing franchise fees, management fees and central reservation system usage fees.",
+  "evidence": "Revenues from franchised-and-managed hotels are derived from franchise agreements where the franchisees are required to pay (i) an initial one-time non-refundable franchise fee, and (ii) continuing franchise fees"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

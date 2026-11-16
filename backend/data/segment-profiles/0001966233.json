@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001966233",
  "issuerName": "NIP Group Inc.",
- "builtAt": "2026-11-16T05:39:17.048Z",
+ "builtAt": "2026-11-16T11:03:41.079Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019771",
@@ -10,10 +10,47 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1966233/000149315226019771/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PRC and other entities",
+   "products": [
+    "Talent management service of third-party online entertainers",
+    "Event production",
+    "Tournament participation of esports",
+    "Player transfer and rental fee",
+    "Sales of branded merchandise",
+    "Talent management service of esports",
+    "Sponsorships and advertising"
+   ],
+   "description": "Runs esports teams, talent management and event production in China for brands, sponsors, online entertainers and tournament organizers.",
+   "evidence": "As a result of the assessment made by CODMs, the Group has three reportable segments, including PRC and other entities, Ninjas in Pyjamas and Bitcoin mining business."
+  },
+  {
+   "name": "Ninjas in Pyjamas",
+   "products": [
+    "Tournament participation of esports",
+    "Sponsorships and advertising",
+    "Player transfer and rental fee",
+    "Sales of branded merchandise"
+   ],
+   "description": "Swedish esports brand whose teams compete globally, selling sponsorships, branded merchandise and player transfers to brands and fans.",
+   "evidence": "As a result of the assessment made by CODMs, the Group has three reportable segments, including PRC and other entities, Ninjas in Pyjamas and Bitcoin mining business."
+  },
+  {
+   "name": "Bitcoin mining business",
+   "products": [
+    "Bitcoin mining"
+   ],
+   "description": "Operates Bitcoin mining in the United States, generating revenue from Bitcoin it mines.",
+   "evidence": "As a result of the assessment made by CODMs, the Group has three reportable segments, including PRC and other entities, Ninjas in Pyjamas and Bitcoin mining business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Brands, sponsors, tournament organizers and online platforms pay for esports teams, talent management, event production and Bitcoin mining.",
+  "evidence": "The esports industry is characterized by its ever-changing and fast evolving nature, where every year different digital games are released by game developers, and various leagues and tournaments are assembled, creating vast opportunity for participants like us to extend our brand influence and generate popularity, and for brands and sponsors to invest in teams, athletes, and benefit from screen time and name placements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

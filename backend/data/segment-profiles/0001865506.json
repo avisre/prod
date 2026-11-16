@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001865506",
  "issuerName": "Zeo Energy Corp.",
- "builtAt": "2026-11-16T05:39:16.076Z",
+ "builtAt": "2026-11-16T11:01:13.626Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037791",
@@ -10,11 +10,44 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1865506/000121390026037791/ea0283937-10k_zeoenergy.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sunergy",
+   "products": [
+    "residential solar photovoltaic systems",
+    "solar system installations",
+    "roofing services",
+    "roofing installations",
+    "energy storage solutions",
+    "insulation services",
+    "hybrid electric water heaters",
+    "swimming pool pumps"
+   ],
+   "description": "Designs, procures, installs and services residential solar photovoltaic systems and related roofing services for homeowners.",
+   "evidence": "Following the acquisition of Heliogen on August 8, 2025, the Company reassessed its segment structure and determined that it operates in two operating and reportable segments: (1) Sunergy, which includes the design, procurement, installation, and servicing of residential solar photovoltaic systems and related roofing services; and (2) Heliogen, which includes concentrated solar power and long-duration energy generation and storage technology solutions for commercial and industrial applications."
+  },
+  {
+   "name": "Heliogen",
+   "products": [
+    "concentrated solar power",
+    "long-duration energy generation and storage technology solutions"
+   ],
+   "description": "Supplies concentrated solar power and long-duration energy generation and storage technology solutions for commercial and industrial applications.",
+   "evidence": "Heliogen, which includes concentrated solar power and long-duration energy generation and storage technology solutions for commercial and industrial applications."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Homeowners pay us for solar systems, and many finance the purchase through third-party financing companies that remit payment upon installation.",
+  "evidence": "Many customers finance the purchase and installation of solar systems through third-party financing companies."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired Heliogen and moved from a single reportable segment to two reportable segments, Sunergy and Heliogen.",
+   "evidence": "Prior to the acquisition of Heliogen, the Company operated as a single operating and reportable segment consisting of its solar installation and related services operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002011208",
  "issuerName": "SAFE PRO GROUP INC.",
- "builtAt": "2026-11-16T05:39:19.932Z",
+ "builtAt": "2026-11-16T11:04:46.313Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014181",
@@ -10,11 +10,58 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2011208/000149315226014181/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Safe-Pro USA",
+   "products": [
+    "Explosive Ordnance Disposal",
+    "demining aprons",
+    "bomb blankets",
+    "body armor",
+    "ballistic plates",
+    "armor systems for ground vehicles and aircrafts"
+   ],
+   "description": "Manufactures and customises bullet and blast resistant personal protection equipment, vehicle and aircraft armour for military, law enforcement and humanitarian customers.",
+   "evidence": "Safe-Pro USA was formed in Florida in November of 2008 and develops an array of unique products marketed to, government, law enforcement and international humanitarian aid organizations seeking high performance personal protective gear."
+  },
+  {
+   "name": "Airborne Response",
+   "products": [
+    "Drone as a First Responder",
+    "critical infrastructure inspection",
+    "storm and emergency response",
+    "aerial remote sensing",
+    "Aerial mapping",
+    "UAS-related training and consultation services"
+   ],
+   "description": "Provides contracted drone-based inspection, emergency response, aerial mapping and training services to utilities, insurers, governments and first responders.",
+   "evidence": "Through our subsidiary, Airborne Response Corp., we provide a wide range of contracted aerial platform-based technology services predominantly using small Uncrewed Aircraft Systems"
+  },
+  {
+   "name": "Safe Pro AI",
+   "products": [
+    "Safe Pro Object Threat Detection",
+    "SPOTD",
+    "SpotlightAI",
+    "OnSight",
+    "SPOTD NODE"
+   ],
+   "description": "Develops patented artificial intelligence, machine learning and computer vision software that analyses drone imagery to detect threats for demining, military and security users.",
+   "evidence": "Safe Pro AI is a developer of patented artificial intelligence (\"AI\"), machine learning (\"ML\") and computer vision systems technologies for the rapid processing and analysis of drone-based imagery."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Government, law enforcement, military, humanitarian and utility customers pay for protective equipment, contracted drone services and AI imagery analysis software.",
+  "evidence": "Our revenues are generated primarily from the sale of our products and services, which consist primarily of personal protective gear (\"PPE\") and ballistic protective equipment including Explosive Ordnance Disposal (\"EOD\") and blast and fragmentation resistant vests and body armor, as well as aerial managed services (drones) for the inspection of customer's critical infrastructure including radio towers and power grids."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the acquired Demining Development business was renamed Safe Pro AI LLC.",
+   "evidence": "On August 30, 2023, the Company changed its name to Safe Pro AI LLC (\"Safe Pro AI\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

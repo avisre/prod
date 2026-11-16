@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001636422",
  "issuerName": "HEALTH CATALYST, INC.",
- "builtAt": "2026-11-16T05:39:19.000Z",
+ "builtAt": "2026-11-16T11:03:37.713Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001636422-26-000035",
@@ -10,10 +10,38 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1636422/000163642226000035/hcat-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology",
+   "products": [
+    "data platform",
+    "analytics applications",
+    "support services",
+    "Ignite Data & Analytics Platform",
+    "analytics accelerators"
+   ],
+   "description": "Provides healthcare organizations a cloud-based data platform, analytics applications and support services through subscription and license arrangements.",
+   "evidence": "Our technology segment (Technology) includes our data platform, analytics applications and support services and generates revenues primarily from contracts that are cloud-based subscription arrangements, time-based license arrangements, and maintenance and support fees"
+  },
+  {
+   "name": "Professional Services",
+   "products": [
+    "data and analytics services",
+    "domain expertise services",
+    "TEMS",
+    "implementation services",
+    "education services"
+   ],
+   "description": "Delivers analytics, implementation, strategic advisory and managed services expertise that help healthcare provider clients achieve measurable improvement.",
+   "evidence": "Professional services revenue primarily includes data and analytics services, domain expertise services, TEMS, and implementation services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Healthcare providers, insurers and other clients pay subscription and license fees for technology access, plus fees for professional services.",
+  "evidence": "We derive our revenue primarily from technology subscriptions and professional services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

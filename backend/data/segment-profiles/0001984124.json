@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001984124",
  "issuerName": "Luda Technology Group Limited",
- "builtAt": "2026-11-16T05:39:16.891Z",
+ "builtAt": "2026-11-16T11:01:49.864Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-057512",
@@ -10,10 +10,41 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1984124/000121390026057512/ea0285589-20f_ludatech.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hong Kong Trading",
+   "products": [
+    "flanges",
+    "fittings",
+    "steel valves",
+    "steel pipes",
+    "other piping system components"
+   ],
+   "description": "Trades flanges, fittings and other steel piping products sourced from suppliers, serving manufacturers and traders worldwide.",
+   "evidence": "Hong Kong Trading mainly represents trading of flanges and fittings products sourced from suppliers and this operating segment is conducted through Luda HK."
+  },
+  {
+   "name": "PRC Manufacturing",
+   "products": [
+    "Blind flange",
+    "Slip on flange",
+    "Plate flange",
+    "Thread flange",
+    "Welding neck flange",
+    "Elbow",
+    "Reducer",
+    "Cap"
+   ],
+   "description": "Manufactures in-house stainless steel and carbon steel flanges and fittings at its China factory and sells them to industrial customers.",
+   "evidence": "PRC Manufacturing is the largest business segment of the Company that contributes approximately 73.3%, 83.8% and 89.4% of the total revenue in FY2025, FY2024 and FY2023, respectively and represents trading and manufacturing of our inhouse flanges and fittings products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Manufacturers and traders in the chemical, petrochemical, maritime and manufacturing industries pay for steel flanges, fittings, pipes and valves.",
+  "evidence": "our customers comprise manufacturers and traders from the chemical, petrochemical, maritime and manufacturing industries."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001937891",
  "issuerName": "AMC ROBOTICS CORPORATION",
- "builtAt": "2026-11-16T05:39:14.781Z",
+ "builtAt": "2026-11-16T11:00:26.113Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-018144",
@@ -10,11 +10,62 @@
   "filingDate": "2026-04-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1937891/000149315226018144/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "smart cameras",
+    "driving recorders",
+    "action cameras",
+    "Retina K cameras",
+    "YI Dome Guard",
+    "Home Camera",
+    "Outdoor Camera"
+   ],
+   "description": "Sells YI-brand security cameras and other smart hardware through Amazon and other e-commerce platforms to customers in the United States and Canada.",
+   "evidence": "AMC Robotics Corporation has Amazon online accounts in the U.S., Canada, and Europe."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "smart cameras",
+    "driving recorders",
+    "action cameras",
+    "Retina K cameras",
+    "YI Dome Guard",
+    "Home Camera",
+    "Outdoor Camera"
+   ],
+   "description": "Sells YI-brand security cameras and other smart hardware through European Amazon and third-party online stores to customers in Europe.",
+   "evidence": "The Company operates online stores on e-commerce platforms with separate platform accounts serving North America and Europe."
+  },
+  {
+   "name": "China",
+   "products": [],
+   "description": "Segment comprised the two China-based variable interest entities, which recorded no revenue during the year.",
+   "evidence": "Given that the two VIEs, Xiaoyun and Yishijue, are headquartered and operated in China, the consolidated financial statements are bifurcated into three segments: (1) North America, (2) Europe, and (3) China."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers buying cameras on e-commerce platforms pay for hardware, while related party Kami pays AMC a revenue share on cloud subscriptions sold to those camera buyers.",
+  "evidence": "AMC recognizes its revenue share when Kami receives subscription payments from users acquired through AMC's camera sales."
+ },
+ "changes": [
+  {
+   "text": "In December 2025 the company stopped using the Xiaoyun and Yishijue Amazon stores and moved sales to its own or third-party platforms.",
+   "evidence": "However, in December 2025, AMC determined that, based on limited transaction volume through these stores, it would transition its sales channel to its own or other third-party platforms and is no longer utilizing the stores from Xiaoyun and Yishijue."
+  },
+  {
+   "text": "In January 2025 ownership of the North America Amazon store was transferred to AMC from Ants.",
+   "evidence": "Effective as of January 9, 2025, the ownership of Amazon store North America has been successfully transferred to AMC from Ants."
+  },
+  {
+   "text": "In August 2024 the two China VIEs agreed to transfer their Amazon store ownership to AMC.",
+   "evidence": "In August 2024, AMC and the two VIEs entered into separate business transfer agreements."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

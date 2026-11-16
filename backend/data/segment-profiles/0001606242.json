@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001606242",
  "issuerName": "Virtuix Holdings Inc.",
- "builtAt": "2026-11-16T05:39:17.255Z",
+ "builtAt": "2026-11-16T11:02:08.609Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-072079",
@@ -10,11 +10,42 @@
   "filingDate": "2026-06-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1606242/000121390026072079/ea0294428-10k_virtuix.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Omni-directional treadmills",
+   "products": [
+    "Omni One",
+    "Omni Pro",
+    "Omni Arena",
+    "Omni Online",
+    "Omni Care",
+    "Omniverse credits",
+    "Virtual Terrain Walk"
+   ],
+   "description": "Designs, develops, manufactures and sells Omni omni-directional treadmills, accessories and related software and subscription services for consumer and commercial VR customers.",
+   "evidence": "The Company operates in a single operating segment: the design, development, marketing, and sale of omni-directional treadmills, accessories, and related services to consumer and commercial customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers and enterprises buy the Omni treadmills, and customers also pay for games, Omni Online subscriptions and Omni Care maintenance.",
+  "evidence": "In addition to hardware sales, we earn recurring revenues from the sale of Omni One games and from monthly subscriptions to Omni Online (priced at $14/month), Omni One's service that allows customers to play online multiplayer games."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company completed the transition of its Omni Arena business to sustaining mode, ceasing production of new systems while still servicing existing operators.",
+   "evidence": "Concurrently, we completed the transition of our Omni Arena business to sustaining mode, ceasing production of new systems and shifting research and development and marketing resources to Omni One."
+  },
+  {
+   "text": "Following the 2024 launch of Omni One, the company stopped production and sales of Omni Pro.",
+   "evidence": "Following the launch of Omni One in 2024, we stopped production and sales of Omni Pro."
+  },
+  {
+   "text": "In 2025 the company began closing the Heroix joint venture and moving the China sales channel to its China subsidiary.",
+   "evidence": "As a result of these discussions, Hero Entertainment and Virtuix began taking steps in late 2025 to close the Joint Venture entity, and we expect the closure process to be completed in the quarter ending September 30, 2026."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

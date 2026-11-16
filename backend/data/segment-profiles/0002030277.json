@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002030277",
  "issuerName": "LEIFRAS Co., Ltd.",
- "builtAt": "2026-11-16T05:39:17.870Z",
+ "builtAt": "2026-11-16T11:02:44.451Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001829126-26-003281",
@@ -10,11 +10,39 @@
   "filingDate": "2026-04-08",
   "url": "https://www.sec.gov/Archives/edgar/data/2030277/000182912626003281/leifras_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sports school business",
+   "products": [
+    "sports schools",
+    "children's sports schools",
+    "sports school classes"
+   ],
+   "description": "Runs children's sports schools and classes with full-time coaches, using public and private facilities.",
+   "evidence": "Our growth in school club support services stems from our decade-long expertise in the sports school business, establishing us as a pioneering player in extracurricular activities outsourcing business."
+  },
+  {
+   "name": "social business",
+   "products": [
+    "school club support services",
+    "after-school daycare service facilities"
+   ],
+   "description": "Provides school club support and related services to municipalities and government authorities, won through public bidding.",
+   "evidence": "In our social business, we provide services to municipalities as well as other governmental authorities, such as the Japan Sports Agency."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Municipalities and government authorities pay for social business services such as school club support; families pay for children's sports school classes.",
+  "evidence": "In our social business, we provide services to municipalities as well as other governmental authorities, such as the Japan Sports Agency."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company moved from a single reportable segment to a two-segment structure.",
+   "evidence": "Effective January 1, 2025, management transitioned to a two-segment structure to reflect organizational changes."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

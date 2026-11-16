@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001287098",
  "issuerName": "MaxCyte, Inc.",
- "builtAt": "2026-11-16T05:39:16.391Z",
+ "builtAt": "2026-11-16T11:01:09.851Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-034557",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1287098/000110465926034557/mxct-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cell engineering technology",
+   "products": [
+    "instruments",
+    "PAs",
+    "consumables",
+    "assay services",
+    "extended warranties",
+    "licenses"
+   ],
+   "description": "Provides cell engineering technology, including instruments, disposables, services and licenses, to biopharmaceutical companies, academic and government research institutions developing cell therapies.",
+   "evidence": "The cell engineering technology segment generates revenue principally from the sale of instruments and PAs and consumables, and research and clinical license fees to the Company's customers, as well as program-related revenues as our SPL customers achieve development and regulatory milestones."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for instruments, PAs, consumables, assay services and licenses, plus milestones and sales-based payments under SPL agreements.",
+  "evidence": "Revenue is principally from the sale of instruments, PAs and consumables, assay services, and extended warranties and from our license agreements, which also include customer-specific milestone payments."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

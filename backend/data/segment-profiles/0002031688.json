@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002031688",
  "issuerName": "RICH SPARKLE HOLDINGS LIMITED",
- "builtAt": "2026-11-16T05:39:17.741Z",
+ "builtAt": "2026-11-16T11:02:40.056Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-013131",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-06",
   "url": "https://www.sec.gov/Archives/edgar/data/2031688/000121390026013131/ea0272537-20f_rich.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial Printing Services",
+   "products": [
+    "Advisory services",
+    "listing documents",
+    "financial reports",
+    "fund documents",
+    "circulars and announcements",
+    "typesetting",
+    "proofreading",
+    "translation"
+   ],
+   "description": "Provides financial printing, typesetting, translation and advisory services to Hong Kong listed companies and companies preparing for an initial listing.",
+   "evidence": "The single segment is the Company's core business of undertaking (i) financial printing services such as printing, typesetting and translation, (ii) advisory services including Environmental, Social and Governance Report and (iii) other services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hong Kong listed companies and companies preparing for an initial listing pay for financial printing, advisory and other services.",
+  "evidence": "Our portfolio of customers includes a diverse range of domestic and international companies listed on the Stock Exchange of Hong Kong (the \"HK Stock Exchange\")."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

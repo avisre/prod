@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001758766",
  "issuerName": "Stem, Inc.",
- "builtAt": "2026-11-16T05:39:19.546Z",
+ "builtAt": "2026-11-16T11:04:16.826Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001758766-26-000016",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1758766/000175876626000016/stem-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clean energy software",
+   "products": [
+    "PowerTrack Software",
+    "PowerTrack Energy Management System",
+    "PowerTrack Supervisory Control and Data Acquisition",
+    "PowerTrack Logger",
+    "PowerTrack Optimizer",
+    "edge hardware solutions",
+    "Managed Services",
+    "Professional Services"
+   ],
+   "description": "Provides AI-enabled software, edge hardware and services that monitor, optimize and operate solar, storage and hybrid energy assets for asset owners, developers and operators.",
+   "evidence": "PowerTrack is our integrated suite of software and solutions for solar, storage and hybrid assets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Project developers, asset owners, construction firms and distributors pay for software, edge hardware and project, managed and professional services.",
+  "evidence": "We serve project developers, asset owners, engineering, procurement and construction firms (EPCs) and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company shifted away from battery resales, which had historically been most of its revenue, toward software, edge and services.",
+   "evidence": "including reduction of what had historically been the source of most of our revenue (battery resales), adjustments to the way we develop and market our products and services"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

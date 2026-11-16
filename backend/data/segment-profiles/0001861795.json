@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001861795",
  "issuerName": "Definitive Healthcare Corp.",
- "builtAt": "2026-11-16T05:39:18.396Z",
+ "builtAt": "2026-11-16T11:03:07.295Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076782",
@@ -10,10 +10,26 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1861795/000119312526076782/dh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare data and analytics",
+   "products": [
+    "healthcare commercial intelligence platform",
+    "claims and consumer analytics",
+    "data products",
+    "SaaS products and solutions",
+    "stand-ready support"
+   ],
+   "description": "Provides healthcare provider and consumer data and analytics by subscription to life sciences, provider and diversified customers for market, sales and clinical decisions.",
+   "evidence": "The following table presents the operating financial results of our single reportable segment, including revenue, significant expenses regularly provided to the CODM, and net loss"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for access to the platform and stand-ready support giving accurate information on healthcare providers and their activities.",
+  "evidence": "The Company derives substantially all of its revenue from the sale of subscription fees for access to its platform and stand-ready support"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

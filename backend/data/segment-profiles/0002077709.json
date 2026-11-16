@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002077709",
  "issuerName": "RANK ONE COMPUTING CORPORATION",
- "builtAt": "2026-11-16T05:39:17.581Z",
+ "builtAt": "2026-11-16T11:02:27.345Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037484",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2077709/000121390026037484/ea0283745-10k_rankone.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vision AI",
+   "products": [
+    "ROC SDK",
+    "ROC Watch",
+    "ROC ABIS",
+    "ROC Enroll",
+    "R&D Contracts"
+   ],
+   "description": "Builds Vision AI software for biometric identity, digital forensics and real-time video analytics sold to government and commercial organizations.",
+   "evidence": "Accordingly, the Company has determined it has one operating segment, which is its only reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for access to the company's software platforms, along with maintenance services and professional services, often bundled together.",
+  "evidence": "While the Company generates revenue in multiple ways (sale of access to its software platforms, maintenance services, and professional services), these services are often bundled and difficult to assess individually."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

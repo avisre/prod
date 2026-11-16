@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001491419",
  "issuerName": "LiveOne, Inc.",
- "builtAt": "2026-11-16T05:39:18.190Z",
+ "builtAt": "2026-11-16T11:03:10.278Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-021987",
@@ -10,11 +10,57 @@
   "filingDate": "2026-06-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1491419/000143774926021987/lvo20260331_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PodcastOne",
+   "products": [
+    "podcasts",
+    "LaunchpadOne",
+    "PodcastOne TV",
+    "Adori"
+   ],
+   "description": "Produces and distributes a network of podcasts and the LaunchpadOne self-publishing platform, monetized mainly through advertising.",
+   "evidence": "In addition to PodcastOne's core business, it also built, owns and operates a solution for the growing number of independent podcasters, LaunchpadOne."
+  },
+  {
+   "name": "Slacker",
+   "products": [
+    "LiveOne powered by Slacker",
+    "LiveOne App",
+    "digital Internet radio and music services"
+   ],
+   "description": "Runs membership and advertising-supported streaming music and digital Internet radio for listeners, automakers and mobile operators.",
+   "evidence": "a fully integrated membership and advertising streaming music service Slacker operating as LiveOne powered by Slacker"
+  },
+  {
+   "name": "Media Group",
+   "products": [
+    "Digital Live Events",
+    "On-premise Live Events",
+    "pay-per-view",
+    "LiveZone",
+    "personalized products"
+   ],
+   "description": "Holds the remaining subsidiaries, staging live music events and selling personalized merchandise and gifts to consumers and wholesalers.",
+   "evidence": "Our Audio Group consist of our PodcastOne and Slacker subsidiaries and our Media Group consists of our remaining subsidiaries"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Paid users, advertisers, sponsors and licensees pay for music and podcast services and content rights, while customers pay for live events and merchandise.",
+  "evidence": "We generate revenue through the sale of paid user services and advertising from our music offerings, from the licensing, advertising and sponsorship of our live music and podcast content rights and services, from our expanding pay-per-view offerings and from retail sales of merchandise and gifts."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024 the Company began reporting three operating segments: PodcastOne, Slacker and Media Group.",
+   "evidence": "Beginning in the second quarter of Fiscal 2024, management has determined that the Company has three operating segments (PodcastOne, Slacker and Media Group)."
+  },
+  {
+   "text": "In 2023 PodcastOne was spun out of the Company and listed on The NASDAQ Capital Market as a standalone public company.",
+   "evidence": "On September 8, 2023, PodcastOne completed a Qualified Event (as defined below) (its spin out from the Company to become a standalone publicly trading company) as a result of its direct listing on The NASDAQ Capital Market on such date (the \"Direct Listing\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

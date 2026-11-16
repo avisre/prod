@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001948455",
  "issuerName": "Ispire Technology Inc.",
- "builtAt": "2026-11-16T05:39:14.801Z",
+ "builtAt": "2026-11-16T11:00:29.547Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-100146",
@@ -10,10 +10,29 @@
   "filingDate": "2026-09-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1948455/000121390026100146/ea0304143-10k_ispire.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vaping hardware products",
+   "products": [
+    "Aspire",
+    "Ispire",
+    "Ispire ONE™",
+    "DuCore™",
+    "Cleito tank",
+    "BDC",
+    "BVC",
+    "Silica Series"
+   ],
+   "description": "Develops, designs and distributes branded and non-branded vaping hardware for nicotine and cannabis customers worldwide, plus nicotine pouch assembly on an OEM or ODM basis.",
+   "evidence": "We are engaged in the research and development, design, commercialization, sales, marketing and distribution of branded and non-branded vaping hardware products in both the nicotine and cannabis spaces, as well as the assembly of nicotine pouch products and other next-generation nicotine products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Global distributors buy Aspire-branded nicotine vaping hardware, while cannabis vapor companies and brand owners pay Ispire for ODM-designed hardware and nicotine pouch assembly.",
+  "evidence": "A majority of our nicotine products are marketed under the \"Aspire\" brand name and are sold primarily through our expansive distribution network, some products are also manufactured in Malaysia on an OEM or ODM for other customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

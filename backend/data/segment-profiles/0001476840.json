@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001476840",
  "issuerName": "EXPENSIFY, INC.",
- "builtAt": "2026-11-16T05:39:15.980Z",
+ "builtAt": "2026-11-16T11:01:11.693Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001476840-26-000009",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1476840/000147684026000009/exfy-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "expense management software",
+   "products": [
+    "expense management",
+    "SmartScan",
+    "Concierge",
+    "Expensify Card",
+    "corporate cards",
+    "bill payment",
+    "invoices",
+    "booking travel"
+   ],
+   "description": "A single cloud-based expense management platform serving employees and businesses of all sizes, from freelancers to large enterprises.",
+   "evidence": "Expensify is a leading cloud-based expense management software platform that helps the smallest to the largest businesses simplify the way they manage money."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Companies and their employees pay a subscription for access to every feature of the platform, from expense management to bill payment.",
+  "evidence": "Expensify is one platform, with one price that unlocks access to every feature on the platform, from expense management to bill payment."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001765850",
  "issuerName": "Prestige Wealth Inc.",
- "builtAt": "2026-11-16T05:39:19.113Z",
+ "builtAt": "2026-11-16T11:04:08.171Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-001478",
@@ -10,11 +10,35 @@
   "filingDate": "2026-01-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1765850/000121390026001478/ea0271640-20f_aurelion.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wealth management",
+   "products": [
+    "wealth management services",
+    "family affairs services",
+    "lifestyle management services",
+    "related value-added services"
+   ],
+   "description": "Provides wealth management, family affairs and lifestyle management services to high-net-worth clients while earning referral fees from brokers.",
+   "evidence": "The Group has one operating and reportable segment with one business activity – earning referral fee from brokers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Brokers pay the company referral fees for referring clients, part of its consolidated wealth management business.",
+  "evidence": "The Group has one operating and reportable segment with one business activity – earning referral fee from brokers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company agreed to sell its asset management business, including Prestige Assets International Inc. and three of its subsidiaries.",
+   "evidence": "On June 25, 2025, the Company entered into a definitive share purchase agreement pursuant to which the Company agreed to sell all of the issued and outstanding shares of Prestige Assets International Inc."
+  },
+  {
+   "text": "In 2024 the company ceased its regulated asset management business in Hong Kong.",
+   "evidence": "In July 2024, Prestige Asset Management Limited (\"PAM\"), a Hong Kong corporation previously wholly owned by us, submitted an application of cessation of business to the SFC"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

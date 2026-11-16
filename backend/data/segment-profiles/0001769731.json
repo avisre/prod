@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001769731",
  "issuerName": "AMTD IDEA GROUP",
- "builtAt": "2026-11-16T05:39:19.365Z",
+ "builtAt": "2026-11-16T11:04:02.187Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-049333",
@@ -10,11 +10,82 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1769731/000121390026049333/ea0286799-20f_amtdidea.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capital market solutions",
+   "products": [
+    "equity and debt financing",
+    "private placements",
+    "debt issuances",
+    "financial advisory services",
+    "asset management products and services"
+   ],
+   "description": "Assists corporate and institutional customers in raising funds and provides financial advisory and asset management services.",
+   "evidence": "The capital market solutions segment assists customers in raising funds through equity and debt financing, private placements and debt issuances, providing financial advisory services (including but not limited to domestic and cross border advisory services for merger and acquisitions) and providing asset management products and services."
+  },
+  {
+   "name": "Digital solutions and other services",
+   "products": [
+    "Digital solutions fee",
+    "Insurance brokerage services",
+    "investor communication",
+    "investor relations",
+    "corporate communication",
+    "digital financial solution services"
+   ],
+   "description": "Gives institutional and corporate clients paid access to investor communication and corporate communication, plus digital financial solutions.",
+   "evidence": "The digital solutions and other services segment provides its institutional and corporate clients with exclusive, paid access to enhance their investor communication, investor relations and corporate communication to potentially maximize their valuation, as well as provides digital financial solution services."
+  },
+  {
+   "name": "Media and entertainment",
+   "products": [
+    "print and digital advertising campaigns",
+    "licensing",
+    "value-added marketing services",
+    "branded content",
+    "video production",
+    "social media activation",
+    "event creation",
+    "experiential marketing"
+   ],
+   "description": "Produces print and digital advertising campaigns, licensing and value-added marketing services for brands and advertisers.",
+   "evidence": "Media and entertainment segment engages in the provision of print and digital advertising campaigns, licensing, and value-added marketing services including branded content, video production, social media activation, event creation, and experiential marketing, among other services."
+  },
+  {
+   "name": "Hotel operations, hospitality and VIP services",
+   "products": [
+    "hotel investments",
+    "hotel operations",
+    "hospitality and VIP services",
+    "Hotel operations, hospitality and VIP services income"
+   ],
+   "description": "Owns and operates hotels and provides hospitality and VIP services to hotel guests.",
+   "evidence": "Hotel operations, hospitality and VIP services segment engages in hotel investments, hotel operations, hospitality and VIP services."
+  },
+  {
+   "name": "Strategic investment",
+   "products": [
+    "proprietary investments",
+    "management of global investment portfolio",
+    "listed and unlisted equity shares investments",
+    "movie right investments"
+   ],
+   "description": "Invests its own capital in a global portfolio of listed and unlisted shares and movie rights.",
+   "evidence": "The strategic investment segment engages in proprietary investments and management of global investment portfolio (including listed and unlisted equity shares investments and movie right investments)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay fees for capital market, digital, media and hotel services, and the company also earns dividends and fair value gains on its investment portfolio.",
+  "evidence": "Our revenue from contracts with customers increased by 7.1% from US$45.4 million in 2024 to US$48.6 million in 2025, primarily due to an additional contribution recognized from our hotel operations, hospitality and VIP services during the year ended December 31, 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the group disposed of subsidiaries in the media and entertainment segment to divest non-core intellectual properties.",
+   "evidence": "The Group disposed the entire equity interests in certain subsidiaries which engaged in the media and entertainment segment with a consideration of Euro 2,888,000 to an independent third party."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

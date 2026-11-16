@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001120370",
  "issuerName": "BROADWIND, INC.",
- "builtAt": "2026-11-16T05:39:18.342Z",
+ "builtAt": "2026-11-16T11:03:08.823Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-007742",
@@ -10,11 +10,53 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1120370/000143774926007742/bwen20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Heavy Fabrications",
+   "products": [
+    "Wind Towers/Adapters",
+    "Pressure Reducing Systems"
+   ],
+   "description": "Makes large, complex precision steel fabrications, mainly wind towers and repowering adapters, for wind turbine manufacturers and industrial customers.",
+   "evidence": "Our most significant presence is within the U.S. wind energy industry where we provide steel towers and repowering adapters primarily to wind turbine manufacturers."
+  },
+  {
+   "name": "Gearing",
+   "products": [
+    "Loose Gearing",
+    "Custom Gearboxes",
+    "Gearbox Repair",
+    "Heat Treat Services",
+    "Precision Machining"
+   ],
+   "description": "Produces gearing, gearboxes and precision machined components and provides gearbox repair for power generation, oil and gas, mining and other industrial customers.",
+   "evidence": "We provide gearing, gearboxes and precision machined components to a broad set of customers in diverse markets including; power generation, onshore and offshore oil and gas (\"O&G\") fracking and drilling, material handling, wind energy, surface and underground mining, steel, infrastructure, marine, defense, and other industrial markets."
+  },
+  {
+   "name": "Industrial Solutions",
+   "products": [
+    "Supply Chain Solutions",
+    "Inventory Management",
+    "Kitting and Assembly",
+    "Solar Inverter Racks",
+    "Solar Powered Shelters/Charging Stations"
+   ],
+   "description": "Provides supply chain, kitting, assembly and light fabrication solutions, mainly to combined cycle natural gas turbine and wind power customers.",
+   "evidence": "We provide supply chain solutions, light fabrication, inventory management, kitting and assembly services, primarily serving the combined cycle natural gas turbine market."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Wind turbine manufacturers, gas turbine, oil and gas, mining and other industrial customers pay for fabrications, gearing and supply chain solutions.",
+  "evidence": "We manufacture products for a variety of customers in the wind energy, O&G, gas turbine, mining, and other industrial markets."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its industrial fabrication operations in Manitowoc, Wisconsin and consolidated the remaining Heavy Fabrications operations in Abilene, Texas.",
+   "evidence": "We streamlined our operations within this segment during the year ended December 31, 2025, selling our industrial fabrication operations in Manitowoc, Wisconsin in September 2025 and consolidating our remaining segment operations to our production facility in Abilene, Texas."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

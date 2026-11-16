@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001176334",
  "issuerName": "MARTIN MIDSTREAM PARTNERS L.P.",
- "builtAt": "2026-11-16T05:39:17.365Z",
+ "builtAt": "2026-11-16T11:02:36.097Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001176334-26-000012",
@@ -10,10 +10,62 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1176334/000117633426000012/mmlp-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Terminalling and Storage",
+   "products": [
+    "naphthenic lubricants",
+    "distillates",
+    "asphalt",
+    "other intermediates",
+    "lubricants",
+    "fuels"
+   ],
+   "description": "Owns and operates marine, specialty and underground terminals plus a naphthenic refinery, providing storage, refining and handling services for producers and suppliers of petroleum products.",
+   "evidence": "The Terminalling and Storage segment generates revenue by providing terminalling, processing, and storage services for petroleum products and by-products."
+  },
+  {
+   "name": "Transportation",
+   "products": [
+    "refinery and petrochemical services",
+    "heavy tank bottoms",
+    "NGLs",
+    "molten sulfur",
+    "sulfuric acid",
+    "paper mill liquids",
+    "chemicals"
+   ],
+   "description": "Runs land truck and tank trailer fleets and inland marine barges and push boats hauling petroleum products, petrochemicals and chemicals for refinery and chemical customers.",
+   "evidence": "The Transportation segment earns revenue by offering land and marine transportation services for petroleum products, by-products, chemicals, and specialty products."
+  },
+  {
+   "name": "Sulfur Services",
+   "products": [
+    "molten sulfur",
+    "prilled or pelletized sulfur",
+    "sulfur-based fertilizer products",
+    "emulsified sulfur"
+   ],
+   "description": "Processes, manufactures, markets and distributes sulfur and sulfur-based fertilizer products for wholesale distributors and industrial users from Gulf Coast, Texas and Illinois plants.",
+   "evidence": "The Sulfur Services segment generates revenue by providing processing, manufacturing, marketing, and distribution services for sulfur and sulfur-based products."
+  },
+  {
+   "name": "Specialty Products",
+   "products": [
+    "private label agricultural, automotive, and industrial lubricants",
+    "commercial and industrial greases",
+    "NGLs"
+   ],
+   "description": "Blends and packages private label lubricants and greases and markets, distributes and transports NGLs to industrial users and propane retailers.",
+   "evidence": "The Specialty Products segment earns revenue by providing marketing, distribution, and transportation services for NGLs as well as blending and packaging services for specialty lubricants and greases."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay fixed tank fees, throughput and tolling fees, mileage and trip rates, and product prices for sulfur, NGLs, lubricants and greases.",
+  "evidence": "Storage revenue is earned through contracted monthly tank fixed fees, while throughput revenue is based on the volume moved through the Partnership's terminals at contracted rates."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

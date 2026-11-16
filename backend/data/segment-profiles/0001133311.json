@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001133311",
  "issuerName": "Travelzoo",
- "builtAt": "2026-11-16T05:39:16.506Z",
+ "builtAt": "2026-11-16T11:01:38.434Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001133311-26-000005",
@@ -10,10 +10,61 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1133311/000113331126000005/tzoo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Travelzoo North America",
+   "products": [
+    "Travelzoo website",
+    "Travelzoo iOS and Android apps",
+    "Top 20® email newsletter",
+    "Standalone email newsletters",
+    "Travelzoo Network",
+    "Local Deals",
+    "Getaways"
+   ],
+   "description": "Runs Travelzoo's club and advertising operations in the United States and Canada, selling offers to travel enthusiasts and advertising to travel businesses.",
+   "evidence": "Travelzoo North America consists of the Company's operations in the U.S. and Canada."
+  },
+  {
+   "name": "Travelzoo Europe",
+   "products": [
+    "Travelzoo website",
+    "Travelzoo iOS and Android apps",
+    "Top 20® email newsletter",
+    "Standalone email newsletters",
+    "Travelzoo Network",
+    "Local Deals",
+    "Getaways"
+   ],
+   "description": "Runs Travelzoo's club and advertising operations in France, Germany, Spain and the UK for travel enthusiasts and travel advertisers.",
+   "evidence": "Travelzoo Europe consists of the Company's operations in France, Germany, Spain, and the UK."
+  },
+  {
+   "name": "Jack's Flight Club",
+   "products": [
+    "Jack's Flight Club subscription",
+    "flight deals"
+   ],
+   "description": "Sells subscriptions to premium members who receive exceptional airfare deals by email and mobile applications.",
+   "evidence": "Jack's Flight Club consists of subscription revenue from premium members to access and receive flight deals via email or mobile applications."
+  },
+  {
+   "name": "New Initiatives",
+   "products": [
+    "Travelzoo META subscription service",
+    "MTE",
+    "licensing business"
+   ],
+   "description": "Houses the licensing business, the Travelzoo META subscription service and MTE's retail operations as newer ventures.",
+   "evidence": "New Initiatives consists of Travelzoo's licensing business, the Travelzoo META subscription service and MTE."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Travel companies and local businesses pay advertising and publishing fees, while members pay membership and subscription fees for club offers and flight deals.",
+  "evidence": "The Company generates revenue from advertising and commerce, membership fees, and other sources."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

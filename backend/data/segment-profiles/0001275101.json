@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001275101",
  "issuerName": "BANK OF THE JAMES FINANCIAL GROUP, INC.",
- "builtAt": "2026-11-16T05:39:16.537Z",
+ "builtAt": "2026-11-16T11:01:29.813Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001275101-26-000010",
@@ -10,10 +10,46 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1275101/000127510126000010/botj-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "commercial loans",
+    "real estate loans",
+    "other business financing",
+    "consumer loans",
+    "demand deposit accounts",
+    "savings accounts",
+    "certificates of deposit"
+   ],
+   "description": "Provides traditional banking services including loans, deposits, investments and insurance to retail and commercial customers in Central Virginia.",
+   "evidence": "This segment operates through Bank of the James, providing traditional banking services including loans, deposits, investments, and insurance to retail and commercial customers throughout Region 2000 and other Central Virginia areas."
+  },
+  {
+   "name": "Mortgage Banking",
+   "products": [
+    "residential mortgage loans",
+    "residential mortgages"
+   ],
+   "description": "Originates residential mortgage loans and sells them into the secondary market through pre-arranged purchase commitments.",
+   "evidence": "The mortgage segment originates residential mortgage loans primarily within the Region 2000, Charlottesville, and Roanoke markets."
+  },
+  {
+   "name": "Investment Advisory (Wealth Management)",
+   "products": [
+    "investment advisory and financial planning services",
+    "investment management"
+   ],
+   "description": "Provides investment advisory and financial planning services for a fee through its wholly-owned subsidiary Pettyjohn, Wood & White.",
+   "evidence": "This segment provides investment advisory and financial planning services through Pettyjohn, Wood & White, Inc., a wholly-owned subsidiary."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for loans and deposits, for mortgage loan sales, and through client advisory fees on assets under management.",
+  "evidence": "The primary revenue source is net interest income from lending and deposit-taking activities."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

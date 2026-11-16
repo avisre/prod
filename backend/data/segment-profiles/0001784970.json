@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001784970",
  "issuerName": "NEXT TECHNOLOGY HOLDING INC",
- "builtAt": "2026-11-16T05:39:16.956Z",
+ "builtAt": "2026-11-16T11:02:07.891Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037199",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1784970/000121390026037199/ea0283927-10k_next.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI-enabled software development",
+   "products": [
+    "Smart Cloud Collaboration Platform",
+    "AI-Enabled Data Analytics and Decision Support",
+    "Fully Automated Workflow",
+    "Comprehensive Security and Compliance Assurance",
+    "Personalized Customer Relationship Management (CRM)",
+    "AI Optimization for Supply Chain and Inventory Management"
+   ],
+   "description": "Provides AI-enabled software development services, including SaaS platforms for collaboration, analytics and workflow automation, to enterprises across Asia.",
+   "evidence": "The Company operates as a single reportable segment, which is consistent with how the Chief Operating Decision Maker (\"CODM\"), the Chief Executive Officer , allocates resources and assesses performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers in Hong Kong, Singapore, Malaysia, Japan and other Asian countries pay for customized and entrusted AI-enabled software development projects.",
+  "evidence": "We provide artificial intelligence (\"AI\") enabled software development services to our customers in Hong Kong, Singapore, Malaysia, Japan, and other Asian countries"
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company terminated all operations in the PRC and dissolved its Shanghai subsidiary, moving software development services to overseas markets.",
+   "evidence": "In July 2024, the Company proceeded to dissolve its subsidiary \"WeTrade Technology (Shanghai) Co., Ltd.\", in the PRC."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

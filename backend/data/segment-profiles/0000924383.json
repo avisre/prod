@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000924383",
  "issuerName": "GENASYS INC.",
- "builtAt": "2026-11-16T05:39:19.740Z",
+ "builtAt": "2026-11-16T11:04:26.166Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-25-319294",
@@ -10,10 +10,36 @@
   "filingDate": "2025-12-15",
   "url": "https://www.sec.gov/Archives/edgar/data/924383/000119312525319294/gnss-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hardware",
+   "products": [
+    "LRAD by Genasys hardware products",
+    "LRAD",
+    "AHDs",
+    "advanced mass notification speakers"
+   ],
+   "description": "Builds and sells LRAD acoustic hailing devices and mass notification speakers to governments, militaries and law enforcement for warning and de-escalation.",
+   "evidence": "LRAD products provide audible voice messages with exceptional vocal clarity from close range out to 5,000 meters."
+  },
+  {
+   "name": "Software",
+   "products": [
+    "Genasys Protect software platform",
+    "Genasys Protect",
+    "Genasys Protect alerting and evacuation management software services",
+    "AI-powered traffic management solutions by Ladris"
+   ],
+   "description": "Provides the Genasys Protect software platform for emergency warning, mass notification and critical event management to governments and enterprises.",
+   "evidence": "Genasys Protect is a comprehensive portfolio of Protective Communications software and hardware systems serving federal governments and agencies; SLED; and enterprise organizations in sectors including, but not limited to, oil and gas, utilities, manufacturing, automotive, and healthcare."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Governments, militaries, large end-users, system integrators and resellers pay for LRAD hardware and Genasys Protect software through direct sales and a distribution channel.",
+  "evidence": "In executing our strategy, we use direct sales to governments, militaries, large end-users, system integrators, and prime vendors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001034760",
  "issuerName": "WidePoint Corporation",
- "builtAt": "2026-11-16T05:39:18.698Z",
+ "builtAt": "2026-11-16T11:03:14.192Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001654954-26-002749",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1034760/000165495426002749/wyy_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "WidePoint",
+   "products": [
+    "Identity Management (IdM)",
+    "secure Mobility Managed Services (MMS)",
+    "Telecom Lifecycle Management",
+    "Digital Billing & Analytics",
+    "IT as a service (ITaaS)"
+   ],
+   "description": "Provides managed services to government and commercial clients, including identity management, mobile managed services, telecom lifecycle management, digital billing analytics and IT as a service.",
+   "evidence": "This single segment represents our Company's business, WidePoint, which is providing managed services for government and commercial clients that include Identity Management (IdM), secure Mobility Managed Services (MMS), Telecom Lifecycle Management, Digital Billing & Analytics and IT as a service (ITaaS)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Government and commercial enterprises pay for managed services and carrier services, including communications carrier invoices procured and paid on their behalf.",
+  "evidence": "We sell service solutions to government and business enterprises."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

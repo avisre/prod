@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001582982",
  "issuerName": "CareCloud, Inc.",
- "builtAt": "2026-11-16T05:39:19.053Z",
+ "builtAt": "2026-11-16T11:03:47.747Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-009872",
@@ -10,10 +10,37 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1582982/000149315226009872/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare IT",
+   "products": [
+    "Revenue Cycle Management",
+    "Medical coding and credentialing services",
+    "Healthcare claims clearinghouse",
+    "Electronic Health Records",
+    "Practice Management",
+    "RCM Cloud",
+    "HealthLine",
+    "Marketware"
+   ],
+   "description": "Provides technology-enabled revenue cycle management, cloud software and digital health solutions to healthcare providers, hospitals and health systems.",
+   "evidence": "The Company views its operations as comprising two operating segments, Healthcare IT and Medical Practice Management."
+  },
+  {
+   "name": "Medical Practice Management",
+   "products": [
+    "Medical practice management services"
+   ],
+   "description": "Provides medical practice management services, including facilities, equipment, supplies, nurses and administrative support staff, to medical practices.",
+   "evidence": "The Company has determined that its business consists of two operating segments and two reporting units (Healthcare IT and Medical Practice Management)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Healthcare providers pay the company for technology-enabled revenue cycle management, cloud-based software and medical practice management services.",
+  "evidence": "We provide technology-enabled revenue cycle management and a full suite of proprietary cloud-based solutions to healthcare providers, from small practices to enterprise medical groups, hospitals, and health systems throughout the United States and certain other locations."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

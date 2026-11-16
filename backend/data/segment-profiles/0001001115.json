@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001001115",
  "issuerName": "GEOSPACE TECHNOLOGIES CORP",
- "builtAt": "2026-11-16T05:39:15.014Z",
+ "builtAt": "2026-11-16T11:00:48.965Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-25-036009",
@@ -10,11 +10,59 @@
   "filingDate": "2025-11-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1001115/000143774925036009/geos20250930_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Smart Water",
+   "products": [
+    "Hydroconn® smart water connectivity offerings",
+    "Aquana products",
+    "Hydroconn® connector cables",
+    "remote disconnect values",
+    "water IoT platform"
+   ],
+   "description": "Provides water connectivity, leak and burst monitoring and remote shutoff products to water utilities and multi-family and commercial property managers.",
+   "evidence": "This business segment contains the highly successful Hydroconn® smart water connectivity offerings along with the Aquana products."
+  },
+  {
+   "name": "Energy Solutions",
+   "products": [
+    "wireless seismic data acquisition systems",
+    "reservoir characterization products and services",
+    "geophones",
+    "hydrophones",
+    "leader wire",
+    "connectors",
+    "Pioneer™",
+    "Mariner®"
+   ],
+   "description": "Supplies wireless and ocean bottom seismic acquisition systems, sensors and reservoir monitoring products to seismic contractors and oil and gas operators.",
+   "evidence": "This segment's products include wireless seismic data acquisition systems, reservoir characterization products and services, and traditional seismic exploration products such as geophones, hydrophones, leader wire, connectors, cables and various other seismic products."
+  },
+  {
+   "name": "Intelligent Industrial",
+   "products": [
+    "industrial sensors",
+    "electronic pre-press solutions",
+    "specialized contract manufacturing",
+    "SADAR®",
+    "Heartbeat Detector®"
+   ],
+   "description": "Sells industrial sensors, imaging and electronic pre-press products and contract manufacturing services to industrial, printing, government and security customers.",
+   "evidence": "Our Intelligent Industrial segment consists of industrial sensors, electronic pre-press solutions and specialized contract manufacturing."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for product purchases, equipment rentals and services, with seismic contractors the primary buyers of seismic acquisition equipment.",
+  "evidence": "Revenue from these products results primarily from seismic contractors purchasing our products as components of new seismic data acquisition systems or to repair and replace components of seismic data acquisition systems already in use."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company changed the composition of its three operating business segments and its manufacturing cost allocation methodology.",
+   "evidence": "Effective October 1, 2024, the Company changed the composition of its three operating business segments and changed its methodology for allocating manufacturing costs including overhead and other costs of revenue to the segments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

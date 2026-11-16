@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001927719",
  "issuerName": "Freightos Ltd",
- "builtAt": "2026-11-16T05:39:14.993Z",
+ "builtAt": "2026-11-16T11:01:18.324Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-034941",
@@ -10,10 +10,40 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1927719/000110465926034941/crgo-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solutions",
+   "products": [
+    "software-as-a-service offerings",
+    "FBX",
+    "FAX",
+    "custom market pricing data reports",
+    "ocean freight rate management, quoting and booking solution",
+    "tender procurement and negotiation tool",
+    "data ingestion",
+    "customization"
+   ],
+   "description": "Sells recurring software and data subscriptions, plus professional services, to freight forwarders and enterprise shippers to automate pricing, quoting, sales and procurement.",
+   "evidence": "This segment also includes subscriptions to our data products, such as FBX, FAX and custom market pricing data reports, which are priced per unit of time based on the number of users, granularity of data, number of data points and permitted data usage."
+  },
+  {
+   "name": "Platform",
+   "products": [
+    "freightos.com",
+    "WebCargo by Freightos Book",
+    "customs brokerage solution",
+    "insurance"
+   ],
+   "description": "Operates a freight marketplace where importers, exporters and forwarders compare and book ocean and air shipping from carriers and other sellers.",
+   "evidence": "In our Platform segment, we generate revenue from facilitating transactions between Buyers and Sellers on our Platform based on flat fees per transaction and/or fees that are a percentage of transaction value."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Freight forwarders, shippers and carriers pay recurring subscription and data fees, plus per-transaction booking fees on the marketplace platform.",
+  "evidence": "Buyers typically pay for access to, and the ability to compare, prices, shipping options and historical performance across multiple Sellers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

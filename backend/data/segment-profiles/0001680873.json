@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001680873",
  "issuerName": "HF FOODS GROUP INC.",
- "builtAt": "2026-11-16T05:39:14.818Z",
+ "builtAt": "2026-11-16T11:00:31.272Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001680873-26-000015",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1680873/000168087326000015/hffg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HF Foods",
+   "products": [
+    "meat and poultry",
+    "fresh produce",
+    "frozen seafood",
+    "general commodities",
+    "packaging and other non-food products"
+   ],
+   "description": "Distributes fresh produce, frozen and dry food and non-food products to Asian restaurants and other foodservice customers across the United States.",
+   "evidence": "The Company's business consists of one operating segment, which is also its one reportable segment: HF Foods, which operates solely in the United States, offers specialty restaurant foods and supplies to its customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Asian restaurants and other foodservice customers pay for food and non-food products delivered through a high-frequency distribution model.",
+  "evidence": "The Company operates solely in the United States and derives revenues by providing sales of food and non-food to customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

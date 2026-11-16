@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001055726",
  "issuerName": "INOVIO PHARMACEUTICALS, INC.",
- "builtAt": "2026-11-16T05:39:16.618Z",
+ "builtAt": "2026-11-16T11:02:05.548Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001055726-26-000008",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1055726/000105572626000008/ino-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DNA medicines",
+   "products": [
+    "INO-3107",
+    "INO-3112",
+    "CELLECTRA devices",
+    "DNA plasmids",
+    "DMAb",
+    "DPROT"
+   ],
+   "description": "Clinical-stage biotechnology company developing and commercializing DNA medicines delivered by CELLECTRA devices to treat HPV-associated diseases, cancer and infectious diseases.",
+   "evidence": "The Company operates as one reportable segment in the United States, which includes all activities related to the development and commercialization of its DNA medicines to help treat and protect people from HPV-associated diseases, cancer and infectious diseases."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Revenue is earned from a collaborative arrangement rather than from sales of commercial products.",
+  "evidence": "Revenue from collaborative arrangement $ 65,343 $ 217,756"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

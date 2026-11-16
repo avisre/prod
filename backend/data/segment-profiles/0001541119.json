@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001541119",
  "issuerName": "Sound Financial Bancorp, Inc.",
- "builtAt": "2026-11-16T05:39:16.855Z",
+ "builtAt": "2026-11-16T11:01:38.001Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001541119-26-000008",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1541119/000154111926000008/sfbc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking Segment",
+   "products": [
+    "home equity loans and lines of credit",
+    "commercial and multifamily real estate",
+    "construction and land",
+    "consumer and commercial business loans",
+    "manufactured home loans",
+    "floating home loans",
+    "automobile loans",
+    "boat loans and recreational vehicle loans"
+   ],
+   "description": "A Washington-chartered commercial bank gathering deposits and lending to retail and commercial customers in its Puget Sound market area.",
+   "evidence": "The Company has evaluated its operations and identified that it has one reportable business segment: the Banking Segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and customers pay fees for banking and insurance services the bank provides.",
+  "evidence": "Loans and investments are the primary sources of revenues in the Banking Segment."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
