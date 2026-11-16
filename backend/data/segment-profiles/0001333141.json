@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001333141",
+ "issuerName": "FRESENIUS MEDICAL CARE AG",
+ "builtAt": "2026-11-16T04:51:04.156Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-019005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1333141/000110465926019005/fms-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

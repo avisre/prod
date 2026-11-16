@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002071668",
+ "issuerName": "Magnum Ice Cream Co N.V.",
+ "builtAt": "2026-11-16T04:51:05.719Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-029805",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/2071668/000110465926029805/micc-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

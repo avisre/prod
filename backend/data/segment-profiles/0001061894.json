@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001061894",
+ "issuerName": "GILDAN ACTIVEWEAR INC.",
+ "builtAt": "2026-11-16T04:51:04.448Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001061894-26-000006",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1061894/000106189426000006/exhibit991-mdax2025.htm",
+  "exhibit": "exhibit991-mdax2025.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

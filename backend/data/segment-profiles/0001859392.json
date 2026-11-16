@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001859392",
+ "issuerName": "Galaxy Digital Inc.",
+ "builtAt": "2026-11-16T04:51:04.173Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001859392-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000016/glxy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Assets",
+   "products": [
+    "staking",
+    "margin-based financing",
+    "active exchange-traded-funds"
+   ],
+   "description": "Provides digital asset trading, staking and financing.",
+   "evidence": "Our Digital Assets operating business segment provides new products and capabilities such as staking, margin-based financing and active exchange-traded-funds."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutions pay trading, staking and financing fees.",
+  "evidence": "We developed a suite of financial products and services tailored for institutions looking to allocate capital to the digital asset space."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

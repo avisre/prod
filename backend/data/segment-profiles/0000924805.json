@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000924805",
+ "issuerName": "FREEDOM HOLDING CORP.",
+ "builtAt": "2026-11-16T04:51:07.928Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000924805-26-000012",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/924805/000092480526000012/frhc-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brokerage",
+   "products": [
+    "brokerage services"
+   ],
+   "description": "Provides securities brokerage.",
+   "evidence": "As a result, we have realigned our reportable segments into the following four segments: Brokerage, Banking, Insurance, and"
+  },
+  {
+   "name": "Banking",
+   "products": [
+    "banking services"
+   ],
+   "description": "Runs its bank.",
+   "evidence": "As a result, we have realigned our reportable segments into the following four segments: Brokerage, Banking, Insurance, and"
+  },
+  {
+   "name": "Insurance",
+   "products": [],
+   "description": "Writes insurance.",
+   "evidence": "As a result, we have realigned our reportable segments into the following four segments: Brokerage, Banking, Insurance, and"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay commissions, interest and premiums.",
+  "evidence": "From the beginning of calendar 2024, our Chief Executive Officer, Chief Financial Officer and President, who collectively act as our chief operating decision maker (CODM), began to manage our business, make operating decisions, and evaluate operating performance on the basis of a new segmental structure."
+ },
+ "changes": [
+  {
+   "text": "Realigned into four segments, including Brokerage, Banking and Insurance, from the start of 2024.",
+   "evidence": "As a result, we have realigned our reportable segments into the following four segments: Brokerage, Banking, Insurance, and"
+  }
+ ],
+ "dropped": [
+  "product not in text (Insurance): insurance"
+ ],
+ "reader": "agent"
+}

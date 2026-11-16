@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001329394",
+ "issuerName": "Silicon Motion Technology Corporation",
+ "builtAt": "2026-11-16T04:51:05.484Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-197184",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1329394/000119312526197184/d17718d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Silicon Motion",
+   "products": [
+    "flash controllers"
+   ],
+   "description": "Sells flash memory controllers.",
+   "evidence": "The Company currently operates as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Flash makers and module vendors buy its controllers.",
+  "evidence": "The Chief Operating Decision Maker (\"CODM\") is the Chief Executive Officer, who is directly involved in the Company's operations and product development."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

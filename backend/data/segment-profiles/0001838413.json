@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001838413",
  "issuerName": "Full Truck Alliance Co. Ltd.",
- "builtAt": "2026-11-15T14:15:26.191Z",
+ "builtAt": "2026-11-16T04:51:06.645Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-153778",
@@ -15,7 +15,6 @@
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Freight matching platform"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

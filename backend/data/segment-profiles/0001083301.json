@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001083301",
+ "issuerName": "TERAWULF INC.",
+ "builtAt": "2026-11-16T04:51:03.843Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001083301-26-000031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Asset Mining",
+   "products": [
+    "hash computation services"
+   ],
+   "description": "Mines bitcoin for a pool operator.",
+   "evidence": "Segment Reporting The Company has two operating segments: \"Digital Asset Mining,\" consisting of providing hash computation services to a mining pool operator and \"HPC Leasing,\" consisting of providing high-density colocation services to third parties for HPC operations"
+  },
+  {
+   "name": "HPC Leasing",
+   "products": [
+    "high-density colocation services"
+   ],
+   "description": "Leases data centre capacity for HPC.",
+   "evidence": "Segment Reporting The Company has two operating segments: \"Digital Asset Mining,\" consisting of providing hash computation services to a mining pool operator and \"HPC Leasing,\" consisting of providing high-density colocation services to third parties for HPC operations"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "A pool pays for hashing; HPC customers pay for colocation.",
+  "evidence": "Segment Reporting The Company has two operating segments: \"Digital Asset Mining,\" consisting of providing hash computation services to a mining pool operator and \"HPC Leasing,\" consisting of providing high-density colocation services to third parties for HPC operations"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

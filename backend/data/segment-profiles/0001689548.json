@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001689548",
+ "issuerName": "PRAXIS PRECISION MEDICINES, INC.",
+ "builtAt": "2026-11-16T04:51:05.512Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001689548-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954826000029/prax-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Praxis",
+   "products": [
+    "therapies"
+   ],
+   "description": "Discovers and develops therapies for CNS disorders.",
+   "evidence": "Segment Information The Company has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "The Company's operating segment discovers and develops therapies for CNS disorders."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001579428",
+ "issuerName": "AXSOME THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T04:51:03.890Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064267",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312526064267/axsm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Axsome",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops and sells medicines for CNS conditions.",
+   "evidence": "Segment Information The Company views its operations and manages its business as one operating and reportable segment, which is the business of devel"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "Segment Information The Company views its operations and manages its business as one operating and reportable segment, which is the business of devel"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

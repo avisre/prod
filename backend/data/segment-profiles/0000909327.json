@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000909327",
+ "issuerName": "Suzano S.A.",
+ "builtAt": "2026-11-16T04:51:04.993Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000909327-26-000045",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/909327/000090932726000045/suz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pulp and Paper",
+   "products": [
+    "eucalyptus pulp",
+    "paper products"
+   ],
+   "description": "Makes eucalyptus pulp and paper.",
+   "evidence": "Pulp and Paper We manufacture a diverse range of eucalyptus pulp and paper products, including pulp utilized in our paper production processes and market pulp."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Paper makers and converters buy its pulp and paper.",
+  "evidence": "Pulp and Paper We manufacture a diverse range of eucalyptus pulp and paper products, including pulp utilized in our paper production processes and market pulp."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

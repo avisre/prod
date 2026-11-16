@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001159152",
+ "issuerName": "JAMES HARDIE INDUSTRIES plc",
+ "builtAt": "2026-11-16T04:51:03.824Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001159152-26-000045",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1159152/000115915226000045/jhx-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Siding & Trim",
+   "products": [
+    "PVC siding and trim products",
+    "mouldings",
+    "interior linings",
+    "accessories"
+   ],
+   "description": "Makes siding, trim and interior lining products.",
+   "evidence": "4 Table of Contents Business Segments and Products Siding & Trim Our Siding & Trim reportable segment manufactures fiber cement and PVC siding and trim products, as well as mouldings, interior linings, and accessories in the United State"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Builders, dealers and distributors buy its building products.",
+  "evidence": "Our products are engineered for beauty, durability and climate resilience, and include trusted brands like Hardie ® , TimberTech ® , AZEK ® Exteriors, Versatex ® , fermacell ® and StruXure ® ."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Siding & Trim): fiber cement siding and trim products"
+ ],
+ "reader": "agent"
+}

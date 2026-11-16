@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001800667",
+ "issuerName": "JFrog Ltd.",
+ "builtAt": "2026-11-16T04:51:07.091Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-051382",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1800667/000119312526051382/frog-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "JFrog",
+   "products": [
+    "self-managed subscriptions",
+    "SaaS subscriptions"
+   ],
+   "description": "Sells software supply chain platform subscriptions.",
+   "evidence": "The Company has determined that it has one operating segment and one reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Developers and enterprises pay subscription fees.",
+  "evidence": "Revenue Recognition The Company's revenues are comprised of revenue from self-managed subscriptions and SaaS subscriptions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

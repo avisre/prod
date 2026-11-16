@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0001131383",
+ "issuerName": "STANTEC INC.",
+ "builtAt": "2026-11-16T04:51:07.279Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001131383-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1131383/000113138326000007/ex-992xmda2025.htm",
+  "exhibit": "ex-992xmda2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure",
+   "products": [
+    "professional services"
+   ],
+   "description": "Provides infrastructure engineering services.",
+   "evidence": "We offer services in various sectors across the project life cycle through five business operating units (BOUs): Infrastructure, Water, Buildings, Environmental Services, and Energy & Resources."
+  },
+  {
+   "name": "Water",
+   "products": [
+    "professional services"
+   ],
+   "description": "Provides water engineering services.",
+   "evidence": "We offer services in various sectors across the project life cycle through five business operating units (BOUs): Infrastructure, Water, Buildings, Environmental Services, and Energy & Resources."
+  },
+  {
+   "name": "Buildings",
+   "products": [
+    "professional services"
+   ],
+   "description": "Provides building engineering services.",
+   "evidence": "We offer services in various sectors across the project life cycle through five business operating units (BOUs): Infrastructure, Water, Buildings, Environmental Services, and Energy & Resources."
+  },
+  {
+   "name": "Environmental Services",
+   "products": [],
+   "description": "Provides environmental engineering services.",
+   "evidence": "We offer services in various sectors across the project life cycle through five business operating units (BOUs): Infrastructure, Water, Buildings, Environmental Services, and Energy & Resources."
+  },
+  {
+   "name": "Energy & Resources",
+   "products": [
+    "professional services"
+   ],
+   "description": "Provides energy and resources engineering services.",
+   "evidence": "We offer services in various sectors across the project life cycle through five business operating units (BOUs): Infrastructure, Water, Buildings, Environmental Services, and Energy & Resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Public and private clients pay fees for design and project services.",
+  "evidence": "We provide professional services in all phases of the project life cycle: planning, design, construction administration, commissioning, maintenance, decommissioning, and remediation."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Environmental Services): environmental services"
+ ],
+ "reader": "agent"
+}

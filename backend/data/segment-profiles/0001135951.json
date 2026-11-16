@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001135951",
+ "issuerName": "DR. REDDY’S LABORATORIES LIMITED",
+ "builtAt": "2026-11-16T04:51:04.361Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001575872-26-000381",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1135951/000157587226000381/rdy0899_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Generics",
+   "products": [
+    "prescription and over-the-counter finished pharmaceutical products",
+    "branded formulations",
+    "generic finished dosages"
+   ],
+   "description": "Sells generic and branded finished medicines.",
+   "evidence": "Our reportable operating segments are as follows: · Global Generics; · Pharmaceutical Services and Active Ingredients (\"PSAI\"); and · Others."
+  },
+  {
+   "name": "Pharmaceutical Services and Active Ingredients",
+   "products": [
+    "active ingredients",
+    "pharmaceutical services"
+   ],
+   "description": "Makes active ingredients and provides pharma services.",
+   "evidence": "Our reportable operating segments are as follows: · Global Generics; · Pharmaceutical Services and Active Ingredients (\"PSAI\"); and · Others."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Holds other operations.",
+   "evidence": "Our reportable operating segments are as follows: · Global Generics; · Pharmaceutical Services and Active Ingredients (\"PSAI\"); and · Others."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and distributors buy its medicines and ingredients.",
+  "evidence": "This segment consists of our business of manufacturing and marketing prescription and over-the-counter finished pharmaceutical products ready for consumption by the patient, marketed under a brand name (branded formulations) or as generic finished dosages with therapeutic equivalence to"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

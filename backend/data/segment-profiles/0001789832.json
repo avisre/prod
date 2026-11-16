@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001789832",
+ "issuerName": "Hess Midstream LP",
+ "builtAt": "2026-11-16T04:51:09.691Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071592",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1789832/000119312526071592/hesm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "gathering",
+   "products": [],
+   "description": "Gathers natural gas and crude.",
+   "evidence": "Operating Segments We conduct our business through three operating segments: (i) gathering, (ii) processing and storage and (iii) terminaling and export."
+  },
+  {
+   "name": "processing and storage",
+   "products": [
+    "processing",
+    "storage"
+   ],
+   "description": "Processes and stores gas and NGLs.",
+   "evidence": "Operating Segments We conduct our business through three operating segments: (i) gathering, (ii) processing and storage and (iii) terminaling and export."
+  },
+  {
+   "name": "terminaling and export",
+   "products": [
+    "terminaling",
+    "export"
+   ],
+   "description": "Terminals and exports products.",
+   "evidence": "Operating Segments We conduct our business through three operating segments: (i) gathering, (ii) processing and storage and (iii) terminaling and export."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Producers pay gathering, processing and terminaling fees.",
+  "evidence": "Operating Segments We conduct our business through three operating segments: (i) gathering, (ii) processing and storage and (iii) terminaling and export."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (gathering): gathering"
+ ],
+ "reader": "agent"
+}

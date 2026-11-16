@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000918608",
+ "issuerName": "ELDORADO GOLD CORP /FI",
+ "builtAt": "2026-11-16T04:51:08.271Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0000918608-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/918608/000091860826000007/ego-20251231_d2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

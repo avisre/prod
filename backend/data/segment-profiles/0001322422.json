@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001322422",
+ "issuerName": "Hudbay Minerals Inc.",
+ "builtAt": "2026-11-16T04:51:04.889Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001648",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1322422/000106299326001648/exhibit99-2.htm",
+  "exhibit": "exhibit99-2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

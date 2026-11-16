@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001355444",
+ "issuerName": "EMBRAER S.A.",
+ "builtAt": "2026-11-16T04:51:05.139Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-021824",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1355444/000162828026021824/erj-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Aviation",
+   "products": [
+    "commercial aircraft"
+   ],
+   "description": "Builds commercial aircraft.",
+   "evidence": "Our reportable operating segments reflect the organizational and management structure used by the Chief Executive Officer, as chief operating decision‑maker, to allocate resources and assess performance, with the Company's results evaluated on a consolidated basis and segregated by product perspective into Commercial Aviation, Executive Aviation, Defense & Security, and Services & Support, while operating activities that do no"
+  },
+  {
+   "name": "Executive Aviation",
+   "products": [
+    "executive jets"
+   ],
+   "description": "Builds executive jets.",
+   "evidence": "Our reportable operating segments reflect the organizational and management structure used by the Chief Executive Officer, as chief operating decision‑maker, to allocate resources and assess performance, with the Company's results evaluated on a consolidated basis and segregated by product perspective into Commercial Aviation, Executive Aviation, Defense & Security, and Services & Support, while operating activities that do no"
+  },
+  {
+   "name": "Defense & Security",
+   "products": [
+    "defense aircraft",
+    "defense systems"
+   ],
+   "description": "Builds defense aircraft and systems.",
+   "evidence": "Our reportable operating segments reflect the organizational and management structure used by the Chief Executive Officer, as chief operating decision‑maker, to allocate resources and assess performance, with the Company's results evaluated on a consolidated basis and segregated by product perspective into Commercial Aviation, Executive Aviation, Defense & Security, and Services & Support, while operating activities that do no"
+  },
+  {
+   "name": "Services & Support",
+   "products": [
+    "services and support"
+   ],
+   "description": "Provides support and services.",
+   "evidence": "Our reportable operating segments reflect the organizational and management structure used by the Chief Executive Officer, as chief operating decision‑maker, to allocate resources and assess performance, with the Company's results evaluated on a consolidated basis and segregated by product perspective into Commercial Aviation, Executive Aviation, Defense & Security, and Services & Support, while operating activities that do no"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Airlines, operators and governments buy aircraft and support.",
+  "evidence": "Our reportable operating segments reflect the organizational and management structure used by the Chief Executive Officer, as chief operating decision‑maker, to allocate resources and assess performance, with the Company's results evaluated on a consolidated basis and segregated by product perspective into Commercial Aviation, Executive Aviation, Defense & Security, and Services & Support, while operating activities that do no"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

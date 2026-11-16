@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001326110",
+ "issuerName": "IMMUNITYBIO, INC.",
+ "builtAt": "2026-11-16T04:51:09.145Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001326110-26-000030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000030/ibrx-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

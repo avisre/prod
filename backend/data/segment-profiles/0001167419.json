@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001167419",
+ "issuerName": "RIOT PLATFORMS, INC.",
+ "builtAt": "2026-11-16T04:51:05.447Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-022322",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1167419/000110465926022322/riot-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin Mining",
+   "products": [],
+   "description": "Mines bitcoin at its data centres.",
+   "evidence": "We operate in two reportable business segments: Bitcoin Mining and Engineering."
+  },
+  {
+   "name": "Engineering",
+   "products": [
+    "engineering services"
+   ],
+   "description": "Provides engineering and manufacturing services.",
+   "evidence": "We operate in two reportable business segments: Bitcoin Mining and Engineering."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns bitcoin from mining and fees from engineering work.",
+  "evidence": "Each of our business segments is further discussed herein."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Bitcoin Mining): bitcoin mining"
+ ],
+ "reader": "agent"
+}

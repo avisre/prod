@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001756607",
+ "issuerName": "Equinox Gold Corp.",
+ "builtAt": "2026-11-16T04:51:05.338Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001628280-26-022120",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1756607/000162828026022120/eqx-20251231_d2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

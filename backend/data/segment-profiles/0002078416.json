@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0002078416",
+ "issuerName": "Liberty Live Holdings, Inc.",
+ "builtAt": "2026-11-16T04:51:07.117Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020657",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2078416/000110465926020657/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Concerts",
+   "products": [],
+   "description": "Promotes and produces live concerts.",
+   "evidence": "​ ​ I-6 Table of Contents Live Nation's Business Segments Live Nation's reportable segments are Concerts, Ticketing and Sponsorship & Advertising."
+  },
+  {
+   "name": "Ticketing",
+   "products": [
+    "ticketing services"
+   ],
+   "description": "Sells event tickets.",
+   "evidence": "​ ​ I-6 Table of Contents Live Nation's Business Segments Live Nation's reportable segments are Concerts, Ticketing and Sponsorship & Advertising."
+  },
+  {
+   "name": "Sponsorship & Advertising",
+   "products": [
+    "sponsorship",
+    "advertising"
+   ],
+   "description": "Sells sponsorships and advertising.",
+   "evidence": "​ ​ I-6 Table of Contents Live Nation's Business Segments Live Nation's reportable segments are Concerts, Ticketing and Sponsorship & Advertising."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fans buy tickets and sponsors pay for exposure.",
+  "evidence": "In Live Nation's amphitheaters, the sale of concessions is outsourced and Live Nation receives a share of the net revenue from the concessionaire, which is recorded in revenue with limited associated direct operating expenses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Concerts): live concerts"
+ ],
+ "reader": "agent"
+}

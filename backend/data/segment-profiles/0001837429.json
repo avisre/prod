@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001837429",
+ "issuerName": "BROOKFIELD WEALTH SOLUTIONS LTD.",
+ "builtAt": "2026-11-16T04:51:03.710Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001837429-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1837429/000183742926000008/bnt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Annuities",
+   "products": [
+    "retail and institutional annuities"
+   ],
+   "description": "Sells retail and institutional annuities.",
+   "evidence": "Our business is presently conducted through our subsidiaries under four operating segments, which we refer to as our Annuities, Property and Casualty (\" P&C \"), Life Insurance, and Corporate and Other segments."
+  },
+  {
+   "name": "Property and Casualty",
+   "products": [
+    "commercial property and casualty insurance",
+    "reinsurance"
+   ],
+   "description": "Writes commercial P&C insurance and reinsurance.",
+   "evidence": "Our business is presently conducted through our subsidiaries under four operating segments, which we refer to as our Annuities, Property and Casualty (\" P&C \"), Life Insurance, and Corporate and Other segments."
+  },
+  {
+   "name": "Life Insurance",
+   "products": [],
+   "description": "Writes life insurance.",
+   "evidence": "Our business is presently conducted through our subsidiaries under four operating segments, which we refer to as our Annuities, Property and Casualty (\" P&C \"), Life Insurance, and Corporate and Other segments."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [],
+   "description": "Holds corporate and other activities.",
+   "evidence": "Our business is presently conducted through our subsidiaries under four operating segments, which we refer to as our Annuities, Property and Casualty (\" P&C \"), Life Insurance, and Corporate and Other segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums and annuity holders pay for guarantees.",
+  "evidence": "Through our operating subsidiaries, we offer a broad range of insurance products and services, including retail and institutional annuities, commercial property and casualty insurance and reinsurance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Life Insurance): life insurance"
+ ],
+ "reader": "agent"
+}

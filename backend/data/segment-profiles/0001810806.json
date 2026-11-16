@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001810806",
+ "issuerName": "UNITY SOFTWARE INC.",
+ "builtAt": "2026-11-16T04:51:04.139Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001810806-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1810806/000181080626000011/unity-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Grow Solutions",
+   "products": [
+    "tools and services"
+   ],
+   "description": "Sells tools and services that help developers grow their games.",
+   "evidence": "• Grow Solutions: We operate in a fragmented ecosystem composed of both privately-held companies and large, well-established public companies or their relevant divisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Developers pay for software subscriptions and services.",
+  "evidence": "We offer a suite of tools across all major platforms from mobile, PC, and console, to extended reality (XR)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

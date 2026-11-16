@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001786909",
+ "issuerName": "Sibanye Stillwater Limited",
+ "builtAt": "2026-11-16T04:51:07.143Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-026991",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1786909/000162828026026991/sbsw-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

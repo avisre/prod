@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001109138",
+ "issuerName": "Camtek Ltd.",
+ "builtAt": "2026-11-16T04:51:09.730Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001561",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1109138/000117891326001561/zk2634678.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Camtek",
+   "products": [
+    "inspection and metrology systems"
+   ],
+   "description": "Sells inspection and metrology equipment for semiconductors.",
+   "evidence": "The Company operates in one operating segment, and this segment comprises its only reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Chip makers and packagers buy its inspection systems.",
+  "evidence": "The Company recognizes revenue from contracts for sales of products at the point of time when the Company transfers control of the product to the customer."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
