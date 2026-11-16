@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001716338",
  "issuerName": "J & Friends Holdings Ltd",
- "builtAt": "2026-11-16T05:46:45.567Z",
+ "builtAt": "2026-11-16T12:01:54.369Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-048056",
@@ -10,11 +10,23 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1716338/000110465926048056/jf-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Single operating segment",
+   "products": [],
+   "description": "The company runs its business as one segment, reviewed on a consolidated basis by its CEO, with revenue from Australia.",
+   "evidence": "The Group manages its operations and allocates resources as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [],
+ "changes": [
+  {
+   "text": "In November 2025 the company disposed of its interests in the WFOEs and the VIE structures in mainland China.",
+   "evidence": "In November 2025, the Parent entered into a Share Transfer Agreement to dispose of its equity interests in Romantic Park, a Cayman Islands entity indirectly holding the entire equity interest in the WFOEs."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

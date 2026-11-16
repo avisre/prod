@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002002453",
  "issuerName": "STAK Inc.",
- "builtAt": "2026-11-16T05:46:44.004Z",
+ "builtAt": "2026-11-16T12:00:39.117Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-047890",
@@ -10,10 +10,27 @@
   "filingDate": "2026-10-21",
   "url": "https://www.sec.gov/Archives/edgar/data/2002453/000149315226047890/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial equipment",
+   "products": [
+    "oil pumping trucks",
+    "oil-well repair trucks",
+    "fracking trucks",
+    "well flushing-wax removal trucks",
+    "boiler trucks",
+    "other maintenance vehicles"
+   ],
+   "description": "Manufactures and sells oilfield-specialized vehicles and equipment, and is developing modular gas-to-electricity power systems for AI data centers.",
+   "evidence": "Our main products currently include oil pumping trucks, oil-well repair trucks, fracking trucks, well flushing-wax removal trucks, boiler trucks, and other maintenance vehicles."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for oilfield-specialized vehicles, equipment components, vehicle integration and automation solutions.",
+  "evidence": "Our existing business primarily comprises the research and development, manufacturing and sale of oilfield-specialized production and maintenance equipment, as well as the sale of related equipment components, integration of specialized oilfield vehicles and provision of automation solutions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

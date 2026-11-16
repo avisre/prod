@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000890394",
  "issuerName": "Peraso Inc.",
- "builtAt": "2026-11-16T05:46:49.466Z",
+ "builtAt": "2026-11-16T12:04:41.681Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-036514",
@@ -10,11 +10,31 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/890394/000121390026036514/ea0282892-10k_peraso.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mmWave wireless technology",
+   "products": [
+    "semiconductor devices",
+    "antenna modules",
+    "non-recurring engineering, or NRE, services",
+    "licensing of intellectual property"
+   ],
+   "description": "Fabless semiconductor company developing mmWave wireless technology, semiconductor devices, antenna modules, NRE services and IP licensing.",
+   "evidence": "Because the CODM evaluates financial performance on a consolidated basis, the Company operates and manages its business as one reportable and operating segment as a fabless semiconductor company focused on the development and sale of mmWave wireless technology, semiconductor devices and antenna modules, the performance of non-recurring engineering, or NRE, services and the licensing of intellectual property."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for shipments of mmWave and memory IC products, licensing of technology, and engineering services.",
+  "evidence": "The Company recognized revenue from shipments of products, licensing of its technologies and performance of services to customers by geographical destination as follows (in thousands):"
+ },
+ "changes": [
+  {
+   "text": "The memory IC product line was placed into end-of-life in 2023 and its outstanding orders were substantially fulfilled by 2025.",
+   "evidence": "As discussed below, we initiated an end-of-life of these products in 2023, and substantially fulfilled all outstanding EOL orders of our memory IC products as of March 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001720161",
  "issuerName": "Castor Maritime Inc.",
- "builtAt": "2026-11-16T05:46:45.396Z",
+ "builtAt": "2026-11-16T12:01:49.674Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001140361-26-014700",
@@ -10,11 +10,47 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1720161/000114036126014700/ef20060658_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "dry bulk segment",
+   "products": [
+    "dry bulk vessels"
+   ],
+   "description": "Owns and charters dry bulk vessels that carry commodities such as iron ore, coal and soybeans worldwide.",
+   "evidence": "During the years ended December 31, 2023, 2024 and 2025, we operated (i) dry bulk vessels that engaged in the worldwide transportation of commodities such as iron ore, coal and soybeans"
+  },
+  {
+   "name": "containership segment",
+   "products": [
+    "containerships"
+   ],
+   "description": "Operates containerships engaged in transporting containerized cargoes for charterers.",
+   "evidence": "(ii) from the fourth quarter of 2022, containerships that are engaged in the transportation of containerized cargoes"
+  },
+  {
+   "name": "asset management segment",
+   "products": [
+    "asset management services",
+    "structuring and placement of investment solutions",
+    "commercial and technical ship management services",
+    "management services of energy infrastructure projects"
+   ],
+   "description": "Provides investment solutions for professional institutional investors, plus ship and energy infrastructure management services.",
+   "evidence": "MPC Capital provides asset management services and it does not have similar business and economic characteristics to the other two segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Charterers pay daily hire for the vessels, and asset management revenue depends largely on assets under management.",
+  "evidence": "We earn a substantial portion of our asset management segment revenues based on assets under management whose volume fluctuates based on many factors, and any reduction would negatively impact our revenues and profitability."
+ },
+ "changes": [
+  {
+   "text": "In 2024, after the MPC Capital acquisition, the company established an asset management segment alongside its dry bulk and containership segments.",
+   "evidence": "Upon completion of the MPC Capital Acquisition, we established our asset management segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

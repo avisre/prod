@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001535955",
  "issuerName": "LIPOCINE INC.",
- "builtAt": "2026-11-16T05:46:44.656Z",
+ "builtAt": "2026-11-16T12:01:07.314Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-009411",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1535955/000149315226009411/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug delivery technology",
+   "products": [
+    "TLANDO",
+    "TLANDO XR"
+   ],
+   "description": "Develops and licenses oral drug delivery technology for therapeutics, including TLANDO for testosterone replacement therapy.",
+   "evidence": "The Company operates as a single 1 reporting segment, focused on leveraging its proprietary drug delivery technology platform to augment therapeutics through effective oral delivery of products and product candidates."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Licensees of TLANDO pay Lipocine license fees, milestone payments, royalties and payments for TLANDO product sales.",
+  "evidence": "We plan to support Verity's, SPC's, Pharmalink's, and Aché's efforts to effectively enable the availability of TLANDO to patients in a timely manner, in addition to receiving milestone payments, royalty payments, and/or payments for product sales associated with TLANDO commercialization as agreed to in the Verity License Agreement, the SPC License Agreement, the Pharmalink Distribution Agreement and the Aché License Agreement."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

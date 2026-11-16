@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001837821",
  "issuerName": "Jin Medical International Ltd.",
- "builtAt": "2026-11-16T05:46:47.093Z",
+ "builtAt": "2026-11-16T12:02:42.742Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-013870",
@@ -10,10 +10,23 @@
   "filingDate": "2026-02-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1837821/000121390026013870/ea0273234-20f_jinmedical.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Living aids",
+   "products": [
+    "electric wheelchairs",
+    "senior mobility scooters"
+   ],
+   "description": "Designs and manufactures wheelchairs and other living aids, sold to customers through independent distributors.",
+   "evidence": "The Company designs and manufactures quality wheelchair and other living aids products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for wheelchair and living aids products once they have been sold and delivered to them.",
+  "evidence": "The Company's accounts receivable primarily includes balances due from customers when the Company's wheelchair and living aids products have been sold and delivered to customers, the Company's contracted performance obligations have been satisfied, amount billed and the Company has an unconditional right to payment, which has not been collected as of the balance sheet dates."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001876766",
  "issuerName": "Lichen International Limited",
- "builtAt": "2026-11-16T05:46:47.613Z",
+ "builtAt": "2026-11-16T12:02:59.286Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001185185-26-001520",
@@ -10,11 +10,31 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1876766/000118518526001520/licn20f123125.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial and taxation",
+   "products": [
+    "Financial and taxation solution services",
+    "Education support services",
+    "Software and maintenance services",
+    "Pre-IPO advisory services"
+   ],
+   "description": "Provides financial and taxation solution, education support, software and maintenance, and pre-IPO advisory services.",
+   "evidence": "The Company has determined that there is only one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for financial and taxation solution, education support, software and maintenance, and pre-IPO advisory services.",
+  "evidence": "Contract liability is recorded when a payment is received from a customer before the Company transfers the related services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold Lichen Education, its education services subsidiary, to a third party.",
+   "evidence": "Upon the closing of the transaction on March 31, 2025, Mrs. Lina Li became the sole shareholder of Lichen Education and as a result, assumed all assets and liabilities of Lichen Education owned."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

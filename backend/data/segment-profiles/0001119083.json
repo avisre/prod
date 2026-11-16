@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001119083",
  "issuerName": "MIND CTI LTD",
- "builtAt": "2026-11-16T05:46:43.158Z",
+ "builtAt": "2026-11-16T12:00:16.627Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-001091",
@@ -10,10 +10,34 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1119083/000117891326001091/zk2634570.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Billing and Related Services",
+   "products": [
+    "MINDBill",
+    "PhonEX ONE",
+    "professional services",
+    "Unified Communication (UC) analytics solutions"
+   ],
+   "description": "Sells convergent billing, customer care and UC analytics software and services to telecom service providers and enterprises.",
+   "evidence": "The Company operates in two operating segments: Billing and Related Services, and Messaging."
+  },
+  {
+   "name": "Messaging",
+   "products": [
+    "enterprise messaging services",
+    "wholesale messaging services"
+   ],
+   "description": "Provides enterprise and wholesale mobile messaging services, including SMS, for businesses and other aggregators and service providers.",
+   "evidence": "In addition, from 2019, following the acquisitions of Message Mobile GmbH, or Message Mobile and GTX GmbH, or GTX (which was merged into Message Mobile in 2023), we offer enterprise messaging services and wholesale messaging services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for software licensing, professional services, maintenance, managed services and mobile messaging services.",
+  "evidence": "The Company generates its revenues from software licensing, sales of professional services including integration and implementation, maintenance services, managed services and mobile messaging services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

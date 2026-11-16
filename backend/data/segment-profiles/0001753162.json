@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001753162",
  "issuerName": "FATHOM HOLDINGS INC.",
- "builtAt": "2026-11-16T05:46:44.478Z",
+ "builtAt": "2026-11-16T12:01:00.924Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-022057",
@@ -10,11 +10,48 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1753162/000162828026022057/fthm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Brokerage",
+   "products": [
+    "Fathom Realty"
+   ],
+   "description": "Provides real estate brokerage services to home buyers and sellers through agents on a flat-fee model.",
+   "evidence": "Through its Real Estate Brokerage segment, the Company provides real estate brokerage services."
+  },
+  {
+   "name": "Mortgage",
+   "products": [
+    "Encompass Lending"
+   ],
+   "description": "Provides residential loan origination and underwriting services for residential real estate transactions.",
+   "evidence": "Through its Mortgage segment, the Company provides residential loan origination and underwriting services."
+  },
+  {
+   "name": "Title",
+   "products": [
+    "Verus Title"
+   ],
+   "description": "Provides title insurance, escrow, and settlement services to facilitate residential real estate transactions.",
+   "evidence": "Through its Title segment, the Company provides title insurance, escrow, and settlement services to facilitate residential real estate transactions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company's primary revenue is commissions collected from its agents on real estate transactions, plus mortgage lending and title service revenue.",
+  "evidence": "The commission we collect from our agents is our primary source of revenue."
+ },
+ "changes": [
+  {
+   "text": "Title became a reportable segment in the fourth quarter of 2025.",
+   "evidence": "Beginning in the fourth quarter of 2025, the Company determined that its Title operations meet the quantitative thresholds under ASC 280, segment reporting, to be presented as a reportable segment."
+  },
+  {
+   "text": "Technology operations stopped being a reportable segment after the LiveBy sale in November 2025.",
+   "evidence": "Following the sale of LiveBy in November 2025, the Company no longer presents its Technology operations as a reportable segment, as these activities no longer meet the quantitative thresholds or aggregation criteria for separate disclosure and are now managed and evaluated together with the Company's other operating segments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

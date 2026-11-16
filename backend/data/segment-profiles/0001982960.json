@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001982960",
  "issuerName": "KNOREX LTD.",
- "builtAt": "2026-11-16T05:46:42.054Z",
+ "builtAt": "2026-11-16T11:59:12.896Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-039058",
@@ -10,10 +10,25 @@
   "filingDate": "2026-08-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1982960/000149315226039058/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Programmatic advertising",
+   "products": [
+    "KNOREX XPO SM",
+    "Platform subscription fee",
+    "Platform services",
+    "Managed activations and professional services"
+   ],
+   "description": "Cloud platform letting marketers plan, execute and optimize omni-channel programmatic advertising across many ad channels.",
+   "evidence": "We are a B2B technology company specializing in providing programmatic advertising products and solutions to marketers to streamline and automate their advertising and marketing workflows."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Marketers pay the company for platform subscriptions, platform services, managed activations and professional services.",
+  "evidence": "The Company operates as one operating segment, which primarily focuses on platform subscription fees, platform services, managed activations, and professional services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

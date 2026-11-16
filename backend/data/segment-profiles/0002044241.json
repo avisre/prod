@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002044241",
  "issuerName": "TryHard Holdings Limited",
- "builtAt": "2026-11-16T05:46:48.326Z",
+ "builtAt": "2026-11-16T12:04:01.962Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-049291",
@@ -10,10 +10,46 @@
   "filingDate": "2026-10-29",
   "url": "https://www.sec.gov/Archives/edgar/data/2044241/000149315226049291/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consultancy and management",
+   "products": [
+    "consultancy and management services"
+   ],
+   "description": "Provides consultancy and management services to clubs in Japan.",
+   "evidence": "Our principal businesses are (i)event curation ; (ii) consultancy and management services; (iii) sub-leasing of entertainment venues; and (iv) ownership and operation of restaurants."
+  },
+  {
+   "name": "Events curation",
+   "products": [
+    "event curation services"
+   ],
+   "description": "Plans, produces and manages multi-genre events and stage sets for customers in Japan.",
+   "evidence": "We provide multi-genre event curation services to our customers based on our experience gained over the years."
+  },
+  {
+   "name": "Sub-leasing",
+   "products": [
+    "sub-leasing of entertainment venues"
+   ],
+   "description": "Sub-leases entertainment venues in Japan.",
+   "evidence": "Our principal businesses are (i)event curation ; (ii) consultancy and management services; (iii) sub-leasing of entertainment venues; and (iv) ownership and operation of restaurants."
+  },
+  {
+   "name": "Restaurant operation",
+   "products": [
+    "ownership and operation of restaurants"
+   ],
+   "description": "Owns and operates restaurants in Japan.",
+   "evidence": "Our principal businesses are (i)event curation ; (ii) consultancy and management services; (iii) sub-leasing of entertainment venues; and (iv) ownership and operation of restaurants."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for consultancy and management, event curation, venue sub-leasing and restaurants in Japan.",
+  "evidence": "Our principal businesses are (i)event curation ; (ii) consultancy and management services; (iii) sub-leasing of entertainment venues; and (iv) ownership and operation of restaurants."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001960847",
  "issuerName": "TOPPOINT HOLDINGS INC.",
- "builtAt": "2026-11-16T05:46:42.089Z",
+ "builtAt": "2026-11-16T11:59:26.005Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-034067",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1960847/000121390026034067/ea0282138-10k_toppoint.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "truckload services",
+   "products": [
+    "Waste Paper Products",
+    "Waste Metal and Forestry",
+    "Import",
+    "Others"
+   ],
+   "description": "Delivers truckload services for waste paper, scrap metal, wood and import containers between recycling sites, ports and client locations.",
+   "evidence": "The Company operates as one operating segment where it derives its revenue from the delivery of truckload services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay the company for truckload delivery of waste paper, scrap metal, wood and import containers.",
+  "evidence": "The Company operates as one operating segment where it derives its revenue from the delivery of truckload services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

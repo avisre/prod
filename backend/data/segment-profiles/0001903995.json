@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001903995",
  "issuerName": "Millennium Group International Holdings Limited",
- "builtAt": "2026-11-16T05:46:49.350Z",
+ "builtAt": "2026-11-16T12:04:50.139Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-113787",
@@ -10,11 +10,49 @@
   "filingDate": "2026-10-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1903995/000121390026113787/ea0308332-20f_millennium.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaging products",
+   "products": [
+    "offset printing packaging products",
+    "flexo printing packaging products"
+   ],
+   "description": "Produces and sells offset and flexo printing packaging products at the MP Production Site in the PRC.",
+   "evidence": "MP Group engages in the production and sale of offset printing packaging products, flexo printing packaging products at our self-operated MP Production Site in the PRC."
+  },
+  {
+   "name": "Corrugated products",
+   "products": [
+    "corrugated products production line"
+   ],
+   "description": "Produces and sells corrugated products at the Yee Woo Production Site in the PRC.",
+   "evidence": "Yee Woo Group engages in the production and sale of corrugated products at our self-operated Yee Woo Production Site in the PRC."
+  },
+  {
+   "name": "Packaging products supply chain management solutions",
+   "products": [
+    "packaging products supply chain management solution"
+   ],
+   "description": "Provides supply chain management for global clients who source their packaging needs from Vietnam and other ASEAN countries.",
+   "evidence": "We offer packaging products supply chain management solution to our customers globally."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for the packaging products, corrugated products and supply chain management services they buy, charged as a total solution.",
+  "evidence": "We charge our customers based on the products purchased as a total solution."
+ },
+ "changes": [
+  {
+   "text": "Yee Woo Paper Industry (Shenzhen) Co., Ltd. began winding down its operations through voluntary liquidation in 2024.",
+   "evidence": "On 22 April, 2024 the Group commenced the process of substantially winding down the operations of YWSZ through voluntary liquidation."
+  },
+  {
+   "text": "Millennium Printing International Limited was sold to a company owned by the controlling shareholders, completed in 2026.",
+   "evidence": "The disposal was completed on August 28, 2026, and the first installment of HKD 14,471,348 was received on September 14, 2026."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001584371",
  "issuerName": "IceCure Medical Ltd.",
- "builtAt": "2026-11-16T05:46:45.153Z",
+ "builtAt": "2026-11-16T12:01:26.718Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-028684",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1584371/000121390026028684/ea0280425-20f_icecure.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cryoablation medical devices",
+   "products": [
+    "ProSense",
+    "XSense",
+    "MSense"
+   ],
+   "description": "Designs, develops, manufactures and markets cryoablation medical devices, including ProSense, XSense and MSense systems.",
+   "evidence": "The Company has identified one reportable and operating segment that designs, develops, manufactures and markets cryoablation medical devices."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Distributors and customers buy the company's systems, and third-party payors provide reimbursement for their use.",
+  "evidence": "our commercial success is very much dependent on third-party payors to provide adequate insurance coverage and reimbursement for the use of our systems, or any future products that we may commercialize;"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

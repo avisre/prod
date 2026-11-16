@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001966678",
  "issuerName": "DirectBooking     Technology Co., Ltd.",
- "builtAt": "2026-11-16T05:46:48.224Z",
+ "builtAt": "2026-11-16T12:03:27.079Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-038674",
@@ -10,11 +10,31 @@
   "filingDate": "2026-08-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1966678/000149315226038674/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction transportation",
+   "products": [
+    "Soil and rock transportation",
+    "Miscellaneous construction works",
+    "ELS works",
+    "bored piling"
+   ],
+   "description": "Transports excavated soil and rock and performs earthworks construction for customers in Hong Kong.",
+   "evidence": "Based on management's assessment, the Company has determined that it has only one operating segment as defined by FASB ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Other construction contractors pay the company for soil and rock transportation and construction works, usually as a subcontractor.",
+  "evidence": "We generally provide our services as a subcontractor to other construction contractors in Hong Kong."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company discontinued its sales of rock business.",
+   "evidence": "During the year ended March 31, 2026, the Company discontinued its sales of rock business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

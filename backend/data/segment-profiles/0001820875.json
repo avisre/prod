@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001820875",
  "issuerName": "CXApp Inc.",
- "builtAt": "2026-11-16T05:46:49.969Z",
+ "builtAt": "2026-11-16T12:04:39.139Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001829126-26-002840",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1820875/000182912626002840/cxappinc_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Employee experience solutions",
+   "products": [
+    "CXAI Platform",
+    "CXAI Applications",
+    "CXAI BTS",
+    "CXAI-VU",
+    "Agentic AI Capabilities"
+   ],
+   "description": "Provides a vertical SaaS employee experience platform for enterprise customers, including workplace apps, analytics and AI capabilities.",
+   "evidence": "The Company has one operating segment and reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay recurring software fees plus a professional service fee to set up and deploy a new location or campus.",
+  "evidence": "Our pricing structure consists of recurring software fees as well as a professional service fee to setup and deploy a new location or campus, including digitized maps and configurations at the global and regional level."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

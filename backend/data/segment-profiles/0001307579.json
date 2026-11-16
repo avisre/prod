@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001307579",
  "issuerName": "LIQTECH INTERNATIONAL, INC.",
- "builtAt": "2026-11-16T05:46:46.978Z",
+ "builtAt": "2026-11-16T12:02:42.323Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005983",
@@ -10,10 +10,32 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1307579/000143774926005983/liqt20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Systems and Aftermarket",
+   "products": [],
+   "description": "Liquid filtration systems and solutions for industrial water streams, pool, marine and other applications.",
+   "evidence": "The Company operates through three reportable segments: Systems and Aftermarket, Filters and Membranes, and Components."
+  },
+  {
+   "name": "Filters and Membranes",
+   "products": [],
+   "description": "Ceramic silicon carbide membranes and diesel particulate filters for liquid and exhaust gas purification.",
+   "evidence": "The Company operates through three reportable segments: Systems and Aftermarket, Filters and Membranes, and Components."
+  },
+  {
+   "name": "Components",
+   "products": [],
+   "description": "Engineered plastic parts and products for industrial applications in the food, beverage and pharmaceutical industries.",
+   "evidence": "The Company operates through three reportable segments: Systems and Aftermarket, Filters and Membranes, and Components."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for filtration systems, ceramic membranes, diesel particulate filters and engineered plastic parts that the company manufactures and sells.",
+  "evidence": "We manufacture and sell a broad range of systems and products based on the application of our ceramic filters and membranes for the filtration of liquids and gases within a range of uses, such as industrial wastewater, oil & gas, commercial pool, road & non-road machinery, marine, chemicals/petrochemicals, and other industrial applications."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

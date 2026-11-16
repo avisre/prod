@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001616262",
  "issuerName": "Rocky Mountain Chocolate Factory, Inc.",
- "builtAt": "2026-11-16T05:46:44.246Z",
+ "builtAt": "2026-11-16T12:00:52.639Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-248296",
@@ -10,11 +10,47 @@
   "filingDate": "2026-05-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1616262/000119312526248296/rmcf-20260228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Franchising",
+   "products": [
+    "initial franchise fees",
+    "royalties",
+    "marketing fees"
+   ],
+   "description": "Earns initial franchise fees, royalties and marketing fees from franchisees operating its store system.",
+   "evidence": "The Company classifies its business interests into three reportable segments: Rocky Mountain Chocolate Factory, Inc. Franchising, Manufacturing, Retail Stores, and Unallocated, which is the basis upon which the Company's Chief Operating Decision Maker (CODM), the interim chief executive officer , evaluates the Company's performance."
+  },
+  {
+   "name": "Manufacturing",
+   "products": [
+    "chocolates and other confectionery products"
+   ],
+   "description": "Produces chocolates and other confectionery products sold to franchisees and other third parties.",
+   "evidence": "The Company classifies its business interests into three reportable segments: Rocky Mountain Chocolate Factory, Inc. Franchising, Manufacturing, Retail Stores, and Unallocated, which is the basis upon which the Company's Chief Operating Decision Maker (CODM), the interim chief executive officer , evaluates the Company's performance."
+  },
+  {
+   "name": "Retail Stores",
+   "products": [
+    "chocolates and other confectionery products",
+    "gourmet caramel apples"
+   ],
+   "description": "Operates Company-owned stores that sell chocolates and other confectionery products, including caramel apples.",
+   "evidence": "The Company classifies its business interests into three reportable segments: Rocky Mountain Chocolate Factory, Inc. Franchising, Manufacturing, Retail Stores, and Unallocated, which is the basis upon which the Company's Chief Operating Decision Maker (CODM), the interim chief executive officer , evaluates the Company's performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Franchisees and other third parties pay for chocolates and confectionery products, and franchisees pay initial franchise fees, royalties and marketing fees.",
+  "evidence": "Our revenues and profitability are derived principally from our franchised and licensed system of retail stores that feature chocolate and other confectionery products including gourmet caramel apples."
+ },
+ "changes": [
+  {
+   "text": "The frozen yogurt business was sold after the end of fiscal year 2023.",
+   "evidence": "As described below, the Company sold its frozen yogurt business subsequent to the end of FY 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

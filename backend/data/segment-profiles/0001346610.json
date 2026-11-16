@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001346610",
  "issuerName": "SOS Limited",
- "builtAt": "2026-11-16T05:46:47.852Z",
+ "builtAt": "2026-11-16T12:03:07.293Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-057725",
@@ -10,9 +10,20 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1346610/000121390026057725/ea0286027-20f_soslimi.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High-technology services",
+   "products": [
+    "Commodity trading",
+    "Cryptocurrency mining",
+    "Hosting services"
+   ],
+   "description": "Provides high-technology services, including commodity trading, hosting services and cryptocurrency mining, as a single reportable segment.",
+   "evidence": "The Company considers itself to be operating within single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
  "revenueModel": null,
  "changes": [],
  "dropped": [],

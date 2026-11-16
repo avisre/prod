@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000946563",
  "issuerName": "RETRACTABLE TECHNOLOGIES INC",
- "builtAt": "2026-11-16T05:46:42.322Z",
+ "builtAt": "2026-11-16T11:59:33.488Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-036053",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/946563/000110465926036053/tmb-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "safety medical syringes and other safety medical devices",
+   "products": [
+    "injection devices (syringes and needles)",
+    "VanishPoint ®",
+    "Patient Safe ®",
+    "EasyPoint ®"
+   ],
+   "description": "Manufactures and markets safety medical syringes and other safety medical devices, sold to healthcare providers.",
+   "evidence": "The Company operates in a single reportable segment, referred to as safety medical syringes and other safety medical devices."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Healthcare providers buy the company's safety syringes and needles, often through group purchasing organizations and distributors.",
+  "evidence": "Representatives of group purchasing organizations (\"GPOs\") and purchasing representatives (rather than the end-users of the product) make the vast majority of decisions relating to the purchase of medical supplies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

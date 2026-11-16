@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001654595",
  "issuerName": "MEDALIST DIVERSIFIED, INC.",
- "builtAt": "2026-11-16T05:46:48.541Z",
+ "builtAt": "2026-11-16T12:04:08.550Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-022253",
@@ -10,10 +10,45 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1654595/000110465926022253/mdrr-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "retail center properties",
+   "products": [
+    "Franklin Square Property",
+    "Ashley Plaza Property",
+    "Lancer Center Property"
+   ],
+   "description": "Owns and leases income-producing retail center properties to tenants, earning rental income from them.",
+   "evidence": "The Ashley Plaza Property consists of a single-story, main retail strip building constructed in 1977."
+  },
+  {
+   "name": "flex center properties",
+   "products": [
+    "Brookfield Center Property",
+    "Greenbrier Business Center Property",
+    "Parkway Property"
+   ],
+   "description": "Owns and leases income-producing flex-industrial properties to tenants, earning rental income from them.",
+   "evidence": "As of December 31, 2025, we had three reportable segments, consisting of retail center properties, flex center properties and STNL properties."
+  },
+  {
+   "name": "STNL properties",
+   "products": [
+    "Citibank Property",
+    "East Coast Wings Property",
+    "T-Mobile Property",
+    "Tesla Pensacola Property"
+   ],
+   "description": "Owns single tenant net lease properties, each occupied by one tenant, treated as a separate asset class.",
+   "evidence": "STNL properties are also considered by the real estate industry as a separate asset class."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Tenants pay rental income and reimbursements for leasing the company's real estate properties.",
+  "evidence": "Operating revenues include rental income, tenant reimbursements, and other property income; and operating expenses include retail center property, flex center property and single tenant net lease property operating costs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002038378",
  "issuerName": "ACCO GROUP HOLDINGS LIMITED",
- "builtAt": "2026-11-16T05:46:43.026Z",
+ "builtAt": "2026-11-16T11:59:59.449Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-111364",
@@ -10,10 +10,43 @@
   "filingDate": "2026-10-21",
   "url": "https://www.sec.gov/Archives/edgar/data/2038378/000121390026111364/ea0308052-20f_acco.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate secretarial services",
+   "products": [
+    "company formation",
+    "statutory compliance",
+    "registered office address services"
+   ],
+   "description": "Provides corporate secretarial services, including company formation and statutory compliance, for Hong Kong and offshore companies.",
+   "evidence": "ACSL is a limited liability company primarily engaged in the provision of corporate secretarial services, including company formation, statutory compliance, registered office address services, and other related professional support for both Hong Kong and offshore companies."
+  },
+  {
+   "name": "Accounting services",
+   "products": [
+    "bookkeeping",
+    "management accounts preparation"
+   ],
+   "description": "Provides accounting and financial reporting services, including bookkeeping and management accounts, for clients.",
+   "evidence": "The accounting services encompass preparation of financial reports as well as tax computation and related filings."
+  },
+  {
+   "name": "IP registration services",
+   "products": [
+    "searches",
+    "applications",
+    "renewals of trademarks"
+   ],
+   "description": "Provides trademark searches, applications and renewals for clients seeking to protect their intellectual property.",
+   "evidence": "The IP registration services consist of searches, applications and renewals of trademarks."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients contract with the company for corporate secretarial, accounting and IP registration services.",
+  "evidence": "Our Operating Subsidiaries offer wide range of services ensures that our clients receive all necessary support under one roof, enhancing convenience and efficiency."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

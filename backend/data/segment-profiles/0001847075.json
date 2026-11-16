@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001847075",
  "issuerName": "SAIHEAT Limited",
- "builtAt": "2026-11-16T05:46:42.791Z",
+ "builtAt": "2026-11-16T11:59:50.277Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050380",
@@ -10,11 +10,55 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1847075/000121390026050380/ea0286826-20f_saiheat.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "equipment sales",
+   "products": [
+    "crypto asset mining machines",
+    "outdoor computing infrastructure containers"
+   ],
+   "description": "Sells crypto asset mining machines and outdoor computing containers to customers.",
+   "evidence": "We sell high-performance crypto asset mining machines and outdoor computing infrastructure containers to our customers."
+  },
+  {
+   "name": "hosting",
+   "products": [
+    "hosting service"
+   ],
+   "description": "Hosts customers' bitcoin mining machines, including hosting, logistics and maintenance, via third-party datacenter partners.",
+   "evidence": "We provide bitcoin mining machine hosting service based on cloud-computing, including hosting, logistics, and maintenance service to our customers, through collaboration with third-party datacenter partners."
+  },
+  {
+   "name": "mining pool business",
+   "products": [
+    "mining pool service",
+    "Sai.plus"
+   ],
+   "description": "Runs the Sai.plus mining pool, distributing mining rewards to participants, mainly its hosting clients.",
+   "evidence": "We provide mining pool service to our customers using Sai.plus, our mining pool."
+  },
+  {
+   "name": "mining",
+   "products": [
+    "cryptocurrency mining operation",
+    "mining revenue"
+   ],
+   "description": "Mines cryptocurrency, primarily bitcoin, for the company's own account in its own or partner datacenters.",
+   "evidence": "We engage in cryptocurrency mining operation, primarily Bitcoins, for our own account."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for mining machines, containers, hosting and mining pool services; the company also earns bitcoin mining revenue.",
+  "evidence": "Our business primarily consists of sales of products and mining revenue, which accounted for approximately 69% and 31% of our total revenue, respectively, for the fiscal year ended December 31, 2025."
+ },
+ "changes": [
+  {
+   "text": "The Company ceased its mining operations in Mexico in August 2025.",
+   "evidence": "In August 2025, the Company ceased its mining operations in Mexico."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

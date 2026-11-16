@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001888980",
  "issuerName": "LEAD REAL ESTATE CO., LTD",
- "builtAt": "2026-11-16T05:46:46.001Z",
+ "builtAt": "2026-11-16T12:02:11.781Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-121484",
@@ -10,10 +10,24 @@
   "filingDate": "2026-11-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1888980/000110465926121484/lre-20260630x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "real estate sales",
+   "products": [
+    "Single-family home",
+    "Condominium",
+    "Hotel"
+   ],
+   "description": "Develops and sells single-family homes, condominiums and hotels, primarily in Japan.",
+   "evidence": "The Company's primary and sole operating segment is real estate sales, with the balance of revenue categorized under real estate sales."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for the homes, condominiums and hotel services the company sells.",
+  "evidence": "Consumer demand for our hotel services is linked to the performance of the general economy and is sensitive to business and personal discretionary spending levels."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

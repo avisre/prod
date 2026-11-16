@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001958399",
  "issuerName": "Huachen AI Parking Management Technology Holding Co., Ltd",
- "builtAt": "2026-11-16T05:46:48.808Z",
+ "builtAt": "2026-11-16T12:04:08.435Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-055775",
@@ -10,11 +10,30 @@
   "filingDate": "2026-05-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1958399/000121390026055775/ea0289453-20f_huachen.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Parking equipment",
+   "products": [
+    "Equipment structural parts",
+    "Cubic parking garage",
+    "Maintenance services"
+   ],
+   "description": "Produces structural steel parts and cubic parking equipment, and provides related installation and maintenance services.",
+   "evidence": "Based on management's assessment, the Company has determined that it has only one reported operating segments as defined by ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for equipment structural parts, cubic parking garages and maintenance services.",
+  "evidence": "The following table presents a breakdown of our revenue for fiscal years 2025 and 2024."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company divested its former Hua Chen Intelligent Technology subsidiaries and planned to expand into electric vehicle charging.",
+   "evidence": "On December 22, 2025, Huachen Cayman divested Hua Chen Intelligent Technology Co., Limited and its subsidiaries and incorporated new subsidiaries dedicated to the equipment structural parts business, while also planning to expand into the electric vehicle charging business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

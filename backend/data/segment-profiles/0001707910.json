@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001707910",
  "issuerName": "REBORN COFFEE, INC.",
- "builtAt": "2026-11-16T05:46:47.825Z",
+ "builtAt": "2026-11-16T12:03:08.618Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-046490",
@@ -10,10 +10,32 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1707910/000121390026046490/ea0285633-10k_reborn.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Reborn Coffee",
+   "products": [
+    "coffee",
+    "water",
+    "other beverages"
+   ],
+   "description": "Wholesale and retail sales of coffee, water and other beverages through Reborn Coffee stores.",
+   "evidence": "Management has identified two reportable operating segments: (i) Reborn Coffee, which includes both wholesale and retail sales of coffee, water, and other beverages, and (ii) Reborn Logistics, which provides freight forwarding services."
+  },
+  {
+   "name": "Reborn Logistics",
+   "products": [
+    "freight forwarding services"
+   ],
+   "description": "Freight forwarding and logistics services that move customers' goods from origin to destination.",
+   "evidence": "Management has identified two reportable operating segments: (i) Reborn Coffee, which includes both wholesale and retail sales of coffee, water, and other beverages, and (ii) Reborn Logistics, which provides freight forwarding services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for coffee and other beverages bought at retail stores or wholesale, and for freight forwarding services.",
+  "evidence": "The Company's net revenue primarily consists of revenues from its retail stores and wholesale and online store."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

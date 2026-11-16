@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001987189",
  "issuerName": "Smart Logistics Global Limited",
- "builtAt": "2026-11-16T05:46:42.049Z",
+ "builtAt": "2026-11-16T11:59:06.984Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050357",
@@ -10,10 +10,23 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1987189/000121390026050357/ea0285532-20f_smart.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract logistics",
+   "products": [
+    "land-only transportation",
+    "contract logistics business"
+   ],
+   "description": "Provides land-only transportation and contract logistics solutions to large institutional customers in China.",
+   "evidence": "As a result of the assessment made by CODM, the Group has only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Institutional customers pay the company under yearly contracts for logistics solutions covering industrial raw materials line-haul transportation.",
+  "evidence": "A significant portion of our customers are large institutional customers, with whom we have maintained long-term relationship and typically enter into contracts for our provision of logistics solutions on a yearly basis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

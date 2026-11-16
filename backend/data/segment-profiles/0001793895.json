@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001793895",
  "issuerName": "CDT Environmental Technology Investment Holdings Limited",
- "builtAt": "2026-11-16T05:46:41.943Z",
+ "builtAt": "2026-11-16T11:59:02.154Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001731122-26-000740",
@@ -10,10 +10,23 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1793895/000173112226000740/e7642_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sewage treatment",
+   "products": [
+    "Sewage treatment systems",
+    "Sewage treatment services"
+   ],
+   "description": "Installs sewage treatment systems and provides sewage treatment services in urban and rural areas.",
+   "evidence": "The Company conducts business as a single operating segment which is based upon the Company's organizational and management structure, as well as information used by the CODM, the CEO of the Company, to allocate resources and perform assessment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Local governments, directly or through state-owned construction partners, fund the installation and operation of sewage treatment systems and services.",
+  "evidence": "All five of our major customers are projects funded by local governments and are awaiting inspection reports and payment approvals."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

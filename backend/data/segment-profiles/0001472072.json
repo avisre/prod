@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001472072",
  "issuerName": "Concord Medical Services Holdings Ltd",
- "builtAt": "2026-11-16T05:46:42.076Z",
+ "builtAt": "2026-11-16T11:59:31.581Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-050692",
@@ -10,11 +10,29 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1472072/000110465926050692/ccm-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Network",
+   "products": [],
+   "description": "Runs the network business formerly managed under Aohua Technology, reported separately from hospitals.",
+   "evidence": "After completion of the Reorganization in September 2016, Concord Healthcare holds the network business which was formerly under Aohua Technology's management, and our hospital business in China."
+  },
+  {
+   "name": "Hospital",
+   "products": [],
+   "description": "Runs hospitals located in the PRC, reported as a separate segment from the network business.",
+   "evidence": "After the disposal of Concord Healthcare Singapore Pte Ltd on November 19, 2020, our hospital reporting segment is only consisted of hospitals located in the PRC."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [],
+ "changes": [
+  {
+   "text": "The sale of the remaining equity interest in Concord Healthcare Singapore Pte Ltd closed in January 2024.",
+   "evidence": "The transaction was closed on January 5, 2024 and we no longer held equity interest in Concord Healthcare Singapore Pte Ltd since then."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

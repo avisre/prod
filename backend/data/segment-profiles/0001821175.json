@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001821175",
  "issuerName": "Motorsport Games Inc.",
- "builtAt": "2026-11-16T05:46:45.094Z",
+ "builtAt": "2026-11-16T12:01:31.344Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-009532",
@@ -10,11 +10,45 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1821175/000149315226009532/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gaming",
+   "products": [
+    "rFactor 2",
+    "KartKraft",
+    "Le Mans Ultimate",
+    "RaceControl",
+    "NASCAR"
+   ],
+   "description": "Develops and publishes interactive racing video games, entertainment content and services for PCs, sold through digital channels.",
+   "evidence": "We classified our reportable operating segments into (i) the development and publishing of interactive racing video games, entertainment content and services (the \"Gaming segment\") and (ii) the organization and facilitation of esports tournaments, competitions, and events for our licensed racing games as well as on behalf of third-party video game racing series and other video game publishers (the \"esports segment\")."
+  },
+  {
+   "name": "esports",
+   "products": [
+    "Le Mans Virtual Series",
+    "24 Hours of Le Mans Virtual event"
+   ],
+   "description": "Organizes and facilitates esports tournaments, competitions and events for licensed racing games and third-party racing series.",
+   "evidence": "Our product and service offerings included within the esports segment relate primarily to curating esports events."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Players pay for racing video games, downloadable extra content and RaceControl subscriptions, mainly sold through digital channels.",
+  "evidence": "We currently generate revenue primarily by selling our racing video game products for PCs through various digital channels, including full-game and downloadable content, as well as our RaceControl subscription service."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company sold its NASCAR licensed rights to iRacing.com Motorsport Simulations, LLC.",
+   "evidence": "On October 3, 2023, we sold our NASCAR licensed rights under that certain Second Amended and Restated Distribution and License Agreement with NASCAR Team Properties (\"NTP\") (the \"NASCAR License\") to iRacing.com Motorsport Simulations, LLC (\"iRacing\")."
+  },
+  {
+   "text": "In 2025 the company stopped selling NASCAR games.",
+   "evidence": "We no longer sell NASCAR games and did not sell any NASCAR games during the year ended December 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

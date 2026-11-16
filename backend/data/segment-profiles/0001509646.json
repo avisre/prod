@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001509646",
  "issuerName": "Phoenix New Media Limited",
- "builtAt": "2026-11-16T05:46:42.967Z",
+ "builtAt": "2026-11-16T11:59:55.690Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-188853",
@@ -10,10 +10,31 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1509646/000119312526188853/feng-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "net advertising services",
+   "products": [
+    "advertising services"
+   ],
+   "description": "Earns advertising revenue from advertising clients who place advertising on its content platforms.",
+   "evidence": "The Group currently operates in two principal operating segments: net advertising services and paid services."
+  },
+  {
+   "name": "paid services",
+   "products": [
+    "paid contents",
+    "E-commerce and others"
+   ],
+   "description": "Earns revenue from paid content and E-commerce and other services on its platforms.",
+   "evidence": "Our paid services revenues comprise (i) revenues from paid contents and (ii) revenues from E-commerce and others, contributing 90.4% and 9.6% of our paid services revenues in 2025, respectively."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Advertising clients pay for advertising placed on the platforms; paid services earn revenue from paid content and E-commerce.",
+  "evidence": "In 2025, we generated revenues from advertising and paid services, which accounted for 80.2% and 19.8% of our total revenues, respectively."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

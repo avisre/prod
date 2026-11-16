@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001502292",
  "issuerName": "Presurance Holdings, Inc.",
- "builtAt": "2026-11-16T05:46:45.273Z",
+ "builtAt": "2026-11-16T12:01:36.962Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-129019",
@@ -10,11 +10,45 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1502292/000119312526129019/prhi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Lines",
+   "products": [
+    "commercial automobiles",
+    "workers' compensation",
+    "hospitality programs",
+    "small business programs",
+    "Security Guard program"
+   ],
+   "description": "Insurance policies for targeted small and mid-sized businesses; no longer written after 2025.",
+   "evidence": "Our insurance policies were sold to targeted small and mid-sized businesses on a single or multiple-coverage basis."
+  },
+  {
+   "name": "Personal Lines",
+   "products": [
+    "Midwest and Texas homeowners business",
+    "homeowners business"
+   ],
+   "description": "Homeowners insurance written directly in the Midwest and Texas, all produced by one agency.",
+   "evidence": "The Company expects to continue to directly write the Midwest and Texas homeowners business going forward, however, the Company is subject to significant 4 concentration of risk because all of the homeowners business is produced by one agency, SSU, and we no longer have any ownership interest or control over where SSU places its business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Policyholders pay insurance premiums for coverage, which is the company's main source of funds.",
+  "evidence": "Our principal sources of funds are insurance premiums, investment income and proceeds from maturities and sales of invested assets."
+ },
+ "changes": [
+  {
+   "text": "The wholesale agency segment was sold and reported as discontinued operations in 2024.",
+   "evidence": "CIS and the related wholesale agency segment are now reported as discontinued operations in 2024."
+  },
+  {
+   "text": "The company stopped writing commercial lines business effective at the end of 2025.",
+   "evidence": "Effective December 31, 2025, the Company no longer writes any commercial lines business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

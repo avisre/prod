@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002030522",
  "issuerName": "MARWYNN HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:46:47.923Z",
+ "builtAt": "2026-11-16T12:03:41.130Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-083383",
@@ -10,11 +10,47 @@
   "filingDate": "2026-07-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2030522/000121390026083383/ea0298653-10k_marwynn.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sale of food and beverage",
+   "products": [
+    "frozen foods",
+    "dry groceries",
+    "snacks",
+    "non-alcoholic beverages"
+   ],
+   "description": "Sources and distributes frozen foods, dry groceries, snacks and non-alcoholic beverages to wholesalers in the U.S.",
+   "evidence": "Currently, we are limiting our offerings to certain frozen foods, dry groceries, snacks, and non-alcoholic beverages."
+  },
+  {
+   "name": "Consulting services",
+   "products": [
+    "supply chain consulting",
+    "market expansion support"
+   ],
+   "description": "Provides supply chain consulting and market expansion support for businesses.",
+   "evidence": "In addition, FuAn provides supply chain consulting, and market expansion support for businesses."
+  },
+  {
+   "name": "Sale of e-waste materials",
+   "products": [
+    "scrapped copper",
+    "waste recycled copper materials"
+   ],
+   "description": "Buys scrapped copper from e-waste recycling plants and sells recycled copper materials.",
+   "evidence": "Currently, EcoLoopX purchases scrapped copper from e-waste recycling plants for sale."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly wholesalers, pay for food and beverage supply, consulting and recycled copper sales.",
+  "evidence": "Our customers at FuAn are primarily wholesalers in the food and beverage industry who rely on our expertise to source premium Asian related products and/or to manage their supply chains efficiently."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "change not grounded: On December 22, 2025, the Company completed the sale of all of its equity intere",
+  "change not grounded: On November 25, 2025, the Company incorporated EcoLoopX Corporation to explore a"
+ ],
  "reader": "agent"
 }

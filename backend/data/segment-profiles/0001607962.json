@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001607962",
  "issuerName": "Lifeward Ltd.",
- "builtAt": "2026-11-16T05:46:43.736Z",
+ "builtAt": "2026-11-16T12:00:19.986Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001178913-26-001208",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1607962/000117891326001208/zk2634619.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "ReWalk Personal Exoskeleton",
+    "ReWalk Rehabilitation Exoskeleton",
+    "ReWalk 7 Personal Exoskeleton",
+    "ReStore Exo-Suit",
+    "AlterG Anti-Gravity systems",
+    "MYOLYN MyoCycle FES Pro",
+    "MyoCycle Home"
+   ],
+   "description": "Designs and sells medical devices, including exoskeletons and rehabilitation systems, for physical rehabilitation and recovery in clinics and at home.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clinics, distributors, third-party payors, sports teams and self-pay individuals pay the company for its rehabilitation devices and related warranties and services.",
+  "evidence": "We have in the past generated and expect to generate in the future revenue from a combination of clinics and rehabilitation centers, commercial distributors, third-party payors (including private and government payors), professional and college sports teams, and self-pay individuals."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
