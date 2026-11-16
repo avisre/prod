@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001619762",
  "issuerName": "BRIGHTSTAR LOTTERY PLC",
- "builtAt": "2026-11-16T05:05:51.120Z",
+ "builtAt": "2026-11-16T09:57:09.095Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-011083",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1619762/000162828026011083/igt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lottery",
+   "products": [
+    "Operating and facilities management contracts",
+    "Systems, software, and other",
+    "Product sales",
+    "lottery equipment",
+    "lottery systems",
+    "printed products",
+    "instant tickets"
+   ],
+   "description": "Pure-play lottery business providing sales, operations, product development, technology and support to worldwide traditional lottery and iLottery customers.",
+   "evidence": "The Company operates and manages its continuing operations business as a single segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Lottery authorities and customers pay for operating and facilities management contracts, systems, software and other services, and product sales.",
+  "evidence": "Our revenue from operating contracts is derived primarily from long-term exclusive operating licenses in Italy."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the IGT Gaming business was sold and is presented as a discontinued operation for all periods.",
+   "evidence": "The Transaction represented a strategic shift that had a major effect on the Company's operations and financial results and accordingly, IGT Gaming is presented in the accompanying Consolidated Financial Statements as a discontinued operation for all periods presented."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

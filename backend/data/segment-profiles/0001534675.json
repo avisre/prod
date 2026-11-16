@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001534675",
  "issuerName": "TECNOGLASS HOLDINGS INC.",
- "builtAt": "2026-11-16T05:05:53.486Z",
+ "builtAt": "2026-11-16T09:58:40.954Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-008465",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1534675/000149315226008465/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Architectural Glass and Windows",
+   "products": [
+    "tempered safety glass",
+    "double thermo-acoustic glass",
+    "laminated glass",
+    "architectural glass",
+    "aluminum frames",
+    "windows",
+    "vinyl products",
+    "Glass and framing components"
+   ],
+   "description": "Designs, manufactures, distributes and installs high-specification architectural glass and window products for residential and commercial construction markets.",
+   "evidence": "The Company has one operating segment, Architectural Glass and Windows, which is also its reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Developers, general contractors and installers pay for architectural glass, window products and installation services on commercial and residential projects.",
+  "evidence": "Our customers, which include developers, general contractors or installers for hotels, office buildings, shopping centers, airports, universities, hospitals and multi-family and residential buildings, look to us as a value-added partner"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

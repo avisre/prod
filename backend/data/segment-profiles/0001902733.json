@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001902733",
  "issuerName": "nCino, Inc.",
- "builtAt": "2026-11-16T05:05:57.272Z",
+ "builtAt": "2026-11-16T10:02:43.959Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001902733-26-000022",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1902733/000190273326000022/ncno-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "nCino Platform",
+   "products": [
+    "Onboarding",
+    "Account Opening",
+    "Deposit Account Opening",
+    "Lending",
+    "Commercial Loan Origination System",
+    "Credit Monitoring",
+    "Integration & Intelligence"
+   ],
+   "description": "Provides financial institutions of all sizes with cloud-based platform solutions for onboarding, lending, account opening, credit monitoring, and integration and intelligence.",
+   "evidence": "As such, the Company has one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Financial institutions pay subscription fees for access to nCino's solutions and maintenance, plus professional services fees for implementation, configuration, training and advisory work.",
+  "evidence": "We derive our revenues from subscription and professional services and other revenues."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

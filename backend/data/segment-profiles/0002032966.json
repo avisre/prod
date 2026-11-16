@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002032966",
  "issuerName": "TIC Solutions, Inc.",
- "builtAt": "2026-11-16T05:05:53.126Z",
+ "builtAt": "2026-11-16T09:58:45.786Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-017015",
@@ -10,11 +10,69 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/2032966/000162828026017015/tic-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Inspection and Mitigation",
+   "products": [
+    "Nondestructive Testing (\"NDT\")",
+    "Rope Access Technician (\"RAT\")",
+    "radiography",
+    "ultrasonic testing",
+    "magnetic particle inspection",
+    "penetrant testing",
+    "visual inspection",
+    "engineering and laboratory services"
+   ],
+   "description": "Provides nondestructive testing and rope access inspection, plus mitigation work, to industrial and infrastructure clients to keep assets compliant and safe.",
+   "evidence": "Our Inspection and Mitigation services include Nondestructive Testing (\"NDT\") and Rope Access Technician (\"RAT\") solutions."
+  },
+  {
+   "name": "Consulting Engineering",
+   "products": [
+    "engineering",
+    "civil program management",
+    "utility services",
+    "conformity assessment",
+    "clean energy consulting",
+    "data center commissioning and consulting",
+    "buildings and program management",
+    "MEP & technology design"
+   ],
+   "description": "Delivers engineering design, conformity assessment, utility, clean energy, data center, and environmental consulting services to public and private infrastructure clients.",
+   "evidence": "Our Consulting Engineering services include engineering design, conformity assessment, infrastructure engineering, building and technology design, environmental consulting, and materials engineering and testing."
+  },
+  {
+   "name": "Geospatial",
+   "products": [
+    "LiDAR",
+    "imaging",
+    "remote sensing",
+    "unmanned aerial systems",
+    "high-resolution mapping",
+    "vegetation management",
+    "utility asset inspection",
+    "subscription-based geospatial software and analytic tools"
+   ],
+   "description": "Collects and analyzes geospatial data and sells subscription software and project services to utilities, transportation, defense, and government clients.",
+   "evidence": "Our Geospatial services provide data collection, data analytics, and software solutions that support asset management and infrastructure planning."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Private and public-sector customers pay for recurring inspection, engineering, and geospatial services under time-and-materials, cost-plus, fixed-price, or unit-rate contracts.",
+  "evidence": "Our customers enter into contracts with us with pricing terms that are either on a mix of time-and-materials, cost-plus, fixed-price, or unit-rate basis, with the majority of work performed under multi-year agreements or recurring customer relationships."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company completed a reorganization of its reportable segments to align with the service offerings of the combined entity.",
+   "evidence": "In conjunction with the NV5 Acquisition, the Company completed a reorganization of the Company's reportable segments to align with the service offerings of the combined entity."
+  },
+  {
+   "text": "Its historical United States and Canada segments were combined into the Inspection and Mitigation segment in 2025.",
+   "evidence": "the Company's historical United States and Canada reportable segments have been combined into the Inspection and Mitigation reportable segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

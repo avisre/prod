@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001713930",
  "issuerName": "NEXA RESOURCES S.A.",
- "builtAt": "2026-11-16T05:05:52.128Z",
+ "builtAt": "2026-11-16T09:58:17.090Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001292814-26-001787",
@@ -10,10 +10,39 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1713930/000129281426001787/nexaform20f_2025.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mining",
+   "products": [
+    "zinc",
+    "copper",
+    "lead",
+    "silver",
+    "gold",
+    "concentrates"
+   ],
+   "description": "Operates five long-life polymetallic mines in Peru and Brazil, producing zinc, copper and lead concentrates sold to smelters and other buyers.",
+   "evidence": "The profitability of our mining segment depends primarily on prevailing world prices for the metals we produce and on our unit cost to produce concentrates."
+  },
+  {
+   "name": "Smelting",
+   "products": [
+    "refined metal",
+    "refined products",
+    "by-products",
+    "sulfuric acid",
+    "copper cement"
+   ],
+   "description": "Operates zinc smelters in Peru and Brazil that convert purchased concentrates into refined zinc and by-products for industrial customers.",
+   "evidence": "The profitability of our smelting segment is less directly exposed to metal price movements, as prices affect both revenue and raw material cost."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers and metal traders pay for zinc, copper and lead concentrates and refined metal at LME-referenced prices, while smelters charge treatment charges to process concentrate.",
+  "evidence": "The market prices for zinc, copper and lead are principally referenced to the daily cash seller and settlement price established on the LME."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

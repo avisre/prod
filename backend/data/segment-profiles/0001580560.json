@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001580560",
  "issuerName": "FLYWIRE CORPORATION",
- "builtAt": "2026-11-16T05:05:51.279Z",
+ "builtAt": "2026-11-16T09:57:36.328Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-067540",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1580560/000119312526067540/flyw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payments",
+   "products": [
+    "tailored invoicing",
+    "settlement and reconciliation tools",
+    "single sign-on and checkout",
+    "recurring payments",
+    "split payouts",
+    "cross-border and in-country domestic payments and software solutions"
+   ],
+   "description": "Provides a global payments platform and vertical-specific software that helps clients in education, healthcare, travel and business-to-business industries receive and reconcile payments.",
+   "evidence": "The Company has a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay Flywire for its secure global payments platform and vertical-specific software, which they use to receive reconciled domestic and international payments from their customers.",
+  "evidence": "Flywire provides a secure global payments platform, offering its clients an innovative and streamlined process to receive reconciled domestic and international payments in a more cost effective and efficient manner."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

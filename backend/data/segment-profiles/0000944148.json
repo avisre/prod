@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000944148",
  "issuerName": "CBIZ, Inc.",
- "builtAt": "2026-11-16T05:05:57.197Z",
+ "builtAt": "2026-11-16T10:02:43.755Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000944148-26-000038",
@@ -10,10 +10,44 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/944148/000094414826000038/cbz-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial Services",
+   "products": [
+    "Accounting and Tax",
+    "Financial Advisory",
+    "National Technology",
+    "Government Health Care Consulting"
+   ],
+   "description": "Provides accounting, tax, financial advisory, technology and government health care consulting services to middle-market businesses and organizations nationwide.",
+   "evidence": "The leaders for each service line report to the President of the Financial Services Practice Group."
+  },
+  {
+   "name": "Benefits and Insurance Services",
+   "products": [
+    "Employee Benefit Consulting",
+    "Payroll / Human Capital Management",
+    "Property and Casualty Insurance",
+    "Retirement and Investment Services"
+   ],
+   "description": "Provides employee benefit consulting, payroll and human capital management, property and casualty insurance brokerage and retirement and investment services to middle-market clients.",
+   "evidence": "The leaders for each service line report to the President of Benefits and Insurance Services practice group."
+  },
+  {
+   "name": "National Practices",
+   "products": [
+    "managed networking and hardware services"
+   ],
+   "description": "Provides managed networking and hardware services to a single client under a cost-plus contract in the United States and Canada.",
+   "evidence": "Our National Practices group provides managed networking and hardware services to a single client based on a cost-plus contract which expires on December 31, 2028."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay fees for multi-disciplinary professional services in accounting, tax, advisory, benefits, insurance and technology, and CPA firms pay service fees under administrative service agreements.",
+  "evidence": "We provide multi-disciplinary professional services and comprehensive solutions to a broad and diversified client base across the United States."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001648257",
  "issuerName": "HutchMED (China) LIMITED",
- "builtAt": "2026-11-16T05:05:51.235Z",
+ "builtAt": "2026-11-16T09:57:25.261Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-023822",
@@ -10,11 +10,48 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1648257/000110465926023822/hcm-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology/Immunology",
+   "products": [
+    "savolitinib",
+    "fruquintinib",
+    "surufatinib",
+    "tazemetostat",
+    "Orpathys",
+    "Elunate",
+    "Sulanda",
+    "Fruzaqla"
+   ],
+   "description": "Discovers, develops and commercializes targeted therapies and immunotherapies for patients with cancer and immunological diseases, and out-licenses in-house developed drugs to partners.",
+   "evidence": "The Group's operating segments are Oncology/Immunology and Other Ventures."
+  },
+  {
+   "name": "Other Ventures",
+   "products": [
+    "prescription drugs",
+    "healthcare products"
+   ],
+   "description": "Manufactures, markets and distributes prescription drugs and healthcare products in China through drug marketing and distribution platforms.",
+   "evidence": "We have built large-scale and profitable drug marketing and distribution capabilities through our Other Ventures operations, which primarily manufacture, market and distribute prescription drugs in China."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Collaboration partners pay upfront payments, research and development cost reimbursements, milestone payments and sales-based royalties, while hospitals and distributors pay for drug products.",
+  "evidence": "The transaction price generally includes fixed and variable consideration in the form of upfront payment, research and development cost reimbursements, contingent milestone payments and sales-based royalties."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company completed the divestment of its interest in Shanghai Hutchison Pharmaceuticals, retaining a small minority stake.",
+   "evidence": "In April 2025, we completed the divestment of an aggregate of 45% equity interest and retained 5% equity interest in Shanghai Hutchison Pharmaceuticals."
+  },
+  {
+   "text": "In 2023 the company disposed of its consolidated joint venture Hutchison Hain Organic and its wholly owned subsidiary HUTCHMED Science Nutrition.",
+   "evidence": "In December 2023, we disposed of our interests in our consolidated joint venture Hutchison Hain Organic and our wholly owned subsidiary HUTCHMED Science Nutrition."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

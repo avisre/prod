@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001022321",
  "issuerName": "GENESIS ENERGY LP",
- "builtAt": "2026-11-16T05:05:53.085Z",
+ "builtAt": "2026-11-16T09:58:35.621Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001022321-26-000008",
@@ -10,11 +10,63 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1022321/000102232126000008/gel-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Offshore pipeline transportation",
+   "products": [
+    "transportation and processing of crude oil and natural gas",
+    "SYNC Pipeline",
+    "CHOPS Pipeline",
+    "SEKCO Pipeline",
+    "Poseidon Pipeline"
+   ],
+   "description": "Transports and processes crude oil and natural gas through Gulf of America pipelines and platforms for offshore producers and refiners.",
+   "evidence": "Offshore pipeline transportation, which includes the transportation and processing of crude oil and natural gas in the Gulf of America"
+  },
+  {
+   "name": "Marine transportation",
+   "products": [
+    "waterborne transportation of petroleum products",
+    "fuel oil",
+    "asphalt",
+    "other heavy refined products",
+    "crude oil",
+    "barges and boats"
+   ],
+   "description": "Moves petroleum products and crude oil by barge and boat throughout North America for inland and offshore customers.",
+   "evidence": "Marine transportation, which provides waterborne transportation of petroleum products (primarily fuel oil, asphalt and other heavy refined products) and crude oil throughout North America"
+  },
+  {
+   "name": "Onshore transportation and services",
+   "products": [
+    "NaHS",
+    "caustic soda",
+    "sulfur removal services",
+    "crude oil marketing",
+    "trucks and trailers",
+    "terminals",
+    "refined products"
+   ],
+   "description": "Terminals, blends, stores and markets crude oil and removes sulfur for refineries, serving producers, refiners and industrial customers.",
+   "evidence": "Onshore transportation and services, which includes terminaling, blending, storing, and marketing crude oil, and transporting crude oil and refined products, as well as the processing of high sulfur (or \"sour\") gas streams for refineries to remove the sulfur, and selling the related by-product, NaHS"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Midstream customers, including crude oil and natural gas producers, refiners, and industrial and commercial enterprises, pay fees for transportation, storage, sulfur removal, blending, terminaling and processing services.",
+  "evidence": "We provide a variety of fee-based transportation and logistics services to our customers across several of our reportable segments as outlined below."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the partnership sold the Alkali Business and re-organized its operating segments as a result.",
+   "evidence": "In the first quarter of 2025, we sold the Alkali Business and, as a result, re-organized our operating segments to represent how our chief operating decision maker, who is our Chief Executive Officer (our \"CODM\"), evaluates the performance of operations, develops strategy and allocates resources, including capital."
+  },
+  {
+   "text": "In 2025 the sulfur services business moved out of the soda and sulfur services reporting segment into onshore transportation and services.",
+   "evidence": "Our sulfur services business, formerly reported under our soda and sulfur services reporting segment along with our Alkali Business, is now reported under our onshore transportation and services reporting segment along with those businesses that were included within our previously reported onshore facilities and transportation segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001286973",
  "issuerName": "AMERICAS GOLD AND SILVER CORPORATION",
- "builtAt": "2026-11-16T05:05:52.002Z",
+ "builtAt": "2026-11-16T09:59:11.466Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001062993-26-001679",
@@ -11,10 +11,47 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1286973/000106299326001679/exhibit99-2.htm",
   "exhibit": "exhibit99-2.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cosalá Operations",
+   "products": [
+    "silver-copper concentrate",
+    "silver",
+    "copper"
+   ],
+   "description": "Silver-copper mining operations in Mexico producing silver and copper concentrates sold to offtake customers under concentrate contracts.",
+   "evidence": "Proceeds before intended use represent net revenues recognized on sale of silver-copper concentrate mined from the EC120 Project at the Cosalá Operations as it progresses toward commercial production declaration."
+  },
+  {
+   "name": "Galena Complex",
+   "products": [
+    "lead concentrates",
+    "silver"
+   ],
+   "description": "Silver and lead mine in the United States producing lead concentrates and silver for offtake and metals delivery counterparties.",
+   "evidence": "As part of the consideration for the remaining 40 % interest in the Galena Complex, the Company entered into a silver metals delivery agreement with Mr. Eric Sprott for monthly purchases and deliveries of 18,500 ounces of silver for 36 months starting in January 2026 (the \"Silver Agreement\")."
+  },
+  {
+   "name": "Relief Canyon",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in the United States held under care and maintenance, subject to a precious metals delivery agreement.",
+   "evidence": "On April 3, 2019, the Company entered into a $ 25 million precious metals delivery and purchase agreement (the \"Purchase Agreement\") with Sandstorm Gold Ltd. (\"Sandstorm\"), acquired by Royal Gold, Inc. in October 2025, for the construction and development of the Relief Canyon Mine."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [],
+   "description": "Corporate assets and head office costs that are not attributed to a mining segment.",
+   "evidence": "Corporate general and administrative expenses are costs incurred at corporate and other subsidiaries that do not directly relate to production."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Concentrate offtake customers and metals delivery counterparties pay for concentrate production, finished silver and fixed precious metals deliveries under sales and delivery contracts.",
+  "evidence": "The Company recognizes revenue through entering into concentrate sales contracts with customers with the performance obligation of delivering its concentrate production in exchange for consideration valued initially under provisional pricing arrangements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

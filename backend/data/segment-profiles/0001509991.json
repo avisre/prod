@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001509991",
  "issuerName": "Kosmos Energy Ltd.",
- "builtAt": "2026-11-16T05:05:57.026Z",
+ "builtAt": "2026-11-16T10:02:56.650Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001509991-26-000017",
@@ -10,11 +10,68 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1509991/000150999126000017/kos-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ghana",
+   "products": [
+    "Jubilee Field",
+    "TEN Fields"
+   ],
+   "description": "Produces oil and gas from the Jubilee and TEN fields offshore Ghana for crude oil and gas buyers.",
+   "evidence": "In Ghana, we plan to maintain a consistent drilling program, bringing additional development wells online at the Jubilee Field in the near term, supported by high facility uptime and sustained water injection."
+  },
+  {
+   "name": "Equatorial Guinea",
+   "products": [
+    "Ceiba Field",
+    "Okume Complex"
+   ],
+   "description": "Produces oil and gas from the Ceiba Field and Okume Complex offshore Equatorial Guinea for marketing agents and purchasers.",
+   "evidence": "In October 2025, we submitted a formal notice to the Ministry of Hydrocarbons and Mining Development that we are electing to exit Block S offshore Equatorial Guinea."
+  },
+  {
+   "name": "Mauritania | Senegal",
+   "products": [
+    "Greater Tortue Ahmeyim Field",
+    "GTA Phase 1"
+   ],
+   "description": "Develops and produces natural gas and LNG offshore Mauritania and Senegal for gas and LNG buyers.",
+   "evidence": "Offshore Mauritania and Senegal, growth is expected to be realized through additional development beyond GTA Phase 1 by fully utilizing the existing infrastructure."
+  },
+  {
+   "name": "Gulf of America",
+   "products": [
+    "Winterfell",
+    "Tiberius",
+    "Kodiak",
+    "Tornado",
+    "Odd Job",
+    "Marmalard"
+   ],
+   "description": "Produces oil and gas from deepwater fields in the Gulf of America through subsea tie-backs to existing host facilities.",
+   "evidence": "Most recently, we have demonstrated infrastructure-led exploration success through the Winterfell and Tiberius discoveries in the Gulf of America in 2021 and 2023, respectively."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Oil and gas marketing agents and customers pay for crude oil and natural gas sold from our producing fields under sales agreements.",
+  "evidence": "For our Gulf of America operations, crude oil and natural gas are transported to customers using third-party pipelines."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company elected to exit Block S offshore Equatorial Guinea.",
+   "evidence": "In October 2025, we submitted a formal notice to the Ministry of Hydrocarbons and Mining Development that we are electing to exit Block S offshore Equatorial Guinea."
+  },
+  {
+   "text": "In 2024 the company elected to exit another block offshore Equatorial Guinea.",
+   "evidence": "In December 2024, we submitted a formal notice to the Ministry of Hydrocarbons and Mining Development that we are electing to exit Block 21 offshore Equatorial Guinea."
+  },
+  {
+   "text": "In 2026 the company agreed to sell its Ceiba Field and Okume Complex production assets in Block G offshore Equatorial Guinea.",
+   "evidence": "On February 24, 2026, we entered into a Share Sale and Purchase Agreement with a subsidiary of Panoro Energy ASA for the sale of all of our participating interest in the Ceiba Field and Okume Complex production assets located in Block G offshore Equatorial Guinea"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

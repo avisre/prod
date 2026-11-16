@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001527636",
  "issuerName": "Autohome Inc.",
- "builtAt": "2026-11-16T05:05:52.249Z",
+ "builtAt": "2026-11-16T09:58:15.346Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-155932",
@@ -10,10 +10,23 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1527636/000119312526155932/athm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online platform services",
+   "products": [
+    "dealer subscription services",
+    "software products"
+   ],
+   "description": "Runs one online platform business in mainland China, selling dealer subscription services and other services delivered as software products to its users.",
+   "evidence": "The Company is organized and managed as one segment based on the nature and financial effects of the business activities."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Dealers and platform users pay for subscription and other services that the company sells in the form of software products.",
+  "evidence": "they are subject to 13 % VAT for the dealer subscription services and other services, which were sold in the form of software products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

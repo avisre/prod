@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001781755",
  "issuerName": "The Baldwin Insurance Group, Inc.",
- "builtAt": "2026-11-16T05:05:53.634Z",
+ "builtAt": "2026-11-16T09:59:39.727Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001781755-26-000018",
@@ -10,11 +10,54 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1781755/000178175526000018/bwin-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance Advisory Solutions",
+   "products": [
+    "commercial property and casualty insurance",
+    "employee benefits insurance",
+    "personal lines insurance",
+    "wealth management and retirement services"
+   ],
+   "description": "Places commercial property and casualty, employee benefits and personal lines coverage and provides wealth management and retirement services to clients.",
+   "evidence": "We conduct wealth management and retirement services within our Insurance Advisory Solutions operating group."
+  },
+  {
+   "name": "Underwriting, Capacity & Technology Solutions",
+   "products": [
+    "commercial umbrella",
+    "commercial property",
+    "general liability",
+    "management liability",
+    "MSI",
+    "captive solutions"
+   ],
+   "description": "Manufactures proprietary insurance products and captive solutions, including MSI, its managing general agent platform, for clients and external distribution partners.",
+   "evidence": "We conduct commercial property and casualty business within all of our operating groups, which includes manufacturing our own proprietary products and captive solutions within our Underwriting, Capacity & Technology Solutions operating group."
+  },
+  {
+   "name": "Mainstreet Insurance Solutions",
+   "products": [
+    "Medicare",
+    "personal lines insurance",
+    "employee benefits insurance"
+   ],
+   "description": "Serves Mainstreet clients with personal lines, employee benefits and Medicare coverage, including embedded and digital distribution for individuals and small businesses.",
+   "evidence": "Medicare advisors within our Mainstreet Insurance Solutions operating group assist in determining optimal coverage and healthcare/doctor access based on an individual's healthcare needs and spending limitations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients and insureds pay commissions based on a percentage of insurance premiums, plus fees for consulting and management services.",
+  "evidence": "Commission revenues are generally based on a percentage of the premiums paid by insureds and normally follow premium levels."
+ },
+ "changes": [
+  {
+   "text": "The Wholesale Business, a specialty wholesale broker business, was sold in 2024.",
+   "evidence": "Wholesale Business Our specialty wholesale broker business, which was sold on March 1, 2024"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

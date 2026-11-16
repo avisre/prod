@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001595974",
  "issuerName": "MAGNITE, INC.",
- "builtAt": "2026-11-16T05:05:52.315Z",
+ "builtAt": "2026-11-16T09:57:58.457Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001595974-26-000007",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1595974/000159597426000007/mgni-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital advertising",
+   "products": [
+    "SpringServe CTV platform",
+    "ClearLine",
+    "Magnite Curator Marketplace",
+    "SpringServe Home Screen Ads",
+    "ad podding",
+    "audio normalization tools",
+    "frequency capping",
+    "creative review"
+   ],
+   "description": "Runs an independent omni-channel sell-side platform where publishers monetize CTV, video and other digital inventory and buyers purchase it programmatically at scale.",
+   "evidence": "Management has determined that the Company operates as one operating segment and one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Publishers selling digital advertising inventory and the buyers of it pay the company, which keeps a percentage of the ad spend running through its platform or fixed fees.",
+  "evidence": "The Company keeps a percentage of that advertising spend as a fee, and remits the remainder to the seller."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

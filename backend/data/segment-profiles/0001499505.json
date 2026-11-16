@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001499505",
  "issuerName": "Adecoagro S.A.",
- "builtAt": "2026-11-16T05:05:55.740Z",
+ "builtAt": "2026-11-16T10:01:02.051Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001499505-26-000069",
@@ -10,11 +10,84 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1499505/000149950526000069/agro-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sugar, Ethanol and Energy",
+   "products": [
+    "sugarcane",
+    "sugar",
+    "ethanol",
+    "energy",
+    "electricity",
+    "biomethane"
+   ],
+   "description": "Cultivates sugarcane in Brazil and processes it in its own mills into sugar, ethanol, electricity and biomethane for sale.",
+   "evidence": "Our Sugar, Ethanol and Energy line of business, as well as our Fertilizers line of business are also a reportable operating segment."
+  },
+  {
+   "name": "Fertilizers",
+   "products": [
+    "granular urea",
+    "ammonia",
+    "nitrogen-based fertilizers"
+   ],
+   "description": "Produces and sells fertilizers, mainly granular urea, and ammonia, supporting agricultural productivity in Argentina and South America.",
+   "evidence": "The \"Fertilizers\" segment consists of the production and commercialization of fertilizers, mainly granular urea"
+  },
+  {
+   "name": "Crops",
+   "products": [
+    "soybean",
+    "corn",
+    "wheat",
+    "peanut",
+    "sunflower",
+    "cotton",
+    "grains",
+    "oilseeds"
+   ],
+   "description": "Plants, harvests and sells grains, oilseeds and fibers, and provides grain warehousing, conditioning, handling and drying services to third parties.",
+   "evidence": "Our Farming business is comprised of three reportable operating segments: Crops, Rice and Diary Segments."
+  },
+  {
+   "name": "Rice",
+   "products": [
+    "rough (unprocessed) rice",
+    "white rice (processed)",
+    "rice products",
+    "Molinos Ala",
+    "Apóstoles",
+    "Mucho Gusto"
+   ],
+   "description": "Processes rough rice and sells white rice and branded rice products to consumers and export clients.",
+   "evidence": "We are also a large processor and exporter of white rice (processed) in Argentina and Uruguay."
+  },
+  {
+   "name": "Dairy",
+   "products": [
+    "UHT milk",
+    "powder milk",
+    "semi-hard cheese",
+    "dairy products",
+    "Las Tres Niñas",
+    "Angelita"
+   ],
+   "description": "Operates dairy farms and processing facilities, selling milk, cheese and branded dairy products to retail consumers.",
+   "evidence": "We are a leading retailer of dairy products, including three popular brands"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Third-party clients and industrial customers pay the company for crops, sugar, ethanol, energy, rice, dairy products and fertilizers.",
+  "evidence": "In agriculture, we produce a diversified portfolio of products—including various crops, rice, sugarcane and dairy—supplying both our own industrial operations and third-party clients."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company added a Fertilizers reportable segment after acquiring Profertil.",
+   "evidence": "As a result, the Company now operates three reportable segments: (i) Sugar, Ethanol and Energy, (ii) Fertilizers and (iii) Farming."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

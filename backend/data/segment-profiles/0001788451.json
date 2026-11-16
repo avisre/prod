@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001788451",
  "issuerName": "Ethos Technologies Inc.",
- "builtAt": "2026-11-16T05:05:55.084Z",
+ "builtAt": "2026-11-16T09:59:54.356Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-108887",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1788451/000119312526108887/life-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life insurance",
+   "products": [
+    "insurance products",
+    "insurance policies",
+    "Wills & Estate Planning products"
+   ],
+   "description": "Runs a digital platform where consumers apply for and buy insurance and related products, directly or through third parties.",
+   "evidence": "The Company has one reportable segment, which has been identified based on how the chief operating decision maker (CODM), manages the business, makes operating decisions and evaluates operating performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Insurance carriers pay Ethos commissions based on the annual premium of policies activated through its platform.",
+  "evidence": "Commissions: The compensation paid by a carrier to us for an activated policy."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

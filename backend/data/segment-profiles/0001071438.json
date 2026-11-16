@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001071438",
  "issuerName": "BRASKEM SA",
- "builtAt": "2026-11-16T05:05:53.205Z",
+ "builtAt": "2026-11-16T09:59:13.699Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001292814-26-002427",
@@ -10,11 +10,55 @@
   "filingDate": "2026-04-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1071438/000129281426002427/bakform20f_2025.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brazil Segment",
+   "products": [
+    "olefins",
+    "intermediates",
+    "fuels",
+    "solvents",
+    "specialties",
+    "polyethylene",
+    "polypropylene",
+    "PVC"
+   ],
+   "description": "Produces chemicals, polyethylene, polypropylene and PVC at Brazilian petrochemical complexes and supplies second-generation producers and other customers in Brazil and abroad.",
+   "evidence": "Brazil Segment: includes: (i) the production and sale of chemicals, including olefins and specialties, at the Camaçari Petrochemical Complex in Bahia"
+  },
+  {
+   "name": "United States and Europe Segment",
+   "products": [
+    "polypropylene",
+    "Ultra High Molecular Weight Polyethylene",
+    "UTEC"
+   ],
+   "description": "Produces and sells polypropylene, and ultra high molecular weight polyethylene, from plants in the United States and Germany to industrial customers.",
+   "evidence": "United States and Europe Segment: operations related to PP production and sale in the United States and Europe, through the subsidiaries Braskem America and Braskem Netherlands B.V, respectively."
+  },
+  {
+   "name": "Mexico Segment",
+   "products": [
+    "ethylene",
+    "HDPE (high-density polyethylene)",
+    "LDPE (low-density polyethylene)"
+   ],
+   "description": "Produces and sells ethylene and high-density and low-density polyethylene in Mexico through the subsidiary Braskem Idesa.",
+   "evidence": "Mexico Segment: comprises the activities related to the PE production and sale in Mexico, through the subsidiary Braskem Idesa."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers in many countries pay Braskem for chemicals and plastics, which they transform into packaging, furniture, automotive components and coatings.",
+  "evidence": "we offer a broad portfolio of chemicals and plastics transformed by our customers in more than 70 countries into applications such as food packaging"
+ },
+ "changes": [
+  {
+   "text": "In 2025 Braskem hibernated its chlor-alkali unit, ending caustic soda production in the Brazil Segment.",
+   "evidence": "In September 2025, Braskem decided to hibernate its chlor-alkali unit to improve PVC competitiveness."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

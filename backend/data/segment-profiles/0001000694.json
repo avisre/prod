@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001000694",
  "issuerName": "NOVAVAX, INC.",
- "builtAt": "2026-11-16T05:05:56.831Z",
+ "builtAt": "2026-11-16T10:02:09.249Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001000694-26-000007",
@@ -10,11 +10,31 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1000694/000100069426000007/nvax-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vaccines",
+   "products": [
+    "COVID-19 Vaccine (Nuvaxovid)",
+    "Matrix-M™ adjuvant",
+    "R21/Matrix-M™ adjuvant malaria vaccine",
+    "CIC and influenza vaccines"
+   ],
+   "description": "Develops and sells protein-based vaccines and its Matrix-M adjuvant, licensing the adjuvant and pipeline assets to partners.",
+   "evidence": "The Company manages its business as one reportable operating segment, an in-house early-stage R&D business to build a pipeline of high-value assets using its proven technology along with seeking to enter into partnerships to drive value creation for its assets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Governments and collaboration partners pay for vaccine doses, upfront advance payments and licensing of the Matrix-M adjuvant.",
+  "evidence": "The APAs typically contain terms that include upfront payments intended to assist us in funding investments related to building out and operating our manufacturing and distribution network, among other expenses, in support of our global supply commitment."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company recorded a gain on the disposition of its Novavax CZ assets.",
+   "evidence": "Other segment income (expense) includes interest expense, impairment of assets held for sale, loss on debt extinguishment, gain on disposition of Novavax CZ assets, income tax expense (benefit), and other income, net."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

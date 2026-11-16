@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001853145",
  "issuerName": "EverCommerce Inc.",
- "builtAt": "2026-11-16T05:05:54.079Z",
+ "builtAt": "2026-11-16T09:59:08.698Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001853145-26-000010",
@@ -10,11 +10,37 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1853145/000185314526000010/evcm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SaaS solutions",
+   "products": [
+    "Business Management Software",
+    "Billing & Payment Solutions",
+    "EverPro for Home Services",
+    "EverHealth for Health Services",
+    "EverWell for Wellness Services",
+    "Software-as-a-Service (\"SaaS\") solutions"
+   ],
+   "description": "Provides vertically-tailored SaaS and technology-based solutions that help service-based small and medium businesses run operations, engage customers and grow.",
+   "evidence": "The Company operates in a single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Service SMBs pay for SaaS and other technology-based solutions that help them optimize operations, improve customer relationships and experience, and accelerate growth.",
+  "evidence": "The segment derives revenue from providing SaaS and other technology-based solutions to help service SMB's optimize their operations, improve customer relationships and experience, and accelerate growth."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its marketing technology solutions business, which is reported as discontinued operations.",
+   "evidence": "Marketing technology solutions qualified as discontinued operations and is presented accordingly in the consolidated financial statements for all periods presented through the applicable date of the sale."
+  },
+  {
+   "text": "In 2024 the company sold its fitness solutions businesses, North American Fitness and UK Fitness.",
+   "evidence": "The sale of EverCommerce UK, including wholly-owned subsidiaries Fitii UK (MyPTHub and MyPTHub LLC) and ClubWise UK and its wholly-owned subsidiary ClubWise Australia (collectively, \"UK Fitness\" and together with North American Fitness, \"Fitness Solutions\"), closed on July 1, 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001524566",
  "issuerName": "Wealthfront Corporation",
- "builtAt": "2026-11-16T05:05:56.391Z",
+ "builtAt": "2026-11-16T10:01:50.845Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-027232",
@@ -10,11 +10,33 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1524566/000162828026027232/wlth-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial solutions",
+   "products": [
+    "Cash Account",
+    "cash sweep program",
+    "Wealthfront Treasury Money Market Fund",
+    "investment advisory",
+    "borrowing and lending",
+    "financial planning"
+   ],
+   "description": "Provides cash management, investment advisory, borrowing and lending, and financial planning products to digital-native clients building long-term wealth.",
+   "evidence": "The Company operates and reports financial information in one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay investment advisory and portfolio management fees based on asset values, while program banks pay fees on cash swept in the cash sweep program.",
+  "evidence": "Cash management revenue is primarily earned from fees received for the delivery of cash management services, including our cash sweep program."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, other revenue included a discontinued product.",
+   "evidence": "For the fiscal year ended January 31, 2025, other revenue included a discontinued product."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

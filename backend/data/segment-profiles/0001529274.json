@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001529274",
  "issuerName": "ALKAMI TECHNOLOGY, INC.",
- "builtAt": "2026-11-16T05:05:55.888Z",
+ "builtAt": "2026-11-16T10:00:18.231Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001529274-26-000009",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1529274/000152927426000009/alk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Banking",
+   "products": [
+    "Alkami Digital Banking Platform",
+    "Onboarding & Account Opening",
+    "Data & Marketing",
+    "loan origination solutions"
+   ],
+   "description": "Provides community, regional and super-regional financial institutions a cloud-based digital sales and service platform to onboard, engage and grow their account holders.",
+   "evidence": "The Company operates as a single operating segment and is a single-reportable segment entity."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Financial institutions pay multi-year subscription fees, predominantly per registered user, for licensed solutions on the platform, plus implementation and other services.",
+  "evidence": "We predominantly employ a per-registered-user pricing model, with incremental fees above certain contractual client minimum commitments for each licensed solution."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

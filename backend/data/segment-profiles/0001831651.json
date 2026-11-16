@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001831651",
  "issuerName": "Shoals Technologies Group, Inc.",
- "builtAt": "2026-11-16T05:05:55.438Z",
+ "builtAt": "2026-11-16T09:59:57.242Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001831651-26-000021",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1831651/000183165126000021/shls-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EBOS solutions and components",
+   "products": [
+    "homeruns",
+    "interconnection and extension solutions",
+    "combiners and recombiners",
+    "load break disconnects and transition solutions",
+    "wireless performance monitoring systems",
+    "solar OEM components",
+    "Big Lead Assembly (\"BLA\") trunk bus",
+    "Recombiner"
+   ],
+   "description": "Designs, engineers and manufactures electrical balance of systems solutions and components for utility-scale solar, energy storage and data center projects.",
+   "evidence": "The Company is organized and operates as one operating and reportable segment, which carries out business activities related to the design, development, manufacture and marketing of products and services for EBOS solutions and components."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Engineering, procurement and construction firms and project owners pay for custom EBOS system solutions, components and technical support.",
+  "evidence": "Specifically, we primarily sold to engineering, procurement and construction firms (\"EPCs\") for use in large solar and BESS projects designed to generate electricity and feed it directly into the electric grid, typically with a generation capacity of 1 megawatt or greater."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

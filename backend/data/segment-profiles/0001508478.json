@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001508478",
  "issuerName": "Arcos Dorados Holdings Inc.",
- "builtAt": "2026-11-16T05:05:54.376Z",
+ "builtAt": "2026-11-16T09:59:52.591Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-028950",
@@ -10,11 +10,50 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1508478/000162828026028950/arco-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brazil",
+   "products": [
+    "McDonald's restaurants",
+    "Company-operated restaurants",
+    "franchised restaurants"
+   ],
+   "description": "Operates and franchises McDonald's restaurants in Brazil, serving local customers through Company-operated and franchised restaurants.",
+   "evidence": "As of December 31, 2025, 48.8% of our restaurants were located in Brazil, 26.6% in NOLAD and 24.6% in SLAD."
+  },
+  {
+   "name": "NOLAD",
+   "products": [
+    "McDonald's restaurants",
+    "Company-operated restaurants",
+    "franchised restaurants"
+   ],
+   "description": "Operates and franchises McDonald's restaurants across Mexico, Central America and the Caribbean in the North Latin American division.",
+   "evidence": "NOLAD, which consists of Costa Rica, Mexico, Panama, Puerto Rico, Martinique, Guadeloupe, French Guiana, St. Martin, and the U.S. Virgin Islands of St. Croix and St. Thomas"
+  },
+  {
+   "name": "SLAD",
+   "products": [
+    "McDonald's restaurants",
+    "Company-operated restaurants",
+    "franchised restaurants"
+   ],
+   "description": "Operates and franchises McDonald's restaurants in the South American and Caribbean markets that form the South Latin American division.",
+   "evidence": "SLAD, which consists of Argentina, Chile, Ecuador, Peru, Uruguay, Colombia, Venezuela, Trinidad and Tobago, Aruba, and Curaçao"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for food at Company-operated restaurants, while franchisees pay rent and related fees for franchised restaurants.",
+  "evidence": "We generate revenues primarily from two sources: sales by Company-operated restaurants and revenue from franchised restaurants, which primarily consists of rental income, typically based on the greater of a flat fee or a percentage of sales reported by our franchised restaurants."
+ },
+ "changes": [
+  {
+   "text": "In 2025 St. Martin was added to the NOLAD segment.",
+   "evidence": "which is comprised of Costa Rica, Mexico, Panama, Puerto Rico, Martinique, Guadeloupe, French Guiana and the U.S. Virgin Islands of St. Croix and St. Thomas, and, since July 2025, St. Martin"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

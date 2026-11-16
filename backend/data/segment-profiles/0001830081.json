@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001830081",
  "issuerName": "RUM GROUP INC.",
- "builtAt": "2026-11-16T05:05:51.772Z",
+ "builtAt": "2026-11-16T09:57:29.573Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-024099",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1830081/000121390026024099/ea0277968-10k_rumble.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Video sharing platform and cloud services",
+   "products": [
+    "Rumble Video",
+    "Rumble Studio",
+    "Rumble Advertising Center",
+    "Rumble Wallet",
+    "Rumble Cloud",
+    "Rumble Premium",
+    "Locals.com"
+   ],
+   "description": "Operates a video sharing, livestreaming and cloud services platform selling advertising, subscriptions and creator tools to creators, advertisers, publishers and users.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Advertisers pay for display and video advertising, while users pay for subscriptions, pay-per-view and tipping, with revenue shared with creators.",
+  "evidence": "We share revenue generated from advertising, subscriptions, pay-per-view and tipping with creators in a revenue-share model."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

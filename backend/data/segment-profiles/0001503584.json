@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001503584",
  "issuerName": "COSTAMARE INC.",
- "builtAt": "2026-11-16T05:05:51.249Z",
+ "builtAt": "2026-11-16T09:57:31.274Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001140361-26-007868",
@@ -10,11 +10,40 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1503584/000114036126007868/ef20064083_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Container vessels segment",
+   "products": [
+    "container vessels",
+    "containerships",
+    "containership fleet"
+   ],
+   "description": "Charters its owned containership fleet to charterers worldwide, providing marine transportation services and earning voyage revenue.",
+   "evidence": "( 1 ) a container vessels segment, as a provider of worldwide marine transportation services by chartering its container vessels"
+  },
+  {
+   "name": "NML",
+   "products": [
+    "ship sale and leaseback",
+    "leaseback vessels",
+    "bareboat charters"
+   ],
+   "description": "Acquires, owns and bareboat charters out vessels through wholly-owned subsidiaries to lessees, earning leaseback income.",
+   "evidence": "NML acquires, owns and bareboat charters out vessels through its wholly-owned subsidiaries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Charterers pay charter hire to use the container vessels, while lessees pay bareboat charter hire to NML's vessel-owning subsidiaries.",
+  "evidence": "Neptune acquires and charters out on a bareboat basis vessels to customers (lessees) through wholly-owned subsidiaries."
+ },
+ "changes": [
+  {
+   "text": "The dry bulk and CBI operating platform segments were spun off, leaving two reportable segments from four.",
+   "evidence": "Prior to the Spin-Off, there were four reportable segments; however, the dry bulk and CBI operating platform segments were spun off, and the comparative information has been recast accordingly."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

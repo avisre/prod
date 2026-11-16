@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002013649",
  "issuerName": "Chagee Holdings Ltd.",
- "builtAt": "2026-11-16T05:05:53.508Z",
+ "builtAt": "2026-11-16T09:59:18.429Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-050766",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/2013649/000110465926050766/cha-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Teahouse network",
+   "products": [
+    "tea drinks",
+    "signature tea latte products",
+    "freshly-made tea drinks"
+   ],
+   "description": "Runs a teahouse network across China and overseas, serving freshly-made tea drinks to consumers and franchising teahouses to franchise partners.",
+   "evidence": "Our extensive and well-managed teahouse network has been a critical factor in our growth and strong results."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Franchise partners pay fixed franchise and store opening fees plus percentage fees on their teahouses' sales, and buy materials and supplies from the company.",
+  "evidence": "We receive various types of fees from our franchise partners."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
