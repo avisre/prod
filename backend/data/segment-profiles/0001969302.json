@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001969302",
+ "issuerName": "Pony AI Inc.",
+ "builtAt": "2026-11-16T04:55:13.446Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-046406",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1969302/000110465926046406/pony-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pony AI",
+   "products": [
+    "autonomous driving technology"
+   ],
+   "description": "Develops autonomous driving technology and robotaxi services.",
+   "evidence": "Therefore, the Group has only one repor"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners and riders pay for autonomous driving technology and rides.",
+  "evidence": "Therefore, the Group has only one repor"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

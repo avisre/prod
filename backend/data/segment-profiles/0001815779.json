@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001815779",
+ "issuerName": "Hafnia Limited",
+ "builtAt": "2026-11-16T04:55:11.729Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-015278",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1815779/000114036126015278/ef20060668.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

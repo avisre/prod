@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001342338",
+ "issuerName": "Himax Technologies, Inc.",
+ "builtAt": "2026-11-16T04:55:14.871Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-035507",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1342338/000110465926035507/himx-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

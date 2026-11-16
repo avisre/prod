@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001174169",
+ "issuerName": "Algonquin Power & Utilities Corp.",
+ "builtAt": "2026-11-16T04:55:10.689Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001174169-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1174169/000117416926000015/a2025q4-exhibit993xmda.htm",
+  "exhibit": "a2025q4-exhibit993xmda.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regulated Services Group",
+   "products": [],
+   "description": "Runs its regulated water, electricity and gas utilities.",
+   "evidence": "The discontinued operations operated as a distinct segment and had no impact on the operations of the Regulated Services Group operating segment, other than sharing certain corporate support functions and benefiting from corporate debt and equity funding."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay tariffs for utility service.",
+  "evidence": "For reconciliations of EBIT by business segments, see 2025 Fourth Quarter and Annual Regulated Services Group Net Earnings starting on page 20 , Corporate Group Net Earnings"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Regulated Services Group): regulated utility services"
+ ],
+ "reader": "agent"
+}

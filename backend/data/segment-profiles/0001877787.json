@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001877787",
+ "issuerName": "Ermenegildo Zegna N.V.",
+ "builtAt": "2026-11-16T04:55:16.034Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001877787-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1877787/000187778726000015/zgn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ZEGNA",
+   "products": [
+    "luxury leisurewear",
+    "footwear",
+    "formalwear",
+    "leather accessories"
+   ],
+   "description": "Sells ZEGNA branded luxury goods.",
+   "evidence": "Group Business Model The Group carries out its business activities through three operating segments: 1."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its luxury apparel and accessories.",
+  "evidence": "The ZEGNA brand products include luxury leisurewear, footwear, formalwear, leather accessories and other products."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

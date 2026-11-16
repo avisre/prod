@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001317685",
+ "issuerName": "Alliance Laundry Holdings Inc.",
+ "builtAt": "2026-11-16T04:54:59.659Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001317685-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1317685/000131768526000011/all-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

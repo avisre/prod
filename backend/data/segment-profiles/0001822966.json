@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001822966",
+ "issuerName": "NUSCALE POWER CORPORATION",
+ "builtAt": "2026-11-16T04:55:11.608Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001822966-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1822966/000182296626000018/smr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "modular, scalable electric Light Water Reactor",
+   "products": [
+    "NPMs"
+   ],
+   "description": "Develops small modular nuclear reactors.",
+   "evidence": "Segment Information The Company presently operates in one business segment, the commercialization of a modular, scalable electric Light Water Reactor nuclear power plant, with 77 megawatt (gross) NPMs ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities and project owners pay for reactor modules and services.",
+  "evidence": "Segment Information The Company presently operates in one business segment, the commercialization of a modular, scalable electric Light Water Reactor nuclear power plant, with 77 megawatt (gross) NPMs ."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (modular, scalable electric Light Water Reactor): modular light water reactors"
+ ],
+ "reader": "agent"
+}

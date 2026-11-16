@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001604481",
+ "issuerName": "CMB.TECH NV",
+ "builtAt": "2026-11-16T04:55:10.407Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001604481-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1604481/000160448126000004/eurn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bocimar",
+   "products": [
+    "dry bulk vessels"
+   ],
+   "description": "Owns and operates dry bulk vessels.",
+   "evidence": "We operate 5 shipping divisions: Bocimar owns and operates dry bulk vessels and transports iron ore, bauxite coal, grain and other dry bulk cargoes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cargo owners pay charter rates for dry bulk shipping.",
+  "evidence": "We operate 5 shipping divisions: Bocimar owns and operates dry bulk vessels and transports iron ore, bauxite coal, grain and other dry bulk cargoes."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

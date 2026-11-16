@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001981792",
+ "issuerName": "HOWARD HUGHES HOLDINGS INC.",
+ "builtAt": "2026-11-16T04:55:14.840Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009710",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1981792/000162828026009710/hhh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Operating Assets",
+   "products": [],
+   "description": "Owns and operates income-producing real estate.",
+   "evidence": "HHH operates through three business segments: Operating Assets, MPCs, and Strategic Developments."
+  },
+  {
+   "name": "MPCs",
+   "products": [
+    "master planned communities"
+   ],
+   "description": "Develops master planned communities.",
+   "evidence": "HHH operates through three business segments: Operating Assets, MPCs, and Strategic Developments."
+  },
+  {
+   "name": "Strategic Developments",
+   "products": [],
+   "description": "Develops strategic real estate projects.",
+   "evidence": "HHH operates through three business segments: Operating Assets, MPCs, and Strategic Developments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent and homebuyers buy land and homes.",
+  "evidence": "We create a continuous value-creation cycle through operational and financial synergies associated with these three business segments."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Operating Assets): real estate operating assets",
+  "product not in text (Strategic Developments): strategic developments"
+ ],
+ "reader": "agent"
+}

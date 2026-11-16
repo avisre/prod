@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001815846",
+ "issuerName": "MINISO Group Holding Limited",
+ "builtAt": "2026-11-16T04:55:13.835Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-048172",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1815846/000110465926048172/mnso-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MINISO brand - Chinese Mainland",
+   "products": [
+    "lifestyle products"
+   ],
+   "description": "Sells MINISO lifestyle products in mainland China.",
+   "evidence": "We have three reportable segments: (i) MINISO brand - Chinese Mainland, including mainly the design, purchasing and sale of lifestyle products, （ ii ） Miniso brand - Overseas, including mainly the design, purchasing and sale of lifestyle prod"
+  },
+  {
+   "name": "Miniso brand - Overseas",
+   "products": [
+    "lifestyle products"
+   ],
+   "description": "Sells MINISO lifestyle products outside China.",
+   "evidence": "We have three reportable segments: (i) MINISO brand - Chinese Mainland, including mainly the design, purchasing and sale of lifestyle products, （ ii ） Miniso brand - Overseas, including mainly the design, purchasing and sale of lifestyle prod"
+  },
+  {
+   "name": "TOP TOY",
+   "products": [
+    "pop toys",
+    "model figures",
+    "3D building blocks",
+    "vinyl plush toys"
+   ],
+   "description": "Sells TOP TOY pop toy products.",
+   "evidence": "We have three reportable segments: (i) MINISO brand - Chinese Mainland, including mainly the design, purchasing and sale of lifestyle products, （ ii ） Miniso brand - Overseas, including mainly the design, purchasing and sale of lifestyle prod"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shoppers buy its lifestyle and pop toy products in stores.",
+  "evidence": "Under the TOP TOY brand, we offered around 17,000 SKUs as of December 31, 2025 across major pop toy categories that include model figures, 3D building blocks, vinyl plush toys and others."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

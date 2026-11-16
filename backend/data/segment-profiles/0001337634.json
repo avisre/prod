@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001337634",
+ "issuerName": "STUBHUB HOLDINGS, INC.",
+ "builtAt": "2026-11-16T04:55:29.890Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-014844",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1337634/000162828026014844/stub-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "secondary ticketing",
+   "products": [
+    "StubHub",
+    "viagogo"
+   ],
+   "description": "Runs the StubHub and viagogo secondary ticketing marketplaces.",
+   "evidence": "The Company has one operating and reportable segment because its CODM reviews financial information presented on a consolidated basi"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Buyers and sellers pay fees on ticket sales.",
+  "evidence": "We operate our global ticketing marketplace through two brands: StubHub and viagogo."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

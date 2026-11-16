@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001748797",
+ "issuerName": "BRP Inc.",
+ "builtAt": "2026-11-16T04:55:12.064Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-125055",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1748797/000119312526125055/d76000d40f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

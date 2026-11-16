@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001853717",
+ "issuerName": "Atour Lifestyle Holdings Limited",
+ "builtAt": "2026-11-16T04:55:10.861Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044551",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1853717/000110465926044551/atat-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Atour",
+   "products": [
+    "hotel operations"
+   ],
+   "description": "Runs Atour hotels and lifestyle brands.",
+   "evidence": "The Company has determined that it has one reporting unit, which is also its only reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates; franchisees pay fees.",
+  "evidence": "The Company has determined that it has one reporting unit, which is also its only reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

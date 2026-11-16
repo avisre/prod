@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001071321",
+ "issuerName": "TURKCELL ILETISIM HIZMETLERI A S",
+ "builtAt": "2026-11-16T04:54:59.666Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044740",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1071321/000110465926044740/tkc-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

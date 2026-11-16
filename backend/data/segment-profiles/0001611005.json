@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001611005",
+ "issuerName": "KENON HOLDINGS LTD.",
+ "builtAt": "2026-11-16T04:55:10.512Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001842",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1611005/000117891326001842/zk2634883.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Israel",
+   "products": [
+    "electricity",
+    "energy generation facilities"
+   ],
+   "description": "Generates and supplies electricity in Israel.",
+   "evidence": "OPC has the following three operating segments: 41 • Israel (through OPC Israel): through this segment, OPC is engaged in the generation and supply of electricity and energy to private customers and to Noga (the System Operator in Israel) and the development, construction and operation of power plants and energy generation facilities powered using natural gas and renewable energy co-located with energy storage in Israel; • U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Private customers and the system operator pay for electricity.",
+  "evidence": "OPC has the following three operating segments: 41 • Israel (through OPC Israel): through this segment, OPC is engaged in the generation and supply of electricity and energy to private customers and to Noga (the System Operator in Israel) and the development, construction and operation of power plants and energy generation facilities powered using natural gas and renewable energy co-located with energy storage in Israel; • U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

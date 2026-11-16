@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001674416",
+ "issuerName": "CRISPR THERAPEUTICS AG",
+ "builtAt": "2026-11-16T04:54:59.545Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-048957",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1674416/000119312526048957/crsp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CRISPR",
+   "products": [
+    "therapies"
+   ],
+   "description": "Discovers and develops gene-edited therapies.",
+   "evidence": "The Company views its operations as and manages its business in one operating segment, which is the business of discovering, developing and commercializing therapies"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay collaboration revenue and milestones.",
+  "evidence": "The Company views its operations as and manages its business in one operating segment, which is the business of discovering, developing and commercializing therapies"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001646188",
+ "issuerName": "Ondas Inc.",
+ "builtAt": "2026-11-16T04:55:10.122Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035981",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1646188/000121390026035981/ea0282911-10k_ondas.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ondas Networks",
+   "products": [
+    "private wireless networking technologies"
+   ],
+   "description": "Sells private wireless networks.",
+   "evidence": "We operate in two reportable segments, Ondas Networks and OAS."
+  },
+  {
+   "name": "OAS",
+   "products": [
+    "autonomous systems"
+   ],
+   "description": "Sells autonomous aerial systems.",
+   "evidence": "We operate in two reportable segments, Ondas Networks and OAS."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Governments and industrial customers buy its autonomous and network systems.",
+  "evidence": "Through these business units, we develop and commercialize autonomous systems, private wireless networking technologies, and strategic investment and partnership initiatives that support the scaling and adoption of mission-critical solutions for governments and industrial customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

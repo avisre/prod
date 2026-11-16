@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001438533",
+ "issuerName": "TRAVERE THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T04:55:12.106Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001438533-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1438533/000143853326000014/tvtx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Travere",
+   "products": [
+    "therapies"
+   ],
+   "description": "Develops therapies for rare kidney and metabolic diseases.",
+   "evidence": "SEGMENT INFORMATION The Company operates in one business segment focused on identifying, developing and delivering life-changing therapies to people living with rare kidney and metabolic diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "SEGMENT INFORMATION The Company operates in one business segment focused on identifying, developing and delivering life-changing therapies to people living with rare kidney and metabolic diseases."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

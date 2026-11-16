@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001455863",
+ "issuerName": "AMERICOLD REALTY TRUST, INC.",
+ "builtAt": "2026-11-16T04:55:11.564Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012274",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1455863/000162828026012274/art-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002063196",
+ "issuerName": "Netskope, Inc.",
+ "builtAt": "2026-11-16T04:55:10.160Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-135011",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2063196/000119312526135011/ck0002063196-20260131.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

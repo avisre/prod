@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001438472",
+ "issuerName": "Miami International Holdings, Inc.",
+ "builtAt": "2026-11-16T04:55:10.584Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001438472-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1438472/000143847226000023/miax-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

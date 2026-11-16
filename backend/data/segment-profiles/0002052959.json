@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0002052959",
+ "issuerName": "Lionsgate Studios Corp.",
+ "builtAt": "2026-11-16T04:55:11.524Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002052959-26-000049",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2052959/000205295926000049/lion-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Motion Picture",
+   "products": [
+    "motion pictures"
+   ],
+   "description": "Produces and distributes films.",
+   "evidence": "We classify our operations through two reportable business segments: Motion Picture and Television Production ."
+  },
+  {
+   "name": "Television Production",
+   "products": [],
+   "description": "Produces television series.",
+   "evidence": "We classify our operations through two reportable business segments: Motion Picture and Television Production ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Studios and streamers pay for film and TV content.",
+  "evidence": "Financial information for our segments is set forth in Part II, Item 7."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Television Production): television production"
+ ],
+ "reader": "agent"
+}

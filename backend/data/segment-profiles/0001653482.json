@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001653482",
+ "issuerName": "GITLAB INC.",
+ "builtAt": "2026-11-16T04:55:10.920Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018731",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1653482/000162828026018731/gtlb-20260131.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

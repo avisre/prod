@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001730430",
+ "issuerName": "Kiniksa Pharmaceuticals International, plc",
+ "builtAt": "2026-11-16T04:55:13.405Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019168",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1730430/000110465926019168/knsa-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Kiniksa",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops and sells medicines for inflammatory diseases.",
+   "evidence": "Segment Information and Geographic Data The Company manages its operations as a single operating segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "Segment Information and Geographic Data The Company manages its operations as a single operating segment for the purposes of assessing performance and making operating decisions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

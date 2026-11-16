@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001819810",
+ "issuerName": "Redwire Corporation",
+ "builtAt": "2026-11-16T04:55:11.321Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001819810-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000029/rdw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Space",
+   "products": [
+    "space systems"
+   ],
+   "description": "Builds space infrastructure and components.",
+   "evidence": "Effective December 1, 2025, the Company operated in two operating segments and two reportable segments: Space and Defense Tech."
+  },
+  {
+   "name": "Defense Tech",
+   "products": [
+    "defense technology"
+   ],
+   "description": "Builds defense technology products.",
+   "evidence": "Effective December 1, 2025, the Company operated in two operating segments and two reportable segments: Space and Defense Tech."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government and commercial space customers buy its products.",
+  "evidence": "Business Segment Results of Operations As of December 2025, we operate in two business segments: Space and Defense Tech."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

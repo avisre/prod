@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001868941",
+ "issuerName": "Fluence Energy, Inc.",
+ "builtAt": "2026-11-16T04:55:13.971Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001868941-25-000081",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1868941/000186894125000081/flnc-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
