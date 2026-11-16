@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001606909",
  "issuerName": "PANGAEA LOGISTICS SOLUTIONS LTD.",
- "builtAt": "2026-11-16T05:21:41.823Z",
+ "builtAt": "2026-11-16T10:25:04.479Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001606909-26-000010",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1606909/000160690926000010/panl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shipping",
+   "products": [
+    "contracts of affreightment",
+    "voyage charters",
+    "time charters"
+   ],
+   "description": "Operates owned and chartered drybulk vessels for industrial customers worldwide, carrying commodities under voyage and time charters and contracts of affreightment.",
+   "evidence": "This segment provides seaborne dry bulk logistics and transportation services globally, primarily through voyage and time charter arrangements."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Industrial cargo owners and charterers pay the company to transport drybulk cargoes and to provide vessels under voyage and time charters.",
+  "evidence": "Revenue is generated from the transportation of dry bulk cargoes using vessels that are either owned or chartered by the Company."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

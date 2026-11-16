@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001809691",
  "issuerName": "AMTD Digital Inc.",
- "builtAt": "2026-11-16T05:21:42.613Z",
+ "builtAt": "2026-11-16T10:26:24.022Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-021555",
@@ -10,11 +10,73 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1809691/000121390026021555/ea0276786-20f_amtd.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital solutions services",
+   "products": [
+    "digital solution services",
+    "investor communication",
+    "investor relations",
+    "corporate communication"
+   ],
+   "description": "Provides clients with digital platform and solution services, including investor communication, investor relations and corporate communication, to help them maximize their valuation.",
+   "evidence": "investor communication, investor relations and corporate communication to potentially maximize their valuation, as well as providing digital solution services"
+  },
+  {
+   "name": "Media and entertainment services",
+   "products": [
+    "print and digital advertising campaigns",
+    "licensing",
+    "value-added marketing services",
+    "branded content",
+    "video production",
+    "social media activation",
+    "L'Officiel",
+    "The Art Newspaper"
+   ],
+   "description": "Provides advertisers, readers and brand partners with print and digital advertising, licensed content, branded content, video and experiential marketing services and publications.",
+   "evidence": "The Group engages in the provision of print and digital advertising campaigns, licensing, and value-added marketing services including branded content, video production, social media activation, event creation, and experiential marketing, among other services"
+  },
+  {
+   "name": "Hotel operations, hospitality and VIP services",
+   "products": [
+    "hotel investments",
+    "hotel operations",
+    "hospitality and VIP services"
+   ],
+   "description": "Owns and operates hotels and provides hospitality and VIP services to guests and customers through its hotel properties.",
+   "evidence": "The Group engages in hotel investments, hotel operations, hospitality and VIP services"
+  },
+  {
+   "name": "Strategic investments",
+   "products": [
+    "proprietary investments",
+    "global investment portfolio"
+   ],
+   "description": "Holds and manages the company's own investment portfolio, recording fair value changes and dividend income from those investments.",
+   "evidence": "The strategic investment segment engages in proprietary investments and management of global investment portfolio"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay fees, commissions and service income for digital solutions, hotel stays, hospitality, VIP services, media and entertainment, and the company earns gains and dividends from its own investments.",
+  "evidence": "primarily due to an increase in service income from hotel operations, hospitality and VIP services segment and also in income from media and entertainment services segment"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company revised its reportable segments so the strategic investment segment is evaluated separately.",
+   "evidence": "During the fiscal year ended October 31, 2025, we revised our reportable segments to reflect changes in the internal structure and management reporting reviewed by the Chief Operating Decision Maker (CODM)."
+  },
+  {
+   "text": "In 2025 the company disposed of certain subsidiaries principally engaged in digital solution services.",
+   "evidence": "During the year ended October 31, 2025, the Company disposed of certain subsidiaries which were principally engaged in digital solution services."
+  },
+  {
+   "text": "In 2024 the company began consolidating certain business units under TGE, namely L'Officiel and The Art Newspaper, into the media and entertainment segment.",
+   "evidence": "The significant increase was solely due to the consolidation of certain business units under TGE (i.e. L'Officiel and The Art Newspaper) by the Company starting from October 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

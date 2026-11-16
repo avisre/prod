@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001625278",
  "issuerName": "NerdWallet, Inc.",
- "builtAt": "2026-11-16T05:21:42.312Z",
+ "builtAt": "2026-11-16T10:25:24.274Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001625278-26-000014",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1625278/000162527826000014/nrds-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial product marketplaces",
+   "products": [
+    "Credit cards",
+    "Consumer loans",
+    "Small business financing",
+    "Home lending products and services",
+    "Insurance products and providers",
+    "Banking products and deposit accounts",
+    "Investment and retirement products",
+    "Financial advisor matching"
+   ],
+   "description": "Operates an online platform giving consumers and SMBs independent editorial content, comparison tools and marketplaces for financial products, plus mortgage brokering and investment advisory services.",
+   "evidence": "As a result, the Company has concluded that it has one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Financial services providers such as banks, credit card issuers, lenders, insurers and investment brokers pay fees for leads, matches and referrals to the company audience of consumers and SMBs.",
+  "evidence": "We generate revenue primarily through referral fees, lead generation, and partner-based monetization, as well as through revenue derived from brokering and advisory services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

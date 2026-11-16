@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001758021",
  "issuerName": "Karat Packaging Inc.",
- "builtAt": "2026-11-16T05:21:43.151Z",
+ "builtAt": "2026-11-16T10:26:13.202Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001758021-26-000010",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1758021/000175802126000010/krt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Disposable Foodservice Products",
+   "products": [
+    "food and take-out containers",
+    "bags",
+    "boxes",
+    "tableware",
+    "cups",
+    "lids",
+    "cutlery",
+    "straws"
+   ],
+   "description": "Manufactures and distributes disposable foodservice and specialty beverage products to restaurant chains, distributors, retailers and online customers.",
+   "evidence": "The Company manages and evaluates its operations in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for disposable foodservice products and related items, including food and take-out containers and specialty beverage ingredients, bought through distribution or e-commerce.",
+  "evidence": "Our customers include a wide variety of national and regional distributors, restaurant and supermarket chains, retail establishments and online customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

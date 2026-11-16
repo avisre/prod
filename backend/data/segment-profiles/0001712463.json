@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001712463",
  "issuerName": "RANPAK HOLDINGS CORP.",
- "builtAt": "2026-11-16T05:21:40.454Z",
+ "builtAt": "2026-11-16T10:24:07.695Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-015027",
@@ -10,10 +10,38 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1712463/000162828026015027/pack-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "PPS",
+    "Automation",
+    "Void-Fill",
+    "Cushioning",
+    "Wrapping"
+   ],
+   "description": "Protective packaging and end-of-line automation business serving distributors and end-users from Ranpak's Ohio, Missouri, Nevada and Connecticut operations.",
+   "evidence": "The North America segment primarily consists of amounts earned from sales from our PPS and Automation products from our operations in Ohio, Missouri, Nevada, and Connecticut."
+  },
+  {
+   "name": "Europe/Asia",
+   "products": [
+    "PPS",
+    "Automation",
+    "Void-Fill",
+    "Cushioning",
+    "Wrapping"
+   ],
+   "description": "Protective packaging and end-of-line automation business serving distributors and end-users from operations in the Netherlands, the Czech Republic and Malaysia.",
+   "evidence": "The North America segment primarily consists of amounts earned from sales from our PPS and Automation products from our operations in Ohio, Missouri, Nevada, and Connecticut, and the Europe/Asia segment primarily consists of amounts earned from sales from our PPS and Automation products from our operations in the Netherlands, the Czech Republic and Malaysia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Distributors and end-users pay a recurring per-unit user fee for Ranpak's PPS systems and buy the high-margin paper consumables that work exclusively with them.",
+  "evidence": "Our PPS business utilizes a razor/razor-blade model where our proprietary PPS systems are provided to our distributors and end-users for a recurring nominal user fee, charged on a per-unit basis, and are coupled with the sale of high-margin value-added paper consumables that work exclusively with our PPS systems."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

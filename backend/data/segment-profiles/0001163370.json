@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001163370",
  "issuerName": "NORTHRIM BANCORP, INC.",
- "builtAt": "2026-11-16T05:21:41.240Z",
+ "builtAt": "2026-11-16T10:25:24.181Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001163370-26-000007",
@@ -10,11 +10,65 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1163370/000116337026000007/nrim-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "loan and deposit products",
+    "commercial lending products and services",
+    "treasury management products",
+    "corporate purchasing card",
+    "integrated payables",
+    "electronic banking services over the Internet",
+    "investment products"
+   ],
+   "description": "Alaska-focused banking segment offering loan and deposit products, treasury management and electronic banking to business and consumer customers.",
+   "evidence": "The Community Banking segment's principal business focus is the offering of loan and deposit products to business and consumer customers in its primary market areas."
+  },
+  {
+   "name": "Home Mortgage Lending",
+   "products": [
+    "mortgage loans for 1-4 family residential properties",
+    "mortgage loan servicing",
+    "1-4 family residential mortgage loans",
+    "home mortgage loan products",
+    "mortgage servicing activities"
+   ],
+   "description": "Originates and sells residential mortgage loans, services a portion of loans sold, and holds some mortgage loans for investment.",
+   "evidence": "The Home Mortgage Lending segment's principal business focus is the origination and sale of mortgage loans for 1-4 family residential properties, mortgage loan servicing for a portion of mortgage loans sold, and investment in certain 1-4 family residential mortgage loans on our balance sheet."
+  },
+  {
+   "name": "Specialty Finance",
+   "products": [
+    "factoring",
+    "asset based lending",
+    "alternative working capital solutions",
+    "factoring solutions"
+   ],
+   "description": "Provides factoring, asset based lending and alternative working capital solutions to small and medium sized enterprises in the United States, Canada and the United Kingdom.",
+   "evidence": "The Specialty Finance segment's principal business focus is factoring, asset based lending and alternative working capital solutions to small and medium sized enterprises, and includes SCF and Northrim Funding Services, which was previously reported in the Community Banking segment prior to the acquisition of SCF."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Business and consumer customers and borrowers pay interest and fees on loans and deposits, and the company also earns mortgage banking, factoring and deposit service fee income.",
+  "evidence": "We also generate other income primarily through mortgage banking income, purchased receivables products, service charges and fees, and bankcard fees."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company reevaluated its reportable operating segments alongside the acquisition of SCF and added the Specialty Finance segment.",
+   "evidence": "The Company reevaluated our reportable operating segments in 2024 concurrent with the acquisition of SCF, which resulted in the addition of the Specialty Finance segment."
+  },
+  {
+   "text": "Northrim Funding Services moved out of the Community Banking segment into Specialty Finance when that segment was added in 2024.",
+   "evidence": "The Specialty Finance segment's principal business focus is factoring, asset based lending and alternative working capital solutions to small and medium sized enterprises, and includes SCF and Northrim Funding Services, which was previously reported in the Community Banking segment prior to the acquisition of SCF."
+  },
+  {
+   "text": "In 2025 PWA sold all of its operating assets, including Pacific Portfolio Consulting and its interest in Pacific Portfolio Trust Company.",
+   "evidence": "PWA sold all of its operating assets in 2025, including all of the assets of Pacific Portfolio Consulting, LLC and all of its interest in Pacific Portfolio Trust Company."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

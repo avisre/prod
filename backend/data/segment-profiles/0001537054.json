@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001537054",
  "issuerName": "Gogo Inc.",
- "builtAt": "2026-11-16T05:21:39.424Z",
+ "builtAt": "2026-11-16T10:22:49.078Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-082487",
@@ -10,11 +10,39 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1537054/000119312526082487/gogo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "In-Flight Connectivity",
+   "products": [
+    "AVANCE platforms",
+    "Gogo Galileo",
+    "Plane Simple®",
+    "Satcom Direct Router",
+    "SD PRO®",
+    "FlightDeck Freedom",
+    "ATG Broadband Service",
+    "GEO Broadband Service"
+   ],
+   "description": "Provides in-flight connectivity systems and service plans to business aviation and military/government aircraft operators, using ATG, GEO and LEO networks.",
+   "evidence": "We have one reportable segment which is also our only operating segment and reporting unit."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Aircraft owners, operators, dealers and government customers pay for in-flight connectivity service plans, generally per aircraft per month, and for airborne equipment.",
+  "evidence": "We offer a variety of connectivity services tailored to our various networks and technologies that are generally priced on a per-aircraft per-month basis."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company acquired Satcom Direct and initially carried it as a second reportable segment.",
+   "evidence": "As a result of the Company's acquisition of Satcom Direct on December 3, 2024, as described in Note 2, \"Acquisition of Satcom Direct,\" the Company initially had two reportable segments on December 3, 2024: the legacy pre-acquisition operations of the Company and the acquired entities of Satcom Direct."
+  },
+  {
+   "text": "In 2025 the two reportable segments were combined into a single reportable segment after the chief operating decision maker began reviewing consolidated results.",
+   "evidence": "However, during the third quarter of 2025, the Company's chief operating decision maker (\"CODM\"), who is the Chief Executive Officer, started making resource and operating decisions by evaluating the performance and business results of the consolidated company."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

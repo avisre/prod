@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001768267",
  "issuerName": "CERENCE INC.",
- "builtAt": "2026-11-16T05:21:44.068Z",
+ "builtAt": "2026-11-16T10:27:12.073Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-25-053372",
@@ -10,10 +10,29 @@
   "filingDate": "2025-11-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1768267/000162828025053372/crnc-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive cognitive assistance",
+   "products": [
+    "Conversational and Generative AI",
+    "Cerence xUI",
+    "Cerence Assistant",
+    "CaLLM",
+    "Audio AI",
+    "assistant activation",
+    "precise speech recognition",
+    "lifelike text-to-speech"
+   ],
+   "description": "Builds conversational and agentic AI voice assistants and audio software for automakers, suppliers and other consumer brands.",
+   "evidence": "We deliver automotive cognitive assistance solutions that are conversational and intuitive and that enable OEMs to strengthen their connection with their end users through a distinct, consistent, branded experience."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Automakers and tier-one suppliers pay per-vehicle software license fees and connected service subscriptions, plus professional services for design and deployment.",
+  "evidence": "We generate revenue primarily by selling software licenses and cloud-connected services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

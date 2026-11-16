@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001674632",
  "issuerName": "BETA BIONICS, INC.",
- "builtAt": "2026-11-16T05:21:43.790Z",
+ "builtAt": "2026-11-16T10:26:32.721Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-067065",
@@ -10,10 +10,26 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1674632/000119312526067065/bbnx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diabetes",
+   "products": [
+    "iLet",
+    "single-use products",
+    "cartridges for insulin storage and delivery",
+    "infusion sets",
+    "mobile application"
+   ],
+   "description": "Sells the iLet automated insulin dosing system and associated single-use products, distributed to insulin-requiring people with diabetes through distributors and pharmacies.",
+   "evidence": "As such, the Company has determined that it operates as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Distributors and pharmacies pay for the iLet and its single-use products, which they then resell to insulin-requiring people with diabetes.",
+  "evidence": "These products are distributed through a network of distributors and pharmacies, which then resell the products to insulin-requiring PWD."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

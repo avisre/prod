@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001728688",
  "issuerName": "i3 Verticals, Inc.",
- "builtAt": "2026-11-16T05:21:41.041Z",
+ "builtAt": "2026-11-16T10:24:54.750Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001728688-25-000122",
@@ -10,11 +10,43 @@
   "filingDate": "2025-11-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1728688/000172868825000122/iiiv-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Public Sector",
+   "products": [
+    "E-Filing and revenue cycle management solutions for courts",
+    "government fund accounting software",
+    "digital land records solutions including AI indexing of information",
+    "computer assisted mass appraisal solutions",
+    "licensing and permitting solutions",
+    "tax and revenue collection management solutions",
+    "vehicle title and registration software",
+    "driver's license and permit management software"
+   ],
+   "description": "Provides cloud-native enterprise software, payments and related services to state, county and local government entities across justice, utilities, administration, education and transportation.",
+   "evidence": "After giving effect to these developments, we have one operating segment and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Public sector customers pay subscription and transaction-based fees for cloud software, maintenance and support, licenses, professional services and integrated payment processing.",
+  "evidence": "solutions, which can include SaaS, transaction-based fees, ongoing software maintenance and support, software licenses, and other professional services related to the Company's software offerings."
+ },
+ "changes": [
+  {
+   "text": "The Company sold its merchant services business in 2024, and its results are reported as discontinued operations.",
+   "evidence": "As a result of the sale of the Merchant Services Business in 2024 and the Healthcare RCM Business in 2025, the results of operations for the Merchant Services Business and Healthcare RCM Business have been reflected as discontinued operations in our consolidated statements of operations for all periods presented."
+  },
+  {
+   "text": "The Company sold its Healthcare RCM Business in 2025, leaving a single reportable segment.",
+   "evidence": "After giving effect to the sale of our Healthcare RCM Business on May 5, 2025, as described below, the Company provides mission-critical enterprise software solutions to its public sector customers."
+  },
+  {
+   "text": "Segment reporting changed from two reportable segments to one reportable segment as of 2025.",
+   "evidence": "After giving effect to the disposition of the Healthcare RCM Business, the Company determined that it had one operating segment and one reportable segment as of June 30, 2025, and accordingly has updated its segment presentation to reflect this determination."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

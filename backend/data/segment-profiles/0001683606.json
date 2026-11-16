@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001683606",
  "issuerName": "CARS.COM, INC.",
- "builtAt": "2026-11-16T05:21:41.918Z",
+ "builtAt": "2026-11-16T10:25:12.898Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076546",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1683606/000119312526076546/cars-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive Marketplace",
+   "products": [
+    "Marketplace",
+    "Digital Experience",
+    "Media Solutions",
+    "Trade & Appraisal",
+    "Cars Social",
+    "VIN Performance Media",
+    "In-Market Video",
+    "AccuTrade"
+   ],
+   "description": "Operates the Cars.com automotive marketplace plus dealer websites, media solutions and trade and appraisal tools for dealers, OEMs and consumers.",
+   "evidence": "The Company has determined that it has a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Dealers and OEMs pay subscription fees for marketplace listings and packages, dealer websites, media solutions and trade and appraisal tools.",
+  "evidence": "We generate approximately 80% of our revenue via subscription-based solutions, creating a dependable recurring revenue stream across our diversified mix of marketplace subscription advertising packages, digital solutions, and media."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

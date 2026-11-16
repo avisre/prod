@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002143673",
  "issuerName": "Uranium Royalty Corp.",
- "builtAt": "2026-11-16T05:21:44.275Z",
+ "builtAt": "2026-11-16T10:26:53.645Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-321135",
@@ -10,10 +10,29 @@
   "filingDate": "2026-07-28",
   "url": "https://www.sec.gov/Archives/edgar/data/2143673/000119312526321135/uroy-20260430.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Uranium royalties",
+   "products": [
+    "royalty interests",
+    "streams",
+    "physical uranium",
+    "debt and equity investments in uranium companies",
+    "uranium inventory",
+    "soda ash royalty interests",
+    "fee surface rights",
+    "mineral interests"
+   ],
+   "description": "Acquires and manages uranium and critical minerals royalty interests, streams and physical uranium, earning revenue from project production and inventory sales.",
+   "evidence": "The Company conducts its business as a single operating segment, being the acquiring and assembling a portfolio of royalties, investing in companies with exposure to uranium and physical uranium."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Project operators pay royalties on production, third-party buyers pay for physical uranium inventory, and operators pay lease and rental amounts for land and mineral interests.",
+  "evidence": "Additionally, we generate revenue from the buying and selling of physical uranium inventory, generate lease bonus revenue by leasing certain mineral interests to third-party operators, earn surface revenue from surface use leases and easement payments and earn annual rental revenue from land rental payments."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

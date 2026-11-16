@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001027838",
  "issuerName": "Tactile Systems Technology, Inc.",
- "builtAt": "2026-11-16T05:21:40.535Z",
+ "builtAt": "2026-11-16T10:23:58.545Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-016380",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1027838/000110465926016380/tcmd-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "Flexitouch Plus",
+    "Entre Plus",
+    "Nimbl",
+    "AffloVest"
+   ],
+   "description": "Develops and sells at-home compression therapy devices for lymphedema and a wearable airway clearance vest for chronic respiratory conditions, reimbursed by insurers.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insurers, including private payers, Medicare, the Veterans Administration and certain Medicaid programs, pay for the lymphedema and airway clearance devices provided to patients.",
+  "evidence": "We are a national, accredited provider of home medical equipment services approved for coverage by private payers, Medicare, the Veterans Administration and certain Medicaid programs in the United States."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

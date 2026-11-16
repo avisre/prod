@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001854545",
  "issuerName": "Dingdong (Cayman) Limited",
- "builtAt": "2026-11-16T05:21:40.344Z",
+ "builtAt": "2026-11-16T10:24:04.191Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-174971",
@@ -10,10 +10,28 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1854545/000119312526174971/ddl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fresh grocery e-commerce",
+   "products": [
+    "fresh groceries",
+    "prepared food",
+    "other food products",
+    "membership services",
+    "Dingdong Fresh",
+    "prepaid cards",
+    "loyalty points"
+   ],
+   "description": "Sells fresh groceries, prepared food and other food products and membership services to consumers in mainland China through its Dingdong Fresh app and third-party platforms.",
+   "evidence": "The Group operates and manages its business as a single segment, in accordance with ASC 280, Segment Reporting ."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay upfront for fresh groceries, prepared food and other food products delivered through Dingdong Fresh and for membership services.",
+  "evidence": "The segment recognizes revenue from (i) product sales of primarily fresh groceries, prepared food and other food products through \"Dingdong Fresh\" APP, mini program and third-party platforms, and (ii) membership services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

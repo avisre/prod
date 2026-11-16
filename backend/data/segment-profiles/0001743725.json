@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001743725",
  "issuerName": "Grid Dynamics Holdings, Inc.",
- "builtAt": "2026-11-16T05:21:39.742Z",
+ "builtAt": "2026-11-16T10:23:27.560Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001743725-26-000007",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1743725/000174372526000007/gdyn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software development",
+   "products": [
+    "Artificial Intelligence Services",
+    "Cloud Platform and Product Engineering",
+    "Digital Engagement",
+    "AI-Readiness",
+    "Robust AI Infrastructure",
+    "Merchandising Experience Platform"
+   ],
+   "description": "Provides AI transformation, cloud platform engineering and digital engagement services to large enterprise clients across industry verticals.",
+   "evidence": "The Company has a single reportable segment for the years ended December 31, 2025, 2024 and 2023."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Large enterprise clients pay for AI transformation, software development and hosting services delivered by senior-weighted engineering teams.",
+  "evidence": "The Company operates as a single operating segment engaged in delivery of various software development and hosting services to customers across its five main industry-based verticals"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

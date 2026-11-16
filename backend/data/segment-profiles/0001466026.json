@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001466026",
  "issuerName": "MIDLAND STATES BANCORP, INC.",
- "builtAt": "2026-11-16T05:21:39.817Z",
+ "builtAt": "2026-11-16T10:23:17.886Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001466026-26-000020",
@@ -10,11 +10,53 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1466026/000146602626000020/msbi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial real estate",
+    "mortgage loan sales and servicing",
+    "letters of credit",
+    "checking",
+    "savings",
+    "time deposit accounts",
+    "merchant services",
+    "corporate treasury management services"
+   ],
+   "description": "Provides commercial, commercial real estate, mortgage and consumer loans plus deposit, merchant and treasury management services to consumers and businesses.",
+   "evidence": "The Banking segment provides a wide range of financial products and services to consumers and businesses, including commercial, commercial real estate, mortgage and other consumer loan products; mortgage loan sales and servicing; letters of credit; various types of deposit products, including checking, savings and time deposit accounts; merchant services; and corporate treasury management services."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "trust and fiduciary services",
+    "brokerage",
+    "retirement planning services"
+   ],
+   "description": "Delivers trust, fiduciary, brokerage and retirement planning services to customers through the company's wealth management group.",
+   "evidence": "The Wealth Management segment consists of trust and fiduciary services, brokerage and retirement planning services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans, depositors and merchants pay fees, and wealth management clients pay trust, investment advisory and brokerage fees.",
+  "evidence": "Wealth management revenue is primarily comprised of fees earned from the management and administration of trusts and other customer assets."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company stopped originating consumer loans through GreenSky and LendingPoint.",
+   "evidence": "In 2023, the Company ceased originating consumer loans through both GreenSky and LendingPoint."
+  },
+  {
+   "text": "In 2024 the Company sold its LendingPoint consumer loan portfolio.",
+   "evidence": "During the fourth quarter of 2024, we sold our LendingPoint portfolio of $87.1 million."
+  },
+  {
+   "text": "In 2025 the Company sold participation interests in part of its GreenSky consumer loan portfolio while retaining the remainder.",
+   "evidence": "During the second quarter of 2025, we sold participation interests in $317.5 million of our GreenSky consumer loan portfolio, while retaining the remaining $53.6 million of the portfolio."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

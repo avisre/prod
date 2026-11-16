@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002055592",
  "issuerName": "Gemini Space Station, Inc.",
- "builtAt": "2026-11-16T05:21:39.261Z",
+ "builtAt": "2026-11-16T10:22:54.142Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002055592-26-000026",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2055592/000205559226000026/gemi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cryptocurrency platform",
+   "products": [
+    "spot and derivatives trading",
+    "staking",
+    "institutional-grade custody",
+    "GUSD",
+    "Gemini Credit Card®",
+    "Gemini Predictions™",
+    "self-custody wallet functionality",
+    "Gemini ActiveTrader®"
+   ],
+   "description": "Crypto platform where retail and institutional users trade, custody, and earn across digital assets and event contracts.",
+   "evidence": "Accordingly, the Company has determined that it operates as a single operating segment and a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay transaction fees on trading volume, and fees or interest on custody, staking, the credit card and other services.",
+  "evidence": "We generate revenue primarily from transaction fees on trading volume across our retail and institutional platforms, as well as fees from services and interest income associated with custody, staking, our credit card program and other services."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company discontinued the Nifty Gateway NFT marketplace to focus on its exchange and prediction markets businesses.",
+   "evidence": "In January 2026, we discontinued Nifty Gateway to focus on our core exchange and prediction markets businesses."
+  },
+  {
+   "text": "In 2026 the company announced it would exit and wind down operations in the United Kingdom, the European Union, other European jurisdictions and Australia.",
+   "evidence": "In February 2026, we announced plans to exit and wind down operations in certain international markets, including the United Kingdom, the European Union (\"E.U.\") and other European jurisdictions, and Australia, which will reduce our international footprint and allow us to focus more resources on our operations in the United States."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

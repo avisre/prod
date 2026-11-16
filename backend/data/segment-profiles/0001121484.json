@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001121484",
  "issuerName": "OIL STATES INTERNATIONAL, INC",
- "builtAt": "2026-11-16T05:21:42.978Z",
+ "builtAt": "2026-11-16T10:25:52.816Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001121484-26-000007",
@@ -10,11 +10,62 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1121484/000112148426000007/ois-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Offshore Manufactured Products",
+   "products": [
+    "FlexJoint® technology",
+    "advanced connector systems",
+    "high-pressure riser systems",
+    "managed pressure drilling systems",
+    "compact valves",
+    "deepwater mooring systems",
+    "cranes",
+    "subsea pipeline products"
+   ],
+   "description": "Makes engineered capital equipment and services for offshore oil and gas production, drilling, plus military, industrial and alternative energy customers worldwide.",
+   "evidence": "The Offshore Manufactured Products segment designs, manufactures and markets capital equipment utilized on floating production systems, subsea pipeline infrastructure, and offshore drilling rigs and vessels, along with short-cycle and other products."
+  },
+  {
+   "name": "Completion and Production Services",
+   "products": [
+    "completion tools",
+    "wireline support",
+    "frac stacks",
+    "isolation tools",
+    "downhole and extended reach activity",
+    "well testing and flowback operations"
+   ],
+   "description": "Provides completion-focused equipment, tools and personnel that establish and maintain oil and gas flow from wells, mainly for U.S. customers.",
+   "evidence": "The Completion and Production Services segment provides a broad range of equipment and services that are used to establish and maintain the flow of oil and natural gas from a well throughout its life cycle."
+  },
+  {
+   "name": "Downhole Technologies",
+   "products": [
+    "oil and gas perforation systems",
+    "downhole tools",
+    "consumable engineered products"
+   ],
+   "description": "Designs, manufactures and sells consumable perforation systems and downhole tools for oilfield service and exploration and production companies completing complex wells.",
+   "evidence": "The Downhole Technologies segment primarily provides oil and gas perforation systems and downhole tools in support of completion, intervention, wireline and well abandonment operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Energy, military and industrial customers, including national and independent oil and gas companies and offshore drillers, pay for engineered capital equipment, consumables and associated services.",
+  "evidence": "Our customers include many national oil and natural gas companies, major and independent oil and natural gas companies, offshore drilling companies and other oilfield service, defense and industrial companies."
+ },
+ "changes": [
+  {
+   "text": "Oil States sold its remaining land drilling rigs in August 2024, exiting land drilling services.",
+   "evidence": "Prior to the sale of our remaining drilling rigs in August 2024, our operations included land drilling services in the United States."
+  },
+  {
+   "text": "In 2025 the company continued exiting certain U.S. locations, product and service offerings and facilities as part of restructuring.",
+   "evidence": "These actions were concentrated in our U.S. land-focused operations and included: the consolidation, relocation and exit of certain operating locations; the exit of certain product and service offerings; the continued exit of facilities closed in 2024; and reductions in our U.S. workforce."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

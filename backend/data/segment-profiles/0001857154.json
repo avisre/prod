@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001857154",
  "issuerName": "Krispy Kreme, Inc.",
- "builtAt": "2026-11-16T05:21:40.029Z",
+ "builtAt": "2026-11-16T10:23:42.141Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001857154-26-000015",
@@ -10,11 +10,64 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1857154/000185715426000015/dnut-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "doughnuts",
+    "Original Glazed doughnut",
+    "doughnut dots",
+    "minis",
+    "specialty doughnuts",
+    "complementary products",
+    "Insomnia Cookies Bakeries"
+   ],
+   "description": "Company-owned U.S. doughnut shops, fresh delivery and digital sales to consumers, including Insomnia Cookies Bakeries until deconsolidation.",
+   "evidence": "U.S.: Includes all Company-owned operations in the U.S., and Insomnia Cookies Bakeries globally through the date of deconsolidation."
+  },
+  {
+   "name": "International",
+   "products": [
+    "doughnuts",
+    "Original Glazed doughnut",
+    "Doughnut Factories",
+    "Hot Light Theater Shops",
+    "Fresh Shops",
+    "fresh delivery"
+   ],
+   "description": "Company-owned doughnut operations in the U.K., Ireland, Australia, New Zealand, Mexico, Canada and Japan, serving consumers through shops and fresh delivery.",
+   "evidence": "International: Includes all Company-owned operations in the U.K., Ireland, Australia, New Zealand, Mexico, and Canada, as well as Japan for all periods covered by this Annual Report"
+  },
+  {
+   "name": "Market Development",
+   "products": [
+    "doughnut mix",
+    "other ingredients and supplies",
+    "doughnut-making equipment",
+    "development and initial franchise fees",
+    "ongoing royalties",
+    "advertising fees"
+   ],
+   "description": "Franchise operations across the globe, selling doughnut mix, supplies and equipment to franchisees and collecting fees and royalties.",
+   "evidence": "Market Development: Includes franchise operations across the globe."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers and franchisees pay for doughnuts and complementary products, and franchisees also pay fees, royalties, doughnut mix, equipment and supplies.",
+  "evidence": "In addition, we generate revenue from our franchisees through development and initial franchise fees relating to new shop openings, ongoing royalties charged to franchisees based on their sales, and advertising fees based on their sales."
+ },
+ "changes": [
+  {
+   "text": "The Company divested a controlling interest in Insomnia Cookies in fiscal 2024.",
+   "evidence": "Of these decreases, $15.8 million of the reduction was associated with the divestiture of a controlling interest in Insomnia Cookies in the third quarter of fiscal 2024."
+  },
+  {
+   "text": "In 2024 the Company-owned Canada and Japan businesses moved from the Market Development segment to the International segment.",
+   "evidence": "Effective January 1, 2024, the Company realigned its segment reporting structure such that the Company-owned Canada and Japan businesses have moved from the Market Development reportable operating segment to the International reportable operating segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

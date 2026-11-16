@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001549346",
  "issuerName": "SHUTTERSTOCK, INC.",
- "builtAt": "2026-11-16T05:21:39.465Z",
+ "builtAt": "2026-11-16T10:23:25.990Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001549346-26-000008",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1549346/000154934626000008/sstk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Creative platform",
+   "products": [
+    "Images",
+    "Footage",
+    "Music",
+    "3D models",
+    "Generative AI Content",
+    "Shutterstock Studios",
+    "Giphy",
+    "Pond5"
+   ],
+   "description": "Licenses photos, footage, music and three-dimensional models and generative AI content, plus data and production services, to brands and businesses.",
+   "evidence": "The Company is currently organized and operates as one operating and reportable segment on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay to license content, and contributors are compensated with royalties based on customer download activity.",
+  "evidence": "Our platform brings together users and contributors of content by providing readily-searchable content that our customers pay to license and by compensating contributors as their content is licensed."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

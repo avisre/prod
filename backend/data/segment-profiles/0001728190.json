@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001728190",
  "issuerName": "HUYA Inc.",
- "builtAt": "2026-11-16T05:21:40.178Z",
+ "builtAt": "2026-11-16T10:24:03.572Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-048944",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1728190/000110465926048944/huya-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Internet audio-video program service",
+   "products": [
+    "information services via internet",
+    "music entertainment products",
+    "animation products",
+    "online performance",
+    "radio and television program production and operating"
+   ],
+   "description": "Offers audio-video programming, music entertainment products, animation products and online performance to users in mainland China through its platform.",
+   "evidence": "As of the date of this annual report, our subsidiaries in mainland China, the VIE and its subsidiaries have obtained the requisite licenses and permits from the government authorities of mainland China that are necessary for our business operations in mainland China, including, among others, a value-added telecommunications business operation license for information services via internet, or ICP License, a permit for internet audio-video program service, a radio and television program production"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Revenue comes from third-party payment platforms, advertising customers and third party distribution platforms paying for services provided to users.",
+  "evidence": "Accounts receivable is typically unsecured and is primarily derived from revenue earned from third-party payment platforms, advertising customers and third party distribution platforms."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

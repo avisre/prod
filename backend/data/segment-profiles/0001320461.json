@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001320461",
  "issuerName": "COOPER-STANDARD HOLDINGS INC.",
- "builtAt": "2026-11-16T05:21:42.472Z",
+ "builtAt": "2026-11-16T10:26:05.310Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001320461-26-000012",
@@ -10,11 +10,49 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1320461/000132046126000012/cps-20260213.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sealing Systems",
+   "products": [
+    "FlexiCore",
+    "FlushSeal",
+    "TPE body seal"
+   ],
+   "description": "Makes sealing systems such as body seals for passenger vehicles and light trucks sold mainly to global automotive original equipment manufacturers.",
+   "evidence": "For the periods presented herein, our business was organized in two reportable segments: Sealing Systems and Fluid Handling Systems."
+  },
+  {
+   "name": "Fluid Handling Systems",
+   "products": [
+    "fuel and brake delivery systems",
+    "fluid transfer systems",
+    "eCoFlow switch pump",
+    "plastic coolant hub",
+    "MagAlloy brake tube coating",
+    "Easy-Lock quick connect",
+    "PlastiCool 2000",
+    "Ergo-Lock"
+   ],
+   "description": "Makes fluid handling systems, including fuel and brake delivery and fluid transfer, for passenger vehicles and light trucks sold to automakers and suppliers.",
+   "evidence": "eCoFlow™ switch pump, a solution that offers features of both an electric water pump and electronically driven valve in a single integrated coolant control module"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Global automotive original equipment manufacturers and other suppliers and distributors pay for sealing and fluid handling systems.",
+  "evidence": "Approximately 86% of our sales in 2025 were to OEMs."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company divested its European technical rubber products business and its controlling interest in an Asia Pacific joint venture.",
+   "evidence": "In 2023, we finalized the divestiture of our European technical rubber products business and sold the Company's entire controlling equity interest in a joint venture in the Asia Pacific region."
+  },
+  {
+   "text": "In 2024 the Company sold its Canadian tooling business.",
+   "evidence": "Gain on sale of businesses, net for the year ended December 31, 2024 was $2.0 million, resulting from the net effect of the sale of our Canadian tooling business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001899883",
  "issuerName": "FTAI INFRASTRUCTURE INC.",
- "builtAt": "2026-11-16T05:21:41.507Z",
+ "builtAt": "2026-11-16T10:26:07.259Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001899883-26-000015",
@@ -10,11 +10,81 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1899883/000189988326000015/ftai-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Railroad",
+   "products": [
+    "Transtar",
+    "Wheeling",
+    "rail haulage",
+    "switching and transportation services",
+    "railcar maintenance and repair services",
+    "locomotive maintenance",
+    "maintenance-of-way services",
+    "car management services"
+   ],
+   "description": "Owns and operates short line and regional freight railroads and a switching company serving manufacturing and production facilities in North America.",
+   "evidence": "The Railroad segment is comprised of eight freight railroads and one switching company that provide rail service to certain manufacturing and production facilities, which includes the newly acquired Wheeling as of the third quarter of 2025 (refer to Note 3 for additional details)."
+  },
+  {
+   "name": "Jefferson Terminal",
+   "products": [
+    "multi-modal crude oil and refined products terminal",
+    "Jefferson Terminal South"
+   ],
+   "description": "Operates a multi-modal terminal that stores and handles crude oil and refined products and related assets for third parties.",
+   "evidence": "The Jefferson Terminal segment consists of a multi-modal crude oil and refined products terminal, Jefferson Terminal South and other related assets."
+  },
+  {
+   "name": "Repauno",
+   "products": [
+    "deep-water port",
+    "underground storage cavern",
+    "multipurpose dock",
+    "rail-to-ship transloading system",
+    "industrial development opportunities"
+   ],
+   "description": "Owns a deep-water port on the Delaware River with storage, dock and transloading assets plus industrial development land for third parties.",
+   "evidence": "The Repauno segment consists of a 1,630-acre deep-water port located along the Delaware River with an underground storage cavern, a multipurpose dock, a rail-to-ship transloading system and multiple industrial development opportunities."
+  },
+  {
+   "name": "Power and Gas",
+   "products": [
+    "Long Ridge",
+    "power plant",
+    "multi-modal terminal",
+    "industrial development opportunities"
+   ],
+   "description": "Owns the Long Ridge terminal on the Ohio River and operates its power plant, selling power and gas.",
+   "evidence": "The Power and Gas segment is comprised of Long Ridge, which is a 1,660-acre multi-modal terminal located along the Ohio River with rail, dock, and multiple industrial development opportunities, including a power plant in operation."
+  },
+  {
+   "name": "Sustainability and Energy Transition",
+   "products": [
+    "Aleon/Gladieux",
+    "Clean Planet",
+    "CarbonFree"
+   ],
+   "description": "Holds development stage businesses focused on sustainability and recycling of batteries, metals and other materials.",
+   "evidence": "The Sustainability and Energy Transition segment is comprised of Aleon/Gladieux, Clean Planet, and CarbonFree, and all three investments are development stage businesses focused on sustainability and recycling."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Rail and terminal customers pay us for haulage, switching, storage and handling of energy products under long-term agreements and leases.",
+  "evidence": "Our Ports and Terminals business, consisting of our Jefferson Terminal and Repauno segments, develops or acquires industrial properties in strategic locations that store and handle for third parties a variety of energy products including crude oil, refined products and clean fuels."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the railcar cleaning operation KRS moved from the Railroad segment to the Corporate and Other segment.",
+   "evidence": "As of the second quarter of 2025, we have moved KRS, a railcar cleaning operation, from the Railroad segment to the Corporate and Other segment."
+  },
+  {
+   "text": "In 2025 the newly acquired Wheeling was added to the Railroad segment.",
+   "evidence": "The Railroad segment is comprised of eight freight railroads and one switching company that provide rail service to certain manufacturing and production facilities, which includes the newly acquired Wheeling as of the third quarter of 2025 (refer to Note 3 for additional details)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

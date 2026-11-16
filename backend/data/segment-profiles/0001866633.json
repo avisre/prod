@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001866633",
  "issuerName": "Consensus Cloud Solutions, Inc.",
- "builtAt": "2026-11-16T05:21:42.114Z",
+ "builtAt": "2026-11-16T10:25:23.106Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001866633-26-000004",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1866633/000186663326000004/ccs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud Fax",
+   "products": [
+    "eFax Corporate®",
+    "ECFax®",
+    "eFax Unite TM",
+    "jSign®",
+    "eFax Conductor",
+    "eFax Clarity",
+    "MyFax®",
+    "SRFax®"
+   ],
+   "description": "Provides cloud fax, secure information exchange, healthcare interoperability and digital signature solutions to businesses, healthcare organizations, the public sector and individuals.",
+   "evidence": "Accordingly, the Company has determined that it operates one reportable segment known as Cloud Fax (see Note 16 - Segment Information)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay monthly recurring subscription and usage-based fees for cloud-based communication and digital signature solutions delivered as software they access without taking possession.",
+  "evidence": "The contracts include both recurring subscription and usage-based fees, and the total transaction price is allocated to performance obligations in each contract as appropriate."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

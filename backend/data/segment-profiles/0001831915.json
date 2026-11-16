@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001831915",
  "issuerName": "CYTEK BIOSCIENCES, INC.",
- "builtAt": "2026-11-16T05:21:43.866Z",
+ "builtAt": "2026-11-16T10:26:41.751Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012352",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1831915/000162828026012352/ctkb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell analysis",
+   "products": [
+    "Cytek Aurora™",
+    "Northern Lights™",
+    "Cytek Aurora Evo",
+    "Aurora CS system",
+    "SpectroFlo",
+    "Amnis",
+    "Guava",
+    "Muse Micro"
+   ],
+   "description": "Sells cell analysis instruments, reagents, software and services using Full Spectrum Profiling technology to pharmaceutical, biopharma, academic and CRO customers.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers worldwide, including pharmaceutical and biopharma companies, academic research centers, CROs and distributors, pay for instruments, reagents, software and services.",
+  "evidence": "Since our first U.S. commercial launch in mid-2017, we have sold and deployed our instruments to customers around the world, including pharmaceutical companies, biopharma companies, academic research centers, and contract research organizations (\"CROs\")."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

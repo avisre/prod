@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002001557",
  "issuerName": "Innventure, Inc.",
- "builtAt": "2026-11-16T05:21:42.389Z",
+ "builtAt": "2026-11-16T10:25:44.008Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002001557-26-000060",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2001557/000200155726000060/innv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology",
+   "products": [
+    "data center cooling products",
+    "cooling systems for data centers",
+    "two-phase, direct-to-chip liquid cooling solutions for data centers"
+   ],
+   "description": "Develops and manufactures data center cooling products through Accelsius, selling cooling systems to data center operators.",
+   "evidence": "The Technology segment includes the business activities of Accelsius, a consolidated subsidiary focused on development and manufacture of data center cooling products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for product sales of data center cooling systems, and the company also earns management fee income for services.",
+  "evidence": "The increase was driven by an increase in product sales in the Technology segment, offset by a decrease in management fee income."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

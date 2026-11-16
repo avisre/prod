@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001829864",
  "issuerName": "TaskUs, Inc.",
- "builtAt": "2026-11-16T05:21:41.362Z",
+ "builtAt": "2026-11-16T10:24:56.201Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001829864-26-000012",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1829864/000182986426000012/task-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Outsourced digital services",
+   "products": [
+    "Digital Customer Experience",
+    "Trust & Safety",
+    "Artificial Intelligence Services",
+    "Content Moderation",
+    "Financial Crime & Compliance",
+    "Large Language Model Support",
+    "Data Quality Services",
+    "AI Safety"
+   ],
+   "description": "Delivers outsourced digital customer experience, trust and safety and AI services to global category leaders and digital brands.",
+   "evidence": "Therefore, the Company has determined that it operates in a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay for outsourced digital customer experience, trust and safety and artificial intelligence services delivered by trained global teams.",
+  "evidence": "Our global, omnichannel delivery model is focused on providing our clients with three key services – Digital Customer Experience (\"Digital CX\"), Trust & Safety and Artificial Intelligence (\"AI\") Services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

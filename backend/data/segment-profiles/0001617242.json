@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001617242",
  "issuerName": "KEARNY FINANCIAL CORP.",
- "builtAt": "2026-11-16T05:21:43.602Z",
+ "builtAt": "2026-11-16T10:26:41.047Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001617242-26-000020",
@@ -10,10 +10,28 @@
   "filingDate": "2026-08-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1617242/000161724226000020/krny-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loan and deposit products",
+    "C&I loans",
+    "owner-occupied commercial real estate loans",
+    "home equity products",
+    "commercial operating accounts",
+    "consumer transaction accounts",
+    "treasury management"
+   ],
+   "description": "Savings bank holding company that attracts deposits from the general public and originates or purchases loans for its portfolio and for sale.",
+   "evidence": "Substantially all of the Company's operations occur through the Bank and involve the delivery of loan and deposit products to customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans the Bank originates or purchases, funded by deposits attracted from the general public and other funds.",
+  "evidence": "The Bank is principally engaged in the business of attracting deposits from the general public and using these deposits, together with other funds, to originate or purchase loans for its portfolio and for sale into the secondary market."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

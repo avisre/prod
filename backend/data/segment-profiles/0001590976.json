@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001590976",
  "issuerName": "MALIBU BOATS, INC.",
- "builtAt": "2026-11-16T05:21:40.622Z",
+ "builtAt": "2026-11-16T10:24:51.066Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001590976-26-000037",
@@ -10,11 +10,72 @@
   "filingDate": "2026-08-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1590976/000159097626000037/mbuu-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Malibu",
+   "products": [
+    "Axis",
+    "Response Series",
+    "Wakesetter",
+    "M Series",
+    "performance sports boats"
+   ],
+   "description": "Manufactures, distributes, markets and sells Malibu and Axis performance sport boats worldwide to consumers through independent dealers.",
+   "evidence": "Our Malibu segment participates in the manufacturing, distribution, marketing and sale throughout the world of Malibu and Axis performance sports boats."
+  },
+  {
+   "name": "Saltwater Fishing",
+   "products": [
+    "Pursuit",
+    "Maverick",
+    "Cobia",
+    "Pathfinder",
+    "Hewes",
+    "sports center consoles",
+    "dual consoles",
+    "offshore series"
+   ],
+   "description": "Builds and sells Pursuit and Maverick Boat Group saltwater outboard fishing boats worldwide through independent dealers.",
+   "evidence": "Our Saltwater Fishing segment participates in the manufacturing, distribution, marketing and sale throughout the world of Pursuit boats and the Maverick Boat Group family of boats (Maverick, Cobia, Pathfinder and Hewes)."
+  },
+  {
+   "name": "Cobalt",
+   "products": [
+    "Cobalt boats",
+    "luxury cruisers and bowriders",
+    "TruWave Technology",
+    "Surf Gate"
+   ],
+   "description": "Manufactures, distributes, markets and sells Cobalt luxury sterndrive and outboard boats worldwide through independent dealers.",
+   "evidence": "Our Cobalt segment participates in the manufacturing, distribution, marketing and sale throughout the world of Cobalt boats."
+  },
+  {
+   "name": "Saxdor",
+   "products": [
+    "Saxdor boats",
+    "MySaxdor",
+    "premium adventure dayboats"
+   ],
+   "description": "Manufactures, distributes, markets and sells Saxdor premium adventure dayboats worldwide through independent dealers.",
+   "evidence": "Our Saxdor segment participates in the manufacturing, distribution, marketing and sale throughout the world of Saxdor boats."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Independent dealers pay the company for boats it manufactures and then resell them to retail consumers.",
+  "evidence": "We rely on independent dealers to sell our products."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company revised its segment reporting to add Saxdor as a fourth reportable segment after acquiring it.",
+   "evidence": "Effective March 31, 2026, the Company revised its segment reporting to account for its acquisition of Saxdor."
+  },
+  {
+   "text": "The company moved from three reportable segments to four reportable segments in 2026.",
+   "evidence": "The Company previously had three reportable segments: Malibu, Saltwater Fishing and Cobalt. The Company now has four reportable segments, Malibu, Saltwater Fishing, Cobalt, and Saxdor."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

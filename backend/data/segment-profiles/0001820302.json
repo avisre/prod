@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001820302",
  "issuerName": "Bakkt, Inc.",
- "builtAt": "2026-11-16T05:21:43.450Z",
+ "builtAt": "2026-11-16T10:26:23.127Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-019870",
@@ -10,11 +10,30 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1820302/000162828026019870/bakkt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Crypto services",
+   "products": [
+    "Bakkt Markets",
+    "Bakkt Agent",
+    "Bakkt Global"
+   ],
+   "description": "Provides software solutions that support digital asset transactions, offering institutional clients trading, custody, stablecoin payment rails and settlement infrastructure through a single platform.",
+   "evidence": "Company operates as a single reportable segment, which derives its revenues by providing software solutions that support digital asset transactions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients license the platform and pay transaction revenue so their customers can buy, sell and store approved digital assets.",
+  "evidence": "BFS, through business partnerships with clients, offers customers of those clients the ability to purchase, sell, store and, in approved jurisdictions, deposit and withdraw approved digital assets, all from within the applications of our clients with whom customers already have a relationship."
+ },
+ "changes": [
+  {
+   "text": "During fiscal year 2025 the company divested non-core assets as part of a strategic transformation.",
+   "evidence": "During fiscal year 2025, the Company undertook a strategic transformation, focusing on divesting non-core assets, simplifying our corporate and capital structure, and investing in infrastructure to support our core platform."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

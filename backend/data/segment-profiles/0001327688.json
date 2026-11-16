@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001327688",
  "issuerName": "Ooma, Inc.",
- "builtAt": "2026-11-16T05:21:43.010Z",
+ "builtAt": "2026-11-16T10:26:06.041Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001327688-26-000009",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1327688/000132768826000009/ooma-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications Services",
+   "products": [
+    "Ooma Office",
+    "Ooma Enterprise",
+    "Ooma AirDial",
+    "2600Hz",
+    "FluentStream",
+    "Phone.com",
+    "OnSIP",
+    "Ooma Telo"
+   ],
+   "description": "Provides cloud-based communications services and on-premise devices to business and residential customers, mainly in the United States and Canada.",
+   "evidence": "We refer to Ooma Office, Ooma Enterprise, Ooma AirDial, 2600Hz, FluentStream, Phone.com and OnSIP collectively as Ooma Business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay monthly subscription fees for communications services and buy or rent on-premise and end-point devices through Ooma sales representatives, distributors, retailers and resellers.",
+  "evidence": "We generate revenues primarily from the sale of subscriptions and other services for our business and residential communications solutions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

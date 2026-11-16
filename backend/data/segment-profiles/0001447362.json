@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001447362",
  "issuerName": "CASTLE BIOSCIENCES, INC.",
- "builtAt": "2026-11-16T05:21:39.443Z",
+ "builtAt": "2026-11-16T10:22:54.260Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012272",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1447362/000162828026012272/cstl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Molecular Diagnostics",
+   "products": [
+    "DecisionDx-Melanoma",
+    "DecisionDx-SCC",
+    "MyPath Melanoma",
+    "TissueCypher",
+    "DecisionDx-UM",
+    "AdvanceAD-Tx",
+    "IDgenetix"
+   ],
+   "description": "Molecular diagnostics company offering test solutions to aid clinicians in diagnosing and treating dermatologic cancers, Barrett's esophagus, atopic dermatitis and uveal melanoma.",
+   "evidence": "We have presented disaggregated net revenues included in our single reportable segment in the table above."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Third-party government payors, primarily Medicare, and private-payor insurance companies reimburse the company for delivering test reports to treating clinicians.",
+  "evidence": "We rely upon reimbursements from third-party government payors (primarily Medicare) and private-payor insurance companies to collect accounts receivable related to sales of our tests."
+ },
+ "changes": [
+  {
+   "text": "The IDgenetix test was discontinued in May 2025.",
+   "evidence": "The IDgenetix test was discontinued in May 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

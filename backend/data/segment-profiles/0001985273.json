@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001985273",
  "issuerName": "TOYO Co., Ltd",
- "builtAt": "2026-11-16T05:21:40.059Z",
+ "builtAt": "2026-11-16T10:23:38.290Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-037921",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1985273/000121390026037921/ea0283695-20f_toyo.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solar",
+   "products": [
+    "solar cells",
+    "solar PV modules",
+    "PV modules",
+    "TOYO Solar",
+    "VSUN"
+   ],
+   "description": "Manufactures and supplies solar cells and solar PV modules to affiliate VSUN, a select group of module manufacturers and U.S. module customers.",
+   "evidence": "Since the Company operates in one reportable segment, all financial information required can be found in the consolidated financial statements."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers including affiliate VSUN and a select group of PV module manufacturers pay the company for its solar cells and solar PV modules.",
+  "evidence": "We plan to supply our solar PV modules, initially in collaboration with VSUN, leveraging its experience and certification."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
