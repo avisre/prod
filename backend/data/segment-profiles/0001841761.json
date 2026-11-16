@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001841761",
  "issuerName": "Grove Collaborative Holdings, Inc.",
- "builtAt": "2026-11-16T05:42:50.148Z",
+ "builtAt": "2026-11-16T11:46:02.358Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001841761-26-000010",
@@ -10,11 +10,31 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1841761/000184176126000010/grov-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer products",
+   "products": [
+    "Grove Co.",
+    "Grove Brands",
+    "DTC platform",
+    "third-party brands"
+   ],
+   "description": "Sells natural home, beauty and personal care products online through its direct-to-consumer platform.",
+   "evidence": "We operate an online direct-to-consumer website and mobile application (\"DTC platform\") where we both sell our Grove-owned brands (\"Grove Brands\") and partner with other leading natural and mission-based CPG brands, providing consumers a selection of curated products across many categories and brands."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers pay Grove for natural household, beauty and personal care products bought through its online platform.",
+  "evidence": "We operate an online direct-to-consumer website and mobile application (\"DTC platform\") where we both sell our Grove-owned brands (\"Grove Brands\") and partner with other leading natural and mission-based CPG brands, providing consumers a selection of curated products across many categories and brands."
+ },
+ "changes": [
+  {
+   "text": "The brick-and-mortar retail business was wound down in 2025, following a decision made in October 2024.",
+   "evidence": "In October 2024, we made the strategic decision to wind down our brick-and-mortar retail business, which was completed in 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

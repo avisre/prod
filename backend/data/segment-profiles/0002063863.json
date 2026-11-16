@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002063863",
  "issuerName": "Elauwit Connection, Inc.",
- "builtAt": "2026-11-16T05:42:51.543Z",
+ "builtAt": "2026-11-16T11:47:02.168Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-037748",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2063863/000110465926037748/tmb-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Broadband Internet networks",
+   "products": [
+    "Managed Services",
+    "Network-as-a-Service"
+   ],
+   "description": "Provides wholesale broadband Internet networks and managed services to multifamily and student housing property owners.",
+   "evidence": "We offer both Managed Services and Network-as-a-Service solutions to customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Property owners pay Elauwit a monthly per-unit fee for bulk internet services.",
+  "evidence": "The transaction price for the bulk internet services is determined by the monthly per unit price times the number of units stated in the contract."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

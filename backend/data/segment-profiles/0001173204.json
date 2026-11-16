@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001173204",
  "issuerName": "CINEVERSE CORP.",
- "builtAt": "2026-11-16T05:42:49.357Z",
+ "builtAt": "2026-11-16T11:45:18.482Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-284027",
@@ -10,11 +10,26 @@
   "filingDate": "2026-06-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1173204/000119312526284027/cnvs-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Core streaming business",
+   "products": [
+    "Matchpoint",
+    "IndiCue"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Advertisers, subscribers and merchandise buyers pay for advertising, subscriptions, merchandising and services.",
+  "evidence": "We believe that our large content library, long-standing relationships with digital platforms, state of the art technologies and years of experience operating and growing streaming audiences will allow us to continue to build a diversified portfolio of services and offerings that generate recurring revenue streams from advertising, subscriptions, merchandising, and services."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "segment evidence not verbatim: Core streaming business"
+ ],
  "reader": "agent"
 }

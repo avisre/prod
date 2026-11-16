@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001442620",
  "issuerName": "RECON TECHNOLOGY, LTD",
- "builtAt": "2026-11-16T05:42:48.387Z",
+ "builtAt": "2026-11-16T11:44:29.661Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-112415",
@@ -10,10 +10,38 @@
   "filingDate": "2026-09-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1442620/000110465926112415/rcon-20260630x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automation product and software",
+   "products": [],
+   "description": "Petroleum mining and extraction software and hardware, sold and implemented for the Chinese petroleum industry.",
+   "evidence": "Based on management's assessment, the Company has determined that it has four operating segments: automation product and software, equipment and accessories, oilfield environmental protection and platform outsourcing services."
+  },
+  {
+   "name": "Equipment and accessories",
+   "products": [],
+   "description": "Equipment and accessories revenue reported as a separate operating segment for the Chinese petroleum industry.",
+   "evidence": "Based on management's assessment, the Company has determined that it has four operating segments: automation product and software, equipment and accessories, oilfield environmental protection and platform outsourcing services."
+  },
+  {
+   "name": "Oilfield environmental protection",
+   "products": [],
+   "description": "Oilfield environmental protection business, reported as a separate operating segment.",
+   "evidence": "Based on management's assessment, the Company has determined that it has four operating segments: automation product and software, equipment and accessories, oilfield environmental protection and platform outsourcing services."
+  },
+  {
+   "name": "Platform outsourcing services",
+   "products": [],
+   "description": "Platform outsourcing services, reported as a separate operating segment, with no revenue in the latest year.",
+   "evidence": "Based on management's assessment, the Company has determined that it has four operating segments: automation product and software, equipment and accessories, oilfield environmental protection and platform outsourcing services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Chinese petroleum industry customers pay for the license and implementation of software and hardware innovations, and related services.",
+  "evidence": "We derive substantially all of our revenue from the license and implementation of software applications and hardware innovations for the Chinese petroleum industry."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

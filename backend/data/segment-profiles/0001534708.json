@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001534708",
  "issuerName": "BEELINE HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:42:52.989Z",
+ "builtAt": "2026-11-16T11:48:32.379Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014135",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1534708/000149315226014135/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beeline Loans",
+   "products": [
+    "QM loans",
+    "Non-QM loans",
+    "Chatbot"
+   ],
+   "description": "AI-driven fintech mortgage lender offering QM and Non-QM home loans to digital-first consumers, including property investors and self-employed borrowers.",
+   "evidence": "Beeline Loans is an AI-driven fintech mortgage lender that develops proprietary software in the form of major enhancements and new developments in its lending platform, including Beeline's Chatbot \"Bob.\""
+  },
+  {
+   "name": "Beeline Title Holdings",
+   "products": [
+    "title and loan closing services",
+    "BeelineEquity"
+   ],
+   "description": "Provides title and loan closing services for the mortgage origination business and the BeelineEquity product.",
+   "evidence": "Beeline Title Holdings provides title and loan closing services for Beeline's mortgage origination business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Borrowers pay origination and title fees, and aggregators pay a predetermined price when the company sells its closed loans.",
+  "evidence": "This is a fee charged to a borrower to offset the costs of origination."
+ },
+ "changes": [
+  {
+   "text": "Nimble and its subsidiaries were dissolved in 2025, and their results are reported as discontinued operations.",
+   "evidence": "The operating results of Nimble and its subsidiaries have been classified as discontinued operations during the years ended December 31, 2025 and 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

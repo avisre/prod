@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001579157",
  "issuerName": "VINCE HOLDING CORP.",
- "builtAt": "2026-11-16T05:42:48.544Z",
+ "builtAt": "2026-11-16T11:44:49.731Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-158986",
@@ -10,11 +10,35 @@
   "filingDate": "2026-04-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1579157/000119312526158986/vnce-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vince Wholesale",
+   "products": [],
+   "description": "Sells Vince brand products to major department and specialty stores in the U.S. and select international markets.",
+   "evidence": "Our Vince Wholesale segment is comprised of sales to major department stores and specialty stores in the U.S. and in select international markets."
+  },
+  {
+   "name": "Vince Direct-to-consumer",
+   "products": [
+    "Vince company-operated retail and outlet stores",
+    "Vince e-commerce business"
+   ],
+   "description": "Sells Vince brand products directly to consumers through company-operated retail and outlet stores and e-commerce.",
+   "evidence": "Our Vince Direct-to-consumer segment includes our Vince company-operated retail and outlet stores and our Vince e-commerce business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Department and specialty stores pay for Vince products bought wholesale; shoppers pay for them in Vince stores and online.",
+  "evidence": "Our Vince Wholesale segment is comprised of sales to major department stores and specialty stores in the U.S. and in select international markets."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, Rebecca Taylor and Parker stopped being an operating segment after their wind-down and sale.",
+   "evidence": "During fiscal 2024, as a result of the completion of the wind down and sale (see Note 2 \"Significant Transactions\"), and the determination by the CODM that Parker would not be considered in the Company's future operating plans, Rebecca Taylor and Parker is no longer an operating segment of the Company."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

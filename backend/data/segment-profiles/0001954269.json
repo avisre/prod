@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001954269",
  "issuerName": "GARDEN STAGE LIMITED",
- "builtAt": "2026-11-16T05:42:53.147Z",
+ "builtAt": "2026-11-16T11:48:32.745Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-083626",
@@ -10,10 +10,27 @@
   "filingDate": "2026-07-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1954269/000121390026083626/ea0298842-20f_garden.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Securities brokerage",
+   "products": [
+    "securities brokerage and financing services",
+    "underwriting and placement services",
+    "asset management services",
+    "margin financing services",
+    "Introducing and Referral Income",
+    "Due diligence service fees"
+   ],
+   "description": "Provides securities brokerage, underwriting, placement, asset management and margin financing services in Hong Kong to clients.",
+   "evidence": "Based on management's assessment, the Group determines that it has only one operating segment and therefore one reportable segment as defined by ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay fixed due diligence service fees, and other financial service providers pay introducing and referral fees for customers introduced to them.",
+  "evidence": "We charge an introducing and referral income structured as a fixed lump sum or monthly fee basis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

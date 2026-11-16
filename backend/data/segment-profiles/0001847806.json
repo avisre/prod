@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001847806",
  "issuerName": "Genius Group Ltd",
- "builtAt": "2026-11-16T05:42:52.641Z",
+ "builtAt": "2026-11-16T11:48:00.741Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-009371",
@@ -10,11 +10,62 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1847806/000149315226009371/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Academy",
+   "products": [
+    "GeniusU",
+    "Property Investors Network"
+   ],
+   "description": "Entrepreneur and investment education programs delivered digitally and in person, for adult learners.",
+   "evidence": "Academy revenue comprises entrepreneur and investment education programs delivered digitally and in-person."
+  },
+  {
+   "name": "School",
+   "products": [
+    "Education Angels",
+    "Pro Education"
+   ],
+   "description": "Early childhood and school-based education programs for children, from early learning through middle school.",
+   "evidence": "School revenue comprises early childhood and school-based education programs."
+  },
+  {
+   "name": "Resorts",
+   "products": [
+    "Tau Game Lodge",
+    "Matla Game Lodge",
+    "Vision Villas",
+    "Genius Café"
+   ],
+   "description": "Hospitality and experiential learning services, including safari lodges and a café, linked to local mentors.",
+   "evidence": "Resorts revenue comprises hospitality and experiential learning services."
+  },
+  {
+   "name": "Discontinued operations",
+   "products": [
+    "University of Antelope Valley",
+    "Revealed Films"
+   ],
+   "description": "Entities in the process of closure or restructuring, including University of Antelope Valley and Revealed Films.",
+   "evidence": "Discontinued operations revenue comprises revenue from entities that are in the process of closure or restructuring."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Paying students pay for courses they register for, while free students register for free courses.",
+  "evidence": "This is further divided into Free Students, who have registered for free courses, and Paying Students, who have registered and paid for courses."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Group revised its internal reporting structure to present Central, Academy, School, Resorts and Discontinued operations as reportable segments.",
+   "evidence": "During the year ended December 31, 2025, the Group revised its internal reporting structure and now presents its results across five reportable segments: Central, Academy, School, Resorts, and Discontinued operations."
+  },
+  {
+   "text": "In 2025 Entrepreneur Resorts was reintegrated into the Group through an asset purchase agreement and renamed Genius Resorts.",
+   "evidence": "In 2025, we reintegrated Entrepreneur Resorts into the Group via an Asset Purchase Agreement, renamed as Genius Resorts, and through the year the Company has continued integrating AI-enabled tools across its learning platforms and internal systems to enhance personalization, efficiency, and user engagement."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

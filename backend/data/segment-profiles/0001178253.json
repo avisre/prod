@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001178253",
  "issuerName": "SCYNEXIS INC",
- "builtAt": "2026-11-16T05:42:48.521Z",
+ "builtAt": "2026-11-16T11:44:45.045Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001178253-26-000007",
@@ -10,10 +10,20 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1178253/000117825326000007/scyx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "drug development",
+   "products": [],
+   "description": "Develops and out-licenses drugs for difficult-to-treat and drug-resistant infections for licensing partners.",
+   "evidence": "The Company has one reportable segment which is drug development."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Licensees pay the company development and other milestone payments plus royalties for out-licensed drugs.",
+  "evidence": "The drug development segment primarily derives revenues from customers by the out licensing of developed drugs which typically include development and other milestones and royalties."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

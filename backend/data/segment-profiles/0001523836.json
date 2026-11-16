@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001523836",
  "issuerName": "LightInTheBox Holding Co., Ltd.",
- "builtAt": "2026-11-16T05:42:49.845Z",
+ "builtAt": "2026-11-16T11:45:41.802Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-038848",
@@ -10,10 +10,32 @@
   "filingDate": "2026-04-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1523836/000110465926038848/litb-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Product sales",
+   "products": [
+    "online retailing of consumer products",
+    "sales to third-party sellers",
+    "Prime membership revenues"
+   ],
+   "description": "Online retailing of consumer products and sales to third-party sellers.",
+   "evidence": "The Group operated and reviewed its performance in two segments : (i) Product sales which consisted of online retailing of consumer products and sales to third-party sellers, and (ii) Services which consisted of provision of logistic services to companies and individual customers."
+  },
+  {
+   "name": "Services",
+   "products": [
+    "provision of logistic services to companies and individual customers"
+   ],
+   "description": "Logistic services provided to companies and individual customers.",
+   "evidence": "The Group operated and reviewed its performance in two segments : (i) Product sales which consisted of online retailing of consumer products and sales to third-party sellers, and (ii) Services which consisted of provision of logistic services to companies and individual customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for products it sells, and the company pays its costs in various currencies.",
+  "evidence": "Our customers pay for our products and we pay costs and expenditures in various currencies"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001602409",
  "issuerName": "FINGERMOTION, INC.",
- "builtAt": "2026-11-16T05:42:49.787Z",
+ "builtAt": "2026-11-16T12:38:22.070Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001520138-26-000194",
@@ -10,10 +10,26 @@
   "filingDate": "2026-05-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1602409/000152013826000194/fngr-02282026_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telecommunications products",
+   "products": [
+    "mobile recharge and top-up services",
+    "data plans",
+    "subscription plan",
+    "mobile devices",
+    "enterprise messaging services"
+   ],
+   "description": "Provides mobile recharge, data plans, subscription plans and mobile devices, plus SMS messaging, to consumers and enterprises in China.",
+   "evidence": "Based on the management's assessment, the Company determines that it has only one operating segment and therefore one reportable segment as defined by ASC 280."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Telecom operators pay rebates on recharge payments the company processes, and consumer and enterprise customers pay for its telecom services and devices.",
+  "evidence": "JiuGe Technology generates revenue by processing payments for telecom services and receiving rebates from telecom operators."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

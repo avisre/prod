@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001378950",
  "issuerName": "CARPARTS.COM, INC.",
- "builtAt": "2026-11-16T05:42:51.897Z",
+ "builtAt": "2026-11-16T11:47:04.936Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001378950-26-000035",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1378950/000137895026000035/prts-20260103x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aftermarket auto parts",
+   "products": [
+    "flagship website",
+    "mobile app",
+    "online marketplaces",
+    "wholesale platform"
+   ],
+   "description": "Sells aftermarket auto parts and accessories to DIY consumers and professional installers through its website, mobile app, marketplaces and wholesale platform.",
+   "evidence": "The Company operates as a single reportable segment (referred to as \"segment\" herein), engaged in the distribution and selling of aftermarket auto part products (SKUs) to customers through the flagship website, www.carparts.com , mobile app, online marketplaces and its wholesale platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Individual consumers and business customers pay for aftermarket automotive parts and accessories bought through the website, mobile app, marketplaces and wholesale platform.",
+  "evidence": "We sell aftermarket automotive products to individual consumers and business customers through our owned digital channels, including our flagship website, www.carparts.com , our mobile app, and our wholesale platform, as well as through select third-party online marketplaces, including eBay and Amazon."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

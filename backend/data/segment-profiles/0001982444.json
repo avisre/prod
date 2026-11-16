@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001982444",
  "issuerName": "Baird Medical Investment Holdings Limited",
- "builtAt": "2026-11-16T05:42:50.865Z",
+ "builtAt": "2026-11-16T11:46:39.630Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-048641",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1982444/000110465926048641/bdmd-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "MWA devices",
+    "MWA needles",
+    "MWA therapeutic apparatus",
+    "Other medical devices"
+   ],
+   "description": "Designs, manufactures and sells microwave ablation medical devices and other medical devices to hospitals and distributors in China.",
+   "evidence": "The Company's revenue and net income/loss are substantially derived from sales of MWA and other medical devices."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitals and medical device distributors pay the company for microwave ablation devices and other medical devices sold to them.",
+  "evidence": "Revenue from direct customers include revenue from sales of medical devices to hospitals (i.e. directly or through deliverers)."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

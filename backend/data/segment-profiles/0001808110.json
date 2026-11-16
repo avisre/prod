@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001808110",
  "issuerName": "DDC Enterprise Limited",
- "builtAt": "2026-11-16T05:42:49.386Z",
+ "builtAt": "2026-11-16T11:45:22.604Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-045881",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1808110/000121390026045881/ea0285722-20f_ddcenter.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer brands",
+   "products": [
+    "RTH, RTC, RTE and plant-based meal products",
+    "advertising services",
+    "Bitcoin Treasury"
+   ],
+   "description": "Food innovator selling convenient RTH, RTC, RTE and plant-based meals, plus advertising and Bitcoin treasury activities, for Millennial and Gen Z consumers.",
+   "evidence": "As a result of the assessment made by CODM, the Company has only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers buy the company's own-branded RTH and RTC meal solutions, and brands pay for advertisements on its platform or video content.",
+  "evidence": "Later in 2019, we extended our business to include the production and sale of, among others, own-branded RTH, RTC convenient meal solution products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

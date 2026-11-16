@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001775734",
  "issuerName": "Beneficient",
- "builtAt": "2026-11-16T05:42:50.969Z",
+ "builtAt": "2026-11-16T11:47:01.333Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001775734-26-000018",
@@ -10,10 +10,36 @@
   "filingDate": "2026-06-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1775734/000177573426000018/ben-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ben Liquidity",
+   "products": [
+    "Ben AltAccess"
+   ],
+   "description": "Finances liquidity and primary capital transactions for alternative asset investors and general partners through the AltAccess platform.",
+   "evidence": "Our Ben Liquidity and Ben AltAccess business units comprise the Ben Liquidity operating segment."
+  },
+  {
+   "name": "Ben Custody",
+   "products": [
+    "Ben Data"
+   ],
+   "description": "Provides trustee, custody, alternative asset trust administration and data services to trustees and other Customers.",
+   "evidence": "Our Ben Custody and Ben Data business lines comprise the Ben Custody operating segment."
+  },
+  {
+   "name": "Customer ExAlt Trusts",
+   "products": [],
+   "description": "Trusts holding interests in alternative assets that pay interest, fees and principal to Ben Liquidity and Ben Custody.",
+   "evidence": "The Customer ExAlt Trusts, which hold interests in alternative assets and pay interest and principal to Ben Liquidity, transaction fees to Ben Liquidity and Ben Custody in connection with liquidity transactions and fees to Ben Custody for providing full-service trust administration services to the trustees of the Customer ExAlt Trusts, comprise the Customer ExAlt Trusts segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay Ben Custody fees, payable quarterly, for trustee, custody and trust administration services.",
+  "evidence": "Through Ben Custody, we currently provide an extensive line of trustee and custody services, alternative asset trust administration, and data management services to the trustees of the Customer ExAlt Trusts and other Customers through BFF, and other of our subsidiaries, for fees payable quarterly."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001957489",
  "issuerName": "Able View Global Inc",
- "builtAt": "2026-11-16T05:42:50.676Z",
+ "builtAt": "2026-11-16T11:46:26.523Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048085",
@@ -10,11 +10,32 @@
   "filingDate": "2026-04-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1957489/000121390026048085/ea0286865-20f_ableview.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beauty products",
+   "products": [
+    "Clarins",
+    "PAT",
+    "dermo-cosmetics",
+    "functional personal care products",
+    "operation services"
+   ],
+   "description": "Sells cosmetics and other beauty products in China and provides brand management operation services to brand partners.",
+   "evidence": "The single reportable segment contains sales of cosmetics and other beauty products and provision of operation services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Online marketplaces, distributors and end consumers pay Able View for brand partners' products it resells; brand management itself earns no separate revenue.",
+  "evidence": "Instead, the Company generates revenue from the sales of the products of its brand partners."
+ },
+ "changes": [
+  {
+   "text": "Shanghai Jingyue, a former subsidiary, was disposed of in June 2025.",
+   "evidence": "All of these fines were paid, and Shanghai Jingyue was no longer a subsidiary of ours on June 27, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

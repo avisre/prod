@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001826397",
  "issuerName": "AVAX ONE TECHNOLOGY LTD.",
- "builtAt": "2026-11-16T05:42:49.473Z",
+ "builtAt": "2026-11-16T11:45:27.922Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014138",
@@ -10,11 +10,36 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1826397/000149315226014138/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Avalanche Protocol",
+   "products": [
+    "network-based smart contracts"
+   ],
+   "description": "Earns revenue from network-based smart contracts that stake crypto assets on validator nodes for blockchain networks.",
+   "evidence": "Our Avalanche Protocol revenues are generated through network-based smart contracts."
+  },
+  {
+   "name": "Bitcoin Mining",
+   "products": [
+    "certain digital assets"
+   ],
+   "description": "Earns revenue by producing digital assets through mining operations in Alberta, Canada and Ohio, USA.",
+   "evidence": "Pursuant to our Bitcoin Mining, we earn revenue from the production of certain digital assets through mining activities."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company earns revenue from producing certain digital assets through mining and from network-based smart contracts in Avalanche Protocol.",
+  "evidence": "Pursuant to our Bitcoin Mining, we earn revenue from the production of certain digital assets through mining activities."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025 the company reorganised its operating and reportable segments to Avalanche Protocol and Bitcoin Mining after launching its digital asset treasury reserve strategy.",
+   "evidence": "As a result of the launch of the digital asset treasury reserve strategy in the fourth quarter of 2025, the Company reorganized the operating and reportable segments to include Avalanche Protocol and Bitcoin Mining"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

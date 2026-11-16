@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001039280",
  "issuerName": "NETSOL TECHNOLOGIES, INC.",
- "builtAt": "2026-11-16T05:42:48.508Z",
+ "builtAt": "2026-11-16T11:44:27.333Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-044483",
@@ -10,10 +10,44 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1039280/000149315226044483/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "license fees for leasing and asset-based software",
+    "subscription and support fees",
+    "implementation and IT consulting services"
+   ],
+   "description": "Regional business unit selling leasing and asset-based software, subscriptions and implementation services to North American customers.",
+   "evidence": "The Company has identified three segments for its products and services: North America, Europe, and Asia-Pacific."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "license fees for leasing and asset-based software",
+    "subscription and support fees",
+    "implementation and IT consulting services"
+   ],
+   "description": "Regional business unit selling leasing and asset-based software, subscriptions and implementation services to European customers.",
+   "evidence": "The Company has identified three segments for its products and services: North America, Europe, and Asia-Pacific."
+  },
+  {
+   "name": "Asia-Pacific",
+   "products": [
+    "license fees for leasing and asset-based software",
+    "subscription and support fees",
+    "implementation and IT consulting services"
+   ],
+   "description": "Regional business unit selling leasing and asset-based software, subscriptions and implementation services across Asia-Pacific.",
+   "evidence": "The Company has identified three segments for its products and services: North America, Europe, and Asia-Pacific."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay software licensing, subscription fees, implementation services and ongoing maintenance and support for the Transcend Platform.",
+  "evidence": "NetSol generates revenues primarily through software licensing, subscription fees, implementation services and ongoing maintenance and support."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001031316",
  "issuerName": "Franklin Street Properties Corp.",
- "builtAt": "2026-11-16T05:42:48.749Z",
+ "builtAt": "2026-11-16T11:45:01.132Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-025284",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1031316/000110465926025284/fsp-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "real estate operations",
+   "products": [
+    "real estate leasing",
+    "asset management",
+    "property management"
+   ],
+   "description": "Owns and operates office properties, earning rental income and fees for asset management, property management and development.",
+   "evidence": "FSP Corp., or we or the Company, operates in a single reportable segment: real estate operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Tenants pay rent for leased office space, and the company earns fees for asset management, property management and development services.",
+  "evidence": "We derive rental revenue from income paid to us by tenants of these properties."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

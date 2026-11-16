@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001600983",
  "issuerName": "Knightscope, Inc.",
- "builtAt": "2026-11-16T05:42:50.177Z",
+ "builtAt": "2026-11-16T11:46:05.049Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-036240",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1600983/000110465926036240/kscp-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security technology",
+   "products": [
+    "K5 ASR",
+    "K1 Hemisphere (K1H)",
+    "K1 Blue Light Towers (BLT)",
+    "K1 Blue Light Emergency Phone (BLEP)",
+    "K1 Call Box",
+    "Knightscope Security Operations Center",
+    "Knightscope Emergency Management System"
+   ],
+   "description": "Integrated hardware, software and human operations security service for commercial, government, healthcare, education and transportation clients.",
+   "evidence": "We are a security technology company headquartered in Sunnyvale, California."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay to lease proprietary ASRs with browser-based KSOC access, and pay for ECD sales; the managed service bundles hardware, software and personnel.",
+  "evidence": "Accounts receivable were derived from the leasing of proprietary ASRs along with access to browser-based interface KSOC as well as the sale of ECDs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001999860",
  "issuerName": "Wing Yip Food Holdings Group Limited",
- "builtAt": "2026-11-16T05:42:52.223Z",
+ "builtAt": "2026-11-16T11:47:25.414Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-056618",
@@ -10,10 +10,26 @@
   "filingDate": "2026-05-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1999860/000121390026056618/ea0290236-20f_wingyip.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Meat processing",
+   "products": [
+    "cured pork sausages",
+    "cured pork meat",
+    "other cured meat products",
+    "snack products",
+    "frozen meat products"
+   ],
+   "description": "Processes and sells cured pork sausages, cured pork meat, snacks and frozen meat products through offline sales and online platforms.",
+   "evidence": "The Group has determined that there is only one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the invoiced value of cured pork sausages, cured pork meat, other cured meat products, snack products and frozen meat products.",
+  "evidence": "Revenue represents the invoiced value of goods and services, net of VAT."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

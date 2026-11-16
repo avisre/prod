@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001138723",
  "issuerName": "ACCURAY INCORPORATED",
- "builtAt": "2026-11-16T05:42:52.755Z",
+ "builtAt": "2026-11-16T11:48:06.024Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-029098",
@@ -10,10 +10,27 @@
   "filingDate": "2026-08-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1138723/000143774926029098/aray20260630_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Radiation therapy",
+   "products": [
+    "CyberKnife platform",
+    "Accuray Stellar",
+    "Radixact",
+    "Accuray Helix",
+    "Tomo C Systems",
+    "ClearRT"
+   ],
+   "description": "Develops, manufactures, sells and supports radiation therapy systems, planning, imaging and data software for clinical teams.",
+   "evidence": "The Company has assessed that it has one operating segment and one reporting unit."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers buy radiation therapy systems and pay for related services, including customer support, installation, training and other professional services.",
+  "evidence": "We also provide related services, including customer support, installation, training and other professional services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

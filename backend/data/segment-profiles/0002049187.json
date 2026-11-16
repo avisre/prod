@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002049187",
  "issuerName": "K-TECH SOLUTIONS COMPANY LIMITED",
- "builtAt": "2026-11-16T05:42:53.064Z",
+ "builtAt": "2026-11-16T11:48:29.661Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-088354",
@@ -10,10 +10,23 @@
   "filingDate": "2026-08-12",
   "url": "https://www.sec.gov/Archives/edgar/data/2049187/000121390026088354/ea0296290-20f_ktech.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Toy products",
+   "products": [
+    "Sales of finished goods",
+    "Sales for tooling"
+   ],
+   "description": "Designs, develops, tests and sells toy products, from simple plastic toys to electromechanical toys, for customers mainly in Europe and North America.",
+   "evidence": "We are principally engaged in the design, development, testing and sale of a diverse portfolio of toy products ranging from simple plastic toy products to more complex electromechanical toy products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company fees for toy development services, from design and prototype testing through production management to after-sales services.",
+  "evidence": "Our solution services span across the entire development stage of toy products from design, prototype testing, production management, quality control to after-sales services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

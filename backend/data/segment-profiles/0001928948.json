@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001928948",
  "issuerName": "High-Trend International Group",
- "builtAt": "2026-11-16T05:42:49.818Z",
+ "builtAt": "2026-11-16T11:45:56.163Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-007246",
@@ -10,11 +10,25 @@
   "filingDate": "2026-01-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1928948/000121390026007246/ea0273434-20f_hightrend.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "International shipping services",
+   "products": [
+    "international shipping business"
+   ],
+   "description": "Provides international shipping services through subsidiaries including Topsheen Shipping Singapore Pte. Ltd.",
+   "evidence": "Topsheen Shipping Singapore Pte. Ltd., a Singapore company that had been operating in the international shipping business since 2015"
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [],
+ "changes": [
+  {
+   "text": "In 2024, the company decided to withdraw from its carbon-neutral ocean technology business.",
+   "evidence": "In 2024, our new management team decided to withdraw from this business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

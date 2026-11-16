@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001708527",
  "issuerName": "ELUTIA INC.",
- "builtAt": "2026-11-16T05:42:50.356Z",
+ "builtAt": "2026-11-16T11:46:20.545Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-027664",
@@ -10,11 +10,42 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1708527/000110465926027664/elut-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Women's Health",
+   "products": [
+    "SimpliDerm"
+   ],
+   "description": "Markets SimpliDerm, a biologic matrix for soft tissue reconstruction, sold to healthcare facilities.",
+   "evidence": "SimpliDerm is the primary commercial product in our Women's Health segment, and the cardiovascular products reside in our Cardiovascular segment."
+  },
+  {
+   "name": "Cardiovascular",
+   "products": [
+    "ProxiCor",
+    "VasCure",
+    "Tyke"
+   ],
+   "description": "Markets its cardiovascular repair biologic matrix products ProxiCor, VasCure and Tyke to healthcare facilities.",
+   "evidence": "and the cardiovascular products reside in our Cardiovascular segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Healthcare facilities pay Elutia for its biologic matrix products, sold directly through independent sales agents.",
+  "evidence": "These products are sold directly to healthcare facilities through independent sales agents."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its CIED Business and dropped the Device Protection segment, leaving Women's Health and Cardiovascular.",
+   "evidence": "With the divestiture of the CIED Business, the Company now operates in two segments."
+  },
+  {
+   "text": "In 2023 the company sold its Orthobiologics Business, which was its entire Orthobiologics segment.",
+   "evidence": "The assets sold represented the entirety of our Orthobiologics segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

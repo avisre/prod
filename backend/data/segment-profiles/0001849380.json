@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001849380",
  "issuerName": "ONEMEDNET CORPORATION",
- "builtAt": "2026-11-16T05:42:51.523Z",
+ "builtAt": "2026-11-16T11:46:47.513Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013681",
@@ -10,11 +10,29 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1849380/000149315226013681/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real-world data",
+   "products": [
+    "iRWDTM",
+    "BEAM"
+   ],
+   "description": "Real-world data platform giving life sciences and healthcare customers access to curated clinical and imaging datasets.",
+   "evidence": "The CODM manages its operations and allocates resources based on the Company's consolidated results and therefore operates as one segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Life science companies pay to license de-identified clinical data for specific research opportunities.",
+  "evidence": "All data remains \"native\" within the federated OneMedNet iRWDTM provider network - meaning all the data remains locally onsite until specific de-identified data is licensed for a particular life science research opportunity."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company decommissioned its legacy BEAM platform as part of its transition to a unified real-world data platform.",
+   "evidence": "The Company decommissioned its legacy BEAM platform in May 2025 as part of its strategic transition to a unified real-world data platform."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

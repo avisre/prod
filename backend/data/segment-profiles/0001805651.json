@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001805651",
  "issuerName": "MarketWise, Inc.",
- "builtAt": "2026-11-16T05:42:52.146Z",
+ "builtAt": "2026-11-16T11:47:32.710Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001805651-26-000016",
@@ -10,11 +10,40 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1805651/000180565126000016/mktw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment research",
+   "products": [
+    "Stansberry Research",
+    "Chaikin Analytics",
+    "Brownstone Research",
+    "InvestorPlace",
+    "TradeSmith"
+   ],
+   "description": "Publishes paid investment research and provides financial software and analytical tools for self-directed investors.",
+   "evidence": "Accordingly, we have a single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Self-directed investors pay subscription fees for research, software and tools, on membership or term plans.",
+  "evidence": "Revenue for the membership and term subscription types are determined based on the terms of the subscription agreements."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company reorganized its reporting structure by eliminating operating subsidiaries.",
+   "evidence": "In July 2025, we reorganized our reporting structure by eliminating our 1729 Research and Alta operating subsidiaries, which were also two of our three reporting units."
+  },
+  {
+   "text": "In 2024, the company disposed of certain Legacy Research brands in its Legacy reorganization.",
+   "evidence": "We recognized impairment on capitalized costs associated with contracts with customers during the year ended December 31, 2024, related to the disposal of certain Legacy Research brands as part of the Legacy reorganization."
+  },
+  {
+   "text": "In 2023, the company sold Buttonwood Publishing.",
+   "evidence": "We recognized an impairment of capitalized costs associated with contracts with customers during the year ended December 31, 2023 which was related to the sale of Buttonwood Publishing."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001971828",
  "issuerName": "Energys Group Ltd",
- "builtAt": "2026-11-16T05:42:50.720Z",
+ "builtAt": "2026-11-16T11:46:28.472Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-25-020532",
@@ -10,11 +10,32 @@
   "filingDate": "2025-11-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1971828/000149315225020532/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lighting-related services",
+   "products": [
+    "lighting systems",
+    "lighting products and fixtures",
+    "retrofit projects",
+    "energy management project solutions",
+    "enterprise-grade LED lighting and energy products"
+   ],
+   "description": "Sells lighting-related services and products, including retrofit projects and enterprise-grade LED lighting, to its customers.",
+   "evidence": "The Company has one reportable segment which is the sale of lighting-related services and products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for lighting systems that replace their existing lighting fixtures in retrofit projects, and for finished lighting products delivered to their location.",
+  "evidence": "The retrofit projects generated revenue by selling its lighting systems as replacements for its customers' existing lighting fixtures."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Group sold its subsidiary Grand Alliance International Limited (GAI) to Mr. Michael Lau.",
+   "evidence": "On March 25, 2025, EGHL transferred all of the issued and outstanding shares of its subsidiary, Grand Alliance International Limited (\"GAI\"), to Mr. Michael Lau for consideration of HKD$1.00"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
