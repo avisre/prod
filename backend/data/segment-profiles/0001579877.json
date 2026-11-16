@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001579877",
  "issuerName": "OUTFRONT Media Inc.",
- "builtAt": "2026-11-16T05:16:37.070Z",
+ "builtAt": "2026-11-16T08:50:58.210Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001579877-26-000008",
@@ -10,11 +10,40 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1579877/000157987726000008/out-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Billboard",
+   "products": [
+    "billboard displays",
+    "digital billboard displays",
+    "traditional static billboard displays"
+   ],
+   "description": "Sells advertising space on billboard displays along heavily traveled highways and roadways in U.S. markets to advertisers and brands.",
+   "evidence": "Digital billboard displays generate approximately four to five times more revenue per display on average than comparable traditional static billboard displays."
+  },
+  {
+   "name": "Transit",
+   "products": [
+    "transit advertising displays",
+    "digital transit displays",
+    "static transit displays"
+   ],
+   "description": "Sells advertising space on transit displays under exclusive multi-year contracts with municipalities in large U.S. cities to advertisers.",
+   "evidence": "Revenues generated on our network of digital transit displays are generally higher than revenues generated on a comparable portfolio of our static transit displays."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Advertisers pay for advertising space on billboard and transit displays, and for value-added services such as print production and creative services.",
+  "evidence": "In addition to leasing displays, we provide other value-added services to our customers, such as pre-campaign category research, consumer insights, print production, creative services and post-campaign tracking and analytics."
+ },
+ "changes": [
+  {
+   "text": "The Canadian Business, which had comprised the International operating segment included in Other, was sold in 2024.",
+   "evidence": "On June 7, 2024, the Company completed the sale of the Canadian Business in the Transaction."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

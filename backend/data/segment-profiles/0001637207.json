@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001637207",
  "issuerName": "PLANET FITNESS, INC.",
- "builtAt": "2026-11-16T05:16:39.024Z",
+ "builtAt": "2026-11-16T08:54:08.277Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001637207-26-000011",
@@ -10,10 +10,45 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1637207/000163720726000011/plnt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Franchise",
+   "products": [
+    "royalties",
+    "monthly dues",
+    "annual fees",
+    "NAFs"
+   ],
+   "description": "Franchises the Planet Fitness brand and collects royalties and advertising fund contributions from franchisees in the United States and several international markets.",
+   "evidence": "Our Franchise segment includes operations related to our franchising business in the United States, Puerto Rico, Canada, Panama, Mexico and Australia, as well as revenues and expenses of the NAFs."
+  },
+  {
+   "name": "Corporate-owned clubs",
+   "products": [
+    "Classic Card membership",
+    "PF Black Card memberships",
+    "PF Perks"
+   ],
+   "description": "Operates company-owned Planet Fitness clubs in the U.S., Canada and Spain, earning membership dues from club members.",
+   "evidence": "Our Corporate-owned clubs segment includes operations with respect to all corporate-owned clubs throughout the U.S., Canada, and Spain."
+  },
+  {
+   "name": "Equipment",
+   "products": [
+    "cardio, circuit- and strength-training equipment",
+    "free weights",
+    "plate-loaded equipment"
+   ],
+   "description": "Sells cardio and strength equipment to franchisee-owned clubs in the U.S., Canada and Mexico.",
+   "evidence": "The Equipment segment includes the sale of equipment to franchisee-owned clubs in the U.S, Canada and Mexico."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Franchisees pay royalties, advertising fund contributions and equipment purchases; club members pay monthly dues and annual fees.",
+  "evidence": "In 2025, over 90% of both our corporate-owned club and franchise revenues consisted of recurring revenue streams, which include royalties, monthly dues and annual fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

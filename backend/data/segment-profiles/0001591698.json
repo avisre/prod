@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001591698",
  "issuerName": "PAYLOCITY HOLDING CORPORATION",
- "builtAt": "2026-11-16T05:16:37.739Z",
+ "builtAt": "2026-11-16T08:52:10.993Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001591698-26-000069",
@@ -10,10 +10,29 @@
   "filingDate": "2026-08-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1591698/000159169826000069/pcty-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Human capital management",
+   "products": [
+    "Payroll and Tax Services",
+    "Global Payroll",
+    "On Demand Payment",
+    "Garnishments",
+    "Elevate Payroll",
+    "Human Resources",
+    "Employee Self-Service (Home)",
+    "Workflows & Documents"
+   ],
+   "description": "Provides cloud-based human capital management, finance and IT software to U.S. businesses, unifying payroll, HR, finance and IT workflows.",
+   "evidence": "The Company has thus determined that it operates in a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay recurring per-employee fees for the software solutions they purchase, plus implementation services and other fees.",
+  "evidence": "We derive revenue from a client based on the solutions purchased by the client, the number of client employees and the amount, type and timing of services provided with respect to those client employees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

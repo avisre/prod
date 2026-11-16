@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001618673",
  "issuerName": "Performance Food Group Company",
- "builtAt": "2026-11-16T05:16:38.206Z",
+ "builtAt": "2026-11-16T08:53:01.201Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-346886",
@@ -10,10 +10,55 @@
   "filingDate": "2026-08-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1618673/000119312526346886/pfgc-20260627.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Foodservice",
+   "products": [
+    "custom-cut meat and seafood",
+    "center-of-the-plate",
+    "frozen foods",
+    "refrigerated products",
+    "dry groceries",
+    "disposables, cleaning and kitchen supplies",
+    "Performance Brands"
+   ],
+   "description": "Distributes a broadline assortment of food and food-related products to independent and chain restaurants and other institutional food-away-from-home locations.",
+   "evidence": "Foodservice offers a broadline assortment of products, including custom-cut meat and seafood, as well as products that are specific to our customers' menu requirements."
+  },
+  {
+   "name": "Convenience",
+   "products": [
+    "cigarettes and alternative nicotine products",
+    "candy",
+    "snacks",
+    "groceries",
+    "dairy",
+    "bread",
+    "beverages",
+    "health and beauty care products"
+   ],
+   "description": "Wholesale consumer products and foodservice distributor serving convenience stores, drug stores, mass merchants and other small format stores in the United States and Canada.",
+   "evidence": "Convenience's product offering includes cigarettes and alternative nicotine products, candy, snacks, food, including fresh products, groceries, dairy, bread, beverages, general merchandise and health and beauty care products."
+  },
+  {
+   "name": "Specialty",
+   "products": [
+    "candy",
+    "snacks",
+    "beverages",
+    "fresh and frozen perishable foods",
+    "non-food items"
+   ],
+   "description": "National distributor of candy, snacks, beverages and perishable foods to vending, office coffee service, retail, entertainment and theater customers.",
+   "evidence": "Specialty is a leading national distributor of candy, snacks, and beverages as well as fresh and frozen perishable foods and other non-food items operating a network of 26 Specialty distribution centers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for food and food-related products, and for value-added services such as product selection, procurement, menu development and operational strategy.",
+  "evidence": "In addition to the products we offer to our customers, we provide value-added services by allowing our customers to benefit from our industry knowledge, scale, and expertise in the areas of product selection and procurement, menu development, and operational strategy."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

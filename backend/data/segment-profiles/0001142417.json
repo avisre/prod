@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001142417",
  "issuerName": "NEXSTAR MEDIA GROUP, INC.",
- "builtAt": "2026-11-16T05:16:36.041Z",
+ "builtAt": "2026-11-16T08:49:56.336Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-078361",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1142417/000119312526078361/nxst-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Broadcast",
+   "products": [
+    "television stations",
+    "related local websites",
+    "NewsNation",
+    "multicast networks",
+    "multicast network services",
+    "WGN-AM"
+   ],
+   "description": "Local television stations and related websites, the NewsNation cable news network, multicast networks and a Chicago radio station, serving audiences and advertisers nationwide.",
+   "evidence": "The Company's reportable broadcast segment includes (i) television stations and related local websites that Nexstar owns, operates, programs or provides sales and other services to in various markets across the United States, (ii) NewsNation, a national cable news network, (iii) two owned and operated multicast networks and other multicast network services, and (iv) WGN-AM, a Chicago radio station."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Cable, satellite and streaming distributors pay retransmission and carriage fees for our stations and NewsNation, and advertisers and political campaigns pay for commercial airtime.",
+  "evidence": "Distribution revenue, our largest category of revenue, primarily results from compensation from cable, satellite and other MVPDs and vMVPDs in return for our consent to the retransmission of the signals of our television stations and the carriage of NewsNation, typically based on the number of subscribers the MVPDs and vMVPDs have."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

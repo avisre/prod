@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001734722",
  "issuerName": "UiPath, Inc.",
- "builtAt": "2026-11-16T05:16:37.375Z",
+ "builtAt": "2026-11-16T08:51:22.466Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001734722-26-000012",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1734722/000173472226000012/path-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agentic Automation",
+   "products": [
+    "UiPath Platform",
+    "UiPath Maestro",
+    "Automation Cloud",
+    "AI Trust Layer"
+   ],
+   "description": "Licenses, subscriptions and professional services on an integrated agentic automation platform for enterprises adopting AI agents, robots and end-to-end process orchestration.",
+   "evidence": "The CODM reviews financial information at the consolidated level and manages business activities as one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Enterprises pay for licenses, subscription services and professional services delivered on the platform, sold directly and through channel partners and systems integrators.",
+  "evidence": "Our remaining performance obligations are comprised of licenses, subscription services, and professional services not yet delivered."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001114995",
  "issuerName": "IMPINJ, INC.",
- "builtAt": "2026-11-16T05:16:38.433Z",
+ "builtAt": "2026-11-16T08:53:36.228Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-042813",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1114995/000119312526042813/pi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "development and sale of our products and services",
+   "products": [
+    "endpoint ICs",
+    "reader ICs",
+    "high-performance finished readers",
+    "gateways",
+    "tag production systems",
+    "software and cloud services",
+    "silicon radios",
+    "intellectual property"
+   ],
+   "description": "Designs and sells a RAIN platform of endpoint ICs, reader ICs, reading systems and tag production systems, plus software and cloud services, through partners.",
+   "evidence": "We have one reportable and operating segment: the development and sale of our products and services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "We sell products and platform offerings to partners such as OEMs, tag service bureaus, systems integrators and resellers, rarely directly to end users.",
+  "evidence": "We sell our products, individually or as a whole platform offering, primarily with or through our partner ecosystem."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

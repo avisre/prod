@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001474098",
  "issuerName": "PEBBLEBROOK HOTEL TRUST",
- "builtAt": "2026-11-16T05:16:37.790Z",
+ "builtAt": "2026-11-16T08:52:25.559Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001474098-26-000015",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1474098/000147409826000015/peb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hotels",
+   "products": [
+    "lodging",
+    "food and beverage services",
+    "banquet and meeting space",
+    "fitness centers",
+    "swimming pools",
+    "spas",
+    "golf courses",
+    "other lifestyle amenities"
+   ],
+   "description": "Owns and asset-manages luxury and upper-upscale hotels and resorts in major U.S. cities and resort markets, serving business, leisure and group guests.",
+   "evidence": "These hotels provide lodging, food and beverage services, and a range of amenities, including banquet and meeting space, fitness centers, swimming pools, spas, golf courses and other lifestyle amenities."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Business transient, leisure transient and group and convention guests pay for room nights, food and beverage and hotel amenities at properties run by third-party managers.",
+  "evidence": "We believe that portfolio diversification will allow us to benefit from growth in various customer categories, including business transient, leisure transient and group and convention room-night demand."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold the Montrose at Beverly Hills and The Westin Michigan Avenue Chicago hotel properties.",
+   "evidence": "The following table summarizes disposition transactions during the year ended December 31, 2025 (in thousands):"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

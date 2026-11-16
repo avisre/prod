@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001626115",
  "issuerName": "PJT Partners Inc.",
- "builtAt": "2026-11-16T05:16:38.713Z",
+ "builtAt": "2026-11-16T08:53:41.549Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076969",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1626115/000119312526076969/pjt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "advisory services",
+   "products": [
+    "Strategic Advisory",
+    "Restructuring and Special Situations",
+    "PJT Park Hill",
+    "capital markets advisory",
+    "geopolitical and policy advisory",
+    "shareholder advisory",
+    "private fund advisory and fundraising services",
+    "private capital solutions"
+   ],
+   "description": "A global advisory-focused investment bank giving strategic, restructuring, capital markets and fundraising advice to corporations, financial sponsors, boards and creditors.",
+   "evidence": "The Company's activities of providing advisory services constitute a single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients including corporate clients, financial sponsors, boards and creditors pay advisory fees for strategic, restructuring, capital markets and fundraising advice on transactions and capital structure matters.",
+  "evidence": "We advise corporate clients and financial sponsors on transactions including mergers and acquisitions"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

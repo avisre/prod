@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001069899",
  "issuerName": "Phibro Animal Health Corporation",
- "builtAt": "2026-11-16T05:16:37.286Z",
+ "builtAt": "2026-11-16T08:51:46.640Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-101493",
@@ -10,11 +10,51 @@
   "filingDate": "2026-08-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1069899/000110465926101493/pahc-20260630x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Animal Health",
+   "products": [
+    "Antibacterials",
+    "anticoccidials",
+    "Nutritional specialty products",
+    "Vaccines",
+    "Stafac ®",
+    "Terramycin ®",
+    "Mecadox ®",
+    "Aureomycin ®"
+   ],
+   "description": "Develops, manufactures and markets antibacterials, anticoccidials, nutritional specialty products and vaccines for livestock producers, veterinarians and feed manufacturers raising food animals.",
+   "evidence": "Our Animal Health business develops, manufactures and markets about 345 product lines, including:"
+  },
+  {
+   "name": "Mineral Nutrition",
+   "products": [
+    "Mineral nutrition products"
+   ],
+   "description": "Supplies mineral nutrition products that fortify the animal's diet and help maintain optimal health for livestock producers and feed manufacturers.",
+   "evidence": "Mineral nutrition products that fortify the animal's diet and help maintain optimal health."
+  },
+  {
+   "name": "Performance Products",
+   "products": [
+    "specific ingredients for use in the personal care, industrial chemical and chemi"
+   ],
+   "description": "Manufactures and markets specific ingredients for the personal care, industrial chemical and chemical catalyst industries, selling directly to customers in those industries.",
+   "evidence": "We sell performance products directly to customers in the aforementioned industries."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Livestock producers, feed manufacturers, wholesalers, distributors and veterinarians pay for animal health and mineral nutrition products.",
+  "evidence": "We sell animal health and mineral nutrition products either directly to integrated poultry, cattle and swine producers or through animal feed manufacturers, wholesalers, distributors and veterinarians."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company completed the acquisition of Zoetis's medicated feed additive portfolio, reported within the Animal Health segment.",
+   "evidence": "On October 31, 2024, the Company completed the Acquisition at a purchase price of approximately $297.5 million ($286.5 million, as adjusted, net of cash acquired), subject to certain further adjustments set forth in the Purchase Agreement."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

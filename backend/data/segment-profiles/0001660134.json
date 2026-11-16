@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001660134",
  "issuerName": "Okta, Inc.",
- "builtAt": "2026-11-16T05:16:36.226Z",
+ "builtAt": "2026-11-16T08:49:36.507Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001660134-26-000020",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1660134/000166013426000020/okta-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Identity",
+   "products": [
+    "Okta Platform",
+    "Auth0 Platform",
+    "Okta for AI Agents",
+    "Auth0 for AI Agents",
+    "Cross App Access",
+    "Okta Customer Identity"
+   ],
+   "description": "Provides cloud-based identity platforms that secure workforce and customer access to applications, data and devices for organizations worldwide.",
+   "evidence": "Our Okta Platform and Auth0 Platform enable our customers to securely connect the right people to the right technologies and services at the right time."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for access to and usage of the cloud-based platforms, plus professional services fees for implementation and optimization.",
+  "evidence": "Revenue is derived from subscription fees (which include support fees) and professional services fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

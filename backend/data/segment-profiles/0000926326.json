@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000926326",
  "issuerName": "OMNICELL, INC",
- "builtAt": "2026-11-16T05:16:36.449Z",
+ "builtAt": "2026-11-16T08:50:11.409Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000926326-26-000006",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/926326/000092632626000006/omcl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medication Management",
+   "products": [
+    "OmniSphere",
+    "automated dispensing systems",
+    "Central Pharmacy Dispensing Service",
+    "IV Compounding Service",
+    "EnlivenHealth",
+    "Specialty Pharmacy Services",
+    "340B solutions",
+    "Inventory Optimization Service"
+   ],
+   "description": "Provides medication management automation, robotics, software and expert services to hospitals, health systems and retail pharmacies across inpatient, outpatient and retail settings.",
+   "evidence": "All significant operating decisions are based upon an analysis of Omnicell as one operating segment, which is the same as our reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitals, health systems and retail pharmacies pay for connected devices, software, consumables, technical services and subscription-based SaaS and expert services.",
+  "evidence": "The Company's one reportable segment derives revenues from sales of its products and related services, as described in Note 1, Organization and Summary of Significant Accounting Policies, which are sold in its principal market, the healthcare industry."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

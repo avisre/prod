@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001045609",
  "issuerName": "Prologis, Inc.",
- "builtAt": "2026-11-16T05:16:38.851Z",
+ "builtAt": "2026-11-16T08:54:05.810Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-051453",
@@ -10,10 +10,44 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1045609/000119312526051453/pld-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate (Rental Operations and Development)",
+   "products": [
+    "Rental Operations",
+    "Development",
+    "logistics properties",
+    "operating properties",
+    "data centers",
+    "build-to-suit development",
+    "speculative development",
+    "renewable energy assets"
+   ],
+   "description": "Owns, leases and develops logistics properties and data centers, collecting rent from customers and building facilities for its target markets.",
+   "evidence": "Our Real Estate Segment represents the ownership, leasing and development of logistics properties."
+  },
+  {
+   "name": "Strategic Capital",
+   "products": [
+    "asset management",
+    "property management services",
+    "leasing",
+    "acquisition",
+    "construction management",
+    "development",
+    "disposition services",
+    "promotes"
+   ],
+   "description": "Manages properties owned by unconsolidated co-investment ventures and provides services to institutional investor partners in those ventures.",
+   "evidence": "Our Strategic Capital Segment represents the management of properties owned by our unconsolidated co-investment ventures and other ventures."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay rent and reimburse property operating costs under operating leases, and co-investment ventures pay asset and property management fees.",
+  "evidence": "We collect rent from our customers through operating leases, including reimbursements for the majority of our property operating costs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

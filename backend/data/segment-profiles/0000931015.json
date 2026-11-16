@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000931015",
  "issuerName": "Polaris Inc.",
- "builtAt": "2026-11-16T05:16:38.516Z",
+ "builtAt": "2026-11-16T08:53:40.170Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-008033",
@@ -10,11 +10,59 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/931015/000162828026008033/pii-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Off Road",
+   "products": [
+    "RZR sport side-by-side",
+    "RANGER utility side-by-side",
+    "GENERAL crossover side-by-side",
+    "Polaris XPEDITION adventure side-by-side",
+    "Sportsman ATV",
+    "snowmobiles",
+    "Kolpin",
+    "Pro Armor"
+   ],
+   "description": "Designs and manufactures off-road vehicles, snowmobiles and related parts, garments and accessories for recreational, utility and military customers.",
+   "evidence": "Our ORV lineup includes the RZR sport side-by-side, the RANGER utility side-by-side, the GENERAL crossover side-by-side, the Polaris XPEDITION adventure side-by-side and the Sportsman ATV."
+  },
+  {
+   "name": "On Road",
+   "products": [
+    "Slingshot",
+    "Goupil",
+    "Aixam",
+    "moto-roadsters",
+    "light duty hauling",
+    "passenger vehicles"
+   ],
+   "description": "Designs and manufactures moto-roadsters, light duty hauling and passenger vehicles and related accessories for consumers and commercial users.",
+   "evidence": "Our current lineup includes Slingshot, a three-wheel open air roadster that competes in the motorcycle touring segment."
+  },
+  {
+   "name": "Marine",
+   "products": [
+    "Bennington",
+    "Godfrey",
+    "Hurricane",
+    "pontoon and deck boats"
+   ],
+   "description": "Designs and manufactures pontoon and deck boats sold under its boat brands to recreational boaters.",
+   "evidence": "Our brands, Bennington, Godfrey and Hurricane, are strategically positioned with over 500 base models across a range of price points."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Dealers, distributors and online customers pay for powersports vehicles, parts, garments and accessories.",
+  "evidence": "Our products are sold online and through dealers and distributors principally located in the United States, Canada, Western Europe, Australia, and Mexico."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company agreed to sell a majority interest in the Indian Motorcycle business, with the sale closing in the first quarter of 2026.",
+   "evidence": "On October 10, 2025, we entered into a definitive agreement to sell a majority interest in the Indian Motorcycle business, and the sale closed in the first quarter of 2026."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

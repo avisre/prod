@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001341439",
  "issuerName": "ORACLE CORP",
- "builtAt": "2026-11-16T05:16:36.576Z",
+ "builtAt": "2026-11-16T08:50:17.966Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-277521",
@@ -10,10 +10,51 @@
   "filingDate": "2026-06-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud and software",
+   "products": [
+    "Oracle Cloud Applications",
+    "Oracle Cloud Infrastructure",
+    "Oracle Applications",
+    "Oracle Database",
+    "Oracle Middleware",
+    "Java",
+    "Oracle Fusion Cloud Enterprise Resource Planning (ERP)"
+   ],
+   "description": "Sells enterprise applications and infrastructure technologies to businesses, government agencies, educational institutions and resellers through cloud subscriptions, software licenses and support.",
+   "evidence": "We have three businesses: cloud and software (formerly referred to as cloud and license); hardware; and services."
+  },
+  {
+   "name": "Hardware",
+   "products": [
+    "Oracle Engineered Systems",
+    "servers",
+    "storage",
+    "industry-specific hardware",
+    "operating systems",
+    "virtualization",
+    "hardware support"
+   ],
+   "description": "Provides infrastructure hardware and related software, plus hardware support, to customers running diverse IT environments.",
+   "evidence": "Our hardware business provides infrastructure technologies including Oracle Engineered Systems, servers, storage, industry-specific hardware, operating systems, virtualization, management and other hardware-related software to support diverse IT environments."
+  },
+  {
+   "name": "Services",
+   "products": [
+    "consulting services",
+    "customer success services"
+   ],
+   "description": "Provides consulting and customer success services to customers and partners to help them maximize the performance of their Oracle investments.",
+   "evidence": "Our services business provides services to customers and partners to help maximize the performance of their investments in Oracle applications and infrastructure technologies and include our consulting services and customer success services offerings."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay directly, mostly through multi-year cloud subscriptions and perpetual software licenses, plus software support, hardware and services contracts.",
+  "evidence": "Cloud revenues are generated from applications and infrastructure offerings that are typically contracted with customers directly, delivered to customers over time with our revenue recognition occurring over the contractual terms and renewed by customers upon completion of the contractual terms."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

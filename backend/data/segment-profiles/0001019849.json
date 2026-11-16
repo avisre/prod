@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001019849",
  "issuerName": "Penske Automotive Group, Inc.",
- "builtAt": "2026-11-16T05:16:37.194Z",
+ "builtAt": "2026-11-16T08:52:26.779Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012830",
@@ -10,11 +10,82 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1019849/000162828026012830/pag-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Automotive",
+   "products": [
+    "new and used vehicles",
+    "maintenance and repair services",
+    "third-party finance and insurance products",
+    "third-party extended service and maintenance contracts",
+    "replacement and aftermarket automotive products",
+    "collision repair services",
+    "CarShop",
+    "Sytner Select"
+   ],
+   "description": "Retails new and used vehicles and provides parts, service, finance and insurance, and collision repair at franchised dealerships in the U.S. and internationally.",
+   "evidence": "The individual dealership operations included in the Retail Automotive reportable segment represent two operating segments: United States Retail Automotive and International Retail Automotive."
+  },
+  {
+   "name": "Retail Commercial Truck",
+   "products": [
+    "Freightliner",
+    "Western Star",
+    "new and/or used trucks",
+    "service and parts operations",
+    "collision repair services",
+    "Premier Truck Group"
+   ],
+   "description": "Operates heavy- and medium-duty truck dealerships in the U.S. and Canada, selling new and used trucks and providing service and parts to fleets.",
+   "evidence": "Our Retail Commercial Truck reportable segment has been determined to represent one operating segment and reporting unit."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Western Star heavy-duty trucks",
+    "MAN heavy- and medium-duty trucks and buses",
+    "Dennis Eagle refuse collection vehicles",
+    "associated parts",
+    "diesel and gas engines",
+    "power systems",
+    "MTU",
+    "Allison Transmission"
+   ],
+   "description": "Distributes commercial vehicles, diesel and gas engines, power systems and parts, principally in Australia and New Zealand, to on- and off-highway customers.",
+   "evidence": "The goodwill included in our Other reportable segment relates primarily to our commercial vehicle distribution operating segment."
+  },
+  {
+   "name": "Non-Automotive Investments",
+   "products": [
+    "Penske Transportation Solutions",
+    "full-service truck leasing",
+    "truck rental",
+    "contract maintenance",
+    "logistics services",
+    "dedicated contract carriage",
+    "distribution center management",
+    "supply chain management"
+   ],
+   "description": "Holds equity method investments in non-automotive operations, principally Penske Transportation Solutions, a truck leasing, rental and logistics business.",
+   "evidence": "Penske Transportation Solutions (\"PTS\") is the universal brand name for PTL's various businesses, which articulates the breadth of their services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Retail consumers and fleet customers pay us for new and used vehicles, parts and service, finance and insurance products, and for distributed commercial vehicles, engines and power systems.",
+  "evidence": "In addition to selling new and used vehicles, we generate higher-margin revenue at each of our dealerships through maintenance and repair services, the sale and placement of third-party finance and insurance products, third-party extended service and maintenance contracts, replacement and aftermarket automotive products, and at certain of our locations, collision repair services."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company recorded goodwill impairment charges related to its former Used Vehicle Dealerships International reporting unit.",
+   "evidence": "Retail automotive segment income includes $ 40.7 million of goodwill impairment charges in 2023 related to our former Used Vehicle Dealerships International reporting unit."
+  },
+  {
+   "text": "In 2025 the company sold and closed retail automotive franchises in the U.S. within its Retail Automotive segment.",
+   "evidence": "During 2025, in the U.S. we sold four retail automotive franchises, closed one retail automotive franchise, and opened one retail automotive franchise."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001551306",
  "issuerName": "Progyny, Inc.",
- "builtAt": "2026-11-16T05:16:38.298Z",
+ "builtAt": "2026-11-16T08:53:05.699Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001551306-26-000020",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1551306/000155130626000020/pgny-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fertility benefits",
+   "products": [
+    "Smart Cycles",
+    "care management services",
+    "Progyny Rx",
+    "Other solutions"
+   ],
+   "description": "Provides self-insured employer clients and their members with fertility treatment, pharmacy and women's health benefits through a managed specialist network and care advocates.",
+   "evidence": "Progyny is a benefits management company specializing in fertility, family building and women's health benefits solutions and operates and manages in one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Self-insured employer clients pay for fertility benefits and related care management services delivered to their employees and covered dependents.",
+  "evidence": "Progyny primarily generates revenue through its fertility benefits solution, in which Progyny provides self-insured enterprise entities (\"clients\") and their employees and partners (together, \"members\") with fertility benefits."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

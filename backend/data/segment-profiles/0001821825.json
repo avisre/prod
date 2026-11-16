@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001821825",
  "issuerName": "Organon & Co.",
- "builtAt": "2026-11-16T05:16:36.186Z",
+ "builtAt": "2026-11-16T08:49:49.589Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011125",
@@ -10,11 +10,39 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1821825/000162828026011125/ogn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prescription therapies",
+   "products": [
+    "Nexplanon",
+    "NuvaRing",
+    "Cerazette",
+    "Marvelon",
+    "Mercilon",
+    "Follistim AQ",
+    "Ontruzant",
+    "Emgality"
+   ],
+   "description": "Sells prescription medicines in women's health and general medicines, including biosimilars and established brands, to patients and healthcare providers worldwide.",
+   "evidence": "Organon is engaged in developing and delivering innovative health solutions through its portfolio of prescription therapies within women's health and general medicines."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Sells prescription medicines to wholesalers, retailers, hospitals, government agencies and managed healthcare providers, who pay for the products they distribute or prescribe.",
+  "evidence": "We sell these products through various channels including drug wholesalers and retailers, hospitals, government agencies and managed healthcare providers such as health maintenance organizations, pharmacy benefit managers and other institutions."
+ },
+ "changes": [
+  {
+   "text": "In 2025, following a change in executive leadership, the Company reassessed its segment reporting structure and determined it operates as one operating segment with U.S. and International reporting units.",
+   "evidence": "Following a change in executive leadership in the second quarter, the Company reassessed its segment reporting structure and determined that it operates as one operating segment comprised of two reporting units: U.S. and International."
+  },
+  {
+   "text": "In 2026, the Company sold its Jada System business to Laborie Medical Technologies Corporation.",
+   "evidence": "In January 2026, the Company divested the Jada System to Laborie for an aggregate payment of up to"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

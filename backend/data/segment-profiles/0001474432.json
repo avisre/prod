@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001474432",
  "issuerName": "Everpure, Inc.",
- "builtAt": "2026-11-16T05:16:37.153Z",
+ "builtAt": "2026-11-16T08:50:57.191Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001474432-26-000027",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1474432/000147443226000027/pstg-20260201.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data storage",
+   "products": [
+    "Everpure Platform",
+    "Evergreen//One",
+    "Everpure Fusion",
+    "Portworx",
+    "Purity",
+    "DirectFlash",
+    "Everpure ™ Cloud"
+   ],
+   "description": "Sells an integrated flash-based storage and data management platform to enterprises, spanning on-premises, hybrid, public cloud and edge environments, with subscription services.",
+   "evidence": "Our chief operating decision maker (CODM), the Chief Executive Officer, manages business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for storage products and subscribe to storage capabilities and service levels rather than to a specific hardware configuration.",
+  "evidence": "Customers subscribe to storage capabilities and service levels, not to a specific hardware configuration."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

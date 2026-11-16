@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001120914",
  "issuerName": "PDF SOLUTIONS INC",
- "builtAt": "2026-11-16T05:16:37.828Z",
+ "builtAt": "2026-11-16T08:53:05.197Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005366",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1120914/000143774926005366/pdfs20251231d_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data solutions",
+   "products": [
+    "Exensio®",
+    "Sapience™",
+    "DirectScan™",
+    "CV®",
+    "Cimetrix®",
+    "secureWISE®",
+    "eProbe",
+    "pdFasTest"
+   ],
+   "description": "Provides data solutions, software, inspection and connectivity products to semiconductor manufacturers, foundries and equipment makers to improve yield and quality.",
+   "evidence": "We provide comprehensive data solutions designed to empower organizations across the semiconductor and electronics ecosystems to improve the yield and quality of their products and operational efficiency for increased profitability."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Foundries, IDMs, equipment manufacturers and OSATs pay platform fees for software licenses, SaaS and engineering services, and volume-based fees for runtime licenses and data.",
+  "evidence": "Our offerings that contribute to Platform revenue are licenses for software (other than Cimetrix® runtime licenses) and related software maintenance and technical support services; software-as-a-service (\"SaaS\"); engineering services; fixed fees associated with Characterization Vehicle® systems; and licenses and purchase contracts for DirectScan™ systems (formerly known as \"DFI systems\")."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

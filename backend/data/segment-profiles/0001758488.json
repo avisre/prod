@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001758488",
  "issuerName": "OneSpaWorld Holdings Limited",
- "builtAt": "2026-11-16T05:16:36.951Z",
+ "builtAt": "2026-11-16T08:50:52.159Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-062456",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1758488/000119312526062456/osw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health and wellness",
+   "products": [
+    "body care, salon, and skin care services and products",
+    "personal fitness training",
+    "acupuncture and light therapies",
+    "advanced medi-spa services",
+    "ELEMIS®",
+    "Kérastase®",
+    "CoolSculpting®",
+    "truSculpt® 3D"
+   ],
+   "description": "Operates health and wellness centers on cruise ships and in destination resorts, providing spa, fitness, aesthetics and medi-spa services and retail products to guests.",
+   "evidence": "The Company's Maritime and Destination Resorts operating segments are aggregated into a single reportable segment based upon similar economic characteristics, products, services, customers and delivery methods."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Cruise passengers and destination resort guests pay for services and products; cruise line and resort partners remit the amounts, net of commissions they withhold.",
+  "evidence": "The Company has entered into agreements of varying terms with the cruise lines under which services and products are paid for by cruise passengers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

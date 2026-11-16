@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001039065",
  "issuerName": "OSI SYSTEMS, INC.",
- "builtAt": "2026-11-16T05:16:36.602Z",
+ "builtAt": "2026-11-16T08:50:27.801Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-099752",
@@ -10,10 +10,57 @@
   "filingDate": "2026-08-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1039065/000110465926099752/osis-20260630x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security",
+   "products": [
+    "security screening products",
+    "multi-platform software solutions",
+    "turnkey security screening solutions",
+    "high-power RF systems",
+    "cargo and vehicle inspection systems",
+    "aviation and checkpoint inspection systems"
+   ],
+   "description": "Designs and sells security screening and inspection systems and high-power radio frequency systems to governments, airports, ports and other end users.",
+   "evidence": "Through our Security division, we provide security screening products, multi-platform software solutions, and services globally, as well as turnkey security screening solutions."
+  },
+  {
+   "name": "Optoelectronics and Manufacturing",
+   "products": [
+    "optoelectronic devices",
+    "flex circuits",
+    "electronics manufacturing services",
+    "value-added subsystems",
+    "printed circuit board assembly",
+    "cable and harness assembly",
+    "liquid crystal displays",
+    "box-build manufacturing services"
+   ],
+   "description": "Supplies optoelectronic devices, flex circuits and electronics manufacturing services to original equipment manufacturers and to the company's own Security and Healthcare divisions.",
+   "evidence": "Through our Optoelectronics and Manufacturing division, we design, manufacture and market optoelectronic devices and flex circuits and provide electronics manufacturing services globally for use in a broad range of applications"
+  },
+  {
+   "name": "Healthcare",
+   "products": [
+    "patient monitoring",
+    "cardiology and remote monitoring",
+    "connected care systems",
+    "associated accessories",
+    "Holter recorders and analyzers",
+    "ambulatory blood pressure monitors",
+    "resting and stress electrocardiography (ECG) devices",
+    "ECG management software systems"
+   ],
+   "description": "Designs, manufactures and services patient monitoring, cardiology and connected care systems for hospitals, medical clinics and physician offices.",
+   "evidence": "Through our Healthcare division, we design, manufacture, market and service patient monitoring, cardiology and remote monitoring, and connected care systems globally for sale primarily to hospitals and medical centers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "End users pay for security and inspection solutions and healthcare products, while original equipment manufacturer customers pay for optoelectronic devices, subsystems and manufacturing services.",
+  "evidence": "We sell our security and inspection solutions and healthcare products primarily to end‑users, while we design and manufacture our optoelectronic devices and value‑added subsystems and provide electronics manufacturing services primarily for original equipment manufacturer (OEM) customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

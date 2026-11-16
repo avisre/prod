@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001046568",
  "issuerName": "PERDOCEO EDUCATION CORP",
- "builtAt": "2026-11-16T05:16:39.612Z",
+ "builtAt": "2026-11-16T08:54:15.851Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-059331",
@@ -10,11 +10,59 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1046568/000119312526059331/prdo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CTU",
+   "products": [
+    "business and management",
+    "nursing",
+    "healthcare management",
+    "computer science",
+    "engineering",
+    "information systems and technology",
+    "project management",
+    "cybersecurity"
+   ],
+   "description": "Colorado Technical University provides industry-relevant online, campus-based and blended degree programs to non-traditional adult learners and the military community.",
+   "evidence": "CTU offers academic programs in the career-oriented disciplines of business and management, nursing, healthcare management, computer science, engineering, information systems and technology, project management, cybersecurity and criminal justice."
+  },
+  {
+   "name": "AIUS",
+   "products": [
+    "business studies",
+    "information technologies",
+    "education",
+    "behavioral sciences",
+    "criminal justice"
+   ],
+   "description": "The American InterContinental University System offers online, campus-based and blended academic programs to non-traditional adult learners and the military community.",
+   "evidence": "AIUS offers academic programs in the career-oriented disciplines of business studies, information technologies, education, behavioral sciences and criminal justice."
+  },
+  {
+   "name": "USAHS",
+   "products": [
+    "physical therapy",
+    "occupational therapy",
+    "speech-language therapy",
+    "nursing",
+    "continuing education programs"
+   ],
+   "description": "University of St. Augustine for Health Sciences offers graduate health sciences education to students preparing to become professional healthcare practitioners.",
+   "evidence": "USAHS offers graduate degrees in health sciences, primarily in physical therapy, occupational therapy, speech-language therapy and nursing, along with continuing education programs and prepares professionals to serve and provide quality medical care to communities across the country."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Students pay tuition and fees, billed at the start of each academic term, for educational services provided by the company's universities.",
+  "evidence": "Our revenue, which is derived primarily from academic programs taught to students who attend our universities, is generally segregated into two categories: (1) tuition and fees, and (2) other."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the non-degree professional development and continuing education programs of Hippo Education were transitioned from the CTU segment to the AIUS segment.",
+   "evidence": "During the third quarter of 2025, management of the non-degree professional development and continuing education programs offered by Hippo Education (\" Hippo \") were transitioned from the CTU segment to the AIUS segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
