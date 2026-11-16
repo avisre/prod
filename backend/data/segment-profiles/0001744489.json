@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001744489",
+ "issuerName": "WALT DISNEY CO/",
+ "builtAt": "2026-11-16T02:46:58.980Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001744489-25-000155",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1744489/000174448925000155/dis-20250927.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

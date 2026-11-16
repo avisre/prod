@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000916540",
+ "issuerName": "DARLING INGREDIENTS INC.",
+ "builtAt": "2026-11-16T02:46:58.559Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000916540-26-000008",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/916540/000091654026000008/dar-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Feed Ingredients",
+   "products": [
+    "protein",
+    "meat and bone meal (\"MBM\")",
+    "poultry meal (\"PM\")",
+    "blood products",
+    "fats",
+    "bakery by-products (\"BBP\")"
+   ],
+   "description": "Collects and processes animal by-products into feed ingredients.",
+   "evidence": "Operating Segments The Company's business operates within three reportable operating segments: Feed Ingredients, Food Ingredients and Fuel Ingredients."
+  },
+  {
+   "name": "Food Ingredients",
+   "products": [
+    "edible fats",
+    "blood products",
+    "bone products",
+    "protein meals and fats"
+   ],
+   "description": "Makes edible and value-added ingredients for food customers.",
+   "evidence": "Operating Segments The Company's business operates within three reportable operating segments: Feed Ingredients, Food Ingredients and Fuel Ingredients."
+  },
+  {
+   "name": "Fuel Ingredients",
+   "products": [
+    "fats",
+    "bakery by-products (\"BBP\")"
+   ],
+   "description": "Turns fats and by-products into feedstocks for renewable fuel.",
+   "evidence": "Operating Segments The Company's business operates within three reportable operating segments: Feed Ingredients, Food Ingredients and Fuel Ingredients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Meat processors pay it to take by-products, and feed, food and fuel customers buy the finished ingredients.",
+  "evidence": "We operate over 150 processing and transfer facilities in the United States to produce finished products such as protein (primarily meat and bone meal (\"MBM\") and poultry meal (\"PM\")), meat products for the pet food industry, blood products (plasma and whole blood), collagen, fats (primarily bleachable fancy tallow (\"BFT\"), poultry grease (\"PG\") and yellow grease (\"YG\")), bakery by-products (\"BBP\") and hides, as well as a range of branded and value-added products."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001061983",
+ "issuerName": "CYTOKINETICS, INCORPORATED",
+ "builtAt": "2026-11-16T02:46:58.515Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076495",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1061983/000119312526076495/cytk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceutical",
+   "products": [
+    "commercial product sales"
+   ],
+   "description": "Develops and sells pharmaceutical products for cardiovascular diseases.",
+   "evidence": "Segment Information We have one primary business activity and operate in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

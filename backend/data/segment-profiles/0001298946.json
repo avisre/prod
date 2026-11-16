@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001298946",
+ "issuerName": "DIAMONDROCK HOSPITALITY CO",
+ "builtAt": "2026-11-16T02:47:37.940Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001298946-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1298946/000129894626000013/drh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hotel ownership",
+   "products": [],
+   "description": "Owns and operates upper-upscale hotels, earning room and food and beverage revenue.",
+   "evidence": "Segment Reporting We have one reportable segment, hotel ownership, as discussed in Note 2."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates and hotel charges at the properties it owns.",
+  "evidence": "Segment Reporting Each one of our hotels is an operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

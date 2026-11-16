@@ -158,7 +158,7 @@ function windows(text) {
     return `[BUSINESS SECTION]\n${business}\n${other}\n[SEGMENT DISCLOSURES]\n${seg}${states ? `\n[SEGMENT STATEMENTS]\n${states}` : ''}${note ? `\n[SEGMENT NOTE]\n${note}` : ''}`;
 }
 
-function segmentNote(text, maxChars = 6000) {
+function segmentNote(text, maxChars = 14000) {
     const H = String(text || '');
     let at = -1;
     for (const re of [/segment information/gi, /segment reporting/gi, /reportable segments?/gi]) {

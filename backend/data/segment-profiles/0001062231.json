@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001062231",
+ "issuerName": "DAUCH CORPORATION",
+ "builtAt": "2026-11-16T02:46:58.703Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001062231-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1062231/000106223126000020/dch-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Driveline",
+   "products": [
+    "driveline components"
+   ],
+   "description": "Makes driveline components for light, commercial and industrial vehicles.",
+   "evidence": "35 SEGMENT REPORTING Our business is organized into Driveline and Metal Forming segments, with each representing a reportable segment under Accounting Standards Codification (ASC) 280 - Segment Reporting ."
+  },
+  {
+   "name": "Metal Forming",
+   "products": [
+    "engine, transmission, driveline and safety-critical components"
+   ],
+   "description": "Forges engine, transmission and safety-critical components for vehicles.",
+   "evidence": "35 SEGMENT REPORTING Our business is organized into Driveline and Metal Forming segments, with each representing a reportable segment under Accounting Standards Codification (ASC) 280 - Segment Reporting ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vehicle makers buy its forged and driveline components.",
+  "evidence": "• Our Metal Forming segment represents the largest automotive forging operation in the world, and provides engine, transmission, driveline and safety-critical components for light, commercial and industrial vehicles."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

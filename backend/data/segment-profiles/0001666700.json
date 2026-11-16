@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001666700",
+ "issuerName": "DUPONT DE NEMOURS, INC.",
+ "builtAt": "2026-11-16T02:46:58.720Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001666700-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1666700/000166670026000013/dd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare & Water Technologies",
+   "products": [],
+   "description": "Serves healthcare and water customers with specialised materials and technologies.",
+   "evidence": "This realignment resulted in a change in reportable segments which changed the manner in which the Company reports its financial results (the \"Q4 2025 Segment Realignment\"), creating two new reportable segments: Healthcare & Water Technologies and Diversified Industrials."
+  },
+  {
+   "name": "Diversified Industrials",
+   "products": [
+    "engineered products and integrated solutions"
+   ],
+   "description": "Sells engineered products for construction, aerospace, automotive and industrial markets.",
+   "evidence": "This realignment resulted in a change in reportable segments which changed the manner in which the Company reports its financial results (the \"Q4 2025 Segment Realignment\"), creating two new reportable segments: Healthcare & Water Technologies and Diversified Industrials."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "Reset its reportable segments in the fourth quarter of 2025 into Healthcare & Water Technologies and Diversified Industrials.",
+   "evidence": "This realignment resulted in a change in reportable segments which changed the manner in which the Company reports its financial results (the \"Q4 2025 Segment Realignment\"), creating two new reportable segments: Healthcare & Water Technologies and Diversified Industrials."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

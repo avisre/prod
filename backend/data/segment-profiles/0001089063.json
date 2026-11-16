@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001089063",
+ "issuerName": "DICK'S Sporting Goods, Inc.",
+ "builtAt": "2026-11-16T02:46:58.997Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001089063-26-000007",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1089063/000108906326000007/dks-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DICK'S",
+   "products": [
+    "apparel",
+    "footwear",
+    "equipment"
+   ],
+   "description": "Runs DICK'S sporting goods stores and e-commerce.",
+   "evidence": "In fiscal 2025, the Company acquired Foot Locker, a leading footwear and apparel retailer, and now has two reportable segments: DICK'S and Foot Locker."
+  },
+  {
+   "name": "Foot Locker",
+   "products": [
+    "footwear",
+    "apparel"
+   ],
+   "description": "Runs Foot Locker footwear and apparel stores.",
+   "evidence": "In fiscal 2025, the Company acquired Foot Locker, a leading footwear and apparel retailer, and now has two reportable segments: DICK'S and Foot Locker."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Athletes and shoppers buy sports apparel, footwear and equipment in stores and online.",
+  "evidence": "We provide a wide range of in-store support services and have incorporated experiential in-store elements, powered by technology, to provide an elevated experience for our athletes."
+ },
+ "changes": [
+  {
+   "text": "Acquired Foot Locker in fiscal 2025 and now reports DICK'S and Foot Locker segments.",
+   "evidence": "In fiscal 2025, the Company acquired Foot Locker, a leading footwear and apparel retailer, and now has two reportable segments: DICK'S and Foot Locker."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

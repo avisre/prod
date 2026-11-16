@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001297996",
+ "issuerName": "DIGITAL REALTY TRUST, INC.",
+ "builtAt": "2026-11-16T02:46:59.264Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-015365",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1297996/000110465926015365/dlr-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "data center",
+   "products": [
+    "data center platform",
+    "colocation"
+   ],
+   "description": "Owns and operates data centres leased to cloud, enterprise and network customers.",
+   "evidence": "In order to best accommodate the needs of global customers (and customers that might one day become global), the Company manages its operations as a single global business – with one operating segment and therefore one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cloud providers, enterprises and network operators pay rent for data centre space and power.",
+  "evidence": "Our Business We provide a global data center platform that supports our customers' digital infrastructure and enables our customers to interconnect with their customers and partners."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

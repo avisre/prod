@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001842022",
+ "issuerName": "DT Midstream, Inc.",
+ "builtAt": "2026-11-16T02:47:38.117Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001842022-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1842022/000184202226000003/dtm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pipeline",
+   "products": [
+    "interstate pipelines",
+    "intrastate pipelines",
+    "storage systems",
+    "gathering lateral pipelines"
+   ],
+   "description": "Owns interstate and intrastate gas pipelines and storage.",
+   "evidence": "Our Operations and Business Segments DT Midstream sets strategic goals, allocates resources, and evaluates performance based on the following two segments: Pipeline and Gathering."
+  },
+  {
+   "name": "Gathering",
+   "products": [
+    "gathering systems",
+    "compression and surface facilities"
+   ],
+   "description": "Gathers natural gas for producers and other customers.",
+   "evidence": "We provide multiple, integrated natural gas services to customers through our Pipeline segment, which includes interstate pipelines, intrastate pipelines, storage systems, and gathering lateral pipelines, and through our Gathering segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Producers, utilities and industrial customers pay for gas transportation, storage and gathering.",
+  "evidence": "We provide multiple, integrated natural gas services to customers through our Pipeline segment, which includes interstate pipelines, intrastate pipelines, storage systems, and gathering lateral pipelines, and through our Gathering segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001308547",
+ "issuerName": "Dolby Laboratories, Inc.",
+ "builtAt": "2026-11-16T02:46:59.046Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001308547-25-000007",
+  "periodEnd": "2025-09-26",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1308547/000130854725000007/dlb-20250926.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

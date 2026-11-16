@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000936340",
+ "issuerName": "DTE ENERGY CO",
+ "builtAt": "2026-11-16T02:47:38.011Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000936340-26-000054",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/936340/000093634026000054/dte-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric",
+   "products": [
+    "electricity"
+   ],
+   "description": "Generates and distributes electricity to Michigan customers.",
+   "evidence": "DTE Energy seeks to manage this business in a manner complementary to the growth of DTE Energy's other business segments."
+  },
+  {
+   "name": "Gas",
+   "products": [
+    "natural gas"
+   ],
+   "description": "Distributes natural gas to residential and business customers.",
+   "evidence": "DTE Energy seeks to manage this business in a manner complementary to the growth of DTE Energy's other business segments."
+  },
+  {
+   "name": "Energy Trading",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Trades electricity, natural gas and environmental products.",
+   "evidence": "DTE Energy's Energy Trading business segment has exposure to electricity, natural gas, envir"
+  },
+  {
+   "name": "DTE Vantage",
+   "products": [
+    "Renewable Gas Recovery",
+    "renewable energy"
+   ],
+   "description": "Develops renewable energy and industrial energy projects for customers.",
+   "evidence": "This business segment provides services using project assets usually located on or near the customers' premises in the agricultural, steel, automotive, airport, chemical, and other industries as follows: 13 Table of Contents Renewable Energy • Renewable Gas Recovery — DTE Vantage has ownership interests in, and operates, twenty-two gas recovery sites in ten states."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utility customers pay regulated rates, and industrial customers pay for energy projects and trading.",
+  "evidence": "This business segment provides services using project assets usually located on or near the customers' premises in the agricultural, steel, automotive, airport, chemical, and other industries as follows: 13 Table of Contents Renewable Energy • Renewable Gas Recovery — DTE Vantage has ownership interests in, and operates, twenty-two gas recovery sites in ten states."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

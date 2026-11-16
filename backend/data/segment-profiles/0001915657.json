@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0001915657",
+ "issuerName": "HF SINCLAIR CORPORATION",
+ "builtAt": "2026-11-16T02:46:58.919Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001915657-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1915657/000191565726000016/dino-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Refining",
+   "products": [
+    "refined products",
+    "Asphalt"
+   ],
+   "description": "Runs refineries producing fuels and asphalt.",
+   "evidence": "7 Table of Content s As of December 31, 2025, our operations were organized into five reportable segments: Refining, Renewables, Marketing, Lubricants & Specialties and Midstream."
+  },
+  {
+   "name": "Renewables",
+   "products": [
+    "renewable diesel"
+   ],
+   "description": "Produces renewable diesel at its conversion units.",
+   "evidence": "7 Table of Content s As of December 31, 2025, our operations were organized into five reportable segments: Refining, Renewables, Marketing, Lubricants & Specialties and Midstream."
+  },
+  {
+   "name": "Marketing",
+   "products": [
+    "branded fuel sales"
+   ],
+   "description": "Sells branded fuel through its marketing network.",
+   "evidence": "7 Table of Content s As of December 31, 2025, our operations were organized into five reportable segments: Refining, Renewables, Marketing, Lubricants & Specialties and Midstream."
+  },
+  {
+   "name": "Lubricants & Specialties",
+   "products": [
+    "specialty lubricant products"
+   ],
+   "description": "Makes and sells lubricants and specialty products.",
+   "evidence": "7 Table of Content s As of December 31, 2025, our operations were organized into five reportable segments: Refining, Renewables, Marketing, Lubricants & Specialties and Midstream."
+  },
+  {
+   "name": "Midstream",
+   "products": [],
+   "description": "Owns pipeline and midstream assets serving its refineries.",
+   "evidence": "7 Table of Content s As of December 31, 2025, our operations were organized into five reportable segments: Refining, Renewables, Marketing, Lubricants & Specialties and Midstream."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fuel distributors, retailers and industrial customers buy its refined, renewable and lubricant products.",
+  "evidence": "The Marketing segment includes branded fuel sales."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

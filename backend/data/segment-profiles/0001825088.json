@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001825088",
+ "issuerName": "DREAM FINDERS HOMES, INC.",
+ "builtAt": "2026-11-16T02:46:58.826Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010837",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1825088/000162828026010837/dfh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Southeast",
+   "products": [],
+   "description": "Builds and sells homes in Florida and the Southeast.",
+   "evidence": "Our homebuilding operations are organized into four reportable segments: Southeast, Mid-Atlantic, Midwest and Financial Services."
+  },
+  {
+   "name": "Mid-Atlantic",
+   "products": [],
+   "description": "Builds and sells homes in the Mid-Atlantic markets.",
+   "evidence": "Our homebuilding operations are organized into four reportable segments: Southeast, Mid-Atlantic, Midwest and Financial Services."
+  },
+  {
+   "name": "Midwest",
+   "products": [],
+   "description": "Builds and sells homes in Midwest markets.",
+   "evidence": "Our homebuilding operations are organized into four reportable segments: Southeast, Mid-Atlantic, Midwest and Financial Services."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "homeowners insurance",
+    "adjacent products"
+   ],
+   "description": "Provides mortgage, title and insurance services to its homebuyers.",
+   "evidence": "Our homebuilding operations are organized into four reportable segments: Southeast, Mid-Atlantic, Midwest and Financial Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuyers pay for new homes and for insurance and mortgage services.",
+  "evidence": "We design, build and sell homes primarily in high-growth markets using our asset-light lot acquisition strategy."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

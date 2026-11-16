@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001773383",
+ "issuerName": "Dynatrace, Inc.",
+ "builtAt": "2026-11-16T02:47:37.993Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001773383-26-000019",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1773383/000177338326000019/dt-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "software",
+   "products": [
+    "Dynatrace Account Management portal"
+   ],
+   "description": "Sells observability and application monitoring software to enterprises.",
+   "evidence": "As such, the Company has determined that it operates as one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay subscription fees based on their licensed product consumption.",
+  "evidence": "Through a suite of tools in the Dynatrace Account Management portal, we provide customers with a near real-time view of licensed product consumption, with historical analysis at the daily or hourly level."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

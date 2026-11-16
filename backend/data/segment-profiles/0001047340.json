@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001047340",
+ "issuerName": "DEL MONTE CORPORATION",
+ "builtAt": "2026-11-16T02:46:59.335Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001047340-26-000015",
+  "periodEnd": "2025-12-26",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1047340/000104734026000015/fdp-20251226.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fresh and value-added products",
+   "products": [
+    "Fresh-cut produce",
+    "fresh-cut fruit",
+    "fresh-cut vegetables"
+   ],
+   "description": "Sells fresh-cut fruit and vegetables and value-added produce.",
+   "evidence": "Our business is comprised of three reportable segments, two of which represent our primary businesses of fresh and value-added products and banana, and one that represents our other ancillary businesses."
+  },
+  {
+   "name": "banana",
+   "products": [
+    "bananas"
+   ],
+   "description": "Grows, sources and sells bananas.",
+   "evidence": "Our business is comprised of three reportable segments, two of which represent our primary businesses of fresh and value-added products and banana, and one that represents our other ancillary businesses."
+  },
+  {
+   "name": "other",
+   "products": [],
+   "description": "Holds its smaller ancillary businesses.",
+   "evidence": "Our business is comprised of three reportable segments, two of which represent our primary businesses of fresh and value-added products and banana, and one that represents our other ancillary businesses."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Grocery retailers and foodservice customers buy its fresh produce and bananas.",
+  "evidence": "Our products are sourced from company-controlled operations and through supply contracts with independent producers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

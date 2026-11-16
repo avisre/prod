@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001669811",
+ "issuerName": "Donnelley Financial Solutions, Inc.",
+ "builtAt": "2026-11-16T02:46:58.890Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-054586",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1669811/000119312526054586/dfin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capital Markets – Software Solutions",
+   "products": [
+    "software"
+   ],
+   "description": "Sells software for capital markets reporting and compliance.",
+   "evidence": "Segments The Company operates its business through four operating and reportable segments: Capital Markets – Software Solutions, Capital Markets – Compliance and Communications Management, Investment Companies – Software Solutions and Investment Companies – Compliance and Communications Management."
+  },
+  {
+   "name": "Capital Markets – Compliance and Communications Management",
+   "products": [],
+   "description": "Handles compliance and investor communications for capital markets clients.",
+   "evidence": "Segments The Company operates its business through four operating and reportable segments: Capital Markets – Software Solutions, Capital Markets – Compliance and Communications Management, Investment Companies – Software Solutions and Investment Companies – Compliance and Communications Management."
+  },
+  {
+   "name": "Investment Companies – Software Solutions",
+   "products": [
+    "software"
+   ],
+   "description": "Sells software to investment companies for reporting and compliance.",
+   "evidence": "Segments The Company operates its business through four operating and reportable segments: Capital Markets – Software Solutions, Capital Markets – Compliance and Communications Management, Investment Companies – Software Solutions and Investment Companies – Compliance and Communications Management."
+  },
+  {
+   "name": "Investment Companies – Compliance and Communications Management",
+   "products": [],
+   "description": "Handles compliance and shareholder communications for investment companies.",
+   "evidence": "Segments The Company operates its business through four operating and reportable segments: Capital Markets – Software Solutions, Capital Markets – Compliance and Communications Management, Investment Companies – Software Solutions and Investment Companies – Compliance and Communications Management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Public companies and investment funds pay for software and outsourced compliance and communications.",
+  "evidence": "The Company's operating segments are components of the business for which discrete financial information i"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Capital Markets – Compliance and Communications Management): compliance and communications services",
+  "product not in text (Investment Companies – Compliance and Communications Management): compliance and communications services"
+ ],
+ "reader": "agent"
+}

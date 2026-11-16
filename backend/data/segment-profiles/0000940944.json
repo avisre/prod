@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000940944",
+ "issuerName": "DARDEN RESTAURANTS, INC.",
+ "builtAt": "2026-11-16T02:47:37.976Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000940944-26-000025",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/940944/000094094426000025/dri-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Olive Garden",
+   "products": [
+    "restaurant dining"
+   ],
+   "description": "Runs Olive Garden restaurants.",
+   "evidence": "We have four reportable segments: 1) Olive Garden, 2) LongHorn Steakhouse, 3) Fine Dining (which includes Ruth's Chris, The Capital Grille, and Eddie V's) and 4) Other Business (which includes Yard House, Cheddar's Scratch Kitchen, Chuy's, Seasons 52, Bahama Breeze, The Capital Burger, and ongoing royalties and other fees from our franchise operations and contractually managed locations)."
+  },
+  {
+   "name": "LongHorn Steakhouse",
+   "products": [
+    "restaurant dining"
+   ],
+   "description": "Runs LongHorn Steakhouse restaurants.",
+   "evidence": "We have four reportable segments: 1) Olive Garden, 2) LongHorn Steakhouse, 3) Fine Dining (which includes Ruth's Chris, The Capital Grille, and Eddie V's) and 4) Other Business (which includes Yard House, Cheddar's Scratch Kitchen, Chuy's, Seasons 52, Bahama Breeze, The Capital Burger, and ongoing royalties and other fees from our franchise operations and contractually managed locations)."
+  },
+  {
+   "name": "Fine Dining",
+   "products": [
+    "Ruth's Chris",
+    "The Capital Grille",
+    "Eddie V's"
+   ],
+   "description": "Runs its fine dining restaurant brands.",
+   "evidence": "We have four reportable segments: 1) Olive Garden, 2) LongHorn Steakhouse, 3) Fine Dining (which includes Ruth's Chris, The Capital Grille, and Eddie V's) and 4) Other Business (which includes Yard House, Cheddar's Scratch Kitchen, Chuy's, Seasons 52, Bahama Breeze, The Capital Burger, and ongoing royalties and other fees from our franchise operations and contractually managed locations)."
+  },
+  {
+   "name": "Other Business",
+   "products": [
+    "Yard House",
+    "Cheddar's Scratch Kitchen",
+    "Chuy's",
+    "Seasons 52",
+    "Bahama Breeze"
+   ],
+   "description": "Holds the remaining restaurant brands plus franchise royalties.",
+   "evidence": "We have four reportable segments: 1) Olive Garden, 2) LongHorn Steakhouse, 3) Fine Dining (which includes Ruth's Chris, The Capital Grille, and Eddie V's) and 4) Other Business (which includes Yard House, Cheddar's Scratch Kitchen, Chuy's, Seasons 52, Bahama Breeze, The Capital Burger, and ongoing royalties and other fees from our franchise operations and contractually managed locations)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Diners pay for meals in its restaurants, and franchisees pay royalties and fees.",
+  "evidence": "We do not rely on any major customers as a source of sales, and customers and long-lived assets of our reportable segments are predominantly in the U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

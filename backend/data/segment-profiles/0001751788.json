@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001751788",
+ "issuerName": "Dow Inc.",
+ "builtAt": "2026-11-16T02:46:59.496Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001751788-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1751788/000175178826000018/dow-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaging & Specialty Plastics",
+   "products": [
+    "Hydrocarbons & Energy",
+    "Packaging and Specialty Plastics"
+   ],
+   "description": "Makes packaging and specialty plastics and hydrocarbon feedstocks.",
+   "evidence": "BUSINESS SEGMENTS AND PRODUCTS The Company conducts its worldwide operations through six global businesses which are organized into the following operating segments: Packaging & Specialty Plastics, Industrial Intermediates & Infrastructure and Performance Materials & Coatings."
+  },
+  {
+   "name": "Industrial Intermediates & Infrastructure",
+   "products": [
+    "industrial intermediates"
+   ],
+   "description": "Makes industrial intermediates and infrastructure materials.",
+   "evidence": "BUSINESS SEGMENTS AND PRODUCTS The Company conducts its worldwide operations through six global businesses which are organized into the following operating segments: Packaging & Specialty Plastics, Industrial Intermediates & Infrastructure and Performance Materials & Coatings."
+  },
+  {
+   "name": "Performance Materials & Coatings",
+   "products": [
+    "performance materials",
+    "coatings"
+   ],
+   "description": "Makes performance materials and coatings for consumer and industrial uses.",
+   "evidence": "BUSINESS SEGMENTS AND PRODUCTS The Company conducts its worldwide operations through six global businesses which are organized into the following operating segments: Packaging & Specialty Plastics, Industrial Intermediates & Infrastructure and Performance Materials & Coatings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Packaging, construction, consumer and industrial manufacturers buy its materials.",
+  "evidence": "PACKAGING & SPECIALTY PLASTICS The Packaging & Specialty Plastics operating segment consists of two highly integrated global businesses: Hydrocarbons & Energy and Packaging and Specialty Plastics."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

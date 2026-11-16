@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001516513",
+ "issuerName": "Doximity, Inc.",
+ "builtAt": "2026-11-16T02:46:59.401Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001516513-26-000025",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1516513/000151651326000025/docs-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "medicine",
+   "products": [
+    "AI-powered tools"
+   ],
+   "description": "Sells AI tools to physicians for collaboration, news, careers and virtual visits.",
+   "evidence": "Segment and Geographic Information The Company has determined that it has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmaceutical advertisers and health systems pay for its platform and tools.",
+  "evidence": "We provide our members with AI-powered tools specifically built for medicine, enabling them to collaborate with colleagues, stay up to date with the latest medical news and research, manage their careers and on-call schedules, and conduct virtual patient visits."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

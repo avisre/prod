@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000910521",
+ "issuerName": "DECKERS OUTDOOR CORP",
+ "builtAt": "2026-11-16T02:47:37.822Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-037664",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/910521/000162828026037664/deck-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "UGG",
+   "products": [
+    "footwear"
+   ],
+   "description": "Designs and sells UGG footwear and accessories.",
+   "evidence": "We market our products primarily under three proprietary brands : HOKA , UGG , and Teva ."
+  },
+  {
+   "name": "HOKA",
+   "products": [
+    "footwear"
+   ],
+   "description": "Designs and sells HOKA performance footwear.",
+   "evidence": "We market our products primarily under three proprietary brands : HOKA , UGG , and Teva ."
+  },
+  {
+   "name": "Teva",
+   "products": [
+    "sandals",
+    "shoes",
+    "boots"
+   ],
+   "description": "Sells Teva outdoor footwear for a range of pursuits.",
+   "evidence": "The Teva brand's products are built for a range of outdoor pursuits and include a variety of footwear options, from classic sandals and shoes to boots."
+  },
+  {
+   "name": "Other brands",
+   "products": [
+    "Koolaburra",
+    "AHNU"
+   ],
+   "description": "Holds the smaller brands, including Koolaburra and AHNU.",
+   "evidence": "The Other brands reportable operating segment includes financial results of the Koolaburra brand and AHNU brand, for which the phas e out of standalone operations were completed during the third and fourth quarters of fiscal year 2026"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its footwear through wholesale partners, its own stores and online.",
+  "evidence": "Channel Distribution We operate omnichannel global marketplaces for our brands where consumers can shop and experience our brands seamlessly"
+ },
+ "changes": [
+  {
+   "text": "Phased out standalone operations for Koolaburra and AHNU in fiscal 2026 and sold Sanuk in 2024.",
+   "evidence": "The Other brands reportable operating segment includes financial results of the Koolaburra brand and AHNU brand, for which the phas e out of standalone operations were completed during the third and fourth quarters of fiscal year 2026 , as well as financial results for the former Sanuk brand during the prior period through the sale date of August 15, 2024 ( Sanuk Brand Sale Date )."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

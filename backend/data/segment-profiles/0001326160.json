@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001326160",
+ "issuerName": "Duke Energy CORP",
+ "builtAt": "2026-11-16T02:47:38.135Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001326160-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326160/000132616026000014/duk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric Utilities and Infrastructure",
+   "products": [
+    "electricity"
+   ],
+   "description": "Runs regulated electric utilities and infrastructure.",
+   "evidence": "Business Segments Duke Energy's segment structure includes two reportable business segments: Electric Utilities and Infrastructure (EU&I) and Gas Utilities and Infrastructure (GU&I)."
+  },
+  {
+   "name": "Gas Utilities and Infrastructure",
+   "products": [
+    "natural gas"
+   ],
+   "description": "Runs regulated natural gas utilities and infrastructure.",
+   "evidence": "Business Segments Duke Energy's segment structure includes two reportable business segments: Electric Utilities and Infrastructure (EU&I) and Gas Utilities and Infrastructure (GU&I)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utility customers pay regulated rates for electricity and natural gas.",
+  "evidence": "Duke Energy's chief operating decision-maker routinely reviews financial information about these business segments in deciding how to allocate resources and evaluate the performance of the business."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

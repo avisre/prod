@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001571996",
+ "issuerName": "Dell Technologies Inc.",
+ "builtAt": "2026-11-16T02:46:58.815Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001571996-26-000008",
+  "periodEnd": "2026-01-30",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000008/dell-20260130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure Solutions Group",
+   "products": [
+    "servers",
+    "storage",
+    "networking"
+   ],
+   "description": "Sells servers, storage and networking to data centres and enterprises.",
+   "evidence": "We are organized into two business units which are also our reportable segments: Infrastructure Solutions Group and Client Solutions Group."
+  },
+  {
+   "name": "Client Solutions Group",
+   "products": [
+    "personal computers",
+    "peripherals"
+   ],
+   "description": "Sells PCs, peripherals and services to commercial and consumer customers.",
+   "evidence": "We are organized into two business units which are also our reportable segments: Infrastructure Solutions Group and Client Solutions Group."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses and consumers buy its hardware and services through purchase, lease and subscription models.",
+  "evidence": "We offer customers choice in how they acquire our solutions, including utility, subscription, as-a-Service, leases, loans, and immediate pay models."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

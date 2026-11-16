@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001622194",
+ "issuerName": "EASTERLY GOVERNMENT PROPERTIES, INC.",
+ "builtAt": "2026-11-16T02:46:58.732Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064115",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1622194/000119312526064115/dea-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "government properties",
+   "products": [],
+   "description": "Owns properties leased mainly to United States government agencies.",
+   "evidence": "Segment Information For the years ended December 31, 2025, 2024 and 2023, our operations are reported within one reportable and operating segment in the consolidated financial statements and all of our properties are included within this single reportable and operating segment (the \"segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government agencies pay rent for leased office space.",
+  "evidence": "We generate approximately 90% of our revenue by leasing our properties to such agencies either directly or through the U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

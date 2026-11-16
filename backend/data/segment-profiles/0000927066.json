@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000927066",
+ "issuerName": "DAVITA INC.",
+ "builtAt": "2026-11-16T02:47:38.172Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000927066-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/927066/000092706626000012/dva-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
