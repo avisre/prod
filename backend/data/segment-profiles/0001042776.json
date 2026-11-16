@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001042776",
  "issuerName": "Piedmont Realty Trust, Inc.",
- "builtAt": "2026-11-16T05:17:55.511Z",
+ "builtAt": "2026-11-16T10:12:22.823Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001042776-26-000012",
@@ -10,10 +10,86 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1042776/000104277626000012/pdm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Atlanta",
+   "products": [
+    "Class A office properties",
+    "Galleria on the Park",
+    "Glenridge Highlands"
+   ],
+   "description": "Owns and operates Class A office properties in Atlanta, leasing space to a mixture of corporate and government agency tenants.",
+   "evidence": "Atlanta NOI increased due to several leases commencing at our Galleria on the Park and Glenridge Highlands projects during the year ended December 31, 2025 as compared to the same period in the prior year."
+  },
+  {
+   "name": "Dallas",
+   "products": [
+    "Class A office properties",
+    "One Galleria Tower",
+    "Park Place on Turtle Creek"
+   ],
+   "description": "Owns and operates Class A office buildings in Dallas, leasing space to corporate tenants.",
+   "evidence": "Our President and Chief Executive Officer is our chief operating decision maker (\"CODM\"), who evaluates our portfolio and assesses the ongoing operations and performance of our projects utilizing the following geographic segments: Atlanta, Dallas, Orlando, Northern Virginia/Washington, D.C., Minneapolis, New York, and Boston."
+  },
+  {
+   "name": "Orlando",
+   "products": [
+    "Class A office properties",
+    "501 West Church",
+    "The Exchange",
+    "CNL Center I and II"
+   ],
+   "description": "Owns and operates Class A office properties in Orlando, leasing space to corporate and government agency tenants.",
+   "evidence": "Orlando NOI increased primarily due to the commencement of the Travel and Leisure lease at the 501 West Church project, as well several leases commencing at The Exchange project and the CNL Center I and II project during the year ended December 31, 2025 as compared to the same period in the prior year."
+  },
+  {
+   "name": "Northern Virginia/Washington, D.C.",
+   "products": [
+    "Class A office properties",
+    "1201 & 1225 Eye Street",
+    "4250 North Fairfax Drive",
+    "Arlington Gateway"
+   ],
+   "description": "Owns and operates Class A office buildings in Northern Virginia and Washington, D.C., leasing space to corporate and government agency tenants.",
+   "evidence": "Northern Virginia/Washington, D.C. NOI decreased primarily due to the expiration or downsizing of certain tenants at our 1201 & 1225 Eye Street project, our 4250 North Fairfax Drive project, and our Arlington Gateway project during the year ended December 31, 2025 as compared to the same period in the prior year."
+  },
+  {
+   "name": "Minneapolis",
+   "products": [
+    "Class A office properties",
+    "US Bancorp Center",
+    "Norman Pointe I"
+   ],
+   "description": "Owns and operates Class A office properties in Minneapolis, leasing space to corporate tenants.",
+   "evidence": "The CODM evaluates Piedmont's portfolio and assesses the ongoing operations and performance of its projects utilizing the following geographic segments: Atlanta, Dallas, Orlando, Northern Virginia/Washington, D.C., Minneapolis, New York, and Boston."
+  },
+  {
+   "name": "New York",
+   "products": [
+    "Class A office properties",
+    "60 Broad Street"
+   ],
+   "description": "Owns and operates Class A office properties in New York, leasing space to corporate tenants.",
+   "evidence": "The CODM evaluates Piedmont's portfolio and assesses the ongoing operations and performance of its projects utilizing the following geographic segments: Atlanta, Dallas, Orlando, Northern Virginia/Washington, D.C., Minneapolis, New York, and Boston."
+  },
+  {
+   "name": "Boston",
+   "products": [
+    "Class A office properties",
+    "80 and 90 Central",
+    "5 & 15 Wayside Road",
+    "One Wayside Road"
+   ],
+   "description": "Owns and operates Class A office buildings in Boston, leasing space to corporate tenants.",
+   "evidence": "Boston NOI decreased primarily due to sale of the 80 and 90 Central project during the year ended December 31, 2025 as compared to the same period in the prior year."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Tenants pay contractual rent under office leases in the company's Class A properties.",
+  "evidence": "We are dependent upon the ability of our current tenants to pay their contractual rent amounts as the rents become due."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

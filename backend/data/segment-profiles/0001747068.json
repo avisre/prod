@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001747068",
  "issuerName": "METROCITY BANKSHARES, INC.",
- "builtAt": "2026-11-16T05:17:57.111Z",
+ "builtAt": "2026-11-16T10:13:45.848Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001747068-26-000010",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1747068/000174706826000010/mcbs-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "construction and development loans",
+    "commercial real estate loans",
+    "commercial and industrial loans",
+    "residential mortgage loans",
+    "SBA loans"
+   ],
+   "description": "A full-service Georgia commercial bank serving small- and medium-sized businesses and individuals through branches in multi-ethnic communities, offering loans and deposits.",
+   "evidence": "Accordingly, all of the financial service operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans, primarily residential real estate and SBA loans, while depositors are paid interest; the bank also sells SBA loan guarantees for premium income.",
+  "evidence": "Interest income and noninterest income generated from our residential real estate and SBA loans provide the primary revenue in the operating segment."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

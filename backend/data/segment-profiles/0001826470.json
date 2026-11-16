@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001826470",
  "issuerName": "Petco Health & Wellness Company, Inc.",
- "builtAt": "2026-11-16T05:17:58.686Z",
+ "builtAt": "2026-11-16T10:15:05.003Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-106114",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1826470/000119312526106114/woof-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Omnichannel Retailer",
+   "products": [
+    "pet food",
+    "supplies",
+    "companion animals",
+    "services"
+   ],
+   "description": "An omnichannel pet retailer selling pet food, supplies, companion animals and services to pet parents through pet care centers and online channels.",
+   "evidence": "Petco derives substantially all of its revenue in North America and manages its business activities on a consolidated basis, resulting in a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Pet parents pay the company for pet food, supplies, companion animals and services bought through pet care centers and online channels.",
+  "evidence": "The Company operates as an omnichannel retailer designed to sell pet food, supplies and companion animals, and services to pet parents across pet care center and online channels."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

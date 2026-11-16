@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001042729",
  "issuerName": "MERCANTILE BANK CORPORATION",
- "builtAt": "2026-11-16T05:17:58.164Z",
+ "builtAt": "2026-11-16T10:14:54.165Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005997",
@@ -10,11 +10,44 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1042729/000143774926005997/mbwm20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mercantile Bank",
+   "products": [
+    "commercial banking services",
+    "retail banking services",
+    "secured and unsecured commercial, construction, mortgage and consumer loans",
+    "checking, savings and time deposits",
+    "automated teller machines (\"ATM\")",
+    "video banking machines"
+   ],
+   "description": "State-chartered Michigan bank providing commercial banking services primarily to small- to medium-sized businesses, plus retail banking services, loans and deposits.",
+   "evidence": "Mercantile Bank's main office is located in Grand Rapids, Michigan, and its operations are centered around the West and Central portions of Michigan."
+  },
+  {
+   "name": "Eastern Michigan Bank",
+   "products": [
+    "commercial banking services",
+    "retail banking services",
+    "secured and unsecured commercial, construction, mortgage and consumer loans",
+    "checking, savings and time deposits"
+   ],
+   "description": "Michigan bank serving Eastern Michigan, offering similar commercial and retail banking products and services, loans and deposits.",
+   "evidence": "Eastern Michigan Bank's main office is located in Croswell, Michigan, and its operations are centered around Eastern Michigan."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay the banks interest on loans and fees for banking products and services, which generate interest and noninterest income.",
+  "evidence": "Both segments derive interest and noninterest income through their banking products and services and investment securities."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the acquisition of Eastern Michigan Financial Corporation added Eastern Michigan Bank, so performance is now evaluated through two wholly owned subsidiary banks.",
+   "evidence": "Subsequent to our acquisition of Eastern Michigan Financial Corporation on December 31, 2025, our chief operating decision makers now evaluate interest and noninterest income streams, credit losses, expense activities, and financial performance through our two wholly owned subsidiary banks, Mercantile Bank and Eastern Michigan Bank."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001637873",
  "issuerName": "COPART INC",
- "builtAt": "2026-11-16T05:17:55.581Z",
+ "builtAt": "2026-11-16T10:12:08.067Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001637873-26-000011",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1637873/000163787326000011/acva-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ACV segment",
+   "products": [
+    "The Marketplace",
+    "ACV Transportation",
+    "ACV Capital",
+    "True360 Report",
+    "ACV Market Report",
+    "ACV MAX",
+    "ClearCar",
+    "Go Green"
+   ],
+   "description": "Operates a wholesale auction marketplace for business-to-business used vehicle sales, plus transportation, financing and data services for licensed dealers and commercial partners.",
+   "evidence": "Accordingly, the Company has determined that it operates in a single reporting segment (the \"ACV segment\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Licensed automotive dealerships and other commercial automotive enterprises pay for access to the wholesale auction marketplace and related transportation, financing and data services.",
+  "evidence": "The ACV segment provides a wholesale auction marketplace to dealers and derives its revenues primarily from North America."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

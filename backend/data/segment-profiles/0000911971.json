@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000911971",
  "issuerName": "TEEKAY CORPORATION LTD.",
- "builtAt": "2026-11-16T05:17:55.080Z",
+ "builtAt": "2026-11-16T10:12:00.299Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0000911971-26-000015",
@@ -10,11 +10,38 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/911971/000091197126000015/tk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tankers",
+   "products": [
+    "full service lightering contracts",
+    "ship-to-ship support service operations",
+    "lightering support services"
+   ],
+   "description": "Operates the Company's tankers, including full service lightering, and U.S. ship-to-ship support services for oil majors and traders.",
+   "evidence": "The tanker segment consists of the operation of all of the Company's tankers (including the operations from those tankers employed on full service lightering contracts), and the Company's U.S. based ship-to-ship support service operations (including its lightering support services provided as part of full service lightering operations)."
+  },
+  {
+   "name": "Marine Services and Other",
+   "products": [
+    "operational and maintenance marine services"
+   ],
+   "description": "Provides operational and maintenance marine services to the Australian government, Australian energy companies and other third parties.",
+   "evidence": "The marine services and other segment consists of operational and maintenance marine services provided to the Australian government, Australian energy companies and other third parties, and includes corporate and general administrative expense."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Oil majors, oil traders and other customers pay for the transportation of crude oil and refined oil products, while governments and energy companies pay for marine services.",
+  "evidence": "As our business is the transportation of crude oil and refined oil products on behalf of oil majors, oil traders and other customers"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company terminated a management contract related to its Australian operations within the marine services business.",
+   "evidence": "Marine Services and Other includes severance costs of $ 5.6 million resulting from the termination of a management contract related to the Company's Australian operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

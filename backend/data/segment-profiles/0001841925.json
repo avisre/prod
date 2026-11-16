@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001841925",
  "issuerName": "INDIE SEMICONDUCTOR, INC.",
- "builtAt": "2026-11-16T05:17:54.864Z",
+ "builtAt": "2026-11-16T10:11:33.989Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-082535",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1841925/000119312526082535/indi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor solutions",
+   "products": [
+    "Radar",
+    "LiDAR",
+    "Ultrasound",
+    "Computer Vision",
+    "mixed-signal system-on-chips",
+    "embedded system control",
+    "power management",
+    "interfacing solutions"
+   ],
+   "description": "Designs, develops, manufactures and markets mixed-signal integrated circuits and sensors for automotive advanced driver assistance systems and adjacent industrial customers.",
+   "evidence": "Accordingly, the Company has one operating segment, and therefore, one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for semiconductor solutions and engineering design services, primarily through product sales when control transfers at shipment or receipt.",
+  "evidence": "Revenue is primarily derived from the design and sale of semiconductor solutions."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company agreed to divest its Wuxi equity interest, though the sale had not met discontinued operations criteria.",
+   "evidence": "On October 27, 2025, we entered into an Asset Purchase Agreement (the \"Wuxi Agreement\") through Ay Dee Kay, LLC (\"ADK\"), pursuant to which we have agreed to sell ADK's entire equity interest in Wuxi to United Faith."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

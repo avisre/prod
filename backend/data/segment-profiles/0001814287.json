@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001814287",
  "issuerName": "Abacus Global Management, Inc.",
- "builtAt": "2026-11-16T05:17:57.966Z",
+ "builtAt": "2026-11-16T10:14:46.498Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-017775",
@@ -10,10 +10,46 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1814287/000162828026017775/abl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life Solutions",
+   "products": [
+    "origination services",
+    "portfolio management",
+    "portfolio servicing",
+    "life insurance policy settlement contracts",
+    "life settlement policies"
+   ],
+   "description": "Originates, buys, manages and services life insurance policies for policyholders, institutional investors and its own balance sheet.",
+   "evidence": "Within this segment, we also generate revenues from portfolio management and portfolio servicing."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "alternative investment funds",
+    "exchange-traded funds",
+    "customizable free cash flow index strategies",
+    "separately managed accounts"
+   ],
+   "description": "Manages alternative investment funds and ETFs invested in settlement contracts and free cash flow equity strategies for institutional and private clients.",
+   "evidence": "The Company's Carlisle and FCF subsidiaries manage alternative investment funds and exchange-traded funds (\"ETF\")."
+  },
+  {
+   "name": "Technology Services",
+   "products": [
+    "real-time mortality verification",
+    "missing participant verification"
+   ],
+   "description": "Provides longevity and health data technology services to pension funds, government agencies and insurance-related businesses.",
+   "evidence": "Technology Services fees are based on fixed annual contracts with clients including pension plans, life insurance companies, governmental agencies, and others."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Institutional investors, policyholders, funds and pension plans pay origination and servicing fees, asset management fees on assets under management, and fixed annual technology contracts.",
+  "evidence": "Asset Management fees are based on a percentage of total asset value under management."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

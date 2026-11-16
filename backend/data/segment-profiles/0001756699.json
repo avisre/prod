@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001756699",
  "issuerName": "UP FINTECH HOLDING LIMITED",
- "builtAt": "2026-11-16T05:17:58.577Z",
+ "builtAt": "2026-11-16T10:15:17.293Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-174855",
@@ -10,10 +10,28 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1756699/000119312526174855/tigr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online brokerage",
+   "products": [
+    "online brokerage services",
+    "margin financing",
+    "securities lending",
+    "wealth management products",
+    "futures trading",
+    "IPO underwriting",
+    "trust services"
+   ],
+   "description": "Single operating segment providing online brokerage services on its trading platform to global customers across markets and multiple products.",
+   "evidence": "The Group operates as a single operating segment which is providing online brokerage services to global customers based on its trading platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Global customers pay the company for online brokerage and related investment services delivered through its trading platform.",
+  "evidence": "The Group operates as a single operating segment which is providing online brokerage services to global customers based on its trading platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

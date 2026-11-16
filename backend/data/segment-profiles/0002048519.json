@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002048519",
  "issuerName": "Aebi Schmidt Holding AG",
- "builtAt": "2026-11-16T05:17:56.225Z",
+ "builtAt": "2026-11-16T10:12:52.521Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-019616",
@@ -10,11 +10,54 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/2048519/000162828026019616/aebi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "MB",
+    "Schmidt",
+    "Spartan RV Chassis",
+    "Monroe",
+    "Magnum",
+    "Strobes-R-Us",
+    "Utilimaster",
+    "Swenson"
+   ],
+   "description": "Makes and upfits specialty vehicles, snow and ice control equipment, airport maintenance machines and fleet solutions for municipal, commercial and fleet customers in North America.",
+   "evidence": "Aebi Schmidt North America offers a wide range of vehicles, equipment and services primarily across four of our five lines of business: Airport & Chassis, Commercial Trucks, Goods Transport, and Municipal."
+  },
+  {
+   "name": "Europe and the Rest of the World (\"ROW\")",
+   "products": [
+    "Schmidt",
+    "Nido",
+    "Ladog",
+    "Arctic",
+    "Tellefsdal",
+    "Aebi Slope Tractors",
+    "Transporter",
+    "Motor Mowers"
+   ],
+   "description": "Supplies sweepers, sprayers, blowers, snowplows and slope tractors for airports, municipalities and mountain farming businesses across Europe and the rest of the world.",
+   "evidence": "In Europe and ROW, we offer a wide range of vehicles, equipment and services primarily across three of our five lines of business: Airport & Chassis, Municipal and Agriculture."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers such as municipalities, contractors, fleets and business owners pay for vehicles, equipment, spare parts and repair and maintenance services.",
+  "evidence": "Sales also include revenues generated from selling spare parts as well as repair and maintenance services for these machines."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired Shyft and integrated the business into the North America segment.",
+   "evidence": "In 2025, Shyft was integrated into the North America segment with sales of approximately $378 million for the period from the Acquisition Date through December 31, 2025."
+  },
+  {
+   "text": "During the fourth quarter of 2025 the company changed its financial reporting structure following the completion of the Merger with Shyft.",
+   "evidence": "During the fourth quarter of 2025, the Company changed its financial reporting structure following the completion of the Merger with Shyft, to align with the executive structure following the Merger."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000928658",
  "issuerName": "COVENANT LOGISTICS GROUP, INC.",
- "builtAt": "2026-11-16T05:17:56.391Z",
+ "builtAt": "2026-11-16T10:13:25.472Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-006086",
@@ -10,10 +10,53 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/928658/000143774926006086/cvti20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Expedited",
+   "products": [
+    "truckload services",
+    "two-person driver teams",
+    "high service freight"
+   ],
+   "description": "Provides truckload services over nonroutine routes with two-person driver teams for customers who demand high service freight and tight delivery standards.",
+   "evidence": "The Expedited reportable segment primarily provides truckload services to customers with high service freight and delivery standards, such as 1,000 miles in 22 hours, or 15-minute delivery windows."
+  },
+  {
+   "name": "Dedicated",
+   "products": [
+    "committed truckload capacity",
+    "shuttle and switching services"
+   ],
+   "description": "Provides committed truckload capacity and shuttle and switching services to specific customers under contracted periods of several years.",
+   "evidence": "The Dedicated reportable segment provides customers with committed truckload capacity over contracted periods with the goal of three to five years in length."
+  },
+  {
+   "name": "Managed Freight",
+   "products": [
+    "freight brokerage",
+    "Brokerage",
+    "transportation management services",
+    "TMS"
+   ],
+   "description": "Provides non-asset based logistics services, relying on technology to offer freight brokerage and transportation management to customers who outsource logistics.",
+   "evidence": "Our Managed Freight reportable segment, includes our brokerage services and TMS."
+  },
+  {
+   "name": "Warehousing",
+   "products": [
+    "day-to-day warehouse management services",
+    "shuttle and switching services"
+   ],
+   "description": "Manages customers' warehouse operations day to day, including shuttling containers and trailers in and around freight yards.",
+   "evidence": "The Warehousing reportable segment provides day-to-day warehouse management services to customers who have chosen to outsource this function."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Shippers and other customers pay the company for truckload capacity, freight brokerage, transportation management and warehouse management services delivered with owned, leased and third-party equipment.",
+  "evidence": "Brokerage services provide logistics capacity by outsourcing the carriage of customers' freight to third-parties."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

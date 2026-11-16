@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001850235",
  "issuerName": "D-MARKET Electronic Services & Trading",
- "builtAt": "2026-11-16T05:17:56.153Z",
+ "builtAt": "2026-11-16T10:12:47.595Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-053195",
@@ -10,11 +10,34 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1850235/000110465926053195/heps-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "e-commerce operations",
+   "products": [
+    "Hepsiburada Premium",
+    "Hepsijet",
+    "HepsiLojistik",
+    "Hepsipay",
+    "HepsiAd",
+    "Marketplace",
+    "Direct Sales"
+   ],
+   "description": "Operates Hepsiburada, a hybrid first-party and third-party e-commerce platform in Türkiye, selling products and providing delivery, fulfillment, payment and advertising services to consumers and merchants.",
+   "evidence": "Our Company is comprised of one reportable segment, namely e-commerce operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers and merchants pay for products sold on the platform and for marketplace commissions, delivery, fulfillment, payment and advertising services.",
+  "evidence": "We offer our merchants a seamless set of end-to-end e-commerce solutions which include our last-mile delivery services including oversized products delivery under Hepsijet"
+ },
+ "changes": [
+  {
+   "text": "In 2024, the HepsiExpress operations were discontinued.",
+   "evidence": "now exclude orders for digital products and orders made on HepsiExpress, whose operations were discontinued in 2024"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

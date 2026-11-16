@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001720424",
  "issuerName": "HIVE DIGITAL TECHNOLOGIES LTD.",
- "builtAt": "2026-11-16T05:17:55.607Z",
+ "builtAt": "2026-11-16T10:13:37.753Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001062993-26-002973",
@@ -10,10 +10,37 @@
   "filingDate": "2026-06-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1720424/000106299326002973/form10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital currency mining",
+   "products": [
+    "Hashrate",
+    "ASICs",
+    "Bitcoin",
+    "Bitcoin mining rigs"
+   ],
+   "description": "Generates and sells hashrate from ASIC mining rigs in its data centers to mining pools for Bitcoin rewards.",
+   "evidence": "Revenue from digital currency mining was $67.2 million for the current period compared to $28.1 million in the prior comparative period."
+  },
+  {
+   "name": "High performance computing hosting",
+   "products": [
+    "GPU server clusters",
+    "Nvidia H200 GPU cluster",
+    "BUZZ Cloud",
+    "cloud services",
+    "bare-metal server"
+   ],
+   "description": "Rents GPU clusters and cloud capacity in its data centers to AI enterprises, institutions and start-ups.",
+   "evidence": "In addition, the Company is branching out into the rental of GPU server clusters via marketplace aggregators and direct contracts and is developing new cloud service offerings."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Third-party aggregators, including mining pools and AI enterprises, pay for computational power sold from the company's data centers.",
+  "evidence": "The Company sells computational power to various third-party aggregators, including mining pools, enterprises supported by AI, and other miscellaneous data center applications."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

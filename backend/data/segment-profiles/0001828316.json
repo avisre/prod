@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001828316",
  "issuerName": "Pharming Group N.V.",
- "builtAt": "2026-11-16T05:17:56.737Z",
+ "builtAt": "2026-11-16T10:14:06.602Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001828316-26-000015",
@@ -10,10 +10,46 @@
   "filingDate": "2026-04-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1828316/000182831626000015/pharm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RUCONEST® in the U.S.",
+   "products": [
+    "RUCONEST®"
+   ],
+   "description": "Sells RUCONEST®, a recombinant protein replacement therapy, as an on-demand treatment for acute hereditary angioedema attacks in the United States.",
+   "evidence": "For the years ended December 31, 2025 and 2024, the sales of RUCONEST® in the U.S. market were $ 311.7 million and $ 246.6 million, respectively."
+  },
+  {
+   "name": "Joenja® in the United States",
+   "products": [
+    "Joenja®"
+   ],
+   "description": "Sells Joenja®, an oral targeted inhibitor, to patients with activated phosphoinositide delta syndrome in the United States.",
+   "evidence": "We currently commercialize Joenja® in the United States and the United Kingdom through our own sales and marketing infrastructure."
+  },
+  {
+   "name": "RUCONEST® in Europe and Rest of the World",
+   "products": [
+    "RUCONEST®"
+   ],
+   "description": "Sells RUCONEST® for acute hereditary angioedema attacks in Europe and the rest of the world, supporting patients where approved.",
+   "evidence": "Revenues of RUCONEST® in Europe and Rest of the World amounted to $ 6.2 million in 2025, $ 5.6 million in 2024 and $ 5.9 million in 2023."
+  },
+  {
+   "name": "Joenja® in Europe and Rest of World",
+   "products": [
+    "Joenja®"
+   ],
+   "description": "Sells Joenja® for activated phosphoinositide delta syndrome in Europe, the United Kingdom and the rest of the world.",
+   "evidence": "Revenues of Joenja® in Europe and Rest of World amounted to $ 8.1 million in 2025 compared to $ 4.5 million in 2024 and $ 0.3 million in 2023."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Specialty pharmacies and other customers pay the company for RUCONEST® and Joenja®, which the company sells and distributes in the United States, Europe and the rest of the world.",
+  "evidence": "These customers are specialty pharmacies that are specialized in distribution of pharmaceuticals in our and competitors' disease area and distribute our product."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001867096",
  "issuerName": "XERIS BIOPHARMA HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:17:54.838Z",
+ "builtAt": "2026-11-16T10:11:22.351Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001867096-26-000016",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1867096/000186709626000016/xers-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Recorlev",
+    "Gvoke",
+    "Keveyis",
+    "XP-8121",
+    "XeriSol",
+    "XeriJect",
+    "Gvoke HypoPen",
+    "Gvoke PFS"
+   ],
+   "description": "Single operating segment that develops and commercializes therapies for people with chronic endocrine and neurological diseases in the United States.",
+   "evidence": "The Company is a single operating and reporting segment dedicated to developing and commercializing therapies for people with chronic endocrine and neurological diseases."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patients and clinicians obtain Recorlev, Gvoke and Keveyis prescriptions, with a specialty pharmacy securing coverage from third-party payors before distributing to patients.",
+  "evidence": "In addition, our efforts include the support of a single, highly experienced specialty pharmacy that provides logistical assistance in the securing of coverage from third-party payors and then subsequent distribution of Recorlev to patients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

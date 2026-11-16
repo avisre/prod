@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000915779",
  "issuerName": "Daktronics, Inc.",
- "builtAt": "2026-11-16T05:17:55.814Z",
+ "builtAt": "2026-11-16T10:13:28.764Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-045262",
@@ -10,10 +10,62 @@
   "filingDate": "2026-06-24",
   "url": "https://www.sec.gov/Archives/edgar/data/915779/000162828026045262/dakt-20260502.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial",
+   "products": [
+    "integrated video display systems",
+    "digital billboards",
+    "Galaxy ®",
+    "Fuelight ™",
+    "dynamic messaging systems"
+   ],
+   "description": "Sells integrated video display systems, digital billboards and dynamic messaging systems to resellers, out-of-home companies, retailers, restaurants, casinos, shopping centers and petroleum retailers.",
+   "evidence": "Our Commercial business unit primarily consists of sales of our integrated video display systems, digital billboards, Galaxy ® and Fuelight ™ product lines, and dynamic messaging systems to resellers (primarily sign companies), out-of-home (\"OOH\") companies, national retailers, quick-serve restaurants, casinos, shopping centers, cruise ships, commercial building owners, and petroleum retailers."
+  },
+  {
+   "name": "Live Events",
+   "products": [
+    "Sport scoreboard solutions",
+    "All Sport Scoring Control",
+    "Video displays/video walls"
+   ],
+   "description": "Provides integrated scoring and video display systems to professional sports venues, colleges and universities, and live event operators.",
+   "evidence": "The four domestic business units consist of Commercial, Live Events, High School Park and Recreation, and Transportation, all of which include the geographic territories of the United States and Canada."
+  },
+  {
+   "name": "High School Park and Recreation",
+   "products": [
+    "video boards",
+    "dynamic message systems",
+    "indoor micro-LED configurable display systems"
+   ],
+   "description": "Sells standard catalog products such as video boards and dynamic message systems to high school, park and recreation customers.",
+   "evidence": "We also use our direct sales force to sell to out-of-home advertising companies, transportation system operators, and certain high school, park and recreation customers."
+  },
+  {
+   "name": "Transportation",
+   "products": [
+    "ITS (intelligent transportation systems) dynamic message signs",
+    "Mass Transit displays",
+    "dynamic messaging systems"
+   ],
+   "description": "Supplies dynamic message signs, mass transit displays and intelligent transportation systems to transportation system operators and governmental agencies.",
+   "evidence": "The four domestic business units consist of Commercial, Live Events, High School Park and Recreation, and Transportation, all of which include the geographic territories of the United States and Canada."
+  },
+  {
+   "name": "International",
+   "products": [],
+   "description": "Sells integrated display systems and standard catalog products to customers outside the United States and Canada through resellers and direct sales.",
+   "evidence": "Our five business segments consist of four domestic business units and the International business unit."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, resellers and agencies pay for integrated display systems, installation, software, and ongoing technical support and service agreements.",
+  "evidence": "In addition to equipment sales and installation, the Company provides services that include technical support, professional services, and software-based solutions that enable customers to operate and manage their display systems."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

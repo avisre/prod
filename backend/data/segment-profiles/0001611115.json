@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001611115",
  "issuerName": "Omada Health, Inc.",
- "builtAt": "2026-11-16T05:17:56.817Z",
+ "builtAt": "2026-11-16T10:13:47.088Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-015637",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1611115/000162828026015637/omda-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Virtual Care",
+   "products": [
+    "Omada for Prevention & Weight Health",
+    "Omada for Diabetes",
+    "Omada for Hypertension",
+    "Omada for Cholesterol",
+    "Omada GLP-1 Care Track",
+    "Omada for MSK"
+   ],
+   "description": "Delivers virtual care programs between doctor's visits to enrolled members, covering cardiometabolic conditions and musculoskeletal care for employers, health plans and channel partners.",
+   "evidence": "The Company has one operating and reportable segment, which includes all virtual care program product offerings."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Employers, health plans, health systems, PBMs and channel partners cover the cost of the company's virtual care programs for their covered individuals.",
+  "evidence": "We sell our programs to customers that cover the cost for covered individuals, either by contracting with us directly or by arranging access through entities that we call \"channel partners,\" which resell our programs to their own end customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

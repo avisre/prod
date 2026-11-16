@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001561032",
  "issuerName": "National Healthcare Properties, Inc.",
- "builtAt": "2026-11-16T05:17:54.827Z",
+ "builtAt": "2026-11-16T10:11:32.830Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001561032-26-000009",
@@ -10,10 +10,38 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1561032/000156103226000009/hct-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SHOP",
+   "products": [
+    "assisted living communities",
+    "memory care communities",
+    "independent living communities",
+    "senior housing properties"
+   ],
+   "description": "Owns senior housing communities providing assisted living, memory care and independent living care to residents through independent third-party operators.",
+   "evidence": "Our SHOP segment provides varying levels of care, but is focused on needs-based assisted living and memory care."
+  },
+  {
+   "name": "OMF",
+   "products": [
+    "outpatient medical facilities",
+    "single- and multi-tenant OMFs",
+    "physicians' offices and examination rooms",
+    "pharmacies",
+    "diagnostic imaging centers",
+    "ambulatory surgery centers"
+   ],
+   "description": "Owns, manages and leases single- and multi-tenant outpatient medical buildings to healthcare tenants such as physicians, pharmacies and surgery centers.",
+   "evidence": "As of December 31, 2025, we owned 130 OMFs and other health care related buildings under lease totaling approximately 3.7 million square feet of GLA."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Residents pay operators directly or through private insurance for senior housing care, while OMF tenants pay base rent and their share of property operating expenses.",
+  "evidence": "Services provided by operators at our SHOPs are predominantly paid for by the residents directly or through private insurance and are therefore less dependent on government reimbursement programs such as Medicaid and Medicare."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001772016",
  "issuerName": "BellRing Brands, Inc.",
- "builtAt": "2026-11-16T05:17:55.847Z",
+ "builtAt": "2026-11-16T10:12:47.284Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001772016-25-000153",
@@ -10,11 +10,34 @@
   "filingDate": "2025-11-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1772016/000177201625000153/brbr-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "convenient nutrition",
+   "products": [
+    "RTD protein shakes",
+    "protein powders",
+    "Premier Protein",
+    "Dymatize",
+    "ISO.100",
+    "Elite 100% Whey",
+    "Super Mass Gainer"
+   ],
+   "description": "Single consolidated segment supplying protein-based consumer goods, mainly ready-to-drink protein shakes and powders, to consumers through club, retail and online channels.",
+   "evidence": "We have a single operating and reportable segment, with our principal products being protein-based consumer goods."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Club, food, drug and mass retailers, eCommerce, specialty, convenience stores and distributors pay the company for protein shakes and powders.",
+  "evidence": "Our customers are predominantly club stores, FDM retailers, online retailers, specialty retailers, convenience stores and distributors."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2023 the company approved a plan to discontinue the PowerBar business in North America.",
+   "evidence": "In August 2023, the Company approved a plan to discontinue the PowerBar business in North America ."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

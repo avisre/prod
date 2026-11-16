@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001828536",
  "issuerName": "ENERGY VAULT HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:17:57.457Z",
+ "builtAt": "2026-11-16T10:14:05.889Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001828536-26-000022",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1828536/000182853626000022/nrgv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy Storage Solutions",
+   "products": [
+    "B-VAULT",
+    "G-VAULT",
+    "H-VAULT",
+    "B-VAULT FlexGrid",
+    "VaultOS Energy Management System",
+    "Vault-Bidder",
+    "Vault-Manager"
+   ],
+   "description": "Sells and licenses gravity, battery and green hydrogen energy storage systems, software and integration services to utilities, independent power producers and large energy users.",
+   "evidence": "The Company reports its operating results and financial information in one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, including utilities, independent power producers and large energy users, pay for energy storage equipment, licensing, software, integration and long-term services, and for owned storage capacity.",
+  "evidence": "We sell and license our energy storage solutions to third parties, in addition to selectively owning and operating energy storage systems that incorporate our energy storage equipment and software."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

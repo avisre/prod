@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001722608",
  "issuerName": "iQIYI, Inc.",
- "builtAt": "2026-11-16T05:17:55.091Z",
+ "builtAt": "2026-11-16T10:11:50.354Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-107079",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1722608/000119312526107079/iq-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Internet video",
+   "products": [
+    "membership services",
+    "online advertising services",
+    "content distribution"
+   ],
+   "description": "Operates an online video platform in Chinese mainland, selling membership subscriptions, advertising and content distribution to viewers, advertisers and distributors.",
+   "evidence": "The Company operates as one operating segment and derives revenues primarily from membership services, online advertising services and content distribution through the innovative platform offering a diverse collection of high-quality internet video contents."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Subscribing members pay membership fees for premium and ad-free streaming; advertising agencies and advertisers pay for brand and performance advertising; content distribution customers pay for licensed content.",
+  "evidence": "The Group's revenues are derived principally from membership services, online advertising services and content distribution."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

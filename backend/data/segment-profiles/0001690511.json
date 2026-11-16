@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001690511",
  "issuerName": "CANADA GOOSE HOLDINGS INC.",
- "builtAt": "2026-11-16T05:17:57.413Z",
+ "builtAt": "2026-11-16T10:14:18.866Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001690511-26-000012",
@@ -10,11 +10,55 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1690511/000169051126000012/goos-20260329.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DTC",
+   "products": [
+    "Canada Goose Generations",
+    "outerwear",
+    "apparel",
+    "footwear",
+    "accessories"
+   ],
+   "description": "Sells outerwear, apparel, footwear and accessories directly to consumers through owned retail stores and e-Commerce, including the Canada Goose Generations recommerce platform.",
+   "evidence": "Our DTC segment includes sales to customers through our retail stores and our e-Commerce website available across numerous markets, which includes the recommerce platform Canada Goose Generations."
+  },
+  {
+   "name": "Wholesale",
+   "products": [
+    "Canada Goose",
+    "Snow Goose",
+    "Baffin"
+   ],
+   "description": "Sells the company's branded products to retailers and international distributors who hold exclusive territory rights to resell in their markets.",
+   "evidence": "Through our Wholesale segment, we sell to a mix of retailers and international distributors, who are partners that have partial or full exclusive territory rights to sell our products to a particular market through their own DTC channels or local wholesalers."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Paola Confectii",
+    "knitwear"
+   ],
+   "description": "Collects sales and costs not allocated to DTC or Wholesale, including employee and friends and family sales and the Paola Confectii knitwear manufacturing business.",
+   "evidence": "Archive is reported within the DTC segment while friends and family and employee sales are reported under the Other segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers, retailers and distributors pay for the company's outerwear, apparel, footwear and accessories, bought directly through its stores and websites or through wholesale partners.",
+  "evidence": "Our products are sold directly to consumers around the world through our brick-and-mortar and online stores, as well as to wholesale distributors."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024 the Wholesale segment was expanded to include the introduction of travel retail.",
+   "evidence": "The Wholesale segment includes the introduction of travel retail within the second quarter of fiscal 2024."
+  },
+  {
+   "text": "In fiscal 2024 the company added the Paola Confectii knitwear manufacturing business, whose results are reported in the Other segment.",
+   "evidence": "On November 1, 2023, a newly incorporated subsidiary of the Company, Paola Confectii Manufacturing Limited (\"Paola Confectii\"), acquired the business of Paola Confectii SRL, a luxury knitwear manufacturer."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

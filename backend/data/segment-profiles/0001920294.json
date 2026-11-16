@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001920294",
  "issuerName": "Rezolve AI plc",
- "builtAt": "2026-11-16T05:17:55.645Z",
+ "builtAt": "2026-11-16T10:12:22.808Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-132456",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1920294/000119312526132456/rzlv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agentic Commerce",
+   "products": [
+    "Brain Commerce",
+    "Brain Checkout",
+    "brainpowa",
+    "Conversational AI",
+    "Discovery AI",
+    "Data Intelligence & Enablement",
+    "Purchase Suite",
+    "Click & Collect"
+   ],
+   "description": "AI platform that unifies discovery, conversation, checkout, fulfillment, payments and service for retail merchants and enterprises, delivered through Brain Commerce and Brain Checkout.",
+   "evidence": "Rezolve's flagship product, Brain Commerce, powered by our proprietary large language model (\"LLM\") brainpowa, transforms the online shopping experience."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retail merchants and enterprises pay monthly subscription, consumption and usage-based fees for cloud-based SaaS commerce software and professional IT services.",
+  "evidence": "Merchants are billed on a monthly basis for the services rendered."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

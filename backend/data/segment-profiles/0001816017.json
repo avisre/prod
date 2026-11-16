@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001816017",
  "issuerName": "SPIRE GLOBAL, INC.",
- "builtAt": "2026-11-16T05:17:58.000Z",
+ "builtAt": "2026-11-16T10:14:46.520Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-116169",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1816017/000119312526116169/spir-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Space-based data",
+   "products": [
+    "Clean data",
+    "Smart data",
+    "Predictive data",
+    "Data solutions",
+    "Space Reconnaissance",
+    "Aviation",
+    "Weather and Climate",
+    "Space Services"
+   ],
+   "description": "Provides space-based data, analytics and satellite services to governments and commercial customers across industries such as agriculture, logistics, insurance, aviation and energy.",
+   "evidence": "The Company operates as one reportable and operating segment, which relates to the sale of subscription-based data, insights, predictive analytics and related project-based services to global customers across a range of industries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Governments and commercial customers pay subscription fees and project fees for space-based data, insights, predictive analytics and space services.",
+  "evidence": "The Company operates as one reportable and operating segment, which relates to the sale of subscription-based data, insights, predictive analytics and related project-based services to global customers across a range of industries."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its maritime business while retaining certain maritime operations serving U.S. federal government customers.",
+   "evidence": "On April 25, 2025, we completed the sale of our maritime business to Kpler Holding SA for approximately $238.9 million"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

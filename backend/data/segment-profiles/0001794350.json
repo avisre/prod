@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001794350",
  "issuerName": "YALLA GROUP LIMITED",
- "builtAt": "2026-11-16T05:17:57.148Z",
+ "builtAt": "2026-11-16T10:14:12.829Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-168267",
@@ -10,8 +10,15 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1794350/000119312526168267/yala-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "social networking and entertainment platform",
+   "products": [],
+   "description": "Runs a social networking and entertainment platform of mobile applications offering voice-based, real-time communications to users in many countries.",
+   "evidence": "Management has determined that the Group has one operating segment, which is the social networking and entertainment platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002011514",
  "issuerName": "Anteris Technologies Global Corp.",
- "builtAt": "2026-11-16T05:17:58.412Z",
+ "builtAt": "2026-11-16T10:15:00.110Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001140361-26-006977",
@@ -10,11 +10,33 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/2011514/000114036126006977/ef20060646_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "development and commercialization of the ADAPT ® anti-calcification tissue",
+   "products": [
+    "DurAVR ® THV System",
+    "DurAVR ® THV",
+    "ComASUR ® Delivery System",
+    "ADAPT ® tissue",
+    "CardioCel™",
+    "VascuCel™"
+   ],
+   "description": "Develops and commercializes ADAPT ® anti-calcification tissue and the DurAVR ® THV System for patients with aortic stenosis.",
+   "evidence": "Our management has determined that the activities of the business as reviewed by the Vice Chairman and Chief Executive Officer, the chief operating decision maker (\"CODM\"), are one segment, being the development and commercialization of the ADAPT ® anti-calcification tissue."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Revenue comes from selling regenerative tissue products to distributors such as LeMaitre, while the DurAVR ® THV System remains in development.",
+  "evidence": "We derive revenue from the sale of regenerative tissue products. Such sales have historically been made principally to 4C and to LeMaitre Vascular, Inc. (\"LeMaitre\"), a distributor of medical products"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Transition Services Agreement with LeMaitre expired, ending the related CardioCel™ and VascuCel™ product sales.",
+   "evidence": "The Transition Services Agreement with LeMaitre expired in January 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

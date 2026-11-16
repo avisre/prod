@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001698991",
  "issuerName": "Accel Entertainment, Inc.",
- "builtAt": "2026-11-16T05:17:56.583Z",
+ "builtAt": "2026-11-16T10:13:41.763Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001698991-26-000018",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1698991/000169899126000018/acel-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "distributed gaming",
+   "products": [
+    "gaming terminals",
+    "redemption devices",
+    "amusement devices",
+    "games of chance",
+    "games of skill",
+    "stand-alone ATMs",
+    "jukeboxes",
+    "dartboards"
+   ],
+   "description": "Installs, maintains and operates gaming terminals and amusement devices for bars, restaurants, convenience stores, truck stops and other non-casino locations.",
+   "evidence": "The Company's distributed gaming reportable segment consists of the installation, maintenance, and operation of gaming terminals, redemption devices that disburse winnings and contain ATM functionality, and other amusement devices in authorized non-casino locations such as restaurants, bars, convenience stores, liquor stores, truck stops, and grocery stores."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Location partners share net terminal income with the Company, which supplies and services the gaming terminals they host.",
+  "evidence": "The remaining net terminal income after deducting the taxes and administrative fees described above is split between the Company and the gaming location according to local gaming laws or are prenegotiated."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the acquisition of Fairmount added a second operating segment, casino and racing.",
+   "evidence": "The Company has determined that with the acquisition of Fairmount in December of 2024, it has two operating segments: distributed gaming and casino and racing as of December 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001809519",
  "issuerName": "GoodRx Holdings, Inc.",
- "builtAt": "2026-11-16T05:17:57.381Z",
+ "builtAt": "2026-11-16T10:14:17.503Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001809519-26-000031",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1809519/000180951926000031/gdrx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prescription marketplace",
+   "products": [
+    "prescription transactions offering",
+    "subscription programs",
+    "Gold",
+    "RxSmartSaver+",
+    "GoodRx Pharma Direct",
+    "GoodRx Care",
+    "Provider Mode",
+    "prescription delivery services"
+   ],
+   "description": "Runs a consumer-focused digital healthcare platform offering prescription price comparison, subscription savings programs and pharma affordability offerings for consumers and pharma manufacturers.",
+   "evidence": "Our prescription transactions offering, part of our prescription marketplace, provides dynamic, geographically relevant prescription pricing, and access to negotiated prices that can be used by our consumers to save money on prescription s ."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Consumers and their families pay subscription fees, while PBMs, pharmacies and pharma manufacturers pay for access and advertising to reach consumers.",
+  "evidence": "We partner with pharma manufacturers to advertise and integrate these affordability solutions into our platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

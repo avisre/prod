@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001841968",
  "issuerName": "Ridgepost Capital, Inc.",
- "builtAt": "2026-11-16T05:17:57.661Z",
+ "builtAt": "2026-11-16T10:14:30.710Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-081484",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1841968/000119312526081484/rpc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "private market solutions",
+   "products": [
+    "Private Equity Solutions",
+    "Venture Capital Solutions",
+    "Private Credit Solutions",
+    "Primary Investment Funds",
+    "Secondary Investment Funds",
+    "direct and co-investment funds",
+    "customized separate accounts",
+    "co-investments"
+   ],
+   "description": "Structures, manages and monitors private market investment portfolios across private equity, venture capital and private credit for institutional and high-net-worth investors.",
+   "evidence": "We operate our business as a single operating segment, which is how our chief operating decision maker evaluates financial performance and makes decisions regarding the allocation of resources."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Institutional and high-net-worth investors pay recurring management and advisory fees on committed capital held in the specialized investment vehicles Ridgepost manages.",
+  "evidence": "Our revenue is composed almost entirely of recurring management and advisory fees, with the vast majority of fees earned on committed capital that is typically subject to ten to fifteen-year lock-up agreements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
