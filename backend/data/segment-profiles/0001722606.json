@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001722606",
  "issuerName": "Metalla Royalty & Streaming Ltd.",
- "builtAt": "2026-11-16T05:21:34.876Z",
+ "builtAt": "2026-11-16T10:20:37.618Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001062993-26-001632",
@@ -11,10 +11,28 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1722606/000106299326001632/exhibit99-1.htm",
   "exhibit": "exhibit99-1.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Royalty and Stream",
+   "products": [
+    "gold streams",
+    "silver streams",
+    "NSR Royalties",
+    "GOR Royalties",
+    "GVR Royalties",
+    "Royalties",
+    "Streams"
+   ],
+   "description": "Holds royalty and stream interests over mining properties and is paid by the owners and operators of those mines.",
+   "evidence": "Specifically, as a Royalty or Stream holder, Metalla has limited, if any, access to properties on which it holds Royalties, Streams, or other interests in its asset portfolio."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Property owners or operators of mining projects pay Metalla royalty payments and stream payments on the metals produced from their mines.",
+  "evidence": "royalty payments to be paid to Metalla by property owners or operators of mining projects pursuant to each Royalty"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

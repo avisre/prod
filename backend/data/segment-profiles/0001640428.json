@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001640428",
  "issuerName": "EverQuote, Inc.",
- "builtAt": "2026-11-16T05:21:34.776Z",
+ "builtAt": "2026-11-16T10:19:44.275Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-066957",
@@ -10,11 +10,30 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1640428/000119312526066957/ever-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online insurance marketplace",
+   "products": [
+    "consumer inquiries",
+    "referrals",
+    "quote requests"
+   ],
+   "description": "Operates an online marketplace that matches consumers shopping for property and casualty insurance with carriers and agents.",
+   "evidence": "The Company manages its operations as a single segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers shop free, while insurance carriers and agents pay for consumer inquiries sold as referrals.",
+  "evidence": "Our services are free for consumers, and we derive our revenue principally from consumer inquiries sold as referrals to insurance providers."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company restructured and exited its health insurance vertical.",
+   "evidence": "In connection with its restructuring and exit from the health vertical in 2023, the Company recorded impairments of a right-of-use asset (see Note 15)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001839839",
  "issuerName": "JANUS INTERNATIONAL GROUP, INC.",
- "builtAt": "2026-11-16T05:21:33.785Z",
+ "builtAt": "2026-11-16T10:19:04.445Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001839839-26-000006",
@@ -10,10 +10,38 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1839839/000183983926000006/jbi-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Janus North America",
+   "products": [
+    "commercial and self-storage doors",
+    "walls",
+    "hallway systems",
+    "building components",
+    "installation services"
+   ],
+   "description": "Manufactures and supplies commercial and self-storage doors, walls, hallway systems and building components for self-storage owners and builders, and provides installation services.",
+   "evidence": "Janus North America produces and provides various fabricated components such as commercial and self-storage doors, walls, hallway systems and building components used primarily by owners or builders of self-storage facilities and also offers installation services along with the products."
+  },
+  {
+   "name": "Janus International",
+   "products": [
+    "commercial and self-storage doors",
+    "walls",
+    "hallway systems",
+    "building components",
+    "installation services"
+   ],
+   "description": "Produces and provides similar doors, walls, hallway systems and building components, plus installation services, for customers largely in Europe, the U.K., and Australia.",
+   "evidence": "The Janus International segment produces and provides similar products and services as Janus North America but largely in Europe, the U.K., and Australia."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Self-storage owners and builders, commercial and trucking customers pay for doors, hallway systems, steel structures, automation technology, and installation and renovation services.",
+  "evidence": "Product revenues represent the revenue from the sale of products, including steel roll-up and swing doors, rolling steel doors, steel structures, as well as hallway systems and facility and door automation technologies for commercial and self-storage customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

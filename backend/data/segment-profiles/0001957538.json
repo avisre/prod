@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001957538",
  "issuerName": "OIO Group",
- "builtAt": "2026-11-16T05:21:36.586Z",
+ "builtAt": "2026-11-16T10:21:47.405Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-020594",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1957538/000149315226020594/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Waste management",
+   "products": [
+    "waste collection and disposal services",
+    "circular products",
+    "pyrolysis oil",
+    "diesel",
+    "NewOil",
+    "lime (calcium hydroxide)",
+    "fluorspar (calcium fluoride)",
+    "hydrochloric acid"
+   ],
+   "description": "Singapore-based industrial waste collection, treatment and recycling business that turns hazardous and non-hazardous waste into circular products sold to industrial customers.",
+   "evidence": "ESA is a waste management, treatment and recycling company involved in the collection and recycling of hazardous and non-hazardous industrial waste from customers such as pharmaceutical, semiconductor, petrochemical and electroplating companies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay ESA fees for waste collection and disposal, and buyers pay for circular products processed from the waste collected.",
+  "evidence": "services income which is primarily comprised of the fees it charges its customers for waste collection and disposal services"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

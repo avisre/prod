@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001499543",
  "issuerName": "Noah Holdings Ltd",
- "builtAt": "2026-11-16T05:21:35.669Z",
+ "builtAt": "2026-11-16T10:22:49.625Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-050892",
@@ -10,11 +10,92 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1499543/000110465926050892/noah-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "domestic public securities",
+   "products": [
+    "mutual funds",
+    "public securities investment funds",
+    "private secondary products",
+    "Smile Treasury",
+    "RMB-denominated products"
+   ],
+   "description": "Distributes mutual funds and private secondary products to high net worth clients in mainland China under Noah Upright.",
+   "evidence": "The business that distributes mutual funds, which are publicly-raised, public securities investment funds, and private secondary products, which are privately-raised investment funds with underlying assets consisting of publicly listed securities and bonds in the secondary market, under Noah Upright."
+  },
+  {
+   "name": "domestic asset management",
+   "products": [
+    "RMB-denominated private equity funds",
+    "real estate equity funds",
+    "private secondary products",
+    "cross-border ETF products",
+    "PE/VC funds"
+   ],
+   "description": "Manages RMB-denominated private equity, real estate and secondary market funds for clients under Gopher.",
+   "evidence": "The business that manages RMB-denominated private equity funds, which include various PE/VC funds managed by third parties or by us and real estate equity funds, and private secondary products, under Gopher."
+  },
+  {
+   "name": "domestic insurance",
+   "products": [
+    "domestic insurance products",
+    "life and health insurance products",
+    "health and retirement insurance products"
+   ],
+   "description": "Distributes life and health insurance products to high net worth clients in mainland China under Glory.",
+   "evidence": "The business that distributes domestic insurance products, consisting mainly of life and health insurance products, under Glory."
+  },
+  {
+   "name": "overseas wealth management",
+   "products": [
+    "offline and online wealth management services",
+    "overseas products",
+    "private equity products",
+    "structured products"
+   ],
+   "description": "Provides offline and online wealth management services and overseas investment products to clients under ARK Wealth Management.",
+   "evidence": "The business that provides offline and online wealth management services under ARK Wealth Management"
+  },
+  {
+   "name": "overseas asset management",
+   "products": [
+    "USD-denominated private equity funds",
+    "private secondary products",
+    "structured products",
+    "hedge funds",
+    "private equity products"
+   ],
+   "description": "Manages USD-denominated private equity and secondary market funds for clients under Olive.",
+   "evidence": "The business that manages USD-denominated private equity funds and private secondary products under Olive."
+  },
+  {
+   "name": "overseas insurance and comprehensive services",
+   "products": [
+    "insurance",
+    "trust services",
+    "family trust and fiduciary services",
+    "wealth planning services"
+   ],
+   "description": "Provides insurance referral, trust and other comprehensive services to clients outside mainland China under Glory Family Heritage.",
+   "evidence": "The business that provides comprehensive overseas services, such as insurance, trust services and other services under Glory Family Heritage."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Product partners and the funds they manage, plus insurance companies, pay one-time commissions, recurring service fees and performance-based income for products we distribute and manage.",
+  "evidence": "For our wealth management business, we generate revenue primarily from the offering of investment products and services to our clients through our subsidiaries in four ways"
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company replaced its three historical reportable segments with six business segments and headquarters.",
+   "evidence": "Starting from the fourth quarter of 2024, the Group has adopted a new set of segmentation that organizes net revenues in the new structure, including six business segments and headquarters to reflect the Group's recent operational adjustments and organizational restructuring."
+  },
+  {
+   "text": "In 2024 the company carried out an organizational restructuring and adjusted its business operations.",
+   "evidence": "In 2024, we engaged in organizational restructuring and adjustment to our business operations in order to improve our business model and to comply with the evolving regulatory requirements in our industry."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

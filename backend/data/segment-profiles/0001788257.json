@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001788257",
  "issuerName": "BETTERWARE DE MEXICO, S.A.P.I. DE C.V",
- "builtAt": "2026-11-16T05:21:36.232Z",
+ "builtAt": "2026-11-16T10:21:16.623Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050248",
@@ -10,10 +10,39 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1788257/000121390026050248/ea0287740-20f_betterware.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Betterware segment",
+   "products": [
+    "Kitchen and food preservation",
+    "Home solutions",
+    "Bedroom",
+    "Bathroom",
+    "Laundry & Cleaning",
+    "Tech & mobility",
+    "wellness"
+   ],
+   "description": "Sells home organization products through catalogs in Mexico and Latin America, distributed to end customers by its network of distributors and associates.",
+   "evidence": "The Betterware segment is divided into seven categories of the home organization: (i) Kitchen and food preservation, (ii) Home solutions, (iii) Bedroom, (iv) Bathroom, (v) Laundry & Cleaning (vi) Tech & mobility and (vii) wellness."
+  },
+  {
+   "name": "Jafra segment",
+   "products": [
+    "fragrance",
+    "color (cosmetics)",
+    "skin care",
+    "toiletries"
+   ],
+   "description": "Sells beauty and personal care products through promotional catalogues, distributed by its network of leaders and consultants in Mexico and the United States.",
+   "evidence": "The Jafra segment is divided into four categories of the beauty and personal care: (i) fragrance, (ii) color (cosmetics), (iii) skin care and (iv) toiletries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Independent BWM distributors, associates, and Jafra leaders and consultants buy products from the Group for resale to end customers.",
+  "evidence": "these products are sold to its main customers: BWM distributors and Jafra leaders and consultants."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

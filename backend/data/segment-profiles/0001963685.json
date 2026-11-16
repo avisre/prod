@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001963685",
  "issuerName": "RICHTECH ROBOTICS INC.",
- "builtAt": "2026-11-16T05:21:34.156Z",
+ "builtAt": "2026-11-16T10:19:31.666Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-005343",
@@ -10,11 +10,37 @@
   "filingDate": "2026-01-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1963685/000121390026005343/ea0272362-10k_richtech.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Robotics",
+   "products": [
+    "Matradee",
+    "ADAM",
+    "Scorpion",
+    "Titan",
+    "DUST-E",
+    "Dex"
+   ],
+   "description": "Designs, engineers, manufactures and deploys embodied AI robotic systems for commercial, industrial, healthcare and hospitality customers.",
+   "evidence": "We view our operations and manage our business as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay directly for branded robots, and some pay for ongoing robot access, maintenance and support through Robots-as-a-Service arrangements.",
+  "evidence": "We generate revenue through the sale of our branded robotic products directly to customers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2025, the Skylark line of robots was discontinued.",
+   "evidence": "In addition to the operational re-organization, the Skylark line of robots has been discontinued to refocus resources on products with better long-term profitability."
+  },
+  {
+   "text": "In fiscal year 2025, the Medbot line of robots was discontinued.",
+   "evidence": "The Medbot line of robots has been discontinued while we develop new robotic technologies to better service the healthcare sector."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

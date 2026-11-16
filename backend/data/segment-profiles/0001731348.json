@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001731348",
  "issuerName": "Tilray Brands, Inc.",
- "builtAt": "2026-11-16T05:21:35.995Z",
+ "builtAt": "2026-11-16T10:21:33.228Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-024698",
@@ -10,11 +10,70 @@
   "filingDate": "2026-07-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1731348/000143774926024698/tlry20260531_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beverage",
+   "products": [
+    "Alpine",
+    "Blue Point",
+    "Breckenridge Brewery",
+    "Breckenridge Distillery",
+    "BrewDog",
+    "Green Flash",
+    "Hop Valley",
+    "Montauk Brewing Company"
+   ],
+   "description": "Brews, markets and sells craft beer and craft spirits brands to distributors, retailers and consumers in the United States and international markets.",
+   "evidence": "• Beverage – Production, marketing and sale of beverages."
+  },
+  {
+   "name": "Cannabis",
+   "products": [
+    "whole flower",
+    "pre-rolls",
+    "infused pre-rolls",
+    "vapes",
+    "topicals",
+    "edibles (gummies and chocolates)",
+    "beverages"
+   ],
+   "description": "Cultivates, produces and sells medical and adult-use cannabis products to patients and consumers in Canada and international markets.",
+   "evidence": "• Cannabis – Cultivation, production, distribution and sale of both medical and adult-use cannabis products."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "pharmaceutical and wellness products"
+   ],
+   "description": "Purchases pharmaceuticals and wellness products and resells them to customers through its distribution network.",
+   "evidence": "• Distribution – Purchase, resale and distribution of pharmaceutical and wellness products."
+  },
+  {
+   "name": "Wellness",
+   "products": [
+    "Manitoba Harvest",
+    "hemp-based foods and ingredients products"
+   ],
+   "description": "Produces, markets and distributes hemp-based food and other wellness products, including the Manitoba Harvest brand, for consumers.",
+   "evidence": "• Wellness – Production, marketing and distribution of hemp-based food and other wellness products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Independent distributors buy the craft beverages for resale to retailers and consumers; the other segments sell cannabis, pharmaceutical and wellness products to their customers.",
+  "evidence": "In the United States, each of SweetWater, Breckenridge, Montauk, BrewDog and our other craft brands sells its beverages to independent distributors for distribution to retailers and, ultimately, to consumers."
+ },
+ "changes": [
+  {
+   "text": "In 2026 Tilray acquired BrewDog, transforming its beverage platform from a U.S. platform into a global platform.",
+   "evidence": "As the only global craft beer brand, the BrewDog Acquisition served to transform our beverage platform from a U.S. platform to a global platform and provided us with the international presence, team and capabilities to support the broader distribution of our U.S. beverage brands across key international markets"
+  },
+  {
+   "text": "In 2026 Tilray acquired the Lyphe Group, a UK medical cannabis clinic and digital pharmacy platform.",
+   "evidence": "On April 15 2026, Tilray acquired the Lyphe Group, a UK-based medical cannabis clinic and digital pharmacy platform"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

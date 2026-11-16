@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001861107",
  "issuerName": "CeriBell, Inc.",
- "builtAt": "2026-11-16T05:21:33.959Z",
+ "builtAt": "2026-11-16T10:19:19.301Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-067238",
@@ -10,8 +10,22 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1861107/000119312526067238/cbll-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EEG",
+   "products": [
+    "Wearables",
+    "Clarity",
+    "recorders",
+    "portal",
+    "EEG recorders",
+    "Clarity software-as-a-service (SaaS) subscription products"
+   ],
+   "description": "Develops and sells disposable EEG wearables, recorders and Clarity subscription software to hospitals and medical groups for seizure detection.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

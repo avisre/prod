@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001793663",
  "issuerName": "VTEX",
- "builtAt": "2026-11-16T05:21:37.200Z",
+ "builtAt": "2026-11-16T10:22:17.051Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-076504",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1793663/000119312526076504/ck0001793663-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SaaS Commerce Platform",
+   "products": [
+    "Commerce",
+    "Marketplace",
+    "OMS",
+    "Retail Media",
+    "VTEX IO",
+    "Weni by VTEX",
+    "live shopping",
+    "conversational commerce"
+   ],
+   "description": "Runs a cloud commerce platform that lets enterprise brands, retailers and distributors build online stores, manage orders and operate marketplaces.",
+   "evidence": "The CODM considers the whole Company a single operating and reportable segment, monitoring operations, making decisions on fund allocation, and evaluating performance based on a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay a subscription that combines a fixed fee with a transaction-based fee charged on the value of orders processed on the platform.",
+  "evidence": "Our subscription revenue is based on a fixed subscription fee and a transaction-based fee."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001127371",
  "issuerName": "COMMUNITY WEST BANCSHARES",
- "builtAt": "2026-11-16T05:21:35.796Z",
+ "builtAt": "2026-11-16T10:20:56.360Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-016895",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1127371/000162828026016895/cvcy-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking operations",
+   "products": [
+    "Loans and leases",
+    "investment securities",
+    "interest-bearing deposits",
+    "deposit products"
+   ],
+   "description": "Bank branches providing loans and deposit products to small and middle-market businesses and individuals, reported together as a single operating segment.",
+   "evidence": "The Company has one reportable segment: banking operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Small and middle-market businesses and individuals pay interest and fees on loans and deposit products.",
+  "evidence": "The Bank's primary source of revenue is providing loans to customers who are predominately small and middle-market businesses and individuals."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001547459",
  "issuerName": "Natural Grocers by Vitamin Cottage, Inc.",
- "builtAt": "2026-11-16T05:21:36.083Z",
+ "builtAt": "2026-11-16T10:20:55.449Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-25-037556",
@@ -10,10 +10,27 @@
   "filingDate": "2025-12-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1547459/000143774925037556/ngvc20250930_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "natural and organic retail stores",
+   "products": [
+    "natural and organic food",
+    "dietary supplements",
+    "body care products",
+    "pet care products",
+    "books",
+    "grocery"
+   ],
+   "description": "Operates specialty retail stores selling natural and organic groceries, body care products and dietary supplements to health-focused customers in the United States.",
+   "evidence": "We have a single reportable segment, natural and organic retail stores, through which we conduct all of our business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay at the company's stores for grocery, dietary supplements, body care and other products.",
+  "evidence": "This segment derives all of its revenue from the sale of grocery, dietary supplements, body care and other products at the Company's stores located in the United States."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

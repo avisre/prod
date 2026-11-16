@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001821159",
  "issuerName": "EVgo Inc.",
- "builtAt": "2026-11-16T05:21:37.446Z",
+ "builtAt": "2026-11-16T10:22:29.648Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-024827",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1821159/000110465926024827/evgo-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EV Charging",
+   "products": [
+    "EVgo eXtend",
+    "PlugShare",
+    "PlugShare API",
+    "PlugShare DataTool",
+    "Autocharge+",
+    "EVgo Reservations",
+    "EVgo Access",
+    "EVgo Inside"
+   ],
+   "description": "Builds, owns and operates public EV fast charging stations and sells charging and related software services to drivers, fleets and OEM partners.",
+   "evidence": "We have determined that we operate in one operating and reportable segment and, as such, the leases and agreements with the Site Hosts are attributable to that segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Drivers, fleet operators and OEM partners pay for electricity delivered at the company's fast chargers and for related network, software and eXtend services.",
+  "evidence": "EVgo sells electricity directly to drivers who access EVgo's publicly available networked chargers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

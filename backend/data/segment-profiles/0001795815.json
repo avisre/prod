@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001795815",
  "issuerName": "California BanCorp \\ CA",
- "builtAt": "2026-11-16T05:21:36.883Z",
+ "builtAt": "2026-11-16T10:21:43.367Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001795815-26-000005",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1795815/000179581526000005/bcal-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial banking",
+   "products": [
+    "construction and land development loans",
+    "commercial real estate (\"CRE\") loans",
+    "commercial and industrial (\"C&I\") loans",
+    "U.S. Small Business Administration (\"SBA\") loans",
+    "consumer loans",
+    "demand, money market, and certificates of deposit accounts",
+    "treasury management services",
+    "lockbox services"
+   ],
+   "description": "A community commercial bank providing loans, deposits and treasury management to individuals, professionals and small to medium-sized businesses in California.",
+   "evidence": "We operate one reportable segment — commercial banking."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The bank earns interest and fees from loans, investments and deposits provided to individuals, professionals and small to medium-sized businesses.",
+  "evidence": "Loans, investments, and deposits provide the revenues from the Company's operations."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company completed its merger with California BanCorp, expanding its footprint into Northern California.",
+   "evidence": "The Merger closed on July 31, 2024."
+  },
+  {
+   "text": "In 2024 the company changed its name from Southern California Bancorp to California BanCorp.",
+   "evidence": "In connection with the Merger, our shareholders also approved a change of the Company's name from Southern California Bancorp to California BanCorp."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

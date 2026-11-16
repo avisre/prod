@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001625791",
  "issuerName": "KORNIT DIGITAL LTD.",
- "builtAt": "2026-11-16T05:21:33.907Z",
+ "builtAt": "2026-11-16T10:19:16.651Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-034707",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1625791/000121390026034707/ea0282980-20f_kornit.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "digital printing solutions",
+   "products": [
+    "digital printing systems",
+    "curing systems",
+    "NeoPigment ink",
+    "Ink and consumables",
+    "software subscriptions",
+    "value-added services",
+    "Presto MAX",
+    "Allegro"
+   ],
+   "description": "Develops and sells digital printing systems, inks, software and services to garment and fabric printers, brands and fulfillers for on-demand textile production.",
+   "evidence": "Our solutions include our proprietary digital printing systems, curing systems, ink, and other consumables, associated software and value-added services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers and channel partners pay for printing systems, ink and consumables, service, software and training, or a fixed price per impression under the All-Inclusive Click model.",
+  "evidence": "The Company generates revenues from sales of systems, operating leases, consumables and services, including software subscriptions and transaction-based revenues."
+ },
+ "changes": [
+  {
+   "text": "In 2023 through 2025 the restructuring plans included a phasing out of legacy platforms.",
+   "evidence": "Included in this restructuring is a workforce reduction and a phasing out of legacy platforms."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

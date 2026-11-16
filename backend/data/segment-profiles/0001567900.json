@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001567900",
  "issuerName": "REALLOYS INC.",
- "builtAt": "2026-11-16T05:21:36.393Z",
+ "builtAt": "2026-11-16T10:21:32.505Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005114",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1567900/000143774926005114/blkbx20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blackbox System",
+   "products": [
+    "Options Basic",
+    "Options Plus",
+    "Equities Plus",
+    "Equities and Options Premium",
+    "BlackBox Mobile App",
+    "Blackbox Academy",
+    "Dynamic Discord Community"
+   ],
+   "description": "Subscription analytics and social media platform giving retail stock and options traders real-time proprietary data, community and education.",
+   "evidence": "Blackbox has developed a financial technology and social media hybrid platform offering real-time proprietary analytics and news for stock and options traders of all levels combined with a social media element and educational materials."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Members pay monthly or annual subscription fees for access to the platform's real-time analytics, social media community and educational programs.",
+  "evidence": "We generate revenue from a software as a service (or SaaS) model whereby members pay either an annual or monthly fee for a subscription to our platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

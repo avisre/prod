@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001546417",
  "issuerName": "BLOOMIN’ BRANDS, INC.",
- "builtAt": "2026-11-16T05:21:34.849Z",
+ "builtAt": "2026-11-16T10:20:05.878Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001546417-26-000009",
@@ -10,11 +10,40 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1546417/000154641726000009/blmn-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "Outback Steakhouse",
+    "Carrabba's Italian Grill",
+    "Bonefish Grill",
+    "Fleming's Prime Steakhouse & Wine Bar"
+   ],
+   "description": "Operates Outback Steakhouse, Carrabba's Italian Grill, Bonefish Grill and Fleming's Prime Steakhouse & Wine Bar restaurants in the United States, serving guests in restaurant and off premises.",
+   "evidence": "We aggregate our U.S. operating segments into the U.S. reportable segment."
+  },
+  {
+   "name": "International Franchise",
+   "products": [
+    "Outback Steakhouse",
+    "Abbraccio Cucina Italiana"
+   ],
+   "description": "Franchises the company's restaurant concepts outside the United States, earning royalties and fees from franchise partners in international markets.",
+   "evidence": "As of December 28, 2025, our international franchise segment includes 355 franchised restaurants across 11 countries and Guam."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Guests pay Company-owned restaurants for food and beverages, while franchisees pay initial franchise fees and monthly royalties, advertising and administration fees.",
+  "evidence": "We generate our revenues from our Company-owned restaurants and through sales of franchise rights and ongoing royalties and other fees from our franchised restaurants."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold majority ownership of its Brazil operations while retaining a minority interest, so those restaurants became unconsolidated franchisees.",
+   "evidence": "On December 30, 2024, we sold 67% of our Brazil operations (the \"Brazil Sale Transaction\") and retained a 33% interest."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

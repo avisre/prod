@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001035092",
  "issuerName": "SHORE BANCSHARES, INC.",
- "builtAt": "2026-11-16T05:21:34.672Z",
+ "builtAt": "2026-11-16T10:19:31.888Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001035092-26-000014",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1035092/000103509226000014/shbi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "commercial checking",
+    "savings",
+    "certificates of deposit",
+    "commercial lending",
+    "letters of credit",
+    "Treasury management services",
+    "trust administration",
+    "wealth management"
+   ],
+   "description": "Community bank providing commercial and consumer banking, lending, treasury management, trust and wealth management services to individuals and businesses in Maryland, Delaware and Virginia.",
+   "evidence": "As of December 31, 2025, the Company had one operating segment, the banking segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Individuals, businesses and organizations pay the Bank for deposit accounts, loans, treasury management, trust and wealth management services.",
+  "evidence": "The Bank provides consumer and commercial banking products and services and secondary mortgage lending, trust, wealth management and financial planning services."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company discontinued real estate closing and title services as its title insurance subsidiary ceased conducting real estate closings.",
+   "evidence": "The Title Company ceased conducting real estate closings effective March 31, 2025."
+  },
+  {
+   "text": "In 2023 the Company discontinued issuing new marine loans and only services the existing portfolio.",
+   "evidence": "The Company discontinued the issuance of new marine loans in June 2023 and only services the existing portfolio as of December 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

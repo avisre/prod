@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000915840",
  "issuerName": "BEAZER HOMES USA INC",
- "builtAt": "2026-11-16T05:21:35.058Z",
+ "builtAt": "2026-11-16T10:20:44.390Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000915840-25-000075",
@@ -10,10 +10,47 @@
   "filingDate": "2025-11-13",
   "url": "https://www.sec.gov/Archives/edgar/data/915840/000091584025000075/bzh-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "West",
+   "products": [
+    "single-family homes",
+    "condominiums",
+    "villas",
+    "duets"
+   ],
+   "description": "Develops, builds and sells new homes to homebuyers in Arizona, California, Nevada and Texas markets.",
+   "evidence": "West Segment: Net new orders for the year ended September 30, 2025 was 2,365, down 14.1% from the year ended September 30, 2024."
+  },
+  {
+   "name": "East",
+   "products": [
+    "single-family homes",
+    "condominiums",
+    "villas",
+    "duets"
+   ],
+   "description": "Develops, builds and sells new homes to homebuyers in Indiana, Maryland/Delaware, New Jersey, Tennessee and Virginia markets.",
+   "evidence": "East Segment: Homebuilding revenue increased by 19.0% for the fiscal year ended September 30, 2025 compared to the prior fiscal year due to an 11.1% increase in closings as well as a 7.1% increase in ASP."
+  },
+  {
+   "name": "Southeast",
+   "products": [
+    "single-family homes",
+    "condominiums",
+    "villas",
+    "duets"
+   ],
+   "description": "Develops, builds and sells new homes to homebuyers in Florida, Georgia, North Carolina and South Carolina markets.",
+   "evidence": "The Company's entire goodwill balance is recorded in our Southeast reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Homebuyers pay Beazer for new homes, with most of them financing the purchase through third-party Choice Lenders rather than Beazer.",
+  "evidence": "Most of our buyers either require or opt into financing to purchase a new home."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

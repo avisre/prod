@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001092796",
  "issuerName": "Smith & Wesson Brands, Inc.",
- "builtAt": "2026-11-16T05:21:34.750Z",
+ "builtAt": "2026-11-16T10:20:09.577Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-274254",
@@ -10,10 +10,26 @@
   "filingDate": "2026-06-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1092796/000119312526274254/swbi-20260430.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "firearms",
+   "products": [
+    "firearm-related products",
+    "M&P branded pistol products",
+    "M&P Shield",
+    "Performance Center",
+    "Gemtech Suppressors"
+   ],
+   "description": "Designs, manufactures, and sells a variety of firearms and firearm-related products under its Smith & Wesson and Gemtech brands.",
+   "evidence": "We operate our business as one operating segment, which also represents one reportable segment: firearms."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Commercial distributors and business-to-business customers pay the company for firearms and firearm-related products.",
+  "evidence": "our belief that business-to-business sales provide profitable revenue stream diversification and enable us to maximize capacity utilization of our manufacturing assets"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001958086",
  "issuerName": "CORE LABORATORIES INC.",
- "builtAt": "2026-11-16T05:21:35.161Z",
+ "builtAt": "2026-11-16T10:20:40.809Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-118177",
@@ -10,10 +10,44 @@
   "filingDate": "2026-03-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1958086/000119312526118177/clb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Reservoir Description",
+   "products": [
+    "laboratory-based analytical and field services",
+    "proprietary and joint industry studies",
+    "associated laboratory equipment",
+    "NITRO SM services",
+    "Advanced Rock Typing",
+    "World Wide Rock Catalog",
+    "RAPID TM database",
+    "CONNECT"
+   ],
+   "description": "Characterizes reservoir rock and reservoir fluids for oil and gas clients, supporting production, recovery, carbon capture and energy transition projects.",
+   "evidence": "Encompasses the characterization of petroleum reservoir rock and reservoir fluids samples to increase production and improve recovery of crude oil and natural gas from our clients' reservoirs."
+  },
+  {
+   "name": "Production Enhancement",
+   "products": [
+    "perforating charges",
+    "Oriented perforating systems",
+    "plug and abandonment perforating systems",
+    "casing patches",
+    "diagnostic services",
+    "Chemical frac water tracing services",
+    "Reservoir Optimized Completions Lab",
+    "high-performance perforating products"
+   ],
+   "description": "Provides well completion, perforation, stimulation and abandonment services and manufactured perforating products to oil and gas operators worldwide.",
+   "evidence": "Includes services and manufactured products associated with reservoir well completions, perforations, stimulation, production and well abandonment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Oil and gas industry clients pay Core Lab for reservoir characterization services and for manufactured products that improve reservoir performance and increase recovery.",
+  "evidence": "We derive our revenue from services and product sales to clients primarily in the oil and gas and associated industries."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

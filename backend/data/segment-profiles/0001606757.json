@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001606757",
  "issuerName": "KIMBALL ELECTRONICS, INC.",
- "builtAt": "2026-11-16T05:21:36.944Z",
+ "builtAt": "2026-11-16T10:22:08.757Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001606757-26-000032",
@@ -10,10 +10,29 @@
   "filingDate": "2026-08-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1606757/000160675726000032/ke-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Unit Operations",
+   "products": [
+    "printed circuit board assemblies (PCBAs)",
+    "high-level and final assembly",
+    "medical devices",
+    "medical disposables",
+    "precision molded plastics",
+    "drug delivery devices and solutions",
+    "clean room assembly",
+    "complete product life cycle management"
+   ],
+   "description": "Contract manufacturing of electronic assemblies, medical devices, medical disposables and precision molded plastics for automotive, medical and industrial customers worldwide.",
+   "evidence": "All of our operating segments have similar long-term economic characteristics, and as such, have been aggregated into one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay on a contract basis for contract manufacturing services, engineering and supply chain support, and products built to their specifications.",
+  "evidence": "We offer our services globally on a contract basis, and we manufacture products to our customers' specifications."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

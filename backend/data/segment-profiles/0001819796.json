@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819796",
  "issuerName": "GCM Grosvenor Inc.",
- "builtAt": "2026-11-16T05:21:35.521Z",
+ "builtAt": "2026-11-16T10:20:25.084Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001819796-26-000010",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1819796/000181979626000010/gcm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alternative Asset Management",
+   "products": [
+    "Customized separate accounts",
+    "Specialized funds",
+    "primary fund investments",
+    "secondaries",
+    "co-investments",
+    "seeding",
+    "direct investing"
+   ],
+   "description": "Alternative asset manager investing across private markets and absolute return strategies for institutional and individual clients.",
+   "evidence": "We have determined that we operate in a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay management fees on committed or invested capital and net asset value, plus incentive fees including carried interest and performance fees.",
+  "evidence": "We generate revenues from management fees and incentive fees, which includes carried interest and performance fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

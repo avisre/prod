@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001071236",
  "issuerName": "Red River Bancshares, Inc.",
- "builtAt": "2026-11-16T05:21:37.616Z",
+ "builtAt": "2026-11-16T10:22:30.775Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001071236-26-000027",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1071236/000107123626000027/rrbi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking operations",
+   "products": [
+    "banking products and services",
+    "treasury management services",
+    "private banking products and services",
+    "Commercial Real Estate Loans (Owner Occupied)",
+    "Commercial Real Estate Loans (Non-Owner Occupied)",
+    "one-to-four family mortgage loans",
+    "home equity lines of credit",
+    "construction and development loans"
+   ],
+   "description": "Red River Bank's banking operations, providing lending, deposit and treasury management services to commercial and retail customers across Louisiana markets.",
+   "evidence": "Accordingly, all of the Company's banking operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Commercial and retail customers pay the Bank for loans, deposits, treasury management and related banking services.",
+  "evidence": "Through our wholly owned subsidiary, Red River Bank, a Louisiana state-chartered bank, we provide a fully integrated suite of banking products and services tailored to the needs of our commercial and retail customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

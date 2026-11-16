@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001710350",
  "issuerName": "Bit Digital, Inc.",
- "builtAt": "2026-11-16T05:21:34.331Z",
+ "builtAt": "2026-11-16T10:20:00.291Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-035544",
@@ -10,11 +10,60 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026035544/ea0279621-10k_bitdigit.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "digital asset mining",
+   "products": [
+    "bitcoin"
+   ],
+   "description": "Generates revenue from bitcoin the Company earns through its own mining activities, an operation now being wound down.",
+   "evidence": "The digital asset mining segment generates revenue from the bitcoin the Company earns through its mining activities."
+  },
+  {
+   "name": "cloud services",
+   "products": [
+    "high performance computing services",
+    "HPC data center services",
+    "generative AI workstreams"
+   ],
+   "description": "Provides high performance computing and cloud services to customers running generative AI workloads.",
+   "evidence": "The Company provides cloud services to support customers' generative AI workstreams."
+  },
+  {
+   "name": "colocation services",
+   "products": [
+    "HPC data centers",
+    "dense capacity"
+   ],
+   "description": "Operates HPC data centers and provides colocation services to customers needing energy and dense capacity.",
+   "evidence": "We assigned the goodwill to our colocation reportable segment."
+  },
+  {
+   "name": "ETH Staking",
+   "products": [
+    "native staking",
+    "liquid staking"
+   ],
+   "description": "Participates in Ethereum proof-of-stake by delegating its ETH to third-party validators to earn staking rewards.",
+   "evidence": "The Ethereum staking segment generates revenue from both native staking and liquid staking."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers and protocols pay the company for bitcoin mining, high performance computing and cloud services, colocation capacity, and Ethereum staking rewards.",
+  "evidence": "The Company recognizes revenue when it transfers its goods and services to customers in an amount that reflects the consideration to which the Company expects to be entitled in such exchange."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company announced a strategic transition to a pure play ETH staking and treasury company, winding down bitcoin mining.",
+   "evidence": "In June 2025, the Company announced that it had initiated a strategic transition to become a pure play ETH staking and treasury company."
+  },
+  {
+   "text": "In 2025 the Company contributed its HPC business to majority-owned WhiteFiber, which completed an initial public offering.",
+   "evidence": "On August 8, 2025, WhiteFiber completed its initial public offering (\"IPO\") of its ordinary shares."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

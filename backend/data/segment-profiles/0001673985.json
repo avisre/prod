@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001673985",
  "issuerName": "AdvanSix Inc.",
- "builtAt": "2026-11-16T05:21:37.311Z",
+ "builtAt": "2026-11-16T10:22:16.894Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001673985-26-000008",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1673985/000167398526000008/asix-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "chemical manufacturing",
+   "products": [
+    "Nylon 6 resin",
+    "Caprolactam",
+    "ammonium sulfate",
+    "acetone",
+    "phenol",
+    "AMS",
+    "cyclohexanone",
+    "oximes"
+   ],
+   "description": "Integrated chemical manufacturing segment supplying nylon solutions, plant nutrients and chemical intermediates to customers in construction, fertilizer, agrochemical, plastics, packaging and coatings end markets.",
+   "evidence": "The Company has concluded that it is a single operating segment and a single reportable segment: chemical manufacturing."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in building and construction, fertilizers, agrochemicals, plastics, solvents, packaging, paints, coatings and adhesives pay AdvanSix for nylon solutions, plant nutrients and chemical intermediates.",
+  "evidence": "The chemical manufacturing segment derives its revenues by innovating and delivering essential products in the industries of nylon solutions, plant nutrients, and chemical intermediates to its customers in a wide variety of end markets and applications, such as building and construction, fertilizers, agrochemicals, plastics, solvents, packaging, paints, coatings, adhesives and electronics."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

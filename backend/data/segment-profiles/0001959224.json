@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001959224",
  "issuerName": "Solowin Holdings, Ltd.",
- "builtAt": "2026-11-16T05:21:35.453Z",
+ "builtAt": "2026-11-16T10:20:37.616Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-084178",
@@ -10,11 +10,48 @@
   "filingDate": "2026-08-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1959224/000121390026084178/ea0298409-20f_solowin.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Asset Tokens",
+   "products": [
+    "Interest income",
+    "Tokenization service fee",
+    "Transaction service fee",
+    "Asset management service fee",
+    "Consultancy service fee"
+   ],
+   "description": "Provides RWA tokenization, securities brokerage and transaction services, asset management and consultancy to clients trading tokenized products on chains.",
+   "evidence": "the Company has reorganized its business segments which now consist of two reportable segments: (i) Digital Asset Tokens, and (ii) AI Tokens (\"Segment Reorganization\")."
+  },
+  {
+   "name": "AI Tokens",
+   "products": [
+    "AI infrastructure service fee"
+   ],
+   "description": "Provides enterprise customers with end-to-end cloud and digital application solutions through an integrated service model.",
+   "evidence": "introduced a new segment, \"AI Tokens\" containing \"AI infrastructure service fee\"."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay fees for tokenization projects, securities transactions, asset management, consultancy and AI infrastructure services, including related party clients.",
+  "evidence": "Provides an integrated service model that provides enterprise customers with end-to-end cloud and digital application solutions."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the Company reorganized its business segments, which now consist of two reportable segments, Digital Asset Tokens and AI Tokens.",
+   "evidence": "With the recent developments in the Company's business, the Company has reorganized its business segments which now consist of two reportable segments: (i) Digital Asset Tokens, and (ii) AI Tokens (\"Segment Reorganization\")."
+  },
+  {
+   "text": "In 2026 the former investment advisory fees and corporate consultancy service income were combined as Consultancy service fee.",
+   "evidence": "combined the former \"Investment advisory fees\" and \"Corporate consultancy service income\" as \"Consultancy service fee\"."
+  },
+  {
+   "text": "In 2026 the former securities and virtual assets brokerage commissions and handling income and referral income were combined as Transaction service fee.",
+   "evidence": "combined the former \"Securities and virtual assets brokerage commissions and handling income\" and \"Referral income\" as \"Transaction service fee\"."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

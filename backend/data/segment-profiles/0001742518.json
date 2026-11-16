@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001742518",
  "issuerName": "MMTEC, INC.",
- "builtAt": "2026-11-16T05:21:37.094Z",
+ "builtAt": "2026-11-16T10:22:06.812Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-039499",
@@ -10,11 +10,39 @@
   "filingDate": "2026-04-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1742518/000121390026039499/ea0284046-20f_mmtecinc.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Market data services and consulting services",
+   "products": [
+    "market data services",
+    "consulting services"
+   ],
+   "description": "Provides market data services and consulting services to customers through Gujia, MM Future and HC Securities.",
+   "evidence": "Gujia, MM Future and HC Securities, which provide market data services and consulting services"
+  },
+  {
+   "name": "Introducing broker services",
+   "products": [
+    "commission income",
+    "placement agent services fee",
+    "other related income"
+   ],
+   "description": "Acts as an introducing broker, clearing all transactions through a clearing broker dealer and earning fees from customers.",
+   "evidence": "MM Global, which operates as an introducing broker that clears all transactions through a clearing broker dealer and earns commission income, placement agent services fee and other related income from customers"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay MM Global for introducing broker commission income, placement agent services and other related income, while the market data and consulting entities charge clients for their services.",
+  "evidence": "our fully owned subsidiary, MM Global, operates as a securities broker-dealer, generated Placement agent services revenue of $807,500 and $1,860,000, and other related revenue of nil and $8,333, for the years ended December 31, 2025 and 2024, respectively"
+ },
+ "changes": [
+  {
+   "text": "Alpha Mind, a subsidiary acquired in 2023, was sold later that same year.",
+   "evidence": "Our net income for the year ended December 31, 2023 was primarily attributable to Alpha Mind, a subsidiary we acquired in June 2023 and sold in December 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

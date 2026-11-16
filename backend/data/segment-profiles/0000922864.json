@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000922864",
  "issuerName": "Apartment Investment and Management Company",
- "builtAt": "2026-11-16T05:21:37.765Z",
+ "builtAt": "2026-11-16T10:22:47.869Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-085547",
@@ -10,11 +10,59 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/922864/000119312526085547/aiv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development",
+   "products": [
+    "properties that are under construction or have not achieved stabilization",
+    "land held for development",
+    "34th Street",
+    "Upton Place",
+    "Strathmore Square",
+    "Oak Shore",
+    "Bioscience 4",
+    "One Edgewater"
+   ],
+   "description": "Owns and develops multifamily apartment communities under construction or not yet stabilized, plus land held for development in U.S. markets.",
+   "evidence": "Our Development segment consists of properties that are under construction or have not achieved stabilization, as well as land held for development."
+  },
+  {
+   "name": "Operating",
+   "products": [
+    "residential apartment communities",
+    "apartment homes",
+    "Hillmeade",
+    "Plantation Gardens"
+   ],
+   "description": "Owns and operates stabilized residential apartment communities leased to residents in U.S. markets until assets are sold.",
+   "evidence": "Our Operating segment includes 15 residential apartment communities that have achieved stabilized levels of operations as of January 1, 2024, and maintained it throughout the current year and comparable period."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "The Benson Hotel",
+    "food and beverage sales"
+   ],
+   "description": "Holds properties outside Development and Operating, principally The Benson Hotel, Aimco's only hotel.",
+   "evidence": "Our Other segment includes The Benson Hotel, our only hotel."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Residents pay rent for apartment homes in stabilized communities, hotel guests pay for rooms and food and beverage, and buyers pay for development land and properties.",
+  "evidence": "Revenue for our Operating segment was $72.5 million, up 1.2% year over year, resulting from a $56 increase in average monthly revenue per apartment home to $2,495 offset by a decrease in Average Daily Occupancy of 100-basis points to 96.0%."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the five Boston portfolio properties were reclassified as discontinued operations after previously being reported in the Operating segment.",
+   "evidence": "During the year ended December 31, 2025, we reclassified as discontinued operations the five properties within our Boston portfolio, which was previously reported within the Operating segment."
+  },
+  {
+   "text": "In 2025 the board approved a plan of sale and liquidation contemplating sale of all company assets and wind-down of the business.",
+   "evidence": "On November 10, 2025, the board of directors of Aimco (the \"Board\") approved a plan of sale and liquidation (the \"Plan of Sale and Liquidation\"), which contemplates the sale or disposition of all the Company's assets, the wind-down of the Company's business and affairs and the termination of the Company's existence by voluntary dissolution in accordance with the Maryland General Corporation Law (the \"MGCL\"), and directed that the Plan of Sale and Liquidation be submitted for approval to the Comp"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
