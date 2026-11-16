@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001944013",
  "issuerName": "CRANE COMPANY",
- "builtAt": "2026-11-16T02:25:48.841Z",
+ "builtAt": "2026-11-16T02:35:34.647Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001944013-26-000095",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1944013/000194401326000095/cr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace & Advanced Technologies",
+   "products": [
+    "pressure sensors",
+    "aircraft braking systems",
+    "power conversion solutions",
+    "lubrication systems"
+   ],
+   "description": "Supplies sensing, braking and power systems for aerospace and defence customers.",
+   "evidence": "We provide mission critical systems that require high reliability and high accuracy, such as pressure sensors for aircraft engine control, aircraft braking systems for commercial aircraft and fighter jets, power conversion solutions for defense and space applications and lubrication systems for the harshest and most hazardous environmental conditions."
+  },
+  {
+   "name": "Process Flow Technologies",
+   "products": [],
+   "description": "Supplies fluid handling and process flow equipment to industrial customers.",
+   "evidence": "Financial information by reportable segment is set forth below: (in millions) December 31"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Aerospace, defence and industrial customers buy its engineered systems and components.",
+  "evidence": "The costs in our business segments are affected by fluctuations in the price of metals such as steel and copper as well as other raw materials such as resin and electronic components; cost are also impacted by imposed tariffs, which are often unpredictable."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "product not in text (Process Flow Technologies): process flow technologies"
+ ],
  "reader": "agent"
 }

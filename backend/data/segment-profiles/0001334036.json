@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001334036",
+ "issuerName": "CROCS, INC.",
+ "builtAt": "2026-11-16T02:36:26.331Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001334036-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1334036/000133403626000006/crox-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Crocs Brand",
+   "products": [
+    "casual footwear"
+   ],
+   "description": "Designs, makes and sells Crocs casual footwear through retail, wholesale and online.",
+   "evidence": "We have two reportable operating segments: the Crocs Brand and the HEYDUDE Brand, which are discussed in more detail in \"Business Segments and Geographic Information\" below."
+  },
+  {
+   "name": "HEYDUDE Brand",
+   "products": [
+    "casual footwear"
+   ],
+   "description": "Designs, makes and sells HEYDUDE footwear through retail, wholesale and online.",
+   "evidence": "We have two reportable operating segments: the Crocs Brand and the HEYDUDE Brand, which are discussed in more detail in \"Business Segments and Geographic Information\" below."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its footwear through retail stores, wholesale partners and e-commerce.",
+  "evidence": "We offer a broad portfolio of all-season products, while remaining true to our core casual footwear heritage."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001058290",
+ "issuerName": "COGNIZANT TECHNOLOGY SOLUTIONS CORPORATION",
+ "builtAt": "2026-11-16T02:36:26.533Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001058290-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1058290/000105829026000008/ctsh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health Sciences",
+   "products": [],
+   "description": "Provides technology and business services to healthcare and life sciences companies.",
+   "evidence": "Reportable Business Segments In 2025, we went to market across four industry-based operating segments, which are our four reportable business segments: (i) Health Sciences (HS) (ii) Financial Services (FS) (iii) Products and Resources (P&R) and (iv) Communications, Media and Technology (CMT)."
+  },
+  {
+   "name": "Financial Services",
+   "products": [],
+   "description": "Serves banks, insurers, capital markets and payments companies with technology services.",
+   "evidence": "Our FS segment includes banking, capital markets, payments and insurance companies."
+  },
+  {
+   "name": "Products and Resources",
+   "products": [],
+   "description": "Serves manufacturers, retailers, energy and logistics companies.",
+   "evidence": "Our P&R segment includes manufacturers, automakers, retailers, consumer goods companies, aerospace and defense companies, and travel and hospitality companies, as well as businesses providing logistics, energy and utility services."
+  },
+  {
+   "name": "Communications, Media and Technology",
+   "products": [],
+   "description": "Serves communications, media, education and technology companies.",
+   "evidence": "Our CMT segment includes global communications, media and entertainment, education, publishing, information and professional services and technology companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Large companies pay for technology consulting, platforms and managed services.",
+  "evidence": "As an AI builder, we provide deep expertise at the intersection of industry and technology, combining our perspective with extensive knowledge of our clients' organizations to build industry-specific platforms and incorporate context into systems, AI models and custom solutions."
+ },
+ "changes": [
+  {
+   "text": "Went to market in 2025 across four industry-based reportable segments.",
+   "evidence": "Reportable Business Segments In 2025, we went to market across four industry-based operating segments, which are our four reportable business segments: (i) Health Sciences (HS) (ii) Financial Services (FS) (iii) Products and Resources (P&R) and (iv) Communications, Media and Technology (CMT)."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

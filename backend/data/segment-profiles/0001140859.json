@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001140859",
  "issuerName": "CENCORA, INC.",
- "builtAt": "2026-11-16T02:25:48.310Z",
+ "builtAt": "2026-11-16T02:35:34.478Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001140859-25-000131",
@@ -10,10 +10,33 @@
   "filingDate": "2025-11-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1140859/000114085925000131/cor-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Healthcare Solutions",
+   "products": [
+    "pharmaceutical distribution",
+    "specialty pharmaceuticals",
+    "value-added services and solutions"
+   ],
+   "description": "Distributes pharmaceuticals and provides services to United States healthcare providers.",
+   "evidence": "human health distribution businesses, including specialty pharmaceuticals, anchor our growth and position in the pharmaceutical supply chain as we provide distribution services and deliver value-added solutions that improve the efficiency and competitiveness of both healthcare providers and pharmaceutical manufacturers, ultimately driving better healthcare for patients."
+  },
+  {
+   "name": "International Healthcare Solutions",
+   "products": [
+    "international pharmaceutical wholesale",
+    "global commercialization services"
+   ],
+   "description": "Distributes pharmaceuticals and provides commercialisation services outside the United States.",
+   "evidence": "The International Healthcare Solutions reportable segment consists of businesses that focus on international pharmaceutical wholesale and related service operations and global commercialization services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Pharmacies, health systems and drug makers pay for distribution and value-added services.",
+  "evidence": "We offer a broad range of services to our customers designed to enhance the efficiency and effectiveness of their operations, which allow them to improve the delivery of healthcare to patients and to lower overall costs in the pharmaceutical supply chain."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

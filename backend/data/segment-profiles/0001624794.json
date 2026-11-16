@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001624794",
+ "issuerName": "CSW INDUSTRIALS, INC.",
+ "builtAt": "2026-11-16T02:36:26.397Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001624794-26-000027",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1624794/000162479426000027/cswi-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contractor Solutions",
+   "products": [
+    "mechanical products for heating, ventilation, air conditioning and refrigeration",
+    "plumbing products",
+    "grilles, registers and diffusers (\"GRD\")",
+    "building safety solutions"
+   ],
+   "description": "Makes HVAC, plumbing and building products sold through wholesale distributors.",
+   "evidence": "Business Segments Our business is organized into three reportable segments: Contractor Solutions, Specialized Reliability Solutions and Engineered Building Solutions."
+  },
+  {
+   "name": "Specialized Reliability Solutions",
+   "products": [
+    "high-performance specialty lubricants and sealants"
+   ],
+   "description": "Makes specialty lubricants and sealants for industrial and energy customers.",
+   "evidence": "Business Segments Our business is organized into three reportable segments: Contractor Solutions, Specialized Reliability Solutions and Engineered Building Solutions."
+  },
+  {
+   "name": "Engineered Building Solutions",
+   "products": [
+    "building safety solutions"
+   ],
+   "description": "Makes engineered building products for architectural and commercial projects.",
+   "evidence": "Business Segments Our business is organized into three reportable segments: Contractor Solutions, Specialized Reliability Solutions and Engineered Building Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Contractors and distributors buy its HVAC, plumbing, building and reliability products.",
+  "evidence": "These products are distributed through an extensive wholesale distribution network serving the HVAC/R, architecturally-specified buildings products, plumbing, general industrial, energy, rail transportation, mining and electrical end markets."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

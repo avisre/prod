@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001023024",
  "issuerName": "ANI PHARMACEUTICALS, INC",
- "builtAt": "2026-11-16T02:21:13.891Z",
+ "builtAt": "2026-11-16T02:35:08.831Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001023024-26-000014",
@@ -10,8 +10,15 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1023024/000102302426000014/anip-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rare Disease and Brands",
+   "products": [],
+   "description": "Sells branded rare disease and other pharmaceutical products.",
+   "evidence": "The Company is now organized into two operating segments a s follows: • Rare Disease and Brands – Consists of two reporting units, Rare Disease and Brands"
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

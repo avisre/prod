@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001567683",
+ "issuerName": "Clearway Energy, Inc.",
+ "builtAt": "2026-11-16T02:36:26.678Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010952",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1567683/000162828026010952/cwen-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flexible Generation",
+   "products": [
+    "energy",
+    "capacity"
+   ],
+   "description": "Owns and operates flexible natural gas generation sold under contracts.",
+   "evidence": "90 Disaggregated Revenues The following tables represent the Company's disaggregation of revenue from contracts with customers, along with the reportable segment for each category"
+  },
+  {
+   "name": "Renewables & Storage",
+   "products": [
+    "energy",
+    "capacity",
+    "self-generated RECs"
+   ],
+   "description": "Owns wind, solar and storage assets selling energy and renewable credits.",
+   "evidence": "Revenue from the sale of self-generated RECs is recognized when the related energy is generated and simultaneously delivered even in cases where there is a certification lag as it has been deemed to be perfunctory."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Utilities and corporate buyers pay for energy, capacity and renewable credits.",
+  "evidence": "Revenue from the sale of self-generated RECs is recognized when the related energy is generated and simultaneously delivered even in cases where there is a certification lag as it has been deemed to be perfunctory."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

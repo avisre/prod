@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001057352",
+ "issuerName": "CoStar Group, Inc.",
+ "builtAt": "2026-11-16T02:36:26.375Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001057352-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1057352/000105735226000020/csgp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Real Estate",
+   "products": [
+    "CoStar"
+   ],
+   "description": "Sells commercial real estate data, analytics and online marketplaces by subscription.",
+   "evidence": "Services We operate, develop products, and deliver our services in two reportable segments, Commercial Real Estate and Residential Real Estate."
+  },
+  {
+   "name": "Residential Real Estate",
+   "products": [
+    "com",
+    "BureauxLocaux"
+   ],
+   "description": "Runs residential marketplaces and sells marketing and leads to agents and landlords.",
+   "evidence": "Residential Real Estate Our residential marketplaces aggregate consumer demand for homes that they can rent or buy and we sell marketing and leads to the agents, owners, landlords, and property management companies that need to reach those consumers with their offerings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Property professionals pay subscriptions for data and pay for marketing and leads.",
+  "evidence": "CoStar offers subscription-based access to our platform of commercial real estate intelligence with several key features: • Properties - Provides a comprehensive inventory of various property types, including office, industrial, retail, multifamily, hospitality, student housing, and land."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001046311",
  "issuerName": "CHOICE HOTELS INTERNATIONAL INC /DE",
- "builtAt": "2026-11-16T02:24:41.233Z",
+ "builtAt": "2026-11-16T02:35:09.043Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001046311-26-000008",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1046311/000104631126000008/chh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hotel Franchising & Management",
+   "products": [
+    "Clarion®",
+    "Comfort Inn®",
+    "Sleep Inn®",
+    "Quality®",
+    "Cambria® Hotels",
+    "Radisson Blu®",
+    "Econo Lodge®",
+    "Rodeway Inn®"
+   ],
+   "description": "Franchises and manages hotels under its brand families.",
+   "evidence": "Reportable Segment Information The Hotel Franchising & Management reportable segment includes the Company's hotel franchising operations which consists of its 22 brands and brand extensions and the hotel management operations of 13 hotels (inclusive of four owned hotels)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hotel owners pay franchise royalties and fees, and property owners pay management fees.",
+  "evidence": "The 22 brands and brand extensions and hotel management operations are aggregated together within this reportable segment because they have similar economic characteristics, types of customers, distribution channels, and regulatory business environments."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

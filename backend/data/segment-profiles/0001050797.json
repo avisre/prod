@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001050797",
  "issuerName": "COLUMBIA SPORTSWEAR COMPANY",
- "builtAt": "2026-11-16T02:25:48.149Z",
+ "builtAt": "2026-11-16T02:35:34.453Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001050797-26-000028",
@@ -10,10 +10,58 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1050797/000105079726000028/colm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories",
+    "equipment"
+   ],
+   "description": "Sells outdoor apparel, footwear and equipment in the United States.",
+   "evidence": "We sell our products in 115 countries and operate in four reportable segments: U."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories",
+    "equipment"
+   ],
+   "description": "Sells outdoor apparel, footwear and equipment in Canada.",
+   "evidence": "These reportable segments are organized by geographic location."
+  },
+  {
+   "name": "Europe, Middle East and Africa",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories",
+    "equipment"
+   ],
+   "description": "Sells outdoor apparel, footwear and equipment across Europe, the Middle East and Africa.",
+   "evidence": "These reportable segments are organized by geographic location."
+  },
+  {
+   "name": "Latin America and Asia Pacific",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories",
+    "equipment"
+   ],
+   "description": "Sells outdoor apparel, footwear and equipment in Latin America and Asia Pacific.",
+   "evidence": "These reportable segments are organized by geographic location."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Shoppers and retailers buy its outdoor apparel, footwear and equipment through several channels.",
+  "evidence": "Each reportable segment operates predominantly in one industry: the design, development, marketing, and distribution of outdoor, active and lifestyle products, including apparel, footwear, accessories, and equipment."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

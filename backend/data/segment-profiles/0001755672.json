@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001755672",
+ "issuerName": "Corteva, Inc.",
+ "builtAt": "2026-11-16T02:36:26.546Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001755672-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/ctva-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Seed",
+   "products": [
+    "seed and trait technologies"
+   ],
+   "description": "Sells seed and trait technologies that improve crop resistance and yields.",
+   "evidence": "Segment Reviews The company operates in two reportable segments: Seed and Crop Protection."
+  },
+  {
+   "name": "Crop Protection",
+   "products": [
+    "crop protection solutions",
+    "digital solutions"
+   ],
+   "description": "Sells crop protection products and digital tools to farmers.",
+   "evidence": "The segment offers crop protection solutions and digital solutions that provide farmers the tools they need to improve productivity and profitability, and help keep fields free of weeds, insects and diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Farmers buy its seed and crop protection products to grow crops.",
+  "evidence": "The segment offers seed and trait technologies that improve resistance to weather, diseases, pests and herbicides used to manage weeds."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

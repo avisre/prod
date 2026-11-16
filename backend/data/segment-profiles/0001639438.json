@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001639438",
  "issuerName": "CAVA Group, Inc.",
- "builtAt": "2026-11-16T02:24:40.784Z",
+ "builtAt": "2026-11-16T02:35:08.874Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011296",
@@ -10,10 +10,30 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1639438/000162828026011296/cava-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CAVA",
+   "products": [
+    "CAVA Restaurants"
+   ],
+   "description": "Runs fast-casual CAVA restaurants selling Mediterranean food.",
+   "evidence": "Segments The Company's operations are conducted as two operating segments: CAVA and CAVA Foods."
+  },
+  {
+   "name": "CAVA Foods",
+   "products": [
+    "CPG distribution"
+   ],
+   "description": "Makes and distributes CAVA dips and spreads for retail sale.",
+   "evidence": "Segments The Company's operations are conducted as two operating segments: CAVA and CAVA Foods."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Restaurant guests pay for meals, and retailers buy its packaged foods.",
+  "evidence": "When we open a new restaurant, we host \"Community Days,\" where we provide free meals, and suggest and match donations to benefit local nonprofit partners that focus on underserved neighborhoods."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001108524",
+ "issuerName": "Salesforce, Inc.",
+ "builtAt": "2026-11-16T02:36:26.207Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001108524-26-000060",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852426000060/crm-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "software",
+   "products": [
+    "subscription and support",
+    "professional services"
+   ],
+   "description": "Sells cloud software subscriptions and professional services to businesses worldwide.",
+   "evidence": "Operating Segments We operate as one segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay subscription and support fees, and fees for professional services.",
+  "evidence": "Sources of Revenues We derive our revenues from two sources: (1) subscription and support revenues and (2) professional services and other revenues."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

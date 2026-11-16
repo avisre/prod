@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001091667",
  "issuerName": "Charter Communications, Inc.",
- "builtAt": "2026-11-16T02:25:14.283Z",
+ "builtAt": "2026-11-16T02:35:09.060Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001091667-26-000017",
@@ -10,11 +10,27 @@
   "filingDate": "2026-01-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1091667/000109166726000017/chtr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "broadband connectivity",
+   "products": [
+    "Spectrum Internet",
+    "Spectrum Mobile",
+    "Spectrum TV"
+   ],
+   "description": "Sells broadband, mobile, video and voice services to residential and business customers.",
+   "evidence": "Segment Reporting The Company's operations are managed and reported to its Chief Executive Officer (\"CEO\"), the Company's chief operating decision maker (\"CODM\"), on a consolidated basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Households and businesses pay subscription fees for internet, mobile, video and voice service.",
+  "evidence": "Products and Services We offer our customers subscription-based Internet, mobile, video and voice services, with prices and related charges based on the types of service selected, whether the services are sold as a \"bundle\" or on an individual basis, and based on the equipment necessary to receive our services."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "product not in text (broadband connectivity): Spectrum Voice"
+ ],
  "reader": "agent"
 }

@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000911177",
+ "issuerName": "CASELLA WASTE SYSTEMS, INC.",
+ "builtAt": "2026-11-16T02:36:26.700Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000911177-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/911177/000091117726000008/cwst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Eastern",
+   "products": [
+    "solid waste collection and disposal",
+    "transfer",
+    "recycling",
+    "organics services"
+   ],
+   "description": "Collects, transfers and disposes of solid waste in its eastern region.",
+   "evidence": "We manage our solid waste operations on a geographic basis through three regional operating segments, the Eastern, Western and Mid-Atlantic regions, each of which provides a comprehensive range of non-hazardous solid waste services."
+  },
+  {
+   "name": "Western",
+   "products": [
+    "solid waste collection and disposal",
+    "transfer",
+    "recycling"
+   ],
+   "description": "Provides solid waste services in its western region.",
+   "evidence": "We manage our solid waste operations on a geographic basis through three regional operating segments, the Eastern, Western and Mid-Atlantic regions, each of which provides a comprehensive range of non-hazardous solid waste services."
+  },
+  {
+   "name": "Mid-Atlantic",
+   "products": [
+    "solid waste collection and disposal",
+    "transfer",
+    "recycling"
+   ],
+   "description": "Provides solid waste services in its mid-Atlantic region.",
+   "evidence": "We manage our solid waste operations on a geographic basis through three regional operating segments, the Eastern, Western and Mid-Atlantic regions, each of which provides a comprehensive range of non-hazardous solid waste services."
+  },
+  {
+   "name": "Resource Solutions",
+   "products": [
+    "materials processing",
+    "industrial recycling",
+    "organics",
+    "resource management service offerings"
+   ],
+   "description": "Handles larger recycling, organics and resource management contracts.",
+   "evidence": "We manage our resource renewal operations through the Resource Solutions operating segment, which leverages our core competencies in materials processing, industrial recycling, organics and resource management service offerings to deliver a comprehensive solution for our larger commercial, municipal, institutional and industrial customers that have more diverse waste and recycling needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Households, businesses and municipalities pay for waste collection, disposal and recycling.",
+  "evidence": "We provide resource management expertise and services to residential, commercial, municipal, institutional and industrial customers, primarily in the areas of solid waste collection and disposal, transfer, recycling and organics services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

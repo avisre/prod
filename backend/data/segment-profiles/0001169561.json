@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001169561",
+ "issuerName": "Commvault Systems, Inc.",
+ "builtAt": "2026-11-16T02:36:26.575Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001169561-26-000017",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1169561/000116956126000017/cvlt-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "data protection and cyber resilience",
+   "products": [
+    "software and SaaS",
+    "Enterprise Success Program (\"ESP\")",
+    "architecture design",
+    "data migration"
+   ],
+   "description": "Sells data protection and cyber resilience software, SaaS and support services.",
+   "evidence": "Segment Information We operate as a single reportable segment as we report financial information, including net income determined in accordance with GAAP, among other measures, on a consolidated basis to our Chief Executive Officer, who serves as the Chief Operating Decision Maker (\"CODM\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for software subscriptions, SaaS and support and success services.",
+  "evidence": "We offer various Customer Success options for our software and SaaS customers, including Enterprise Success Program (\"ESP\") offerings."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

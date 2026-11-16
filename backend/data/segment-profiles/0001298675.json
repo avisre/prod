@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001298675",
+ "issuerName": "CUBESMART",
+ "builtAt": "2026-11-16T02:36:26.560Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001298675-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1298675/000129867526000010/cube-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "self-storage",
+   "products": [
+    "climate-controlled units"
+   ],
+   "description": "Owns and operates self-storage properties, renting units to households and businesses.",
+   "evidence": "Accordingly, the self-storage segment is the Company's only reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay rent to lease storage space, and property owners pay management fees.",
+  "evidence": "The self-storage segment derives substantially all of its revenue from customers who lease self-storage space at the Company's self-storage properties and fees earned from managing self-storage properties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

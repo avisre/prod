@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000936395",
  "issuerName": "Ciena Corp",
- "builtAt": "2026-11-16T02:25:14.319Z",
+ "builtAt": "2026-11-16T02:35:09.124Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-25-056698",
@@ -10,10 +10,51 @@
   "filingDate": "2025-12-12",
   "url": "https://www.sec.gov/Archives/edgar/data/936395/000162828025056698/cien-20251101.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Networking Platforms",
+   "products": [
+    "Optical Networking",
+    "Routing and Switching"
+   ],
+   "description": "Builds optical networking and routing platforms for network operators.",
+   "evidence": "Networking Platforms Our Networking Platforms segment consists of our Optical Networking and Routing and Switching portfolios."
+  },
+  {
+   "name": "Platform Software and Services",
+   "products": [
+    "Platform Software",
+    "software subscription services"
+   ],
+   "description": "Sells platform software and related services for network control.",
+   "evidence": "Our portfolio of products and services includes the solutions described below within our Networking Platforms, Platform Software and Services, Blue Planet Automation Software and Services, and Global Services operating segments."
+  },
+  {
+   "name": "Blue Planet Automation Software and Services",
+   "products": [
+    "Blue Planet ® Automation Software"
+   ],
+   "description": "Sells automation software that manages service lifecycles across networks.",
+   "evidence": "Our portfolio of products and services includes the solutions described below within our Networking Platforms, Platform Software and Services, Blue Planet Automation Software and Services, and Global Services operating segments."
+  },
+  {
+   "name": "Global Services",
+   "products": [
+    "consulting",
+    "network migration and integration",
+    "installation and upgrade support services",
+    "technical support"
+   ],
+   "description": "Provides consulting, integration and support services to network operators.",
+   "evidence": "Global Services We offer a broad suite of services that help our customers to build, operate, and improve their networks."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Network operators and cloud providers buy its hardware, software and support services.",
+  "evidence": "We sell our product and service solutions through direct and indirect sales channels to the following customer and market segments: 4 Table of Contents • Cloud Providers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

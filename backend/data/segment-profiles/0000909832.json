@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000909832",
  "issuerName": "COSTCO WHOLESALE CORP /NEW",
- "builtAt": "2026-11-16T02:25:48.327Z",
+ "builtAt": "2026-11-16T02:35:34.497Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000909832-26-000093",
@@ -10,10 +10,48 @@
   "filingDate": "2026-10-07",
   "url": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/cost-20260830.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "Foods and Sundries",
+    "Non-Foods",
+    "Fresh Foods",
+    "gasoline",
+    "pharmacy"
+   ],
+   "description": "Runs membership warehouses and e-commerce in the United States.",
+   "evidence": "Reportable segments are largely based on management's organization of the operating segments for operational decisions and assessments of financial performance, which considers geographic locations."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "Foods and Sundries",
+    "Non-Foods",
+    "Fresh Foods",
+    "gasoline"
+   ],
+   "description": "Runs membership warehouses and e-commerce in Canada.",
+   "evidence": "Reportable segments are largely based on management's organization of the operating segments for operational decisions and assessments of financial performance, which considers geographic locations."
+  },
+  {
+   "name": "Other International",
+   "products": [
+    "Foods and Sundries",
+    "Non-Foods",
+    "Fresh Foods",
+    "gasoline"
+   ],
+   "description": "Runs membership warehouses and e-commerce in its other international markets.",
+   "evidence": "Reportable segments are largely based on management's organization of the operating segments for operational decisions and assessments of financial performance, which considers geographic locations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Members pay an annual fee and buy merchandise and services in its warehouses and online.",
+  "evidence": "General We operate membership warehouses and e-commerce sites based on the concept that offering low prices on a limited selection of nationally-branded and private-label products in a wide range of categories will produce high sales volumes and rapid inventory turnover."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

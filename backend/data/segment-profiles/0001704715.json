@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001704715",
  "issuerName": "ALPHA METALLURGICAL RESOURCES, INC.",
- "builtAt": "2026-11-16T02:20:46.324Z",
+ "builtAt": "2026-11-16T02:35:08.813Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001704715-26-000010",
@@ -10,10 +10,22 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1704715/000170471526000010/amr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Met",
+   "products": [
+    "metallurgical quality coal"
+   ],
+   "description": "Mines metallurgical coal and sells it to steel and coke producers at home and abroad.",
+   "evidence": "The Company has one reportable operating segment: Met, which consists of six active mining complexes whose primary product is metallurgical quality coal that is extracted, processed, and marketed to domestic and international steel and coke producers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Steel and coke producers buy its metallurgical coal, mostly outside the United States.",
+  "evidence": "For the year ended December 31, 2025 we derived 73% of our coal revenues from coal sales made to customers outside the U."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

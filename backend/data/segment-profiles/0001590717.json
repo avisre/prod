@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001590717",
+ "issuerName": "CareTrust REIT, Inc.",
+ "builtAt": "2026-11-16T02:36:26.511Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007664",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1590717/000162828026007664/ctre-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investments in healthcare-related real estate assets",
+   "products": [],
+   "description": "Owns healthcare properties and leases them to operators on triple-net terms.",
+   "evidence": "The Company has one reportable segment consisting of investments in healthcare-related real estate assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare operators pay rent under triple-net leases that make the tenant pay property costs.",
+  "evidence": "We generate revenues primarily by leasing healthcare-related properties to healthcare operators in triple-net lease arrangements, under which the tenant is solely responsible for the costs related to the property (including property taxes, insurance, maintenance and repair costs and capital expenditures, subject to certain exceptions in the case of properties leased to Ensign and Pennant, as defined below)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

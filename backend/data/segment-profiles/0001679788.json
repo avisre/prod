@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001679788",
  "issuerName": "Coinbase Global, Inc.",
- "builtAt": "2026-11-16T02:25:47.991Z",
+ "builtAt": "2026-11-16T02:35:34.433Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001679788-26-000015",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1679788/000167978826000015/coin-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "crypto assets",
+   "products": [
+    "Simple trade",
+    "stablecoins",
+    "onchain staking service",
+    "Coinbase Wallet"
+   ],
+   "description": "Runs a platform where consumers and institutions trade, hold and stake crypto assets.",
+   "evidence": "Our Business We offer products primarily to three customer groups: • Consumers : Retail customers seeking to hold, invest or trade crypto assets, as well as a growing set of trading offerings such as equities, prediction markets, and derivatives."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay transaction fees and commissions, and it earns sequencer and staking fees.",
+  "evidence": "We offer volume-based pricing and charge a transaction fee for executed trades."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

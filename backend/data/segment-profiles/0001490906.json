@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001490906",
  "issuerName": "Capitol Federal Financial, Inc.",
- "builtAt": "2026-11-16T02:24:41.192Z",
+ "builtAt": "2026-11-16T02:35:09.024Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001490906-25-000033",
@@ -10,10 +10,25 @@
   "filingDate": "2025-11-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1490906/000149090625000033/cffn-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking operations",
+   "products": [
+    "deposit accounts",
+    "one- to four-family loan products",
+    "commercial lending",
+    "treasury management services"
+   ],
+   "description": "Runs a community bank taking deposits and making residential and commercial loans.",
+   "evidence": "Segment Information - The Company's banking operations are considered by management to be aggregated in one reportable operating segment in accordance with Financial Accounting Standards Board (\"FASB\") ASC Topic 280."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Depositors and borrowers pay interest and fees on deposit and lending products.",
+  "evidence": "We provide competitive interest rates on both deposit and lending products and offer a full suite of treasury management services to 4 commercial customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

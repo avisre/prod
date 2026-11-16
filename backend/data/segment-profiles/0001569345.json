@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001569345",
+ "issuerName": "Sprinklr, Inc.",
+ "builtAt": "2026-11-16T02:36:26.723Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001569345-26-000015",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1569345/000156934526000015/cxm-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Unified-CXM",
+   "products": [
+    "Unified-CXM platform",
+    "AI capabilities"
+   ],
+   "description": "Sells a customer experience management platform to enterprises on subscription.",
+   "evidence": "Segment and Geographic Information The Company's operations consist of one operating and reportable segment reflecting the manner in which operations are managed and the criteria used by the CODM to evaluate performance, develop strategy, and allocate resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay for cloud software used for marketing, care, sales and engagement.",
+  "evidence": "The Company's one segment provides enterprise cloud software products that enable organizations to do marketing, advertising, research, care, sales and engagement across modern channels including social, messaging, chat and text through its Unified-CXM platform."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

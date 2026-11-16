@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001690820",
+ "issuerName": "CARVANA CO.",
+ "builtAt": "2026-11-16T02:36:26.659Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001690820-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1690820/000169082026000009/cvna-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000900075",
  "issuerName": "COPART, INC.",
- "builtAt": "2026-11-16T02:25:48.435Z",
+ "builtAt": "2026-11-16T02:35:34.638Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-405731",
@@ -10,10 +10,31 @@
   "filingDate": "2026-09-29",
   "url": "https://www.sec.gov/Archives/edgar/data/900075/000119312526405731/cprt-20260731.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "vehicle remarketing services",
+    "VB3"
+   ],
+   "description": "Runs online vehicle auctions for insurers and dealers in the United States.",
+   "evidence": "Our U.S. and International regions are considered two separate operating segments and are disclosed as two reportable segments"
+  },
+  {
+   "name": "International",
+   "products": [
+    "vehicle remarketing services"
+   ],
+   "description": "Runs vehicle auctions and remarketing services outside the United States.",
+   "evidence": "Our U.S. and International regions are considered two separate operating segments and are disclosed as two reportable segments"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Vehicle sellers and buyers pay auction and related service fees.",
+  "evidence": "We provide vehicle sellers with a full range of services to process and sell vehicles primarily over the internet through our Virtual Bidding Third Generation internet auction-style sales technology, which we refer to as VB3."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001024305",
  "issuerName": "COTY INC.",
- "builtAt": "2026-11-16T02:25:48.345Z",
+ "builtAt": "2026-11-16T02:35:34.615Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001024305-26-000048",
@@ -10,10 +10,32 @@
   "filingDate": "2026-08-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1024305/000102430526000048/coty-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prestige",
+   "products": [
+    "Fragrance products",
+    "Color Cosmetic products"
+   ],
+   "description": "Sells prestige fragrances, cosmetics and skincare through prestige retailers and e-commerce.",
+   "evidence": "SEGMENT REPORTING Operating and reportable segments (referred to as \"segments\") reflect the way the Company is managed and for which separate financial information is available and evaluated regularly by the Company's chief operating decision maker (\"CODM\") in deciding how to allocate resources and assess performance."
+  },
+  {
+   "name": "Consumer Beauty",
+   "products": [
+    "Fragrance products",
+    "Color Cosmetic products"
+   ],
+   "description": "Sells mass-market beauty products through retailers and e-commerce.",
+   "evidence": "SEGMENT REPORTING Operating and reportable segments (referred to as \"segments\") reflect the way the Company is managed and for which separate financial information is available and evaluated regularly by the Company's chief operating decision maker (\"CODM\") in deciding how to allocate resources and assess performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retailers and consumers buy its fragrances, cosmetics and body care products.",
+  "evidence": "The prestige products are primarily sold through prestige retailers, including perfumeries, department stores, e-retailers, direct-to-consumer websites and duty-free shops."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
