@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000917851",
+ "issuerName": "VALE S.A.",
+ "builtAt": "2026-11-16T04:46:56.183Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-001844",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Iron Ore Solutions",
+   "products": [
+    "iron ore"
+   ],
+   "description": "Mines and sells iron ore and pellets.",
+   "evidence": "0 VALE ANNUAL REPORT FORM 20-F | 8 Table of Contents BUSINESS OVERVIEW ABOUT US Our business is organized into two operating segments: \"Iron Ore Solutions\" and \"Vale Base Metals."
+  },
+  {
+   "name": "Vale Base Metals",
+   "products": [
+    "nickel",
+    "copper"
+   ],
+   "description": "Mines nickel and copper.",
+   "evidence": "0 VALE ANNUAL REPORT FORM 20-F | 8 Table of Contents BUSINESS OVERVIEW ABOUT US Our business is organized into two operating segments: \"Iron Ore Solutions\" and \"Vale Base Metals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Steelmakers and industrial buyers pay for iron ore and metals.",
+  "evidence": "0 VALE ANNUAL REPORT FORM 20-F | 8 Table of Contents BUSINESS OVERVIEW ABOUT US Our business is organized into two operating segments: \"Iron Ore Solutions\" and \"Vale Base Metals."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

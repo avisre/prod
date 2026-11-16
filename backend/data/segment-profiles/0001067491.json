@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001067491",
+ "issuerName": "INFOSYS LIMITED",
+ "builtAt": "2026-11-16T04:46:58.906Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-270520",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1067491/000119312526270520/infy-20260331.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001552000",
+ "issuerName": "MPLX LP",
+ "builtAt": "2026-11-16T04:46:56.746Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001552000-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1552000/000155200026000009/mplx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural Gas and NGL Services",
+   "products": [
+    "gathering",
+    "treating",
+    "processing",
+    "transportation of natural gas and NGLs"
+   ],
+   "description": "Gathers, treats, processes and transports gas and NGLs.",
+   "evidence": "The Natural Gas and NGL Services segment provides wellhead to market services including gathering, treating, processing and transportation of natural gas and NGLs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Producers and shippers pay gathering, processing and transport fees.",
+  "evidence": "The Natural Gas and NGL Services segment provides wellhead to market services including gathering, treating, processing and transportation of natural gas and NGLs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

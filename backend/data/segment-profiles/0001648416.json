@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001648416",
+ "issuerName": "Ferrari N.V.",
+ "builtAt": "2026-11-16T04:46:56.664Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001648416-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/race-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sports cars",
+   "products": [],
+   "description": "Designs and sells luxury sports cars.",
+   "evidence": "NOTES TO THE CONSOLIDATED FINANCIAL STATEMENTS Segment reporting The Group has determined that it has one operating and one reportable segment based on the information reviewed by the Board of Direct"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy cars, parts and services; sponsors pay for racing.",
+  "evidence": "NOTES TO THE CONSOLIDATED FINANCIAL STATEMENTS Segment reporting The Group has determined that it has one operating and one reportable segment based on the information reviewed by the Board of Direct"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (sports cars): sports cars"
+ ],
+ "reader": "agent"
+}

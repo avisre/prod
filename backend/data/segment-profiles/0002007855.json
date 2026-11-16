@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002007855",
+ "issuerName": "VENTURE GLOBAL, INC.",
+ "builtAt": "2026-11-16T04:47:01.698Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002007855-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/2007855/000200785526000013/vg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sales and shipping",
+   "products": [
+    "LNG"
+   ],
+   "description": "Sells LNG from its liquefaction facilities.",
+   "evidence": "During the year ended December 31, 2025, the Company's sales and shipping business met the criteria to be a reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Buyers pay for LNG under sales agreements.",
+  "evidence": "We sell LNG throughout the full lifecycle of our LNG facilities—during testing and commissioning, operations under contracted sales agreements, and through the sale of excess production capacity."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

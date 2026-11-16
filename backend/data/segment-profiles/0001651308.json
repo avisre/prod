@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001651308",
+ "issuerName": "BEONE MEDICINES LTD.",
+ "builtAt": "2026-11-16T04:47:01.848Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011946",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1651308/000162828026011946/bgne-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

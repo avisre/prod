@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001837240",
+ "issuerName": "SYMBOTIC INC.",
+ "builtAt": "2026-11-16T04:47:01.809Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001837240-25-000278",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1837240/000183724025000278/sym-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "warehouse automation",
+   "products": [
+    "warehouse automation systems"
+   ],
+   "description": "Builds warehouse automation systems.",
+   "evidence": "79 Table of Contents Operating Segments The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors pay for automation systems.",
+  "evidence": "79 Table of Contents Operating Segments The Company operates as one operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

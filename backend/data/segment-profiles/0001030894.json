@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001030894",
+ "issuerName": "CELESTICA INC.",
+ "builtAt": "2026-11-16T04:46:59.951Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001030894-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1030894/000103089426000011/cls-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Connectivity and Cloud Solutions",
+   "products": [
+    "cloud solutions"
+   ],
+   "description": "Makes connectivity and cloud hardware for hyperscalers.",
+   "evidence": "We serve across two operating and reportable segments: Connectivity and Cloud Solutions (CCS) and Advanced Technology Solutions (ATS)."
+  },
+  {
+   "name": "Advanced Technology Solutions",
+   "products": [],
+   "description": "Makes industrial and aerospace electronics.",
+   "evidence": "We serve across two operating and reportable segments: Connectivity and Cloud Solutions (CCS) and Advanced Technology Solutions (ATS)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs and hyperscalers pay for design and manufacturing services.",
+  "evidence": "We operate a network of sites and design centers strategically located in North America, Asia, and Europe."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Connectivity and Cloud Solutions): connectivity solutions",
+  "product not in text (Advanced Technology Solutions): advanced technology solutions"
+ ],
+ "reader": "agent"
+}

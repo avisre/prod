@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001190723",
+ "issuerName": "Tenaris SA",
+ "builtAt": "2026-11-16T04:47:01.743Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001554855-26-000490",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1190723/000155485526000490/ts-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

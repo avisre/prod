@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001132924",
+ "issuerName": "Chunghwa Telecom Co., Ltd.",
+ "builtAt": "2026-11-16T04:47:01.096Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-155848",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1132924/000119312526155848/cht-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "consumer business",
+   "products": [],
+   "description": "Sells telecom services to consumers.",
+   "evidence": "Changes in our revenue composition and sources of revenue growth Our operating segments are (i) consumer business, (ii) enterprise business, (iii) international business and (iv) others."
+  },
+  {
+   "name": "enterprise business",
+   "products": [],
+   "description": "Sells telecom and ICT services to enterprises.",
+   "evidence": "Changes in our revenue composition and sources of revenue growth Our operating segments are (i) consumer business, (ii) enterprise business, (iii) international business and (iv) others."
+  },
+  {
+   "name": "international business",
+   "products": [],
+   "description": "Provides international telecom services.",
+   "evidence": "Changes in our revenue composition and sources of revenue growth Our operating segments are (i) consumer business, (ii) enterprise business, (iii) international business and (iv) others."
+  },
+  {
+   "name": "others",
+   "products": [],
+   "description": "Holds other operations.",
+   "evidence": "Changes in our revenue composition and sources of revenue growth Our operating segments are (i) consumer business, (ii) enterprise business, (iii) international business and (iv) others."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers and enterprises pay for telecom services.",
+  "evidence": "We operate our businesses with approvals (including licenses) granted by the government and we have obtained necessary approvals to provide our services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (consumer business): telecom services",
+  "product not in text (enterprise business): enterprise telecom services",
+  "product not in text (international business): international telecom services"
+ ],
+ "reader": "agent"
+}

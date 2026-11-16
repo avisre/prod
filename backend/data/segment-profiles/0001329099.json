@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001329099",
+ "issuerName": "Baidu, Inc.",
+ "builtAt": "2026-11-16T04:46:59.830Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-109289",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1329099/000119312526109289/d38065d20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0002046386",
+ "issuerName": "Medline Inc.",
+ "builtAt": "2026-11-16T04:47:02.242Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002046386-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2046386/000204638626000009/mdln-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medline Brand",
+   "products": [
+    "med-surg products"
+   ],
+   "description": "Sells its own brand of medical-surgical products.",
+   "evidence": "We have two reportable segments, Medline Brand and Supply Chain Solutions, the combination of which addresses critical needs in the market through a comprehensive solution."
+  },
+  {
+   "name": "Supply Chain Solutions",
+   "products": [],
+   "description": "Provides supply chain and distribution services.",
+   "evidence": "We have two reportable segments, Medline Brand and Supply Chain Solutions, the combination of which addresses critical needs in the market through a comprehensive solution."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and care providers buy products and supply chain services.",
+  "evidence": "Through our two segments, we offer approximately 335,000 med-surg products, including surgical and procedural kits, gloves and protective apparel, urological and incontinence care, wound care, and consumable lab and diagnostics products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Supply Chain Solutions): supply chain services"
+ ],
+ "reader": "agent"
+}

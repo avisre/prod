@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001640147",
+ "issuerName": "SNOWFLAKE INC.",
+ "builtAt": "2026-11-16T04:46:56.572Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001640147-26-000008",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1640147/000164014726000008/snow-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "data cloud",
+   "products": [],
+   "description": "Sells its data cloud platform on consumption.",
+   "evidence": "Segment Information The Company has a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for the compute and storage they consume.",
+  "evidence": "We provide our platform through a customer-centric, consumption-based business model."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (data cloud): data cloud platform"
+ ],
+ "reader": "agent"
+}

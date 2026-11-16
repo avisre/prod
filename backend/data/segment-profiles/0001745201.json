@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001745201",
+ "issuerName": "Viking Holdings Ltd",
+ "builtAt": "2026-11-16T04:47:00.293Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001745201-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1745201/000174520126000007/vik-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "river",
+   "products": [
+    "river cruises"
+   ],
+   "description": "Runs river cruises.",
+   "evidence": "From our iconic journeys on the world's great rivers, including our Mississippi River itineraries, to our ocean voyages around the globe and our extraordinary expeditions to the ends of the earth, we offer meaningful travel experiences on all seven continents in all three categories of the cruise industry—river, ocean and expedition cruising."
+  },
+  {
+   "name": "ocean",
+   "products": [
+    "ocean cruises"
+   ],
+   "description": "Runs ocean cruises.",
+   "evidence": "From our iconic journeys on the world's great rivers, including our Mississippi River itineraries, to our ocean voyages around the globe and our extraordinary expeditions to the ends of the earth, we offer meaningful travel experiences on all seven continents in all three categories of the cruise industry—river, ocean and expedition cruising."
+  },
+  {
+   "name": "expedition",
+   "products": [
+    "expedition cruises"
+   ],
+   "description": "Runs expedition cruises.",
+   "evidence": "From our iconic journeys on the world's great rivers, including our Mississippi River itineraries, to our ocean voyages around the globe and our extraordinary expeditions to the ends of the earth, we offer meaningful travel experiences on all seven continents in all three categories of the cruise industry—river, ocean and expedition cruising."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay cruise fares and onboard spend.",
+  "evidence": "From our iconic journeys on the world's great rivers, including our Mississippi River itineraries, to our ocean voyages around the globe and our extraordinary expeditions to the ends of the earth, we offer meaningful travel experiences on all seven continents in all three categories of the cruise industry—river, ocean and expedition cruising."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

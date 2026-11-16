@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000932787",
+ "issuerName": "STMicroelectronics N.V.",
+ "builtAt": "2026-11-16T04:46:56.557Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000932787-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/932787/000093278726000009/stm-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

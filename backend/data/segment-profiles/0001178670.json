@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001178670",
+ "issuerName": "ALNYLAM PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-16T04:47:00.344Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007497",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1178670/000162828026007497/alny-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RNAi therapeutics",
+   "products": [],
+   "description": "Discovers, develops and sells RNAi medicines.",
+   "evidence": "SEGMENT INFORMATION We operate in a single segment dedicated to the discovery, development, manufacturing and commercialization of RNAi therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and partners pay for its RNAi medicines.",
+  "evidence": "SEGMENT INFORMATION We operate in a single segment dedicated to the discovery, development, manufacturing and commercialization of RNAi therapeutics."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (RNAi therapeutics): RNAi therapeutics"
+ ],
+ "reader": "agent"
+}

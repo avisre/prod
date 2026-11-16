@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "cik": "0001232384",
+ "issuerName": "TC ENERGY CORPORATION",
+ "builtAt": "2026-11-16T04:46:56.150Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001232384-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1232384/000123238426000015/trp-20251231.htm"
+ },
+ "status": "filing-unreadable"
+}

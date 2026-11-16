@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001900304",
+ "issuerName": "Haleon plc",
+ "builtAt": "2026-11-16T04:47:00.067Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-027443",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1900304/000110465926027443/hln-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [],
+   "description": "Sells consumer health brands in North America.",
+   "evidence": "Segment information Throughout 2025, the Group was organised into business units based on geographical areas and has three reportable segments: ​ – North America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and pharmacies buy its consumer health brands.",
+  "evidence": "Segment information Throughout 2025, the Group was organised into business units based on geographical areas and has three reportable segments: ​ – North America."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (North America): consumer healthcare products"
+ ],
+ "reader": "agent"
+}

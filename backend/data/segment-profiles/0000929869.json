@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000929869",
+ "issuerName": "RELX PLC",
+ "builtAt": "2026-11-16T04:46:56.580Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-017277",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/929869/000110465926017277/relx-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001033767",
+ "issuerName": "United Microelectronics Corporation",
+ "builtAt": "2026-11-16T04:46:57.313Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-193757",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1033767/000119312526193757/d91630d20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

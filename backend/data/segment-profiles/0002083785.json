@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002083785",
+ "issuerName": "Sunbelt Rentals Holdings, Inc.",
+ "builtAt": "2026-11-16T04:47:01.588Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-044888",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/2083785/000162828026044888/snblt-20260430.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
