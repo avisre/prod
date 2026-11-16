@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001832332",
  "issuerName": "Aveanna Healthcare Holdings Inc.",
- "builtAt": "2026-11-16T05:07:08.349Z",
+ "builtAt": "2026-11-16T10:04:10.570Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-115851",
@@ -10,10 +10,46 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1832332/000119312526115851/avah-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private Duty Services",
+   "products": [
+    "private duty skilled nursing",
+    "non-clinical services",
+    "support and personal care services",
+    "pediatric therapy services",
+    "rehabilitation services",
+    "nursing services in schools and pediatric day healthcare centers"
+   ],
+   "description": "Provides pediatric and adult private duty nursing, personal care, pediatric therapy, rehabilitation and school nursing to medically complex patients in their homes.",
+   "evidence": "The PDS business includes a broad range of pediatric and adult healthcare services including private duty skilled nursing, non-clinical services, which include support and personal care services, pediatric therapy services, rehabilitation services, and nursing services in schools and pediatric day healthcare centers."
+  },
+  {
+   "name": "Home Health & Hospice",
+   "products": [
+    "home health",
+    "hospice",
+    "personal care services"
+   ],
+   "description": "Delivers home health, hospice and personal care services to predominantly elderly patients in the home.",
+   "evidence": "The HHH business provides home health, hospice, and personal care services to predominately elderly patients."
+  },
+  {
+   "name": "Medical Solutions",
+   "products": [
+    "enteral nutrition",
+    "other products"
+   ],
+   "description": "Delivers enteral nutrition and other medical products to patients.",
+   "evidence": "The MS business includes the delivery of enteral nutrition and other products to patients."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Patients and third-party payers, mainly state Medicaid programs, Medicaid managed care and Medicare, pay for pediatric home care, home health and hospice services and enteral nutrition products.",
+  "evidence": "For the PDS, HHH, and MS businesses, the Company receives payments from the following sources for services rendered: (i) state governments under their respective Medicaid programs"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

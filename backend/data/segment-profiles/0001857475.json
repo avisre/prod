@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001857475",
  "issuerName": "Dole plc",
- "builtAt": "2026-11-16T05:07:12.376Z",
+ "builtAt": "2026-11-16T10:07:50.223Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001857475-26-000028",
@@ -10,11 +10,56 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1857475/000185747526000028/dole-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fresh Fruit",
+   "products": [
+    "bananas",
+    "pineapples",
+    "plantains",
+    "commercial cargo"
+   ],
+   "description": "Grows, sources and distributes bananas, pineapples and plantains from Latin American farms, and offers cargo capacity on its vessels to customers worldwide.",
+   "evidence": "Fresh Fruit: This segment encompasses our market-leading, vertically integrated production and distribution of bananas, pineapples and plantains primarily."
+  },
+  {
+   "name": "Diversified Fresh Produce – EMEA",
+   "products": [
+    "imported and local fresh fruits and vegetables",
+    "holistic fresh produce management solutions"
+   ],
+   "description": "Sells imported and local fresh fruits and vegetables, and manages produce categories, for retail, wholesale, foodservice and e-commerce customers in Europe.",
+   "evidence": "The majority of these businesses sell a variety of imported and local fresh fruits and vegetables via retail, wholesale, foodservice and e-commerce channels across Europe."
+  },
+  {
+   "name": "Diversified Fresh Produce – Americas & ROW",
+   "products": [
+    "avocados",
+    "kiwis",
+    "apples",
+    "berries",
+    "cherries"
+   ],
+   "description": "Markets globally and locally sourced fresh produce, including avocados, kiwis, apples, berries and cherries, to wholesale and retail customers in the Americas.",
+   "evidence": "We market globally and locally sourced fresh produce, including avocados, kiwis, apples, berries and cherries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Grocery stores, wholesalers, foodservice operators, club and convenience stores and distributors pay Dole for fresh fruit and vegetables and for cargo capacity on its vessels.",
+  "evidence": "Our customers include leading grocery stores, wholesalers, mass merchandisers, supercenters, foodservice operators, club stores, convenience stores, distributors and smaller regional customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its Fresh Vegetables division, whose results are now reported as discontinued operations.",
+   "evidence": "The Vegetables Transaction included substantially all of the assets and liabilities of the former Fresh Vegetables segment."
+  },
+  {
+   "text": "In 2024 the company completed the sale of its Progressive Produce business within the Americas & ROW segment.",
+   "evidence": "On March 13, 2024, Dole completed the Progressive Transaction, and the Company concluded that the Progressive Transaction was a triggering event for the Diversified Fresh Produce – Americas & ROW reporting unit."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

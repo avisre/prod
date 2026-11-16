@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001522540",
  "issuerName": "Marqeta, Inc.",
- "builtAt": "2026-11-16T05:07:07.709Z",
+ "builtAt": "2026-11-16T10:03:14.263Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001522540-26-000017",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1522540/000152254026000017/mq-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Card issuing",
+   "products": [
+    "Processing",
+    "Bank and Network Management",
+    "Program Management",
+    "Value Added Services",
+    "Marqeta for Banking",
+    "Marqeta Dashboard",
+    "Marqeta Hub",
+    "TransactPay"
+   ],
+   "description": "Provides a single global cloud-based open API platform for card issuing and transaction processing to businesses launching debit, prepaid and credit programs.",
+   "evidence": "As such, the Company operates as a single operating segment and reporting unit."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay Marqeta for processing card transactions and for card program management and value added services on its platform.",
+  "evidence": "The Company provides a single, global, cloud-based, open API platform for modern card issuing and transaction processing, and primarily earns revenue from processing card transactions for its customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

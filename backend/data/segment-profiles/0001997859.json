@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001997859",
  "issuerName": "WEBTOON Entertainment Inc.",
- "builtAt": "2026-11-16T05:07:07.685Z",
+ "builtAt": "2026-11-16T10:03:28.306Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001997859-26-000028",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1997859/000199785926000028/wbtn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Web-comics",
+   "products": [
+    "Paid Content",
+    "web-novels",
+    "e-books",
+    "advertising services",
+    "IP Adaptations",
+    "Coins",
+    "Fast Pass"
+   ],
+   "description": "Runs a global web-comic and web-novel platform where creators publish serialized stories that readers pay to access.",
+   "evidence": "The Company operates as one reportable segment, which derives its revenue from paid content, advertising, and IP adaptations revenue streams."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Users pay the company for access to Paid Content on its platform, and advertisers pay for advertising services posted on its websites and mobile applications.",
+  "evidence": "The Company primarily generates revenue through its platform by providing users with access to Paid Content, and by providing advertising services on the platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

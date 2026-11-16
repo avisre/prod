@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001581804",
  "issuerName": "NAVIGATOR HOLDINGS LTD",
- "builtAt": "2026-11-16T05:07:10.894Z",
+ "builtAt": "2026-11-16T10:06:37.309Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-017320",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1581804/000162828026017320/nvgs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Seaborne transportation",
+   "products": [
+    "petrochemical gases",
+    "LPG",
+    "ammonia",
+    "ethylene",
+    "ethane",
+    "clean ammonia",
+    "time charters",
+    "voyage charters"
+   ],
+   "description": "Owns and operates liquefied gas carriers, providing seaborne transportation of petrochemical gases, LPG and ammonia to energy companies, industrial users and commodity traders.",
+   "evidence": "We operate in one business segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Energy companies, industrial users and commodity traders pay for international and regional seaborne transportation of petrochemical gases, LPG and ammonia in liquefied form.",
+  "evidence": "We provide international and regional seaborne transportation services of petrochemical gases, LPG and ammonia for energy companies, industrial users and commodity traders."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

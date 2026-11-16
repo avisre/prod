@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001828102",
  "issuerName": "KAROOOOO LTD.",
- "builtAt": "2026-11-16T05:07:10.223Z",
+ "builtAt": "2026-11-16T10:05:35.573Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-066795",
@@ -10,11 +10,48 @@
   "filingDate": "2026-06-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1828102/000121390026066795/ea0293645-20f_karooooo.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cartrack",
+   "products": [
+    "operational intelligence platform",
+    "fleet management",
+    "mobile asset tracking",
+    "workforce management",
+    "video solutions including AI-assisted video",
+    "logistics management",
+    "Cartrack-Tag"
+   ],
+   "description": "Provides an operational intelligence platform giving connected vehicles and equipment customers real-time data analytics on transportation, operations and workflow.",
+   "evidence": "Cartrack is a provider of an operational intelligence platform that maximizes the value of transportation, operations and workflow data by providing insightful real-time data analytics to connected vehicles and equipment."
+  },
+  {
+   "name": "Karooooo Logistics",
+   "products": [
+    "software application",
+    "Delivery-as-a-service",
+    "DaaS"
+   ],
+   "description": "Provides a Delivery-as-a-service software application for large enterprises managing last mile delivery and general operational logistics.",
+   "evidence": "Karooooo Logistics provides a software application enabling the management of last mile B2B delivery and general operational logistics (Delivery-as-a-service or \"DaaS\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers ranging from consumers to large enterprise fleets pay monthly subscription fees for the operational intelligence platform and its connected vehicle and equipment services.",
+  "evidence": "We empower our customers, which range from consumers to large enterprise fleets, with actionable intelligence to enhance profitability, better serve their customers, and strengthen safety and security."
+ },
+ "changes": [
+  {
+   "text": "Carzuka was integrated into the Cartrack segment with effect from financial year 2025.",
+   "evidence": "With effect from financial year 2025, Carzuka has changed the focus of its operations such that the nature of the underlying services offered now aligns with Cartrack's broader operations and has been integrated into that segment accordingly."
+  },
+  {
+   "text": "In the third quarter of FY2024 Carzuka ceased buying second hand vehicles in South Africa.",
+   "evidence": "In the third quarter of FY2024, despite the growth experienced by Carzuka in South Africa, we made the decision to cease buying second hand vehicles in South Africa."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

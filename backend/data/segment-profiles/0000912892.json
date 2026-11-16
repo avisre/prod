@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000912892",
  "issuerName": "Grupo Televisa, S.A.B.",
- "builtAt": "2026-11-16T05:07:09.973Z",
+ "builtAt": "2026-11-16T10:05:36.785Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-052976",
@@ -10,11 +10,39 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/912892/000110465926052976/tv-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telecom",
+   "products": [
+    "Broadband",
+    "Content",
+    "Telephony",
+    "Advertising",
+    "DTH Broadcast Satellite TV",
+    "Enterprise",
+    "izzi",
+    "Sky"
+   ],
+   "description": "Mexican telecom business selling cable, DTH satellite and enterprise services to residential, commercial and enterprise customers.",
+   "evidence": "As of December 31, 2025, we classify our operations into one single business segment Telecom."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Residential and business subscribers pay monthly fees for cable, broadband, telephony and satellite television, and advertisers and enterprises pay for advertising and managed services.",
+  "evidence": "Our cable companies generate revenues from their pay-TV, broadband, internet and telephony services, from additional services such as video on demand, and from sales of advertising to local and national advertisers."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025 the company combined its Cable and Sky businesses into the single Telecom reportable segment.",
+   "evidence": "Beginning in the fourth quarter of 2025, we present the operating results of our Cable and Sky businesses as a single reportable segment."
+  },
+  {
+   "text": "The former Other Businesses segment ceased to be a segment after the 2024 spin-off of the Spun-off Businesses to Ollamani.",
+   "evidence": "As a result, we no longer own the Spun-off Businesses of our former Other Businesses segment, and, beginning with the first quarter of 2024, we began classifying the Spun-off Businesses as a discontinued operation and since then the Other Businesses segment is no longer a business segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

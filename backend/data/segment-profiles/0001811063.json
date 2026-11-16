@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001811063",
  "issuerName": "Nuvation Bio Inc.",
- "builtAt": "2026-11-16T05:07:07.718Z",
+ "builtAt": "2026-11-16T10:03:23.468Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-085584",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1811063/000119312526085584/nuvb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology development",
+   "products": [
+    "IBTROZI",
+    "taletrectinib",
+    "safusidenib",
+    "DOVBLERON®"
+   ],
+   "description": null,
+   "evidence": "The Company manages its operations as a single segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers in the U.S., China and Japan ultimately pay for our oncology therapies, with partners commercializing taletrectinib in their licensed territories.",
+  "evidence": "Substantially all revenues were derived from customers located in the U.S., China and Japan."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

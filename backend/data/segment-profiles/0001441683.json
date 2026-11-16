@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001441683",
  "issuerName": "APPIAN CORPORATION",
- "builtAt": "2026-11-16T05:07:08.546Z",
+ "builtAt": "2026-11-16T10:04:06.900Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001441683-26-000013",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1441683/000144168326000013/appn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Process Automation",
+   "products": [
+    "Appian Cloud",
+    "data fabric",
+    "process mining",
+    "intelligent document processing (IDP)",
+    "robotic process automation (RPA)",
+    "cloud and license subscriptions",
+    "professional services"
+   ],
+   "description": "Provides process automation software and services to large enterprises and governments, helping them design, automate and optimize critical business processes.",
+   "evidence": "We have one operating and one reportable segment, representing our consolidated business that helps organizations design, automate, and optimize important business processes from start to finish."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for cloud and license subscriptions bundled with maintenance and support, and fees for consulting services and training on the platform.",
+  "evidence": "We generate revenue from customers primarily through the sale of cloud and license subscriptions bundled with maintenance and support as well as professional services revenue from fees for our consulting services and training related to our platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

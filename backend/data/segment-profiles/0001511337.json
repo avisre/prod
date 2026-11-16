@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001511337",
  "issuerName": "RLJ LODGING TRUST",
- "builtAt": "2026-11-16T05:07:09.778Z",
+ "builtAt": "2026-11-16T10:05:14.989Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001511337-26-000007",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1511337/000151133726000007/rlj-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hotel",
+   "products": [
+    "room revenue",
+    "food and beverage revenue",
+    "parking fees",
+    "resort fees",
+    "gift shop sales",
+    "other guest service fees"
+   ],
+   "description": "Owns premium-branded, focused-service and compact full-service hotels and rents rooms and sells food and beverage to guests.",
+   "evidence": "However, because each of the hotels has similar economic characteristics, facilities, and services, the hotel properties have been aggregated into a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hotel customers pay for rooms, food and beverage, parking, resort fees, gift shop purchases and other guest services at the company's hotels.",
+  "evidence": "The hotel segment generates room revenue by renting hotel rooms to customers at the Company's hotel properties."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001764046",
  "issuerName": "CLARIVATE PLC",
- "builtAt": "2026-11-16T05:07:07.911Z",
+ "builtAt": "2026-11-16T10:03:38.948Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001764046-26-000019",
@@ -10,11 +10,61 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1764046/000176404626000019/clvt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Academia & Government",
+   "products": [
+    "Web of Science",
+    "Web of Science Research Intelligence",
+    "ProQuest",
+    "Clarivate Academic AI",
+    "Alma",
+    "Vega",
+    "Polaris"
+   ],
+   "description": "Connects trusted scholarly content, library software and AI research assistants to serve universities, academic libraries and government research institutions worldwide.",
+   "evidence": "Universities, funders, and organizations rely on our Web of Science product family to uncover, evaluate, and make evidence-based decisions using our citation network that underpins the research ecosystem."
+  },
+  {
+   "name": "Intellectual Property",
+   "products": [
+    "Derwent Innovation",
+    "Derwent World Patents Index",
+    "CompuMark",
+    "IP Recordals",
+    "RiskMark",
+    "IPfolio",
+    "FoundationIP"
+   ],
+   "description": "Provides intellectual property data, software and expertise to companies, law firms and patent offices managing, protecting and renewing IP assets.",
+   "evidence": "Our IP management software elevates operational performance and simplifies the process of managing valuable patent and brand asset portfolios."
+  },
+  {
+   "name": "Life Sciences & Healthcare",
+   "products": [
+    "Cortellis",
+    "Regulatory Intelligence"
+   ],
+   "description": "Provides AI-powered intelligence platforms and therapeutic area data to pharmaceutical, medical device and biotech customers across the drug development lifecycle.",
+   "evidence": "Our LS&H segment empowers life sciences and healthcare organizations with the contextual intelligence needed to deliver safe, effective, and commercially successful treatments and solutions to patients faster."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers including academic institutions, corporations, law firms, governments and pharmaceutical companies pay mainly through subscriptions, re-occurring renewal services and transactional project fees.",
+  "evidence": "We provide solutions to our customers primarily through subscription arrangements and re-occurring contracts, which provide us with stable revenues and predictable cash flows."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company divested its ScholarOne and Valipat businesses.",
+   "evidence": "As part of our efforts, in 2024 we divested our ScholarOne and Valipat businesses."
+  },
+  {
+   "text": "In 2025 the company began winding down certain product groups within the A&G and LS&H segments.",
+   "evidence": "Complete product group wind-downs started in 2025 within the A&G and LS&H segments, further transitioning from transactional sales to subscriptions."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

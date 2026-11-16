@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000910612",
  "issuerName": "CBL & ASSOCIATES PROPERTIES, INC.",
- "builtAt": "2026-11-16T05:07:10.581Z",
+ "builtAt": "2026-11-16T10:05:57.285Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-087049",
@@ -10,10 +10,75 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/910612/000119312526087049/cbl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Malls",
+   "products": [
+    "enclosed large regional shopping centers",
+    "anchors",
+    "junior anchors",
+    "in-line retail stores",
+    "restaurants",
+    "non-retail tenants"
+   ],
+   "description": "Owns and operates enclosed large regional shopping centers for retail, restaurant and non-retail tenants seeking space in anchored malls.",
+   "evidence": "The malls reporting segment consists of enclosed large regional shopping centers, generally anchored by two or more anchors or junior anchors"
+  },
+  {
+   "name": "Lifestyle centers",
+   "products": [
+    "large open-air centers",
+    "traditional department store anchors",
+    "grocers",
+    "non-traditional anchors",
+    "junior anchors",
+    "in-line and retail stores",
+    "restaurants",
+    "non-retail tenants"
+   ],
+   "description": "Owns and operates large open-air lifestyle centers anchored by department stores, grocers or other anchors, leased to retail and other tenants.",
+   "evidence": "The lifestyle center reporting segment consists of large open-air centers, generally anchored by one or more anchors"
+  },
+  {
+   "name": "Outlet centers",
+   "products": [
+    "open-air centers",
+    "discount or off-price junior anchors",
+    "brand name off-price or discount in-line stores"
+   ],
+   "description": "Owns and operates open-air outlet centers anchored by discount or off-price junior anchors and leased to brand name off-price stores.",
+   "evidence": "The outlet center reporting segment consists of open-air centers, generally anchored by one or more discount or off-price junior anchors"
+  },
+  {
+   "name": "Open-air centers",
+   "products": [
+    "supermarkets",
+    "value-priced stores",
+    "big-box retailers",
+    "traditional department stores"
+   ],
+   "description": "Owns and operates open-air shopping centers anchored by supermarkets, value-priced stores, big-box retailers or traditional department stores, often near its malls.",
+   "evidence": "The open-air centers reporting segment is typically anchored by a combination of supermarkets, value-priced stores, big-box retailers or traditional department stores"
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "outparcels",
+    "office buildings",
+    "hotels",
+    "corporate-level debt",
+    "Management Company"
+   ],
+   "description": "Holds outparcels, office buildings, hotels, corporate-level debt and the Management Company, which fees for management, development and leasing services.",
+   "evidence": "The All Other category includes outparcels, office buildings, hotels, corporate-level debt and the Management Company."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Tenants pay rent and reimburse property operating costs under leases at the company's shopping centers and other properties.",
+  "evidence": "Rental income and tenant reimbursements from tenant leases provide the majority of revenues from all segments."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

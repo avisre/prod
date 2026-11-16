@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001708035",
  "issuerName": "Ecovyst Inc.",
- "builtAt": "2026-11-16T05:07:08.933Z",
+ "builtAt": "2026-11-16T10:04:53.081Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001708035-26-000053",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1708035/000170803526000053/ecvt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ecoservices",
+   "products": [
+    "Regenerated sulfuric acid",
+    "Hazardous waste treatment services",
+    "Virgin sulfuric acid for mining",
+    "Virgin sulfuric acid derivatives for industrial production",
+    "Virgin sulfuric acid derivatives for nylon production",
+    "Catalyst activation",
+    "Aluminum sulfate solution",
+    "Ammonium bisulfite solution"
+   ],
+   "description": "Ecoservices provides virgin and regenerated sulfuric acid, regeneration services and hazardous waste treatment to North American refineries and industrial customers.",
+   "evidence": "The Company has identified one reporting unit and one reporting segment, Ecoservices, as of December 31, 2025."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Refiners, mining, industrial and automotive customers pay for sulfuric acid products, regeneration services, waste treatment and catalyst activation, largely under long-term contracts.",
+  "evidence": "We are a leading provider of sulfuric acid recycling (\"regeneration services\") and end-to-end logistics to North American refineries to support the production of alkylate, a high value gasoline blending component required for meeting gasoline specifications and producing premium grade fuel."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold its Advanced Materials & Catalysts segment to Technip Energies N.V., leaving one reportable segment.",
+   "evidence": "Effective on December 31, 2025, we completed the sale of our Advanced Materials & Catalysts segment, which includes our investment in affiliated companies, Zeolyst International and Zeolyst C.V. (collectively, the \"Zeolyst Joint Venture\") to Technip Energies N.V. for a purchase price of $556.0 million, subject to certain adjustments set forth in the agreement."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000921557",
  "issuerName": "REPUBLIC BANCORP, INC.",
- "builtAt": "2026-11-16T05:07:08.795Z",
+ "builtAt": "2026-11-16T10:06:57.707Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-024523",
@@ -10,11 +10,75 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/921557/000110465926024523/rbcaa-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Traditional Banking",
+   "products": [
+    "Retail Mortgage Lending",
+    "Commercial Lending",
+    "Correspondent Lending",
+    "Business Banking",
+    "Private Banking",
+    "HELOCs",
+    "HEALs",
+    "RRE ARMs"
+   ],
+   "description": "Provides traditional banking products and services to customers in the Company's market footprint under the traditional RB&T brand.",
+   "evidence": "The Traditional Banking segment provides traditional banking products and services primarily to customers in the Company's market footprint, with all products and services generally offered under the Company's traditional RB&T brand."
+  },
+  {
+   "name": "Warehouse Lending",
+   "products": [
+    "mortgage warehouse lines of credit",
+    "short-term, revolving credit facilities",
+    "single-family, first-lien RRE loans"
+   ],
+   "description": "Provides short-term, revolving credit facilities to mortgage bankers across the U.S., secured by single-family, first-lien residential real estate loans.",
+   "evidence": "The Core Bank provides short-term, revolving credit facilities to mortgage bankers across the U.S. through mortgage warehouse lines of credit."
+  },
+  {
+   "name": "TRS",
+   "products": [
+    "Net refund transfer fees",
+    "Refund Transfer",
+    "RT",
+    "Tax Providers",
+    "ERA/RA"
+   ],
+   "description": "Tax Refund Solutions: refund transfer products and related tax services for tax providers and their customers.",
+   "evidence": "Republic's internal information is primarily reported and evaluated in five reportable segments: (I) Traditional Banking, (II) Warehouse Lending, (III) TRS, (IV) RPS, and (V) RCS."
+  },
+  {
+   "name": "RPS",
+   "products": [
+    "Program fees"
+   ],
+   "description": "Republic Payment Solutions: payment program services and deposits sourced through partner marketer-servicers.",
+   "evidence": "RPS' largest segment marketer-servicer's ability to meet minimum contractual average deposit thresholds to earn revenue share payments."
+  },
+  {
+   "name": "RCS",
+   "products": [
+    "LOC I",
+    "LOC II",
+    "Program fees"
+   ],
+   "description": "Republic Credit Solutions: LOC I and LOC II credit products within the RPG operations.",
+   "evidence": "Republic's internal information is primarily reported and evaluated in five reportable segments: (I) Traditional Banking, (II) Warehouse Lending, (III) TRS, (IV) RPS, and (V) RCS."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay interest and fees on loans and deposits, while tax and payment program partners pay refund transfer and program fees.",
+  "evidence": "Traditional Banking results of operations are primarily dependent upon net interest income, which represents the difference between the interest income and fees on interest-earning assets and the interest expense on interest-bearing liabilities used to fund those assets."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company dissolved its former insurance captive subsidiary, Republic Insurance Services, Inc.",
+   "evidence": "The Company dissolved Republic Insurance Services, Inc., its former insurance captive subsidiary, in 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001785680",
  "issuerName": "BitVentures Limited",
- "builtAt": "2026-11-16T05:07:07.975Z",
+ "builtAt": "2026-11-16T10:04:07.204Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001437749-26-032751",
@@ -10,11 +10,58 @@
   "filingDate": "2026-10-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1785680/000143774926032751/sant20260630_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "digital assets",
+   "products": [
+    "Bitcoin (SHA-256) mining hardware",
+    "Scrypt-based (Litecoin and Dogecoin) mining hardware",
+    "Bitcoin mining hashrate"
+   ],
+   "description": "Mines Bitcoin and other cryptocurrencies with owned mining hardware hosted at third-party datacenters in the United States.",
+   "evidence": "As of the date of this annual report, the Company has procured approximately 39 PH/s of Bitcoin (SHA-256) mining hardware and 0.3 TH/s of Scrypt-based (Litecoin and Dogecoin) mining hardware."
+  },
+  {
+   "name": "e-commerce",
+   "products": [
+    "consumer electronics",
+    "toys",
+    "other consumer products"
+   ],
+   "description": "Resells high-demand consumer products to online shoppers through its own Amazon storefront.",
+   "evidence": "The Company operated its e-commerce segment under a resale model, offering high-demand products such as consumer electronics, toys, and other consumer products via its storefront on Amazon."
+  },
+  {
+   "name": "client referral services",
+   "products": [
+    "life insurance products",
+    "individual whole life insurance",
+    "individual term life insurance",
+    "universal life insurance",
+    "individual health insurance",
+    "annuity insurance products",
+    "critical illness insurance products"
+   ],
+   "description": "Introduces clients in Hong Kong to external partners offering insurance products.",
+   "evidence": "For the three years ended June 30, 2026, under client referral services, we introduced clients to external financial product partners."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "It is paid referral fees by external financial product partners, sales proceeds by online marketplace customers and mining rewards from digital assets.",
+  "evidence": "Our revenues from continuing operations for the three years ended June 30, 2026 consisted mainly of client referral fees that we obtained for providing client referral services to external financial product partners, e-commerce sales, and digital assets mining activities."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company exited its overseas wealth management and asset management businesses and disposed of its Hong Kong subsidiaries.",
+   "evidence": "On August 14, 2024, the Company completely exited its businesses in overseas wealth management and asset management in Hong Kong, and disposed of certain subsidiaries in Hong Kong"
+  },
+  {
+   "text": "In 2024 the company exited its wealth management business in mainland China by terminating its variable interest entity arrangements.",
+   "evidence": "On June 28, 2024, we exited the wealth management businesses in China by terminating the variable interest entity (\"VIE\") arrangements with Hywin Wealth Management"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

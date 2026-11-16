@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001818331",
  "issuerName": "GeneDx Holdings Corp.",
- "builtAt": "2026-11-16T05:07:10.484Z",
+ "builtAt": "2026-11-16T10:06:47.776Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001818331-26-000015",
@@ -10,11 +10,45 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1818331/000181833126000015/wgs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "GeneDx",
+   "products": [
+    "ExomeDx™",
+    "GenomeDx™",
+    "exome and genome sequencing",
+    "rapid and ultraRapid genomes",
+    "Genomic newborn screening protocols"
+   ],
+   "description": "Provides exome and genome sequencing and interpretation to clinicians diagnosing rare genetic disease in pediatric and adult patients.",
+   "evidence": "With 25 years of operation, GeneDx has a proven track record of expertise in genetic testing, particularly exome and genome testing."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Fabric Genomics",
+    "data and bio pharma programs"
+   ],
+   "description": "Collects non-testing revenue from the Fabric Genomics platform and legacy operations, including data and biopharma programs.",
+   "evidence": "For the year ended December 31, 2025, Other represents revenues of the Fabric Genomics and Legacy Sema4 operating segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Third-party insurers, institutional customers and self-pay patients pay for the Company's diagnostic genetic testing.",
+  "evidence": "The following table summarizes the Company's disaggregated revenue by payor category:"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company's newly acquired Fabric Genomics operating segment began reporting non-testing revenue within Other.",
+   "evidence": "The increase reflects $3.4 million of non-testing revenue from the recently acquired Fabric Genomics operating segment and the continued expansion of data and bio pharma programs."
+  },
+  {
+   "text": "The non-core hereditary cancer tests were phased out by the end of 2025.",
+   "evidence": "This increase was partially offset by lower revenue from non-core hereditary cancer tests, which were phased out by the end of 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

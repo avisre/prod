@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001857816",
  "issuerName": "GIGACLOUD TECHNOLOGY INC",
- "builtAt": "2026-11-16T05:07:11.322Z",
+ "builtAt": "2026-11-16T10:06:32.795Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001857816-26-000018",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1857816/000185781626000018/gct-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B2B ecommerce",
+   "products": [
+    "GigaCloud Marketplace",
+    "GigaCloud 1P",
+    "Off-platform Ecommerce",
+    "Branding-as-a-Service",
+    "on-site service",
+    "virtual warehousing"
+   ],
+   "description": "Runs a business-to-business ecommerce marketplace and logistics network connecting Asian manufacturers with resellers in the U.S., Europe and Japan.",
+   "evidence": "Our B2B ecommerce platform, which we refer to as the \"GigaCloud Marketplace,\" integrates everything from product discovery to payments to logistics tools into one easy-to-use platform."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Manufacturers pay commissions on sales plus warehousing and logistics fees, while buyers and third-party ecommerce websites pay us for products and fulfillment services.",
+  "evidence": "We enter into open-ended framework agreements, terminable by notice from either party, with the manufacturers that act as 3P sellers in our GigaCloud Marketplace that entitle us to a commission on sales, as well as warehousing and logistics fees for storage and shipping across our network."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

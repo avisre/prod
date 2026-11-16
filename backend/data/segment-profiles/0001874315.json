@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001874315",
  "issuerName": "Satellogic Inc.",
- "builtAt": "2026-11-16T05:07:08.382Z",
+ "builtAt": "2026-11-16T10:03:51.318Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001874315-26-000013",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1874315/000187431526000013/satl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Earth observation",
+   "products": [
+    "images",
+    "satellites",
+    "Aleph Observer",
+    "Merlin",
+    "NextGen platform",
+    "Data as a Service"
+   ],
+   "description": "Sells high-resolution Earth observation imagery and analytics, and satellites, to government, defense and commercial customers worldwide.",
+   "evidence": "The Company is organized as one operating segment, which is its reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Governments, defense agencies and commercial customers pay for imagery and monitoring through Data & Analytics, and for satellites and licensing through Space Systems.",
+  "evidence": "The Company's operating segment derives its revenues from the sale of images via Data & Analytics including Constellation as a Service (\"CaaS\") and the sale or licensing of satellites via the Company's Space Systems product line."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

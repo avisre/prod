@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001702750",
  "issuerName": "Byline Bancorp, Inc.",
- "builtAt": "2026-11-16T05:07:09.676Z",
+ "builtAt": "2026-11-16T10:04:50.516Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-083194",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1702750/000119312526083194/by-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking operations",
+   "products": [
+    "term loans",
+    "revolving lines of credit",
+    "fixed and floating rate term loans",
+    "construction financing",
+    "senior secured financing solutions",
+    "treasury management products and services",
+    "non-interest-bearing accounts",
+    "money market demand accounts"
+   ],
+   "description": "Full-service commercial bank lending to small and medium sized businesses, commercial real estate and financial sponsors, and offering deposits and treasury services to consumers.",
+   "evidence": "We have one reportable segment: banking operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers and depositors pay the bank interest, fees and service charges on loans, leases and deposit accounts.",
+  "evidence": "Loans and leases, securities, deposits, and non-interest income provide the revenues of the banking operation."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

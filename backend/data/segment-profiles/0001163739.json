@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001163739",
  "issuerName": "NABORS INDUSTRIES LTD",
- "builtAt": "2026-11-16T05:07:09.491Z",
+ "builtAt": "2026-11-16T10:05:10.080Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-014997",
@@ -10,11 +10,69 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1163739/000110465926014997/nbr-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Drilling",
+   "products": [
+    "land rigs",
+    "offshore platform rigs",
+    "AC-powered land rig"
+   ],
+   "description": "Operates land-based and offshore platform rigs for U.S. oil and gas operators in the major basins and Alaska.",
+   "evidence": "Nabors operates one of the largest land-based drilling rig fleets in the U.S."
+  },
+  {
+   "name": "International Drilling",
+   "products": [
+    "land-based drilling rigs",
+    "platform rigs"
+   ],
+   "description": "Operates land-based and offshore platform rigs for national and independent oil and gas companies in international markets.",
+   "evidence": "We operate in major international oil and gas markets, primarily in the Middle East and Latin America, most notably Saudi Arabia, Kuwait, Argentina, Colombia and Mexico."
+  },
+  {
+   "name": "Drilling Solutions",
+   "products": [
+    "ROCKit®",
+    "SmartNAV™",
+    "SmartSLIDE ™",
+    "RigCLOUD ®",
+    "tubular running services",
+    "managed pressure drilling",
+    "drilling-bit steering systems",
+    "rig instrumentation software"
+   ],
+   "description": "Supplies directional drilling software, steering systems, tubular running and managed pressure drilling services to rig operators.",
+   "evidence": "Nabors Drilling Solutions (\"NDS\") offers specialized drilling technologies, such as proprietary drilling-bit steering systems and rig instrumentation software that enhance drilling performance and reliability, as well as wellbore placement."
+  },
+  {
+   "name": "Rig Technologies",
+   "products": [
+    "Canrig",
+    "top drives",
+    "catwalks",
+    "wrenches",
+    "drawworks",
+    "robotic systems",
+    "downhole tools",
+    "aftermarket sales and services"
+   ],
+   "description": "Manufactures and sells rig components and aftermarket services for onshore and offshore drilling rigs through Canrig.",
+   "evidence": "Our Rig Technologies segment is primarily comprised of Canrig, which manufactures and sells advanced rig components including top drives, catwalks, wrenches, drawworks and other drilling related equipment such as robotic systems and downhole tools, which are installed on both onshore and offshore drilling rigs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Oil and gas companies pay dayrates and additional service fees for rigs, crews, performance software and drilling services.",
+  "evidence": "Our drilling contracts are typically daywork contracts."
+ },
+ "changes": [
+  {
+   "text": "Nabors sold Quail Tools, which had been part of the Drilling Solutions segment, in 2025.",
+   "evidence": "On August 20, 2025, Nabors entered into a definitive agreement to sell Quail Tools to Superior Energy Services, Inc."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

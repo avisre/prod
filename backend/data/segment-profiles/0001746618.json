@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001746618",
  "issuerName": "REVOLVE GROUP, INC.",
- "builtAt": "2026-11-16T05:07:11.691Z",
+ "builtAt": "2026-11-16T10:06:56.365Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-071307",
@@ -10,10 +10,36 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1746618/000119312526071307/rvlv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "REVOLVE",
+   "products": [
+    "apparel",
+    "shoes",
+    "accessories",
+    "beauty products"
+   ],
+   "description": "Offers apparel, shoes, accessories and beauty products for sale to customers through its own website.",
+   "evidence": "We have two reportable segments, REVOLVE and FWRD, each offering apparel, shoes, accessories and beauty products available for sale to customers through their respective websites."
+  },
+  {
+   "name": "FWRD",
+   "products": [
+    "apparel",
+    "shoes",
+    "accessories",
+    "beauty products"
+   ],
+   "description": "Offers apparel, shoes, accessories and beauty products for sale to customers through its own website.",
+   "evidence": "We have two reportable segments, REVOLVE and FWRD, each offering apparel, shoes, accessories and beauty products available for sale to customers through their respective websites."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for apparel, shoes, accessories and beauty products purchased through its websites, with some products also rented by subscription.",
+  "evidence": "We have two reportable segments, REVOLVE and FWRD, each offering apparel, shoes, accessories and beauty products available for sale to customers through their respective websites."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001286613",
  "issuerName": "LINCOLN EDUCATIONAL SERVICES CORPORATION",
- "builtAt": "2026-11-16T05:07:08.896Z",
+ "builtAt": "2026-11-16T10:04:36.798Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001140361-26-007380",
@@ -10,11 +10,45 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1286613/000114036126007380/ef20060592_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Campus Operations",
+   "products": [
+    "Welding Technology",
+    "CNC Machining and Manufacturing",
+    "Automotive Technology",
+    "Diesel & Truck Technology",
+    "HVAC",
+    "Dental Assistant",
+    "Licensed Practical Nursing",
+    "Computer Systems Support Technician"
+   ],
+   "description": "Runs all continuing campuses, offering diploma, certificate and associate degree programs in skilled trades, automotive, health sciences and information technology to students.",
+   "evidence": "Campus Operations - The Campus Operations segment includes campuses that are continuing in operation and contribute to the Company's core operations and performance."
+  },
+  {
+   "name": "Transitional",
+   "products": [],
+   "description": "Held campuses marked for closure, taught out or held for sale; no campuses were classified here at year end.",
+   "evidence": "As of December 31, 2025, the Company had no campuses classified as Transitional."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Students pay tuition and fees for the programs offered, largely funded through government-sponsored student financial aid programs.",
+  "evidence": "Our revenues consist primarily of student tuition and fees derived from the programs we offer."
+ },
+ "changes": [
+  {
+   "text": "The Summerlin, Las Vegas campus, reported in the Transitional segment, was sold in 2025.",
+   "evidence": "The sale of the Summerlin campus was consummated effective January 1, 2025."
+  },
+  {
+   "text": "The Somerville, Massachusetts campus was closed in 2023 and classified in the Transitional segment.",
+   "evidence": "In addition, the Company closed the Somerville, Massachusetts campus in 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

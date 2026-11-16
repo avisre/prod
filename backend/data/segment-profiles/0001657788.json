@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001657788",
  "issuerName": "Kimbell Royalty Partners, LP",
- "builtAt": "2026-11-16T05:07:08.439Z",
+ "builtAt": "2026-11-16T10:04:12.565Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-020477",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1657788/000110465926020477/krp-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral and royalty interests",
+   "products": [
+    "Mineral Interests",
+    "Overriding Royalty Interests",
+    "nonparticipating royalty interests",
+    "oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Owner of mineral and royalty interests across United States oil and natural gas properties, collecting royalties from operators without funding drilling or completion costs.",
+   "evidence": "The Partnership has one business activity as the owner of mineral and royalty interests and operates in a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Operators of the properties produce and sell oil, natural gas and NGLs, and pay the partnership royalty payments on that production.",
+  "evidence": "Our revenues are derived from royalty payments we receive from the operators of our properties based on the sale of oil and natural gas production, as well as the sale of NGLs that are extracted from natural gas during processing."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001487952",
  "issuerName": "Vishay Precision Group, Inc.",
- "builtAt": "2026-11-16T05:07:07.575Z",
+ "builtAt": "2026-11-16T10:03:20.892Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005982",
@@ -10,10 +10,59 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1487952/000143774926005982/vpg20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sensors segment",
+   "products": [
+    "precision resistors",
+    "strain gages",
+    "advanced sensors",
+    "decade boxes",
+    "standard resistors",
+    "VFR",
+    "Alpha Electronics",
+    "Micro-Measurements"
+   ],
+   "description": "Makes precision foil resistors and strain gages, including advanced sensors, for OEMs in industrial, medical, avionics and test applications.",
+   "evidence": "The Sensors segment is comprised of our precision resistor and strain gage businesses."
+  },
+  {
+   "name": "Weighing Solutions segment",
+   "products": [
+    "load cells",
+    "force sensors",
+    "weighing module products",
+    "VPG Transducers",
+    "VPG Onboard Weighing",
+    "BLH Nobel",
+    "Stress-Tek",
+    "Vulcan"
+   ],
+   "description": "Supplies load cells, transducers and weighing modules to industrial, commercial and medical equipment makers and onboard vehicle weighing customers.",
+   "evidence": "The Weighing Solutions segment is comprised of our VPG Transducers, VPG Onboard Weighing, BLH Nobel, Stress-Tek and Vulcan businesses."
+  },
+  {
+   "name": "Measurement Systems segment",
+   "products": [
+    "KELK",
+    "Dynamic Systems Inc.",
+    "Gleeble",
+    "DTS",
+    "Pacific Instruments",
+    "optical and electronic roll force measurement and control equipment",
+    "specialized dynamic thermal-mechanical test and simulation systems",
+    "high-performance signal conditioning, data acquisition and control systems"
+   ],
+   "description": "Builds highly specialized measurement and testing systems for steel production, materials development and safety testing, sold to industrial and research customers.",
+   "evidence": "The Measurement Systems reporting segment is comprised of highly specialized systems for steel production, materials development, and safety testing."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, primarily OEMs, pay for specialty precision sensors, weighing solutions and measurement systems engineered to their own specifications.",
+  "evidence": "Our specialty products are usually designed, or engineered, to meet unique specifications for OEMs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

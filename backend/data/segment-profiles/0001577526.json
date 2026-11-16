@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001577526",
  "issuerName": "C3.ai, Inc.",
- "builtAt": "2026-11-16T05:07:11.649Z",
+ "builtAt": "2026-11-16T10:07:16.532Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001577526-26-000078",
@@ -10,10 +10,26 @@
   "filingDate": "2026-06-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1577526/000157752626000078/ai-20260430.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Enterprise AI software",
+   "products": [
+    "C3 Agentic AI Platform",
+    "C3 AI Studio",
+    "C3 AI Applications",
+    "C3 Generative AI",
+    "C3 Code"
+   ],
+   "description": "Provides an integrated enterprise AI software platform, industry-specific applications and generative AI tools used by organizations to develop, deploy and operate AI applications.",
+   "evidence": "The Company has identified its Chief Executive Officer (\"CEO\") and Executive Chairman as the chief operating decision makers (\"CODMs\"), who manage the Company's business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for software licenses, software-as-a-service, COE support, initial production deployments and runtime, plus fees for prioritized engineering, implementation, consulting and training services.",
+  "evidence": "Our revenue consists of software subscription and professional services revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

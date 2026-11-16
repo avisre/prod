@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001841644",
  "issuerName": "PicS N.V.",
- "builtAt": "2026-11-16T05:07:10.607Z",
+ "builtAt": "2026-11-16T10:06:36.089Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-049950",
@@ -10,10 +10,52 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1841644/000121390026049950/ea0285441-20f_picsnv.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Banking",
+   "products": [
+    "digital wallet",
+    "Pix",
+    "bill payments",
+    "credit cards",
+    "Loans",
+    "PicPay Invest"
+   ],
+   "description": "Digital wallet and banking services for consumers: payments, cards, loans, investments and insurance distribution on the PicPay platform.",
+   "evidence": "Consumer Banking: generates revenue from various transaction activities occurring in the digital wallet, such as Pix, peer-to-peer (P2P) transfers, and bill payments, including when customers use credit cards as a funding source for payments or money transfers, either in one or multiple installments."
+  },
+  {
+   "name": "Small and Medium-Sized Businesses",
+   "products": [
+    "MDR (merchant-discount rates)",
+    "corporate benefits cards",
+    "corporate benefits solutions"
+   ],
+   "description": "Payment acceptance and corporate benefits services for merchants and companies using the PicPay network.",
+   "evidence": "Small and Medium-Sized Businesses: generates revenues from MDR (merchant-discount rates) charged to merchants accepting PicPay as a payment network."
+  },
+  {
+   "name": "Audiences and Ecosystem Integration",
+   "products": [
+    "PicPay Ads",
+    "PicPay Shop"
+   ],
+   "description": "Advertising and marketplace services sold to brands, merchants and consumers inside the PicPay app ecosystem.",
+   "evidence": "Audiences and Ecosystem Integration: This segment provides services to all of the Group's customers, which include consumers and businesses, with the goal of increasing engagement and monetization of both sides of the ecosystem."
+  },
+  {
+   "name": "Institutional",
+   "products": [],
+   "description": "Corporate-level funding, liquidity and financial investment activities that support all other segments of the group.",
+   "evidence": "Institutional: This segment encompasses revenues, costs and expenses from financial investments and funding activities executed at the Corporate level."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Consumers and merchants pay fees on payments, cards and credit, plus commissions on products distributed through the PicPay platform.",
+  "evidence": "TPV represents the total amount of payments that pass through our ecosystem, and we generate revenue from certain payment transactions as a percentage of TPV."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

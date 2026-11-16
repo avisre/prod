@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001702318",
  "issuerName": "Akso Health Group",
- "builtAt": "2026-11-16T05:07:11.958Z",
+ "builtAt": "2026-11-16T10:07:44.892Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-080868",
@@ -10,11 +10,29 @@
   "filingDate": "2026-07-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1702318/000121390026080868/ea0294288-20f_akso.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices business",
+   "products": [
+    "medical devices",
+    "marketing promotion service business"
+   ],
+   "description": "Sells medical devices and provides marketing promotion services, with operations centralized and financial results reviewed and managed on a consolidated basis.",
+   "evidence": "The Company operates as a single reportable segment, which is consistent with how the CODM, allocates resources and assesses performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay the company for sales of medical devices and for marketing promotion services.",
+  "evidence": "For the year ended March 31, 2026, three customers accounted for 31.9 %, 20.6 % and 10.5 % for the Company's total revenue from sales of medical devices business and marketing promotion service business."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company agreed to sell its Hong Kong and BVI subsidiaries and ceased to conduct its social e-commerce business, refocusing on its medical devices business.",
+   "evidence": "As a result of the Disposition, the Company will cease to conduct its social E—commerce business and focus on developing and investing resources into its medical devices business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

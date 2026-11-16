@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001853962",
  "issuerName": "i-80 GOLD CORP.",
- "builtAt": "2026-11-16T05:07:11.356Z",
+ "builtAt": "2026-11-16T10:07:11.407Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-009886",
@@ -10,10 +10,58 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1853962/000162828026009886/iaux-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Granite Creek",
+   "products": [
+    "gold",
+    "silver",
+    "Granite Creek underground",
+    "Granite Creek open pit"
+   ],
+   "description": "Nevada gold-silver underground mine and open pit project, now ramping up toward steady-state gold output.",
+   "evidence": "(ii) a 100% interest in the Granite Creek gold properties (formerly referred to as the Getchell project) located at the intersection of the Getchell gold belt and the Battle Mountain-Eureka Trend in Humboldt County, Nevada, which includes both an underground mine and an open pit project (collectively, the \"Granite Creek Projects\" or \"Granite Creek\")"
+  },
+  {
+   "name": "Ruby Hill",
+   "products": [
+    "gold",
+    "silver",
+    "Archimedes",
+    "Mineral Point"
+   ],
+   "description": "Nevada gold property containing the Archimedes underground project and the Mineral Point open pit deposit under development.",
+   "evidence": "(iv) a 100% interest in the Ruby Hill property located along the Battle Mountain-Eureka Trend in Eureka County, Nevada which includes an underground project, referred to as \"Archimedes\", and an open pit gold deposit referred to as \"Mineral Point\", collectively the \"Ruby Hill Projects\" or \"Ruby Hill\""
+  },
+  {
+   "name": "Lone Tree",
+   "products": [
+    "gold",
+    "silver",
+    "Lone Tree Plant",
+    "Buffalo Mountain gold deposits"
+   ],
+   "description": "Holds Nevada gold deposits and the Lone Tree processing complex planned as the central processing hub.",
+   "evidence": "(iii) a 100% interest in the Lone Tree and Buffalo Mountain gold deposits and Lone Tree processing complex (the \"Lone Tree Plant\"), located midway between the Company's Cove and Granite Creek Projects in Humboldt County, Nevada (collectively, the \"Lone Tree Project\" or \"Lone Tree\")"
+  },
+  {
+   "name": "Cove",
+   "products": [
+    "gold",
+    "silver",
+    "McCoy-Cove gold properties",
+    "Cove Deposit"
+   ],
+   "description": "Advanced Nevada gold property on the Battle Mountain-Eureka Trend, one of the planned high-grade underground mines.",
+   "evidence": "(i) a 100% interest in the McCoy-Cove gold properties located on the Battle Mountain-Eureka Trend in Lander County, Nevada (collectively, the \"Cove Project\" or \"Cove\")"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Buyers such as Orion pay market-referenced prices under offtake agreements, and the Company sells gold and silver into global markets for the metals it produces.",
+  "evidence": "There are global markets for gold and silver into which the Company can sell its gold and, as a result, notwithstanding the Vox Offtake Agreement and the Orion Offtake Agreement (each described below) , the Company is not dependent on a particular purchaser with regard to the sale of any gold that it produces."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
