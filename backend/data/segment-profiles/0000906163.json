@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000906163",
  "issuerName": "NVR, Inc.",
- "builtAt": "2026-11-16T03:58:56.461Z",
+ "builtAt": "2026-11-16T08:47:45.228Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000906163-26-000018",
@@ -10,10 +10,71 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/906163/000090616326000018/nvr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mid Atlantic",
+   "products": [
+    "Ryan Homes",
+    "NVHomes",
+    "single-family detached homes",
+    "townhomes",
+    "condominiums"
+   ],
+   "description": "Builds and sells new homes in Maryland, Virginia, West Virginia, Delaware and Washington, D.C.",
+   "evidence": "Our four reportable homebuilding segments operate in the following geographic regions: Mid Atlantic: Maryland, Virginia, West Virginia, Delaware and Washington, D.C."
+  },
+  {
+   "name": "North East",
+   "products": [
+    "Ryan Homes",
+    "NVHomes",
+    "single-family detached homes",
+    "townhomes",
+    "condominiums"
+   ],
+   "description": "Builds and sells new homes in New Jersey and Eastern Pennsylvania.",
+   "evidence": "North East: New Jersey and Eastern Pennsylvania"
+  },
+  {
+   "name": "Mid East",
+   "products": [
+    "Ryan Homes",
+    "Heartland Homes",
+    "single-family detached homes",
+    "townhomes",
+    "condominiums"
+   ],
+   "description": "Builds and sells new homes in New York, Ohio, Western Pennsylvania, Indiana and Illinois.",
+   "evidence": "Mid East: New York, Ohio, Western Pennsylvania, Indiana and Illinois"
+  },
+  {
+   "name": "South East",
+   "products": [
+    "Ryan Homes",
+    "single-family detached homes",
+    "townhomes",
+    "condominiums"
+   ],
+   "description": "Builds and sells new homes in North Carolina, South Carolina, Tennessee, Florida, Georgia and Kentucky.",
+   "evidence": "South East: North Carolina, South Carolina, Tennessee, Florida, Georgia and Kentucky"
+  },
+  {
+   "name": "Mortgage Banking",
+   "products": [
+    "mortgage loans",
+    "title insurance",
+    "title searches"
+   ],
+   "description": "Originates mortgage loans for the company's homebuyers and brokers title insurance and title searches.",
+   "evidence": "Our mortgage banking operations also include separate subsidiaries that broker title insurance and perform title searches for which they receive commissions and fees."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Homebuyers pay for their homes and mortgage loans, while mortgage and title operations earn origination fees, gains on sales of loans and title fees.",
+  "evidence": "NVRM generates revenues primarily from origination fees, gains on sales of loans and title fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

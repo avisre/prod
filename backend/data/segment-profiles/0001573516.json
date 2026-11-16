@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001573516",
  "issuerName": "MURPHY USA INC.",
- "builtAt": "2026-11-16T03:58:54.306Z",
+ "builtAt": "2026-11-16T08:42:48.254Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001573516-26-000090",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1573516/000157351626000090/musa-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketing",
+   "products": [
+    "retail motor fuel products",
+    "convenience merchandise",
+    "gasoline",
+    "snacks",
+    "beverages",
+    "nicotine products",
+    "non-food merchandise",
+    "unbranded wholesale"
+   ],
+   "description": "Markets motor fuel and convenience merchandise through Murphy USA, Murphy Express and QuickChek stores, and supplies fuel to unbranded wholesale customers.",
+   "evidence": "The Marketing segment includes our retail marketing stores and product supply and wholesale assets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail consumers pay for motor fuel and convenience merchandise at Company stores, and unbranded wholesale customers pay for fuel supplied through terminals and pipeline positions.",
+  "evidence": "In addition, we market fuel to unbranded wholesale customers through a mixture of Company-owned and third-party product distribution terminals and pipeline positions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

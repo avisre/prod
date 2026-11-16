@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001653477",
  "issuerName": "INGEVITY CORPORATION",
- "builtAt": "2026-11-16T03:58:54.974Z",
+ "builtAt": "2026-11-16T08:44:05.534Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001653477-26-000014",
@@ -10,11 +10,58 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1653477/000165347726000014/ngvt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Performance Materials",
+   "products": [
+    "automotive activated carbon products",
+    "food, water, beverage, and chemical purification products",
+    "activated carbon"
+   ],
+   "description": "Makes activated carbon for automotive gasoline vapor emission control and purification of food, water and chemicals, selling to automotive suppliers and industrial customers.",
+   "evidence": "We operate in three reportable segments: Performance Materials, Performance Chemicals and Advanced Polymer Technologies."
+  },
+  {
+   "name": "Performance Chemicals",
+   "products": [
+    "pavement technologies",
+    "road markings",
+    "asphalt emulsifiers",
+    "agrochemical dispersants"
+   ],
+   "description": "Supplies pavement technologies and road markings products to asphalt paving, road construction and recycling customers, plus agrochemical dispersants.",
+   "evidence": "Our Performance Chemicals segment is comprised of two product lines: pavement technologies and road markings."
+  },
+  {
+   "name": "Advanced Polymer Technologies",
+   "products": [
+    "caprolactone-based polyurethane technologies",
+    "thermoplastic polycaprolactones"
+   ],
+   "description": "Produces caprolactone-based polyurethane and thermoplastic polycaprolactone materials for customers in bioplastics, coatings, elastomers and medical markets.",
+   "evidence": "Throughout our Performance Materials, Performance Chemicals, and Advanced Polymer Technologies reportable segments, we are a leader in adding value to products made from renewable materials and in derivatizing technologies that impart desirable environmental benefits in their use."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers such as automotive parts manufacturers, road builders and agrochemical producers pay for our purification, pavement and polymer products.",
+  "evidence": "We are the trusted source of these products for many of the world's largest automotive parts manufacturers"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company agreed to sell its industrial specialties product line and the North Charleston crude tall oil refinery, and the sale closed in 2026 with the business reported as discontinued operations.",
+   "evidence": "On September 4, 2025, we announced the agreement to sell the North Charleston crude tall oil refinery and the majority of the industrial specialties product line, and on January 1, 2026, the announced sale was completed."
+  },
+  {
+   "text": "In 2025 the company announced exploration of strategic alternatives for its Advanced Polymer Technologies segment and the Performance Chemicals road markings product line.",
+   "evidence": "To become New Ingevity, we announced the simplification of our businesses including the exploration of strategic alternatives for our Advanced Polymer Technologies (\"APT\") reportable segment and the Performance Chemicals road markings product line, which we expect to complete by the end of 2026."
+  },
+  {
+   "text": "The 2025 Strategic Portfolio Review concluded that New Ingevity will be comprised of two businesses, Performance Materials and Pavement Technologies.",
+   "evidence": "New Ingevity will be comprised of two attractive businesses aligned around strong core competencies, with superior and consistent profitability: Performance Materials and Pavement Technologies."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

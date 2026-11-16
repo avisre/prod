@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001757073",
  "issuerName": "ENVISTA HOLDINGS CORPORATION",
- "builtAt": "2026-11-16T03:58:56.609Z",
+ "builtAt": "2026-11-16T08:47:38.557Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001757073-26-000011",
@@ -10,10 +10,43 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1757073/000175707326000011/nvst-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Products & Technologies",
+   "products": [
+    "dental implant systems",
+    "regenerative solutions",
+    "dental prosthetics",
+    "orthodontic bracket systems",
+    "aligners",
+    "lab products",
+    "loupes"
+   ],
+   "description": "Develops and markets dental implant systems, prosthetics, regenerative solutions, orthodontic brackets, aligners, lab products and loupes to dentists and orthodontists.",
+   "evidence": "Our Specialty Products & Technologies segment primarily develops, manufactures and markets dental implant systems, including regenerative solutions, dental prosthetics and associated treatment software and technologies, as well as orthodontic bracket systems, aligners, lab products, and loupes."
+  },
+  {
+   "name": "Equipment & Consumables",
+   "products": [
+    "digital imaging systems",
+    "software",
+    "visualization/magnification systems",
+    "endodontic systems and related products",
+    "restorative materials and instruments",
+    "rotary burs",
+    "impression materials",
+    "infection prevention products"
+   ],
+   "description": "Develops and markets dental equipment and supplies, imaging systems, endodontics and infection prevention products for dental offices, clinics and hospitals.",
+   "evidence": "Our Equipment & Consumables segment primarily develops, manufactures, and markets dental equipment and supplies used in dental offices, including digital imaging systems, software, and other visualization/magnification systems; endodontic systems and related products; restorative materials and instruments, rotary burs, impression materials, bonding agents and cements; and infection prevention products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Sales come from dental consumable products, equipment and services sold to third-party distributors and end-users.",
+  "evidence": "Our sales are primarily derived from the sale of dental consumable products, equipment and services to third-party distributors and end-users."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

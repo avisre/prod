@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001049521",
  "issuerName": "Mercury Systems, Inc.",
- "builtAt": "2026-11-16T03:58:53.678Z",
+ "builtAt": "2026-11-16T08:42:07.271Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001049521-26-000045",
@@ -10,11 +10,35 @@
   "filingDate": "2026-08-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1049521/000104952126000045/mrcy-20260703.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace and Defense Electronics",
+   "products": [
+    "Signal",
+    "Compute",
+    "Data Management",
+    "Display",
+    "Secure",
+    "Components",
+    "Modules and Sub-assemblies",
+    "Integrated Solutions"
+   ],
+   "description": "Supplies aerospace and defense electronics, from components and modules to integrated solutions, to U.S. and European defense prime contractors, governments and commercial aerospace OEMs.",
+   "evidence": "There has been no change to the Company's conclusion of one operating and reportable segment in fiscal 2026."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Defense prime contractors, the U.S. government, foreign governments and commercial aerospace OEMs pay for processing components, modules and integrated solutions, largely under defense program subcontracts.",
+  "evidence": "we sell to the top U.S. and European defense prime contractors, the U.S. government and original equipment manufacturers"
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 the company consolidated two divisions into a single integrated structure, but kept one operating and reportable segment.",
+   "evidence": "During the second quarter of fiscal 2026, the Company completed its internal reorganization, which changed how segment management reviewed discrete financial information, by consolidating two divisions into a single integrated structure that unified all lines of business and matrixed business functions."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

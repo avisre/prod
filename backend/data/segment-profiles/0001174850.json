@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001174850",
  "issuerName": "NICOLET BANKSHARES, INC",
- "builtAt": "2026-11-16T03:58:55.418Z",
+ "builtAt": "2026-11-16T08:44:27.446Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001174850-26-000077",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1174850/000117485026000077/nic-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial and agricultural-based loans",
+    "residential real estate and consumer loans",
+    "checking",
+    "savings",
+    "money market",
+    "time deposits",
+    "treasury management services",
+    "mobile banking"
+   ],
+   "description": "Community bank providing loan and deposit products and related services to businesses, consumers and government municipalities.",
+   "evidence": "The CODM regularly assesses performance of the aggregated single banking segment in determining how to allocate resources."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for loans and deposit products and related banking services such as treasury management and mobile banking.",
+  "evidence": "The banking segment derives revenue from customers by providing a broad array of loan and deposit products to businesses, consumers and government municipalities."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

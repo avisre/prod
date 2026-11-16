@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001164863",
  "issuerName": "ENPRO INC",
- "builtAt": "2026-11-16T03:58:55.801Z",
+ "builtAt": "2026-11-16T08:46:57.415Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-009798",
@@ -10,11 +10,49 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1164863/000162828026009798/npo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sealing Technologies",
+   "products": [
+    "metallic, non-metallic and composite material gaskets",
+    "dynamic seals",
+    "compression packing",
+    "elastomeric components",
+    "custom-engineered mechanical seals",
+    "hydraulic components",
+    "sanitary gaskets",
+    "hoses and fittings for hygienic process industries"
+   ],
+   "description": "Designs and manufactures gaskets, seals, packing and hygienic fluid-transfer products that safeguard critical environments for industrial, biopharma and commercial vehicle customers.",
+   "evidence": "Our Sealing Technologies segment, composed of three operating divisions, Garlock, Technetics and STEMCO, designs, engineers and manufactures value-added products and solutions that safeguard a variety of critical environments, including:"
+  },
+  {
+   "name": "Advanced Surface Technologies",
+   "products": [
+    "complex front-end wafer processing sub-systems",
+    "edge-welded metal bellows",
+    "electrostatic chuck pedestals",
+    "cleaning, testing, refurbishment and verification",
+    "coatings for critical components and assemblies",
+    "specialized optical filters",
+    "thin-film coatings"
+   ],
+   "description": "Supplies semiconductor and other demanding markets with precision-machined wafer sub-systems, cleaning and coating services, and optical filters.",
+   "evidence": "Our Advanced Surface Technologies (\"AST\") segment is composed of four operating businesses, NxEdge, Technetics Semi, LeanTeq, and Alluxa."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "It sells products and solutions through distributors, OEMs, engineering and construction firms and end users worldwide.",
+  "evidence": "Our Sealing Technologies segment sells products and solutions through distribution, original equipment manufacturers (\"OEMs\"), engineering and construction firms and end users worldwide."
+ },
+ "changes": [
+  {
+   "text": "The company sold Garlock Pipeline Technologies, Inc. in January 2023, exiting its remaining Engineered Materials segment.",
+   "evidence": "During the third quarter of 2022, we entered into an agreement to sell our GGB business, which sale was completed in November 2022, and announced our intention to sell Garlock Pipeline Technologies, Inc. (\"GPT\"), which was sold in January 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

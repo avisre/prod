@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001164727",
  "issuerName": "NEWMONT CORPORATION",
- "builtAt": "2026-11-16T03:58:54.840Z",
+ "builtAt": "2026-11-16T08:45:23.269Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001164727-26-000010",
@@ -10,11 +10,130 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000010/nem-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lihir",
+   "products": [
+    "Gold"
+   ],
+   "description": "Open pit gold mine on Aniolam Island, Papua New Guinea, producing gold doré that is refined and sold.",
+   "evidence": "Our Lihir operation, which comprises an open pit mine that produces gold doré, is located on the island of Aniolam, PNG."
+  },
+  {
+   "name": "Cadia",
+   "products": [
+    "Gold",
+    "Copper"
+   ],
+   "description": "Underground panel cave gold and copper mine in New South Wales, Australia, producing concentrate and gold doré.",
+   "evidence": "The processing plant infrastructure includes high pressure grinding rolls, SAG mills, ball mills, flotation, coarse ore flotation, gravity concentrator and a molybdenum plant to produce copper and gold concentrate, gold doré, and molybdenum concentrate."
+  },
+  {
+   "name": "Tanami",
+   "products": [
+    "Gold"
+   ],
+   "description": "Underground gold mine in Australia's Northern Territory whose ore is processed at the Granites into gold doré.",
+   "evidence": "Tanami reported 5.3 million ounces of gold reserves at December 31, 2025."
+  },
+  {
+   "name": "Boddington",
+   "products": [
+    "Gold",
+    "Copper"
+   ],
+   "description": "Open pit gold and copper mine in Western Australia producing gold doré and copper concentrate for smelters and refiners.",
+   "evidence": "As of December 31, 2025 and 2024, Boddington reported 10.2 million and 10.8 million ounces of gold reserves, respectively, and 0.5 million and 0.5 million tonnes of copper reserves, respectively."
+  },
+  {
+   "name": "Ahafo South",
+   "products": [
+    "Gold"
+   ],
+   "description": "Gold operation in the Ahafo Region of Ghana, mined from open pit and underground deposits and producing gold doré.",
+   "evidence": "The Ahafo South mine is composed of three orogenic gold deposits that have oxide and primary mineralization."
+  },
+  {
+   "name": "Ahafo North",
+   "products": [
+    "Gold"
+   ],
+   "description": "Open pit gold operation in Ghana that reached commercial production in 2025 and produces gold doré.",
+   "evidence": "The Ahafo North mine is comprised of six open pit orogenic gold deposits with both oxide and primary mineralization."
+  },
+  {
+   "name": "Merian",
+   "products": [
+    "Gold"
+   ],
+   "description": "Open pit gold mine in Suriname, held with a partner, producing gold doré for refining.",
+   "evidence": "All of the gold mineralization at Merian is closely associated with quartz veining within siltstone and sandstone formations."
+  },
+  {
+   "name": "Cerro Negro",
+   "products": [
+    "Gold"
+   ],
+   "description": "Underground gold and silver mine in southern Argentina producing doré bars shipped to a refinery.",
+   "evidence": "Deposits within the Cerro Negro mine operations are low sulfidation, epithermal gold/silver vein deposits."
+  },
+  {
+   "name": "Yanacocha",
+   "products": [
+    "Gold"
+   ],
+   "description": "Gold mine in Peru with leach pads and processing plants that produce gold doré.",
+   "evidence": "Yanacocha also has three gold processing plants (Pampa Larga, Yanacocha Norte and La Quinua), one limestone processing facility (China Linda) and one mill (Yanacocha Gold Mill)."
+  },
+  {
+   "name": "Peñasquito",
+   "products": [
+    "Gold",
+    "Silver",
+    "Lead",
+    "Zinc"
+   ],
+   "description": "Open pit mine in Mexico producing gold doré plus silver, lead and zinc concentrates from flotation.",
+   "evidence": "The mineralization at Peñasquito contains gold, silver, lead and zinc."
+  },
+  {
+   "name": "Red Chris",
+   "products": [
+    "Gold",
+    "Copper"
+   ],
+   "description": "Copper and gold open pit mine in British Columbia producing gold, copper and silver concentrate.",
+   "evidence": "We hold a 70% interest in the Red Chris operation, which comprises an open pit mine that produces gold, copper and silver concentrate, located in British Columbia, Canada."
+  },
+  {
+   "name": "Brucejack",
+   "products": [
+    "Gold"
+   ],
+   "description": "Underground gold and silver mine in British Columbia producing doré and flotation concentrate.",
+   "evidence": "Our Brucejack operation, which comprises an underground mine that produces gold/silver doré and flotation concentrate and hosts the Valley of the Kings high-grade gold deposit, is also located in British Columbia, Canada."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Refiners and smelters pay Newmont for gold doré, refined gold and copper, silver, lead and zinc concentrate, which investors and fabricators then buy as bullion, coins and jewelry.",
+  "evidence": "Copper, silver, lead, and zinc sales are generally in the form of concentrate that is sold to smelters for further treatment and refining."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold the CC&V, Musselwhite, Éléonore, Porcupine and Akyem reportable segments.",
+   "evidence": "the sale of the CC&V, Musselwhite, and Éléonore reportable segments in the first quarter of 2025, the sale of the Porcupine and Akyem reportable segments in the second quarter of 2025"
+  },
+  {
+   "text": "In 2024 the Company completed the sale of the Telfer reportable segment.",
+   "evidence": "The Company completed the sale of the assets of the Telfer reportable segment in the fourth quarter of 2024"
+  },
+  {
+   "text": "In 2025 Ahafo North was classified as a reportable segment after commercial production was declared.",
+   "evidence": "In October 2025, the Company declared commercial production at its Ahafo North project in Ghana resulting in classification as a reportable segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

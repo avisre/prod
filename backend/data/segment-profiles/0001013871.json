@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001013871",
  "issuerName": "NRG Energy, Inc",
- "builtAt": "2026-11-16T03:58:55.999Z",
+ "builtAt": "2026-11-16T08:46:44.918Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001013871-26-000004",
@@ -10,11 +10,65 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Texas",
+   "products": [
+    "retail electricity",
+    "natural gas",
+    "energy management",
+    "demand response and/or virtual power plant programs",
+    "carbon offsets"
+   ],
+   "description": "Sells electricity, natural gas and related energy products to residential, commercial and industrial customers, backed by integrated Texas generation.",
+   "evidence": "Texas, which includes all activity related to customer, plant and market operations in Texas;"
+  },
+  {
+   "name": "East",
+   "products": [
+    "retail electricity",
+    "natural gas",
+    "energy management",
+    "demand response and/or virtual power plant programs",
+    "carbon offsets"
+   ],
+   "description": "Supplies electricity and natural gas to home, business and wholesale customers in eastern competitive markets, supported by generation.",
+   "evidence": "East, which includes all activity related to customer, plant and market operations in the East;"
+  },
+  {
+   "name": "West/Other",
+   "products": [
+    "retail electricity",
+    "natural gas",
+    "energy management",
+    "demand response and/or virtual power plant programs",
+    "carbon offsets"
+   ],
+   "description": "Serves customers in the West and Canada with electricity, natural gas and related services, and holds other investments.",
+   "evidence": "West/Other, which primarily includes the following assets and activities: (i) all activity related to customer, plant and market operations in the West and Canada, and (ii) other investments;"
+  },
+  {
+   "name": "Vivint Smart Home",
+   "products": [
+    "smart home security and automation services",
+    "smart home products and services"
+   ],
+   "description": "Provides smart home security and automation products and services to residential customers across the United States.",
+   "evidence": "The Company also provides smart home security and automation services that deepen customer relationships and support long-term engagement."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Residential, commercial, industrial and wholesale customers pay NRG for electricity, natural gas, smart home services and related energy products.",
+  "evidence": "The Company generates power and sells electricity and natural gas to residential, commercial, industrial, and wholesale customers in the markets it serves."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold Airtron, which reduced goodwill in the West/Other segment.",
+   "evidence": "Sale of Airtron — — ( 43 ) — ( 43 )"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

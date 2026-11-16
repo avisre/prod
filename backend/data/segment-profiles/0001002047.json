@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001002047",
  "issuerName": "NetApp, Inc.",
- "builtAt": "2026-11-16T03:58:56.333Z",
+ "builtAt": "2026-11-16T08:49:17.052Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-259683",
@@ -10,11 +10,41 @@
   "filingDate": "2026-06-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1002047/000119312526259683/ntap-20260424.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hybrid Cloud",
+   "products": [
+    "NetApp ONTAP",
+    "ONTAP One",
+    "NetApp Snapshot",
+    "NetApp SnapMirror",
+    "NetApp SnapLock",
+    "NetApp AI Data Engine",
+    "NetApp AFF A-Series",
+    "NetApp ASA A-Series"
+   ],
+   "description": "Provides a unified data storage portfolio of storage management and infrastructure solutions that helps customers modernize their data centers.",
+   "evidence": "Hybrid Cloud provides a unified data storage portfolio of storage management and infrastructure solutions that helps customers modernize their data centers."
+  },
+  {
+   "name": "Public Cloud",
+   "products": [],
+   "description": "NetApp's public cloud business, whose cloud optimization and management software business Spot by NetApp was sold in fiscal 2025.",
+   "evidence": "Our operations are organized into two segments: Hybrid Cloud and Public Cloud."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Large organizations pay NetApp for data storage software, hardware, and related support, professional and other services.",
+  "evidence": "We sell our products primarily to large organizations in different industries and geographies."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 NetApp sold its Spot by NetApp cloud optimization and management software business, which was part of the Public Cloud segment.",
+   "evidence": "During fiscal 2025, we completed the sale of our cloud optimization and management software business known as Spot by NetApp to Flexera Software LLC."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

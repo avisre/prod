@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001288469",
  "issuerName": "MaxLinear, Inc.",
- "builtAt": "2026-11-16T03:58:54.362Z",
+ "builtAt": "2026-11-16T08:43:01.339Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001288469-26-000011",
@@ -10,10 +10,28 @@
   "filingDate": "2026-01-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1288469/000128846926000011/mxl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications systems-on-chip",
+   "products": [
+    "communications system-on-chip solutions",
+    "serial interfaces",
+    "Universal Serial Bus",
+    "Universal Asynchronous Receiver-Transmitters",
+    "Peripheral Component Interconnect Express",
+    "data converters",
+    "Power Management Integrated Circuits"
+   ],
+   "description": "Designs and sells communications system-on-chip solutions for broadband, connectivity, wired and wireless infrastructure and industrial and multi-market applications, to distributors, module makers, OEMs and ODMs.",
+   "evidence": "The Company operates under one segment as it has developed, marketed and sold primarily only one class of similar products, communications system-on-chip solutions for the broadband, connectivity, wired and wireless infrastructure markets and industrial and multi-market applications."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Electronics distributors, module makers, OEMs and ODMs pay for communications system-on-chip solutions that they incorporate into electronic devices.",
+  "evidence": "Our customers primarily include electronics distributors, module makers, original equipment manufacturers, or OEMs, and original design manufacturers, or ODMs, which incorporate our products in a wide range of electronic devices."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

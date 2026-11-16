@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001047335",
  "issuerName": "NATIONAL HEALTHCARE CORP",
- "builtAt": "2026-11-16T03:58:55.183Z",
+ "builtAt": "2026-11-16T08:44:33.094Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005910",
@@ -10,11 +10,55 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1047335/000143774926005910/nhc20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Inpatient Services",
+   "products": [
+    "skilled nursing facilities",
+    "assisted living facilities",
+    "independent living facilities",
+    "behavioral health hospitals",
+    "rehabilitative services",
+    "medical specialty units",
+    "memory care units"
+   ],
+   "description": "Operates skilled nursing, assisted and independent living facilities and behavioral health hospitals, providing inpatient care to seniors and other patients.",
+   "evidence": "The Company has two reportable operating segments: (1) inpatient services, which includes the operation of skilled nursing facilities, assisted and independent living facilities, and behavioral health hospitals and (2) homecare and hospice services."
+  },
+  {
+   "name": "Homecare and Hospice",
+   "products": [
+    "home health care services",
+    "hospice services",
+    "palliative care",
+    "home health agencies"
+   ],
+   "description": "Provides home health and hospice services, including palliative care, to patients who remain at home or in assisted living residences.",
+   "evidence": "Caris specializes in providing hospice and palliative care to over 1,647 patients per day in 33 locations in Georgia, Missouri, South Carolina, Tennessee, and Virginia."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "rental income",
+    "management and accounting services fees",
+    "insurance services"
+   ],
+   "description": "Rents healthcare properties, provides management, accounting and insurance services to other operators, and carries corporate office costs.",
+   "evidence": "The Company also reports an \"all other\" category that includes revenues from rental income, management and accounting services fees, insurance services, and costs of the corporate office."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Patients and their payers, chiefly Medicare, Medicaid, managed care and private pay, pay for skilled nursing, senior living, homecare, hospice and behavioral health care.",
+  "evidence": "Private paying patients, private insurance carriers and the Veterans Administration generally pay based on the center's charges or specifically negotiated contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold its joint venture ownership interest in a homecare agency located in Nashville, Tennessee.",
+   "evidence": "In January 2024, the Company sold its 50 % joint venture ownership interest in a homecare agency located in Nashville, Tennessee."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

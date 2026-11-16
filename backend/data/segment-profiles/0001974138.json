@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001974138",
  "issuerName": "NCR ATLEOS CORPORATION",
- "builtAt": "2026-11-16T03:58:54.495Z",
+ "builtAt": "2026-11-16T08:43:25.512Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012576",
@@ -10,11 +10,61 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1974138/000162828026012576/ncr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Self-Service Banking",
+   "products": [
+    "ATM hardware and software",
+    "installation, maintenance, and managed and professional services",
+    "ATM as a service (\"ATMaaS\")"
+   ],
+   "description": "Offers financial institutions ATM hardware, software, installation and maintenance services, and an end-to-end managed ATM channel.",
+   "evidence": "These solutions include a comprehensive line of ATM hardware and software, and related installation, maintenance, and managed and professional services."
+  },
+  {
+   "name": "Network",
+   "products": [
+    "multi-functioning financial services kiosks",
+    "Allpoint network",
+    "ReadyCode",
+    "ATM branding solutions",
+    "ATM management and services",
+    "LibertyX"
+   ],
+   "description": "Gives financial institutions, fintechs, neobanks and retailers fee-free access to its ATM and kiosk network and related services.",
+   "evidence": "including our proprietary Allpoint network, providing convenient and fee-free cash withdrawal and deposit access to their customers and cardholders as well as the ability to convert a digital value to cash, or vice versa, via ReadyCode."
+  },
+  {
+   "name": "Telecommunications & Technology (\"T&T\")",
+   "products": [
+    "managed network and infrastructure services",
+    "professional, field, and remote services",
+    "Software-Defined Wide Area Networking",
+    "Network Functions Virtualization",
+    "Wireless Local Area Networks",
+    "Optical Networking",
+    "Edge Networks"
+   ],
+   "description": "Delivers managed network and infrastructure services and field services to enterprise clients across all industries.",
+   "evidence": "We manage our operations in the following segments: Self-Service Banking, Network, and Telecommunications & Technology (\"T&T\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Financial institutions, retailers, fintechs and enterprise clients pay under long-term contracts for software, services, hardware, ATM management and transactional network access.",
+  "evidence": "By delivering mission-critical solutions to a durable customer base under long term contracts, we generate diversified and largely recurring revenues across contracted software, services and predictable transactional revenue streams."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company completed its separation from NCR Corporation, now NCR Voyix, and began operating as an independent public company.",
+   "evidence": "On October 16, 2023, we completed our separation from NCR Corporation (now known as NCR Voyix Corporation or \"Voyix\" and referred to as \"NCR\" prior to the Separation) and launched as an independent publicly-traded company (the \"Separation\" or \"Spin-off\")."
+  },
+  {
+   "text": "In 2025 the company recorded a gain on the divestiture of a non-core business.",
+   "evidence": "These unfavorable impacts were partially offset by the gain on divestiture of a non-core business and a decrease in losses from foreign currency exchange rate movements, primarily in hyperinflationary economies."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001578732",
  "issuerName": "MARCUS & MILLICHAP, INC.",
- "builtAt": "2026-11-16T03:58:53.335Z",
+ "builtAt": "2026-11-16T08:42:02.039Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012419",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1578732/000162828026012419/mmi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial real estate services",
+   "products": [
+    "investment sales",
+    "financing services",
+    "Real estate brokerage commissions",
+    "Financing fees",
+    "equity advisory services",
+    "loan sales",
+    "loan guarantees",
+    "consulting and advisory services"
+   ],
+   "description": "Provides investment sales and financing services to commercial real estate investors through a network of offices and an integrated national platform.",
+   "evidence": "The Company has one reportable segment: commercial real estate services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Property sellers, buyers and borrowers pay brokerage commissions on sales and financing fees for capital placement and advisory services.",
+  "evidence": "We generate revenue by collecting real estate brokerage commissions upon the sale, and financing fees upon the financing of commercial properties"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

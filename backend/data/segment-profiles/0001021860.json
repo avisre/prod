@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001021860",
  "issuerName": "NOV INC.",
- "builtAt": "2026-11-16T03:58:55.521Z",
+ "builtAt": "2026-11-16T08:45:15.657Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-048350",
@@ -10,11 +10,50 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1021860/000119312526048350/nov-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy Products and Services",
+   "products": [
+    "Drill Bits",
+    "Downhole Tools",
+    "Completion Tools",
+    "Artificial Lift Systems",
+    "Tubular Inspection & Coating Services",
+    "Solids Control and Waste Management Services",
+    "Digital Solutions",
+    "Drill Pipe"
+   ],
+   "description": "Supplies tools, equipment, services and rentals to upstream oil and gas, renewables and industrial customers through shorter-cycle, more transactional offerings.",
+   "evidence": "Energy Products and Services provides the critical tools, equipment, and services to safely maximize efficiency, reliability, and economics in the upstream oil and gas, renewables, and industrial markets."
+  },
+  {
+   "name": "Energy Equipment",
+   "products": [
+    "capital equipment",
+    "integrated systems",
+    "aftermarket spare parts",
+    "pumps and mixers",
+    "subscription services",
+    "condition monitoring",
+    "digital performance solutions",
+    "field service"
+   ],
+   "description": "Designs, builds and supports capital equipment and integrated systems for onshore and offshore oil and gas, industrial, marine and renewable energy customers.",
+   "evidence": "Energy Equipment designs, builds, and supports capital equipment and integrated systems used in oil and gas exploration and production, both onshore and offshore, as well as for industrial, marine, and renewable energy markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Oil and gas operators and industrial customers pay for services and rentals, shorter-lived capital assets, consumable products, capital equipment, aftermarket parts and support.",
+  "evidence": "Revenues are derived from services and rentals, sales of shorter-lived or single-application capital assets and consumable products."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company recorded a gain on the sale of a business.",
+   "evidence": "primarily related to a gain on business divestiture of $ 130 million, offset by charges of $ 20 million primarily related to severance and other restructuring costs"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

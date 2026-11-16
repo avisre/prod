@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001475841",
  "issuerName": "NATIONAL BANK HOLDINGS CORP",
- "builtAt": "2026-11-16T03:58:54.534Z",
+ "builtAt": "2026-11-16T08:43:26.313Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-019119",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1475841/000110465926019119/nbhc-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "traditional banking products and financial services",
+    "mortgage banking services",
+    "trust and wealth management services",
+    "loan, deposit and treasury management products and services",
+    "online and mobile banking solutions",
+    "mortgages"
+   ],
+   "description": "Conducts community banking across the United States through wholly owned banking subsidiaries, serving small- and medium-sized businesses and consumers with loans, deposits, mortgages, trust and wealth management.",
+   "evidence": "The Company has aligned its operations into one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Small- and medium-sized business and consumer clients pay for banking services, including loans, deposits, treasury management, mortgage banking and trust and wealth management.",
+  "evidence": "Our business and commercial bankers focus on small- to medium-sized businesses with an advisory approach that emphasizes understanding the client's business and offering a complete array of loan, deposit and treasury management products and services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

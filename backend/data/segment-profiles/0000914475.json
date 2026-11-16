@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000914475",
  "issuerName": "NEUROCRINE BIOSCIENCES, INC.",
- "builtAt": "2026-11-16T03:58:54.572Z",
+ "builtAt": "2026-11-16T08:43:35.424Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000914475-26-000007",
@@ -10,11 +10,33 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/914475/000091447526000007/nbix-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceuticals",
+   "products": [
+    "INGREZZA",
+    "CRENESSITY",
+    "ALKINDI",
+    "EFMODY",
+    "DYSVAL",
+    "REMLEAS"
+   ],
+   "description": "Researches, develops and commercializes neuroscience treatments for neurological, psychiatric, endocrine and immunological disorders, selling mainly in the U.S.",
+   "evidence": "Neurocrine Biosciences operates as a single global business segment dedicated to the research and development, commercialization, and sale of pharmaceuticals primarily in the U.S. for the treatment of under-addressed neurological, psychiatric, endocrine, and immunological disorders."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Specialty pharmacy providers, wholesale distributors and specialty distributors pay for INGREZZA and CRENESSITY, and the company earns royalties on partner sales.",
+  "evidence": "Our customers include select specialty pharmacy providers, wholesale distributors, and specialty distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2026, Neurocrine completed the sale of Neurocrine Group Limited to Immedica Pharma AB.",
+   "evidence": "on January 21, 2026, we completed the sale of Neurocrine Group Limited to Immedica Pharma AB"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

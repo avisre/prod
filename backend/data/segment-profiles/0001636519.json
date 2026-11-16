@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001636519",
  "issuerName": "MSG KNICKERBOCKERS CORP.",
- "builtAt": "2026-11-16T03:58:53.784Z",
+ "builtAt": "2026-11-16T08:42:31.327Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-056812",
@@ -10,10 +10,26 @@
   "filingDate": "2026-08-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1636519/000162828026056812/msgs-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sports teams",
+   "products": [
+    "New York Knickerbockers",
+    "New York Rangers",
+    "Hartford Wolf Pack",
+    "Westchester Knicks",
+    "Madison Square Garden Training Center"
+   ],
+   "description": "Owns and operates the Knicks and Rangers franchises, two development league teams and a training center, earning from tickets, sponsorships and media rights.",
+   "evidence": "The Company operates and reports financial information in one segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Fans buy tickets and suites, partners buy sponsorships and merchandise, and the NBA, NHL and MSG Networks pay media rights fees.",
+  "evidence": "The Company receives a pro-rata share of fees related to the NBA's and NHL's national and international media rights agreements, which provide a significant recurring revenue stream for the Company."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

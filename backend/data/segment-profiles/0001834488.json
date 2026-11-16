@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001834488",
  "issuerName": "N-able, Inc.",
- "builtAt": "2026-11-16T03:58:54.391Z",
+ "builtAt": "2026-11-16T08:43:10.582Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001834488-26-000007",
@@ -10,10 +10,24 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1834488/000183448826000007/nabl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cybersecurity",
+   "products": [
+    "Unified Endpoint Management",
+    "Security Operations",
+    "Data Protection"
+   ],
+   "description": "Provides a cloud-based cybersecurity and IT management platform to IT services providers and businesses of all sizes worldwide.",
+   "evidence": "N-able currently operates in one reportable business segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Channel partners such as IT services providers, MSPs, VARs and distributors pay subscription fees for the company's cloud-based software platform.",
+  "evidence": "We deliver our solutions through a channel-led model."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

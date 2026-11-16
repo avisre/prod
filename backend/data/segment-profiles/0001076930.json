@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001076930",
  "issuerName": "NOVANTA INC.",
- "builtAt": "2026-11-16T03:58:55.688Z",
+ "builtAt": "2026-11-16T08:45:33.806Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-064230",
@@ -10,10 +10,38 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1076930/000119312526064230/novt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automation Enabling Technologies",
+   "products": [
+    "Laser Beam Steering and Scanning Solutions",
+    "Laser Sources",
+    "Robotic and Precision Motion",
+    "Robotic end-of-arm tooling",
+    "Air Bearing Spindles"
+   ],
+   "description": "Designs and markets laser scanning, laser sources, robotic and precision motion, robotic tooling and bearing spindles to OEM customers worldwide.",
+   "evidence": "The Automation Enabling Technologies segment designs, manufactures and markets laser beam steering and scanning solutions, laser sources, robotic and precision motion, robotic end-of-arm tooling, and bearing spindles to customers worldwide."
+  },
+  {
+   "name": "Medical Solutions",
+   "products": [
+    "Medical Insufflators, Endoscopic Pumps and related disposables",
+    "Imaging, Identification and RFID Solutions",
+    "Advanced Motion Control Solutions",
+    "Light Engines",
+    "Integrated operating room technologies"
+   ],
+   "description": "Designs and markets medical grade technologies such as insufflators, imaging and RFID solutions, motion control, light engines and operating room systems for OEMs.",
+   "evidence": "The Medical Solutions segment designs, manufactures and markets a range of medical grade technologies, including medical insufflators and endoscopic pumps and related disposables, imaging, identification and RFID solutions, advanced motion control solutions, light engines, and integrated operating room technologies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Medical, life science and advanced industrial OEM customers pay for proprietary technology solutions, components and sub-systems built into their equipment.",
+  "evidence": "The vast majority of the segment's product offerings are sold to OEM customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

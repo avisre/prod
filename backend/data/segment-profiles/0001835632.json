@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001835632",
  "issuerName": "MARVELL TECHNOLOGY, INC",
- "builtAt": "2026-11-16T03:58:53.703Z",
+ "builtAt": "2026-11-16T08:42:31.687Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001835632-26-000011",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1835632/000183563226000011/mrvl-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated circuits",
+   "products": [
+    "custom Application Specific Integrated Circuits",
+    "interconnects",
+    "ethernet solutions",
+    "fibre channel adapters",
+    "processors",
+    "storage controllers",
+    "Bravera HDD controllers",
+    "Bravera SSD controller products"
+   ],
+   "description": "Designs, develops and sells integrated circuits and related semiconductor solutions for data center and communications and other end markets.",
+   "evidence": "We have determined that we operate in one reportable segment: the design, development and sale of integrated circuits."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Original equipment manufacturers, original design manufacturers and distributors pay for semiconductor products and custom solutions built into their end market devices.",
+  "evidence": "Our target customers are original equipment manufacturers (\"OEMs\") and original design manufacturers, both of which design and manufacture end market devices, and distributors for these products."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company completed the sale of its automotive ethernet business to Infineon Technologies AG.",
+   "evidence": "On August 14, 2025, we completed the sale of our automotive ethernet business to Infineon Technologies AG for $2.5 billion in cash."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

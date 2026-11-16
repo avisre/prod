@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001078075",
  "issuerName": "NETSCOUT SYSTEMS, INC.",
- "builtAt": "2026-11-16T03:58:56.367Z",
+ "builtAt": "2026-11-16T08:47:06.150Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001078075-26-000050",
@@ -10,10 +10,29 @@
   "filingDate": "2026-05-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1078075/000107807526000050/ntct-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Enterprise network observability",
+   "products": [
+    "nGeniusONE",
+    "ISNG",
+    "Omnis Insights",
+    "Omnis Cybersecurity",
+    "Arbor Edge Defense",
+    "Omnis Cyber Intelligence",
+    "NetScout Arbor",
+    "Adaptive Service Intelligence"
+   ],
+   "description": "Provides enterprise network observability, carrier service assurance, cybersecurity and DDoS protection solutions to service providers, enterprises and government agencies.",
+   "evidence": "The Company has determined it operates as a single operating segment and has one reportable segment which includes product and service revenue related to the sale of enterprise observability, carrier service assurance, cybersecurity, and DDoS protection solutions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Sells products and related services to enterprises, service providers and government agencies through a direct sales force and indirect reseller and distributor channels.",
+  "evidence": "Our products are distributed through our direct sales force and indirect distribution channels through alliances with resellers and distributors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

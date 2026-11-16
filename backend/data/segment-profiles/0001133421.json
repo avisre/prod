@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001133421",
  "issuerName": "NORTHROP GRUMMAN CORP /DE/",
- "builtAt": "2026-11-16T03:58:55.483Z",
+ "builtAt": "2026-11-16T08:45:21.229Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001133421-26-000003",
@@ -10,11 +10,80 @@
   "filingDate": "2026-01-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1133421/000113342126000003/noc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aeronautics Systems",
+   "products": [
+    "strategic long-range strike aircraft",
+    "tactical fighter and air dominance aircraft",
+    "airborne battle management and command and control systems",
+    "uncrewed autonomous aircraft systems",
+    "B-21 Raider",
+    "B-2 Spirit",
+    "E-2D Advanced Hawkeye",
+    "MQ-4C Triton"
+   ],
+   "description": "Designs, develops, produces and sustains military aircraft systems, including strike, fighter and uncrewed aircraft, for U.S. and international military customers.",
+   "evidence": "Aeronautics Systems is a leader in the design, development, production, integration, sustainment and modernization of military aircraft systems for the U.S. Air Force, the U.S. Navy, other U.S. government agencies, and international customers."
+  },
+  {
+   "name": "Defense Systems",
+   "products": [
+    "strategic missiles",
+    "integrated, all-domain command and control (C2) systems",
+    "precision strike weapons",
+    "advanced propulsion",
+    "high-performance gun systems",
+    "precision munitions",
+    "advanced fuzes",
+    "Integrated Battle Command System (IBCS)"
+   ],
+   "description": "Supplies strategic deterrent systems, advanced tactical weapons and missile defense solutions to the U.S. military and a broad range of international customers.",
+   "evidence": "Defense Systems is a leader in the design, engineering, development, integration and production of strategic deterrent systems, advanced tactical weapons, and missile defense solutions for the U.S. military and a broad range of international customers."
+  },
+  {
+   "name": "Mission Systems",
+   "products": [
+    "radar",
+    "electro-optical/infrared (EO/IR) and acoustic sensors",
+    "command, control, communications and computers",
+    "electronic warfare systems",
+    "advanced communications and network systems",
+    "advanced microelectronics",
+    "navigation and positioning sensors",
+    "full spectrum cyber solutions"
+   ],
+   "description": "Provides radar, sensors, electronic warfare, communications and cyber mission solutions primarily to the U.S. defense and intelligence community and international customers.",
+   "evidence": "Mission Systems is a leader in advanced mission solutions and multifunction systems, primarily for the U.S. defense and intelligence community, and international customers."
+  },
+  {
+   "name": "Space Systems",
+   "products": [
+    "satellites and spacecraft systems, subsystems, sensors and payloads",
+    "ground systems",
+    "missile defense systems and interceptors",
+    "launch vehicles and related propulsion systems",
+    "Cygnus spacecraft",
+    "Glide Phase Interceptor (GPI)",
+    "Graphite Epoxy Motor (GEM 63)",
+    "Next-Generation Overhead Persistent Infrared (Next-Gen OPIR)"
+   ],
+   "description": "Delivers space, missile defense and launch systems, satellites, sensors and ground systems for national security, civil government, commercial and international customers.",
+   "evidence": "Space Systems is a leader in delivering end-to-end mission solutions through the design, development, integration, production and operation of space, missile defense, and launch systems for national security, civil government, commercial and international customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "U.S. government defense and intelligence customers, chiefly the Department of War, pay for military aircraft, weapons, sensors and space systems on contracted programs.",
+  "evidence": "We deliver a broad range of products, services and solutions to U.S. and international customers, and principally to the U.S. Department of War"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company moved the Strike and Surveillance Aircraft Solutions business unit from Defense Systems to Aeronautics Systems.",
+   "evidence": "Effective January 1, 2025, the company realigned the Strike and Surveillance Aircraft Solutions (SSAS) business unit from Defense Systems to Aeronautics Systems."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
