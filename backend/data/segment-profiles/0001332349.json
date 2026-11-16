@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001332349",
  "issuerName": "BROOKDALE SENIOR LIVING INC.",
- "builtAt": "2026-11-16T05:01:46.610Z",
+ "builtAt": "2026-11-16T09:51:35.289Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001332349-26-000032",
@@ -10,11 +10,70 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1332349/000133234926000032/bkd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Independent Living",
+   "products": [
+    "independent living units",
+    "dining service options",
+    "emergency alert system",
+    "housekeeping",
+    "education and wellness programs",
+    "recreational activities",
+    "concierge and personal assistance/private duty services",
+    "companion services"
+   ],
+   "description": "Operates owned or leased independent living communities for middle to upper income seniors who want a residential setting without the efforts of ownership.",
+   "evidence": "The Company's Independent Living segment includes owned or leased communities that are primarily designed for middle to upper income seniors who desire to live in a residential setting that feels like home, without the efforts of ownership."
+  },
+  {
+   "name": "Assisted Living and Memory Care",
+   "products": [
+    "basic care level",
+    "health assessments",
+    "assistance with ADLs",
+    "behavior management",
+    "activities program",
+    "personal care services",
+    "memory care services",
+    "freestanding memory care communities"
+   ],
+   "description": "Provides housing and round-the-clock assistance with activities of daily living, plus specialized memory care for residents with dementia and cognitive impairment.",
+   "evidence": "The Company's Assisted Living and Memory Care segment includes owned or leased communities that offer housing and 24-hour assistance with activities of daily living for the Company's residents."
+  },
+  {
+   "name": "CCRCs",
+   "products": [
+    "independent living",
+    "assisted living",
+    "memory care",
+    "skilled nursing"
+   ],
+   "description": "Operates large continuing care retirement communities where seniors can move among independent living, assisted living, memory care and skilled nursing as needs change.",
+   "evidence": "Most of the Company's CCRCs have independent living, assisted living, memory care, and skilled nursing available on one campus."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "management fees",
+    "reimbursements of costs incurred on behalf of managed communities"
+   ],
+   "description": "Manages communities for third-party owners under management agreements, earning management fees and reimbursement of expenses it incurs for owners.",
+   "evidence": "All Other includes communities operated by the Company pursuant to management agreements."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Residents pay monthly fees for housing, care and services, with most revenue from private pay residents and the remainder from government and other payor programs.",
+  "evidence": "For the year ended December 31, 2025, we generated 93.9% of our resident fee revenue from private pay residents, 4.8% from government reimbursement programs (primarily Medicaid and Medicare), and 1.3% from other payor sources."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company exited a block of leased communities whose leases were terminated rather than renewed, and continued selling non-strategic owned communities.",
+   "evidence": "The leases for the remaining 55 communities (6,125 units) (\"Non-renewal Communities\") were terminated during 2025, with such terminations commencing on September 1, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

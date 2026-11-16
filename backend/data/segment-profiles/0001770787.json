@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001770787",
  "issuerName": "10x Genomics, Inc.",
- "builtAt": "2026-11-16T05:01:47.655Z",
+ "builtAt": "2026-11-16T09:51:50.324Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-007822",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1770787/000162828026007822/txg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life sciences technology",
+   "products": [
+    "Chromium X Series",
+    "Visium CytAssist",
+    "Xenium Analyzer",
+    "QuantumScale Single Cell RNA",
+    "Single Cell Methylation kits",
+    "Cell Ranger",
+    "Loupe Browser",
+    "Xenium Explorer"
+   ],
+   "description": "Provides instruments, consumables and software that let academic, translational and biopharmaceutical researchers analyze single cells and tissue spatially at high resolution and scale.",
+   "evidence": "The Company operates as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Academic, government, biopharmaceutical and biotechnology researchers pay for instruments, consumables and software, purchased through our direct sales force or third-party distributors.",
+  "evidence": "Our customers primarily include academic, government, biopharmaceutical, biotechnology and other institutions focused on life sciences research."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

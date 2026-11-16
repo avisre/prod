@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001445305",
  "issuerName": "WORKIVA INC",
- "builtAt": "2026-11-16T05:01:50.661Z",
+ "builtAt": "2026-11-16T09:53:49.625Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001445305-26-000016",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1445305/000144530526000016/wk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI-powered SaaS platform",
+   "products": [
+    "financial reporting",
+    "sustainability management",
+    "GRC",
+    "XBRL tagging",
+    "document set up",
+    "consulting",
+    "professional services",
+    "subscriptions to our cloud-based software"
+   ],
+   "description": "Provides an AI-powered SaaS platform that unites financial reporting, sustainability management, and GRC work for accounting, finance, risk, and audit teams.",
+   "evidence": "Accordingly, we determined we have one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay subscription and support fees for access to the cloud-based platform, and pay professional services fees for document set up, XBRL tagging, and consulting.",
+  "evidence": "We generate revenue through the sale of subscriptions to our cloud-based software and the delivery of professional services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

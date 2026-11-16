@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001517228",
  "issuerName": "Vistance Networks, Inc.",
- "builtAt": "2026-11-16T05:01:49.025Z",
+ "builtAt": "2026-11-16T09:53:40.304Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-072523",
@@ -10,11 +10,53 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1517228/000119312526072523/visn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RUCKUS",
+   "products": [
+    "indoor cellular solutions",
+    "indoor and outdoor Wi-Fi and long-term evolution (LTE) access points",
+    "access and aggregation switches",
+    "Internet of Things (IoT) suite",
+    "on-premises and cloud-based control and management systems",
+    "software and software-as-a-service applications addressing security, location, r"
+   ],
+   "description": "Provides wireless networks, Wi-Fi and LTE access points, switches and cloud software for enterprises and service providers.",
+   "evidence": "Our RUCKUS segment provides wireless networks for enterprises and service providers."
+  },
+  {
+   "name": "Aurora",
+   "products": [
+    "cable modem termination systems (CMTS)",
+    "video infrastructure",
+    "public key infrastructure solutions",
+    "distribution and transmission equipment",
+    "cloud solutions"
+   ],
+   "description": "Supplies broadband access, video and cloud equipment so facility-based service providers can build residential and metro distribution networks.",
+   "evidence": "Our Aurora segment's product solutions include cable modem termination systems (CMTS), video infrastructure, public key infrastructure solutions, distribution and transmission equipment and cloud solutions that enable facility-based service providers to construct a state-of-the-art residential and metro distribution network."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Telecommunications operators, cable providers and enterprise customers pay for network infrastructure equipment, software and supporting services.",
+  "evidence": "Our customers include substantially all the leading global telecommunications operators, data center managers, cable television providers or multi-system operators (MSOs) and thousands of enterprise customers, including many Fortune 500 companies."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company renamed the Networking, Intelligent Cellular & Security Solutions segment to RUCKUS following the DAS divestiture.",
+   "evidence": "We renamed our Networking, Intelligent Cellular & Security Solutions (NICS) segment to RUCKUS."
+  },
+  {
+   "text": "In 2024 and 2025 the company divested the Home business, the Outdoor Wireless Networks segment, the Distributed Antenna Systems business unit, the OneCell business and the Connectivity and Cable Solutions segment.",
+   "evidence": "These transactions included the acquisition of certain assets of Casa Systems, Inc. (Casa), as well as multiple divestitures, including the Home business, the Outdoor Wireless Networks (OWN) segment, the Distributed Antenna Systems (DAS) business unit, the OneCell business, and the Connectivity and Cable Solutions (CCS) segment."
+  },
+  {
+   "text": "In 2025 a product line was transferred from the RUCKUS segment to the Aurora segment.",
+   "evidence": "Effective January 1, 2025, a product line was transferred from the RUCKUS (formerly NICS) segment to the Aurora (formerly ANS) segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001518715",
  "issuerName": "MECHANICS BANCORP",
- "builtAt": "2026-11-16T05:01:46.743Z",
+ "builtAt": "2026-11-16T09:51:26.415Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001518715-26-000026",
@@ -10,11 +10,36 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1518715/000151871526000026/hmst-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "consumer and business banking",
+    "commercial lending",
+    "cash management services",
+    "private banking",
+    "comprehensive wealth management and trust services"
+   ],
+   "description": "Community banking segment holding the company's commercial and retail loan and deposit activities and related services for consumers and businesses.",
+   "evidence": "The Company has one reportable segment: community banking."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Borrowers and depositors pay interest and fees on commercial and retail loans, deposits, cash management, private banking and wealth management services.",
+  "evidence": "The segment primarily encompasses the commercial loan and deposit activities of the Company as well as retail lending and deposit activities in areas surrounding the branches."
+ },
+ "changes": [
+  {
+   "text": "In 2025 HomeStreet Bank merged with and into Mechanics Bank, and its assets, liabilities and operations became those of Mechanics Bank.",
+   "evidence": "Following the strategic Merger of HomeStreet Bank with and into Mechanics Bank on September 2, 2025, with Mechanics Bank surviving the Merger as a wholly-owned subsidiary of the Company, the assets, liabilities and operations of HomeStreet Bank became the assets, liabilities and operations of Mechanics Bank."
+  },
+  {
+   "text": "Mechanics Bank ceased originating auto loans in 2023 and moved servicing of its remaining portfolio to a third-party servicer in 2025.",
+   "evidence": "Ceasing the origination of auto loans in February 2023, Mechanics Bank continued to service its existing auto loan portfolio until May 1, 2025, when it entered into a servicing agreement with a third-party servicer to oversee and manage Mechanics Bank's active portfolio of auto loans."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

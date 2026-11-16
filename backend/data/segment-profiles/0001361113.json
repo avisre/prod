@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001361113",
  "issuerName": "VARONIS SYSTEMS INC",
- "builtAt": "2026-11-16T05:01:45.121Z",
+ "builtAt": "2026-11-16T09:49:35.693Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-005450",
@@ -10,11 +10,33 @@
   "filingDate": "2026-02-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1361113/000162828026005450/vrns-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data Security",
+   "products": [
+    "Varonis Data Security Platform",
+    "SaaS revenues",
+    "term license subscriptions",
+    "maintenance and services fees",
+    "Managed Data Detection and Response",
+    "Athena AI"
+   ],
+   "description": "Provides a data security platform and SaaS offering that helps organizations of all sizes discover, classify, protect and monitor sensitive data.",
+   "evidence": "The Company manages its business on the basis of one reportable segment and unit and derives revenues mainly from SaaS revenues, term license subscriptions and maintenance and services fees"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay subscription and related fees for the SaaS data security platform, term licenses, maintenance and services.",
+  "evidence": "The Varonis platform is offered as a SaaS offering, which we believe is key to our ability to deliver these outcomes at scale."
+ },
+ "changes": [
+  {
+   "text": "The company announced the end-of-life of its self-hosted products as part of its strategic transition to SaaS.",
+   "evidence": "As part of our strategic transition to SaaS, we have announced the end-of-life of our self-hosted products as of December 31, 2026."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

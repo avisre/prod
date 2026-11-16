@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001340677",
  "issuerName": "SILVERCORP METALS INC.",
- "builtAt": "2026-11-16T05:01:50.681Z",
+ "builtAt": "2026-11-16T09:55:34.057Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001104659-26-079021",
@@ -13,7 +13,7 @@
  },
  "status": "no-segments",
  "segments": [],
- "productRevenueBrokenOut": false,
+ "productRevenueBrokenOut": true,
  "revenueModel": null,
  "changes": [],
  "dropped": [],

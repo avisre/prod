@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001812477",
  "issuerName": "Keel Infrastructure Corp.",
- "builtAt": "2026-11-16T05:01:47.727Z",
+ "builtAt": "2026-11-16T09:52:05.996Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037514",
@@ -10,11 +10,41 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1812477/000121390026037514/ea0282809-10k_bitfarms.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cryptocurrency Mining",
+   "products": [
+    "Bitcoin Mining",
+    "Cryptocurrency Hosting",
+    "Electrical services",
+    "Energy sales",
+    "ASIC miners",
+    "HPC Infrastructure"
+   ],
+   "description": "Operates Bitcoin data centers and power generation facilities, contributing hashrate to mining pools, while developing data centers for HPC and AI workloads.",
+   "evidence": "The Company has aggregated all of its mining operating segments into a single operating segment, which is the Company's only reportable segment, Cryptocurrency Mining, as the operating segments have similar economic characteristics."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Mining pool operators pay in Bitcoin for contributed hashrate, and power generation assets sell electrical services and energy.",
+  "evidence": "Currently our Infrastructure Assets are deployed to operate ASIC miners, contributing hashrate to Mining Pools under Full Pay Per Share (\"FPPS\") arrangements, with fees paid daily in Bitcoin."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company executed acquisitions, capital raises, development commitments and divestitures as it pivoted its Infrastructure Assets from Bitcoin Mining to HPC data centers.",
+   "evidence": "During 2025, we executed on the decision to strategically pivot through a series of acquisitions, capital raises, development commitments, and divestitures that are expected to reposition the Company as a 100% North American digital and energy infrastructure company."
+  },
+  {
+   "text": "In 2025 Bitcoin Mining became a legacy business line managed for cash generation and expected to wind down as HPC data center construction begins.",
+   "evidence": "Bitcoin Mining is our legacy business line, managed for cash generation during the redeployment of our Infrastructure Assets from Mining to HPC data center operations."
+  },
+  {
+   "text": "In 2025 the Company acquired Stronghold Digital Mining, adding vertically integrated power generation and data center operations in Pennsylvania.",
+   "evidence": "On March 14, 2025 (the \"Acquisition Date\"), the Company acquired 100 % of the issued share capital of Stronghold Digital Mining, Inc. (\"Stronghold\") in a stock-for-stock merger transaction."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

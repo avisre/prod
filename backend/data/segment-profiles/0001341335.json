@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001341335",
  "issuerName": "FORTUNA MINING CORP.",
- "builtAt": "2026-11-16T05:01:48.018Z",
+ "builtAt": "2026-11-16T09:52:46.740Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001104659-26-035151",
@@ -11,11 +11,46 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1341335/000110465926035151/tmb-20251231xex99d2.htm",
   "exhibit": "tmb-20251231xex99d2.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mansfield",
+   "products": [
+    "gold"
+   ],
+   "description": "Operates the Lindero gold mine, producing gold for the Company's metals buyers.",
+   "evidence": "Mansfield – operates the Lindero gold mine"
+  },
+  {
+   "name": "Sango",
+   "products": [
+    "gold"
+   ],
+   "description": "Operates the Séguéla gold mine, producing gold for the Company's metals buyers.",
+   "evidence": "Sango – operates the Séguéla gold mine"
+  },
+  {
+   "name": "Bateas",
+   "products": [
+    "silver",
+    "lead",
+    "zinc"
+   ],
+   "description": "Operates the Caylloma mine, producing silver, lead and zinc concentrates for metals buyers.",
+   "evidence": "Bateas – operates the Caylloma silver, lead, and zinc mine"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Large international metals trading companies and other concentrate buyers pay the company for its metal concentrates and doré.",
+  "evidence": "Materially all of the Company's concentrates are sold to large, well-known concentrate buyers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the San Jose and Yaramoko mines were reported as discontinued operations outside the reportable segments.",
+   "evidence": "Discontinued operations: ● Cuzcatlan – operates the San Jose silver-gold mine ● Sanu – operates the Yaramoko gold mine"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

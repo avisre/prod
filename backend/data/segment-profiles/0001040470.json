@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001040470",
  "issuerName": "AEHR TEST SYSTEMS",
- "builtAt": "2026-11-16T05:01:46.221Z",
+ "builtAt": "2026-11-16T09:50:19.939Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001654954-26-006919",
@@ -10,10 +10,29 @@
   "filingDate": "2026-07-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1040470/000165495426006919/aehr_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Test and burn-in",
+   "products": [
+    "FOX-XP",
+    "FOX-NP",
+    "FOX-CP",
+    "FOX WaferPak Contactor",
+    "FOX DiePak® Carrier",
+    "FOX DiePak Loader",
+    "Sonoma Ultra",
+    "Tahoe"
+   ],
+   "description": "Designs and sells full wafer contact and burn-in test systems, test fixtures and related accessories to semiconductor manufacturers and test and assembly companies.",
+   "evidence": "The Company operates in one business segment, the designing, manufacturing, marketing and selling of advanced test and burn-in products to the semiconductor manufacturing industry in several geographic areas."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Semiconductor device manufacturers and contract test and assembly companies pay for test and burn-in systems, test fixtures and related accessories.",
+  "evidence": "The Company manufactures and markets full wafer contact test systems, test during burn-in systems, test fixtures and related accessories."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

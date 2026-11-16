@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001530238",
  "issuerName": "JOYY INC",
- "builtAt": "2026-11-16T05:01:46.533Z",
+ "builtAt": "2026-11-16T09:50:40.998Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-049917",
@@ -10,11 +10,40 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1530238/000110465926049917/joyy-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "BIGO",
+   "products": [
+    "Bigo Live",
+    "Likee",
+    "imo",
+    "BIGO Ads"
+   ],
+   "description": "Runs social entertainment platforms and an advertising platform, serving live streaming viewers and advertisers worldwide.",
+   "evidence": "Revenues from the BIGO segment primarily consist of the revenues generated from several social entertainment platforms, including Bigo Live, Likee, imo and certain audio live streaming platform, as well as our advertising platform, BIGO Ads."
+  },
+  {
+   "name": "All other",
+   "products": [
+    "Hago",
+    "Shopline"
+   ],
+   "description": "Runs social entertainment, smart commerce platforms and audio live streaming platforms for users and merchants.",
+   "evidence": "Revenues from the All other segment consist of revenues generated from Hago, Shopline, certain audio live streaming platforms, and others."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Users pay for virtual items and gifts on the live streaming platforms, while advertisers and agencies pay for advertising delivered on the company's apps and partner properties.",
+  "evidence": "We offer live streaming services to our users through multiple platforms using a virtual items-based revenue model whereby users can make real-time broadcast to share life moments, show their talents, interact and send virtual gifts, and enjoy fun live sessions with people worldwide."
+ },
+ "changes": [
+  {
+   "text": "In 2026 we adopted a revised reportable segment structure following changes to our management structure and CODM reporting.",
+   "evidence": "Effective from the quarter ended March 31, 2026, we adopted a revised reportable segment structure following the changes to our management structure and CODM reporting."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

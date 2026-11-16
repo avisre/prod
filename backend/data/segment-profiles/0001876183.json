@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001876183",
  "issuerName": "IHS Holding Ltd",
- "builtAt": "2026-11-16T05:01:50.543Z",
+ "builtAt": "2026-11-16T09:53:44.812Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-028162",
@@ -10,11 +10,69 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1876183/000110465926028162/tmb-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nigeria",
+   "products": [
+    "Colocation",
+    "Lease Amendments",
+    "New Sites",
+    "Fiber-to-the-Tower",
+    "in-building solutions",
+    "distributed antenna systems",
+    "Managed Services"
+   ],
+   "description": "Owns and operates towers and fiber in Nigeria, leasing shared communications infrastructure to mobile network operators and other customers.",
+   "evidence": "Our three operating segments are Nigeria, which comprises our operations in Nigeria; Sub Saharan Africa, or SSA, which comprises our operations in Cameroon, Côte d'Ivoire, South Africa, Zambia (and, until October 9, 2025, Rwanda); and Latin America, or Latam, which comprises our operations in Brazil and Colombia."
+  },
+  {
+   "name": "Sub Saharan Africa",
+   "products": [
+    "Colocation",
+    "Lease Amendments",
+    "New Sites",
+    "in-building solutions",
+    "distributed antenna systems",
+    "Managed Services"
+   ],
+   "description": "Owns and operates towers in Cameroon, Côte d'Ivoire, South Africa and Zambia, leasing shared infrastructure to mobile network operators.",
+   "evidence": "Our three operating segments are Nigeria, which comprises our operations in Nigeria; Sub Saharan Africa, or SSA, which comprises our operations in Cameroon, Côte d'Ivoire, South Africa, Zambia (and, until October 9, 2025, Rwanda); and Latin America, or Latam, which comprises our operations in Brazil and Colombia."
+  },
+  {
+   "name": "Latin America",
+   "products": [
+    "Colocation",
+    "Lease Amendments",
+    "New Sites",
+    "Fiber-to-the-Home",
+    "in-building solutions",
+    "distributed antenna systems",
+    "Managed Services"
+   ],
+   "description": "Owns and operates towers and fiber in Brazil and Colombia, serving mobile network operators and broadband customers.",
+   "evidence": "These disposal groups comprised the entire Latam reportable segment and therefore this segment was presented as a discontinued operation."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Mobile network operators and other communications service providers pay long-term lease fees for tower space, colocation, lease amendments and related services.",
+  "evidence": "Our primary customers are the leading MNOs in each of our markets."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Middle East and North Africa ceased to be a reportable segment because the company no longer has operations there.",
+   "evidence": "From January 1, 2025 MENA, which comprised of the Middle East and North Africa, is not a reportable segment as we no longer have operations there."
+  },
+  {
+   "text": "In 2025 the Latin America segment was presented as a discontinued operation after its tower and fiber disposal groups were classified as held for sale.",
+   "evidence": "The Latin American tower operations and I-Systems disposal groups were classified as held for sale at December 31, 2025."
+  },
+  {
+   "text": "In 2025 Rwanda left the Sub Saharan Africa segment following its disposal.",
+   "evidence": "Until October 9, 2025 this business segment also included Rwanda."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

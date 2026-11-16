@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001655891",
  "issuerName": "TORM plc",
- "builtAt": "2026-11-16T05:01:46.898Z",
+ "builtAt": "2026-11-16T09:52:08.326Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-011954",
@@ -10,10 +10,35 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1655891/000162828026011954/trmd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tanker segment",
+   "products": [
+    "gasoline",
+    "jet fuel",
+    "naphtha"
+   ],
+   "description": "Operates a product tanker fleet carrying refined oil products such as gasoline, jet fuel and naphtha for charterers worldwide.",
+   "evidence": "The Group has two operating segments, the Tanker segment, for which the services provided primarily comprise transportation of refined oil products such as gasoline, jet fuel, and naphtha, and the Marine Engineering segment for which the services provided primarily comprise developing and producing advanced and green marine equipment."
+  },
+  {
+   "name": "Marine Engineering segment",
+   "products": [
+    "Scrubbers and related services",
+    "Welding and mounting",
+    "marine engineering equipment",
+    "advanced and green marine equipment"
+   ],
+   "description": "Develops and produces marine engineering equipment, including scrubbers, welding and mounting, sold with installation and warranty services to shipowners.",
+   "evidence": "Some of the Group's contracts with customers relate to the sale of marine engineering equipment with installation services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Charterers and marine equipment customers pay freight, charter hire, demurrage and equipment purchase revenue under charter parties and installation contracts.",
+  "evidence": "Revenue comprises freight, charter hire, and demurrage revenue from the vessels as well as Marine Engineering revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

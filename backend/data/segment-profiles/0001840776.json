@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001840776",
  "issuerName": "HAGERTY, INC.",
- "builtAt": "2026-11-16T05:01:45.182Z",
+ "builtAt": "2026-11-16T09:49:55.591Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001840776-26-000013",
@@ -10,11 +10,47 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1840776/000184077626000013/hgty-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "Guaranteed Value",
+    "collector car and enthusiast vehicle insurance policies",
+    "Hagerty Drivers Club",
+    "HDC memberships",
+    "Hagerty Valuation Tools",
+    "Enthusiast+"
+   ],
+   "description": "Underwrites, sells and services collector car and enthusiast vehicle insurance policies as a managing general agent, and reinsures risks through Hagerty Re for enthusiasts.",
+   "evidence": "Our insurance offerings are centered around our \"Guaranteed Value\" insurance policy, which differentiates our coverage from the standard auto insurance market by insuring covered vehicles at their agreed upon value, rather than their depreciated value."
+  },
+  {
+   "name": "Marketplace",
+   "products": [
+    "Broad Arrow live auctions",
+    "brokered private sales",
+    "financing solutions"
+   ],
+   "description": "Runs live auctions and brokered private sales of collector and enthusiast cars and lends against them, for collectors and enthusiasts.",
+   "evidence": "We also operate a trusted marketplace where collectors and enthusiasts can buy and sell a wide range of vehicles, from entry level enthusiast vehicles to high value collector cars, primarily though Broad Arrow live auctions and brokered private sales."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Insurance carrier partners pay commissions and fees for underwriting, selling and servicing policies; enthusiasts pay for insurance, memberships, auctions and collector car loans.",
+  "evidence": "When operating as an MGA, we earn commission and fee revenue primarily from the underwriting, sale, and servicing of collector car and enthusiast vehicle insurance policies written on behalf of insurance carriers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company moved from a single reportable segment to two reportable segments, Insurance and Marketplace.",
+   "evidence": "Due to the continued revenue growth and recent geographic expansion of the marketplace business, beginning in the fourth quarter of 2025, we updated our segment reporting to reflect two operating and reportable segments: Insurance and Marketplace."
+  },
+  {
+   "text": "Motorsport Reg was sold in 2024, reducing registration fee revenue.",
+   "evidence": "This decrease was primarily attributable to the loss of registration fee revenue attributable to Motorsport Reg (\"MSR\"), which was sold in June 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

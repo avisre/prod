@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001981599",
  "issuerName": "Centuri Holdings, Inc.",
- "builtAt": "2026-11-16T05:01:46.693Z",
+ "builtAt": "2026-11-16T09:51:30.790Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001981599-26-000020",
@@ -10,11 +10,76 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1981599/000198159926000020/ctri-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Gas Utility Services",
+   "products": [
+    "maintenance",
+    "replacement",
+    "repair",
+    "installation",
+    "water and fiber",
+    "pipe and component assembly"
+   ],
+   "description": "Provides maintenance, replacement, repair and installation services for local natural gas distribution utilities modernizing infrastructure throughout the United States.",
+   "evidence": "U.S. Gas provides comprehensive services, including maintenance, replacement, repair, and installation for local natural gas distribution utilities (\"LDCs\") focused on the modernization of customers' infrastructure throughout the United States."
+  },
+  {
+   "name": "Canadian Utility Services",
+   "products": [
+    "maintenance",
+    "replacement",
+    "repair",
+    "installation",
+    "storm response services",
+    "construction of electrical systems used in renewable energy projects"
+   ],
+   "description": "Provides maintenance, replacement, repair and installation services for local gas and electric utilities and energy providers in Canada, plus storm response.",
+   "evidence": "Canadian Operations provides comprehensive services, including maintenance, replacement, repair, and installation for local gas and electric utilities and energy providers."
+  },
+  {
+   "name": "Union Electric Utility Services",
+   "products": [
+    "maintenance",
+    "replacement",
+    "repair",
+    "upgrade",
+    "expansion",
+    "heavy industrial work",
+    "civil, mechanical, electrical, and fabrication (component assembly)"
+   ],
+   "description": "Provides electric utility maintenance, replacement, repair, upgrade and expansion services for urban transmission and local distribution infrastructure in union markets.",
+   "evidence": "Union Electric provides a comprehensive set of electric utility services encompassing maintenance, replacement, repair, upgrade, and expansion services for urban transmission and local distribution infrastructure within union markets."
+  },
+  {
+   "name": "Non-Union Electric Utility Services",
+   "products": [
+    "maintenance",
+    "replacement",
+    "repair",
+    "upgrade",
+    "expansion"
+   ],
+   "description": "Provides electric utility maintenance, replacement, repair, upgrade and expansion services for urban transmission and local distribution infrastructure in non-union markets.",
+   "evidence": "Non-Union Electric provides a comprehensive set of electric utility services encompassing maintenance, replacement, repair, upgrade and expansion services for urban transmission and local distribution infrastructure within non-union markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Regulated electric and gas utilities pay Centuri under long-term master service agreements and bid contracts for modernizing, maintaining and installing their distribution and transmission infrastructure.",
+  "evidence": "The majority of our customer relationships are governed by long-term master service agreements (\"MSAs\"), comprising approximately 78% of our total revenue during fiscal 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company renamed the segment previously known as Canadian Gas Utility Services to Canadian Utility Services following its acquisition of Connect Atlantic Utility Services Corporation.",
+   "evidence": "Canadian Operations was previously known as Canadian Gas Utility Services or \"Canadian Gas\"."
+  },
+  {
+   "text": "The addition of Connect Atlantic Utility Services Corporation in 2025 was the only change in the composition of the Canadian Operations segment.",
+   "evidence": "The addition of Connect was the only change in the composition of this segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

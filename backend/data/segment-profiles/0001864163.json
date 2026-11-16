@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001864163",
  "issuerName": "Inter & Co, Inc.",
- "builtAt": "2026-11-16T05:01:50.601Z",
+ "builtAt": "2026-11-16T09:53:21.889Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0002070979-26-000185",
@@ -10,11 +10,65 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1864163/000207097926000185/intr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking & Spending",
+   "products": [
+    "checking accounts",
+    "cards",
+    "deposits",
+    "loans and advances",
+    "debt collection service",
+    "foreign exchange and financial services",
+    "Global Account digital solution"
+   ],
+   "description": "Provides banking products and services to clients, mainly through Inter's mobile application, including accounts, cards, deposits, loans and remittances.",
+   "evidence": "This segment comprises a wide range of banking products and services, such as checking accounts, cards, deposits, loans and advances and other services, which are available to the clients primarily by means of Inter's mobile application."
+  },
+  {
+   "name": "Investments",
+   "products": [
+    "acquisition, sale and custody of securities",
+    "structuring and distribution of securities in the capital market",
+    "management of fund portfolios and other assets"
+   ],
+   "description": "Trades, custodies and distributes securities and manages fund portfolios for investors, earning administration fees and commissions.",
+   "evidence": "This segment is responsible for operations related to the acquisition, sale and custody of securities, the structuring and distribution of securities in the capital market and operations related to the management of fund portfolios and other assets (purchase, sale, risk management)."
+  },
+  {
+   "name": "Insurance Brokerage",
+   "products": [
+    "warranties",
+    "life",
+    "property and automobile insurance",
+    "pension products",
+    "consortium products"
+   ],
+   "description": "Brokers insurance and pension products of partner insurance companies, plus third-party consortium products, to its clients for commissions.",
+   "evidence": "This segment offers insurance products underwritten by insurance companies with which Inter has an agreement ('partner insurance companies'), including warranties, life, property and automobile insurance and pension products, as well as consortium products provided by a third party with whom Inter has a commercial agreement."
+  },
+  {
+   "name": "Inter Shop",
+   "products": [
+    "sales of goods and/or services with partner companies",
+    "our digital platform"
+   ],
+   "description": "Sells goods and services from partner companies through its digital platform, earning commissions on sales and services.",
+   "evidence": "This segment includes sales of goods and/or services with partner companies through our digital platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay interest and fees for banking, cards and investments, while partner companies pay insurance brokerage and shopping commissions.",
+  "evidence": "Net revenues from services and commissions increased 14.5% to R$2,008.1 million in 2025 compared to R$1,753.3 million in 2024, mainly due to the increase in card interchange fees (amounts we receive in connection with the use of credit and debit cards we issued)."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold IM Design, an entity it had acquired in 2021.",
+   "evidence": "and (ii) the R$79.1 million decrease in capital gains/(losses) due to capital gain we had in 2024 from the acquisition of Inter Pag, in addition to the write-off performed due to the sale of IM Design in 2025, an entity we acquired in 2021."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

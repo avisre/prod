@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001840856",
  "issuerName": "SOUNDHOUND AI, INC.",
- "builtAt": "2026-11-16T05:01:45.395Z",
+ "builtAt": "2026-11-16T09:49:54.872Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001840856-26-000006",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1840856/000184085626000006/soun-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Conversational Intelligence",
+   "products": [
+    "Smart Answering",
+    "Smart Ordering",
+    "Dynamic Interaction™",
+    "Employee Assist",
+    "SoundHound Chat AI",
+    "Houndify"
+   ],
+   "description": "Provides Voice AI platform and conversational intelligence products to businesses and product creators in automotive, TV, IoT and customer service.",
+   "evidence": "The Company organized its operations into a single reportable segment, managed on a consolidated basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Businesses and product creators pay for Voice AI solutions, Houndify platform access and voice AI products such as Smart Ordering and Smart Answering.",
+  "evidence": "SoundHound's voice AI delivers best-in-class speed and accuracy in numerous languages to product creators across automotive, TV, and IoT, and to customer service industries via groundbreaking AI-driven products like Smart Answering, Smart Ordering, and Dynamic Interaction™, and Employee Assist."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

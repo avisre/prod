@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002013745",
  "issuerName": "Calumet, Inc. /DE",
- "builtAt": "2026-11-16T05:01:48.116Z",
+ "builtAt": "2026-11-16T09:52:39.784Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002013745-26-000007",
@@ -10,11 +10,58 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/2013745/000201374526000007/clmt-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Products and Solutions",
+   "products": [
+    "solvents",
+    "waxes",
+    "customized lubricating oils",
+    "white oils",
+    "petrolatums",
+    "gels",
+    "esters"
+   ],
+   "description": "Manufactures and markets specialty solvents, waxes, lubricating oils and related products sold to domestic and international industrial and consumer-facing customers as raw material components.",
+   "evidence": "In our Specialty Products and Solutions segment, we manufacture and market a wide variety of solvents, waxes, customized lubricating oils, white oils, petrolatums, gels, esters, and other products."
+  },
+  {
+   "name": "Performance Brands",
+   "products": [
+    "Royal Purple",
+    "Bel-Ray",
+    "TruFuel"
+   ],
+   "description": "Blends, packages and markets high performance branded products for consumer and industrial buyers under its own brand names.",
+   "evidence": "In our Performance Brands segment, we blend, package and market high performance products through our Royal Purple, Bel-Ray, and TruFuel brands."
+  },
+  {
+   "name": "Montana/Renewables",
+   "products": [
+    "renewable diesel",
+    "sustainable aviation fuel",
+    "renewable naphtha",
+    "conventional gasoline",
+    "diesel",
+    "jet fuel",
+    "specialty grades of asphalt"
+   ],
+   "description": "Operates renewable fuels and specialty asphalt facilities, processing renewable feedstocks and Canadian crude oil into fuels and asphalt for western North American markets.",
+   "evidence": "Our Montana/Renewables segment is comprised of two facilities — renewable fuels and specialty asphalt."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in domestic and international consumer-facing and industrial markets, local fuel and asphalt markets, and renewable offtake counterparties pay the company for specialty products, branded products, fuels and renewable fuels.",
+  "evidence": "Our specialty products are sold to domestic and international customers who purchase them primarily as raw material components for consumer-facing and industrial products."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company divested the Royal Purple Industrial business, which reduced Performance Brands segment sales.",
+   "evidence": "Performance Brands segment sales decreased primarily due to lower sales volumes as a result of the divestiture of the Royal Purple Industrial business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

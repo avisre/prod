@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001666138",
  "issuerName": "Atkore Inc.",
- "builtAt": "2026-11-16T05:01:48.440Z",
+ "builtAt": "2026-11-16T09:52:32.663Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-25-054049",
@@ -10,10 +10,42 @@
   "filingDate": "2025-11-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1666138/000162828025054049/atkr-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electrical",
+   "products": [
+    "conduit",
+    "cable",
+    "installation accessories",
+    "Metal Electrical Conduit and Fittings",
+    "Plastic Pipe Conduit and Fittings",
+    "Electrical Cable and Flexible Conduit",
+    "Fiberglass Conduit",
+    "Corrosion Resistant Conduit"
+   ],
+   "description": "Manufactures conduit, cable and installation accessories for electrical power systems, sold to contractors through the electrical wholesale channel.",
+   "evidence": "The Electrical segment manufactures high quality products used in the construction of electrical power systems including conduit, cable, and installation accessories."
+  },
+  {
+   "name": "Safety & Infrastructure",
+   "products": [
+    "metal framing",
+    "mechanical pipe",
+    "perimeter security",
+    "cable management",
+    "Metal Framing and Fittings",
+    "Construction Services"
+   ],
+   "description": "Designs and manufactures metal framing, mechanical pipe, perimeter security and cable management protecting critical infrastructure, marketed to contractors, OEMs and end users.",
+   "evidence": "The Safety & Infrastructure segment designs and manufactures solutions including metal framing, mechanical pipe, perimeter security, and cable management for the protection and reliability of critical infrastructure."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Electrical wholesalers, contractors, original equipment manufacturers and end users pay Atkore for electrical products and safety and infrastructure solutions.",
+  "evidence": "These solutions are marketed to contractors, original equipment manufacturers and end users."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

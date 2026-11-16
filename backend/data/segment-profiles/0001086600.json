@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001086600",
  "issuerName": "ALLIANCE RESOURCE PARTNERS LP",
- "builtAt": "2026-11-16T05:01:46.646Z",
+ "builtAt": "2026-11-16T09:51:18.344Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-020468",
@@ -10,10 +10,53 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1086600/000110465926020468/arlp-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Illinois Basin Coal Operations",
+   "products": [
+    "Gibson mining complex",
+    "Warrior mining complex",
+    "River View mining complex",
+    "Hamilton mining complex"
+   ],
+   "description": "Produces thermal and metallurgical coal from four underground mining complexes in the Illinois Basin for domestic utilities, industrial customers and international buyers.",
+   "evidence": "The Illinois Basin Coal Operations reportable segment includes (a) the Gibson mining complex, (b) the Warrior mining complex, (c) the River View mining complex and (d) the Hamilton mining complex."
+  },
+  {
+   "name": "Appalachia Coal Operations",
+   "products": [
+    "Mettiki mining complex",
+    "Tunnel Ridge mining complex",
+    "MC Mining mining complex"
+   ],
+   "description": "Produces coal from three Appalachian mining complexes for domestic utilities, industrial users and international customers.",
+   "evidence": "The Appalachia Coal Operations reportable segment includes (a) the Mettiki mining complex, (b) the Tunnel Ridge mining complex and (c) the MC Mining mining complex."
+  },
+  {
+   "name": "Oil & Gas Royalties",
+   "products": [
+    "oil & gas mineral interests",
+    "equity interests in AllDale III"
+   ],
+   "description": "Owns oil and gas mineral and royalty interests and collects royalties and lease bonuses from operators developing them.",
+   "evidence": "The Oil & Gas Royalties reportable segment includes oil & gas mineral interests held by Alliance Minerals as well as our equity interests in AllDale III."
+  },
+  {
+   "name": "Coal Royalties",
+   "products": [
+    "coal mineral reserves",
+    "coal mineral resources"
+   ],
+   "description": "Leases coal mineral reserves and resources owned or leased by Alliance Resource Properties to mining complexes and others, earning coal royalties.",
+   "evidence": "The Coal Royalties reportable segment includes substantially all of our coal mineral resources and the majority of our coal mineral reserves owned or leased by Alliance Resource Properties."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Utilities, industrial customers and international buyers pay for coal, while operators pay royalties and lease bonuses for the mineral interests.",
+  "evidence": "We market our coal production to major domestic and international utilities and industrial customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

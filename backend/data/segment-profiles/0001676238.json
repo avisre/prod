@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001676238",
  "issuerName": "Braze, Inc.",
- "builtAt": "2026-11-16T05:01:49.360Z",
+ "builtAt": "2026-11-16T09:52:55.420Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001676238-26-000013",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1676238/000167623826000013/brze-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "customer engagement platform segment",
+   "products": [
+    "BrazeAI Decisioning Studio",
+    "BrazeAI Operator",
+    "BrazeAI Agent Console",
+    "Canvas",
+    "Braze Data Platform",
+    "Braze Audience Sync",
+    "Braze Content Cards and Banners",
+    "Landing Pages"
+   ],
+   "description": "Provides a cloud-based customer engagement platform that lets brands orchestrate personalized, cross-channel interactions with their customers in real time.",
+   "evidence": "As such, we have one operating segment, which is the customer engagement platform segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscriptions for the cloud-based customer engagement platform, priced largely on the number of consumers reached and message volume.",
+  "evidence": "The Company derives revenues from customers by providing cloud-based customer engagement platform subscriptions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

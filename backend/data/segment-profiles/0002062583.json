@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002062583",
  "issuerName": "MiniMed Group, Inc.",
- "builtAt": "2026-11-16T05:01:47.172Z",
+ "builtAt": "2026-11-16T09:51:49.290Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-045915",
@@ -10,10 +10,29 @@
   "filingDate": "2026-06-29",
   "url": "https://www.sec.gov/Archives/edgar/data/2062583/000162828026045915/mdt-20260424.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "diabetes management",
+   "products": [
+    "insulin pumps",
+    "continuous glucose monitoring systems and sensors",
+    "smart insulin pens",
+    "CGMs",
+    "consumables",
+    "infusion sets",
+    "MiniMed 780G system",
+    "InPen"
+   ],
+   "description": "Develops, manufactures and markets insulin pumps, glucose sensors, consumables and dosing software used by people with diabetes and their clinicians.",
+   "evidence": "The Company manages its business activities on a consolidated basis and operates as one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "People with diabetes and their clinicians buy insulin pumps, sensors, consumables and software, largely through distributors in the durable medical equipment channel.",
+  "evidence": "We currently utilize a dual-channel approach in the United States where we distribute the majority of our products through the DME channel and only a small percentage of our products through the pharmacy channel"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

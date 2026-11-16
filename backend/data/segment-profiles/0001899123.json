@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001899123",
  "issuerName": "BITDEER TECHNOLOGIES GROUP",
- "builtAt": "2026-11-16T05:01:45.001Z",
+ "builtAt": "2026-11-16T09:49:21.755Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-049770",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin mining infrastructure",
+   "products": [
+    "self-mining",
+    "sale of mining rigs and accessories",
+    "cloud hash rate",
+    "hosting",
+    "AI infrastructure and AI cloud services",
+    "SEALMINER mining rigs",
+    "Cloud Hosting",
+    "General Hosting"
+   ],
+   "description": "Provides Bitcoin mining through self-mining, cloud hash rate and hosting, sells SEALMINER mining rigs, and offers AI cloud and colocation services to customers.",
+   "evidence": "Accordingly, the Group has only one operating segment and therefore, no segment information is presented."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for hash rate subscriptions, hosted mining rigs, purchased SEALMINER rigs, and AI cloud and colocation capacity.",
+  "evidence": "Through our primary cloud hash rate solution, we sell our proprietary hash rate to customers, offering hash rate subscription plans at fixed prices and sharing mining income with them under certain arrangements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819133",
  "issuerName": "Tango Therapeutics, Inc.",
- "builtAt": "2026-11-16T05:01:48.627Z",
+ "builtAt": "2026-11-16T09:52:48.480Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-092518",
@@ -10,11 +10,37 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1819133/000119312526092518/tngx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology Segment",
+   "products": [
+    "vopimetostat",
+    "TNG456",
+    "TNG260",
+    "TNG961",
+    "TNG908",
+    "TNG348"
+   ],
+   "description": "Precision oncology company developing small-molecule therapeutics for patients with genetically defined or biomarker-driven cancers, managed and resourced on a consolidated basis.",
+   "evidence": "The Company operates in the U.S. and has one operating segment that is managed on a consolidated basis ."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Revenue comes mainly from Gilead under a license and collaboration agreement rather than from product sales.",
+  "evidence": "The Company's revenues are primarily generated through its license and collaboration agreement with Gilead."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company discontinued a development program after toxicity in dose escalation.",
+   "evidence": "In May 2024, we announced the discontinuation of TNG348, a USP1 inhibitor, due to toxicity observed in the dose escalation portion of our Phase 1/2 clinical trial."
+  },
+  {
+   "text": "In 2024 the company stopped enrollment in a clinical trial for portfolio prioritization.",
+   "evidence": "In November 2024, we announced we stopped enrollment of the TNG908 Phase 1/2 clinical trial due to insufficient brain exposure for clinical activity in GBM patients and portfolio prioritization."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

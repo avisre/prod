@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002035149",
  "issuerName": "Flowco Holdings Inc.",
- "builtAt": "2026-11-16T05:01:48.985Z",
+ "builtAt": "2026-11-16T09:53:09.695Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-077219",
@@ -10,11 +10,43 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/2035149/000119312526077219/floc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Production Solutions",
+   "products": [
+    "high pressure gas lift",
+    "conventional gas lift",
+    "plunger lift",
+    "digital solutions",
+    "Surface Equipment",
+    "Downhole Components"
+   ],
+   "description": "Artificial lift operations, including digital solutions, sold to oil and natural gas producers to optimize production over well lives.",
+   "evidence": "Production Solutions: segment is comprised of our artificial lift operations, including digital solutions"
+  },
+  {
+   "name": "Natural Gas Technologies",
+   "products": [
+    "vapor recovery",
+    "natural gas systems",
+    "VRUs"
+   ],
+   "description": "Vapor recovery and natural gas systems operations, designing, manufacturing, renting, selling and servicing equipment for oil and gas producers.",
+   "evidence": "Natural Gas Technologies: segment is comprised of our vapor recovery and natural gas systems operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Oil and natural gas producers pay rental rates and sales prices for the company's surface equipment, downhole components, vapor recovery and natural gas systems.",
+  "evidence": "We design and deliver products and services that enable our customers to optimize oil and natural gas production rates and volumes to maximize cash flow over the decades-long lives of their wells."
+ },
+ "changes": [
+  {
+   "text": "The 2024 Business Combination added Flogistix's vapor recovery systems to the combined fleet within the Natural Gas Technologies segment.",
+   "evidence": "The primary driver for the increase in average active systems was related to Flogistix's VRUs that were added to our combined fleet as part of the 2024 Business Combination within the Natural Gas Technologies segment and Estis' organic growth in its surface equipment rental fleet within the Production Solutions segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
