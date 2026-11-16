@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001476045",
+ "issuerName": "Chatham Lodging Trust",
+ "builtAt": "2026-11-16T05:21:42.593Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006103",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1476045/000143774926006103/cldt20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hotels",
+   "products": [
+    "hotel rooms"
+   ],
+   "description": "Owns hotels operated under premium brands.",
+   "evidence": "Segment Information Management evaluates the Company's hotels as a single reportable segment as a result of aggregating multiple operating segments, because all of the Company's hotels have similar economic characteristics and provide similar services to similar types of customers (See Note 15 )."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates.",
+  "evidence": "Lease revenue from each TRS Lessee is eliminated in consolidation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

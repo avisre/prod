@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001020214",
+ "issuerName": "CERUS CORP",
+ "builtAt": "2026-11-16T05:21:42.267Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085678",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1020214/000119312526085678/cers-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cerus",
+   "products": [
+    "blood safety products"
+   ],
+   "description": "Makes blood safety systems and products.",
+   "evidence": "Segment, Customer and Geographic Information The Company manages its business activities on a consolidated basis and operates in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Blood centres and hospitals buy its products.",
+  "evidence": "The Company's Chief Executive Officer is the Chief Operating Decision Maker (\"CODM\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

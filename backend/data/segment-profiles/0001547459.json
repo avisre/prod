@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001547459",
+ "issuerName": "Natural Grocers by Vitamin Cottage, Inc.",
+ "builtAt": "2026-11-16T05:21:36.083Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-037556",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1547459/000143774925037556/ngvc20250930_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

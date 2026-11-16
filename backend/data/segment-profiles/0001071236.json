@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001071236",
+ "issuerName": "Red River Bancshares, Inc.",
+ "builtAt": "2026-11-16T05:21:37.616Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001071236-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1071236/000107123626000027/rrbi-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

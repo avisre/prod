@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001124524",
+ "issuerName": "CRYOPORT, INC.",
+ "builtAt": "2026-11-16T05:21:34.219Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024180",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1124524/000110465926024180/cyrx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life Sciences Services",
+   "products": [
+    "BioLogistics Solutions"
+   ],
+   "description": "Provides temperature-controlled logistics for life sciences.",
+   "evidence": "4 Table of Contents Our Reportable Segments We report our financial performance in two segments that include five core areas:"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Biopharma and clinical customers pay for logistics and storage.",
+  "evidence": "2% ​ See Note 19 – Segment Reporting to our consolidated financial statements included un"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

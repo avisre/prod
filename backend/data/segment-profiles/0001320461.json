@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001320461",
+ "issuerName": "COOPER-STANDARD HOLDINGS INC.",
+ "builtAt": "2026-11-16T05:21:42.472Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001320461-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1320461/000132046126000012/cps-20260213.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

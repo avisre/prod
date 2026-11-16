@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001557746",
+ "issuerName": "Aclaris Therapeutics, Inc.",
+ "builtAt": "2026-11-16T05:21:36.702Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020540",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1557746/000110465926020540/acrs-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "immuno-inflammatory diseases",
+   "products": [
+    "therapies"
+   ],
+   "description": "Develops therapies for immuno-inflammatory diseases.",
+   "evidence": "​ Segment Information ​ We operate and report as one reportable segment, which focuses on identifying and developing innovative therapies to address significant unmet needs for immuno-inflammatory diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Our chief operating decision maker, our Chief Executive Officer, manages our operations on a consolidated basis for the purpose of making operating decisions, assessing fina"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

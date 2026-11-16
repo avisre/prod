@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001030192",
+ "issuerName": "IDAHO STRATEGIC RESOURCES, INC",
+ "builtAt": "2026-11-16T05:21:39.670Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-002560",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1030192/000165495426002560/idr_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Idaho Strategic",
+   "products": [
+    "gold",
+    "rare earth elements"
+   ],
+   "description": "Mines gold and explores for rare earths in Idaho.",
+   "evidence": "Segment Reporting The Company operates as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells gold concentrate and mineral products.",
+  "evidence": "All financial information is presented on a consolidated basis and reviewed by the Company's Chief Executive Officer as the Chief Operating Decision Maker (\"CODM\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

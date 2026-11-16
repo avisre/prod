@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000910638",
+ "issuerName": "3D SYSTEMS CORP",
+ "builtAt": "2026-11-16T05:21:43.566Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015997",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/910638/000162828026015997/ddd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare Solutions",
+   "products": [
+    "surgical planning",
+    "implants",
+    "instrumentation"
+   ],
+   "description": null,
+   "evidence": "Healthcare Solutions Leveraging decades of experience, we provide industry-leading surgical planning, implants, instrumentation, and medical educati"
+  },
+  {
+   "name": "Industrial Solutions",
+   "products": [
+    "3D printers",
+    "materials",
+    "software"
+   ],
+   "description": null,
+   "evidence": "We provide comprehensive 3D printing and digital manufacturing solutions, including 3D printers for plastics and metals, materials, software, and services, including maintenance, advanced manufacturing and applications engineering."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and manufacturers buy its printers, materials and services.",
+  "evidence": "Healthcare Solutions Leveraging decades of experience, we provide industry-leading surgical planning, implants, instrumentation, and medical educati"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

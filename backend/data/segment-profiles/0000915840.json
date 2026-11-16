@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000915840",
+ "issuerName": "BEAZER HOMES USA INC",
+ "builtAt": "2026-11-16T05:21:35.058Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000915840-25-000075",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/915840/000091584025000075/bzh-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

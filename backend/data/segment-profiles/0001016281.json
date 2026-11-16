@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001016281",
+ "issuerName": "CARRIAGE SERVICES, INC.",
+ "builtAt": "2026-11-16T05:21:34.257Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001016281-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1016281/000101628126000021/csv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Funeral Home Operations",
+   "products": [
+    "funeral services"
+   ],
+   "description": null,
+   "evidence": "We operate in two business segments: Funeral Home Operations, which currently accounts for approximately 65% of our total revenue, and Cemetery Operations, which currently accounts for approximately 35% of our total revenue."
+  },
+  {
+   "name": "Cemetery Operations",
+   "products": [
+    "cemetery services"
+   ],
+   "description": "Runs cemeteries across nine states.",
+   "evidence": "We operate in two business segments: Funeral Home Operations, which currently accounts for approximately 65% of our total revenue, and Cemetery Operations, which currently accounts for approximately 35% of our total revenue."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Families pay for funeral and cemetery services.",
+  "evidence": "At December 31, 2025, we operated 155 funeral homes in 24 states and 28 cemeteries in 9 states."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

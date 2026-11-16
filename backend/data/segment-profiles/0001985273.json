@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001985273",
+ "issuerName": "TOYO Co., Ltd",
+ "builtAt": "2026-11-16T05:21:40.059Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-037921",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1985273/000121390026037921/ea0283695-20f_toyo.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

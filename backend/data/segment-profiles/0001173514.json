@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001173514",
+ "issuerName": "HYSTER-YALE, INC.",
+ "builtAt": "2026-11-16T05:21:36.783Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001173514-26-000049",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1173514/000117351426000049/hy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bolzoni",
+   "products": [
+    "lift truck attachments",
+    "material handling equipment"
+   ],
+   "description": "Makes lift truck attachments and material handling equipment.",
+   "evidence": "The Company has four segments, which include three in the lift truck business as discussed below, as well as Bolzoni."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Lift truck makers and users buy its attachments.",
+  "evidence": "The Company has four segments, which include three in the lift truck business as discussed below, as well as Bolzoni."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

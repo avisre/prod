@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001844450",
  "issuerName": "Electrovaya Inc.",
- "builtAt": "2026-11-15T14:15:37.165Z",
+ "builtAt": "2026-11-16T05:21:40.173Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001753926-25-001917",
@@ -16,7 +16,6 @@
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Battery manufacturing"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

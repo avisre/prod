@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000930236",
+ "issuerName": "REDWOOD TRUST INC",
+ "builtAt": "2026-11-16T05:21:35.398Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000930236-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/930236/000093023626000007/rwt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sequoia Mortgage Banking",
+   "products": [
+    "residential mortgage loans"
+   ],
+   "description": "Buys and securitises jumbo residential mortgages.",
+   "evidence": "We operate our business across four reportable segments: Sequoia Mortgage Banking, CoreVest Mortgage Banking, Redwood Investments, and Legacy Investments."
+  },
+  {
+   "name": "CoreVest Mortgage Banking",
+   "products": [],
+   "description": "Lends to residential real estate investors.",
+   "evidence": "We operate our business across four reportable segments: Sequoia Mortgage Banking, CoreVest Mortgage Banking, Redwood Investments, and Legacy Investments."
+  },
+  {
+   "name": "Redwood Investments",
+   "products": [
+    "mortgage-backed securities",
+    "loan purchases"
+   ],
+   "description": "Invests in mortgage assets.",
+   "evidence": "We operate our business across four reportable segments: Sequoia Mortgage Banking, CoreVest Mortgage Banking, Redwood Investments, and Legacy Investments."
+  },
+  {
+   "name": "Legacy Investments",
+   "products": [],
+   "description": "Holds legacy investments.",
+   "evidence": "We operate our business across four reportable segments: Sequoia Mortgage Banking, CoreVest Mortgage Banking, Redwood Investments, and Legacy Investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns interest and gains on mortgage assets it originates or buys.",
+  "evidence": "We generally intend to retain profits generated and taxed at our taxable REIT subsidiaries, and to distribute as dividends at least 90% of the taxable income we generate at our REIT."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CoreVest Mortgage Banking): business-purpose loans",
+  "product not in text (Legacy Investments): legacy investments"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001830214",
+ "issuerName": "GINKGO BIOWORKS HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:21:40.483Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012346",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1830214/000162828026012346/dna-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cell engineering",
+   "products": [
+    "tools",
+    "biological R&D services"
+   ],
+   "description": "Provides cell engineering tools and R&D services.",
+   "evidence": "Ginkgo sells services to government and commercial customers in two business segments: cell engineering , where we provide tools and biological R&D services across a range of industries, and bio"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government and commercial customers pay for R&D services.",
+  "evidence": "The ability to engineer biology has had and will have a profound impact on how we develop new medicines and vaccines, grow our food, and manufacture many of the things we use every day."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

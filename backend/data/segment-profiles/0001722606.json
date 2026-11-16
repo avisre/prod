@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001722606",
+ "issuerName": "Metalla Royalty & Streaming Ltd.",
+ "builtAt": "2026-11-16T05:21:34.876Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001632",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1722606/000106299326001632/exhibit99-1.htm",
+  "exhibit": "exhibit99-1.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

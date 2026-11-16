@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000903419",
+ "issuerName": "ALERUS FINANCIAL CORP",
+ "builtAt": "2026-11-16T05:21:33.897Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006820",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/903419/000143774926006820/alrs20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Provides banking products to businesses and consumers.",
+   "evidence": "Through the Company's subsidiary, Alerus Financial, National Association (the \"Bank\"), the Company provides innovative and comprehensive financial solutions to businesses and consumers through three distinct business segments—banking, retirement and benefit services, and wealth."
+  },
+  {
+   "name": "retirement and benefit services",
+   "products": [
+    "benefit services"
+   ],
+   "description": "Administers retirement and benefit plans.",
+   "evidence": "Through the Company's subsidiary, Alerus Financial, National Association (the \"Bank\"), the Company provides innovative and comprehensive financial solutions to businesses and consumers through three distinct business segments—banking, retirement and benefit services, and wealth."
+  },
+  {
+   "name": "wealth",
+   "products": [],
+   "description": "Provides wealth advisory services.",
+   "evidence": "Through the Company's subsidiary, Alerus Financial, National Association (the \"Bank\"), the Company provides innovative and comprehensive financial solutions to businesses and consumers through three distinct business segments—banking, retirement and benefit services, and wealth."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay interest and fees for banking, retirement and wealth services.",
+  "evidence": "In prior periods, the Company had a fourth operating segment, mortgage."
+ },
+ "changes": [
+  {
+   "text": "Dropped its mortgage operating segment, leaving banking, retirement and benefit services, and wealth.",
+   "evidence": "In prior periods, the Company had a fourth operating segment, mortgage."
+  }
+ ],
+ "dropped": [
+  "product not in text (retirement and benefit services): retirement plan services",
+  "product not in text (wealth): wealth management services"
+ ],
+ "reader": "agent"
+}

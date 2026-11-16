@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001995520",
+ "issuerName": "Yuanbao Inc.",
+ "builtAt": "2026-11-16T05:21:40.286Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-052096",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1995520/000110465926052096/yb-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "insurance distribution services",
+   "products": [
+    "insurance distribution"
+   ],
+   "description": "Distributes insurance products.",
+   "evidence": "110 Table of Contents Revenue We generate revenue from (i) insurance distribution services, (ii) system services, and (iii) other sources."
+  },
+  {
+   "name": "system services",
+   "products": [],
+   "description": "Provides technology system services.",
+   "evidence": "110 Table of Contents Revenue We generate revenue from (i) insurance distribution services, (ii) system services, and (iii) other sources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurers pay commissions and clients pay for system services.",
+  "evidence": "The following table sets forth a breakdown of our total revenue by business segment, both in absolute amounts and as percentages of our total revenue, for the years indicated: ​"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (system services): system services"
+ ],
+ "reader": "agent"
+}

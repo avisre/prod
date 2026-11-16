@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001446847",
+ "issuerName": "IRONWOOD PHARMACEUTICALS INC",
+ "builtAt": "2026-11-16T05:21:36.191Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020489",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1446847/000110465926020489/irwd-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "human therapeutics",
+   "products": [],
+   "description": "Develops and sells medicines for gastrointestinal and other conditions.",
+   "evidence": "We operate in one reportable business segment – human therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "We operate in one reportable business segment – human therapeutics."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (human therapeutics): prescription medicines"
+ ],
+ "reader": "agent"
+}

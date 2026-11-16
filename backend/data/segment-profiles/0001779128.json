@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001779128",
+ "issuerName": "STRATA CRITICAL MEDICAL, INC.",
+ "builtAt": "2026-11-16T05:21:42.941Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013628",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1779128/000162828026013628/blde-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Logistics",
+   "products": [
+    "ground logistics"
+   ],
+   "description": "Provides ground logistics for organ transplant.",
+   "evidence": "Strata operates across two operating segments: Logistics and Clinical (see Note 11 to the consolidated financial statements included in this Annual Report on Form 10-K for further information on reportable segments), offering a variety of logistics and clinical services related to organ transplant and the broader healthcare industry."
+  },
+  {
+   "name": "Clinical",
+   "products": [
+    "clinical services"
+   ],
+   "description": "Provides clinical services for transplant.",
+   "evidence": "Strata operates across two operating segments: Logistics and Clinical (see Note 11 to the consolidated financial statements included in this Annual Report on Form 10-K for further information on reportable segments), offering a variety of logistics and clinical services related to organ transplant and the broader healthcare industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Transplant centres pay for logistics and clinical services.",
+  "evidence": "We provide ground logistics using a combinat"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

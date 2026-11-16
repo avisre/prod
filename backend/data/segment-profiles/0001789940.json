@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001789940",
+ "issuerName": "First Watch Restaurant Group, Inc.",
+ "builtAt": "2026-11-16T05:21:34.149Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001789940-26-000014",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1789940/000178994026000014/fwrg-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "restaurants",
+   "products": [
+    "food and beverage"
+   ],
+   "description": "Runs and franchises First Watch restaurants.",
+   "evidence": "Segment Information Management determined the Company ' s single operating segment on the basis that the Company ' s Chief Operating Decision Maker (the \"CODM\"), the Chief Executive Officer, assesses performance and allocates resources at the Company's consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests buy food and beverage; franchisees pay fees.",
+  "evidence": "Revenue is derived from sales of food and beverage, net discounts, by our restaurants as well as franchise"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

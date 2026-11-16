@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001704720",
+ "issuerName": "Cannae Holdings, Inc.",
+ "builtAt": "2026-11-16T05:21:36.748Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001704720-26-000045",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1704720/000170472026000045/cnne-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alight",
+   "products": [],
+   "description": "Owns Alight's benefits and cloud businesses.",
+   "evidence": "As of December 31, 2025, we had the following reportable segments: Alight ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers pay fees for benefits administration services.",
+  "evidence": "We are a long-term owner that secures control and governance rights of other companies primarily to engage in their lines of business, and we have no preset time constraints dictating when we sell or dispose of our businesses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Alight): benefits administration",
+  "product not in text (Alight): cloud services"
+ ],
+ "reader": "agent"
+}

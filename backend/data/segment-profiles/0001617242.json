@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001617242",
+ "issuerName": "KEARNY FINANCIAL CORP.",
+ "builtAt": "2026-11-16T05:21:43.602Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001617242-26-000020",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1617242/000161724226000020/krny-20260630.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

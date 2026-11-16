@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001034842",
+ "issuerName": "RIGEL PHARMACEUTICALS INC",
+ "builtAt": "2026-11-16T05:21:42.344Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001034842-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1034842/000103484226000015/rigl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rigel",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops and sells medicines for immune and blood disorders.",
+   "evidence": "We view our operations and manage our business as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and partners pay for its medicines.",
+  "evidence": "Segment Reporting Operating segments are defined as components of an enterprise about which separate financial information is available that is evaluated regularly by the chief operating decision maker (CODM), or decision making-group, in deciding how to allocate resources and in assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

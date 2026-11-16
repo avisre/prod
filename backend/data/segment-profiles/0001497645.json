@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001497645",
+ "issuerName": "SUMMIT HOTEL PROPERTIES, INC.",
+ "builtAt": "2026-11-16T05:21:37.016Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001497645-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1497645/000149764526000015/inn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hotels",
+   "products": [],
+   "description": "Owns and operates premium-brand hotels.",
+   "evidence": "We have one reportable segment as defined by generally accepted accounting principles (\"GAAP\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates and hotel charges.",
+  "evidence": "We believe that our focus on this segment provides us the opportunity to achieve strong, risk-adjusted returns across multiple lodging cycles for several reasons, including: • RevPAR Growth ."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (hotels): hotel rooms"
+ ],
+ "reader": "agent"
+}

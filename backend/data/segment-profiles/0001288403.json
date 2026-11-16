@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001288403",
+ "issuerName": "W&T OFFSHORE, INC.",
+ "builtAt": "2026-11-16T05:21:37.727Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028315",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1288403/000110465926028315/wti-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and natural gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Produces oil and gas in the Gulf of Mexico.",
+   "evidence": "We operate in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "We generate incremental production from probable reserves and possible reserves due to natural drive mechanisms."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

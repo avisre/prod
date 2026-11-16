@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001336706",
+ "issuerName": "Northpointe Bancshares, Inc.",
+ "builtAt": "2026-11-16T05:21:37.411Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001336706-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1336706/000133670626000020/npb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage Purchase Program",
+   "products": [
+    "mortgage loans"
+   ],
+   "description": "Buys residential mortgages from correspondents.",
+   "evidence": "Business Segments We offer financial products and services through our two primary business segments, Mortgage Purchase Program"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns interest and fees on mortgages it purchases.",
+  "evidence": "Our delivery systems are primarily digital and are available to clients nationwide; and we provide our staff with loan production offices across 25 cities in 15 states and support them through our centralized operating center in Grand Rapids, Michigan."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

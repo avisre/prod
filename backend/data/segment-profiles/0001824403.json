@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001824403",
+ "issuerName": "RESERVOIR MEDIA, INC.",
+ "builtAt": "2026-11-16T05:21:34.636Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-067615",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1824403/000110465926067615/rsvr-20260331x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Music Publishing",
+   "products": [],
+   "description": "Owns and licenses music publishing rights.",
+   "evidence": "We have two reportable segments—Music Publishing and Recorded Music."
+  },
+  {
+   "name": "Recorded Music",
+   "products": [],
+   "description": "Owns and licenses recorded music.",
+   "evidence": "We have two reportable segments—Music Publishing and Recorded Music."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Streaming services and labels pay royalties for its rights.",
+  "evidence": "We operate a music publishing business, a recorded music business, and a management business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Music Publishing): music publishing rights",
+  "product not in text (Recorded Music): recorded music"
+ ],
+ "reader": "agent"
+}

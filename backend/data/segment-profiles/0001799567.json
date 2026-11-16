@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001799567",
+ "issuerName": "DoubleDown Interactive Co., Ltd.",
+ "builtAt": "2026-11-16T05:21:39.730Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-022395",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1799567/000162828026022395/ddi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "social casino games",
+   "products": [],
+   "description": "Runs social casino games.",
+   "evidence": "We operate two lines of businesses: (i) social casino games; and (ii) online casino services which offer games typically available in land-based casinos such as blackjack, roulette, and slot machines (\"iGaming\"), each of which is described below."
+  },
+  {
+   "name": "online casino services",
+   "products": [
+    "iGaming",
+    "blackjack",
+    "roulette",
+    "slot machines"
+   ],
+   "description": "Offers real-money online casino games.",
+   "evidence": "We operate two lines of businesses: (i) social casino games; and (ii) online casino services which offer games typically available in land-based casinos such as blackjack, roulette, and slot machines (\"iGaming\"), each of which is described below."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Players buy virtual chips and pay to play.",
+  "evidence": "We operate two lines of businesses: (i) social casino games; and (ii) online casino services which offer games typically available in land-based casinos such as blackjack, roulette, and slot machines (\"iGaming\"), each of which is described below."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (social casino games): social casino games"
+ ],
+ "reader": "agent"
+}

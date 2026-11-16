@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001559053",
+ "issuerName": "PROTHENA CORPORATION PUBLIC LIMITED COMPANY",
+ "builtAt": "2026-11-16T05:21:43.252Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001559053-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1559053/000155905326000008/prta-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prothena",
+   "products": [],
+   "description": "Develops protein-based therapies.",
+   "evidence": "All clinical programs are included in one operating segment because the majority of the Company's clinical programs have similar economic and other characteristics, including the nature of the clinical programs and production processes, and regulatory"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "A single management team reports to the chief operating decision maker (\"CODM\") who comprehensively manages the entire business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Prothena): clinical programmes"
+ ],
+ "reader": "agent"
+}

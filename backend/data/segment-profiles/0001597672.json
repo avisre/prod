@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001597672",
+ "issuerName": "RAYONIER ADVANCED MATERIALS INC.",
+ "builtAt": "2026-11-16T05:21:39.405Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001597672-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1597672/000159767226000010/ryam-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Paperboard",
+   "products": [],
+   "description": "Makes paperboard at Temiscaming.",
+   "evidence": "Certain infrastructure assets of the site's cellulose plant continue to run in support of the ongoing energy and other needs of our Temiscaming paperboard and high-yield pulp plants that support our Paperboard and High-Yield Pulp operating segments, which continue to operate at full capacity, subject to market conditions."
+  },
+  {
+   "name": "High-Yield Pulp",
+   "products": [],
+   "description": "Makes high-yield pulp.",
+   "evidence": "Certain infrastructure assets of the site's cellulose plant continue to run in support of the ongoing energy and other needs of our Temiscaming paperboard and high-yield pulp plants that support our Paperboard and High-Yield Pulp operating segments, which continue to operate at full capacity, subject to market conditions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Packaging converters buy its paperboard and pulp.",
+  "evidence": "Operating Segments In the first quarter of 2025, we reorg"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Paperboard): paperboard",
+  "product not in text (High-Yield Pulp): high-yield pulp"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001447362",
+ "issuerName": "CASTLE BIOSCIENCES, INC.",
+ "builtAt": "2026-11-16T05:21:39.443Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012272",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1447362/000162828026012272/cstl-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

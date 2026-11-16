@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001928446",
+ "issuerName": "GRANITE RIDGE RESOURCES, INC.",
+ "builtAt": "2026-11-16T05:21:34.702Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001928446-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1928446/000192844626000007/grnt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and natural gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Produces oil and gas.",
+   "evidence": "The reporting segment generates revenue through the sale of oil and natural gas."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "The Company's chief operating decision maker (\"CODM\"), who is the Company's Chief Executive Officer, manages operations on a consolidated basis for purposes of evaluating operational performance and allocating resources."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

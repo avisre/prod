@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001683606",
  "issuerName": "CARS.COM, INC.",
- "builtAt": "2026-11-15T14:13:32.574Z",
+ "builtAt": "2026-11-16T05:21:41.918Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076546",
@@ -15,8 +15,6 @@
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Automotive marketplace platform",
-  "revenue model not grounded"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

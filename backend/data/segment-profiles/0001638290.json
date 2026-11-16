@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001638290",
+ "issuerName": "MasterCraft Boat Holdings, Inc.",
+ "builtAt": "2026-11-16T05:21:39.685Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-387432",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1638290/000119312526387432/mcft-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Performance and Wake",
+   "products": [
+    "performance boats"
+   ],
+   "description": "Makes performance and wake boats.",
+   "evidence": "As a result, the Company operates and reports through three reportable segments: Performance and Wake, Leisure, and Recreation and Sport Fishing."
+  },
+  {
+   "name": "Leisure",
+   "products": [
+    "pontoon boats"
+   ],
+   "description": "Makes pontoon boats.",
+   "evidence": "As a result, the Company operates and reports through three reportable segments: Performance and Wake, Leisure, and Recreation and Sport Fishing."
+  },
+  {
+   "name": "Recreation and Sport Fishing",
+   "products": [
+    "sport fishing boats"
+   ],
+   "description": "Makes recreation and fishing boats.",
+   "evidence": "As a result, the Company operates and reports through three reportable segments: Performance and Wake, Leisure, and Recreation and Sport Fishing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Boat buyers purchase through dealers.",
+  "evidence": "During the fourth quarter of fiscal 2026, the Company renamed its MasterCraft segment to the Performance and Wake segment and its Pontoon segment to the Leisure segment."
+ },
+ "changes": [
+  {
+   "text": "Renamed its MasterCraft and Pontoon segments to Performance and Wake and Leisure in the fourth quarter of fiscal 2026.",
+   "evidence": "During the fourth quarter of fiscal 2026, the Company renamed its MasterCraft segment to the Performance and Wake segment and its Pontoon segment to the Leisure segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Recreation and Sport Fishing): recreational boats"
+ ],
+ "reader": "agent"
+}

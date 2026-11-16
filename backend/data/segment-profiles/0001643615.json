@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001643615",
+ "issuerName": "Onterris, Inc.",
+ "builtAt": "2026-11-16T05:21:40.263Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076511",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1643615/000119312526076511/meg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Assessment, Permitting and Response",
+   "products": [
+    "environmental services"
+   ],
+   "description": "Provides assessment, permitting and response services.",
+   "evidence": "We service complex and often non-discretionary environmental needs of our diverse clients across our three business segments: Assessment, Permitting and Response; Measurement and Analysis; and Remediation and Reuse."
+  },
+  {
+   "name": "Measurement and Analysis",
+   "products": [
+    "environmental testing"
+   ],
+   "description": "Provides measurement and analysis services.",
+   "evidence": "We service complex and often non-discretionary environmental needs of our diverse clients across our three business segments: Assessment, Permitting and Response; Measurement and Analysis; and Remediation and Reuse."
+  },
+  {
+   "name": "Remediation and Reuse",
+   "products": [
+    "remediation services"
+   ],
+   "description": "Provides remediation and reuse services.",
+   "evidence": "We service complex and often non-discretionary environmental needs of our diverse clients across our three business segments: Assessment, Permitting and Response; Measurement and Analysis; and Remediation and Reuse."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial and public clients pay for environmental project work.",
+  "evidence": "We provide a diverse range of environmental services to our private and public sector clients across the life cycle of their needs—whether they are launching new pr"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

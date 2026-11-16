@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000928054",
+ "issuerName": "FLOTEK INDUSTRIES INC/CN",
+ "builtAt": "2026-11-16T05:21:33.952Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000928054-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/928054/000092805426000020/ftk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data Analytics",
+   "products": [
+    "analytical measurement and digital solutions",
+    "measure-and-control services"
+   ],
+   "description": "Provides measurement and analytics for process control.",
+   "evidence": "The Company's Data Analytics (\"DA\") segment provides analytical measurement and digital solutions, including measure-and-control services, that deliver near real-time insights for process control across the oil and gas value chain and emerging applications in power and digital valuation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas operators pay for measurement and analytics.",
+  "evidence": "Description of Operations and Segments The Company's operations have two business segments,"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001795815",
+ "issuerName": "California BanCorp \\ CA",
+ "builtAt": "2026-11-16T05:21:36.883Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001795815-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1795815/000179581526000005/bcal-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

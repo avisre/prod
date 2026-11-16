@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001038773",
+ "issuerName": "SMARTFINANCIAL INC.",
+ "builtAt": "2026-11-16T05:21:33.928Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028542",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1038773/000110465926028542/smbk-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

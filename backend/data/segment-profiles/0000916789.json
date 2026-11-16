@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000916789",
+ "issuerName": "HELEN OF TROY LIMITED",
+ "builtAt": "2026-11-16T05:21:36.847Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000916789-26-000048",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-04-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/916789/000091678926000048/hele-20260228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home & Outdoor",
+   "products": [],
+   "description": "Sells home and outdoor consumer brands.",
+   "evidence": "Segment Information We currently operate in two reportable business segments: • Home & Outdoor: Offers a broad range of outstanding world-class brands that help consumers enjoy everyday living inside their homes and outdoors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers buy its consumer brands for resale.",
+  "evidence": "Our Products The following table summarizes the types of products we sell by business segment: Segment Product Category Primary Products Home & Outdoor Ho"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Home & Outdoor): household products",
+  "product not in text (Home & Outdoor): outdoor products"
+ ],
+ "reader": "agent"
+}

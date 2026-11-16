@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001788257",
+ "issuerName": "BETTERWARE DE MEXICO, S.A.P.I. DE C.V",
+ "builtAt": "2026-11-16T05:21:36.232Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050248",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1788257/000121390026050248/ea0287740-20f_betterware.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

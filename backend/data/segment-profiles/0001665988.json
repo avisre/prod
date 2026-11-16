@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001665988",
+ "issuerName": "BIOVENTUS INC.",
+ "builtAt": "2026-11-16T05:21:37.050Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001665988-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1665988/000166598826000011/bvs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Restorative Therapies",
+   "products": [
+    "Fracture Care"
+   ],
+   "description": "Sells restorative therapies including fracture care devices.",
+   "evidence": "• Restorative Therapies , consisting of: ◦ Fracture Care: We provide low-intensity pulse ultrasound to help patients who suffer from bone fractures that do not heal through traditional methods."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Surgeons and hospitals buy its devices.",
+  "evidence": "Financial information regarding our reportable business segments is included in Part II, Item 7."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
