@@ -327,12 +327,22 @@ async function load(cik) {
     return { data, src, head, doc };
 }
 
+// Some filings cache as taxonomy context lists rather than prose (annual reports filed as 40-F are
+// the common case). Those cannot be read for segment names, and calling them "no reportable
+// segments" would be a claim about the company instead of about the text, so they are reported
+// unreadable. Ordinary filings sit far above this share of plain words.
+function readable(text) {
+    const words = text.split(/\s+/);
+    const plain = words.filter(w => /^[A-Za-z][a-z]{2,}$/.test(w)).length;
+    return plain / Math.max(words.length, 1) >= 0.3;
+}
+
 async function one(cik) {
     const { data, src, head, doc: cached } = await load(cik);
     if (!src) return { ...head, status: 'no-annual-report' };
     let doc = cached;
     const filingOf = () => filingFields(src, doc);
-    if (!doc || doc.text.length < 2000) return { ...head, filing: filingOf(), status: 'filing-unreadable' };
+    if (!doc || doc.text.length < 2000 || !readable(doc.text)) return { ...head, filing: filingOf(), status: 'filing-unreadable' };
     // Checked against the whole document read, not only the excerpt, so a name the model read in the
     // excerpt and the filing repeats elsewhere is not lost to where the window was cut.
     const reader = text => {
@@ -374,7 +384,7 @@ async function one(cik) {
 async function dump(cik, dir) {
     const { data, src, head, doc } = await load(cik);
     if (!src) return { ...head, status: 'no-annual-report' };
-    if (!doc || doc.text.length < 2000) return { ...head, filing: filingFields(src, doc), status: 'filing-unreadable' };
+    if (!doc || doc.text.length < 2000 || !readable(doc.text)) return { ...head, filing: filingFields(src, doc), status: 'filing-unreadable' };
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, cik + '.prompt.txt'), promptFor(data, src, doc.text) + '\n');
     fs.writeFileSync(path.join(dir, cik + '.meta.json'), JSON.stringify(filingFields(src, doc), null, 1) + '\n');
@@ -397,7 +407,7 @@ async function fromReply(cik, dir) {
     const { data, src, head, doc } = await load(cik);
     if (!src) return { ...head, status: 'no-annual-report' };
     const filing = filingFields(src, doc);
-    if (!doc || doc.text.length < 2000) return { ...head, filing, status: 'filing-unreadable' };
+    if (!doc || doc.text.length < 2000 || !readable(doc.text)) return { ...head, filing, status: 'filing-unreadable' };
     const read = name => { const f = path.join(dir, cik + name); return fs.existsSync(f) ? parse({ content: fs.readFileSync(f, 'utf8') }) : null; };
     let parsed = read('.reply.json');
     if (!parsed) return { ...head, filing, status: 'model-unparseable', reader: 'agent' };
@@ -429,7 +439,7 @@ function targets() {
 }
 
 module.exports = { validate, windows, latestAnnual, pickDocument, businessExhibit, widestExhibit, ONE_SEGMENT, oneSegmentMismatch, statedSegments, THIN, SYSTEM,
-    promptFor, recordFromReply, filingFields };
+    promptFor, recordFromReply, filingFields, readable };
 if (require.main === module) (async () => {
     // Two-stage modes never load a provider and never touch a model.
     if (DUMP || FROM_REPLIES) {

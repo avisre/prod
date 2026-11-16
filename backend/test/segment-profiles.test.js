@@ -12,7 +12,7 @@ const DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'segment-profiles-'));
 process.env.SEGMENT_PROFILES_DIR = DIR;
 const profiles = require('../segment-profiles');
 const breakdown = require('../revenue-breakdown');
-const { validate, pickDocument, businessExhibit, widestExhibit, oneSegmentMismatch, statedSegments, THIN, SYSTEM, promptFor, recordFromReply } = require('../../scripts/build-segment-profiles');
+const { validate, pickDocument, businessExhibit, widestExhibit, oneSegmentMismatch, statedSegments, THIN, SYSTEM, promptFor, recordFromReply, readable } = require('../../scripts/build-segment-profiles');
 
 const APP = '0001751008';
 const FILING = { form: '10-K', accessionNumber: '0001751008-26-000010', periodEnd: '2025-12-31', filingDate: '2026-02-19',
@@ -47,6 +47,16 @@ test('only what the filing text says survives the check', () => {
         revenueModel: { text: 'Advertisers pay.', evidence: 'Advertisers pay us for advertising.' }, changes: [] }, TEXT);
     assert.equal(loose.segments[0].description, null);
     assert.equal(loose.revenueModel, null);
+});
+
+test('a filing cached as taxonomy context rather than prose is unreadable, not segment-less', () => {
+    // 40-F annual reports sometimes extract as XBRL context lists ("...Member 2025-10-31 0000947263
+    // td:..."), which name no segments because they contain no sentences, not because the company
+    // has none. Ordinary annual report text stays readable under the same rule.
+    const context = 'us-gaap:NonTradingDerivativesMember 2025-10-31 0000947263 td:OptionsWrittenAssetsMember '
+        + '2024-10-31 0000947263 td:InterestRateContractsMember 2025-10-31 Member 2024-10-31 0000947263';
+    assert.equal(readable(context.repeat(20)), false);
+    assert.equal(readable(TEXT), true);
 });
 
 test('a filing that states its own segment count is not a single-segment split', () => {
