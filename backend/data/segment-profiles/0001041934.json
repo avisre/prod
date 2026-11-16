@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001041934",
+ "issuerName": "EDAP TMS SA",
+ "builtAt": "2026-11-16T05:53:03.213Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034528",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1041934/000110465926034528/edap-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HIFU",
+   "products": [],
+   "description": "Sells HIFU systems for prostate treatment.",
+   "evidence": "The Company considers its ASC 280 operating segments — High Intensity Focused Ultrasound (HIFU), Lithotripsy (ESWL) and Distribution services (DIST) — to be its reporting units for purposes o"
+  },
+  {
+   "name": "ESWL",
+   "products": [],
+   "description": "Sells lithotripsy systems for stone treatment.",
+   "evidence": "The Company considers its ASC 280 operating segments — High Intensity Focused Ultrasound (HIFU), Lithotripsy (ESWL) and Distribution services (DIST) — to be its reporting units for purposes o"
+  },
+  {
+   "name": "DIST",
+   "products": [
+    "distribution services"
+   ],
+   "description": "Distributes medical devices.",
+   "evidence": "The Company considers its ASC 280 operating segments — High Intensity Focused Ultrasound (HIFU), Lithotripsy (ESWL) and Distribution services (DIST) — to be its reporting units for purposes o"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and clinics buy its systems and consumables; it distributes devices.",
+  "evidence": "Our business model includes obtaining revenue from the sale of capital equipment, as well as recurring revenue from consumables and maintenance services associated with our installed base."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (HIFU): high intensity focused ultrasound systems",
+  "product not in text (ESWL): lithotripsy systems"
+ ],
+ "reader": "agent"
+}

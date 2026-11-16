@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001782107",
+ "issuerName": "Onconetix, Inc.",
+ "builtAt": "2026-11-16T05:52:22.238Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-027725",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1782107/000121390026027725/ea0280547-10k_onconetix.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001785056",
+ "issuerName": "INTERACTIVE STRENGTH INC.",
+ "builtAt": "2026-11-16T05:52:21.787Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134836",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1785056/000119312526134836/trnr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "connected fitness equipment",
+   "products": [
+    "technology platform"
+   ],
+   "description": "Sells connected fitness equipment and platform.",
+   "evidence": "Our company has one reportable business segment, the development and sale of its connected fitness equipment and technology platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and gyms buy its equipment and subscriptions.",
+  "evidence": "CLMBR Through the CLMBR brand, we offer a vertical climbing machine that delivers a proven full-body cardio and strength workout, but with a design and content platform that makes the workout mass appealing and accessible to all fitness levels."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (connected fitness equipment): connected fitness equipment"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001856084",
+ "issuerName": "Ridgetech, Inc.",
+ "builtAt": "2026-11-16T05:53:01.076Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-083638",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1856084/000121390026083638/ea0298846-20f_ridgetech.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "offline wholesale",
+   "products": [],
+   "description": "Wholesales its products offline.",
+   "evidence": "4 )% Results of Operations Comparison of years ended March 31, 2026 and 2025 Revenue The following table breaks down the revenue for our two business segments for the years ended March 31, 2026 and 2025: For the years ended March 31, 2026 2025 Amount % of total revenue Amount % of total revenue Variance by amount % of change Revenue from offline wholesale $ 117,872,139 89."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wholesale customers buy its products.",
+  "evidence": "The following table breaks down the revenue for our two business segments for the years ended March 31, 2026 and 2025:"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (offline wholesale): offline wholesale"
+ ],
+ "reader": "agent"
+}

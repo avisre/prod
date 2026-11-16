@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001469443",
+ "issuerName": "Arcadia Biosciences, Inc.",
+ "builtAt": "2026-11-16T05:52:21.431Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126238",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1469443/000119312526126238/rkda-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zola coconut water",
+   "products": [],
+   "description": "Sells Zola coconut water.",
+   "evidence": "Segment Reporting The Company has one operating and reportable segment, which derives revenue primarily from the sale of Zola coconut water."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors buy its beverages.",
+  "evidence": "Competition The markets for beverage products are highly competitive, and we face significant direct and indirect competition in several aspects of our business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Zola coconut water): Zola coconut water"
+ ],
+ "reader": "agent"
+}

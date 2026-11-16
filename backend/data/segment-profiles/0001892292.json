@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001892292",
+ "issuerName": "MAISON SOLUTIONS INC.",
+ "builtAt": "2026-11-16T05:52:18.098Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-25-075991",
+  "periodEnd": "2025-04-30",
+  "filingDate": "2025-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1892292/000121390025075991/ea0252603-10k_maison.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

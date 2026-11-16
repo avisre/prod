@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001026785",
+ "issuerName": "HIGHWAY HOLDINGS LIMITED",
+ "builtAt": "2026-11-16T05:52:17.343Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-077959",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1026785/000121390026077959/ea0297190-20f_highway.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metal stamping and Mechanical OEM",
+   "products": [
+    "metal stamping"
+   ],
+   "description": "Makes stamped and mechanical OEM components.",
+   "evidence": "The Group allocated the amount of adjustment to the liabilities $ 125 and $ 104 to the two reportable segments Metal stamping and Mechanical OEM and Electric OEM, respectively."
+  },
+  {
+   "name": "Electric OEM",
+   "products": [
+    "electric OEM products"
+   ],
+   "description": "Makes electric OEM products.",
+   "evidence": "The Group allocated the amount of adjustment to the liabilities $ 125 and $ 104 to the two reportable segments Metal stamping and Mechanical OEM and Electric OEM, respectively."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Equipment makers buy its stamped and electrical components.",
+  "evidence": "The Group allocated the total amount of costs expected to be incurred in the employment termination $ 5 and $ 5 to the two reportable segments Metal stamping and Mechanical OEM and Electric OEM, respecti"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Metal stamping and Mechanical OEM): mechanical OEM parts"
+ ],
+ "reader": "agent"
+}

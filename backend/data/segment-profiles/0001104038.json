@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001104038",
+ "issuerName": "OpenWorld, Inc.",
+ "builtAt": "2026-11-16T05:53:06.851Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001214659-26-004051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1104038/000121465926004051/vm32026110k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision Logistics",
+   "products": [
+    "sensitive parcel management"
+   ],
+   "description": "Provides precision logistics for sensitive parcels.",
+   "evidence": "We operate a Precision Logistics segment which includes the operations of our subsidiary PeriShip Global LLC (\"PeriShip Global\")and accounts for nearly all VerifyMe revenue, and an Authentication segment."
+  },
+  {
+   "name": "Authentication",
+   "products": [],
+   "description": "Provides authentication technology.",
+   "evidence": "We operate a Precision Logistics segment which includes the operations of our subsidiary PeriShip Global LLC (\"PeriShip Global\")and accounts for nearly all VerifyMe revenue, and an Authentication segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers and brands pay for logistics and authentication.",
+  "evidence": "Through our Precision Logistics segment, we provide value-added service for sensitive parcel management driven by a proprietary software platform that provides predictive anal"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Authentication): authentication technology"
+ ],
+ "reader": "agent"
+}

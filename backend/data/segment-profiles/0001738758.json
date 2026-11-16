@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001738758",
+ "issuerName": "Cheer Holding, Inc.",
+ "builtAt": "2026-11-16T05:52:17.651Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-032337",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1738758/000121390026032337/ea0282295-20f_cheer.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

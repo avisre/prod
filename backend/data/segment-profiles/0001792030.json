@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001792030",
+ "issuerName": "IM Cannabis Corp.",
+ "builtAt": "2026-11-16T05:52:21.747Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001877",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1792030/000117891326001877/zk2634906.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "retail",
+   "products": [
+    "medical cannabis products"
+   ],
+   "description": "Sells medical cannabis at retail.",
+   "evidence": "We operate in the retail segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients and consumers buy its cannabis products.",
+  "evidence": "We offer medical cannabis patients medical cannabis products through strategic alliances with suppliers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002030763",
+ "issuerName": "DataMeds AI, Inc.",
+ "builtAt": "2026-11-16T05:53:03.955Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2030763/000149315226012004/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

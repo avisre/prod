@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001816172",
+ "issuerName": "Jiuzi Holdings Inc.",
+ "builtAt": "2026-11-16T05:52:22.192Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-019888",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1816172/000121390026019888/ea0276782-20f_jiuzihold.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sales of new energy batteries",
+   "products": [
+    "new energy batteries"
+   ],
+   "description": "Produces and sells new energy batteries.",
+   "evidence": "Our revenues consist of two reportable operating segments: (i) Sales of new energy batteries, including production, transportation, and packaging, primarily in the mainland Pearl River Delta region; and(ii) Sales and production of electric vehicles in Southeast Asia, including two-wheelers, three-wheeled electric scooters, and slow-speed vehicles."
+  },
+  {
+   "name": "Sales and production of electric vehicles",
+   "products": [
+    "two-wheelers",
+    "three-wheeled electric scooters",
+    "slow-speed vehicles"
+   ],
+   "description": "Makes and sells electric vehicles in Southeast Asia.",
+   "evidence": "Our revenues consist of two reportable operating segments: (i) Sales of new energy batteries, including production, transportation, and packaging, primarily in the mainland Pearl River Delta region; and(ii) Sales and production of electric vehicles in Southeast Asia, including two-wheelers, three-wheeled electric scooters, and slow-speed vehicles."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its batteries and electric vehicles.",
+  "evidence": "As such, the Company's busines"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001951067",
+ "issuerName": "C3is Inc.",
+ "builtAt": "2026-11-16T05:52:22.593Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-170448",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1951067/000119312526170448/d108558d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "C3is",
+   "products": [],
+   "description": "Owns and charters dry bulk and tanker vessels.",
+   "evidence": "Thus, the Company has determined that it operates under one reportable segment as well as one o"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay hire for its vessels.",
+  "evidence": "Segment Reporting: The Chief Executive Officer, who is the Chief Operating Decision Maker (\"CODM\"), receives financial information and evaluates the Company's operations by total charter revenues and not by the type of vessel, length of vessel employment, customer or type of charter."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (C3is): dry bulk and tanker vessel chartering"
+ ],
+ "reader": "agent"
+}

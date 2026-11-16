@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001751876",
+ "issuerName": "Paranovus Entertainment Technology Ltd.",
+ "builtAt": "2026-11-16T05:52:22.773Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001929980-26-000454",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1751876/000192998026000454/pavs_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

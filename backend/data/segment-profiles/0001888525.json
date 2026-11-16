@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001888525",
+ "issuerName": "MindForge Inc.",
+ "builtAt": "2026-11-16T05:53:04.181Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-112533",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1888525/000121390026112533/ea0306456-20f_mindforge.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

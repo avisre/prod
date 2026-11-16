@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001587987",
+ "issuerName": "NEWTEKONE, INC.",
+ "builtAt": "2026-11-16T05:53:06.562Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016503",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1587987/000162828026016503/newt-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

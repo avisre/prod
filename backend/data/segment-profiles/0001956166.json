@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001956166",
+ "issuerName": "Ming     Shing Group Holdings Limited",
+ "builtAt": "2026-11-16T05:53:05.181Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-038558",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-08-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1956166/000149315226038558/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "wet trades works",
+   "products": [],
+   "description": "Provides wet trades construction works.",
+   "evidence": "Segment Reporting In February 2026, primarily as a result of increased business activities of its subsidiary, Value Bright International (HK) Limited, the Company had two operating segments: (i) provision of wet trades works, and (ii) trading of wines and spirits."
+  },
+  {
+   "name": "trading of wines and spirits",
+   "products": [
+    "wines and spirits"
+   ],
+   "description": "Trades wines and spirits.",
+   "evidence": "Segment Reporting In February 2026, primarily as a result of increased business activities of its subsidiary, Value Bright International (HK) Limited, the Company had two operating segments: (i) provision of wet trades works, and (ii) trading of wines and spirits."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Construction clients pay for works; buyers buy wines and spirits.",
+  "evidence": "Disaggregation of revenue is as follows: Schedule of Disaggregation Revenue 2026 2025 2024 For the years ended Marc"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (wet trades works): wet trades works"
+ ],
+ "reader": "agent"
+}

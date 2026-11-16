@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001896425",
+ "issuerName": "Li Bang International Corporation Inc.",
+ "builtAt": "2026-11-16T05:52:18.060Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-107445",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-11-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1896425/000121390025107445/ea0258519-20f_libang.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

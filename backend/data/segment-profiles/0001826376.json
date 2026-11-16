@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001826376",
+ "issuerName": "Golden Sun Technology Group Limited",
+ "builtAt": "2026-11-16T05:52:16.836Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-015723",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1826376/000121390026015723/ea0275748-20f_golden.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

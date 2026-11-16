@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "cik": "0001532619",
+ "issuerName": "POWER REIT",
+ "builtAt": "2026-11-16T05:52:21.260Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014062",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1532619/000149315226014062/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under net leases.",
+  "evidence": "The administrator may establish performance goals on a company-wide basis, with respect to one or more business units, divisions, affiliates, or business segments, and in either absolute terms or relative to the performance of one or more comparable companies or the performance of one or more relevant indices."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: property leasing"
+ ],
+ "reader": "agent"
+}

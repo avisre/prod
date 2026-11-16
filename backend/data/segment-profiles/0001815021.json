@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001815021",
+ "issuerName": "BOQII HOLDING LIMITED",
+ "builtAt": "2026-11-16T05:52:18.264Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-077593",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1815021/000121390026077593/ea0297123-20f_boqii.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

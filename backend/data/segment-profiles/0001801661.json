@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001801661",
+ "issuerName": "FIRY INC.",
+ "builtAt": "2026-11-16T05:53:03.148Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001801661-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1801661/000180166126000020/sklz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Skillz",
+   "products": [],
+   "description": "Runs its skill-based gaming competition platform.",
+   "evidence": "5 TABLE OF CONTENTS Our Segments Skillz Our platform enables game developers to monetize their content through multi-player competition by integrating real-money tournaments, virtual prizes, and social competition features directly into their games."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Developers pay platform fees; players enter paid contests.",
+  "evidence": "With our system, the more gamers enjoy playing in contests for prizes and the longer they play, the more revenue we generate for o"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Skillz): skill-based competition platform"
+ ],
+ "reader": "agent"
+}

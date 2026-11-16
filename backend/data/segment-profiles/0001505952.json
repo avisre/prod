@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001505952",
+ "issuerName": "DOMO, INC.",
+ "builtAt": "2026-11-16T05:53:03.637Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-025356",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1505952/000162828026025356/domo-20260131.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

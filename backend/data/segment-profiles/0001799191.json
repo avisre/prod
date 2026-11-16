@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001799191",
+ "issuerName": "Starling Oncology, Inc.",
+ "builtAt": "2026-11-16T05:53:05.613Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001799191-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1799191/000179919126000007/toi-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

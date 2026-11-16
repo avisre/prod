@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001830072",
+ "issuerName": "iPower Inc.",
+ "builtAt": "2026-11-16T05:52:19.499Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-007580",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1830072/000168316826007580/ipower_i10k-063026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "iPower",
+   "products": [],
+   "description": "Sells hydroponic equipment and consumer products online.",
+   "evidence": "The Company's chief operating decision maker (\"CODM\"), the Chief Executive Officer, reviews the consolidated results of operations when making decisions about allocating"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its products online.",
+  "evidence": "Some of the more significant challenges we face include: Risks Related to Our Business and Products · We sell proprietary brand offerings, as well as third party brands, which could expose us to various risks."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (iPower): hydroponic equipment",
+  "product not in text (iPower): consumer products"
+ ],
+ "reader": "agent"
+}

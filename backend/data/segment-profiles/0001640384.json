@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001640384",
+ "issuerName": "POWERCOMPUTE, INC.",
+ "builtAt": "2026-11-16T05:53:05.239Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-133333",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1640384/000119312526133333/lmfa-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

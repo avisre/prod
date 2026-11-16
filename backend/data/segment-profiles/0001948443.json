@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001948443",
+ "issuerName": "RAYTECH HOLDING LIMITED",
+ "builtAt": "2026-11-16T05:53:01.897Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-083948",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1948443/000121390026083948/ea0297793-20f_raytech.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sourcing and wholesaling of personal care electrical appliances",
+   "products": [
+    "personal care electrical appliances"
+   ],
+   "description": "Sources and wholesales personal care appliances.",
+   "evidence": "Currently, the Company has three reportable segments: (i) sourcing and wholesaling of personal care electrical appliances, mainly conducted through Pure Beauty; (ii) product design, development and advisory services, mainly conducted through Raytech Innovation; and (iii) marketing solutions services, mainly conducted through Worry free."
+  },
+  {
+   "name": "product design, development and advisory services",
+   "products": [
+    "product design",
+    "development and advisory services"
+   ],
+   "description": "Provides product design and advisory services.",
+   "evidence": "Currently, the Company has three reportable segments: (i) sourcing and wholesaling of personal care electrical appliances, mainly conducted through Pure Beauty; (ii) product design, development and advisory services, mainly conducted through Raytech Innovation; and (iii) marketing solutions services, mainly conducted through Worry free."
+  },
+  {
+   "name": "marketing solutions services",
+   "products": [
+    "marketing solutions"
+   ],
+   "description": "Provides marketing solutions.",
+   "evidence": "Currently, the Company has three reportable segments: (i) sourcing and wholesaling of personal care electrical appliances, mainly conducted through Pure Beauty; (ii) product design, development and advisory services, mainly conducted through Raytech Innovation; and (iii) marketing solutions services, mainly conducted through Worry free."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and brand owners buy its goods and services.",
+  "evidence": "We also generate revenue from the sales o"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

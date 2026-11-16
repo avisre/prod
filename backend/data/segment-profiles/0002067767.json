@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002067767",
+ "issuerName": "NextBoat Inc.",
+ "builtAt": "2026-11-16T05:53:04.655Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014063",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2067767/000149315226014063/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

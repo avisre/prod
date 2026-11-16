@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001788230",
+ "issuerName": "IP STRATEGY HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:52:19.186Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001788230-26-000046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1788230/000178823026000046/ipst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "legacy craft spirits",
+   "products": [
+    "craft spirits"
+   ],
+   "description": "Sells craft spirits.",
+   "evidence": "Business Overview We operate a diversified business centered on digital asset–based infrastructure and intellectual property (\"IP\") management, supplemented by a legacy craft spirits operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns validator yield and sells craft spirits.",
+  "evidence": "We established our validator business in September 2025 to allow us to derive yield and revenue from our large $IP Token holdings."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

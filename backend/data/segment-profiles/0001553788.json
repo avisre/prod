@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001553788",
+ "issuerName": "Endovia Health Sciences, Inc.",
+ "builtAt": "2026-11-16T05:53:03.125Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001731122-26-000577",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1553788/000173112226000577/e7552_10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

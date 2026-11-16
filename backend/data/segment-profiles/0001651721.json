@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "cik": "0001651721",
+ "issuerName": "GENERATION INCOME PROPERTIES, INC.",
+ "builtAt": "2026-11-16T05:52:18.854Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-135022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1651721/000119312526135022/gipr-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under long-term leases.",
+  "evidence": "In accordance with ASU 2023-07, which we adopted in our fiscal year 2024, the Company is required to disclose certain financial reporting in relation to operating segments, even if it has a single operating and reportable segment."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: leasing property"
+ ],
+ "reader": "agent"
+}

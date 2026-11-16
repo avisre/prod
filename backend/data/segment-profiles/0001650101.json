@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001650101",
+ "issuerName": "ADDENTAX GROUP CORP.",
+ "builtAt": "2026-11-16T05:52:17.555Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-031055",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1650101/000149315226031055/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "apparel and garment trading",
+   "products": [],
+   "description": "Wholesales men's and women's apparel, mainly in China.",
+   "evidence": "KMFG operates two core business segments: (i) an apparel and garment trading business focused on the wholesale distribution of men's and women's apparel to distributors primarily in China, sourcing direct"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Distributors buy its apparel wholesale.",
+  "evidence": "We provide business consulting and coordination services to customers seeking overseas wealth planning, insurance-related information and related cross-border service support."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (apparel and garment trading): apparel and garment products"
+ ],
+ "reader": "agent"
+}

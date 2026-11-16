@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001342958",
+ "issuerName": "Kustom Entertainment, Inc.",
+ "builtAt": "2026-11-16T05:52:21.384Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016236",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1342958/000149315226016236/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Video Solutions Segment",
+   "products": [],
+   "description": "Makes digital video imaging products.",
+   "evidence": ", Kustom 440 and Kustom, collectively, the \"Company\") is conducted through two reportable operating segments: (1) the video solutions segment (the \"Video Solutions Segment\") and (2) the entertainment segment (the \"Entertainment Segment\")."
+  },
+  {
+   "name": "Entertainment Segment",
+   "products": [
+    "entertainment events"
+   ],
+   "description": "Runs its entertainment business.",
+   "evidence": ", Kustom 440 and Kustom, collectively, the \"Company\") is conducted through two reportable operating segments: (1) the video solutions segment (the \"Video Solutions Segment\") and (2) the entertainment segment (the \"Entertainment Segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutions buy its video systems; audiences buy events.",
+  "evidence": "The Video Solutions Segment represents the Company's legacy operations and includes the development, manufacture and sale of digital video im"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Video Solutions Segment): digital video imaging products"
+ ],
+ "reader": "agent"
+}

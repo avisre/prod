@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001809750",
+ "issuerName": "EDIBLE GARDEN AG INCORPORATED",
+ "builtAt": "2026-11-16T05:52:22.173Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-001867",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1809750/000147793226001867/edbl_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "fresh produce",
+   "products": [
+    "cut herbs",
+    "hydroponic produce"
+   ],
+   "description": "Grows and sells fresh produce.",
+   "evidence": "As of December 31, 2025, we offer more than 140 stock keeping units (\"SKUs\") spanning two principal product segments: (i) fresh produce, including cut herbs, hydroponic bas"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Grocery retailers buy its fresh produce.",
+  "evidence": "We operate glass, hydroponic, and vertical greenhouse structures that enable us to grow organic herbs consistently year-round while using less land, less energy, and less water than conventional agriculture."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

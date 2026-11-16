@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001998056",
+ "issuerName": "Premium Catering (Holdings) Limited",
+ "builtAt": "2026-11-16T05:53:01.840Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-25-020330",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-10-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1998056/000149315225020330/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "catering",
+   "products": [
+    "catering services"
+   ],
+   "description": "Prepares and provides catering.",
+   "evidence": "The Company operates in a single operating segment and has one reportable segment, which includes all activities related to the procurement, preparation and provision of the Company's"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Event and corporate customers pay for catering.",
+  "evidence": "(z) Segment Reporting In accordance with ASC Topic 280, Segment Reporting, the Company's chief operating decision maker (\"CODM\") has been identified as the Chief Executive Officer or the Director."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

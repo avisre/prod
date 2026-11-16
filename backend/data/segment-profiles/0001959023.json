@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001959023",
+ "issuerName": "RenX Enterprises Corp.",
+ "builtAt": "2026-11-16T05:52:16.829Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037999",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1959023/000121390026037999/ea0283352-10k_renx.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
