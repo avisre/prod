@@ -151,7 +151,45 @@ function windows(text) {
     const business = text.slice(start, start + 13000);
     const seg = segmentWindows(text).slice(0, 17000);
     const other = business.length < 3000 ? anchorWindows(text, [/we (?:sell|offer|provide|generate)/gi, /our products/gi], { maxChars: 8000 }) : '';
-    return `[BUSINESS SECTION]\n${business}\n${other}\n[SEGMENT DISCLOSURES]\n${seg}`;
+    const states = segmentStatements(text);
+    // The note itself, from its latest heading: the segment names of many filings (Costco, Coty, Coinbase,
+    // Crane) sit in its table, not in a prose sentence the windows above would keep.
+    const note = segmentNote(text);
+    return `[BUSINESS SECTION]\n${business}\n${other}\n[SEGMENT DISCLOSURES]\n${seg}${states ? `\n[SEGMENT STATEMENTS]\n${states}` : ''}${note ? `\n[SEGMENT NOTE]\n${note}` : ''}`;
+}
+
+function segmentNote(text, maxChars = 6000) {
+    const H = String(text || '');
+    let at = -1;
+    for (const re of [/segment information/gi, /segment reporting/gi, /reportable segments?/gi]) {
+        for (const m of H.matchAll(re)) at = Math.max(at, m.index);
+    }
+    return at < 0 ? '' : H.slice(at, at + maxChars).replace(/\s+/g, ' ').trim();
+}
+
+// A filing's own wording that names or counts its segments is easy to lose: the note window can land in a
+// risk factor or in the MD&A instead (Costco, Coty, Coinbase, Charter say it once, elsewhere). Fixed-size
+// context around every "reportable/operating/business segment" mention, scored for the ones that read as a
+// list, is added as its own section; a window keeps the filing's abbreviations (U.S., Inc.) intact.
+function segmentStatements(text, maxChars = 9000) {
+    const H = String(text || ''), out = [], spans = [];
+    const re = /\b(?:reportable|operating|business)\s+(?:business\s+)?segments?\b|\bsegment (?:information|reporting)\b/gi;
+    for (const m of [...H.matchAll(re)].slice(0, 120)) {
+        const a = Math.max(0, m.index - 320), b = Math.min(H.length, m.index + 620);
+        if (spans.some(s => a < s.b && b > s.a)) continue;      // one window per region of the filing
+        const w = H.slice(a, b).replace(/\s+/g, ' ').trim();
+        // A list of names reads as a colon or dash followed by commas; boilerplate does not.
+        const score = (/segments?\s*(?:\([^)]*\)\s*)?[:\u2014-]/i.test(w) ? 3 : 0)
+            + ((w.match(/,/g) || []).length >= 2 ? 2 : 0)
+            + (/\b(?:are|include|includes|consists?|comprised)\b/i.test(w) ? 1 : 0);
+        spans.push({ a, b, w, score });
+    }
+    const best = spans.filter(s => s.score >= 3).sort((x, y) => y.score - x.score || x.a - y.a).slice(0, 12);
+    for (const s of (best.length ? best : spans).sort((x, y) => x.a - y.a)) {
+        out.push((s.a > 0 ? '…' : '') + s.w + (s.b < H.length ? ' …' : ''));
+        if (out.join('\n').length > maxChars) break;
+    }
+    return out.join('\n');
 }
 
 const SYSTEM = [
