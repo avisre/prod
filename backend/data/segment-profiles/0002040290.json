@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002040290",
  "issuerName": "LOGPROSTYLE INC.",
- "builtAt": "2026-11-16T05:47:23.349Z",
+ "builtAt": "2026-11-16T12:05:17.295Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-032936",
@@ -10,10 +10,37 @@
   "filingDate": "2026-07-13",
   "url": "https://www.sec.gov/Archives/edgar/data/2040290/000149315226032936/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate segment",
+   "products": [
+    "Condominium renovation",
+    "Real estate development"
+   ],
+   "description": "Renovates and resells condominium units and develops residential condominiums, selling to individuals and institutional purchasers.",
+   "evidence": "This increase was partially offset by a decrease in our sales in condominium renovation."
+  },
+  {
+   "name": "Hotel segment",
+   "products": [
+    "Machinaka Ryokan"
+   ],
+   "description": "Operates ryokan-style hotels in urban areas, targeting families and international tourists.",
+   "evidence": "ProstyleRyokan targeted the area by operating a Machinaka Ryokan, a ryokan-style hotel, and designing all common areas and guest rooms to meet ryokan specifications, with approximately 70% of the guest rooms including open-air baths."
+  },
+  {
+   "name": "other segment",
+   "products": [],
+   "description": "Remaining operations reported beside the real estate and hotel segments, with no products named in the filing.",
+   "evidence": "The Group has three reportable segments: Real estate segment, Hotel segment and other segment, which are based on the Group's organizational structure and characteristics of products and services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Buyers of renovated and developed condominiums, and guests staying at hotels, pay the company directly.",
+  "evidence": "The concept of the hotels managed by ProstyleRyokan is to provide guests with the experience of staying in a ryokan-style hotel, which is typically in suburban tourist destinations, while providing the convenience of an urban location."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

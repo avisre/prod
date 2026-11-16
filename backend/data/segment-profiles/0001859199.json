@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001859199",
  "issuerName": "reAlpha Tech Corp.",
- "builtAt": "2026-11-16T05:47:28.370Z",
+ "builtAt": "2026-11-16T12:09:12.265Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-026653",
@@ -10,11 +10,45 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1859199/000121390026026653/ea0277755-10k_realpha.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Homebuying Services",
+   "products": [
+    "realty services",
+    "mortgage brokering services",
+    "digital title and escrow services",
+    "reAlpha platform"
+   ],
+   "description": "Provides residential real estate brokerage, mortgage brokering and title and escrow services to homebuyers through the reAlpha platform.",
+   "evidence": "Accordingly, the Company has concluded that it has two reportable segments: Homebuying Services and Technology Services."
+  },
+  {
+   "name": "Technology Services",
+   "products": [
+    "software development services",
+    "AiChat's conversational platform",
+    "AI conversational customer experience solutions platform",
+    "consulting and implementation services",
+    "monthly technology support services"
+   ],
+   "description": "Provides AI conversational customer platforms to businesses and software development and tech support services to third parties.",
+   "evidence": "Our technology services segment includes: (i) software development services provided by reAlpha Nepal to us and third parties and (ii) the AI-powered conversational platform provided to customers by AiChat."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [],
+ "revenueModel": {
+  "text": "Technology customers pay subscriptions and consulting fees for the AiChat platform; homebuying revenue comes from brokerage commissions on real estate and mortgage transactions.",
+  "evidence": "AiChat generates revenue from its AI conversational customer experience solutions platform, which includes subscription-based platform access and related consulting services."
+ },
+ "changes": [
+  {
+   "text": "The short-term rental business was discontinued in 2025 and reported as discontinued operations.",
+   "evidence": "As a result, in the first quarter of 2025, our board of directors (the \"Board\") approved the discontinuation of our short-term rental business operations entirely and this discontinuation meets the criteria for being reported as discontinued operations."
+  }
+ ],
+ "dropped": [
+  "change not grounded: GTG is no longer one of our subsidiaries as of August 21, 2025, after the acquis"
+ ],
  "reader": "agent"
 }

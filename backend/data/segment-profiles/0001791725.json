@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001791725",
  "issuerName": "Huadi International Group Co., Ltd.",
- "builtAt": "2026-11-16T05:47:23.370Z",
+ "builtAt": "2026-11-16T12:05:45.058Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-010177",
@@ -10,10 +10,23 @@
   "filingDate": "2026-01-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1791725/000121390026010177/ea0274248-20f_huadiinter.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steel piping products",
+   "products": [
+    "Sales of steel piping products",
+    "Production services to third entities"
+   ],
+   "description": "Makes and sells stainless steel seamless pipes, tubes and bars, plus production services, for industrial customers in China and abroad.",
+   "evidence": "As the CODM assesses performance for the Company and determines how to allocate resources based on consolidated net income (loss) as reported in the consolidated statements of income and comprehensive (loss) income, the Company considers itself to have a single operating segment and, therefore, only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly various levels of government, state-owned entities and construction companies, pay for steel pipe and tube products and production services.",
+  "evidence": "The Company's customers are for the most part, various levels of government, state-owned entities and construction companies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

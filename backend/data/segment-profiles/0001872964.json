@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001872964",
  "issuerName": "Maris-Tech Ltd.",
- "builtAt": "2026-11-16T05:47:28.570Z",
+ "builtAt": "2026-11-16T12:09:28.028Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-057766",
@@ -10,10 +10,25 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1872964/000121390026057766/ea0289076-20f_maris.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Video edge computing",
+   "products": [
+    "OEM grade components and subsystems",
+    "fully integrated video and AI processing assemblies",
+    "AI-enabled and video edge computing products",
+    "miniature, low power video and audio streaming and recording solutions"
+   ],
+   "description": "Designs and manufactures AI-enabled video edge computing products and assemblies for defense platform manufacturers.",
+   "evidence": "The Company concluded that its unified business is conducted globally and accordingly represents one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Defense platform manufacturers and other defense system providers pay for OEM-grade components, subsystems and integrated video processing assemblies.",
+  "evidence": "Our customers include leading electro-optical payload, radio frequency, or RF, datalink and unmanned platforms manufacturers as well as other large defense system providers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

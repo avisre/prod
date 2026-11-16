@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001875609",
  "issuerName": "Swvl Holdings Corp",
- "builtAt": "2026-11-16T05:47:24.989Z",
+ "builtAt": "2026-11-16T12:38:24.667Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-045255",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1875609/000110465926045255/swvl-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mass transit",
+   "products": [
+    "B2C",
+    "Swvl Business",
+    "TaaS",
+    "SaaS"
+   ],
+   "description": "Provides mass transit through a dynamically-routed network of minibuses for consumers and businesses.",
+   "evidence": "We are a technology-driven disruptive mobility company that aims to provide reliable, safe, cost-effective and environmentally responsible mass transit solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Riders pay a fixed rate per booked journey, and corporate, school and municipal customers pay per route for TaaS and cost-plus fees for SaaS.",
+  "evidence": "Our customers typically pay for our TaaS offerings on a per route basis, with pricing determined based on the length and location of such route and without regard to the number of riders on such route."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

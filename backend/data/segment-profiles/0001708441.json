@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001708441",
  "issuerName": "Mynd.ai, Inc.",
- "builtAt": "2026-11-16T05:47:26.566Z",
+ "builtAt": "2026-11-16T12:07:21.955Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001708441-26-000055",
@@ -10,11 +10,37 @@
   "filingDate": "2026-05-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1708441/000170844126000055/mynd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Interactive displays",
+   "products": [
+    "ActivPanel 10",
+    "ActivPanel LE",
+    "ActivPanel D-Series",
+    "Explain Everything",
+    "ActivInspire",
+    "Promethean ActivSuite"
+   ],
+   "description": "Makes interactive displays, teaching and collaboration software for education, business and public sectors.",
+   "evidence": "Goodwill of $ 44,961 was allocated to this reporting unit, which is included in the Company's single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Distributors and resellers pay for hardware and accessory products, plus extended warranties and training services.",
+  "evidence": "We generate the majority of our revenue from the sales of hardware and accessory products to a global network of distributors and resellers, who are considered the customers for these products."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company sold Global Eduhub Holding, its early childcare learning business in Singapore, and reported it as discontinued operations.",
+   "evidence": "This sale represented a strategic shift with a major effect on our operations and financial results, and as a result, the GEH Singapore segment has been presented as discontinued operations and excluded from both continuing operations and segment results for the years ended December 31, 2024 and 2023."
+  },
+  {
+   "text": "In 2023, the Company transferred its entire education business in China and ceased operating it.",
+   "evidence": "As a result of the foregoing transactions, we ceased operations of all education business in China and NetDragon, through ND BVI, holds approximately 73% of our outstanding ordinary shares as of December 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

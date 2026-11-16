@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001713539",
  "issuerName": "Kaixin Holdings",
- "builtAt": "2026-11-16T05:47:30.393Z",
+ "builtAt": "2026-11-16T12:14:57.968Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-040360",
@@ -10,11 +10,29 @@
   "filingDate": "2026-04-07",
   "url": "https://www.sec.gov/Archives/edgar/data/1713539/000110465926040360/kxin-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive retail",
+   "products": [
+    "Kaixin Auto",
+    "POCCO EV"
+   ],
+   "description": "Sells new and used vehicles through auto dealerships and facilitates automotive financing for car buyers.",
+   "evidence": "The Group operates and manages its business as a single segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Car buyers pay the company for retail sales of new and used vehicles through its dealerships.",
+  "evidence": "As part of our business, we offer retail auto sales of new and used vehicles"
+ },
+ "changes": [
+  {
+   "text": "In February 2023 the Group sold its Zhejiang Taohaoche equity interest, which was not treated as discontinued operations.",
+   "evidence": "The transfer of share equity interest in Zhejiang Taohaoche did not constitute a strategic shift of the Group's operations and did not have major effects on the Group's operations and financial results; therefore, the transactions do not meet the discontinued operations criteria."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

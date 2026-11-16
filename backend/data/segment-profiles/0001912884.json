@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001912884",
  "issuerName": "Republic Power Group Limited",
- "builtAt": "2026-11-16T05:47:29.700Z",
+ "builtAt": "2026-11-16T12:10:50.437Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-25-121345",
@@ -10,10 +10,27 @@
   "filingDate": "2025-12-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1912884/000121390025121345/ea0267306-20f_republic.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ERP software solutions",
+   "products": [
+    "customized ERP software solutions",
+    "SaaS ERP products",
+    "peripheral hardware",
+    "Software development service",
+    "Consulting and technical support services",
+    "Product sales"
+   ],
+   "description": "Provides customized ERP software solutions, consulting and technical support, and peripheral hardware to large and SME clients in Singapore and Malaysia.",
+   "evidence": "As a whole and hence, the Company has only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients, including large and SME businesses and government agencies, pay for customized ERP software development, consulting, technical support and product sales.",
+  "evidence": "We offer customized ERP related software and relevant consulting and technical support services and product sales, catered to each client's specific needs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

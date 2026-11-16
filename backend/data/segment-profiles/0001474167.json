@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001474167",
  "issuerName": "COSMOS HEALTH INC.",
- "builtAt": "2026-11-16T05:47:25.511Z",
+ "builtAt": "2026-11-16T12:06:57.506Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001477932-26-002278",
@@ -10,11 +10,41 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1474167/000147793226002278/cosm_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale",
+   "products": [],
+   "description": "Distributes and exports pharmaceutical products to wholesalers, distributors and pharmacies across its markets.",
+   "evidence": "Wholesale Distribution and export of pharmaceutical products"
+  },
+  {
+   "name": "Pharma Manufacturing",
+   "products": [],
+   "description": "Produces pharmaceutical products, including contract manufacturing for other companies, from the group's production facilities.",
+   "evidence": "Pharma manufacturing Production of pharmaceutical products"
+  },
+  {
+   "name": "Nutraceuticals & Pharmaceuticals",
+   "products": [
+    "Sky Premium Life®",
+    "Mediterranation®"
+   ],
+   "description": "Trades in the company's own nutraceutical and pharmaceutical brands, such as Sky Premium Life and Mediterranation.",
+   "evidence": "Our proprietary nutraceutical brands are Sky Premium Life® (\"SPL\") and Mediterranation®."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Wholesalers, distributors and pharmacies buy the group's generic, nutraceutical and pharmaceutical products.",
+  "evidence": "Our strategy involves the enhancement of our manufacturing capacities and building a multinational network or wholesalers, distributors, and pharmacies and simultaneously continuing to expand the portfolio of innovative products that we distribute to that network."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company stopped focusing on its telehealth business segment after impairing the ZipDoctor telehealth platform.",
+   "evidence": "Specifically, the telehealth platform was no longer in use and did not generate revenues, as the Company elected not to focus on the telehealth business segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

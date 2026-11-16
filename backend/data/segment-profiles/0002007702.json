@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002007702",
  "issuerName": "Cellyan Biotechnology Co., Ltd",
- "builtAt": "2026-11-16T05:47:27.913Z",
+ "builtAt": "2026-11-16T12:08:14.413Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-086725",
@@ -10,11 +10,29 @@
   "filingDate": "2026-08-07",
   "url": "https://www.sec.gov/Archives/edgar/data/2007702/000121390026086725/ea0299789-20f_cellyan.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cross-border OTC pharmaceutical",
+   "products": [
+    "Supply Chain Services",
+    "Procurement and Distribution"
+   ],
+   "description": "Sources, imports and distributes OTC pharmaceuticals for Mainland Chinese e-commerce customers via Hong Kong supply chain services.",
+   "evidence": "The Company operates and manages its business in Hong Kong as a single segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "E-commerce logistics partners and online merchants pay for supply chain services and for OTC pharmaceutical products.",
+  "evidence": "Our main customers are (i) e-commerce platform logistics partners like CaiNiao who hire our supply chain services related to cross-border OTC pharmaceutical products and (ii) merchants on established Chinese e-commerce platforms such as Tmall, Meituan, Pinduoduo, JD.com, Xiaohongshu, and Youzan to offer popular OTC pharmaceutical products sourced from Hong Kong, Taiwan, Japan, and certain European countries such as the United Kingdom and Germany."
+ },
+ "changes": [
+  {
+   "text": "In September 2023, Joint Cross Border sold its Hangzhou Subsidiary, which provided customer services to CaiNiao.",
+   "evidence": "Subsequently, to reduce operational costs, Joint Cross Border sold the Hangzhou Subsidiary to Yeung Sun Fong (H.K.) Medical Company Limited, an unrelated Hong Kong company, on September 11, 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

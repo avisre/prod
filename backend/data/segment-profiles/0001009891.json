@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001009891",
  "issuerName": "AIR INDUSTRIES GROUP",
- "builtAt": "2026-11-16T05:47:24.179Z",
+ "builtAt": "2026-11-16T12:05:51.114Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-035731",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1009891/000121390026035731/ea0282298-10k_airindustries.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision components",
+   "products": [
+    "landing gears",
+    "flight controls",
+    "engine mounts",
+    "Thrust Struts",
+    "Chaff Pods",
+    "Swashplates and Hubs",
+    "arresting gear"
+   ],
+   "description": "Makes precision components and assemblies for aerospace and defense prime contractors and the U.S. Government.",
+   "evidence": "The Company operates as a single reportable segment, as the Chief Operating Decision Maker (\"CODM\") reviews financial performance and makes decisions on a consolidated basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Prime contractors and the U.S. Government pay for precision components and assemblies under fixed-price contracts.",
+  "evidence": "The Company's revenue is generated from fixed-price contracts."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

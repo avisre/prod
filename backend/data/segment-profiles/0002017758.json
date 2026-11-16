@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002017758",
  "issuerName": "Linkhome Holdings Inc.",
- "builtAt": "2026-11-16T05:47:23.772Z",
+ "builtAt": "2026-11-16T12:05:38.324Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-034538",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/2017758/000121390026034538/ea0281818-10k_linkhome.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Solutions",
+   "products": [
+    "Cash Offer",
+    "real estate agency services",
+    "property management services",
+    "home renovation services",
+    "mortgage referral services"
+   ],
+   "description": "Runs the integrated real estate platform, covering Cash Offer property purchases and resales and real estate services for home buyers and sellers.",
+   "evidence": "The CODM manages the Company's operations as a single operating and reportable segment, referred to as the Real Estate Solutions segment, which includes all activities related to the Company's integrated real estate platform."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Linkhome for properties it buys and resells through Cash Offer, and for agency, property management, renovation and mortgage referral services.",
+  "evidence": "The Company manages its business activities on a consolidated basis, including two principal business lines: (1) Cash Offer transactions, in which the Company purchases and resells properties for customers; and (2) real estate services, including real estate agency services, property management services, home renovation services, and mortgage referral services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

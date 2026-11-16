@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001864943",
  "issuerName": "FGI Industries Ltd.",
- "builtAt": "2026-11-16T05:47:29.599Z",
+ "builtAt": "2026-11-16T12:10:33.679Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-024682",
@@ -10,10 +10,22 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1864943/000162828026024682/fgi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Kitchen and Bath Segment",
+   "products": [
+    "bath and kitchen products"
+   ],
+   "description": "Supplies bath and kitchen products to large retail, wholesale, commercial and specialty channel customers.",
+   "evidence": "hence the Company has only one reportable segment which derives its revenue from the supply of bath and kitchen products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retailers, wholesalers, commercial buyers, e-commerce channels and independent distributors pay for bath and kitchen products.",
+  "evidence": "We serve a large and global customer base that covers five main categories of businesses: mass retailers, wholesalers, commercial, e-commerce channels and independent distributors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002058584",
  "issuerName": "DarkIris Inc.",
- "builtAt": "2026-11-16T05:47:27.754Z",
+ "builtAt": "2026-11-16T12:07:56.353Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-004488",
@@ -10,11 +10,26 @@
   "filingDate": "2026-01-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2058584/000149315226004488/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobile digital games",
+   "products": [
+    "Games Development",
+    "Games Publishing and Operation"
+   ],
+   "description": "Develops, publishes and operates mobile digital games for players across global third-party digital storefronts.",
+   "evidence": "Operated in Hong Kong, we are a comprehensive technology enterprise engaged in the development, publishing and operating of mobile digital games via various third-party digital storefronts."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [],
+ "changes": [
+  {
+   "text": "In 2025, the company disposed of Turing, its mainland China operating subsidiary, to an unaffiliated third party.",
+   "evidence": "After the Disposition, Turing is no longer owned by Quantum, and we have no operating subsidiary in mainland China."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

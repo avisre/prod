@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001372514",
  "issuerName": "KIORA PHARMACEUTICALS, INC.",
- "builtAt": "2026-11-16T05:47:29.091Z",
+ "builtAt": "2026-11-16T12:09:54.611Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001372514-26-000024",
@@ -10,11 +10,24 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1372514/000137251426000024/kprx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ophthalmic pharmaceutical products",
+   "products": [
+    "KIO-301",
+    "KIO-104",
+    "KIO-101"
+   ],
+   "description": "Develops ophthalmic drug candidates for retinal diseases, including retinitis pigmentosa and retinal inflammation, for patients with vision loss.",
+   "evidence": "The Company operates in and reports as a single reportable segment, focused on the development of innovative ophthalmic pharmaceutical products."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
  "reader": "agent"
 }

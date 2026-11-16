@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002041829",
  "issuerName": "ChowChow Cloud International Holdings Limited",
- "builtAt": "2026-11-16T05:47:26.234Z",
+ "builtAt": "2026-11-16T12:06:58.814Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-023952",
@@ -10,10 +10,25 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/2041829/000149315226023952/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IT-related services",
+   "products": [
+    "digital transformation consulting services",
+    "professional IT services",
+    "AI-powered proactive cloud managed services",
+    "IT infrastructure solutions"
+   ],
+   "description": "Provides cloud consulting, professional IT, AI-powered managed and infrastructure services to IT partner and end-user clients in Asia-Pacific.",
+   "evidence": "The Company operates as a single reportable segment as defined by ASC 280, with the Chief Operating Decision Maker (CODM), identified as the Chief Executive Officer, reviewing consolidated results for the purpose of allocating resources and assessing performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "IT partner clients and end-user clients pay the company for cloud consulting, professional IT, managed and infrastructure services.",
+  "evidence": "Our clients are primarily divided into two categories, namely IT partner clients and end-user clients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

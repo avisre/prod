@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001743905",
  "issuerName": "Rail Vision Ltd.",
- "builtAt": "2026-11-16T05:47:30.005Z",
+ "builtAt": "2026-11-16T12:10:52.769Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-014134",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1743905/000149315226014134/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Railway detection systems",
+   "products": [
+    "MainLine system",
+    "ShuntingYard System"
+   ],
+   "description": "Develops AI-integrated sensing systems for railway operators that detect obstacles and alert train drivers.",
+   "evidence": "The Company manages its business on the basis of one reportable segment and unit and derives revenues from sales of products and services (see Note 1 for a brief description of the Company's business and Note 8 for details on the Company's revenue recognition)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Rail operators and rail companies pay for the company's products and services.",
+  "evidence": "The Company manages its business on the basis of one reportable segment and unit and derives revenues from sales of products and services (see Note 1 for a brief description of the Company's business and Note 8 for details on the Company's revenue recognition)."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

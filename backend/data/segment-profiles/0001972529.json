@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001972529",
  "issuerName": "Armlogi Holding Corp.",
- "builtAt": "2026-11-16T05:47:24.784Z",
+ "builtAt": "2026-11-16T12:06:08.782Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-103636",
@@ -10,10 +10,29 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1972529/000121390026103636/ea0306339-10k_armlogi.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Warehousing and logistics",
+   "products": [
+    "customs brokerage services",
+    "transportation of merchandise to U.S. warehouses",
+    "warehouse management and order fulfillment services",
+    "product storage and retrieval",
+    "product packing and labeling",
+    "kitting and repackaging",
+    "order assembly and load consolidation",
+    "inventory management and sales forecasting"
+   ],
+   "description": "Provides one-stop warehousing and logistics services, including customs brokerage and order fulfillment, to cross-border e-commerce merchants selling into the U.S.",
+   "evidence": "The Company operates as a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, mainly cross-border e-commerce merchants, pay service and delivery fees for warehousing, customs brokerage, transportation and order fulfillment.",
+  "evidence": "Considering the large volume of merchandise we process, we are able to offer relatively inexpensive service fees and affordable delivery fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

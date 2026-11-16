@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001735041",
  "issuerName": "GREENLAND TECHNOLOGIES HOLDING CORPORATION",
- "builtAt": "2026-11-16T05:47:24.383Z",
+ "builtAt": "2026-11-16T12:05:56.872Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-032928",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1735041/000121390026032928/ea0282605-10k_greenland.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Material handling machinery",
+   "products": [
+    "Transmission Systems",
+    "Integrated Powertrain",
+    "GEL-5000",
+    "GEL-1800",
+    "GEX-8000",
+    "H55L",
+    "H65L",
+    "GEF-series electric forklifts"
+   ],
+   "description": "Designs, manufactures and sells transmission systems and powertrains for forklift and material handling machinery, mainly in China.",
+   "evidence": "The Company has determined that there is only one reportable operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Forklift-truck manufacturers pay for transmission products that Greenland sells to them directly.",
+  "evidence": "Greenland sells these transmission products directly to forklift-truck manufacturers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

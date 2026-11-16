@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001930510",
  "issuerName": "VCI Global Limited",
- "builtAt": "2026-11-16T05:47:30.322Z",
+ "builtAt": "2026-11-16T12:38:24.877Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-078044",
@@ -10,11 +10,41 @@
   "filingDate": "2026-07-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1930510/000121390026078044/ea0295861-20f_vciglobal.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Strategy Consultancy",
+   "products": [
+    "listing solutions",
+    "investor relations consultation",
+    "Boardroom Strategy Services"
+   ],
+   "description": "Advises companies on listings, investor relations, boardroom strategy and cross-border listing.",
+   "evidence": "Business Strategy Consultancy – We specialize in listing solutions, investors relations and boardroom strategies consultancy."
+  },
+  {
+   "name": "Technology Development, Solutions and Consultancy",
+   "products": [
+    "Cybersecurity Solutions (Cybersecurity as a Services)",
+    "Artificial Intelligence Solutions (AI as a Service)",
+    "Fintech Solutions",
+    "Digital Transformation & Enterprise Solution Development"
+   ],
+   "description": "Provides cybersecurity, AI, fintech and digital transformation consultancy and solutions to businesses.",
+   "evidence": "Our technology consultancy services and solutions keep our clients ahead of major technology and industry trends."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay consulting fees for business strategy advice and for technology development, solutions and consultancy services.",
+  "evidence": "We leverage our in-depth expertise to assist clients in creating value by providing profitable business ideas, customizing bold strategic options, offering sector intelligence, and equipping clients with cost-saving solutions for lasting growth."
+ },
+ "changes": [
+  {
+   "text": "The education business was disposed of in April 2024, removing its training and staff costs from later results.",
+   "evidence": "The decrease was primarily attributable to the disposal of the Group's education business in April 2024, which resulted in the absence of training expenses and staff-related costs associated with the education business during the fiscal year ended December 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

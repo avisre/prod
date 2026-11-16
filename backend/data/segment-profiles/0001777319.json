@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001777319",
  "issuerName": "CISO GLOBAL, INC.",
- "builtAt": "2026-11-16T05:47:25.068Z",
+ "builtAt": "2026-11-16T12:06:24.517Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013324",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1777319/000149315226013324/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cybersecurity",
+   "products": [
+    "Security Managed Services",
+    "Professional Services",
+    "Cybersecurity Software"
+   ],
+   "description": "Delivers cybersecurity compliance, managed security, professional services and proprietary software to clients across diverse sectors.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay for security managed services, professional services and cybersecurity software, invoiced in advance or in milestone installments.",
+  "evidence": "The Company generally invoices customers in advance or in milestone-based installments."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

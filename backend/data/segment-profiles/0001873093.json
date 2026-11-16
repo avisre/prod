@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001873093",
  "issuerName": "CytoMed Therapeutics Limited",
- "builtAt": "2026-11-16T05:47:25.809Z",
+ "builtAt": "2026-11-16T12:06:57.482Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-013813",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1873093/000149315226013813/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell-based immunotherapy",
+   "products": [
+    "CTM-N2D",
+    "iPSC-gdNKT",
+    "CTM-GDT",
+    "CTM-MSC",
+    "CTM-NK",
+    "The Longevity Bank"
+   ],
+   "description": "Develops off-the-shelf cell-based immunotherapies for cancers and degenerative diseases, plus cord blood cryostorage services.",
+   "evidence": "Built on the proprietary platform technologies that we licensed, we are developing four cellular immunotherapy product candidates: CTM-N2D, iPSC-gdNKT, CTM-GDT and CTM-NK."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay IPSC Depository for cryostorage of cord blood stem cells, peripheral blood mononuclear cells, mesenchymal stem cells and induced pluripotent stem cells.",
+  "evidence": "Under the brand of The Longevity Bank, IPSC Depository offers cryostorage service for cord blood stem cell, peripheral blood mononuclear cells, mesenchymal stem cells and induced pluripotent stem cells."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

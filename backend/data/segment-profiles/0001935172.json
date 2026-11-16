@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001935172",
  "issuerName": "XIAO-I CORPORATION",
- "builtAt": "2026-11-16T05:47:27.547Z",
+ "builtAt": "2026-11-16T12:07:48.696Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-057986",
@@ -10,10 +10,25 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1935172/000121390026057986/ea0290336-20f_xiao.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cognitive AI",
+   "products": [
+    "Hua Zang Universal Large Language Model",
+    "Hua Zang Ecosystem",
+    "Hua Zang Developer Platform",
+    "Xiaoi robot brand"
+   ],
+   "description": "Provides cognitive AI products and services, including the Hua Zang large language model, to enterprises in contact center, financial, government and healthcare sectors.",
+   "evidence": "As a result of the assessment made by CODM, the Group has only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Enterprise and institutional customers pay for AI products and services sold through regional sales teams and partners.",
+  "evidence": "We sell our products and services to end customers through our sales ecosystem, which consists of multiple regional sales teams and maintain strong relationships with suppliers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

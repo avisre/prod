@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002030617",
  "issuerName": "PICARD MEDICAL, INC.",
- "builtAt": "2026-11-16T05:47:26.680Z",
+ "builtAt": "2026-11-16T12:07:29.919Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-010133",
@@ -10,11 +10,30 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2030617/000143774926010133/pmi20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Total Artificial Heart",
+   "products": [
+    "SynCardia TAH",
+    "Companion 2 Driver",
+    "Freedom Driver"
+   ],
+   "description": "Manufactures and sells the only FDA-approved Total Artificial Heart, a bridge to heart transplantation for end-stage heart failure patients.",
+   "evidence": "The SynCardia TAH is powered by pneumatic drivers available for in-hospital use, the Companion 2 Driver (\"C2 Driver\"), and for in-home use, the Freedom Driver."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company sells SynCardia TAH products with related services and earns rental revenue from the devices.",
+  "evidence": "Revenue from products includes related services, which represented less than 10 % of product revenue for both periods."
+ },
+ "changes": [
+  {
+   "text": "In May 2025, the company began winding down its German sales subsidiary, SynCardia Systems Europe GmbH.",
+   "evidence": "In May 2025, the Company initiated an orderly wind down of GmbH."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

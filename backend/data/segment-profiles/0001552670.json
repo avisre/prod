@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001552670",
  "issuerName": "Taoping Inc.",
- "builtAt": "2026-11-16T05:47:28.067Z",
+ "builtAt": "2026-11-16T12:08:37.542Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-020596",
@@ -10,11 +10,49 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1552670/000149315226020596/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud-based Technology (CBT)",
+   "products": [
+    "cloud-based products",
+    "high-end data storage servers",
+    "Advertising services"
+   ],
+   "description": "Sells cloud-based products, data storage servers and advertising services to private-sector customers in China.",
+   "evidence": "It includes the Company's cloud-based products, high-end data storage servers and related services sold to private sectors including new media, healthcare, education and residential community management, and among other industries and applications."
+  },
+  {
+   "name": "Traditional Information Technology (TIT)",
+   "products": [
+    "Geographic Information Systems (GIS)",
+    "Digital Public Security Technology (DPST)",
+    "Digital Hospital Information Systems (DHIS)"
+   ],
+   "description": "Project-based technology products and services sold to public-sector customers, being gradually phased out.",
+   "evidence": "The TIT segment includes the Company's project-based technology products and services sold to the public sector."
+  },
+  {
+   "name": "Smart Elevator (SE)",
+   "products": [
+    "elevator services",
+    "cloud-based maintenance"
+   ],
+   "description": "Elevator sales, installation, repair, maintenance and upgrades for governments, businesses and households.",
+   "evidence": "As a provider of elevator services, the Company provides services throughout the entire elevator lifecycle, including sales, installation, repair, cloud-based maintenance, renovation, and upgrades."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for advertising, hardware, software maintenance, technology services, and elevator sales, installation and maintenance.",
+  "evidence": "We generate revenues from advertising, selling hardware, software maintenance, other technology-related services, and elevator projects and services to customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company added the Smart Elevator (SE) segment after acquiring Skyladder Group.",
+   "evidence": "Following the acquisition of Skyladder Group in November 2025, the Company added the Smart Elevator (SE) segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

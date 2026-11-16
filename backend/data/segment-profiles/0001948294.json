@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001948294",
  "issuerName": "CL Workshop Group Ltd",
- "builtAt": "2026-11-16T05:47:25.195Z",
+ "builtAt": "2026-11-16T12:06:29.410Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019023",
@@ -10,11 +10,41 @@
   "filingDate": "2026-04-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1948294/000149315226019023/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct Purchase and ODM Segment",
+   "products": [
+    "Logs",
+    "Flooring",
+    "Decking",
+    "Sawn timber"
+   ],
+   "description": "Sources live wood and designs wood products for sale to end customers.",
+   "evidence": "Direct Purchase and ODM Segment – being the business of sourcing of live wood and owning designed design on wood products for sales to end customers."
+  },
+  {
+   "name": "Manufacturing Segment",
+   "products": [
+    "decking",
+    "flooring",
+    "sawn timbers"
+   ],
+   "description": "Manufactures decking, flooring and sawn timber products.",
+   "evidence": "Manufacturing Segment – being the business with involvement in manufacturing of decking, flooring or sawn timbers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for wood products, mainly logs, decking, flooring and sawn timber.",
+  "evidence": "We sell a broad line of products, mainly logs, decking, flooring and sawn timber."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the group disposed of Peru Forestry Management Co., Limited and its subsidiaries, which held its Peru operations.",
+   "evidence": "In June 2025, our Group completed the disposal of the entire issued share capital of Peru Forestry Management Co., Limited and its subsidiaries."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

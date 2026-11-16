@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002074123",
  "issuerName": "CCH Holdings Ltd",
- "builtAt": "2026-11-16T05:47:23.363Z",
+ "builtAt": "2026-11-16T12:05:29.829Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-057844",
@@ -10,10 +10,24 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/2074123/000121390026057844/ea0285913-20f_cchhold.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "restaurant operations",
+   "products": [
+    "company-owned restaurant operations",
+    "sales of food ingredients and condiments",
+    "franchise licensing"
+   ],
+   "description": "Operates Chicken Claypot House and Zi Wei Yuan hotpot restaurants in Malaysia, selling meals, food ingredients and franchise licenses.",
+   "evidence": "The single reportable segment is restaurant operations, among which revenues from company-owned restaurants are considered as the primary revenue source, while sales of food ingredients and condiments, franchise licensing are diversified revenue contributions dependent upon the Group's brand influence."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Diners pay for meals at company-owned restaurants, distributors and franchisees buy food ingredients and condiments, and franchisees pay for franchise licensing.",
+  "evidence": "a general trader since we are involved in the business of selling food ingredients and condiments to local distributors or franchised restaurant outlets"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

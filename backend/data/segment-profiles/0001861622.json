@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001861622",
  "issuerName": "Jet.AI Inc.",
- "builtAt": "2026-11-16T05:47:29.289Z",
+ "builtAt": "2026-11-16T12:10:11.993Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-009165",
@@ -10,10 +10,20 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1861622/000149315226009165/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "private aviation services",
+   "products": [],
+   "description": "Private aviation services, with revenue substantially earned from flights throughout the U.S.",
+   "evidence": "The Company determined that as of and through December 31, 2025 the Company operates in a single operating and reportable segment, private aviation services, as the chief operating decision maker reviews financial information presented on a consolidated basis, accompanied by disaggregated information about revenue, for purposes of making operating decisions, allocating resources, and assessing performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for private aviation services, with revenue substantially earned from flights throughout the U.S.",
+  "evidence": "All of the Company's long-lived assets are located in the U.S. and revenue from private aviation services is substantially earned from flights throughout the U.S."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

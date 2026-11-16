@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001927578",
  "issuerName": "NetClass Technology Inc",
- "builtAt": "2026-11-16T05:47:23.223Z",
+ "builtAt": "2026-11-16T12:04:59.722Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-008806",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1927578/000110465926008806/ntcl-20250930x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Information technology",
+   "products": [
+    "digital IT product and service",
+    "software development",
+    "platform development",
+    "Smart Campus",
+    "Mobile Learning Platforms development",
+    "big data cloud computing service",
+    "online-training service"
+   ],
+   "description": "Provides IT products, software and platform development, smart campus systems and online-training services across the PRC, Hong Kong, Singapore and Japan.",
+   "evidence": "Based on this evaluation, management has determined that the Company operates as a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for IT products and services, software and platform development, and online-training services.",
+  "evidence": "Accounts receivable are typically unsecured and derived from revenue earned from customers, compensation receivables are typically unsecured and derived from damages the Company claimed from certain suppliers as well as customers, thereby exposed to credit risks."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001707303",
  "issuerName": "Dogness (International) Corporation",
- "builtAt": "2026-11-16T05:47:23.357Z",
+ "builtAt": "2026-11-16T12:05:17.062Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-045181",
@@ -10,10 +10,26 @@
   "filingDate": "2026-10-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1707303/000149315226045181/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pet products",
+   "products": [
+    "leashes",
+    "collars",
+    "harnesses",
+    "intelligent pet products",
+    "dyeing services"
+   ],
+   "description": "Designs and manufactures pet leashes, collars, harnesses and intelligent pet products, mostly sold to pet stores in the U.S. and Europe.",
+   "evidence": "The Company determined it operates as one consolidated segment and therefore has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pet stores and other customers pay the company for leashes, collars, harnesses, intelligent pet products and dyeing services.",
+  "evidence": "Most products are exported to the U.S. and Europe and sold to pet stores, including major pet store chains."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002003061",
  "issuerName": "Star Fashion Culture Holdings Limited",
- "builtAt": "2026-11-16T05:47:29.617Z",
+ "builtAt": "2026-11-16T12:10:30.596Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-112167",
@@ -10,10 +10,24 @@
   "filingDate": "2026-10-23",
   "url": "https://www.sec.gov/Archives/edgar/data/2003061/000121390026112167/ea0308333-20f_starfashion.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Content marketing solutions",
+   "products": [
+    "Marketing Campaign Planning and Execution",
+    "Offline Advertising Services",
+    "Online Precision Marketing"
+   ],
+   "description": "Provides content marketing services to customers, including campaign planning, offline advertising and online precision marketing.",
+   "evidence": "As a result of the assessment made by CODM, the Group has only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers buy marketing campaign, offline advertising and online precision marketing services from the company.",
+  "evidence": "We offer outdoor advertising solutions to customers, tailoring marketing strategies to the customer's requests."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

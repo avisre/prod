@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001877971",
  "issuerName": "POMDOCTOR Ltd",
- "builtAt": "2026-11-16T05:47:24.473Z",
+ "builtAt": "2026-11-16T12:06:05.965Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-056576",
@@ -10,10 +10,41 @@
   "filingDate": "2026-05-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1877971/000121390026056576/ea0286069-20f_pomdoc.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Internet hospital",
+   "products": [
+    "Prescription drugs",
+    "Over-the-counter (\"OTC\") medicines",
+    "Traditional Chinese medicine (\"TCM\")",
+    "Medical apparatus and instruments (\"MAAI\")",
+    "Online consultation",
+    "Others"
+   ],
+   "description": "Provides online follow-up consultations, online prescription renewal, and sells prescriptions to customers via its website and apps.",
+   "evidence": "The Internet hospital segment includes providing online follow-up consultations and online prescription renewal service to customers and also sells prescription to customers through the Group's website and apps."
+  },
+  {
+   "name": "Pharmaceutical supply chain",
+   "products": [
+    "pharmacy retail sales",
+    "wholesale",
+    "Prescription drugs",
+    "Over-the-counter (\"OTC\") medicines",
+    "Traditional Chinese medicine (\"TCM\")",
+    "Medical apparatus and instruments (\"MAAI\")",
+    "Others"
+   ],
+   "description": "Runs pharmacy retail sales of medicines to retail customers and wholesale supply to drug vendors, hospitals and its own drugstores.",
+   "evidence": "The pharmaceutical supply chain segment includes pharmacy retail sales and wholesale."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for online consultations and prescriptions, and retail customers, drug vendors and hospitals pay for medicines.",
+  "evidence": "The pharmacy retail sales sell prescription and over-the-counter (\"OTC\") medicines, TCM and others to retail customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

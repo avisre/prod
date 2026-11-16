@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001709628",
  "issuerName": "CLOUDASTRUCTURE, INC.",
- "builtAt": "2026-11-16T05:47:29.117Z",
+ "builtAt": "2026-11-16T12:09:49.671Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-002561",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1709628/000168316826002561/cloudastructure_i10k-123125.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Video surveillance",
+   "products": [
+    "Cloud Video Surveillance",
+    "Seamless Remote Guarding Software",
+    "Remote Guarding",
+    "Operational Intelligence"
+   ],
+   "description": "Provides cloud-based AI video surveillance and remote guarding security services to property managers and enterprises.",
+   "evidence": "We have one reportable segment focused on cloud-based AI video surveillance and remote guarding security services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay a monthly subscription fee for services, plus separate hardware sales and installation labor.",
+  "evidence": "We offer our services and support for a monthly subscription fee, requiring no upfront licensing costs or large capital expenditure budgets, although our customers frequently discover they would like to upgrade their networks and cameras when they enroll with our service."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

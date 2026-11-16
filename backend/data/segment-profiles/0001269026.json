@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001269026",
  "issuerName": "SINTX Technologies, Inc.",
- "builtAt": "2026-11-16T05:47:30.817Z",
+ "builtAt": "2026-11-16T12:15:16.099Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-011924",
@@ -10,11 +10,38 @@
   "filingDate": "2026-03-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1269026/000149315226011924/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced ceramics",
+   "products": [
+    "Monolithic Solid Silicon Nitride",
+    "Porous Silicon Nitride",
+    "Silicon Nitride Powder",
+    "Silicon Nitride Coating",
+    "Composites of Silicon Nitride and PEEK and PEKK",
+    "SiNAPTIC® Foot & Ankle Osteotomy Wedge System",
+    "OsseoSculpt™"
+   ],
+   "description": "Develops and manufactures silicon nitride biomaterials, devices and components for medical and industrial customers.",
+   "evidence": "We manage our business within one reportable segment, which is consistent with how our management reviews our business, makes investment and resource allocation decisions and assesses operating performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for silicon nitride products, coatings and components, toll processing, and government grants and contracts.",
+  "evidence": "These revenue sources include coatings, materials, and components for aerospace and medical device markets, toll processing services, and government contracts and grants."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold its TA&T subsidiary to Tethon, which assumed TA&T's outstanding liabilities.",
+   "evidence": "As discussed in Note 1 to the consolidated financial statements, on February 19, 2025, the Company sold to Tethon all the issued and outstanding shares of TA&T in exchange for the assumption by Tethon of the outstanding liabilities of TA&T."
+  },
+  {
+   "text": "In 2024 the board approved a plan to cease efforts to make the armor plant operational.",
+   "evidence": "On August 12, 2024, the board of directors approved a plan to cease efforts to make the armor plant operational."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001674440",
  "issuerName": "AiRWA INC.",
- "builtAt": "2026-11-16T05:47:28.304Z",
+ "builtAt": "2026-11-16T12:38:24.870Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-043608",
@@ -10,11 +10,30 @@
   "filingDate": "2026-09-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1674440/000149315226043608/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI Services",
+   "products": [
+    "Technology Licensing",
+    "Advertising",
+    "International Trading"
+   ],
+   "description": "Single reportable segment covering AI services for enterprises, technology licensing, advertising and cross-border consumer-goods trading.",
+   "evidence": "The Company has determined that there is only one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Licensees pay royalties for matchmaking technology, and clients pay for advertising campaigns and AI data services.",
+  "evidence": "Our technology licensing business generated royalties of $7.3 million in our financial year ended April 30, 2026."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company agreed to sell Slinger Bag Americas Inc. as part of the YYEM acquisition.",
+   "evidence": "As part of the transaction, the Company agreed to sell its wholly owned subsidiary, Slinger Bag Americas Inc., to a newly established Florida limited liability company owned by members of the Company's prior management team."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

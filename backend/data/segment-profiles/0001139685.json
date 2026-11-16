@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001139685",
  "issuerName": "20/20 BIOLABS, INC.",
- "builtAt": "2026-11-16T05:47:30.141Z",
+ "builtAt": "2026-11-16T12:11:14.389Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037667",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1139685/000121390026037667/ea0283134-10k_2020bio.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blood tests",
+   "products": [
+    "OneTest for Cancer",
+    "OneTest for Longevity",
+    "BioCheck",
+    "CLIAx"
+   ],
+   "description": "Develops and sells AI-powered laboratory blood tests for early detection of cancers and chronic diseases.",
+   "evidence": "The Company has determined that its current business and operations consist of one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers buy OneTest blood tests, and FEMA and several states reimburse firefighters for OneTest for Cancer.",
+  "evidence": "FEMA and several states, including Maryland, New Hampshire, Louisiana, Vermont, and New Jersey, already reimburse their firefighters for obtaining MCEDs"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001799290",
  "issuerName": "Ebang International Holdings Inc.",
- "builtAt": "2026-11-16T05:47:27.991Z",
+ "builtAt": "2026-11-16T12:08:24.653Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-047509",
@@ -10,10 +10,28 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1799290/000121390026047509/ea0286394-20f_ebang.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fintech",
+   "products": [
+    "bitcoin mining machines and related accessories",
+    "telecommunication products",
+    "solar and battery storage products and related accessories",
+    "cryptocurrency exchange services",
+    "cross-border payment and foreign exchange services",
+    "SaaS data visualization and analytic solution",
+    "rental services"
+   ],
+   "description": "Sells bitcoin mining machines, telecommunication and solar products, and cryptocurrency exchange, cross-border payment, SaaS and rental services to customers.",
+   "evidence": "The Company operates in a single operating segment that primarily includes the selling of bitcoin mining machines and related accessories, telecommunication products, solar and battery storage products and related accessories, providing cryptocurrency exchange services, cross-border payment and foreign exchange services, SaaS data visualization and analytic solution and rental services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for the products it sells, including mining machines, solar and telecommunication products, and for exchange, payment, SaaS and rental services.",
+  "evidence": "The Company operates in a single operating segment that primarily includes the selling of bitcoin mining machines and related accessories, telecommunication products, solar and battery storage products and related accessories, providing cryptocurrency exchange services, cross-border payment and foreign exchange services, SaaS data visualization and analytic solution and rental services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

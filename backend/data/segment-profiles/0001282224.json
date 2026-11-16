@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001282224",
  "issuerName": "DOLPHIN ENTERTAINMENT, INC.",
- "builtAt": "2026-11-16T05:47:23.345Z",
+ "builtAt": "2026-11-16T12:05:07.222Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001079973-26-000368",
@@ -10,11 +10,42 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1282224/000107997326000368/dlpn_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Entertainment Publicity and Marketing",
+   "products": [
+    "42West",
+    "The Door",
+    "Shore Fire",
+    "Elle",
+    "The Digital Dept.",
+    "Special Projects"
+   ],
+   "description": "Provides public relations, influencer marketing, celebrity booking and content marketing services to entertainment and lifestyle clients.",
+   "evidence": "The entertainment publicity and marketing segment is composed of 42West, Shore Fire, The Door, Elle, The Digital Dept. and Special Projects and provides clients with diversified services, including public relations, entertainment content marketing, strategic communications, social media and influencer marketing and celebrity booking."
+  },
+  {
+   "name": "Content Production",
+   "products": [
+    "Dolphin Films",
+    "Dolphin Digital Studios"
+   ],
+   "description": "Develops, produces and distributes feature films, television and digital content, primarily aimed at family and young adult markets.",
+   "evidence": "The content production segment is composed of Dolphin Films and a department within Dolphin, which develop, produce and distribute feature films, television and digital content."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay fixed monthly retainers, percentage-of-contract fees or project-based fees for publicity, marketing and celebrity booking services.",
+  "evidence": "For these revenue streams, we collect fees through either fixed fee monthly retainer agreements, fees based on a percentage of contracts or project-based fees."
+ },
+ "changes": [
+  {
+   "text": "In November 2025, the company sold Always Alpha Sports Management LLC.",
+   "evidence": "As a result of the sale of Always Alpha, we recorded a gain on the sale of Always Alpha of $756,574 in our consolidated statement of operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

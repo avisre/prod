@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002034400",
  "issuerName": "BLACK TITAN CORPORATION",
- "builtAt": "2026-11-16T05:47:29.159Z",
+ "builtAt": "2026-11-16T12:10:11.545Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-050502",
@@ -10,10 +10,29 @@
   "filingDate": "2026-11-06",
   "url": "https://www.sec.gov/Archives/edgar/data/2034400/000149315226050502/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Human Capital Management",
+   "products": [
+    "Oracle PeopleSoft HCM",
+    "Oracle PeopleSoft Financials",
+    "Dayforce HCM",
+    "SunFish HR",
+    "Oracle Fusion",
+    "Workday",
+    "Sage Intacct",
+    "MiHCM Cloud"
+   ],
+   "description": "Distributes and implements human capital management software and consulting for clients in Malaysia and Singapore.",
+   "evidence": "The Group operates as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay the company for software licences or SaaS subscriptions, plus consulting, implementation, training and maintenance.",
+  "evidence": "Clients buying licensing generally also engage the Company for consultancy, implementation, and maintenance services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
