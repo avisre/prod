@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001190723",
  "issuerName": "Tenaris SA",
- "builtAt": "2026-11-16T04:47:01.743Z",
+ "builtAt": "2026-11-16T09:22:18.817Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001554855-26-000490",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1190723/000155485526000490/ts-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tubes",
+   "products": [
+    "seamless and welded steel casing and tubing",
+    "OCTG",
+    "line pipe",
+    "mechanical and structural tubes",
+    "Premium joints and couplings",
+    "cold-drawn pipe",
+    "Pipe coatings",
+    "TenarisHydril"
+   ],
+   "description": "Produces and sells steel tubular products and related services, mainly casing, tubing and line pipe for oil and gas drilling and transportation, plus industrial tubes.",
+   "evidence": "The Tubes segment includes the production and sale of steel tubular products and related services mainly for the oil and gas industry, particularly OCTG used in drilling operations, line pipe used in transportation and processing activities and mechanical and structural tubes for other industrial applications, with production processes that consist in the production and transformation of steel into tubular products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Oil and gas companies and other industrial customers pay for steel pipe products and related services, generally buying directly as end users through a global distribution network.",
+  "evidence": "Sales are generally made to end users, with exports being handled through a centrally managed global distribution network, while domestic sales are made through local subsidiaries."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Tenaris deconsolidated Amaja Tubular Services Limited, taking that business out of its consolidated operations.",
+   "evidence": "For the year 2025 , related to the deconsolidation of Amaja Tubular Services Limited."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

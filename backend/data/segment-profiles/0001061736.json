@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001061736",
  "issuerName": "Mexican Economic Development, Inc.",
- "builtAt": "2026-11-16T04:46:59.997Z",
+ "builtAt": "2026-11-16T09:19:34.366Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-027231",
@@ -10,11 +10,87 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1061736/000162828026027231/fmx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Coca-Cola FEMSA",
+   "products": [
+    "Coca-Cola trademark beverages",
+    "Beverages sales",
+    "Services revenues"
+   ],
+   "description": "Produces, markets, sells and distributes Coca-Cola trademark beverages to retailers and wholesalers in its bottler territories across Latin America.",
+   "evidence": "Coca-Cola FEMSA produces, markets, sells and distributes Coca-Cola trademark beverages through standard bottler agreements in the territories where it operates"
+  },
+  {
+   "name": "Proximity Americas Division",
+   "products": [
+    "beers",
+    "cigarettes",
+    "sodas",
+    "other beverages",
+    "snacks"
+   ],
+   "description": "Operates the OXXO small-format store chain and gas stations in Mexico, Latin America and the U.S., selling everyday goods to consumers.",
+   "evidence": "Operates the largest chain of small-format stores in Mexico and Latin America including as some of its principal products as beers, cigarettes, sodas, other beverages and snacks."
+  },
+  {
+   "name": "Proximity Europe Division",
+   "products": [
+    "tobacco",
+    "lottery products",
+    "snacks",
+    "press",
+    "food",
+    "fresh products",
+    "pretzels",
+    "drinks"
+   ],
+   "description": "Operates small-box retail and foodvenience stores in Europe, selling food, drinks and convenience goods to consumers.",
+   "evidence": "Operates a chain of small-box retail and foodvenience in Switzerland, Germany, Austria, Luxembourg and the Netherlands including as some of its principal products as tobacco, lottery products, snacks, press, food, fresh products, pretzels and drinks."
+  },
+  {
+   "name": "Health Division",
+   "products": [
+    "patent and generic formulas of medicines",
+    "beauty products",
+    "medical supplements",
+    "housing and personnel care products"
+   ],
+   "description": "Operates pharmacy and distribution locations, selling medicines, beauty and care products and health services to customers.",
+   "evidence": "The core products include patent and generic formulas of medicines, beauty products, medical supplements, housing and personnel care products."
+  },
+  {
+   "name": "Fuel Division",
+   "products": [
+    "fuels",
+    "diesel",
+    "motor oils",
+    "other car care products"
+   ],
+   "description": "Runs retail service stations that sell fuels, diesel, motor oils and car care products to drivers.",
+   "evidence": "The core products are sold in the retail service stations as fuels, diesel, motor oils and other car care products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers and wholesalers pay the company for beverages, store goods, medicines and fuel bought at its stores, pharmacies and service stations.",
+  "evidence": "The performance obligation is satisfied at the time of the sale or at the moment the control of the product is transferred and the payment is made by the customer."
+ },
+ "changes": [
+  {
+   "text": "The company divested its refrigeration and foodservice equipment business in 2024 and its plastic solutions operations in 2025.",
+   "evidence": "In November 2024, as part of our FEMSA Forward strategy, we divested our refrigeration and foodservice equipment business, and, in January 2025, we divested our plastic solutions operations."
+  },
+  {
+   "text": "The company completed the divestment of certain logistics operations doing business as Solistica in 2025.",
+   "evidence": "In July 2025, we completed the divestment of certain of our logistics operations doing business as Solistica"
+  },
+  {
+   "text": "The Logistics and Distributions segment ceased to be a reportable segment after its businesses were classified as discontinued operations in 2023.",
+   "evidence": "With these businesses being classified as discontinued operations, the Logistics and Distributions segment is no longer presented in the segment note as it no longer meets the definition of a reportable segment"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001549802",
  "issuerName": "JD.com, Inc.",
- "builtAt": "2026-11-16T04:47:00.121Z",
+ "builtAt": "2026-11-16T09:19:12.527Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-157870",
@@ -10,11 +10,58 @@
   "filingDate": "2026-04-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "JD Retail",
+   "products": [
+    "online retail",
+    "online marketplace",
+    "marketing services",
+    "JD Health",
+    "JD Industrials"
+   ],
+   "description": "Runs online retail, online marketplace and marketing services in China, including JD Health and JD Industrials.",
+   "evidence": "JD Retail, which includes JD Health and JD Industrials, mainly engages in online retail, online marketplace and marketing services in China."
+  },
+  {
+   "name": "JD Logistics",
+   "products": [
+    "supply chain solutions",
+    "logistics services",
+    "warehousing",
+    "distribution"
+   ],
+   "description": "Provides internal and external logistics and supply chain solutions, from warehousing to distribution, for merchants and customers.",
+   "evidence": "JD Logistics offers a full spectrum of supply chain solutions and high-quality logistics services enabled by technology, ranging from warehousing to distribution, spanning across manufacturing to end-customers, covering regular and specialized items."
+  },
+  {
+   "name": "New Businesses",
+   "products": [
+    "JD Food Delivery",
+    "JD Property",
+    "Jingxi",
+    "overseas businesses"
+   ],
+   "description": "Holds newer ventures such as food delivery, property, discount retail and overseas operations.",
+   "evidence": "New Businesses mainly include JD Food Delivery, JD Property, Jingxi and overseas businesses."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers and merchants pay for products bought on the retail and marketplace platforms, for marketing services, and for logistics services.",
+  "evidence": "All net revenues from each reportable segment were generated from external customers except for the inter-segment net revenues mentioned above."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company began reporting three reportable segments, JD Retail, JD Logistics and New Businesses, replacing the prior four-segment structure.",
+   "evidence": "From the first quarter of 2024, we started to report three reportable segments, JD Retail, JD Logistics and New Businesses, to reflect changes made to the reporting structure whose financial information is reviewed by the chief operating decision maker of our company under the ongoing operating strategies."
+  },
+  {
+   "text": "Before 2024 the company reported four reportable segments, with Dada Nexus Limited reported separately from New Businesses.",
+   "evidence": "Before 2024, the Company reported four reportable segments, JD Retail, JD Logistics, Dada Nexus Limited (\"Dada\") and New Businesses."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

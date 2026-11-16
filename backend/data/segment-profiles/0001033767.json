@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001033767",
  "issuerName": "United Microelectronics Corporation",
- "builtAt": "2026-11-16T04:46:57.313Z",
+ "builtAt": "2026-11-16T09:16:51.915Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-193757",
@@ -10,11 +10,30 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1033767/000119312526193757/d91630d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "wafer fabrication",
+   "products": [
+    "wafers",
+    "chips",
+    "integrated circuits"
+   ],
+   "description": "Fabricates wafers, chips and integrated circuits to customers' design specifications using its own proprietary process technologies for fabless design companies and integrated device manufacturers.",
+   "evidence": "The Company only has wafer fabrication operating segment as the single reporting segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay the company to manufacture wafers, chips and integrated circuits to their own design specifications at its semiconductor foundries.",
+  "evidence": "Using our own proprietary processes and techniques, we make chips to the design specifications of our many customers."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company completed the disposal of its ownership in UnitedDS Semiconductor (Shandong) Co., Ltd. as part of its strategic plan.",
+   "evidence": "The disposal was completed in August 2024 with a total transaction price of RMB¥77 million, which was approximately NT$341 million."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

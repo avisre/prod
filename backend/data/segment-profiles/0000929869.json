@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000929869",
  "issuerName": "RELX PLC",
- "builtAt": "2026-11-16T04:46:56.580Z",
+ "builtAt": "2026-11-16T09:16:35.754Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-017277",
@@ -10,11 +10,56 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/929869/000110465926017277/relx-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Risk",
+   "products": [
+    "commercial healthcare products"
+   ],
+   "description": "Group business area that now also includes a small commercial healthcare products portfolio, reported with its own revenue and profit.",
+   "evidence": "Also, a small portfolio of commercial healthcare products, previously reported in Scientific, Technical & Medical, is now reported in Risk."
+  },
+  {
+   "name": "Scientific, Technical & Medical",
+   "products": [],
+   "description": "Business area reported separately from print, with its own revenue and adjusted operating profit disclosed.",
+   "evidence": "Consequently, Risk, Scientific, Technical & Medical and Legal now exclude print and print-related activities, consistent with financial information provided to the Board."
+  },
+  {
+   "name": "Legal",
+   "products": [],
+   "description": "Legal business area reported separately, excluding print and print-related activities, with revenue and adjusted operating profit disclosed.",
+   "evidence": "Consequently, Risk, Scientific, Technical & Medical and Legal now exclude print and print-related activities, consistent with financial information provided to the Board."
+  },
+  {
+   "name": "Exhibitions",
+   "products": [],
+   "description": "Business area reported alongside the others, with revenue and adjusted operating profit shown separately in the group segment tables.",
+   "evidence": "Exhibitions ​ ​ 1,239 ​ ​ 1,186 ​ -4 % -2 %"
+  },
+  {
+   "name": "Print & print-related activities",
+   "products": [],
+   "description": "Print and print-related activities reported as their own segment, separate from the group four business areas.",
+   "evidence": "From 2025, revenue and profit for print and print-related activities are managed and reported separately from the four business areas."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay subscription fees or transactional charges for the group offerings.",
+  "evidence": "Subscriptions ​ £ 5,025 ​ ​ ​ 53 % £ 5,190 ​ ​ ​ 54 % Transactional ​ 4,409 47 ​ ​ 4,400 46"
+ },
+ "changes": [
+  {
+   "text": "In 2025 print and print-related activities became a separate reported segment from the four business areas.",
+   "evidence": "From 2025, revenue and profit for print and print-related activities are managed and reported separately from the four business areas."
+  },
+  {
+   "text": "In 2025 a small commercial healthcare products portfolio moved from Scientific, Technical & Medical to Risk.",
+   "evidence": "Also, a small portfolio of commercial healthcare products, previously reported in Scientific, Technical & Medical, is now reported in Risk."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

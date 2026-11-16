@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001159508",
  "issuerName": "DEUTSCHE BANK AKTIENGESELLSCHAFT",
- "builtAt": "2026-11-16T04:46:56.222Z",
+ "builtAt": "2026-11-16T09:16:54.583Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001159508-26-000017",
@@ -10,11 +10,65 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1159508/000115950826000017/db-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate Bank",
+   "products": [
+    "Cash Management",
+    "Trade Finance and Lending",
+    "Trust and Securities Services",
+    "Correspondent Banking",
+    "Business Banking",
+    "Corporate Treasury Services",
+    "Institutional Client Services"
+   ],
+   "description": "Serves corporates, institutions and small and medium-sized enterprises with cash management, trade finance, lending, trust and securities services and business banking.",
+   "evidence": "Corporate Bank's capabilities in Cash Management, Trade Finance and Lending, and Trust and Securities Services are intended to enable the segment to serve the core needs of its clients."
+  },
+  {
+   "name": "Investment Bank",
+   "products": [
+    "Foreign Exchange"
+   ],
+   "description": "Provides investment banking and foreign exchange services to the bank's clients.",
+   "evidence": "Corporate Bank helps clients optimize their working capital and liquidity, secure global supply chains and distribution channels, and manage their risks, in close collaboration with Foreign Exchange within the Investment Bank."
+  },
+  {
+   "name": "Private Bank",
+   "products": [
+    "Personal Banking",
+    "Wealth Management"
+   ],
+   "description": "Serves individual customers with personal banking and wealth management, including deposits held for investment purposes.",
+   "evidence": "As of December 31, 2025 , the bank was organized into the following business segments: – Corporate Bank – Investment Bank – Private Bank – Asset Management – Corporate & Other"
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "DWS"
+   ],
+   "description": "Manages assets on behalf of customers for investment purposes, including through DWS.",
+   "evidence": "As of December 31, 2025 , the bank was organized into the following business segments: – Corporate Bank – Investment Bank – Private Bank – Asset Management – Corporate & Other"
+  },
+  {
+   "name": "Corporate & Other",
+   "products": [],
+   "description": "Holds group items and capital of Deutsche Bank Group that are not allocated to the other business segments.",
+   "evidence": "In addition, the bank now retains capital held against Deutsche Bank Group items in Corporate & Other, which has previously been allocated to the segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay Deutsche Bank for banking services including lending, cash management, trade finance, trust and securities services and investment banking.",
+  "evidence": "Corporate Bank helps clients optimize their working capital and liquidity, secure global supply chains and distribution channels, and manage their risks, in close collaboration with Foreign Exchange within the Investment Bank."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Corporate Bank combined its Trust and Agency Services and Securities Services businesses into a new unified Trust and Securities Services organization.",
+   "evidence": "Corporate Bank combined its Trust and Agency Services and Securities Services businesses into a new unified Trust and Securities Services organization in mid-2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

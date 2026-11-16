@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001805284",
  "issuerName": "Rocket Companies, Inc.",
- "builtAt": "2026-11-16T04:47:00.238Z",
+ "builtAt": "2026-11-16T09:20:15.407Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-013283",
@@ -10,11 +10,58 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1805284/000162828026013283/rkt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct to Consumer",
+   "products": [
+    "agency-conforming loans",
+    "title and settlement services",
+    "appraisal management",
+    "servicing",
+    "subservicing"
+   ],
+   "description": "Originates, closes, sells and services predominantly agency-conforming mortgages directly to consumers, including title, settlement and appraisal services for those clients.",
+   "evidence": "The Direct to Consumer segment generates revenue from originating, closing, selling and servicing predominantly agency-conforming loans, which are pooled and sold to the secondary market."
+  },
+  {
+   "name": "Partner Network",
+   "products": [
+    "Rocket Pro",
+    "Wholesale",
+    "Premier Enterprise Partner",
+    "Correspondent"
+   ],
+   "description": "Acquires and funds mortgage loans through brokers, enterprise partners and correspondent relationships, leveraging Rocket's underwriting and secondary market capabilities.",
+   "evidence": "We provide industry-leading client service and leverage our widely recognized brand to strengthen our wholesale relationships, through Rocket Pro, as well as enterprise partnerships, and correspondent relationships, driving growth in our Partner Network segment."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "Rocket Money",
+    "Rocket Loans",
+    "Redfin",
+    "Mr. Cooper"
+   ],
+   "description": "Holds operations from Rocket Money, Rocket Loans and certain Redfin and Mr. Cooper operations, alongside professional service fees and intercompany eliminations.",
+   "evidence": "All Other includes certain intercompany eliminations, as a portion of expense generated through intercompany transactions is allocated to our segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients and investors pay us fees and interest for originating, selling and servicing mortgages, and for title, real estate, financial wellness and personal loan services.",
+  "evidence": "For every mortgage that we service, we receive contractual recurring cash flows for the life of the loan."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired Redfin, and the acquired operations are managed within the existing reportable segment structure.",
+   "evidence": "On July 1, 2025, we completed the acquisition of Redfin, a leading digital real estate brokerage and home search platform."
+  },
+  {
+   "text": "In 2025 the company acquired Mr. Cooper, whose operations are also managed within the existing reportable segment structure.",
+   "evidence": "On October 1, 2025, we completed the acquisition of Mr. Cooper, a leading mortgage servicer and originator, to further expand Rocket Mortgage's capabilities."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

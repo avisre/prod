@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000932787",
  "issuerName": "STMicroelectronics N.V.",
- "builtAt": "2026-11-16T04:46:56.557Z",
+ "builtAt": "2026-11-16T09:16:09.237Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0000932787-26-000009",
@@ -10,11 +10,83 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/932787/000093278726000009/stm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Analog Products, MEMS and Sensors (\"AM&S\")",
+   "products": [
+    "Analog Integrated Circuits",
+    "MEMS Sensors and Actuators",
+    "Optical Sensing Solutions",
+    "ST analog products",
+    "MEMS sensors and actuators",
+    "optical sensing solutions",
+    "smart power and analog ICs"
+   ],
+   "description": "Designs and sells analog ICs, MEMS sensors and actuators, and optical sensing solutions for automotive, industrial, personal electronics and communications customers.",
+   "evidence": "Analog Products, MEMS and Sensors (\"AM&S\") reportable segment, comprised of ST analog products, MEMS sensors and actuators, and optical sensing solutions."
+  },
+  {
+   "name": "Power and Discrete products (\"P&D\")",
+   "products": [
+    "discrete and power transistor products",
+    "power transistors",
+    "protection devices",
+    "silicon MOSFETs",
+    "SiC MOSFETs",
+    "IGBTs",
+    "thyristors",
+    "rectifiers"
+   ],
+   "description": "Supplies discrete and power transistor products, including power devices and protection devices, to automotive, industrial and personal electronics customers.",
+   "evidence": "Power and Discrete products (\"P&D\") reportable segment, comprised of discrete and power transistor products."
+  },
+  {
+   "name": "Embedded Processing (\"EMP\")",
+   "products": [
+    "general-purpose and automotive microcontrollers",
+    "connected security products",
+    "custom processing products (automotive ADAS)",
+    "STM32",
+    "Stellar",
+    "STSECURE and ST25 portfolios"
+   ],
+   "description": "Provides general-purpose and automotive microcontrollers, connected security products and custom automotive ADAS processing products to industrial and automotive customers.",
+   "evidence": "Embedded Processing (\"EMP\") reportable segment, comprised of general-purpose and automotive microcontrollers, connected security products and custom processing products (automotive ADAS)."
+  },
+  {
+   "name": "RF Optical Communications (\"RFOC\")",
+   "products": [
+    "space, ranging & connectivity products",
+    "digital audio & signaling solutions",
+    "optical & RF COT",
+    "Digital Audio & Signaling Solutions",
+    "RF and mmWave components",
+    "car infotainment portfolio"
+   ],
+   "description": "Delivers space, ranging and connectivity products, digital audio and signaling solutions and optical and RF ASICs to satellite, networking and data center customers.",
+   "evidence": "RF Optical Communications (\"RFOC\") reportable segment, comprised of space, ranging & connectivity products, digital audio & signaling solutions and optical & RF COT."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers and distributors pay for semiconductor products and solutions used across automotive, industrial, personal electronics and communications equipment markets.",
+  "evidence": "A substantial portion of our sales is derived from a limited number of customers and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the newly created Embedded Processing reportable segment took in the former MCU segment and custom processing (automotive ADAS) products.",
+   "evidence": "the newly created 'Embedded Processing' reportable segment includes the former 'MCU' segment (excluding the RF ASICs mentioned below) as well as custom processing products (automotive ADAS products)."
+  },
+  {
+   "text": "In 2025, RF Optical Communications was created from the former D&RF segment and some RF ASICs previously part of the former EMP segment.",
+   "evidence": "the newly created 'RF Optical Communications' reportable segment includes the former 'D&RF' segment (excluding Automotive ADAS products) as well as some RF ASICs which were previously part of the former 'EMP' segment."
+  },
+  {
+   "text": "In 2025, VIPpower products were transferred from the P&D reportable segment to the AM&S reportable segment.",
+   "evidence": "the transfer of VIPpower products from the P&D reportable segment to the AM&S reportable segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

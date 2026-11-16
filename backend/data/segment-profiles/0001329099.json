@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001329099",
  "issuerName": "Baidu, Inc.",
- "builtAt": "2026-11-16T04:46:59.830Z",
+ "builtAt": "2026-11-16T09:18:29.229Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-109289",
@@ -10,10 +10,37 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1329099/000119312526109289/d38065d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Baidu General Business",
+   "products": [
+    "online marketing services",
+    "cloud services",
+    "cloud solutions",
+    "Baidu Union online marketing services"
+   ],
+   "description": "Provides online marketing services and other offerings including cloud services to advertisers and business customers in Chinese mainland.",
+   "evidence": "Baidu General Business mainly provides online marketing services and others including cloud services."
+  },
+  {
+   "name": "iQIYI",
+   "products": [
+    "professionally produced content",
+    "other video content",
+    "video membership services",
+    "on-demand content",
+    "premium content"
+   ],
+   "description": "Produces, aggregates and distributes professionally produced and other video content, and sells video membership services to subscribing members.",
+   "evidence": "iQIYI produces, aggregates and distributes a wide variety of professionally produced content, as well as a broad spectrum of other video content, in a variety of formats."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Advertisers pay for sponsored links and other online marketing, while customers pay for cloud services and iQIYI video memberships.",
+  "evidence": "Our P4P platform enables customers to bid for priority placement of paid sponsored links and reach users who search for information related to their products or services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

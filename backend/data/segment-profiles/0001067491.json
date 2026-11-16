@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001067491",
  "issuerName": "INFOSYS LIMITED",
- "builtAt": "2026-11-16T04:46:58.906Z",
+ "builtAt": "2026-11-16T09:22:53.779Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-270520",
@@ -10,10 +10,66 @@
   "filingDate": "2026-06-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1067491/000119312526270520/infy-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial Services",
+   "products": [
+    "Finacle – core banking solution",
+    "Stater digital platform",
+    "Infosys McCamish – insurance platform"
+   ],
+   "description": "Provides end-to-end business solutions and technology services to enterprises in financial services and insurance, including the Finacle operating segment.",
+   "evidence": "The Financial Services reportable segments has been aggregated to include the Financial Services operating segment and Finacle operating segment because of the similarity of the economic characteristics."
+  },
+  {
+   "name": "Manufacturing",
+   "products": [],
+   "description": "Serves manufacturing enterprises with end-to-end business solutions and technology services to enhance their business performance.",
+   "evidence": "Business segments of the Group are primarily enterprises in Financial Services and Insurance, enterprises in Manufacturing, enterprises in Retail, Consumer Packaged Goods and Logistics, enterprises in the Energy, Utilities, Resources and Services, enterprises in Communication, Telecom OEM and Media, enterprises in Hi-Tech, enterprises in Life Sciences and Healthcare and all other segments."
+  },
+  {
+   "name": "Energy, Utilities, Resources and Services",
+   "products": [],
+   "description": "Serves enterprises in energy, utilities, resources and services with end-to-end business solutions and technology services.",
+   "evidence": "Business segments of the Group are primarily enterprises in Financial Services and Insurance, enterprises in Manufacturing, enterprises in Retail, Consumer Packaged Goods and Logistics, enterprises in the Energy, Utilities, Resources and Services, enterprises in Communication, Telecom OEM and Media, enterprises in Hi-Tech, enterprises in Life Sciences and Healthcare and all other segments."
+  },
+  {
+   "name": "Retail",
+   "products": [],
+   "description": "Serves enterprises in retail, consumer packaged goods and logistics with business solutions and technology services.",
+   "evidence": "(2) Retail includes enterprises in Retail, Consumer Packaged Goods and Logistics"
+  },
+  {
+   "name": "Communication",
+   "products": [],
+   "description": "Serves enterprises in communication, telecom OEM and media with end-to-end business solutions and technology services.",
+   "evidence": "(3) Communication includes enterprises in Communication, Telecom OEM and Media"
+  },
+  {
+   "name": "Hi-Tech",
+   "products": [],
+   "description": "Serves hi-tech enterprises with end-to-end business solutions, technology services and products.",
+   "evidence": "Business segments of the Group are primarily enterprises in Financial Services and Insurance, enterprises in Manufacturing, enterprises in Retail, Consumer Packaged Goods and Logistics, enterprises in the Energy, Utilities, Resources and Services, enterprises in Communication, Telecom OEM and Media, enterprises in Hi-Tech, enterprises in Life Sciences and Healthcare and all other segments."
+  },
+  {
+   "name": "Life Sciences",
+   "products": [],
+   "description": "Serves enterprises in life sciences and healthcare with business solutions and technology services.",
+   "evidence": "(4) Life Sciences includes enterprises in Life sciences and Health care"
+  },
+  {
+   "name": "All Other Segments",
+   "products": [],
+   "description": "Operating segments of businesses in India, Japan, China, Infosys Public Services and identified enterprises in Public Services.",
+   "evidence": "All other segments represent the operating segments of businesses in India, Japan, China, Infosys Public Services & identified enterprises in Public Services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Global enterprises pay for consulting, technology, outsourcing and next-generation digital services, and for products and platforms.",
+  "evidence": "The Group's operations predominantly relate to providing end-to-end business solutions to enable clients to enhance business performance."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

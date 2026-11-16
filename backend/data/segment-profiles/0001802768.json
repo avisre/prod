@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001802768",
  "issuerName": "Royalty Pharma plc",
- "builtAt": "2026-11-16T04:47:02.146Z",
+ "builtAt": "2026-11-16T09:22:09.389Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001802768-26-000003",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1802768/000180276826000003/rprx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical Royalties",
+   "products": [
+    "Trikafta",
+    "Alyftrek",
+    "Trelegy",
+    "Tysabri",
+    "Spinraza",
+    "Evrysdi",
+    "Xtandi",
+    "Tremfya"
+   ],
+   "description": "Acquires royalties on marketed and development-stage biopharmaceutical therapies, collecting payments based on the top-line sales of products commercialized by other companies.",
+   "evidence": "As such, we concluded that we operate as one single reportable segment, which is primarily focused on acquiring biopharmaceutical royalties."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Biopharmaceutical companies and other royalty holders pay us royalties based directly on the top-line sales of the therapies whose royalty rights we acquire.",
+  "evidence": "The royalties in our portfolio entitle us to payments based directly on the top-line sales of the associated therapies, rather than the profits of these therapies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

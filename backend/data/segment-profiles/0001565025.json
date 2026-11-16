@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001565025",
  "issuerName": "AMBEV S.A.",
- "builtAt": "2026-11-16T04:46:58.113Z",
+ "builtAt": "2026-11-16T09:18:32.491Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001292814-26-000640",
@@ -10,11 +10,68 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1565025/000129281426000640/abevform20f_2025.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brazil",
+   "products": [
+    "beer",
+    "NAB",
+    "CSDs",
+    "other alcoholic beverages",
+    "non-alcoholic and non-carbonated products",
+    "Antarctica",
+    "Antarctica SubZero"
+   ],
+   "description": "Brews, distributes and sells beer and non-alcoholic beverages to consumers and retailers in Brazil through its beer and NAB sales divisions.",
+   "evidence": "• Brazil : Beer sales division and NAB sales division."
+  },
+  {
+   "name": "Central America and the Caribbean (CAC)",
+   "products": [
+    "beer",
+    "Presidente",
+    "Presidente Light"
+   ],
+   "description": "Produces, distributes and sells beer and other beverages to consumers in the Dominican Republic, Cuba, Guatemala and Panama.",
+   "evidence": "SLU holds a controlling interest in Banks Holdings Limited, Saint Vincent Brewery Limited, Antigua Brewery Limited, and Dominica Brewery & Beverages Limited, all of which form part of the CAC reportable segment."
+  },
+  {
+   "name": "Latin America South (LAS)",
+   "products": [
+    "beer",
+    "Quilmes",
+    "Pilsen",
+    "Paceña",
+    "Huari",
+    "Pepsi"
+   ],
+   "description": "Produces, distributes and sells beer and other beverages to consumers in Argentina, Bolivia, Paraguay, Uruguay and Chile.",
+   "evidence": "Latin America South (\"LAS\"): Argentina, Bolivia, Paraguay, Uruguay and Chile."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "Labatt",
+    "domestic and ABI beer brands",
+    "RTD",
+    "cider brands"
+   ],
+   "description": "Labatt's operations sell domestic and ABI beer brands plus ready to drink and cider brands to Canadian consumers.",
+   "evidence": "Our Canada business segment is represented by the Labatt operations, which sells domestic and ABI beer brands, and a portfolio of ready to drink (\"RTD\") and cider brands."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail stores, on-trade establishments and consumers pay for the beer, soft drinks and other beverages the company produces and distributes.",
+  "evidence": "The main packaging presentations in that country are the 355-milliliter and the 473-milliliter aluminum cans, which are predominantly sold in privately owned and government-owned retail stores in addition to privately owned on-trade establishments."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company lost control of SLU, which held breweries forming part of the CAC reportable segment.",
+   "evidence": "As a result of this completion, the Company recognized the loss of control over SLU, ceasing its consolidation in the audited consolidated financial statements as of and for the year ended December 31, 2025, included elsewhere in this annual report."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

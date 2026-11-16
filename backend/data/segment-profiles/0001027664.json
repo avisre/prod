@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001027664",
  "issuerName": "ELBIT SYSTEMS LTD",
- "builtAt": "2026-11-16T04:47:00.191Z",
+ "builtAt": "2026-11-16T09:19:34.154Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001027664-26-000005",
@@ -10,10 +10,74 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1027664/000102766426000005/eslt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace",
+   "products": [
+    "airborne platforms",
+    "unmanned aerial solutions",
+    "precision guided munition (PGM) sensors",
+    "aerostructures",
+    "training and simulator systems",
+    "flight academy solutions",
+    "commercial aviation systems"
+   ],
+   "description": "Supplies airborne systems, unmanned aerial platforms, avionics, training and simulator solutions, aerostructures and commercial aviation products to military and commercial customers.",
+   "evidence": "– Aerospace – mainly provides products and systems for airborne platforms, unmanned aerial solutions, precision guided munition (PGM) sensors, aerostructures, training and simulator systems, flight academy solutions, and commercial aviation systems."
+  },
+  {
+   "name": "C4I and Cyber",
+   "products": [
+    "command, control, communications, computer, intelligence, surveillance and recon",
+    "data links",
+    "radio communication systems and equipment",
+    "cyber intelligence solutions",
+    "autonomous solutions",
+    "homeland security solutions"
+   ],
+   "description": null,
+   "evidence": "– C4I and Cyber – mainly provides command, control, communications, computer, intelligence, surveillance and reconnaissance (C4ISR) systems, data links and radio communication systems and equipment, cyber intelligence solutions, autonomous solutions and homeland security solutions."
+  },
+  {
+   "name": "ISTAR and EW",
+   "products": [
+    "electro-optic laser solutions",
+    "countermeasure systems and products",
+    "naval systems",
+    "EW systems",
+    "SIGINT systems"
+   ],
+   "description": "Provides electro-optic and laser solutions, countermeasures, naval systems, electronic warfare and SIGINT systems to defense customers.",
+   "evidence": "– Intelligence, Surveillance, Target Acquisition and Reconnaissance (ISTAR) and Electronic Warfare (EW) – mainly provides a wide range of electro-optic laser solutions and countermeasure systems and products, naval systems and a wide range of EW systems and SIGINT systems."
+  },
+  {
+   "name": "Land",
+   "products": [
+    "land-based systems and products",
+    "artillery and mortar systems",
+    "munitions for land, air and sea applications including PGM",
+    "armored vehicle and other platforms' survivability and protection systems"
+   ],
+   "description": "Supplies armored and other military vehicles, artillery and mortar systems, munitions and protection systems to armed forces and defense customers.",
+   "evidence": "– Land – mainly provides land-based systems and products for armored and other military vehicles, artillery and mortar systems, munitions for land, air and sea applications including PGM, armored vehicle and other platforms' survivability and protection systems."
+  },
+  {
+   "name": "ESA",
+   "products": [
+    "products and systems solutions",
+    "medical instrumentation",
+    "commercial aviation customers"
+   ],
+   "description": "Serves U.S. military, foreign military sales, homeland security, medical instrumentation and commercial aviation customers with products and systems solutions.",
+   "evidence": "– ESA – mainly provides products and systems solutions to U.S. military, foreign military sales (FMS/FMF), homeland security (HLS), medical instrumentation and commercial aviation customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Governments and prime contractors pay the company for defense, homeland security and commercial aviation systems, solutions and support.",
+  "evidence": "Our sales are primarily to governmental entities and prime contractors under government defense and homeland security programs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

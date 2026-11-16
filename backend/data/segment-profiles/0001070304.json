@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001070304",
  "issuerName": "ORIX CORP",
- "builtAt": "2026-11-16T04:46:59.745Z",
+ "builtAt": "2026-11-16T09:19:30.425Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-276640",
@@ -10,11 +10,102 @@
   "filingDate": "2026-06-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1070304/000119312526276640/d29000d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate Financial Services and Maintenance Leasing",
+   "products": [
+    "finance leases",
+    "installment loans",
+    "operating leases",
+    "maintenance leasing"
+   ],
+   "description": "Provides leasing, installment lending and maintenance leasing services to corporate customers, mainly in Japan.",
+   "evidence": "Corporate Financial Services and Maintenance Leasing Segment profits increased 12% to ¥100,740 million compared to the previous fiscal year primarily due to increases in operating leases revenues and equity in net income of equity method investments."
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "Sales of goods and real estate"
+   ],
+   "description": "Develops, leases, sells and manages real estate for corporate and other customers.",
+   "evidence": "Real Estate Segment profits increased 11% to ¥78,509 million compared to the previous fiscal year primarily due to increases in services income and equity in net income of equity method investments, partially offset by a decrease in operating leases revenues."
+  },
+  {
+   "name": "PE Investment and Concession",
+   "products": [],
+   "description": "Holds private equity investments and concession businesses, providing capital and support to investee companies.",
+   "evidence": "The ten segments are Corporate Financial Services and Maintenance Leasing, Real Estate, PE Investment and Concession, Environment and Energy, Insurance, Banking and Credit, Aircraft and Ships, ORIX USA, ORIX Europe, and Asia and Australia."
+  },
+  {
+   "name": "Environment and Energy",
+   "products": [
+    "Environment and energy services"
+   ],
+   "description": "Operates environment and energy businesses, including renewable energy power generation and battery storage.",
+   "evidence": "The ten segments are Corporate Financial Services and Maintenance Leasing, Real Estate, PE Investment and Concession, Environment and Energy, Insurance, Banking and Credit, Aircraft and Ships, ORIX USA, ORIX Europe, and Asia and Australia."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "life insurance premiums"
+   ],
+   "description": "Provides life insurance and related investment products to individual and corporate customers.",
+   "evidence": "The ten segments are Corporate Financial Services and Maintenance Leasing, Real Estate, PE Investment and Concession, Environment and Energy, Insurance, Banking and Credit, Aircraft and Ships, ORIX USA, ORIX Europe, and Asia and Australia."
+  },
+  {
+   "name": "Banking and Credit",
+   "products": [
+    "deposits"
+   ],
+   "description": "Provides banking and credit services, including deposits and lending, mainly in Japan.",
+   "evidence": "The Target is included in the Banking and Credit segment, and as the transfer is expected to be completed during the fiscal year ending March 31, 2027, the Company expects to record a net gain of approximately ¥ 124.2 billion on a pre-tax basis in connection with the transfer in the consolidated financial statements for that fiscal year."
+  },
+  {
+   "name": "Aircraft and Ships",
+   "products": [
+    "aircraft",
+    "ships"
+   ],
+   "description": "Owns and leases aircraft and ships to customers, earning revenues from operating leases.",
+   "evidence": "The ten segments are Corporate Financial Services and Maintenance Leasing, Real Estate, PE Investment and Concession, Environment and Energy, Insurance, Banking and Credit, Aircraft and Ships, ORIX USA, ORIX Europe, and Asia and Australia."
+  },
+  {
+   "name": "ORIX USA",
+   "products": [],
+   "description": "Runs the group's business operations and investments in the United States.",
+   "evidence": "The ten segments are Corporate Financial Services and Maintenance Leasing, Real Estate, PE Investment and Concession, Environment and Energy, Insurance, Banking and Credit, Aircraft and Ships, ORIX USA, ORIX Europe, and Asia and Australia."
+  },
+  {
+   "name": "ORIX Europe",
+   "products": [
+    "Asset management and servicing"
+   ],
+   "description": "Runs the group's business operations and asset management services in Europe.",
+   "evidence": "The ten segments are Corporate Financial Services and Maintenance Leasing, Real Estate, PE Investment and Concession, Environment and Energy, Insurance, Banking and Credit, Aircraft and Ships, ORIX USA, ORIX Europe, and Asia and Australia."
+  },
+  {
+   "name": "Asia and Australia",
+   "products": [],
+   "description": "Runs the group's business operations and investments in Asia and Australia.",
+   "evidence": "The ten segments are Corporate Financial Services and Maintenance Leasing, Real Estate, PE Investment and Concession, Environment and Energy, Insurance, Banking and Credit, Aircraft and Ships, ORIX USA, ORIX Europe, and Asia and Australia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay ORIX for leases, loans, insurance premiums, asset management and other financial and operating services.",
+  "evidence": "Other revenues include revenues that are not in the scope of revenue from contracts with customers, such as life insurance premiums and related investment income, operating leases, finance revenues that include interest income, and others."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company changed its operating segment structure, with new segment information to be disclosed the following fiscal year.",
+   "evidence": "Effective April 1, 2026, we changed our operating segments used by our chief operating decision maker for allocating resources and assessing performance."
+  },
+  {
+   "text": "In 2026 ORIX agreed to transfer all shares of ORIX Bank Corporation, a Banking and Credit segment company.",
+   "evidence": "On April 27, 2026, the Company entered into a share transfer agreement with Daiwa Next Bank, Ltd. to transfer all shares in ORIX Bank Corporation, a consolidated subsidiary of the Company"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

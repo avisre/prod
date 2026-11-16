@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001651308",
  "issuerName": "BEONE MEDICINES LTD.",
- "builtAt": "2026-11-16T04:47:01.848Z",
+ "builtAt": "2026-11-16T09:22:12.309Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011946",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1651308/000162828026011946/bgne-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceutical products",
+   "products": [
+    "BRUKINSA",
+    "sonrotoclax",
+    "TEVIMBRA",
+    "BTK-CDAC",
+    "XGEVA",
+    "KYPROLIS",
+    "BLINCYTO",
+    "IMDELLTRA"
+   ],
+   "description": "Discovers, develops and commercializes oncology medicines, led by hematology and solid tumor therapies sold to patients worldwide.",
+   "evidence": "The Company operates in one segment: pharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Product distributors and patients pay for oncology medicines, while collaboration partners such as Amgen pay royalties and profit shares.",
+  "evidence": "The Company is the principal for product sales to customers in the Collaboration Territory during the commercialization period and will recognize 100 % of net product revenue on these sales."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company stopped sharing development costs for LUMAKRAS and prepared to terminate it from the Amgen collaboration.",
+   "evidence": "In connection with the Company's ongoing assessment of the Amgen Collaboration Agreement cost-share contributions, the Company determined that further investment in the development of LUMAKRAS ® was no longer commercially viable for the Company."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

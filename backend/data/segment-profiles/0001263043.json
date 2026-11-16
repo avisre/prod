@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001263043",
  "issuerName": "Shinhan Financial Group Co., Ltd.",
- "builtAt": "2026-11-16T04:47:02.613Z",
+ "builtAt": "2026-11-16T09:23:23.494Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-168235",
@@ -10,11 +10,80 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1263043/000119312526168235/d75079d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial banking services",
+    "retail banking services",
+    "corporate banking services",
+    "lending to and receiving deposits from customers"
+   ],
+   "description": "Provides commercial banking, lending and deposit-taking services to individuals, corporations and wealth management clients through Shinhan Bank and Jeju Bank.",
+   "evidence": "The banking services segment provides commercial banking and related services through the following four sub-segments:"
+  },
+  {
+   "name": "Credit card",
+   "products": [
+    "credit cards",
+    "short-term and long-term card loan services",
+    "installment financing",
+    "lease"
+   ],
+   "description": "Issues credit cards and provides card loans, installment financing and leasing to retail cardholders and merchants through Shinhan Card.",
+   "evidence": "credit card services, which are principally provided by Shinhan Card;"
+  },
+  {
+   "name": "Securities",
+   "products": [
+    "Securities trading",
+    "consignment trading",
+    "underwriting"
+   ],
+   "description": "Offers securities trading, consignment trading and underwriting services to investors and issuers through Shinhan Securities.",
+   "evidence": "securities services, which are provided by Shinhan Securities;"
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "Life insurance business",
+    "non-life insurance business"
+   ],
+   "description": "Sells life insurance and non-life insurance protection products to policyholders through Shinhan Life Insurance and its insurance subsidiaries.",
+   "evidence": "insurance services, which are principally provided by Shinhan Life Insurance;"
+  },
+  {
+   "name": "Credit",
+   "products": [
+    "Facility rental",
+    "new technology business financing"
+   ],
+   "description": "Provides facility rental and new technology business financing to corporate and equipment-using customers through Shinhan Capital.",
+   "evidence": "credit services, which are provided by Shinhan Capital;"
+  },
+  {
+   "name": "Others",
+   "products": [
+    "real estate trust",
+    "investment advisory services",
+    "venture business investment"
+   ],
+   "description": "Covers real estate trust, investment advisory services, venture business investment and other remaining businesses outside the main segments.",
+   "evidence": "other services that do not belong to the above business segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay interest on loans and deposits and fees for banking, card, securities, asset management and insurance services provided by the group's subsidiaries.",
+  "evidence": "As of December 31, 2025, we have 15 direct and 32 indirect subsidiaries offering a wide range of financial products and services, including commercial banking, corporate banking, private banking, credit card, asset management, brokerage and insurance services."
+ },
+ "changes": [
+  {
+   "text": "In 2024 Shinhan AI. Co., Ltd. was liquidated and dissolved, and it is no longer a subsidiary of the group.",
+   "evidence": "In July 2024, we announced the liquidation and dissolution of Shinhan AI. Co., Ltd., and such entity is no longer our subsidiary."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

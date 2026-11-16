@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002083785",
  "issuerName": "Sunbelt Rentals Holdings, Inc.",
- "builtAt": "2026-11-16T04:47:01.588Z",
+ "builtAt": "2026-11-16T09:21:43.884Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-044888",
@@ -10,11 +10,57 @@
   "filingDate": "2026-06-23",
   "url": "https://www.sec.gov/Archives/edgar/data/2083785/000162828026044888/snblt-20260430.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America – General Tool",
+   "products": [
+    "mobile elevating work platforms",
+    "skid steers",
+    "forklifts",
+    "excavators",
+    "lighting equipment",
+    "small general tools"
+   ],
+   "description": "Rents general construction and industrial equipment to construction, industrial and do-it-yourself customers across the United States and Canada.",
+   "evidence": "The North America – General Tool segment provides flexible rental solutions designed to meet broad, general-purpose job site needs, such as mobile elevating work platforms, skid steers, excavators, lighting equipment and small general tools."
+  },
+  {
+   "name": "North America – Specialty",
+   "products": [
+    "power & HVAC",
+    "climate control",
+    "scaffolding",
+    "film & TV equipment",
+    "flooring solutions",
+    "pump solutions",
+    "industrial tool",
+    "trench safety"
+   ],
+   "description": "Provides specialized, technically demanding rental products with low rental penetration to predominantly non-construction customers in the United States and Canada.",
+   "evidence": "This segment includes products that require specialized knowledge and technical capabilities to operate and maintain, such as products relating to power & HVAC, climate control, scaffolding, film & TV equipment, flooring solutions, pump solutions, industrial tool, trench safety, ground protection, temporary structures, and temporary fencing."
+  },
+  {
+   "name": "United Kingdom",
+   "products": [
+    "General Tool",
+    "Specialty"
+   ],
+   "description": "Rents General Tool and Specialty equipment through a regional store network to construction, industrial, infrastructure and energy customers in the United Kingdom.",
+   "evidence": "United Kingdom, which delivers a comprehensive range of General Tool and Specialty products and services to customers primarily located across the United Kingdom."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers, from multinational businesses to local contractors and do-it-yourselfers, pay to rent construction, industrial and specialty equipment by period.",
+  "evidence": "Our customers range in size and scale from multinational businesses, to well-established local contractors and individual do-it-yourselfers, and include construction and industrial customers"
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 the United Kingdom segment underwent an operational restructure that triggered an interim goodwill impairment test.",
+   "evidence": "During the fiscal year ended April 30, 2026, an impairment indicator was identified in the U.K. reporting unit as a result of the operational restructure of the United Kingdom segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001172724",
  "issuerName": "Gold Fields Limited",
- "builtAt": "2026-11-16T04:47:00.534Z",
+ "builtAt": "2026-11-16T09:21:12.228Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-021904",
@@ -10,11 +10,96 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1172724/000162828026021904/gfi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "South Deep",
+   "products": [
+    "gold"
+   ],
+   "description": "Underground gold mine in South Africa, producing and selling gold from combined surface and underground operations.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  },
+  {
+   "name": "Tarkwa",
+   "products": [
+    "gold"
+   ],
+   "description": "Surface gold mine in Ghana, producing gold from a large surface operation for sale.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  },
+  {
+   "name": "Damang",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Ghana producing and selling gold; the Group reports it as its own segment.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  },
+  {
+   "name": "Cerro Corona",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Peru, managed and reported by the Group as its own operating segment.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  },
+  {
+   "name": "Salares Norte",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Chile that reached commercial production in 2025 and sells gold.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  },
+  {
+   "name": "St Ives",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mining operation in Australia producing and selling gold, reported as its own segment.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  },
+  {
+   "name": "Agnew",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Australia producing and selling gold, reported separately within the Australian operations.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  },
+  {
+   "name": "Granny Smith",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Australia, producing and selling gold within the Group's Australian operations.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  },
+  {
+   "name": "Gruyere",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Australia, now wholly owned after the Gold Road acquisition, producing gold.",
+   "evidence": "Gold mining operations are managed and internally reported based on the following geographical areas: in South Africa, South Deep mine, in Ghana, Tarkwa and Damang mines, in Australia, St Ives, Agnew, Granny Smith and Gruyere, in Peru, the Cerro Corona mine and in Chile, Salares Norte."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Gold Fields is paid by customers for the gold, copper and silver it mines and sells.",
+  "evidence": "Includes revenue from the sale of copper and silver amounting to US $ 228.1 million and US $ 116.7 million , respectively."
+ },
+ "changes": [
+  {
+   "text": "Gold Fields divested its Asanko Gold shareholding, announced in 2023 and completed in 2024.",
+   "evidence": "On 21 December 2023, Gold Fields announced the divestment of its 45% shareholding in Asanko Gold to the joint venture partner Galiano Gold."
+  },
+  {
+   "text": "The Gruyere mine moved from a half share to full ownership after the 2025 acquisition of Gold Road.",
+   "evidence": "Results are reported on a 50% basis up to the acquisition of Gold Road on 26 September 2025 and on a 100% basis from that date forward."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

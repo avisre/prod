@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001618756",
  "issuerName": "RESTAURANT BRANDS INTERNATIONAL INC.",
- "builtAt": "2026-11-16T04:47:00.978Z",
+ "builtAt": "2026-11-16T09:21:14.094Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001618756-26-000017",
@@ -10,11 +10,89 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1618756/000161875626000017/qsr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tim Hortons",
+   "products": [
+    "coffee and baked goods",
+    "hot and cold specialty beverages",
+    "sandwiches, wraps, flatbread pizzas"
+   ],
+   "description": "Runs the Tim Hortons coffee and baked goods brand for guests in Canada and the U.S., largely through franchisees.",
+   "evidence": "Operations of our Tim Hortons brand in Canada and the U.S."
+  },
+  {
+   "name": "Burger King",
+   "products": [
+    "flame-grilled hamburgers",
+    "chicken",
+    "other specialty sandwiches",
+    "Whopper"
+   ],
+   "description": "Runs the Burger King hamburger brand for guests in the U.S. and Canada, excluding restaurants acquired with Carrols.",
+   "evidence": "Operations of our Burger King brand in the U.S. and Canada, excluding results of Burger King restaurants acquired as part of the Carrols Acquisition"
+  },
+  {
+   "name": "Popeyes Louisiana Kitchen",
+   "products": [
+    "fried bone-in chicken",
+    "chicken tenders",
+    "chicken sandwiches",
+    "wings",
+    "regional items"
+   ],
+   "description": "Runs the Popeyes chicken brand for guests in the U.S. and Canada, including restaurants acquired with Carrols.",
+   "evidence": "Operations of our Popeyes brand in the U.S. and Canada, including the Popeyes restaurants acquired as part of the Carrols Acquisition"
+  },
+  {
+   "name": "Firehouse Subs",
+   "products": [
+    "hot and hearty subs",
+    "chili",
+    "soups",
+    "other sides"
+   ],
+   "description": "Runs the Firehouse Subs sandwich brand for guests in the U.S. and Canada.",
+   "evidence": "Operations of our Firehouse Subs brand in the U.S. and Canada"
+  },
+  {
+   "name": "International",
+   "products": [
+    "Tim Hortons",
+    "Burger King",
+    "Popeyes",
+    "Firehouse Subs"
+   ],
+   "description": "Runs all four brands for guests outside the U.S. and Canada, excluding Popeyes China and Firehouse Subs Brazil.",
+   "evidence": "Operations of each of our brands outside the U.S. and Canada, excluding results of Popeyes China"
+  },
+  {
+   "name": "Restaurant Holdings",
+   "products": [
+    "Burger King restaurants acquired as part of the Carrols Acquisition",
+    "PLK China",
+    "FHS Brazil restaurants"
+   ],
+   "description": "Holds company-operated Burger King restaurants from the Carrols deal plus the Popeyes China and Firehouse Subs Brazil restaurants.",
+   "evidence": "Restaurant Holdings - Operations of Burger King restaurants acquired as part of the Carrols Acquisition and the operations of PLK China and FHS Brazil restaurants"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Franchisees pay royalties, rent, advertising contributions and franchise fees, while guests pay at company restaurants.",
+  "evidence": "Franchisees typically pay monthly rent based on a percentage (usually 8.5% to 10.0%) of monthly gross sales and/or fixed monthly rent based on the terms of an underlying lease."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company acquired Carrols and Popeyes China and established a new operating and reportable segment, Restaurant Holdings.",
+   "evidence": "Additionally, following the acquisitions of Carrols Restaurant Group Inc. (\"Carrols\") and Popeyes China (\"PLK China\") (\"PLK China Acquisition\") on May 16, 2024 and June 28, 2024, respectively, we established a new operating and reportable segment, Restaurant Holdings (\"RH\")."
+  },
+  {
+   "text": "In 2025 the company acquired Burger King China and presented its results as discontinued operations.",
+   "evidence": "We originally acquired the operations of Burger King China from our former joint venture partners on February 14, 2025, and determined that the criteria for classification as held for sale were met as of that date."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

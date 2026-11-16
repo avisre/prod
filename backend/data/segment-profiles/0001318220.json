@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001318220",
  "issuerName": "WASTE CONNECTIONS, INC.",
- "builtAt": "2026-11-16T04:47:00.400Z",
+ "builtAt": "2026-11-16T09:20:28.584Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-013700",
@@ -10,10 +10,104 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1318220/000110465926013700/wcn-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Southern",
+   "products": [
+    "Commercial",
+    "Residential",
+    "Industrial and construction roll off",
+    "Landfill",
+    "Transfer",
+    "Recycling",
+    "E&P",
+    "Intermodal"
+   ],
+   "description": "Geographic solid waste operating segment providing collection, transfer, disposal, recycling and E&P waste services to residential, commercial, industrial and municipal customers in its markets.",
+   "evidence": "We manage our operations through the following six geographic solid waste operating segments: Southern, Western, Eastern, Central, Canada and MidSouth."
+  },
+  {
+   "name": "Western",
+   "products": [
+    "Commercial",
+    "Residential",
+    "Industrial and construction roll off",
+    "Landfill",
+    "Transfer",
+    "Recycling",
+    "E&P",
+    "Intermodal"
+   ],
+   "description": "Geographic solid waste operating segment providing collection, transfer, disposal, recycling and E&P waste services to residential, commercial, industrial and municipal customers in its markets.",
+   "evidence": "We manage our operations through the following six geographic solid waste operating segments: Southern, Western, Eastern, Central, Canada and MidSouth."
+  },
+  {
+   "name": "Eastern",
+   "products": [
+    "Commercial",
+    "Residential",
+    "Industrial and construction roll off",
+    "Landfill",
+    "Transfer",
+    "Recycling",
+    "E&P",
+    "Intermodal"
+   ],
+   "description": "Geographic solid waste operating segment providing collection, transfer, disposal, recycling and E&P waste services to residential, commercial, industrial and municipal customers in its markets.",
+   "evidence": "We manage our operations through the following six geographic solid waste operating segments: Southern, Western, Eastern, Central, Canada and MidSouth."
+  },
+  {
+   "name": "Central",
+   "products": [
+    "Commercial",
+    "Residential",
+    "Industrial and construction roll off",
+    "Landfill",
+    "Transfer",
+    "Recycling",
+    "E&P",
+    "Intermodal"
+   ],
+   "description": "Geographic solid waste operating segment providing collection, transfer, disposal, recycling and E&P waste services to residential, commercial, industrial and municipal customers in its markets.",
+   "evidence": "We manage our operations through the following six geographic solid waste operating segments: Southern, Western, Eastern, Central, Canada and MidSouth."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "Commercial",
+    "Residential",
+    "Industrial and construction roll off",
+    "Landfill",
+    "Transfer",
+    "Recycling",
+    "E&P",
+    "Intermodal"
+   ],
+   "description": "Geographic solid waste operating segment providing collection, transfer, disposal, recycling and E&P waste services to residential, commercial, industrial and municipal customers in its markets.",
+   "evidence": "We manage our operations through the following six geographic solid waste operating segments: Southern, Western, Eastern, Central, Canada and MidSouth."
+  },
+  {
+   "name": "MidSouth",
+   "products": [
+    "Commercial",
+    "Residential",
+    "Industrial and construction roll off",
+    "Landfill",
+    "Transfer",
+    "Recycling",
+    "E&P",
+    "Intermodal"
+   ],
+   "description": "Geographic solid waste operating segment providing collection, transfer, disposal, recycling and E&P waste services to residential, commercial, industrial and municipal customers in its markets.",
+   "evidence": "We manage our operations through the following six geographic solid waste operating segments: Southern, Western, Eastern, Central, Canada and MidSouth."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Residential, commercial, industrial and municipal customers pay for waste collection, transfer, landfill disposal, recycling, E&P waste treatment and intermodal services under service agreements, municipal contracts or franchise agreements.",
+  "evidence": "The services are performed under service agreements, municipal contracts or franchise agreements with governmental entities."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

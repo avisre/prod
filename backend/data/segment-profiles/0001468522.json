@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001468522",
  "issuerName": "Ferrovial N.V.",
- "builtAt": "2026-11-16T04:46:58.276Z",
+ "builtAt": "2026-11-16T09:17:30.931Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-011789",
@@ -10,11 +10,61 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1468522/000162828026011789/fer-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction",
+   "products": [
+    "design and build of all sorts of public and private works",
+    "construction of public infrastructures"
+   ],
+   "description": "Designs and builds public and private works, most notably public infrastructures, for public and private sector customers.",
+   "evidence": "Construction, which undertakes the design and build of all sorts of public and private works, including most notably the construction of public infrastructures."
+  },
+  {
+   "name": "Highways",
+   "products": [
+    "development, financing and operation of highways"
+   ],
+   "description": "Develops, finances and operates highways, earning revenue from infrastructure users and public administrations under concession agreements.",
+   "evidence": "Highways, which carries out the development, financing and operation of highways."
+  },
+  {
+   "name": "Airports",
+   "products": [
+    "developing, financing and operating airports"
+   ],
+   "description": "Develops, finances and operates airports, serving airlines and airport users through short-term services.",
+   "evidence": "Airports, which is engaged in developing, financing and operating airports."
+  },
+  {
+   "name": "Energy",
+   "products": [
+    "promotion, construction and operation of energy generation and transmission infr"
+   ],
+   "description": "Promotes, builds and operates energy generation and transmission infrastructures, providing construction and operation services to customers.",
+   "evidence": "Energy, which focuses on innovative solutions for the promotion, construction and operation of energy generation and transmission infrastructures."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Infrastructure users and public administrations pay for the construction, operation and maintenance of infrastructure under concession and service contracts.",
+  "evidence": "In the case of contracts classified as intangible assets, the customer is the infrastructure user and therefore each use of the infrastructure by users is deemed a performance obligation and the revenue is recognized at a point in time."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Construction Business line and the Energy Infrastructures business line were merged into the Energy Business line.",
+   "evidence": "From this point onwards, the resulting business line is named the Energy Business line, and consequently, the comparable information related to segment reporting (Note 1.5) has been prepared accordingly."
+  },
+  {
+   "text": "In January 2025 the company completed the sale of its entire stake in AGS Airports.",
+   "evidence": "Furthermore, on January 28, 2025, we completed the sale of our entire stake in AGS Airports."
+  },
+  {
+   "text": "The company divested its stake in Heathrow airport, completing the sale of the remaining stake in 2025.",
+   "evidence": "on February 26, 2025, we announced that a binding agreement had been reached for the sale of that 5.25% remaining stake."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

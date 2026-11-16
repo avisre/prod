@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001075124",
  "issuerName": "THOMSON REUTERS CORPORATION",
- "builtAt": "2026-11-16T04:47:00.806Z",
+ "builtAt": "2026-11-16T09:21:15.518Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001193125-26-094222",
@@ -11,11 +11,76 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1075124/000119312526094222/tri-ex99_1.htm",
   "exhibit": "tri-ex99_1.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Legal Professionals",
+   "products": [
+    "Westlaw",
+    "Practical Law",
+    "CoCounsel"
+   ],
+   "description": "Provides AI-enabled legal research and integrated legal workflow products to law firms and governments.",
+   "evidence": "Legal Professionals Serves law firms and governments with research and workflow products powered by AI-enabled technology, focusing on intuitive legal research and integrated legal workflow solutions that combine content, tools and analytics."
+  },
+  {
+   "name": "Corporates",
+   "products": [],
+   "description": "Sells content-driven products and integrated compliance workflow solutions to corporations, including the seven largest accounting firms.",
+   "evidence": "Corporates Serves corporations, ranging from small businesses to multinational organizations, including the seven largest global accounting firms, with our full suite of content-driven products, powered by AI-enabled technology and integrated compliance workflow solutions to help them achieve their business outcomes."
+  },
+  {
+   "name": "Tax, Audit & Accounting Professionals",
+   "products": [
+    "Checkpoint",
+    "Confirmation",
+    "SafeSend",
+    "SurePrep"
+   ],
+   "description": "Serves tax, audit and accounting firms outside the seven largest with AI-enabled research and workflow products.",
+   "evidence": "Tax, Audit & Accounting Professionals Serves tax, audit and accounting firms (other than the seven largest, which are served by our Corporates segment) with research and workflow products powered by AI-enabled technology."
+  },
+  {
+   "name": "Reuters",
+   "products": [
+    "Reuters News Agency",
+    "Reuters.com",
+    "Reuters Events",
+    "Thomson Reuters products",
+    "LSEG products"
+   ],
+   "description": "Supplies business, financial and global news and data to media organizations, professionals and news consumers.",
+   "evidence": "Supplies business, financial and global news and data to the world's media organizations, professionals and news consumers through Reuters News Agency, Reuters.com, Reuters Events, Thomson Reuters products and to financial firms exclusively via LSEG products."
+  },
+  {
+   "name": "Global Print",
+   "products": [
+    "legal and tax information",
+    "commercial printing services"
+   ],
+   "description": "Provides legal and tax information in print and commercial printing services to book publishers around the world.",
+   "evidence": "Provides legal and tax information primarily in print format to customers around the world and provides commercial printing services to a wide range of book publishers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Professionals, corporations and media organizations pay subscription fees to access its information and software solutions, with some transaction fees.",
+  "evidence": "We derive a significant portion of our revenues from selling information and software solutions, mostly on a recurring subscription basis."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company renamed its Tax & Accounting Professionals segment to Tax, Audit & Accounting Professionals.",
+   "evidence": "In the fourth quarter of 2025, the Company changed the names of its Tax & Accounting Professionals segment to Tax, Audit & Accounting Professionals and its Reuters News segment to Reuters to reflect the broader scope of the activities in each of the respective segments."
+  },
+  {
+   "text": "In 2025 the company renamed its Reuters News segment to Reuters, without changing the segment's composition.",
+   "evidence": "These name changes did not change the segment's composition or the measurement of the segment's results as previously or currently reported."
+  },
+  {
+   "text": "In 2024 the company sold its FindLaw business, which had been reported within the Legal segment.",
+   "evidence": "In December 2024, the Company sold its FindLaw business in a transaction valued at up to $ 410 million, as well as certain other non-core businesses, which were individually not material to the results of operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

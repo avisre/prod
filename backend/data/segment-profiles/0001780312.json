@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001780312",
  "issuerName": "AST SPACEMOBILE, INC.",
- "builtAt": "2026-11-16T04:46:59.704Z",
+ "builtAt": "2026-11-16T09:18:36.613Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001780312-26-000006",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1780312/000178031226000006/asts-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cellular Broadband",
+   "products": [
+    "SpaceMobile Service",
+    "gateway equipment",
+    "software",
+    "related services",
+    "BlueBird (\"BB\") satellites"
+   ],
+   "description": "Builds a space-based Cellular Broadband network so mobile network operators and government users can connect everyday smartphones outside terrestrial coverage.",
+   "evidence": "The SpaceMobile Service is being designed to provide cost-effective, high-speed Cellular Broadband services to end-users who are out of terrestrial cellular coverage using existing mobile devices."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Mobile network operators and the U.S. government pay for SpaceMobile Service, gateway equipment, software and related services used by their subscribers and agencies.",
+  "evidence": "We intend to seek to use a revenue-sharing business model for the SpaceMobile Service in our agreements with MNOs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

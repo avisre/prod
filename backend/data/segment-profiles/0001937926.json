@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001937926",
  "issuerName": "BROOKFIELD ASSET MANAGEMENT LTD.",
- "builtAt": "2026-11-16T04:46:56.041Z",
+ "builtAt": "2026-11-16T09:14:17.627Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-013098",
@@ -10,10 +10,70 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1937926/000162828026013098/bam-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure",
+   "products": [
+    "flagship infrastructure fund series",
+    "permanent capital vehicles",
+    "perpetual strategies",
+    "BIP"
+   ],
+   "description": "Manages infrastructure fund series and perpetual vehicles that invest in high-quality infrastructure assets for institutional and private wealth clients.",
+   "evidence": "Infrastructure: Primarily includes managing our flagship infrastructure fund series focused on investing in high-quality infrastructure assets on a value basis."
+  },
+  {
+   "name": "Renewable Power and Transition",
+   "products": [
+    "flagship renewable power and transition fund series",
+    "BEP"
+   ],
+   "description": "Manages renewable power and transition funds and BEP, investing in clean energy and net-zero transition assets for clients.",
+   "evidence": "Renewable Power and Transition: Primarily includes managing our flagship renewable power and transition fund series focused on investments aimed at accelerating the global transition to a net-zero carbon economy and driving clean energy investments in emerging markets."
+  },
+  {
+   "name": "Private Equity",
+   "products": [
+    "global opportunistic flagship funds",
+    "special investments strategy",
+    "secondaries strategy",
+    "thematic private equity strategies",
+    "regional private equity strategies",
+    "BBU"
+   ],
+   "description": "Manages opportunistic, thematic and regional private equity funds and BBU for institutional and private wealth investors.",
+   "evidence": "Private Equity: Includes managing our global opportunistic flagship funds, special investments strategy, secondaries strategy, thematic private equity strategies and regional private equity strategies."
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "opportunistic real estate flagship fund series",
+    "secondaries strategy",
+    "BPG",
+    "perpetual funds",
+    "non-traded REIT"
+   ],
+   "description": "Manages opportunistic real estate funds, secondaries and perpetual core plus vehicles for institutional and private wealth clients.",
+   "evidence": "Real Estate: Includes the management of our opportunistic real estate flagship fund series and secondaries strategy."
+  },
+  {
+   "name": "Credit",
+   "products": [
+    "private credit strategies",
+    "opportunistic credit strategies",
+    "structured credit strategies",
+    "liquid credit strategies"
+   ],
+   "description": "Manages private, opportunistic, structured and liquid credit strategies that provide capital solutions to borrowers for clients.",
+   "evidence": "Credit: Includes managing our private credit strategies, opportunistic credit strategies, structured credit strategies, and liquid credit strategies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients, including pensions, endowments, sovereign funds, insurers and private wealth investors, pay asset management income on the capital we invest for them.",
+  "evidence": "We earn asset management income for doing so and ensure strong alignment of interests with our clients by investing Brookfield capital alongside them."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

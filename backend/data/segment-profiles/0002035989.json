@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002035989",
  "issuerName": "Amrize Ltd",
- "builtAt": "2026-11-16T04:47:03.348Z",
+ "builtAt": "2026-11-16T09:23:31.276Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002035989-26-000017",
@@ -10,10 +10,41 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/2035989/000203598926000017/holcim-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Building Materials",
+   "products": [
+    "Cement",
+    "Aggregates",
+    "Ready-Mix Concrete",
+    "asphalt",
+    "other construction materials"
+   ],
+   "description": "Offers branded cement, aggregates, ready-mix concrete, asphalt and other construction materials to builders, contractors and infrastructure projects across North America.",
+   "evidence": "Building Materials offerings include cement and aggregates, ready-mix concrete, and other construction materials."
+  },
+  {
+   "name": "Building Envelope",
+   "products": [
+    "roofing and wall systems",
+    "single-ply membranes",
+    "insulation",
+    "Duro-Last",
+    "Elevate",
+    "Malarkey",
+    "OX Engineered Products",
+    "Gaco"
+   ],
+   "description": "Offers advanced roofing and wall systems, insulation and waterproofing solutions for commercial and residential buildings, sold largely through distributors.",
+   "evidence": "The building envelope segment offers advanced roofing and wall systems, including single-ply membranes, insulation, shingles, sheathing, waterproofing and protective coatings, along with adhesives, tapes and sealants that are critical to the application of roofing and wall systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Contractors, builders, distributors and government authorities pay for cement, aggregates, ready-mix concrete, asphalt, roofing systems and other building solutions.",
+  "evidence": "The Company earns revenue from the sale of cement, aggregates, ready-mix concrete, asphalt, roofing systems and other building solutions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

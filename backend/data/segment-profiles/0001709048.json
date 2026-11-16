@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001709048",
  "issuerName": "GLOBALFOUNDRIES Inc.",
- "builtAt": "2026-11-16T04:46:58.362Z",
+ "builtAt": "2026-11-16T09:17:33.712Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001709048-26-000022",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1709048/000170904826000022/gfs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor foundry",
+   "products": [
+    "feature-rich CMOS",
+    "ultra-low power CMOS",
+    "silicon photonics",
+    "RF-SOI",
+    "SiGe",
+    "RF GaN",
+    "Power GaN",
+    "BCD"
+   ],
+   "description": "Global semiconductor foundry manufacturing differentiated chips for automotive, communications infrastructure and data center, smart mobile devices, and home and industrial IoT customers.",
+   "evidence": "Accordingly, the Company has determined that the Company has a single reportable segment and operating segment structure."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Semiconductor designers pay GF for wafer manufacturing and related services, bought primarily through a direct sales organization and technical account managers.",
+  "evidence": "We primarily sell our manufacturing services through a direct sales organization supported by technical account managers and customer application engineers, who work closely with customers to understand and meet their design and production requirements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

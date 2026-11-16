@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001604821",
  "issuerName": "NATERA, INC.",
- "builtAt": "2026-11-16T04:47:02.930Z",
+ "builtAt": "2026-11-16T09:22:56.593Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-020881",
@@ -10,10 +10,26 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1604821/000110465926020881/ntra-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Molecular testing services",
+   "products": [
+    "Panorama Non-Invasive Prenatal Test",
+    "Horizon Carrier Screening",
+    "Signatera molecular residual disease test",
+    "Prospera test",
+    "Constellation"
+   ],
+   "description": "Develops and commercializes cell-free DNA molecular testing services in oncology, women's health and organ health for physicians, patients and laboratory partners.",
+   "evidence": "The Company operates one segment, the development and commercialization of molecular testing services, applying its proprietary technology in the fields of oncology, women's health and organ health."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Payers, patients and physicians pay for the company's molecular tests, sold directly and distributed globally with partner laboratories.",
+  "evidence": "We sell our tests directly and partner with other clinical laboratories to distribute our tests globally."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

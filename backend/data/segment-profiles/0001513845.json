@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001513845",
  "issuerName": "NEBIUS GROUP N.V.",
- "builtAt": "2026-11-16T04:46:57.512Z",
+ "builtAt": "2026-11-16T09:17:35.442Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-052948",
@@ -10,11 +10,51 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nebius",
+   "products": [
+    "GPU compute clusters",
+    "storage",
+    "managed services",
+    "advanced tools for AI model training",
+    "AI cloud platform"
+   ],
+   "description": "Runs a full-stack AI cloud for enterprises, AI companies and developers, from GPU compute and storage to managed services and training tools.",
+   "evidence": "This combination of AI-optimized hardware and software enables us to deliver high-performance GPU compute clusters, storage, managed services, and advanced tools for AI model training, application building and deployment, and inference at enterprise-scale."
+  },
+  {
+   "name": "Avride",
+   "products": [
+    "autonomous vehicles",
+    "delivery robots"
+   ],
+   "description": "Develops autonomous driving technology for self-driving vehicles and delivery robotics, contributing only a limited share of group revenue.",
+   "evidence": "Avride, a leading developer of autonomous vehicles and delivery robots"
+  },
+  {
+   "name": "TripleTen",
+   "products": [
+    "boot camps",
+    "project-based learning opportunities",
+    "online educational products"
+   ],
+   "description": "An edtech platform that reskills individual students for careers in technology through boot camps and project-based online learning.",
+   "evidence": "TripleTen generates revenue from educational services to individual customers (students) through boot camps and project-based learning opportunities by providing online educational products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for on-demand or reserved AI cloud capacity, while individual students pay TripleTen for online educational products; Avride has contributed little revenue so far.",
+  "evidence": "We offer both on-demand \"pay-as-you-go\" pricing and fixed \"reserved capacity\" contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Toloka, previously an operating segment, was deconsolidated after Nebius ceased to hold majority voting power in it.",
+   "evidence": "In May 2025, following the completion of a third-party investment in Toloka, Nebius ceased to hold majority voting power in Toloka and no longer includes Toloka's results in Nebius's consolidated financial statements; we now report our stake as an equity method investment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

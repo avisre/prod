@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001269238",
  "issuerName": "Trip.com Group Limited",
- "builtAt": "2026-11-16T04:47:02.283Z",
+ "builtAt": "2026-11-16T09:22:11.939Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-183379",
@@ -10,8 +10,21 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1269238/000119312526183379/d27369d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Travel services",
+   "products": [
+    "WenDao/TripGenie",
+    "Trip. Planner",
+    "WenDao AI assistant",
+    "Trip.Planner",
+    "Ctrip mobile application"
+   ],
+   "description": "Operates its travel business as a single segment, serving leisure and business travel users through its mobile platform, websites and customer service centers.",
+   "evidence": "The Company operates and manages its business as a single segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

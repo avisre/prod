@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001703399",
  "issuerName": "Sea Limited",
- "builtAt": "2026-11-16T04:46:57.249Z",
+ "builtAt": "2026-11-16T09:16:26.007Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001140361-26-015366",
@@ -10,10 +10,51 @@
   "filingDate": "2026-04-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1703399/000114036126015366/ef20067274_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E-commerce (Shopee)",
+   "products": [
+    "e-commerce marketplace services",
+    "logistics services",
+    "paid advertising services",
+    "transaction-based fees",
+    "value-added services",
+    "official store"
+   ],
+   "description": "Online marketplace and logistics platform where sellers in Southeast Asia, Latin America and other markets reach buyers and pay for advertising and transaction services.",
+   "evidence": "We monetize Shopee's marketplace model mainly by offering sellers paid advertising services, charging transaction-based fees, and charging for certain value-added services, including logistics and fulfillment."
+  },
+  {
+   "name": "Digital Financial Services (Monee)",
+   "products": [
+    "credit",
+    "banking",
+    "e-wallet",
+    "payment processing",
+    "wealth services",
+    "insurance business"
+   ],
+   "description": "Provides consumer and small-business credit, banking, e-wallet, payment processing, wealth and insurance services to users and merchants on the platform.",
+   "evidence": "We generate revenue from our digital financial services business primarily from earning interest and fees from our credit and banking businesses, fees from our e-wallet, payment processing and wealth services and fees and premiums from our insurance business."
+  },
+  {
+   "name": "Digital Entertainment (Garena)",
+   "products": [
+    "mobile and PC online games",
+    "mobile games",
+    "eSports",
+    "in-game items"
+   ],
+   "description": "Offers mobile and PC online games and promotes eSports, selling in-game items to players worldwide.",
+   "evidence": "Garena offers mobile and PC online games and develops mobile games for the global market."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Sellers and buyers on Shopee pay marketplace advertising, transaction and value-added fees; loan, banking, e-wallet and insurance customers pay interest and fees; game players buy in-game items.",
+  "evidence": "We monetize Shopee's marketplace model mainly by offering sellers paid advertising services, charging transaction-based fees, and charging for certain value-added services, including logistics and fulfillment."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

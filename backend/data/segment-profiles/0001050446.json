@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001050446",
  "issuerName": "STRATEGY INC",
- "builtAt": "2026-11-16T04:46:56.798Z",
+ "builtAt": "2026-11-16T09:15:01.347Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001050446-26-000020",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1050446/000105044626000020/mstr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software Business",
+   "products": [
+    "enterprise analytics software platform",
+    "cloud subscriptions",
+    "licensing arrangements",
+    "product support",
+    "consulting",
+    "education"
+   ],
+   "description": "Designs, develops, markets and sells the company's enterprise analytics software platform to customers through cloud subscriptions, licensing and related services.",
+   "evidence": "The Company has one reportable operating segment, the \"Software Business,\" which is engaged in the design, development, marketing, and sales of the Company's enterprise analytics software platform through cloud subscriptions and licensing arrangements and related services (i.e., product support, consulting, and education)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription and license fees for access to the enterprise analytics software platform, plus fees for product support, consulting and education.",
+  "evidence": "In all on-premises product license transactions and cloud service subscription transactions, customers receive technical support, either purchased separately or as an included component."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

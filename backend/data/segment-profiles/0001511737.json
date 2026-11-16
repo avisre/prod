@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001511737",
  "issuerName": "UBIQUITI INC.",
- "builtAt": "2026-11-16T04:47:00.504Z",
+ "builtAt": "2026-11-16T09:20:03.323Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001511737-26-000056",
@@ -10,10 +10,29 @@
   "filingDate": "2026-08-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1511737/000151173726000056/ubnt-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Networking technology",
+   "products": [
+    "UniFi Cloud Gateway",
+    "UniFi WiFi",
+    "UniFi Protect",
+    "UniFi Switch",
+    "UniFi Access",
+    "UniFi Talk",
+    "airMAX",
+    "airFiber"
+   ],
+   "description": "Sells networking hardware and related software platforms, including UniFi enterprise systems and airMAX service-provider equipment, to enterprises, service providers and smart homes.",
+   "evidence": "We operate our business as one reportable and operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Enterprises and service providers pay for networking hardware and related software platforms, bought through distributors, webstores and direct sales.",
+  "evidence": "We sell our products and solutions globally to enterprises and service providers primarily through our extensive network of distributors and through direct sales through our webstores."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
