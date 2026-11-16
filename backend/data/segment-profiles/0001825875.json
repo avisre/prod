@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001825875",
  "issuerName": "ERAYAK Power Solution Group Inc.",
- "builtAt": "2026-11-16T05:52:17.751Z",
+ "builtAt": "2026-11-16T12:29:21.747Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001185185-26-001594",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1825875/000118518526001594/erayak20f123125.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power solution products",
+   "products": [
+    "inverters",
+    "chargers",
+    "gasoline generators",
+    "power bank"
+   ],
+   "description": "Manufactures and sells power solution products, such as inverters and generators, used in vehicles, appliances and outdoor living.",
+   "evidence": "Management, including the chief operating decision maker, reviews operation results as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly international companies and retail channels, pay for power solution products built to order.",
+  "evidence": "Furthermore, we are a supplier for many international companies, including Einhell Germany AG, Canadian Tire Corporation Limited, Steren Electronics International, LLC, etc."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

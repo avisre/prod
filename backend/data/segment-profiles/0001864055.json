@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001864055",
  "issuerName": "ABITS     GROUP INC",
- "builtAt": "2026-11-16T05:52:19.290Z",
+ "builtAt": "2026-11-16T12:30:34.757Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019612",
@@ -10,10 +10,20 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1864055/000149315226019612/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin Mining",
+   "products": [],
+   "description": "Mines bitcoin using ASIC mining hardware in its own facilities, accumulating bitcoin that it may sell for fiat currency.",
+   "evidence": "In view of the widespread adoption of blockchain technology and bitcoin worldwide, the Company determined to enter the bitcoin mining industry, which is the production of bitcoin."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The company earns bitcoin from its mining operations and may sell it for fiat currency, depending on market conditions and cash flow needs.",
+  "evidence": "Our facility and mining platform will operate with the primary intent of accumulating bitcoin which we may sell for fiat currency from time to time depending on market conditions and management's determination of our cash flow needs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

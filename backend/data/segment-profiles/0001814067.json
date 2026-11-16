@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001814067",
  "issuerName": "Lixiang Education Holding Co. Ltd.",
- "builtAt": "2026-11-16T05:52:18.679Z",
+ "builtAt": "2026-11-16T12:30:17.338Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-055168",
@@ -10,11 +10,42 @@
   "filingDate": "2026-05-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1814067/000121390026055168/ea0287759-20f_lixiang.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High school",
+   "products": [],
+   "description": "Provides high school education services, managed separately for its distinct target student population and curriculum.",
+   "evidence": "The Group has organized two reportable segments from operations, including high school and vocational education."
+  },
+  {
+   "name": "Vocational education",
+   "products": [
+    "Langfang School",
+    "Hainan Jiangcai"
+   ],
+   "description": "Provides vocational education services, managed separately for its distinct target student population, curriculum and market positioning.",
+   "evidence": "\"Vocational Education Services Providers\" refer to Langfang School and Hainan Jiangcai"
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Aggregates immature and immaterial operating segments that are not separately disclosed.",
+   "evidence": "All other operating segments are considered immature and immaterial for separate disclosure purposes and are aggregated within \"All Other\", and reconciled to the consolidated financial totals."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [],
+ "changes": [
+  {
+   "text": "Agreed in 2024 to transfer the sponsorship interests of Qingtian International School.",
+   "evidence": "On January 15, 2024, Lishui Mengxiang entered into a definitive agreement to transfer 100% of the sponsorship interests of Qingtian International School"
+  },
+  {
+   "text": "The Xinxiang joint venture was deregistered in 2024.",
+   "evidence": "On June 17, 2024, Xinxiang was deregistered, resulting in a non-controlling interests disposal loss"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

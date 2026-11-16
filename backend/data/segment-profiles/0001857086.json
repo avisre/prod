@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001857086",
  "issuerName": "TRUGOLF HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:52:22.467Z",
+ "builtAt": "2026-11-16T12:32:16.174Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016882",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1857086/000149315226016882/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Indoor golf simulators",
+   "products": [
+    "APOGEE",
+    "LaunchBox",
+    "E6 GOLF",
+    "E6 CONNECT",
+    "Multi-Sport Arcade"
+   ],
+   "description": "Designs, manufactures and sells indoor golf simulators, launch monitors and related software for residential and commercial customers.",
+   "evidence": "As of December 31, 2025, the Company operates as one business segment, which is also the sole reportable segment, focusing on the manufacturing and sales of indoor golf simulators."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for golf simulators, content software subscriptions, and franchise fees and royalties from franchise operations.",
+  "evidence": "The Company primarily recognizes revenue from: (i) golf simulators, (ii) content software subscriptions, and (iii) franchise operations, including regional developer territory fees, initial franchise fees, and ongoing royalty fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

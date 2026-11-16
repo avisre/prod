@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001751876",
  "issuerName": "Paranovus Entertainment Technology Ltd.",
- "builtAt": "2026-11-16T05:52:22.773Z",
+ "builtAt": "2026-11-16T12:32:46.437Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001929980-26-000454",
@@ -10,11 +10,36 @@
   "filingDate": "2026-08-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1751876/000192998026000454/pavs_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bomie",
+   "products": [],
+   "description": "Reportable segment named Bomie, part of the company's TikTok e-commerce and e-commerce solutions business.",
+   "evidence": "In accordance with ASC 280, the Company has two operating and reportable segments, Bomie and Wookoo."
+  },
+  {
+   "name": "Wookoo",
+   "products": [],
+   "description": "Reportable segment named Wookoo, part of the company's TikTok e-commerce and e-commerce solutions business.",
+   "evidence": "In accordance with ASC 280, the Company has two operating and reportable segments, Bomie and Wookoo."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers buy through the company's TikTok e-commerce business and pay for e-commerce solutions the company provides to them.",
+  "evidence": "We conduct our business mainly through BW and its subsidiaries, engaging in e-commerce business on TikTok as well as providing e-commerce solutions to customers."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Board suspended the company's e-commerce and internet information and advertising business.",
+   "evidence": "On September 3, 2023, the Board of Directors of the Company approved suspension of the Company's e-commerce and internet information and advertising business conducted through the Company's indirect subsidiary Happy Buy (Fujian) Internet Technology Co., Limited."
+  },
+  {
+   "text": "In 2025 the company closed its acquisition of a majority stake in Bomie Wookoo LLC, which became its main operating business.",
+   "evidence": "The transaction was closed on March 25, 2025, upon the satisfaction or waiver of customary closing conditions, including the approval of the Company's shareholders."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

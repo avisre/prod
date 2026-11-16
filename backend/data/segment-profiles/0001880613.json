@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001880613",
  "issuerName": "DIRECT DIGITAL HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:52:19.605Z",
+ "builtAt": "2026-11-16T12:30:51.469Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001880613-26-000032",
@@ -10,10 +10,31 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1880613/000188061326000032/drct-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sell-side advertising",
+   "products": [
+    "Colossus SSP"
+   ],
+   "description": "Operates Colossus SSP, a programmatic sell-side platform that sells publishers' ad impressions to advertisers and buyers in real time.",
+   "evidence": "Our sell-side advertising business, operated through Colossus Media, provides advertisers of all sizes a programmatic advertising platform that automates the sale of ad inventory between advertisers and marketers leveraging proprietary technology."
+  },
+  {
+   "name": "buy-side advertising",
+   "products": [
+    "Orange 142",
+    "Huddled Masses"
+   ],
+   "description": "Buys digital advertising inventory and runs managed campaigns, mainly for small and mid-sized businesses, through multiple demand side platforms.",
+   "evidence": "The buy-side segment is now operated through Orange 142, which has been in operation since 2013."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Advertisers and buyers pay for digital ad impressions sold through the Colossus SSP platform, and buy-side clients pay for managed advertising campaigns.",
+  "evidence": "The Company generates revenue from the delivery of targeted digital media solutions, enabling advertisers to connect intelligently with their audiences across online display, video, social and mobile mediums using its proprietary programmatic SSP."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

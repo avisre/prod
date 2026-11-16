@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001809616",
  "issuerName": "Universe Pharmaceuticals INC",
- "builtAt": "2026-11-16T05:52:21.838Z",
+ "builtAt": "2026-11-16T12:31:36.211Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-009000",
@@ -10,10 +10,20 @@
   "filingDate": "2026-01-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1809616/000121390026009000/ea0273969-20f_universe.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceutical manufacturing and selling",
+   "products": [],
+   "description": "Manufactures and sells pharmaceutical products in China, the company's only operating segment.",
+   "evidence": "For management purposes, the Company operates in one business unit based on the products sold, and its sole operating segment is pharmaceutical manufacturing and selling."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the Company for pharmaceutical products when they are sold and delivered.",
+  "evidence": "The Company's accounts receivable primarily includes the balance due from customers when the Company's pharmaceutical products are sold and delivered to customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

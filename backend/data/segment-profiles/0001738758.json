@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001738758",
  "issuerName": "Cheer Holding, Inc.",
- "builtAt": "2026-11-16T05:52:17.651Z",
+ "builtAt": "2026-11-16T12:29:18.098Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-032337",
@@ -10,10 +10,35 @@
   "filingDate": "2026-03-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1738758/000121390026032337/ea0282295-20f_cheer.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CHEERS App Internet Business",
+   "products": [
+    "CHEERS App",
+    "Cheers E-mall marketplace",
+    "IP short videos",
+    "live streaming"
+   ],
+   "description": "Runs the CHEERS App, earning advertising from short videos, live streams and in-app ads, plus service fees from its Cheers E-mall marketplace.",
+   "evidence": "Our CHEERS App Internet Business generates advertising revenue from broadcasting IP short videos, live streaming and APP advertising through our CHEERS App and service revenue from our Cheers E-mall marketplace."
+  },
+  {
+   "name": "Traditional Media Business",
+   "products": [
+    "Cheers TV-series",
+    "copyright revenue",
+    "customized content production revenue"
+   ],
+   "description": "Earns mainly advertising revenue from Cheers TV-series, plus copyright revenue and customized content production revenue.",
+   "evidence": "Our Traditional Media Business mainly contributes to the advertising revenue from our Cheers TV-series, copyright revenue, customized content production revenue and others."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Advertising customers pay for ads on its apps and video content; copyright licensing and CHEERS e-Mall market services bring in the rest.",
+  "evidence": "For the years ended December 31, 2025 and 2024, we primarily generated revenues from three revenue streams: advertising, copyright licensing, and CHEERS e-Mall market service."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

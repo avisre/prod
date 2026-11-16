@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001713210",
  "issuerName": "AGAPE ATP CORPORATION",
- "builtAt": "2026-11-16T05:52:18.576Z",
+ "builtAt": "2026-11-16T12:30:05.476Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016297",
@@ -10,10 +10,33 @@
   "filingDate": "2026-04-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1713210/000149315226016297/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Skin care, health and wellness",
+   "products": [
+    "ATP Zeta Health Program",
+    "E.A.T.S"
+   ],
+   "description": "Provides health and wellness products and health solution advisory services through a direct-selling distributor network in Malaysia.",
+   "evidence": "Skin care, health and wellness segment includes the provision of health and wellness products and health solution advisory services."
+  },
+  {
+   "name": "Green energy",
+   "products": [
+    "renewable energy products",
+    "technical solutions",
+    "installations and maintenance services"
+   ],
+   "description": "Provides renewable energy products, technical solutions, installations and maintenance services for sustainability and energy savings.",
+   "evidence": "Green energy segment includes providing renewable energy products, technical solutions, installations and maintenance services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retail consumers and distributors buy health and wellness products sold directly through the company's distributor network.",
+  "evidence": "We believe that the direct-selling channel is ideally suited to marketing our products, because sales of health solution and personal care products are strengthened by ongoing personal contact between retail consumers and distributors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

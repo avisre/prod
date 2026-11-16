@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001951294",
  "issuerName": "VS MEDIA Holdings Ltd",
- "builtAt": "2026-11-16T05:52:19.528Z",
+ "builtAt": "2026-11-16T12:30:40.326Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019820",
@@ -10,10 +10,34 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1951294/000149315226019820/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketing services",
+   "products": [
+    "campaign-based marketing services",
+    "optimization-based marketing services",
+    "affiliate marketing",
+    "product placement",
+    "Brand sponsorship deals"
+   ],
+   "description": "Connects Brands with Creators for campaign and optimization services, and earns advertising revenue from content published on social media platforms.",
+   "evidence": "The marketing services operating segment reflects the Company's business of marketing services from clients and social media platforms."
+  },
+  {
+   "name": "Social commerce",
+   "products": [
+    "live shopping events"
+   ],
+   "description": "Buys products from Brands and resells them to Creators so they can build their own eCommerce businesses, and sells some products directly to customers.",
+   "evidence": "Social Commerce Model : We purchase products from Brands and re-sell them to Creators to help Creators build their own eCommerce businesses."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Brands pay a fixed service fee per campaign, YouTube and Facebook pay advertising revenue, and Creators and customers pay for resold products.",
+  "evidence": "Brands pay us a fixed and pre-determined service fee per campaign."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

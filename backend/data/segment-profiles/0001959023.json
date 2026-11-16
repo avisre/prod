@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001959023",
  "issuerName": "RenX Enterprises Corp.",
- "builtAt": "2026-11-16T05:52:16.829Z",
+ "builtAt": "2026-11-16T12:28:15.465Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037999",
@@ -10,11 +10,61 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1959023/000121390026037999/ea0283352-10k_renx.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Development",
+   "products": [
+    "legacy real estate assets",
+    "joint venture interests"
+   ],
+   "description": "Acquires, entitles and develops residential properties and holds legacy real estate and joint venture interests for monetization.",
+   "evidence": "From our inception through 2023, our operations primarily focused on the acquisition, entitlement, and development of residential properties in high-growth markets across the United States."
+  },
+  {
+   "name": "Technology",
+   "products": [
+    "real estate-related artificial intelligence"
+   ],
+   "description": "Former real estate-related artificial intelligence activities, which the company says it is no longer pursuing.",
+   "evidence": "In 2023 and early 2024, we expanded our strategy by investing in real estate-related artificial intelligence (\"AI\") technologies and entering into additional joint ventures in the Southern Texas market aimed at developing sustainable single-family housing."
+  },
+  {
+   "name": "Compost Sales",
+   "products": [
+    "soil and mulch products",
+    "organic waste processing units",
+    "dewatering systems",
+    "composting equipment"
+   ],
+   "description": "Transforms organic green waste into soil and mulch products and offers on-site organic waste processing equipment.",
+   "evidence": "Its operations center on the transformation of targeted organic green waste materials into environmentally friendly soil and mulch products."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "waste logistics and collection services",
+    "bulk materials hauling"
+   ],
+   "description": "Provides waste logistics and collection services for its own and third-party products using high-capacity trucks.",
+   "evidence": "Through our subsidiary, Zimmer Equipment Inc. (\"ZEI\"), we provide comprehensive waste logistics and collection services for our own products as well as for products of third parties through ZEI's owned fleet of high-capacity transportation equipment and third-party contractors engaged by us."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients such as landscaping companies, golf courses, communities and municipalities pay for ZEI's year-round collection and disposal services.",
+  "evidence": "ZEI offers year-round collection and disposal services through high-capacity grapple trucks, open-top walking floor trailers, and variable-sized containers serving green waste generators, landscaping companies, golf courses, communities, and municipalities."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company deconsolidated Sugar Phase and Pulga and accounts for its investments in them under the equity method.",
+   "evidence": "Upon deconsolidation, the Company accounts for its investment in Sugar Phase on the equity method."
+  },
+  {
+   "text": "In 2025 the company acquired Resource Group and ZEI, adding compost and logistics as new lines of business.",
+   "evidence": "In June 2025, in connection with our acquisition of Resource Group and ZEI, we entered into two new lines of business transforming targeted organic green waste materials into engineered, environmentally friendly soil and mulch products, and logistics."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

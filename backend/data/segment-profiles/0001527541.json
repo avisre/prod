@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001527541",
  "issuerName": "WHEELER REAL ESTATE INVESTMENT TRUST, INC.",
- "builtAt": "2026-11-16T05:52:22.647Z",
+ "builtAt": "2026-11-16T12:32:38.523Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001527541-26-000050",
@@ -10,10 +10,22 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1527541/000152754126000050/whlr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Grocery-anchored shopping centers",
+   "products": [
+    "retail shopping centers"
+   ],
+   "description": "Owns and operates grocery-anchored shopping centers in secondary and tertiary markets, leased to national and regional retailers.",
+   "evidence": "The Company's primary business is the ownership and operation of grocery-anchored shopping centers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retail tenants pay rent and reimburse a substantial portion of property operating costs, taxes and insurance under triple net leases.",
+  "evidence": "Our leases generally require the tenant to reimburse us for a substantial portion of the expenses incurred in operating, maintaining, repairing, and managing the shopping center and the common areas, along with the associated insurance costs and real estate taxes."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001931717",
  "issuerName": "CCSC Technology International Holdings Limited",
- "builtAt": "2026-11-16T05:52:21.327Z",
+ "builtAt": "2026-11-16T12:31:09.468Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-079169",
@@ -10,10 +10,23 @@
   "filingDate": "2026-07-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1931717/000121390026079169/ea0297385-20f_ccsctech.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wire harness",
+   "products": [
+    "Cable and wire harness",
+    "Connectors"
+   ],
+   "description": "Makes cable and wire harnesses and connectors for customers in Europe, Asia and the Americas.",
+   "evidence": "The Company has determined that it only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for product sales of cable and wire harnesses and connectors, mostly to Europe, Asia and the Americas.",
+  "evidence": "The majority of the Group's revenue for the years ended March 31, 2026, 2025 and 2024 was generated from product sales to different geographic areas including Europe, Asia and Americas."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001589149",
  "issuerName": "GREENWAVE TECHNOLOGY SOLUTIONS, INC.",
- "builtAt": "2026-11-16T05:52:18.372Z",
+ "builtAt": "2026-11-16T12:29:45.361Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-028562",
@@ -10,10 +10,29 @@
   "filingDate": "2026-06-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1589149/000149315226028562/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metal recycling",
+   "products": [
+    "ferrous metal",
+    "heavy melting steel",
+    "plate and structural",
+    "shredded scrap",
+    "nonferrous metals",
+    "zorba",
+    "zurik",
+    "shredded insulated wire"
+   ],
+   "description": "Collects, processes and sells recycled ferrous and nonferrous metal to buyers; also includes hauling and rental income.",
+   "evidence": "Our main product is selling ferrous metal, which is used in the recycling and production of finished steel."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Buyers pay market-based prices for the ferrous and nonferrous scrap metal the company processes and sells.",
+  "evidence": "Prices for our ferrous and nonferrous products are based on prevailing market rates and are subject to market cycles, worldwide steel demand, government regulations and policy, and supply of products that can be processed into recycled steel."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

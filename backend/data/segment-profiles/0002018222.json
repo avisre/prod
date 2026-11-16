@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002018222",
  "issuerName": "707 Cayman Holdings Ltd.",
- "builtAt": "2026-11-16T05:52:18.983Z",
+ "builtAt": "2026-11-16T12:30:17.891Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-002647",
@@ -10,10 +10,25 @@
   "filingDate": "2026-01-16",
   "url": "https://www.sec.gov/Archives/edgar/data/2018222/000149315226002647/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Supply chain management",
+   "products": [
+    "Product sales",
+    "Product sales (self-branded)",
+    "Sourcing service",
+    "Logistic service"
+   ],
+   "description": "Sells apparel products and supply chain management services, from design and sourcing to logistics, to mid-sized brand owners and apparel companies.",
+   "evidence": "Consequently, the Company has determined that it has only one reportable operating segment in Hong Kong."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay a mark-up on finished apparel products sold to them, or a service fee for specific supply chain services.",
+  "evidence": "Instead of charging our customers service fee for each type of supply chain management service we provide to them, we normally sell the finished products to our customers at a mark-up to cover the comprehensive supply chain management services we provide to them."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001815021",
  "issuerName": "BOQII HOLDING LIMITED",
- "builtAt": "2026-11-16T05:52:18.264Z",
+ "builtAt": "2026-11-16T12:29:51.686Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-077593",
@@ -10,10 +10,23 @@
   "filingDate": "2026-07-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1815021/000121390026077593/ea0297123-20f_boqii.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pet products",
+   "products": [
+    "pet products sales",
+    "online marketing and information services and other revenue"
+   ],
+   "description": "Sells pet products and provides online marketing and information services, deriving revenue in the PRC.",
+   "evidence": "This segment is engaged in pet products sales and online marketing and information services and other revenue, The Company derives revenue in the PRC and manages the business activities on a consolidated basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Third-party consumers pay for pet products and online marketing and information services.",
+  "evidence": "Accounts receivables are typically unsecured and are derived from revenue earned through third-party consumers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

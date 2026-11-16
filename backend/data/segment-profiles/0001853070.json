@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001853070",
  "issuerName": "VOLATO GROUP, INC.",
- "builtAt": "2026-11-16T05:52:16.723Z",
+ "builtAt": "2026-11-16T12:27:41.523Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-017343",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1853070/000162828026017343/soar-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "private aviation services",
+   "products": [
+    "airplane sales",
+    "software-as-a-service subscriptions"
+   ],
+   "description": "Provides airplane sales and software-as-a-service subscriptions, with revenue derived primarily in North America.",
+   "evidence": "The Company has one reportable segment, private aviation services, managed on a consolidated basis by the CEO who is the CODM."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay the company for airplane sales and software-as-a-service subscriptions.",
+  "evidence": "The private aviation services segment provides airplane sales and software-as-a-service subscriptions."
+ },
+ "changes": [
+  {
+   "text": "In March 2025 the company sold GC Aviation, Inc., which held its FAA air carrier certificate.",
+   "evidence": "In March 2025, the Company sold GC Aviation, Inc., which holds the FAA Part 135 certificate, therefore items related to managed aircraft are included in discontinued operations."
+  },
+  {
+   "text": "In September 2024 the company agreed to transition its aircraft ownership program fleet operations to flyExclusive.",
+   "evidence": "In September 2024, the Company entered into an agreement with flyExclusive to transition our aircraft ownership program fleet operations to flyExclusive."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001989930",
  "issuerName": "Founder Group Limited",
- "builtAt": "2026-11-16T05:52:21.444Z",
+ "builtAt": "2026-11-16T12:31:30.470Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048554",
@@ -10,10 +10,34 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1989930/000121390026048554/ea0287754-20f_founder.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Large-scale solar",
+   "products": [
+    "Large-scale solar projects",
+    "contract services",
+    "sales of goods"
+   ],
+   "description": "Builds ground-mounted utility-scale solar PV power plants for grid supply, usually acting as contractor to the project awarder.",
+   "evidence": "Large-scale solar projects are utility scale solar PV power plants with installed generating capacity of 1 MWac or more."
+  },
+  {
+   "name": "Commercial & Industrial",
+   "products": [
+    "C&I projects",
+    "contract services",
+    "sales of goods"
+   ],
+   "description": "Installs rooftop solar systems for commercial and industrial properties to power their own operations, usually as main contractor.",
+   "evidence": "C&I projects are smaller scale solar projects where the solar PV systems are installed on rooftops and are designed to generate electricity for commercial and industrial properties for their own consumption, such as factories, warehouses and commercial stores."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for contract services that execute solar projects and for sales of solar mounting structures and accessories.",
+  "evidence": "Revenue from sales of goods involved in supply and selling of solar mounting structure and its accessories."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001776067",
  "issuerName": "Oriental Culture Holding LTD",
- "builtAt": "2026-11-16T05:52:16.867Z",
+ "builtAt": "2026-11-16T12:28:32.865Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-056688",
@@ -10,11 +10,28 @@
   "filingDate": "2026-05-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1776067/000121390026056688/ea0287632-20f_oriental.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Artwork/collectables trading",
+   "products": [
+    "China International Assets and Equity of Artworks Exchange Limited"
+   ],
+   "description": "Operates an online platform facilitating trading of collectibles, artwork and certain commodities for individual and institutional customers.",
+   "evidence": "Based on management's assessment, the Company determined that it has only one operating segment and therefore one reportable segment as defined by ASC 280, which is facilitating e-commerce of artwork/collectables trading."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company earns revenue from facilitating customer trading of collectibles and artwork on its platform, and from marketing, storage and technical maintenance services to customers.",
+  "evidence": "We also provide online and offline integrated marketing, storage and technical maintenance services to our customers in China."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the HKDAEx trading platform ceased operation and the Company sold HKDAEx in December 2024.",
+   "evidence": "The trading platform of HKDAEx and its related trading business ceased operation as of June 30, 2024 and the Company sold HKDAEx to an unrelated party for $1 in December 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

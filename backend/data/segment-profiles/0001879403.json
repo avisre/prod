@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001879403",
  "issuerName": "Stratum Holdings Corp.",
- "builtAt": "2026-11-16T05:52:22.487Z",
+ "builtAt": "2026-11-16T12:32:36.857Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-065276",
@@ -10,11 +10,73 @@
   "filingDate": "2026-06-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1879403/000121390026065276/ea0285141-10k_larosa.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Brokerage Services (Residential)",
+   "products": [
+    "La Rosa Realty"
+   ],
+   "description": "Brokers residential property buyers and sellers through corporate and franchised offices, mainly under the La Rosa Realty brand.",
+   "evidence": "In addition to providing person-to-person residential and commercial real estate brokerage services to the public, we cross-sell ancillary technology-based products and services primarily to our sales agents and the sales agents associated with our franchisees."
+  },
+  {
+   "name": "Franchising Services",
+   "products": [
+    "franchised real estate brokerage offices"
+   ],
+   "description": "Licenses La Rosa Realty brokerage offices to franchise owners, who pay fees and run their own businesses.",
+   "evidence": "The Company also has 5 La Rosa Realty franchised real estate brokerage offices and branches and 3 affiliated real estate brokerage offices, that pay us fees in 7 states in the United States and Puerto Rico."
+  },
+  {
+   "name": "Coaching Services",
+   "products": [
+    "La Rosa Coaching, LLC"
+   ],
+   "description": "Coaches agents on team building, personal growth and business development through the La Rosa Coaching subsidiary.",
+   "evidence": "All of these activities are run through our La Rosa Coaching, LLC subsidiary that teaches advanced techniques for team building, personal growth and business development, which we believe will enhance our revenue at a nominal increase in cost to us."
+  },
+  {
+   "name": "Property Management",
+   "products": [
+    "Property management services"
+   ],
+   "description": "Manages residential rental properties for owners under contract, in exchange for a flat monthly management fee.",
+   "evidence": "These services include managing daily operations of the property, tenant background screening, overseeing the tenant application process, and accounting services."
+  },
+  {
+   "name": "Real Estate Brokerage Services (Commercial)",
+   "products": [
+    "commercial real estate company"
+   ],
+   "description": "Handles commercial real estate transactions, which La Rosa agents are encouraged to pursue through the company.",
+   "evidence": "In addition, unlike other residential real estate brokerages, we encourage our sales agents to pursue commercial real estate transactions and require them to utilize the services of our commercial real estate company."
+  },
+  {
+   "name": "Title Settlement and Insurance",
+   "products": [
+    "title services",
+    "escrow services"
+   ],
+   "description": "Provides title insurance, escrow and settlement services for real estate transactions in Florida.",
+   "evidence": "Revenue from title insurance premiums is recognized at the closing of the real estate transaction, when the title insurance policy is issued and the performance obligation is satisfied."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Sales agents pay the Company for training, mentorship and proprietary technology, and franchisees pay it fees.",
+  "evidence": "Instead of us taking a greater share of their income, our agents pay what we believe to be reduced rates for training and mentorship and our proprietary technology."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company dissolved Baxpi Holdings LLC, La Rosa Realty NC LLC and La Rosa Realty Success LLC to simplify its corporate structure.",
+   "evidence": "During the fiscal year ended December 31, 2025, in an effort to simplify our corporate structure, we dissolved Baxpi Holdings LLC, which was non-operational, La Rosa Realty NC LLC, which was not profitable, and La Rosa Realty Success LLC, agents of which were moved to La Rosa CW Properties LLC."
+  },
+  {
+   "text": "In 2026, the Company sold its majority interests in Horeb Kissimmee Realty, LLC to the minority member of that entity.",
+   "evidence": "In February 2026, we also sold our majority interests in Horeb Kissimmee Realty, LLC to the minority member of that entity."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

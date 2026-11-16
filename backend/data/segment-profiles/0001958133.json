@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001958133",
  "issuerName": "Decent Holding Inc.",
- "builtAt": "2026-11-16T05:52:17.579Z",
+ "builtAt": "2026-11-16T12:29:01.287Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001185185-26-000710",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1958133/000118518526000710/dxst20f103125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wastewater treatment",
+   "products": [
+    "wastewater treatment service",
+    "river water quality management service",
+    "microbial products for water quality enhancement and pollutant cleansing purpose"
+   ],
+   "description": "Provides wastewater treatment, river water quality management and microbial products for pollutant cleansing in China through its operating subsidiary.",
+   "evidence": "Our main services and products include (1) wastewater treatment, (2) river water quality management, and (3) microbial products for water quality enhancement and pollutant cleansing purposes."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The company earns its revenue from providing wastewater treatment and river water quality management services and from selling microbial products for pollutant cleansing.",
+  "evidence": "For the fiscal year ended October 31, 2025, our revenue primarily comes from (1) provision of wastewater treatment service, representing approximately 32.16% of our revenue; (2) provision of river water quality management service, representing approximately 51.12% of our revenue; and (3) sale of microbial products for pollutant cleansing, representing approximately 16.15% of our revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

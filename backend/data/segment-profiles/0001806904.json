@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001806904",
  "issuerName": "EZGO Technologies Ltd.",
- "builtAt": "2026-11-16T05:52:17.379Z",
+ "builtAt": "2026-11-16T12:28:54.311Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-25-126219",
@@ -10,11 +10,52 @@
   "filingDate": "2025-12-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1806904/000121390025126219/ea0270795-20f_ezgotech.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Battery cells and packs sales segment",
+   "products": [
+    "battery cells and packs",
+    "battery packs"
+   ],
+   "description": "Sells battery cells and battery packs, managed separately because each business needs different technology and marketing.",
+   "evidence": "For battery packs, we leverage existing trade relationships, channel partners and repeat customers."
+  },
+  {
+   "name": "Electronic control system sales segment",
+   "products": [
+    "electronic control systems",
+    "intelligent robots and related smart hardware"
+   ],
+   "description": "Sells electronic control systems and intelligent robots directly to OEM, industrial and municipal customers.",
+   "evidence": "For electronic control systems, we pursue direct sales to OEM and industrial customers, supported by solution demonstrations, technical consulting and design-in support."
+  },
+  {
+   "name": "Others segment",
+   "products": [
+    "second-hand machinery",
+    "maintenance services",
+    "photovoltaic engineering contracting"
+   ],
+   "description": "Sells second-hand machinery and provides maintenance services and photovoltaic engineering contracting.",
+   "evidence": "The Group determined it has three operating segments: (1) sales of battery cells and packs, (2) sales of electronic control system and intelligent robot and (3) others, which mainly included the sales of second-hand machinery, the provision of maintenance services and photovoltaic engineering contracting."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for battery cells and packs, electronic control systems, intelligent robots, second-hand machinery, maintenance services and photovoltaic engineering.",
+  "evidence": "Our sales and marketing is primarily customer- and project-driven."
+ },
+ "changes": [
+  {
+   "text": "The e-bicycle sales segment was discontinued in 2025 and is reported as a discontinued operation.",
+   "evidence": "Operations for the EZGO E-Bicycle business were officially discontinued in 2025"
+  },
+  {
+   "text": "The Smart Charging Pile segment was discontinued in 2025.",
+   "evidence": "This business segment was discontinued in 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

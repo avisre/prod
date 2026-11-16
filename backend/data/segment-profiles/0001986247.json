@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001986247",
  "issuerName": "Park Ha Biological Technology Co., Ltd.",
- "builtAt": "2026-11-16T05:52:16.861Z",
+ "builtAt": "2026-11-16T12:28:25.315Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-021984",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1986247/000121390026021984/ea0278334-20f_parkhabio.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Product Sales",
+   "products": [],
+   "description": "Sells products to non-franchisee customers and to franchisees.",
+   "evidence": "The Company believes that it operates in two business segments which comprised of products sales and franchise service; and it operates in one geographical location China."
+  },
+  {
+   "name": "Franchise fees",
+   "products": [],
+   "description": "Provides franchise service and earns franchise fees from franchisees.",
+   "evidence": "Our success depends on the implementation of the franchise business model."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for products sold, and franchisees pay franchise fees for franchise service.",
+  "evidence": "Sales revenues comprised of the following:"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

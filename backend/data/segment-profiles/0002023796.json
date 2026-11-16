@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002023796",
  "issuerName": "Fitness Champs Holdings Ltd",
- "builtAt": "2026-11-16T05:52:21.721Z",
+ "builtAt": "2026-11-16T12:31:44.592Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-023516",
@@ -10,10 +10,40 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/2023796/000149315226023516/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Swim fees",
+   "products": [
+    "School-Based Swimming Lessons",
+    "Private Swimming Lessons and Aquatic Sports"
+   ],
+   "description": "Swimming lessons for Singapore public-school students under the government SwimSafer program, plus private lessons and aquatic sports.",
+   "evidence": "Fitness Champs carries on the business of sports education in the form of swimming lessons provided through government related contracts through Singapore's national SwimSafer program."
+  },
+  {
+   "name": "Sales of merchandise",
+   "products": [
+    "swimming goggles",
+    "swim caps",
+    "swimsuits",
+    "flotation devices"
+   ],
+   "description": "Branded swim goggles, caps, swimsuits and flotation devices sold alongside lessons; the filing says it generates no material revenue.",
+   "evidence": "From swimming goggles, swim caps, and swimsuits to various flotation devices, our merchandise is not only functional but also bears the distinct mark of our identity."
+  },
+  {
+   "name": "Pickleball",
+   "products": [],
+   "description": "Pickleball revenue reported as its own revenue stream beside swim fees and merchandise; the filing gives no detail on it.",
+   "evidence": "Pickleball Information regarding the results of each reportable segment is included below."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Government contracts fund school swimming lessons, while private lesson and merchandise revenue comes from consumers.",
+  "evidence": "Economic fluctuations can influence consumer spending on non-essential services, impacting our revenue from private lessons and merchandise."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

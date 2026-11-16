@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001347858",
  "issuerName": "22nd Century Group, Inc.",
- "builtAt": "2026-11-16T05:52:19.249Z",
+ "builtAt": "2026-11-16T12:30:29.119Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-034814",
@@ -10,11 +10,32 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1347858/000110465926034814/xxii-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "tobacco",
+   "products": [
+    "VLN ® cigarettes",
+    "RNC cigarettes",
+    "VLN ® Gold King",
+    "VLN ® Menthol King",
+    "turnkey contract manufacturing"
+   ],
+   "description": "Makes and sells reduced-nicotine VLN cigarettes and provides contract manufacturing for other tobacco brands.",
+   "evidence": "As a result of the divestiture of GVB, during the fourth quarter of 2023, the Company reorganized its business to become a single reportable segment: tobacco."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Other established tobacco brands pay for turnkey contract manufacturing of cigarettes and filtered cigars.",
+  "evidence": "We also provide turnkey contract manufacturing of cigarettes and filtered cigars for other established tobacco brands."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2023 the company became a single tobacco reportable segment after divesting its former hemp/cannabis business.",
+   "evidence": "As a result of the divestiture of GVB, during the fourth quarter of 2023, the Company reorganized its business to become a single reportable segment: tobacco."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

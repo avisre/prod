@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001782107",
  "issuerName": "Onconetix, Inc.",
- "builtAt": "2026-11-16T05:52:22.238Z",
+ "builtAt": "2026-11-16T12:32:18.228Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-027725",
@@ -10,11 +10,25 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1782107/000121390026027725/ea0280547-10k_onconetix.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial",
+   "products": [
+    "Proclarix"
+   ],
+   "description": "Commercializes Proclarix, a blood test that helps doctors decide whether a prostate biopsy is needed.",
+   "evidence": "As of December 31, 2025 and 2024, the Company was operating in one segment: commercial."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Revenue comes from sales of Proclarix, a prostate cancer blood test, which the company expects to grow.",
+  "evidence": "We continue our sales efforts and expect growing revenues from sales of Proclarix in 2026 and beyond."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "change not grounded: As of December 31, 2025, the company had abandoned commercialization of ENTADFI "
+ ],
  "reader": "agent"
 }

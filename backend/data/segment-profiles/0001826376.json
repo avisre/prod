@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001826376",
  "issuerName": "Golden Sun Technology Group Limited",
- "builtAt": "2026-11-16T05:52:16.836Z",
+ "builtAt": "2026-11-16T12:28:01.844Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-015723",
@@ -10,10 +10,33 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1826376/000121390026015723/ea0275748-20f_golden.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Education",
+   "products": [
+    "foreign language tutorial services",
+    "other education training management services",
+    "Non-degree education services to students."
+   ],
+   "description": "Offers foreign language tutorial services and other education training management services in China.",
+   "evidence": "Education segment offers foreign language tutorial services and other education training management services in China."
+  },
+  {
+   "name": "E-commerce and others",
+   "products": [
+    "e-commerce service",
+    "related products"
+   ],
+   "description": "Offers e-commerce service and related products for businesses seeking social media marketing and online sales growth.",
+   "evidence": "The e-commerce segment offers e-commerce service and related products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Students pay tuition fees for tutorial services, and e-commerce customers pay service fees for social media marketing.",
+  "evidence": "Customers pay service fees in accordance with the applicable service agreement using agreed-upon payment methods."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

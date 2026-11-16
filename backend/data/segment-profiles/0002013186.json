@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002013186",
  "issuerName": "TNL Mediagene",
- "builtAt": "2026-11-16T05:52:20.006Z",
+ "builtAt": "2026-11-16T12:31:10.829Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-049832",
@@ -10,11 +10,36 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2013186/000121390026049832/ea0286618-20f_tnlmedia.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MG Group",
+   "products": [],
+   "description": "Mediagene and its subsidiary, covering digital media brands in Japan and e-commerce operations.",
+   "evidence": "With respect to our reportable segments, revenue from MG Group increased by 2.2% from $23.9 million for the year ended December 31, 2024 to $24.4 million for the same period in 2025."
+  },
+  {
+   "name": "TNL Group",
+   "products": [],
+   "description": "Operations of TNL, providing data analytics, advertising technologies and a direct-to-client advertising sales platform.",
+   "evidence": "Revenue from TNL Group decreased by 15.3% from $24.6 million for the year ended December 31, 2024 to $20.9 million for the same period in 2025."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Advertising and marketing clients pay for digital studio, media and branded content, and technology services.",
+  "evidence": "We provide our clients with a one-stop access point for their digital advertising and marketing needs, allowing them to connect and engage with audiences primarily in Japan and Taiwan."
+ },
+ "changes": [
+  {
+   "text": "In 2023 TNL merged with Mediagene and the company was renamed TNL Mediagene.",
+   "evidence": "changed its name to TNL Mediagene on August 14, 2023 as a result of the merger between TNL and Mediagene in May 2023."
+  },
+  {
+   "text": "In 2025 the company was excluded from the TNL Group, with its related amounts shown as other corporate items.",
+   "evidence": "From the year ended December 31, 2025, as the scope of management services provided by the Company has been expanded to include the MG Group, the Company has been excluded from the TNL Group from that fiscal year."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

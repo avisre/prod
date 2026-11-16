@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001590418",
  "issuerName": "FOCUS UNIVERSAL INC.",
- "builtAt": "2026-11-16T05:52:21.936Z",
+ "builtAt": "2026-11-16T12:32:02.261Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-002503",
@@ -10,11 +10,40 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1590418/000168316826002503/focus_i10k-123125.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate & IoT",
+   "products": [
+    "LED and IoT Installation Services",
+    "Smart AVX",
+    "smart IoT Products"
+   ],
+   "description": "Runs LED and IoT installation and management services, plus Focus R&D for IoT technology, for commercial and home customers.",
+   "evidence": "AVX and Smart AVX (inclusive of the smart IoT Products sales under Smart AVX) cooperatively run our \"LED and IoT Installation Services\" segment"
+  },
+  {
+   "name": "Perfecular & Lusher",
+   "products": [
+    "SEC Financial Reporting AI-Driven Automation Software package",
+    "universal smart instruments and devices",
+    "One Touch Financial"
+   ],
+   "description": "Develops AI-driven SEC financial reporting automation software and sells universal smart instruments for hydroponic and controlled agriculture.",
+   "evidence": "Perfecular and Lusher jointly operate the SEC Financial Software segment, which involves the development, marketing, and production of our SEC Financial Reporting AI-Driven Automation Software package"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for products the company sells or for construction services it performs, and the planned financial software is intended as SaaS.",
+  "evidence": "The Company grants credit to clients that sell the Company's products or engage in construction service under credit terms that it believes are customary in the industry and do not require collateral to support customer receivables."
+ },
+ "changes": [
+  {
+   "text": "AT Tech Systems LLC, a subsidiary in commercial and industrial smart IoT installation, was discontinued in 2024.",
+   "evidence": "In August of 2024, we decided to discontinue the operations of one of our subsidiaries AT Tech Systems LLC (\"AT Tech\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

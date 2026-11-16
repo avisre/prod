@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001975940",
  "issuerName": "FLY-E GROUP, INC.",
- "builtAt": "2026-11-16T05:52:17.624Z",
+ "builtAt": "2026-11-16T12:29:06.870Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-080973",
@@ -10,10 +10,26 @@
   "filingDate": "2026-07-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1975940/000121390026080973/ea0297484-10k_flye.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric vehicle",
+   "products": [
+    "E-motorcycles",
+    "E-bikes",
+    "E-scooters",
+    "accessories",
+    "rental service"
+   ],
+   "description": "Designs, installs and sells smart E-motorcycles, E-bikes and E-scooters, plus rentals, to customers in the United States.",
+   "evidence": "Because the CODM makes resource allocation and performance assessment decisions based on consolidated results, the Company has determined that it has only one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail and wholesale customers pay for smart E-bikes, E-motorcycles, E-scooters and accessories; rental customers pay for e-bike rentals.",
+  "evidence": "The Company generates substantially all its revenues from sales of products such as smart E-bikes, E-motorcycles, E-scooters and accessories to the retail and wholesale customers through its wholly owned subsidiaries stores."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

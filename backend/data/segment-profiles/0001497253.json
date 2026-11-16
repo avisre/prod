@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001497253",
  "issuerName": "VivoSim Labs, Inc.",
- "builtAt": "2026-11-16T05:52:16.856Z",
+ "builtAt": "2026-11-16T12:28:14.486Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-303316",
@@ -10,11 +10,37 @@
   "filingDate": "2026-07-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1497253/000119312526303316/vivs-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research & Development",
+   "products": [
+    "NAM models",
+    "bespoke services"
+   ],
+   "description": "Tests drug candidates in human liver and intestine tissue models for pharmaceutical and biotech partners.",
+   "evidence": "The R&D segment focuses on providing testing of drugs and drug candidates in 3D human tissue models of liver and intestine, offering partners liver and intestinal toxicology insights using its NAM models."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Licensing partners pay upfront fees and royalties on their net product sales; the company also sells testing and bespoke services to pharmaceutical and biotech partners.",
+  "evidence": "The Company has entered into a license agreement with a company that includes the following: (i) non-refundable upfront fees and (ii) royalties based on specified percentages of net product sales, if any."
+ },
+ "changes": [
+  {
+   "text": "In March 2025 the company sold its FXR program.",
+   "evidence": "In March 2025, we sold our FXR program for $10.0 million, with $9.0 million paid at closing and $1.0 million held in escrow for a period of 15 months, with future milestones of up to $50.0 million in the aggregate to be paid if the lead asset, FXR314, hits key development, regulatory and commercial milestones."
+  },
+  {
+   "text": "In fiscal 2025 the company ended the commercial operations of its former Mosaic product division.",
+   "evidence": "The Company ended Mosaic's commercial operations during the third quarter of fiscal 2025."
+  },
+  {
+   "text": "In April 2025 the company renamed itself VivoSim Labs, Inc. to reflect its new business model.",
+   "evidence": "Effective April 24, 2025, we changed our corporate name to VivoSim Labs, Inc. by filing a Certificate of Amendment to our Amended and Restated Certificate of Incorporation with the Secretary of State of the State of Delaware."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

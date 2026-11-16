@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001211805",
  "issuerName": "My Size, Inc.",
- "builtAt": "2026-11-16T05:52:19.708Z",
+ "builtAt": "2026-11-16T12:31:23.745Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016874",
@@ -10,11 +10,51 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1211805/000149315226016874/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fashion e-commerce platform",
+   "products": [
+    "Orgad"
+   ],
+   "description": "Online retailer selling fashion and footwear on Amazon as a third-party seller, managing excess inventory.",
+   "evidence": "The Fashion e-commerce platform which represents Orgad's activity that was acquired by the Company in 2022, mainly operates on Amazon."
+  },
+  {
+   "name": "SaaS solutions",
+   "products": [
+    "Naiz Fit Platform",
+    "ShoeSize.Me"
+   ],
+   "description": null,
+   "evidence": "Naiz Fit is our AI-driven size and fit technology platform, or the Naiz Fit Platform, serving as the technology backbone of the MySize group."
+  },
+  {
+   "name": "resale platform for apparel",
+   "products": [
+    "Percentil"
+   ],
+   "description": "Managed second-hand fashion recommerce platform for brands and consumers across Southern and Central Europe.",
+   "evidence": "Percentil, acquired through our wholly-owned Spanish subsidiary New Percentil in May 2025, is a managed recommerce platform founded in Spain in 2012 that gives pre-owned fashion a second life."
+  },
+  {
+   "name": "wholesaling of footwear",
+   "products": [],
+   "description": "Wholesaling of footwear, one of the company's four reporting segments.",
+   "evidence": "The Company operates its business through four reporting segments: (i) fashion e-commerce platform, (ii) SaaS solutions (iii) resale platform and (iv) wholesale."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Orgad's revenue comes almost entirely from selling fashion and footwear through the Amazon marketplace.",
+  "evidence": "Orgad manages more than 5,000 SKUs across footwear, apparel, and accessories, and substantially all of its revenue is generated through the Amazon marketplace."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company added a new resale platform reporting unit.",
+   "evidence": "No goodwill impairment was recorded for other reporting unit including the new reporting units – resale platform."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

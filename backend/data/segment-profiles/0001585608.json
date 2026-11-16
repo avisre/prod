@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001585608",
  "issuerName": "Jaguar Health, Inc.",
- "builtAt": "2026-11-16T05:52:21.970Z",
+ "builtAt": "2026-11-16T12:31:59.145Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-144470",
@@ -10,10 +10,30 @@
   "filingDate": "2026-04-07",
   "url": "https://www.sec.gov/Archives/edgar/data/1585608/000119312526144470/jagx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Human Health",
+   "products": [
+    "Mytesi"
+   ],
+   "description": "Develops and commercializes human products, including Mytesi, an approved treatment for non-infectious diarrhea in adults with HIV/AIDS.",
+   "evidence": "The human health segment is focused on developing and commercializing human products and the ongoing commercialization of Mytesi, which the US FDA approves for the symptomatic relief of non-infectious diarrhea in adults with HIV/AIDS on antiretroviral therapy."
+  },
+  {
+   "name": "Animal Health",
+   "products": [
+    "Canalevia-CA1"
+   ],
+   "description": "Develops and commercializes prescription and non-prescription products for companion and production animals.",
+   "evidence": "The animal health segment is focused on developing and commercializing prescription and non-prescription products for companion and production animals."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Woodward Specialty LLC, an affiliate of Future Pak, pays Napo upfront and milestone payments for US rights to Mytesi and Canalevia.",
+  "evidence": "Under the license agreement, Licensee shall pay Napo an upfront payment of $ 18 million, consisting of $ 16.0 million paid on the effective date, and $ 2.0 million payable upon satisfaction of specified conditions, as well as up to $ 17.0 million, with respect to the first occurrence of each of the milestones specified in the license agreement."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

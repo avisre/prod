@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001624512",
  "issuerName": "Boxlight Corporation",
- "builtAt": "2026-11-16T05:52:17.310Z",
+ "builtAt": "2026-11-16T12:28:45.893Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-025273",
@@ -10,10 +10,47 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1624512/000162828026025273/boxl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EMEA",
+   "products": [
+    "flat-panel displays",
+    "audio and other hardware accessory products",
+    "software solutions",
+    "professional services"
+   ],
+   "description": "Sells education technology products and services in Europe, Middle East and Africa, mainly through the Sahara Entities.",
+   "evidence": "Our EMEA segment consists of the operations of Sahara Holding Limited and its subsidiaries (the \"Sahara Entities\")."
+  },
+  {
+   "name": "Americas",
+   "products": [
+    "flat-panel displays",
+    "audio and other hardware accessory products",
+    "software solutions",
+    "professional services"
+   ],
+   "description": "Sells education technology products and services across North and Central America, mainly through Boxlight, Inc. and its subsidiaries.",
+   "evidence": "Our Americas segment consists primarily of Boxlight, Inc. and its subsidiaries and the Rest of World segment consists primarily of Boxlight Australia, PTY LTD (\"Boxlight Australia\")."
+  },
+  {
+   "name": "Rest of World",
+   "products": [
+    "flat-panel displays",
+    "audio and other hardware accessory products",
+    "software solutions",
+    "professional services"
+   ],
+   "description": "Sells education technology products and services in all other geographic regions, mainly through Boxlight Australia.",
+   "evidence": "The Company's operations are organized, managed, and classified into three reportable segments – Europe, Middle East and Africa (\"EMEA\"), North and Central America (the \"Americas\"), and all other geographic regions (\"Rest of World\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Education customers pay for interactive displays and related software, which generated the majority of revenue to date.",
+  "evidence": "To date, we have generated the majority of our revenue in the U.S. and internationally from the sale of interactive displays and related software to the educational market."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
