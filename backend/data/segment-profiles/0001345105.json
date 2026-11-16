@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001345105",
  "issuerName": "COPA HOLDINGS, S.A.",
- "builtAt": "2026-11-16T04:53:37.730Z",
+ "builtAt": "2026-11-16T09:43:15.278Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001345105-26-000019",
@@ -10,11 +10,31 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1345105/000134510526000019/cpa-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Air transportation",
+   "products": [
+    "passenger and cargo service",
+    "cargo and mail revenue",
+    "ConnectMiles",
+    "Wingo"
+   ],
+   "description": "Copa Holdings' air transportation segment flies passengers, cargo and mail across North, Central and South America and the Caribbean from its Panama City hub.",
+   "evidence": "The Company's business activities are conducted as one operating segment – Air transportation (that includes cargo and mail revenue), the reporting results of which are regularly reviewed by management for purposes of analyzing its performance and making decisions about resource allocations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Passengers and shippers pay Copa for air transportation, while partners pay for code-share access and for loyalty miles redeemed for future travel.",
+  "evidence": "The significant contract liabilities are comprised of ticket sales for transportation that has not yet been provided"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Wingo operator La Nueva Aerolínea stopped passenger service and has conducted only freight operations since then.",
+   "evidence": "Since August 2025, La Nueva Aerolínea, S.A. has not conducted any passenger service and has exclusively conducted freight operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

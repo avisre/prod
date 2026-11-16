@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002000178",
  "issuerName": "Loar Holdings Inc.",
- "builtAt": "2026-11-16T04:53:37.690Z",
+ "builtAt": "2026-11-16T09:43:18.516Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002000178-26-000003",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/2000178/000200017826000003/ck0002000178-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace-related parts and supplies",
+   "products": [
+    "auto throttles",
+    "lap-belt airbags",
+    "two- and three-point seat belts",
+    "water purification systems",
+    "fire barriers",
+    "polyimide washers and bushings",
+    "latches",
+    "interior securing devices"
+   ],
+   "description": "Designs, manufactures and sells niche aerospace and defense components for aircraft platforms, serving commercial, business jet and defense end markets.",
+   "evidence": "Loar's operations are organized and managed as one segment designed to offer its customers aerospace-related parts and supplies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Aerospace and defense customers, including aircraft manufacturers and aftermarket operators, pay for proprietary niche components and aftermarket replacement products.",
+  "evidence": "Furthermore, our products have significant aftermarket exposure, which has historically generated predictable and recurring revenue."
+ },
+ "changes": [
+  {
+   "text": "The Company acquired LMB Fans & Motors in 2025, adding tailor-made high-performance fans and motors to its single segment.",
+   "evidence": "On December 23, 2025 , the Company acquired 100 % of the issued and outstanding equity interests and paid the outstanding debt of LMB Fans & Motors (LMB)"
+  },
+  {
+   "text": "The Company acquired Applied Avionics in 2024, adding highly engineered avionics interface solutions to its single segment.",
+   "evidence": "Incorporated in 1968, AAI designs, develops and manufactures highly engineered avionics interface solutions."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

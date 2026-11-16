@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001499620",
  "issuerName": "TAL Education Group",
- "builtAt": "2026-11-16T04:53:37.537Z",
+ "builtAt": "2026-11-16T09:42:45.772Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-073410",
@@ -10,10 +10,22 @@
   "filingDate": "2026-06-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1499620/000110465926073410/tal-20260228x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Learning solutions",
+   "products": [
+    "learning products and services"
+   ],
+   "description": "Provides learning products and services to learners in China through PRC subsidiaries, VIEs and VIE Subsidiaries.",
+   "evidence": "The Group has one single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "VIEs and VIE Subsidiaries pay service fees to TAL Beijing or its designated affiliates for intellectual property licensing and technical and business support.",
+  "evidence": "relevant VIEs agreed to pay service fees annually or regularly to TAL Beijing or its designated affiliates"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

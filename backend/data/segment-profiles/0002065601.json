@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002065601",
  "issuerName": "Central Bancompany, Inc.",
- "builtAt": "2026-11-16T04:53:35.688Z",
+ "builtAt": "2026-11-16T09:40:28.786Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-021067",
@@ -10,11 +10,61 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/2065601/000162828026021067/cbci-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Banking",
+   "products": [
+    "deposit products",
+    "digital banking solutions",
+    "consumer lending solutions",
+    "home equity lines of credit",
+    "credit card portfolio",
+    "residential mortgage",
+    "installment lending",
+    "debit and credit card loan and fee businesses"
+   ],
+   "description": "Serves individuals within the footprint through the Bank with deposits, digital banking, consumer lending, home equity lines, credit cards and residential mortgages.",
+   "evidence": "The Consumer Banking operating segment is designed to serve the holistic financial service needs of individuals within our footprint through the Bank."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "treasury management services",
+    "merchant and commercial bank card products",
+    "deposit and cash management solutions",
+    "innovative payment and card solutions",
+    "commercial lending"
+   ],
+   "description": "Provides full-service relationship banking to businesses, agencies and community organizations, including commercial lending, treasury management, cash management and card payment solutions.",
+   "evidence": "The Commercial Banking operating segment is designed to provide full-service relationship banking solutions to businesses, agencies and community organizations within our footprint through the Bank."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "investment management",
+    "fiduciary services",
+    "financial, estate, and tax planning services",
+    "trust and estate advisory services",
+    "business succession planning",
+    "retirement plan services",
+    "endowment management"
+   ],
+   "description": "Provides fee-only wealth management to individuals, businesses and foundations, including investment management, fiduciary, planning and retirement plan services.",
+   "evidence": "The Wealth Management operating segment provides a full range of \"fee-only\" wealth management solutions, including investment management, fiduciary services, financial, estate, and tax planning services to individuals, businesses, and foundations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Businesses, individuals, agencies and community organizations pay the Bank for deposit, lending, card, treasury and wealth management services.",
+  "evidence": "Our business model is designed to serve the holistic financial services needs of businesses, individuals, agencies and community organizations within our footprint."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company moved from two operating segments, Community Banking and Wealth Management, to three segments: Consumer, Commercial, and Wealth Management.",
+   "evidence": "Previously, the Company reported two operating segments: Community Banking and Wealth Management."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

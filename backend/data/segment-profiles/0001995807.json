@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001995807",
  "issuerName": "LandBridge Corporation",
- "builtAt": "2026-11-16T04:53:38.085Z",
+ "builtAt": "2026-11-16T09:43:22.816Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-072404",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1995807/000119312526072404/lb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Land management",
+   "products": [
+    "Surface Use Royalties and Revenues",
+    "Resource Sales and Royalties",
+    "Oil and Gas Royalties",
+    "brackish water",
+    "caliche",
+    "sand"
+   ],
+   "description": "Owns and manages surface acreage in the Delaware Basin, charging oil and gas and infrastructure customers surface use fees, resource sales and royalties.",
+   "evidence": "The Company operates in a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay fees and royalties for the use of the company's surface acreage, resources sold from its land, and oil and gas production.",
+  "evidence": "We receive fees from our customers for the use of our surface acreage for their business operations"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

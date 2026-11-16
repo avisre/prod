@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001707753",
  "issuerName": "ELASTIC N.V.",
- "builtAt": "2026-11-16T04:53:38.430Z",
+ "builtAt": "2026-11-16T09:43:53.838Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001707753-26-000018",
@@ -10,10 +10,29 @@
   "filingDate": "2026-06-08",
   "url": "https://www.sec.gov/Archives/edgar/data/1707753/000170775326000018/estc-20260430.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Search AI",
+   "products": [
+    "Elasticsearch Platform",
+    "Search & AI",
+    "Elastic Observability",
+    "Elastic Security",
+    "Kibana",
+    "Elastic Cloud Hosted",
+    "Elastic Cloud Serverless",
+    "Elastic Self-Managed"
+   ],
+   "description": "Sells search-powered software and cloud services that help organizations search, observe and secure their data across self-managed and cloud deployments.",
+   "evidence": "The Company operates in one operating segment and, therefore, one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for cloud-hosted or self-managed software, and also pay for consulting and training services.",
+  "evidence": "Our paid offerings for our platform are sold via subscription through resource-based pricing, and all customers and users have access to varying levels of features across all solutions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

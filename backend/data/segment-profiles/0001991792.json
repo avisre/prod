@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001991792",
  "issuerName": "CG Oncology, Inc.",
- "builtAt": "2026-11-16T04:53:38.653Z",
+ "builtAt": "2026-11-16T09:43:45.359Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-079498",
@@ -10,10 +10,22 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1991792/000119312526079498/ck0001991792-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bladder Cancer",
+   "products": [
+    "cretostimogene"
+   ],
+   "description": "Develops cretostimogene, its only product candidate, for high-risk and intermediate-risk NMIBC patients with bladder cancer.",
+   "evidence": "We currently depend entirely on the success of cretostimogene, which is our only product candidate."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "It collects license, collaboration and development revenue from collaborators such as Kissei for licensing rights and milestones.",
+  "evidence": "During the year ended December 31, 2021, the Company recognized milestone revenue of $ 10 million for cash consideration received associated with an achieved development milestone and $ 0.4 million in development income related to the Kissei License Agreement."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

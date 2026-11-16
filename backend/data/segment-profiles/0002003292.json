@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002003292",
  "issuerName": "Klarna Group plc",
- "builtAt": "2026-11-16T04:53:36.155Z",
+ "builtAt": "2026-11-16T09:42:08.590Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0002003292-26-000007",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/2003292/000200329226000007/klar-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital bank",
+   "products": [
+    "Pay in Full",
+    "Pay Later",
+    "Fair Financing",
+    "Klarna app",
+    "Klarna Card",
+    "advertising solutions",
+    "savings accounts"
+   ],
+   "description": "Global digital bank and flexible payments provider serving consumers and merchants with payment, financing, advertising and savings offerings across its AI-powered commerce network.",
+   "evidence": "We are a global digital bank and flexible payments provider building the next-generation AI-powered commerce network."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Merchants pay transaction and advertising fees when consumers transact on Klarna's network, while consumers pay interest, reminder and subscription fees for flexible payment and financing products.",
+  "evidence": "Merchant revenue primarily refers to fees paid by our merchants, generated when consumers transact on our network and also includes interchange revenue and fees for settling disputes."
+ },
+ "changes": [
+  {
+   "text": "In 2024 Klarna divested Klarna Checkout, its online checkout solution, to a consortium of investors.",
+   "evidence": "On October 1, 2024 , the Group completed the divestment of Klarna Checkout (\"KCO\"), its online checkout solution, to a consortium of investors."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

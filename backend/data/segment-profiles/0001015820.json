@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001015820",
  "issuerName": "QIAGEN N.V.",
- "builtAt": "2026-11-16T04:53:35.118Z",
+ "builtAt": "2026-11-16T09:41:04.311Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001015820-26-000018",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1015820/000101582026000018/qgen-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "biotechnology",
+   "products": [
+    "Sample technologies",
+    "Diagnostic solutions",
+    "PCR/Nucleic acid amplification",
+    "Genomics/NGS"
+   ],
+   "description": "Sells sample technologies, diagnostic solutions, PCR amplification and genomics products to molecular biology and diagnostics customers worldwide.",
+   "evidence": "The following table presents selected financial information with respect to the Company's single operating segment for the years ended December 31, 2025 , 2024 and 2023 :"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for sample technologies, diagnostic solutions and genomics products; net sales are attributed to countries based on the location of the customer.",
+  "evidence": "Net sales are attributed to countries based on the location of the customer."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

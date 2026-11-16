@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002064124",
  "issuerName": "FIGURE TECHNOLOGY SOLUTIONS, INC.",
- "builtAt": "2026-11-16T04:53:35.088Z",
+ "builtAt": "2026-11-16T09:39:19.905Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002064124-26-000009",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/2064124/000206412426000009/figr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blockchain-based technology",
+   "products": [
+    "Loan Origination System",
+    "DART",
+    "Figure Connect",
+    "Figure Exchange",
+    "YLDS",
+    "Democratized Prime"
+   ],
+   "description": "Provides blockchain-based lending, trading and investing technology to consumers and partners in consumer credit and digital asset markets.",
+   "evidence": "Following the Recombination, the Company operates as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Partners and users pay fees based on loan principal balances originated on the platform and transacted on Figure Connect, plus servicing, origination and gain-on-sale revenue.",
+  "evidence": "The fees we earn from partners are based on the principal balance of each loan originated on our LOS and the principal balance of loans transacted on Figure Connect."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Recombination combined the two legal-entity operating segments into a single operating and reportable segment.",
+   "evidence": "Prior to the Recombination, the Company operated and managed its business through FTI and FMH, including their respective subsidiaries, as two distinct legal entities and disclosed operating segments based on each legal entity."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

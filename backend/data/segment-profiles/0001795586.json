@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001795586",
  "issuerName": "Chime Financial, Inc.",
- "builtAt": "2026-11-16T04:53:35.925Z",
+ "builtAt": "2026-11-16T09:41:04.595Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001795586-26-000013",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1795586/000179558626000013/chym-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "consumer banking",
+   "products": [
+    "Checking Account",
+    "Chime Debit Card",
+    "Get Paid Early",
+    "SpotMe",
+    "Credit Builder",
+    "Chime Card",
+    "MyPay",
+    "Instant Loans"
+   ],
+   "description": "Offers everyday Americans FDIC-insured checking accounts, debit cards, early pay and fee-free overdraft through bank partners and a mobile app.",
+   "evidence": "The Company operates as a single operating segment and therefore, one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Card networks pay interchange fees when members use Chime-branded debit or credit cards; members pay fees for optional convenience products.",
+  "evidence": "Payments revenue is based on interchange fees generated from purchase transactions made by members using their Chime-branded debit and credit cards."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

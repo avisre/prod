@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001214816",
  "issuerName": "AXIS CAPITAL HOLDINGS LIMITED",
- "builtAt": "2026-11-16T04:53:35.299Z",
+ "builtAt": "2026-11-16T09:40:34.894Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001214816-26-000097",
@@ -10,10 +10,37 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1214816/000121481626000097/axs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "Property",
+    "Professional lines",
+    "Liability",
+    "Cyber",
+    "Marine and aviation",
+    "Accident and health",
+    "Credit and political risk"
+   ],
+   "description": "Offers specialty insurance products to a variety of niche markets worldwide, sold mainly through wholesale and retail brokers, MGAs and MGUs.",
+   "evidence": "Our insurance segment offers specialty insurance products to a variety of niche markets on a worldwide basis."
+  },
+  {
+   "name": "Reinsurance",
+   "products": [
+    "excess of loss",
+    "proportional"
+   ],
+   "description": "Provides reinsurance to insurance companies worldwide on an excess of loss or proportional basis.",
+   "evidence": "Our reinsurance segment provides reinsurance to insurance companies on a worldwide basis, written on an excess of loss or a proportional basis."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients and distribution partners, including wholesale and retail brokers, pay premiums for specialty insurance and reinsurance risk transfer products.",
+  "evidence": "We provide our clients and distribution partners with a broad range of risk transfer products and services, and strong capacity, backed by excellent financial strength."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

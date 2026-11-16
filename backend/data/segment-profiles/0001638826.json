@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001638826",
  "issuerName": "ServiceTitan, Inc.",
- "builtAt": "2026-11-16T04:53:37.589Z",
+ "builtAt": "2026-11-16T09:42:35.906Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001638826-26-000028",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1638826/000163882626000028/ttan-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud-based software platform",
+   "products": [
+    "advertising",
+    "job scheduling and management",
+    "dispatching",
+    "generating estimates and invoices",
+    "payment processing"
+   ],
+   "description": "Provides an end-to-end, AI powered cloud-based software platform that helps trades customers connect, manage and automate their business workflows.",
+   "evidence": "Accordingly, the Company has determined that it operates in a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers in the trades pay for an AI powered cloud-based software platform that connects, manages and automates business workflows such as scheduling, dispatching, invoicing and payment processing.",
+  "evidence": "The Company derives substantially all revenue from platform services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001002638",
  "issuerName": "OPEN TEXT CORP",
- "builtAt": "2026-11-16T04:53:38.189Z",
+ "builtAt": "2026-11-16T09:43:45.287Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001002638-26-000068",
@@ -10,11 +10,38 @@
   "filingDate": "2026-08-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1002638/000100263826000068/otex-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data management",
+   "products": [
+    "Content",
+    "Business Network",
+    "IT Operations Management (ITOM)",
+    "Cybersecurity (Enterprise)",
+    "Cybersecurity (SMB & Consumer)",
+    "Application Delivery Management (ADM)",
+    "Analytics"
+   ],
+   "description": "Designs, develops, markets and sells data management software and solutions to enterprises, small businesses, governments and regulated industries.",
+   "evidence": "Our operations are analyzed by the CODM as being part of a single industry segment: the design, development, marketing and sale of data management software and solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay for cloud services and subscriptions, customer support, and licenses of data management software products and solutions.",
+  "evidence": "Our business consists of four revenue streams: cloud services and subscriptions, customer support, license and professional service and other."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company completed the sale of its AMC business, which resulted in a gain on disposition.",
+   "evidence": "On May 1, 2024, the Company completed the sale of its AMC business, which resulted in a gain on disposition (see Note 19 \"Acquisitions and Divestitures\" for more details)."
+  },
+  {
+   "text": "In 2026 OpenText divested its eDOCS and Vertica businesses.",
+   "evidence": "For the year ended June 30, 2026, the gain related to the eDOCS and Vertica divestitures."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

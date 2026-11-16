@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001650729",
  "issuerName": "SiteOne Landscape Supply, Inc.",
- "builtAt": "2026-11-16T04:53:39.522Z",
+ "builtAt": "2026-11-16T09:44:18.852Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001650729-26-000005",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1650729/000165072926000005/site-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Landscape Supply",
+   "products": [
+    "hardscapes",
+    "irrigation supplies",
+    "fertilizer and control products",
+    "landscape accessories",
+    "nursery goods",
+    "outdoor lighting",
+    "ice melt products",
+    "SiteOne University"
+   ],
+   "description": "Distributes landscape supplies such as hardscapes, irrigation, fertilizer, nursery goods and outdoor lighting to residential and commercial landscape contractors through branch locations.",
+   "evidence": "We manage our business as a single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Residential and commercial landscape professionals, primarily landscape contractors, pay for landscape supplies and value-added consultative services.",
+  "evidence": "Our customers are primarily residential and commercial landscape professionals who specialize in the design, installation, and maintenance of lawns, gardens, golf courses, and other outdoor spaces."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

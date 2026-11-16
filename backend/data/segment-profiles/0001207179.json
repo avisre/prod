@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001207179",
  "issuerName": "GOLAR LNG LIMITED",
- "builtAt": "2026-11-16T04:53:39.232Z",
+ "builtAt": "2026-11-16T09:44:20.068Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-021198",
@@ -10,11 +10,45 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1207179/000162828026021198/glng-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FLNG",
+   "products": [
+    "FLNG Hilli",
+    "FLNG Gimi",
+    "MKII FLNG"
+   ],
+   "description": "Converts LNG carriers into FLNG vessels and contracts them long term so gas resource holders can monetize stranded or flared gas reserves.",
+   "evidence": "We convert LNG carriers into FLNG vessels or build new FLNG vessels and subsequently contract them to third parties."
+  },
+  {
+   "name": "Corporate and other",
+   "products": [
+    "vessel management",
+    "floating storage and regasification unit",
+    "LNG carrier transportation",
+    "administrative services"
+   ],
+   "description": "Holds legacy shipping, vessel management, FSRU services, LNG carrier transportation and administrative services provided to affiliates and third parties.",
+   "evidence": "All associated legacy shipping activities have been included within the broader Corporate and other segment with retrospective effect."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Gas resource holders and energy companies pay long-term liquefaction service fees for FLNG units that liquefy their stranded or flared gas reserves.",
+  "evidence": "We offer gas resource holders a proven, capital efficient and timely solution to monetize stranded, associated, flared or otherwise underutilized gas reserves."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company stopped treating Shipping as a reportable segment, with legacy shipping activities moved into Corporate and other.",
+   "evidence": "In the first quarter of 2025, we no longer classify Shipping as a reportable segment."
+  },
+  {
+   "text": "In 2025 the company sold its last LNG carrier, Golar Arctic, completing its full exit from the legacy shipping business.",
+   "evidence": "In March 2025, we completed the sale of our last LNG carrier for $24.8 million."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

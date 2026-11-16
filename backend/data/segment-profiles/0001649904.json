@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001649904",
  "issuerName": "RHYTHM PHARMACEUTICALS, INC.",
- "builtAt": "2026-11-16T04:53:36.994Z",
+ "builtAt": "2026-11-16T09:43:26.333Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012399",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1649904/000162828026012399/rytm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rare diseases",
+   "products": [
+    "IMCIVREE",
+    "setmelanotide",
+    "bivamelagon",
+    "RM-718"
+   ],
+   "description": "Develops and commercializes therapies for patients with rare diseases, led by IMCIVREE for rare obesity and hyperphagia caused by genetic pathway disorders.",
+   "evidence": "The Company currently operates in two business segments, which are U.S. and international segments for the development and commercialization of therapies for patients with rare diseases."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Specialty pharmacy and international customers pay for IMCIVREE, our approved therapy for patients with rare genetic diseases causing severe obesity and hyperphagia.",
+  "evidence": "In the United States, which accounts for the largest portion of our total revenues, the Company sells its product through a specialty pharmacy."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

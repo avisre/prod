@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001835963",
  "issuerName": "Global-E Online Ltd.",
- "builtAt": "2026-11-16T04:53:39.812Z",
+ "builtAt": "2026-11-16T09:44:51.102Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-001772",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1835963/000117891326001772/zk2634880.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cross-border e-commerce",
+   "products": [
+    "Shopify Managed Markets",
+    "Borderfree.com",
+    "Smart Insights",
+    "demand generation offering",
+    "duty drawback solution",
+    "managed returns service",
+    "Flow platform",
+    "multi-lingual customer service"
+   ],
+   "description": "Provides merchants with a localized platform to sell internationally, handling pricing, payments, duties, shipping, returns and after-sales support for global shoppers.",
+   "evidence": "The Company operates in one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Merchants pay for the company's platform services that localize their online stores and handle pricing, payments, duties, shipping and returns for international shoppers.",
+  "evidence": "We integrate with and enhance the online stores of merchants and localize the shoppers' experience based on the country from which they shop."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

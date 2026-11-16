@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001290109",
  "issuerName": "LG Display Co., Ltd.",
- "builtAt": "2026-11-16T04:53:39.024Z",
+ "builtAt": "2026-11-16T09:44:57.074Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-183413",
@@ -13,8 +13,20 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "End-brand manufacturers of IT products, televisions, mobile devices and automobiles, and their system integrators, pay for display panels bought directly or through trading companies.",
+  "evidence": "We engage in direct sales (including through our overseas subsidiaries), as well as indirect sales through trading companies, including our formerly affiliated trading company, LX International (formerly known as \"LG International Corp.\") and its subsidiaries, to end-brand customers and their system integrators."
+ },
+ "changes": [
+  {
+   "text": "Between 2022 and 2023 the company closed several TFT-LCD fabrication facilities as it shifted its production toward OLED panels.",
+   "evidence": "Between 2022 and 2023, we closed certain TFT-LCD fabrication facilities"
+  },
+  {
+   "text": "In 2024 the company agreed to dispose of its China TFT-LCD television panel subsidiaries to TCL CSOT, completing the exit from that business in 2025.",
+   "evidence": "in September 2024, as part of such strategy, we entered into an agreement with TCL CSOT to dispose of our entire equity interest in the China TFT-LCD Television Panel Subsidiaries for approximately W 2.2 trillion"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001062579",
  "issuerName": "AMDOCS LIMITED",
- "builtAt": "2026-11-16T04:53:36.069Z",
+ "builtAt": "2026-11-16T09:41:37.438Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-25-319187",
@@ -10,11 +10,35 @@
   "filingDate": "2025-12-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312525319187/dox-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software and services",
+   "products": [
+    "amAIz",
+    "Amdocs CatalogONE",
+    "The Amdocs Intelligent Networking Suite",
+    "CPQ Pro",
+    "Amdocs MarketONE",
+    "Amdocs connectX",
+    "The Amdocs eSIM Cloud",
+    "Amdocs Studios"
+   ],
+   "description": "Supplies software products and services to communications, entertainment and media service providers, covering customer experience, billing, networking, data and managed services.",
+   "evidence": "The Company manages its operations as one operating segment, providing software products and services primarily for the communications, and media industry service providers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Communications, entertainment and media service providers pay for software products and related services, including managed services, systems integration, consulting and ongoing maintenance and support.",
+  "evidence": "Amdocs is a leading provider of software and services for approximately 400 communications, entertainment and media industry and other service providers in developed countries and emerging markets."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2025 the company phased out several low-margin, non-core business activities.",
+   "evidence": "During the first quarter of fiscal year 2025, the Company phased out several low-margin, non-core business activities, which were included in fiscal year 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001670061",
  "issuerName": "Almonty Industries Inc.",
- "builtAt": "2026-11-16T04:53:38.603Z",
+ "builtAt": "2026-11-16T09:43:47.226Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001493152-26-011503",
@@ -11,10 +11,55 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1670061/000149315226011503/ex99-2.htm",
   "exhibit": "ex99-2.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Los Santos Mine",
+   "products": [
+    "tungsten concentrate"
+   ],
+   "description": "A tungsten mine in Spain, currently in care and maintenance, exploring and formerly mining tungsten sold as tungsten concentrate.",
+   "evidence": "The Los Santos Mine located in Spain whose current operations relate to the exploration and prior operations related to mining of tungsten that is ultimately sold as tungsten concentrate"
+  },
+  {
+   "name": "Panasqueira Mine",
+   "products": [
+    "tungsten concentrate",
+    "copper and tin concentrate by-products"
+   ],
+   "description": "A tungsten mine in Portugal producing tungsten concentrate plus copper and tin concentrate by-products sold as concentrate.",
+   "evidence": "The Panasqueira Mine located in Covilha Castelo Branco, Portugal whose operations relate to the exploration and mining of tungsten which is ultimately sold as tungsten concentrate, as well as the production of copper and tin concentrate by-products that are sold as concentrate"
+  },
+  {
+   "name": "Valtreixal Mine",
+   "products": [
+    "Valtreixal tin/tungsten project"
+   ],
+   "description": "A tin and tungsten project in Spain at the exploration and evaluation stage.",
+   "evidence": "The Valtreixal Mine located in Spain whose operations relate to the exploration and evaluation activities of the Valtreixal tin/tungsten project"
+  },
+  {
+   "name": "Woulfe",
+   "products": [
+    "Sangdong Mine"
+   ],
+   "description": "Properties in Gangwon Province, Republic of Korea, dedicated mainly to developing the Sangdong Mine.",
+   "evidence": "Woulfe, whose properties are located in Gangwon Province, Republic of Korea, and whose operations relate primarily to the development of the Sangdong Mine"
+  },
+  {
+   "name": "Gentung Mine",
+   "products": [
+    "Gentung Tungsten Project"
+   ],
+   "description": "A tungsten project in Montana, United States, at the exploration and evaluation stage.",
+   "evidence": "The Gentung Mine located in Montana, United States whose operations relate to the exploration and evaluation activities of the Gentung Tungsten Project."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for tungsten concentrate and for copper and tin concentrate by-products mined and sold as concentrate.",
+  "evidence": "the exploration and mining of tungsten which is ultimately sold as tungsten concentrate, as well as the production of copper and tin concentrate by-products that are sold as concentrate"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

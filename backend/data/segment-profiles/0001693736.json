@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001693736",
  "issuerName": "EquipmentShare.com Inc",
- "builtAt": "2026-11-16T04:53:38.985Z",
+ "builtAt": "2026-11-16T09:44:14.992Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-019656",
@@ -10,10 +10,51 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1693736/000162828026019656/eqpt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Equipment Rental and Services Operations",
+   "products": [
+    "equipment rentals",
+    "related services",
+    "parts",
+    "supplies",
+    "maintenance services",
+    "T3 platform"
+   ],
+   "description": "Rents construction equipment and provides related services, parts, supplies and maintenance to contractors from full-service branch locations.",
+   "evidence": "Equipment Rental and Services Operations are comprised of recurring activity performed at the Company's full-service branch locations, such as equipment rentals and related services (including allocated telematics revenue related to rental customer access to the T3 platform), and sales of parts, supplies and maintenance services to construction contractors and others."
+  },
+  {
+   "name": "Equipment Sales",
+   "products": [
+    "new equipment",
+    "used equipment",
+    "used rental equipment",
+    "consumables",
+    "equipment sales to participants in the OWN Program"
+   ],
+   "description": "Sells new and used equipment, including to OWN Program participants, from branch locations and dealership sites.",
+   "evidence": "Equipment Sales, comprised of sales by us of new or used equipment made at any of our branch locations and dealership sites, including equipment sales to participants in the OWN Program."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "telematics SaaS subscriptions",
+    "software applications",
+    "telematics devices",
+    "building materials",
+    "hardware supplies"
+   ],
+   "description": "Sells telematics subscriptions and devices to customers for their own fleets and retails building materials and hardware supplies.",
+   "evidence": "All other business activities include telematics SaaS subscriptions, software applications, and related telematics devices purchased by customers for their owned fleet, as well as building materials and hardware supplies."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for equipment rentals and related services, for new and used equipment purchases, and for telematics subscriptions, parts and building supplies.",
+  "evidence": "Ancillary to our principal business of equipment rental and related services, we also sell used rental equipment, sell new equipment and consumables, and offer certain services and support to our customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

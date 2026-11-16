@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001750264",
  "issuerName": "MAASE Inc.",
- "builtAt": "2026-11-16T04:53:39.549Z",
+ "builtAt": "2026-11-16T09:45:18.830Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-112498",
@@ -10,11 +10,60 @@
   "filingDate": "2026-10-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1750264/000121390026112498/ea0308578-20f_maaseinc.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Computing Power and Algorithm Solutions",
+   "products": [
+    "AI compute servers",
+    "AI industry application solutions",
+    "AI computing power service",
+    "other related services"
+   ],
+   "description": "Provides AI compute servers, AI industry application solutions and computing power services to government and enterprise customers.",
+   "evidence": "Net revenue generated from computing power and algorithm solutions accounted for 83.8% of our total net revenues in fiscal year 2026, which increased by 100% from nil for the fiscal year 2025 to RMB153.7 million (US$22.7 million) for the fiscal year 2026 due to the acquisition of Times Good."
+  },
+  {
+   "name": "Smart Technology and New Energy Solutions",
+   "products": [
+    "mobile charging robots",
+    "charging piles",
+    "convenience charging services",
+    "modular residential energy storage systems",
+    "electric vehicle charging"
+   ],
+   "description": "Sells mobile charging robots, charging piles and energy storage systems for electric vehicle charging to infrastructure operators.",
+   "evidence": "Net revenue from Real Prospect Group consists of mobile charging robots and charging piles and convenience charging services."
+  },
+  {
+   "name": "Health And Wellness Products and Services",
+   "products": [
+    "bird's nest peptide raw materials",
+    "compounded finished products",
+    "wild-grown ginseng roots",
+    "premium tea",
+    "bird's nest products",
+    "high-grade tea"
+   ],
+   "description": "Sells wellness products from natural ingredients, such as bird's nest, ginseng, tea and peptide ingredients.",
+   "evidence": "This segment generates a relatively small amount of our total revenues from wellness products derived from natural ingredients, including bird's nest products, wild-grown ginseng roots, premium tea, and other natural ingredient products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Public sector entities, infrastructure operators and commercial customers pay for charging, energy and computing solutions, and consumers buy wellness products.",
+  "evidence": "Our smart technology and new energy solutions business serves a diversified customer base that includes public sector entities, state owned and private infrastructure operators, transportation related service providers, and commercial counterparties involved in electric vehicle charging and energy services."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Group divested its wealth management segment and deconsolidated its insurance agency segment.",
+   "evidence": "Subsequent to the Carve Group acquisition, the Group completed the divestiture of its wealth management segment in September 2025 and the deconsolidation of its insurance agency segment in December 2025."
+  },
+  {
+   "text": "In 2026 a new health and wellness products and services reporting unit and segment was established after the Carve Group acquisition.",
+   "evidence": "Upon completion of the Carve Group acquisition, a new reporting unit for health and wellness products and services was established as of the acquisition date."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
