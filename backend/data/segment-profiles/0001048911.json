@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001048911",
+ "issuerName": "FedEx Corporation",
+ "builtAt": "2026-11-16T03:00:17.825Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001048911-26-000105",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1048911/000104891126000105/fdx-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Federal Express Corporation",
+   "products": [
+    "express transportation",
+    "small-package ground delivery services"
+   ],
+   "description": "Runs express and ground parcel delivery networks worldwide.",
+   "evidence": "As a result of the Spin-Off, effective June 1, 2026, FedEx will no longer consolidate the FedEx Freight business and FedEx Freight is no longer a reportable segment."
+  },
+  {
+   "name": "FedEx Freight",
+   "products": [
+    "less-than-truckload freight transportation services"
+   ],
+   "description": "Provides less-than-truckload freight transportation.",
+   "evidence": "As a result of the Spin-Off, effective June 1, 2026, FedEx will no longer consolidate the FedEx Freight business and FedEx Freight is no longer a reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers pay for parcel and freight transportation.",
+  "evidence": "Prior to the Spin-Off, our reportable segments were Federal Express Corporation (\"Federal Express\"), the world's largest express transportation company and a leading North American provider of small-package ground delivery services, and FedEx Freight."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Announced in December 2024 the spin-off of FedEx Freight, which stopped being a "
+ ],
+ "reader": "agent"
+}

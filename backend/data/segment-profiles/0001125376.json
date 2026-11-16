@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001125376",
+ "issuerName": "ENSIGN GROUP, INC",
+ "builtAt": "2026-11-16T02:59:53.040Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001125376-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1125376/000112537626000007/ensg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "skilled services",
+   "products": [
+    "skilled nursing facilities",
+    "rehabilitation therapy services"
+   ],
+   "description": "Operates skilled nursing and senior living facilities and therapy services.",
+   "evidence": "We have two reportable segments: (1) skilled services, which includes the operation of skilled nursing facilities and rehabilitation therapy services and (2) Standard Bearer, which is comprised of select properties owned by us through our captive REIT and leased to skilled nursing and senior living operations, including our own independent subsidiaries and third-party operators."
+  },
+  {
+   "name": "Standard Bearer",
+   "products": [],
+   "description": "Owns properties leased to skilled nursing and senior living operators.",
+   "evidence": "We have two reportable segments: (1) skilled services, which includes the operation of skilled nursing facilities and rehabilitation therapy services and (2) Standard Bearer, which is comprised of select properties owned by us through our captive REIT and leased to skilled nursing and senior living operations, including our own independent subsidiaries and third-party operators."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents' Medicare, Medicaid and private payers fund nursing and rehabilitative care.",
+  "evidence": "As of December 31, 2025, we offered skilled nursing, senior living and rehabilitative care services through 373 skilled nursing and senior living facilities."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Standard Bearer): captive REIT properties"
+ ],
+ "reader": "agent"
+}

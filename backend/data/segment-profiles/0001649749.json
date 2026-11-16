@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001649749",
+ "issuerName": "FB FINANCIAL CORPORATION",
+ "builtAt": "2026-11-16T03:00:17.645Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001649749-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1649749/000164974926000012/fbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "deposits",
+    "loans"
+   ],
+   "description": "Runs the bank's deposit and lending business.",
+   "evidence": "Business segment highlights We operate our business in two business segments: Banking and Mortgage."
+  },
+  {
+   "name": "Mortgage",
+   "products": [
+    "mortgage loans"
+   ],
+   "description": "Originates and sells residential mortgages.",
+   "evidence": "Business segment highlights We operate our business in two business segments: Banking and Mortgage."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans and mortgage banking income.",
+  "evidence": "Business segment highlights We operate our business in two business segments: Banking and Mortgage."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

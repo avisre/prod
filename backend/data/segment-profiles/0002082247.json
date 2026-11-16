@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002082247",
+ "issuerName": "FedEx Freight Holding Company, Inc.",
+ "builtAt": "2026-11-16T03:00:17.847Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-053359",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-08-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/2082247/000162828026053359/fdxf-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FedEx Freight",
+   "products": [
+    "time-critical transportation"
+   ],
+   "description": "Provides less-than-truckload freight transport across its service centre network.",
+   "evidence": "FedEx Freight is our sole reportable segment based upon the information used by our chief operating decision maker (\"CODM\") in evaluating the performance of our business and allocating resources and capital."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "LTL shippers pay for freight transportation and related services.",
+  "evidence": "We offer a range of services designed to meet the diverse needs of LTL shippers including time-critical transportation needs leveraging our advanced tracking capabilities and a comprehensive network of service centers and hubs that facilitate efficient delivery and pickup."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (FedEx Freight): less-than-truckload transportation"
+ ],
+ "reader": "agent"
+}

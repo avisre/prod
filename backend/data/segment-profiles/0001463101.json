@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001463101",
  "issuerName": "Enphase Energy, Inc.",
- "builtAt": "2026-11-15T02:49:50.567Z",
+ "builtAt": "2026-11-16T02:59:52.932Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001463101-26-000013",
@@ -10,16 +10,25 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1463101/000146310126000013/enph-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "home energy",
+   "products": [
+    "home energy solutions",
+    "energy storage",
+    "control and communications"
+   ],
+   "description": "Sells solar, storage and energy management systems for homes.",
+   "evidence": "Accordingly, management has determined that the Company has a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers purchase integrated solar, storage and energy management systems through installer and distributor partners.",
-  "evidence": "We deliver smart, easy-to-use solutions that manage solar generation, storage and communication on one platform."
+  "text": "Homeowners and installers buy its solar and battery systems.",
+  "evidence": "We design, develop, manufacture and sell home energy solutions that manage energy generation, energy storage, and control and communications on one intelligent platform."
  },
  "changes": [],
- "dropped": [
-  "segment name not in text: Solar PV Industry Solutions"
- ],
- "escalated": "no segments"
+ "dropped": [],
+ "reader": "agent"
 }

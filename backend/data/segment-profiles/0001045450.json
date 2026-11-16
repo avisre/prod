@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001045450",
+ "issuerName": "EPR PROPERTIES",
+ "builtAt": "2026-11-16T02:59:53.563Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001045450-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1045450/000104545026000007/epr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Experiential",
+   "products": [
+    "theatres",
+    "entertainment districts"
+   ],
+   "description": "Owns entertainment and experiential properties leased to operators.",
+   "evidence": "Reportable Segments The Company has two reportable operating segments: Experiential and Education."
+  },
+  {
+   "name": "Education",
+   "products": [
+    "education properties"
+   ],
+   "description": "Owns education properties leased to operators.",
+   "evidence": "Reportable Segments The Company has two reportable operating segments: Experiential and Education."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under long-term leases on its properties.",
+  "evidence": "As of December 31, 2025, our real estate portfolio consisted of investments in our Experiential and Education reportable segments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

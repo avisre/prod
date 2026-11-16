@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001101239",
+ "issuerName": "EQUINIX INC",
+ "builtAt": "2026-11-16T02:59:53.603Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001101239-26-000032",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1101239/000110123926000032/eqix-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "data centers",
+    "interconnection solutions"
+   ],
+   "description": "Runs data centres and interconnection services in the Americas.",
+   "evidence": "Goodwill and Other Intangible Assets We have three reportable segments comprised of the 1) Americas, 2) EMEA and 3) Asia-Pacific geographic regions, which we also determined are our re"
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "data centers",
+    "interconnection solutions"
+   ],
+   "description": "Runs data centres and interconnection services in Europe, the Middle East and Africa.",
+   "evidence": "Goodwill and Other Intangible Assets We have three reportable segments comprised of the 1) Americas, 2) EMEA and 3) Asia-Pacific geographic regions, which we also determined are our re"
+  },
+  {
+   "name": "Asia-Pacific",
+   "products": [
+    "data centers",
+    "interconnection solutions"
+   ],
+   "description": "Runs data centres and interconnection services in Asia-Pacific.",
+   "evidence": "Goodwill and Other Intangible Assets We have three reportable segments comprised of the 1) Americas, 2) EMEA and 3) Asia-Pacific geographic regions, which we also determined are our re"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cloud, network and enterprise customers pay for data centre space and interconnection.",
+  "evidence": "We offer a comprehensive, integrated suite of infrastructure and interconnection solutions, with global, state-of-the-art data centers which meet strict standards of security, reliability, certification and sustainability."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

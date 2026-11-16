@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001297989",
+ "issuerName": "EXLSERVICE HOLDINGS, INC.",
+ "builtAt": "2026-11-16T03:00:17.038Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001297989-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1297989/000129798926000008/exls-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [],
+   "description": "Delivers operations and analytics services to insurers.",
+   "evidence": "Accordingly, our new reportable segments, aligned to our IMUs, are as follows: • Insurance, • Healthcare and Life Sciences, • Banking, Capital Markets and Diversified Industries, • International Growth Markets"
+  },
+  {
+   "name": "Healthcare and Life Sciences",
+   "products": [],
+   "description": "Delivers services to healthcare and life sciences clients.",
+   "evidence": "Accordingly, our new reportable segments, aligned to our IMUs, are as follows: • Insurance, • Healthcare and Life Sciences, • Banking, Capital Markets and Diversified Industries, • International Growth Markets"
+  },
+  {
+   "name": "Banking, Capital Markets and Diversified Industries",
+   "products": [],
+   "description": "Serves banks, capital markets and diversified industries.",
+   "evidence": "Accordingly, our new reportable segments, aligned to our IMUs, are as follows: • Insurance, • Healthcare and Life Sciences, • Banking, Capital Markets and Diversified Industries, • International Growth Markets"
+  },
+  {
+   "name": "International Growth Markets",
+   "products": [],
+   "description": "Serves clients in international growth markets.",
+   "evidence": "Accordingly, our new reportable segments, aligned to our IMUs, are as follows: • Insurance, • Healthcare and Life Sciences, • Banking, Capital Markets and Diversified Industries, • International Growth Markets"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "Reorganised its reportable segments around its industry units, ending the Analytics segment.",
+   "evidence": "Accordingly, our new reportable segments, aligned to our IMUs, are as follows: • Insurance, • Healthcare and Life Sciences, • Banking, Capital Markets and Diversified Industries, • International Growth Markets"
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

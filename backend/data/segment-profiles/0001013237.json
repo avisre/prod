@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001013237",
+ "issuerName": "FACTSET RESEARCH SYSTEMS INC",
+ "builtAt": "2026-11-16T03:00:17.800Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-066391",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1013237/000162828026066391/fds-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "financial data",
+    "market intelligence",
+    "analytical applications"
+   ],
+   "description": "Sells financial data and analytics to clients in the Americas.",
+   "evidence": "We operate our business through three reportable segments (\"segments\"): the Americas, EMEA and Asia Pacific."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "financial data",
+    "market intelligence"
+   ],
+   "description": "Sells financial data and analytics in Europe, the Middle East and Africa.",
+   "evidence": "We operate our business through three reportable segments (\"segments\"): the Americas, EMEA and Asia Pacific."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "financial data",
+    "market intelligence"
+   ],
+   "description": "Sells financial data and analytics in Asia Pacific.",
+   "evidence": "We operate our business through three reportable segments (\"segments\"): the Americas, EMEA and Asia Pacific."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investment and finance professionals pay subscriptions for data, analytics and workstations.",
+  "evidence": "We provide financial data and market intelligence on securities, companies, industries and people to enable our clients to research advisory, dealmaking and investment ideas and analyze, monitor and manage their portfolios."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

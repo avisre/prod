@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001069157",
+ "issuerName": "EAST WEST BANCORP, INC.",
+ "builtAt": "2026-11-16T03:00:16.817Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001069157-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069157/000106915726000009/ewbc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer and Business Banking",
+   "products": [
+    "deposit products",
+    "consumer loans"
+   ],
+   "description": "Serves consumers and small businesses with deposits and loans.",
+   "evidence": "4 Operating Segments The Bank's three operating segments, (1) Consumer and Business Banking, (2) Commercial Banking and (3) Treasury and Other, are based on the Bank's core strategy."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "commercial loans",
+    "deposits"
+   ],
+   "description": "Lends to and banks commercial clients.",
+   "evidence": "4 Operating Segments The Bank's three operating segments, (1) Consumer and Business Banking, (2) Commercial Banking and (3) Treasury and Other, are based on the Bank's core strategy."
+  },
+  {
+   "name": "Treasury and Other",
+   "products": [],
+   "description": "Holds treasury, investments and other activities.",
+   "evidence": "4 Operating Segments The Bank's three operating segments, (1) Consumer and Business Banking, (2) Commercial Banking and (3) Treasury and Other, are based on the Bank's core strategy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and depositors are paid on balances.",
+  "evidence": "4 Operating Segments The Bank's three operating segments, (1) Consumer and Business Banking, (2) Commercial Banking and (3) Treasury and Other, are based on the Bank's core strategy."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

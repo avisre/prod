@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001472787",
+ "issuerName": "FIRST AMERICAN FINANCIAL CORPORATION",
+ "builtAt": "2026-11-16T03:00:17.520Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-055516",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1472787/000119312526055516/faf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "title insurance and services",
+   "products": [
+    "title insurance",
+    "closing and/or escrow services",
+    "banking",
+    "trust",
+    "warehouse lending",
+    "mortgage subservicing",
+    "wealth management services"
+   ],
+   "description": "Provides title insurance and real estate transaction services.",
+   "evidence": "The title insurance and services segment provides title insurance, closing and/or escrow services and similar or related services domestically and internationally in connection with residential and commercial real estate transactions."
+  },
+  {
+   "name": "corporate",
+   "products": [],
+   "description": "Holds financing facilities, venture investments and corporate services.",
+   "evidence": "Our corporate segment consists of certain financing facilities, our venture investment portfolio, operating results related to our property and casualty insurance business, which no longer sells policies or has policies in force, and certain corporate services that support our business operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Home buyers, sellers and lenders pay title insurance premiums and transaction fees.",
+  "evidence": "The title insurance and services segment provides title insurance, closing and/or escrow services and similar or related services domestically and internationally in connection with residential and commercial real estate transactions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

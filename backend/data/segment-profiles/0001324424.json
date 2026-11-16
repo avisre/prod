@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001324424",
+ "issuerName": "EXPEDIA GROUP, INC.",
+ "builtAt": "2026-11-16T03:00:17.099Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001324424-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1324424/000132442426000008/expe-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B2C",
+   "products": [
+    "travel and advertising services"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "trivago",
+   "products": [
+    "advertising revenue"
+   ],
+   "description": "Runs hotel metasearch sites and earns referral advertising revenue.",
+   "evidence": "Our trivago segment generates advertising revenue primarily from sending referrals to online travel companies and travel service providers from its hotel metasearch websites."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Travellers pay for bookings and travel suppliers pay for referrals and advertising.",
+  "evidence": "Our B2C segment provides a full range of travel and advertising services to our worldwide customers through recognized consumer brands that target a variety of customer segments and geographic regions with tailored offerings."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: B2C"
+ ],
+ "reader": "agent"
+}

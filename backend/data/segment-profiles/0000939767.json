@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000939767",
+ "issuerName": "EXELIXIS, INC.",
+ "builtAt": "2026-11-16T03:00:24.187Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000939767-26-000021",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/939767/000093976726000021/exel-20260102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "medicines",
+   "products": [],
+   "description": "Discovers and sells medicines for difficult-to-treat cancers.",
+   "evidence": "SEGMENT REPORTING We operate in one business segment that focuses on the discovery, development and commercialization of new medicines for difficult-to-treat cancers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Specialty distributors and specialty pharmacies buy its medicines.",
+  "evidence": "Net Product Revenues We sell our products principally to specialty distributors and specialty pharmacy providers, or collectively, our Customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (medicines): medicines"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001078271",
+ "issuerName": "EXTREME NETWORKS, INC.",
+ "builtAt": "2026-11-16T03:00:17.160Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-352872",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1078271/000119312526352872/extr-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "network infrastructure equipment",
+   "products": [
+    "networking equipment",
+    "software subscriptions",
+    "maintenance contracts"
+   ],
+   "description": "Sells network infrastructure equipment, software subscriptions and maintenance.",
+   "evidence": "Information about Segments and Geographic Areas The Company operates as a single reportable segment, focused on the development, marketing, and sale of network infrastructure equipment and related software and subscriptions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its networking equipment, software subscriptions and maintenance.",
+  "evidence": "We derive all our revenues from the sale of our networking equipment, software subscriptions, and related maintenance contracts."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

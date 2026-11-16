@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001020710",
+ "issuerName": "DXP Enterprises, Inc.",
+ "builtAt": "2026-11-16T02:59:52.584Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012382",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1020710/000162828026012382/dxpe-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Service Centers",
+   "products": [
+    "pumps"
+   ],
+   "description": "Distributes pumps, equipment and supplies through service centres.",
+   "evidence": "The Company is organized into three business segments: Service Centers (\"SC\"), Innovative Pumping Solutions (\"IPS\") and Supply Chain Services (\"SCS\")."
+  },
+  {
+   "name": "Innovative Pumping Solutions",
+   "products": [
+    "pump packages",
+    "engineered systems"
+   ],
+   "description": "Builds engineered pump and process packages.",
+   "evidence": "The Company is organized into three business segments: Service Centers (\"SC\"), Innovative Pumping Solutions (\"IPS\") and Supply Chain Services (\"SCS\")."
+  },
+  {
+   "name": "Supply Chain Services",
+   "products": [],
+   "description": "Manages supply chains and inventory programmes for customers.",
+   "evidence": "The Company is organized into three business segments: Service Centers (\"SC\"), Innovative Pumping Solutions (\"IPS\") and Supply Chain Services (\"SCS\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers buy equipment, pump packages and supply chain services.",
+  "evidence": "The Company is organized into three business segments: Service Centers (\"SC\"), Innovative Pumping Solutions (\"IPS\") and Supply Chain Services (\"SCS\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Service Centers): industrial equipment",
+  "product not in text (Supply Chain Services): supply chain services"
+ ],
+ "reader": "agent"
+}

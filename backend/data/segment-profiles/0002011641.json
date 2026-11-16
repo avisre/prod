@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0002011641",
+ "issuerName": "Ferguson Enterprises Inc. /DE/",
+ "builtAt": "2026-11-16T03:00:17.927Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002011641-25-000027",
+  "periodEnd": "2025-07-31",
+  "filingDate": "2025-09-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2011641/000201164125000027/ferg-20250731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "waterworks"
+   ],
+   "description": "Distributes plumbing, heating and industrial supplies in the United States.",
+   "evidence": "The Company's reportable segments are the United States and Canada."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "waterworks"
+   ],
+   "description": "Distributes plumbing, heating and industrial supplies in Canada.",
+   "evidence": "The Company's reportable segments are the United States and Canada."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Contractors and trades customers buy supplies through branches, showrooms and e-commerce.",
+  "evidence": "We sell through a common network of distribution centers, branches, counter service and expert sales associates, showroom consultants and e-commerce channels."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (United States): plumbing and heating products",
+  "product not in text (United States): industrial products",
+  "product not in text (Canada): plumbing and heating products"
+ ],
+ "reader": "agent"
+}

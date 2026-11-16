@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001360901",
+ "issuerName": "EVERCORE INC.",
+ "builtAt": "2026-11-16T03:00:16.668Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010273",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1360901/000162828026010273/evr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Banking & Equities",
+   "products": [
+    "advisory services",
+    "equities"
+   ],
+   "description": "Advises companies and sponsors on mergers, acquisitions and capital raises.",
+   "evidence": "We operate globally through our two business segments: (i) Investment Banking & Equities and (ii) Investment Management."
+  },
+  {
+   "name": "Investment Management",
+   "products": [],
+   "description": "Manages investment funds and separate accounts for clients.",
+   "evidence": "We operate globally through our two business segments: (i) Investment Banking & Equities and (ii) Investment Management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay advisory and underwriting fees on transactions and management fees on assets.",
+  "evidence": "Through this business, we provide clients with differentiated strategic and tactical advice, as well as execution to financial sponsors and both public and private companies across a broad range of industry sectors and geographies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Investment Management): investment management"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000915389",
+ "issuerName": "EASTMAN CHEMICAL CO",
+ "builtAt": "2026-11-16T02:59:52.885Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000915389-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/915389/000091538926000013/emn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced Materials",
+   "products": [
+    "specialty materials"
+   ],
+   "description": "Makes advanced materials for consumer and industrial applications.",
+   "evidence": "Eastman's businesses are managed and reported in four operating segments: Advanced Materials (\"AM\"), Additives & Functional Products (\"AFP\"), Chemical Intermediates (\"CI\"), and Fibers."
+  },
+  {
+   "name": "Additives & Functional Products",
+   "products": [
+    "additives",
+    "functional products"
+   ],
+   "description": "Makes additives and functional products for many end uses.",
+   "evidence": "Eastman's businesses are managed and reported in four operating segments: Advanced Materials (\"AM\"), Additives & Functional Products (\"AFP\"), Chemical Intermediates (\"CI\"), and Fibers."
+  },
+  {
+   "name": "Chemical Intermediates",
+   "products": [],
+   "description": "Produces chemical intermediates for industrial customers.",
+   "evidence": "Eastman's businesses are managed and reported in four operating segments: Advanced Materials (\"AM\"), Additives & Functional Products (\"AFP\"), Chemical Intermediates (\"CI\"), and Fibers."
+  },
+  {
+   "name": "Fibers",
+   "products": [],
+   "description": "Makes acetate fibers and related products.",
+   "evidence": "Eastman's businesses are managed and reported in four operating segments: Advanced Materials (\"AM\"), Additives & Functional Products (\"AFP\"), Chemical Intermediates (\"CI\"), and Fibers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumer, industrial and packaging customers buy its specialty materials.",
+  "evidence": "Eastman Chemical Company (\"Eastman\" or the \"Company\") is a global specialty materials company that produces a broad range of products found in items people use every day."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Chemical Intermediates): chemical intermediates",
+  "product not in text (Fibers): fibers"
+ ],
+ "reader": "agent"
+}

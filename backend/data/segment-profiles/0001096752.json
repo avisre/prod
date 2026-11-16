@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001096752",
+ "issuerName": "EDGEWELL PERSONAL CARE COMPANY",
+ "builtAt": "2026-11-16T02:59:53.531Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-052765",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1096752/000162828025052765/epc-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wet Shave",
+   "products": [
+    "Hydro®",
+    "Quattro®",
+    "Hydro Silk®",
+    "Intuition®",
+    "Skintimate",
+    "Extra3™"
+   ],
+   "description": "Sells men's and women's shaving systems and disposables.",
+   "evidence": "3 Our Business Segments and Product Strategies We manage our business in three operating segments: Wet Shave, Sun and Skin Care, and Feminine Care."
+  },
+  {
+   "name": "Sun and Skin Care",
+   "products": [
+    "sun care",
+    "skin care"
+   ],
+   "description": "Sells sun care and skin care products.",
+   "evidence": "3 Our Business Segments and Product Strategies We manage our business in three operating segments: Wet Shave, Sun and Skin Care, and Feminine Care."
+  },
+  {
+   "name": "Feminine Care",
+   "products": [
+    "feminine care products"
+   ],
+   "description": "Sells feminine care products.",
+   "evidence": "3 Our Business Segments and Product Strategies We manage our business in three operating segments: Wet Shave, Sun and Skin Care, and Feminine Care."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "reader": "agent"
+}

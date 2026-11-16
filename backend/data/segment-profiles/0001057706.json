@@ -1,0 +1,74 @@
+{
+ "version": 1,
+ "cik": "0001057706",
+ "issuerName": "FIRST BANCORP",
+ "builtAt": "2026-11-16T03:00:17.734Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001057706-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1057706/000105770626000007/fbp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage Banking",
+   "products": [
+    "residential mortgage loan products"
+   ],
+   "description": "Originates, sells and services residential mortgages.",
+   "evidence": "Mortgage Banking The Mortgage Banking segment consists of the origination, sale and servicing of a variety of residential mortgage loan products and related hedging activities in the Puerto Rico region."
+  },
+  {
+   "name": "Consumer (Retail) Banking",
+   "products": [
+    "consumer lending",
+    "deposit-taking"
+   ],
+   "description": "Banks consumers and small businesses in Puerto Rico.",
+   "evidence": "Consumer (Retail) Banking The Consumer (Retail) Banking segment includes the Corporation's consumer lending, commercial lending to small businesses, commercial transaction banking, and deposit-taking activities (other than those assigned to the Commercial and Corporate Banking segment) primarily conducted through FirstBa"
+  },
+  {
+   "name": "Commercial and Corporate Banking",
+   "products": [
+    "commercial lending",
+    "deposits"
+   ],
+   "description": "Banks commercial and corporate clients.",
+   "evidence": "BUSINESS SEGMENTS The Corporation has six reportable segments: Mortgage Banking; Consumer (Retail) Banking; Commercial and Corporate Banking; Treasury and Investments; United States Operations; and Virgin Islands Operations."
+  },
+  {
+   "name": "Treasury and Investments",
+   "products": [
+    "investment portfolio"
+   ],
+   "description": "Manages the investment and treasury portfolio.",
+   "evidence": "BUSINESS SEGMENTS The Corporation has six reportable segments: Mortgage Banking; Consumer (Retail) Banking; Commercial and Corporate Banking; Treasury and Investments; United States Operations; and Virgin Islands Operations."
+  },
+  {
+   "name": "United States Operations",
+   "products": [
+    "banking services"
+   ],
+   "description": "Runs its United States mainland banking operations.",
+   "evidence": "BUSINESS SEGMENTS The Corporation has six reportable segments: Mortgage Banking; Consumer (Retail) Banking; Commercial and Corporate Banking; Treasury and Investments; United States Operations; and Virgin Islands Operations."
+  },
+  {
+   "name": "Virgin Islands Operations",
+   "products": [
+    "banking services"
+   ],
+   "description": "Runs its Virgin Islands banking operations.",
+   "evidence": "BUSINESS SEGMENTS The Corporation has six reportable segments: Mortgage Banking; Consumer (Retail) Banking; Commercial and Corporate Banking; Treasury and Investments; United States Operations; and Virgin Islands Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail and commercial customers pay interest and fees on loans and deposits.",
+  "evidence": "BUSINESS SEGMENTS The Corporation has six reportable segments: Mortgage Banking; Consumer (Retail) Banking; Commercial and Corporate Banking; Treasury and Investments; United States Operations; and Virgin Islands Operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

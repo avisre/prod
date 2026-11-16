@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001031296",
+ "issuerName": "FIRSTENERGY CORP",
+ "builtAt": "2026-11-16T03:00:17.884Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001031296-26-000046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1031296/000103129626000046/fe-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Distribution",
+   "products": [],
+   "description": "Distributes electricity through its Ohio and Pennsylvania utilities.",
+   "evidence": "Segments Overview - FirstEnergy FirstEnergy's reportable segments are as follows, and FirstEnergy continues to evaluate segment performance based on earnings attributable to FE from continuing operations: • Distribution Segment, which consists of the Ohio Companies and FE PA; • Integrated Segment, which consists of MP, PE and JCP&L; and • Stand-Alone Transmission Segment, which consists of FE's ownership in FET and KATCo."
+  },
+  {
+   "name": "Integrated",
+   "products": [
+    "generation"
+   ],
+   "description": "Runs integrated transmission, distribution and generation utilities.",
+   "evidence": "Segments Overview - FirstEnergy FirstEnergy's reportable segments are as follows, and FirstEnergy continues to evaluate segment performance based on earnings attributable to FE from continuing operations: • Distribution Segment, which consists of the Ohio Companies and FE PA; • Integrated Segment, which consists of MP, PE and JCP&L; and • Stand-Alone Transmission Segment, which consists of FE's ownership in FET and KATCo."
+  },
+  {
+   "name": "Stand-Alone Transmission",
+   "products": [
+    "electric transmission"
+   ],
+   "description": "Owns stand-alone electric transmission assets.",
+   "evidence": "Segments Overview - FirstEnergy FirstEnergy's reportable segments are as follows, and FirstEnergy continues to evaluate segment performance based on earnings attributable to FE from continuing operations: • Distribution Segment, which consists of the Ohio Companies and FE PA; • Integrated Segment, which consists of MP, PE and JCP&L; and • Stand-Alone Transmission Segment, which consists of FE's ownership in FET and KATCo."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay tariffs for electricity transmission and distribution.",
+  "evidence": "FE and its subsidiaries are principally involved in the transmission, distribution and generation of electricity through its reportable segments: Distribution, Integrated and Stand-Alone Transmission."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Distribution): electricity distribution",
+  "product not in text (Integrated): electricity transmission",
+  "product not in text (Integrated): electricity distribution"
+ ],
+ "reader": "agent"
+}

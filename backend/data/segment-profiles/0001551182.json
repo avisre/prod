@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001551182",
+ "issuerName": "EATON CORPORATION plc",
+ "builtAt": "2026-11-16T02:59:53.769Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001551182-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000007/etn-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001210677",
+ "issuerName": "First Advantage Corporation",
+ "builtAt": "2026-11-16T03:00:17.206Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076740",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1210677/000119312526076740/fa-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

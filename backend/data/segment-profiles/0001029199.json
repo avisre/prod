@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001029199",
+ "issuerName": "EURONET WORLDWIDE, INC.",
+ "builtAt": "2026-11-16T02:59:52.775Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001554855-26-000131",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1029199/000155485526000131/eeft-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronic Funds Transfer",
+   "products": [
+    "ATMs",
+    "POS terminals",
+    "transaction processing services"
+   ],
+   "description": "Runs ATM and POS networks and processes payments for banks and merchants.",
+   "evidence": "Core Business Segments We operate in the following three segments as of December 31, 2025 : Electronic Funds Transfer (\"EFT\") Segment Our Electronic Funds Transfer (\"EFT\") segment meets the needs of financial institutions and consumers through Euronet-owned and outsourced Automated Teller Machines (\"ATMs\") and Point-of-Sale (\"POS\") terminals combined with value added and transaction processing services."
+  },
+  {
+   "name": "epay",
+   "products": [
+    "retail payment solutions"
+   ],
+   "description": "Sells retail payment and digital content distribution to retailers.",
+   "evidence": "Core Business Segments We operate in the following three segments as of December 31, 2025 : Electronic Funds Transfer (\"EFT\") Segment Our Electronic Funds Transfer (\"EFT\") segment meets the needs of financial institutions and consumers through Euronet-owned and outsourced Automated Teller Machines (\"ATMs\") and Point-of-Sale (\"POS\") terminals combined with value added and transaction processing services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Banks, merchants and consumers pay transaction fees for payments processing.",
+  "evidence": "With a global footprint, we provide compliant solutions that make financial transactions easier, faster, and secure."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

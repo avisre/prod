@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001047862",
+ "issuerName": "Consolidated Edison, Inc.",
+ "builtAt": "2026-11-16T02:59:52.754Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001047862-26-000031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1047862/000104786226000031/ed-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001877322",
+ "issuerName": "ESAB Corporation",
+ "builtAt": "2026-11-16T02:59:53.659Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001877322-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1877322/000187732226000007/esab-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

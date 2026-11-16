@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001632790",
+ "issuerName": "ENERGIZER HOLDINGS, INC.",
+ "builtAt": "2026-11-16T02:59:52.949Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001632790-25-000091",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1632790/000163279025000091/enr-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000922621",
+ "issuerName": "ERIE INDEMNITY COMPANY",
+ "builtAt": "2026-11-16T02:59:53.638Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010666",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/922621/000162828026010666/erie-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "management operations",
+   "products": [
+    "policy issuance and renewal services",
+    "underwriting services"
+   ],
+   "description": "Provides management and underwriting services to the Erie Insurance Exchange.",
+   "evidence": "Business Segments We operate under a single reportable segment: management operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Exchange pays it fees for management, sales and underwriting services.",
+  "evidence": "The policy issuance and renewal services we provide on behalf of the subscribers at the Exchange are related to the sales, underwriting and issuance of policies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

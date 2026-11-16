@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001289308",
+ "issuerName": "EnerSys",
+ "builtAt": "2026-11-16T02:59:52.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-036900",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1289308/000162828026036900/ens-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy Systems",
+   "products": [
+    "uninterruptible power systems, or \"UPS\"",
+    "telecommunications systems",
+    "switchgear and electrical control systems"
+   ],
+   "description": "Supplies backup power and electrical systems for data centres and utilities.",
+   "evidence": "The Company identifies the following as its four operating segments, based on lines of business: • Energy Systems - uninterruptible power systems, or \"UPS\" applications for computer and computer-controlled systems, as well as telecommunications systems, switchgear and electrical control systems used in industrial facilities and electric utilities, large-scale"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Data centres, utilities and industrial customers buy its power systems and batteries.",
+  "evidence": "We design, manufacture, and distribute energy systems solutions, and motive power batteries, specialty batteries, battery chargers, power equipment, battery accessories and outdoor equipment enclosure solutions to customers worldwide."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

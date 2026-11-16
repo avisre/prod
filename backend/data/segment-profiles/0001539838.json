@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001539838",
+ "issuerName": "Diamondback Energy, Inc.",
+ "builtAt": "2026-11-16T03:00:17.557Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001539838-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1539838/000153983826000010/fang-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "upstream",
+   "products": [
+    "crude oil",
+    "natural gas"
+   ],
+   "description": "Explores for and produces oil and gas, mainly in the Permian Basin.",
+   "evidence": "As of December 31, 2025, the Company is managed as one operating and reportable segment, the upstream segment, which is engaged in the acquisition, development, exploration and exploitation of unconventional, onshore oil and natural gas reserves primarily in the Permian Basin in West Texas and includes the activities of Viper as well as the Company's remaining midstream operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "We report operations in one reportable segment, the upstream segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

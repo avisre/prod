@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001739104",
+ "issuerName": "Elanco Animal Health Incorporated",
+ "builtAt": "2026-11-16T02:59:52.867Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001739104-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1739104/000173910426000012/elan-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "animal health",
+   "products": [
+    "Advantage ™",
+    "Seresto ™",
+    "Credelio ™",
+    "medicated feed additives",
+    "injectable antibiotics",
+    "vaccines",
+    "insecticides",
+    "enzymes"
+   ],
+   "description": "Sells pet health and farm animal products.",
+   "evidence": "Commercial Operations We operate our business as a single segment within the animal health industry, offering a comprehensive portfolio of pet health and farm animal products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Veterinarians, pet owners and farmers buy its animal health products.",
+  "evidence": "Our products include medicated feed additives, injectable antibiotics, vaccines, insecticides and enzymes, among others."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

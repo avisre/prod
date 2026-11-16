@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001289490",
+ "issuerName": "EXTRA SPACE STORAGE INC.",
+ "builtAt": "2026-11-16T03:00:17.125Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001289490-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1289490/000128949026000011/exr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "self-storage operations",
+   "products": [
+    "self-storage space"
+   ],
+   "description": "Owns and operates self-storage stores, renting units to customers.",
+   "evidence": "Operating Segments We operate in two distinct segments: (1) self-storage operations; and (2) tenant reinsurance."
+  },
+  {
+   "name": "tenant reinsurance",
+   "products": [
+    "tenant insurance"
+   ],
+   "description": "Reinsures tenant insurance programmes for its stores.",
+   "evidence": "Operating Segments We operate in two distinct segments: (1) self-storage operations; and (2) tenant reinsurance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay rent for storage units and insurance premiums.",
+  "evidence": "We operate and manage our business by evaluating the operating performance of the properties for our entire portfolio which includes wholly-owned stores, stores in which we have a partial ownership interest and managed stores."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001448893",
+ "issuerName": "ESSENT GROUP LTD.",
+ "builtAt": "2026-11-16T02:59:53.730Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001448893-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1448893/000144889326000009/esnt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage Insurance",
+   "products": [
+    "private mortgage insurance"
+   ],
+   "description": "Writes private mortgage insurance on United States residential loans.",
+   "evidence": "We conduct our operations through two primary business segments: Mortgage Insurance and Reinsurance."
+  },
+  {
+   "name": "Reinsurance",
+   "products": [],
+   "description": "Provides reinsurance to mortgage insurers.",
+   "evidence": "We conduct our operations through two primary business segments: Mortgage Insurance and Reinsurance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Lenders and investors pay premiums for mortgage credit protection.",
+  "evidence": "Our Mortgage Insurance segment offers private mortgage insurance for mortgages secured by residential properties located in the United States."
+ },
+ "changes": [
+  {
+   "text": "Began disclosing two segments, Mortgage Insurance and Reinsurance, for 2025.",
+   "evidence": "Prior to December 31, 2025, we disclosed one reportable segment, Mortgage Insurance, which was comprised of \"U."
+  }
+ ],
+ "dropped": [
+  "product not in text (Reinsurance): reinsurance"
+ ],
+ "reader": "agent"
+}

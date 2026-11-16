@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001095073",
+ "issuerName": "EVEREST GROUP, LTD.",
+ "builtAt": "2026-11-16T02:59:52.796Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001095073-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1095073/000109507326000006/eg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Reinsurance",
+   "products": [],
+   "description": "Underwrites reinsurance for insurers worldwide.",
+   "evidence": "As of December 31, 2025, the Company managed its business through two reportable segments, Reinsurance and Insurance."
+  },
+  {
+   "name": "Insurance",
+   "products": [],
+   "description": "Underwrites property, casualty and specialty insurance.",
+   "evidence": "As of December 31, 2025, the Company managed its business through two reportable segments, Reinsurance and Insurance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurers and insureds pay premiums, and the group invests the float.",
+  "evidence": "The Company's principal business, conducted through its Reinsurance and Insurance reportable segments, is the underwriting of reinsurance and insurance in the U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

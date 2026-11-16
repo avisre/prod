@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001688568",
+ "issuerName": "DXC TECHNOLOGY COMPANY",
+ "builtAt": "2026-11-16T02:59:52.565Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001688568-26-000022",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1688568/000168856826000022/dxc-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consulting & Engineering Services",
+   "products": [
+    "software engineering",
+    "consulting",
+    "custom and enterprise applications solutions"
+   ],
+   "description": "Provides software engineering and application modernisation services.",
+   "evidence": "We operate through three reportable segments that align with how management assesses performance of the business and allocates resources - Consulting & Engineering Services (\"CES\"), Global Infrastructure Services (\"GIS\"), and Insurance Software & Services (\"Insurance\") - delivering solutions that modernize operations and drive innovation across our customers' entire IT estate."
+  },
+  {
+   "name": "Global Infrastructure Services",
+   "products": [
+    "business process services",
+    "infrastructure services"
+   ],
+   "description": "Runs clients' IT infrastructure and business processes.",
+   "evidence": "We operate through three reportable segments that align with how management assesses performance of the business and allocates resources - Consulting & Engineering Services (\"CES\"), Global Infrastructure Services (\"GIS\"), and Insurance Software & Services (\"Insurance\") - delivering solutions that modernize operations and drive innovation across our customers' entire IT estate."
+  },
+  {
+   "name": "Insurance Software & Services",
+   "products": [
+    "software solutions"
+   ],
+   "description": "Sells software and services to insurers.",
+   "evidence": "We operate through three reportable segments that align with how management assesses performance of the business and allocates resources - Consulting & Engineering Services (\"CES\"), Global Infrastructure Services (\"GIS\"), and Insurance Software & Services (\"Insurance\") - delivering solutions that modernize operations and drive innovation across our customers' entire IT estate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay for IT services, software and business process outsourcing.",
+  "evidence": "We provide software engineering, consulting, and custom and enterprise applications solutions that help companies manage essential functions, modernize processes, and drive innovation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

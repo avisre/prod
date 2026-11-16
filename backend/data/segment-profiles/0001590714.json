@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001590714",
+ "issuerName": "Element Solutions Inc",
+ "builtAt": "2026-11-16T02:59:53.703Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001590714-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1590714/000159071426000018/esi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronics",
+   "products": [
+    "electronic materials"
+   ],
+   "description": "Supplies specialty chemicals and materials for electronics manufacturing.",
+   "evidence": "Business Segments Our operations are organized into two reportable segments which were renamed in the fourth quarter of 2025: Electronics (MacDermid Alpha Electronics Solutions, previously known as Electronics) and Specialties (Element Specialties, previ"
+  },
+  {
+   "name": "Specialties",
+   "products": [
+    "specialty chemicals"
+   ],
+   "description": "Supplies specialty chemicals for industrial and consumer applications.",
+   "evidence": "Business Segments Our operations are organized into two reportable segments which were renamed in the fourth quarter of 2025: Electronics (MacDermid Alpha Electronics Solutions, previously known as Electronics) and Specialties (Element Specialties, previ"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Electronics and industrial manufacturers buy its specialty chemicals and materials.",
+  "evidence": "Our customer-centric innovation means we develop technologies to meet the already-identified needs of our current supply chains."
+ },
+ "changes": [
+  {
+   "text": "Renamed its two reportable segments to Electronics and Specialties in the fourth quarter of 2025.",
+   "evidence": "Business Segments Our operations are organized into two reportable segments which were renamed in the fourth quarter of 2025: Electronics (MacDermid Alpha Electronics Solutions, previously known as Electronics) and Specialties (Element Specialties, previ"
+  }
+ ],
+ "dropped": [
+  "product not in text (Electronics): circuitry technologies"
+ ],
+ "reader": "agent"
+}
