@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001077688",
+ "issuerName": "HOOKER FURNISHINGS CORPORATION",
+ "builtAt": "2026-11-16T05:34:28.804Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-001420",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1077688/000118518526001420/hoft10k020126.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hooker Branded",
+   "products": [
+    "furniture"
+   ],
+   "description": "Sells Hooker branded furniture.",
+   "evidence": "For financial reporting purposes and as described further below, we are organized into two reportable segments, Hooker Branded and Domestic Upholstery."
+  },
+  {
+   "name": "Domestic Upholstery",
+   "products": [
+    "upholstered furniture"
+   ],
+   "description": "Sells domestically produced upholstery.",
+   "evidence": "For financial reporting purposes and as described further below, we are organized into two reportable segments, Hooker Branded and Domestic Upholstery."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers buy its furniture for resale.",
+  "evidence": "Reportable Segments Furnishings sales account for all of our net sales."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

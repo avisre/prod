@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000909494",
+ "issuerName": "TUCOWS INC.",
+ "builtAt": "2026-11-16T05:33:49.257Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/909494/000143774926008009/tcx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ting",
+   "products": [
+    "internet services"
+   ],
+   "description": "Provides internet services.",
+   "evidence": "Our Chief Executive Officer (\"CEO\"), who is also our chief operating decision maker, reviews the operating results of Ting, Wavelo and Tucows Domains as three distinct segments in order to make key operating decisions as well as"
+  },
+  {
+   "name": "Wavelo",
+   "products": [
+    "platform and professional services",
+    "billing solutions"
+   ],
+   "description": "Provides platform and billing services to ISPs.",
+   "evidence": "Our Chief Executive Officer (\"CEO\"), who is also our chief operating decision maker, reviews the operating results of Ting, Wavelo and Tucows Domains as three distinct segments in order to make key operating decisions as well as"
+  },
+  {
+   "name": "Tucows Domains",
+   "products": [
+    "domain names"
+   ],
+   "description": "Sells domain registration services.",
+   "evidence": "Our Chief Executive Officer (\"CEO\"), who is also our chief operating decision maker, reviews the operating results of Ting, Wavelo and Tucows Domains as three distinct segments in order to make key operating decisions as well as"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers and ISPs pay for internet, platform and domain services.",
+  "evidence": "The Wavelo segment includes our platform and professional services offerings, as well as the billing solutions to Internet services providers (\"ISPs\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001059142",
+ "issuerName": "GREYSTONE HOUSING IMPACT INVESTORS LP",
+ "builtAt": "2026-11-16T05:34:31.879Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108471",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1059142/000119312526108471/ghi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Affordable Multifamily Investments",
+   "products": [
+    "affordable multifamily properties"
+   ],
+   "description": "Invests in affordable multifamily housing.",
+   "evidence": "Reportable Segments As of December 31, 2025, we had four reportable segments: (1) Affordable Multifamily Investments, (2) Seniors and Skilled Nursing Investments, (3) Market-Rate Joint Venture Investments, and (4) MF Properties."
+  },
+  {
+   "name": "Seniors and Skilled Nursing Investments",
+   "products": [
+    "seniors housing",
+    "skilled nursing facilities"
+   ],
+   "description": "Invests in seniors and skilled nursing properties.",
+   "evidence": "Reportable Segments As of December 31, 2025, we had four reportable segments: (1) Affordable Multifamily Investments, (2) Seniors and Skilled Nursing Investments, (3) Market-Rate Joint Venture Investments, and (4) MF Properties."
+  },
+  {
+   "name": "Market-Rate Joint Venture Investments",
+   "products": [],
+   "description": "Invests through market-rate joint ventures.",
+   "evidence": "Reportable Segments As of December 31, 2025, we had four reportable segments: (1) Affordable Multifamily Investments, (2) Seniors and Skilled Nursing Investments, (3) Market-Rate Joint Venture Investments, and (4) MF Properties."
+  },
+  {
+   "name": "MF Properties",
+   "products": [
+    "multifamily properties"
+   ],
+   "description": "Owns multifamily properties.",
+   "evidence": "Reportable Segments As of December 31, 2025, we had four reportable segments: (1) Affordable Multifamily Investments, (2) Seniors and Skilled Nursing Investments, (3) Market-Rate Joint Venture Investments, and (4) MF Properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Properties earn rent and the partnership earns investment returns.",
+  "evidence": "Summary Financial Results As of December 31, 2025 we had four reportable segments: (1) Affordable Multifamily Investments, (2) Seniors and Skilled Nurs"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Market-Rate Joint Venture Investments): market-rate properties"
+ ],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000096536",
  "issuerName": "Taylor Devices, Inc.",
- "builtAt": "2026-11-15T14:23:03.186Z",
+ "builtAt": "2026-11-16T05:33:48.380Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001376474-26-000567",
@@ -13,12 +13,8 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Customers, including the federal government and its contractors on fixed-price contracts, pay the Company for its shock absorption and related products, with progress payments required for larger custom projects.",
-  "evidence": "Contracts are generally entered into on a fixed price basis."
- },
+ "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Shock absorption devices"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

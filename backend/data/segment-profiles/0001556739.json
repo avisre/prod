@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001556739",
+ "issuerName": "THRYV HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:33:50.073Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001556739-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1556739/000155673926000013/thry-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SaaS",
+   "products": [
+    "marketing platform",
+    "software solutions",
+    "payment solutions"
+   ],
+   "description": "Sells SMB software by subscription.",
+   "evidence": "As of December 31, 2025 , we serve approximately 230,000 SMB clients through our two business segments: SaaS and Marketing Services."
+  },
+  {
+   "name": "Marketing Services",
+   "products": [],
+   "description": "Provides marketing services to SMBs.",
+   "evidence": "As of December 31, 2025 , we serve approximately 230,000 SMB clients through our two business segments: SaaS and Marketing Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Small businesses pay subscriptions and marketing fees.",
+  "evidence": "We report our results based on two reportable segments (see Note 17, Segment Information) : • SaaS , which includes our unified SMB marketing platform, supporting software solutions, related extensions, payment solutions, and professional services"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Marketing Services): marketing services"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001753368",
+ "issuerName": "SANGOMA TECHNOLOGIES CORP",
+ "builtAt": "2026-11-16T05:34:31.934Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001753368-26-000011",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1753368/000175336826000011/sang-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "voice and data connectivity",
+   "products": [
+    "voice and data connectivity components"
+   ],
+   "description": "Makes voice and data connectivity components.",
+   "evidence": "Segment disclosures The Company operates as one operating segment in the development, manufacturing, distribution and support of voice and data connectivity components for software-based communication applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses and carriers pay for connectivity products and support.",
+  "evidence": "The Company has determined that it has a single reportable segment as the Company's decision makers review information on a consolidated basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

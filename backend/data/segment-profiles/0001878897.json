@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001878897",
+ "issuerName": "DOUGLAS ELLIMAN INC.",
+ "builtAt": "2026-11-16T05:33:49.304Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001878897-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1878897/000187889726000007/doug-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "real estate services",
+   "products": [
+    "real estate brokerage",
+    "property management"
+   ],
+   "description": "Provides real estate brokerage and related services.",
+   "evidence": "Change in Reportable Segments Beginning in the first quarter of 2025, our business began to report our financial results as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay commissions on property sales and management fees.",
+  "evidence": "As discussed previously, effective on January 1, 2025, we began to report our financial results as a single operating and reportable segment."
+ },
+ "changes": [
+  {
+   "text": "Began reporting as a single reportable segment from the first quarter of 2025.",
+   "evidence": "Change in Reportable Segments Beginning in the first quarter of 2025, our business began to report our financial results as a single reportable segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

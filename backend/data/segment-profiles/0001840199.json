@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001840199",
+ "issuerName": "Waldencast plc",
+ "builtAt": "2026-11-16T05:33:49.868Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001840199-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840199/000184019926000019/wald-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Obagi Medical",
+   "products": [],
+   "description": "Sells Obagi medical skincare products.",
+   "evidence": "Our business is organized into two reportable segments—Obagi Medical and Milk Makeup."
+  },
+  {
+   "name": "Milk Makeup",
+   "products": [
+    "makeup"
+   ],
+   "description": "Sells Milk Makeup cosmetics.",
+   "evidence": "Our business is organized into two reportable segments—Obagi Medical and Milk Makeup."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and professionals buy its skincare and makeup.",
+  "evidence": "60 Table of Contents Components of Results of Operations Net Revenue Net revenue is generated through both of our operating segments and is recognized net of provisions for estimated volume rebates, discounts, markdowns, margin adjustments, returns and payments to distributors."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Obagi Medical): medical skincare"
+ ],
+ "reader": "agent"
+}

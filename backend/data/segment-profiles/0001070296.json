@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001070296",
+ "issuerName": "First Capital, Inc.",
+ "builtAt": "2026-11-16T05:33:45.564Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037802",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1070296/000110465926037802/fcap-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Operating segments are aggregated into one as operating results for all segments are similar."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "Operating Segments While the chief decision-makers monitor the revenue streams of the various products and services, operations are managed, and financial performance is evaluated on a Company-wide basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

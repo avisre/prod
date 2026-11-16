@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001867066",
+ "issuerName": "Journey Medical Corp",
+ "builtAt": "2026-11-16T05:33:49.167Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034629",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1867066/000110465926034629/derm-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "dermatological",
+   "products": [
+    "branded and authorized general prescription products"
+   ],
+   "description": "Sells prescription dermatology products.",
+   "evidence": "The dermatological segment derives revenues from the sale of branded and authorized general prescrip"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its products.",
+  "evidence": "Segment Reporting Operating segments are defined as components of an enterprise about which separate discrete information is available for evaluation by the chief operating decision maker, or decision-making group, in deciding how to allocate resources and in assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001098972",
+ "issuerName": "AGENUS INC",
+ "builtAt": "2026-11-16T05:34:29.930Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108632",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1098972/000119312526108632/agen-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agenus",
+   "products": [
+    "immunotherapies"
+   ],
+   "description": "Develops immuno-oncology therapies.",
+   "evidence": "However, we have concluded that our operating segments meet the criteria required by Financial Accounting Standards Board (\"FASB\") Accounting Standards Codification (\"ASC\") 280, Segment Reporting to be aggregated into one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Our operating segments have similar economic characteristics and are similar with respect to the five qualitative characteristics specifie"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

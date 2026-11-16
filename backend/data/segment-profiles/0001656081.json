@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001656081",
+ "issuerName": "ENDAVA PLC",
+ "builtAt": "2026-11-16T05:33:47.548Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001656081-25-000039",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-09-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1656081/000165608125000039/dava-20250630.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

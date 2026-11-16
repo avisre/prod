@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001649096",
+ "issuerName": "CLIPPER REALTY INC.",
+ "builtAt": "2026-11-16T05:34:30.242Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005856",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1649096/000143774926005856/clpr20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "residential rental properties",
+   "products": [],
+   "description": "Owns residential rental properties.",
+   "evidence": "We have two reportable operating segments: residential rental properties and commercial rental properties."
+  },
+  {
+   "name": "commercial rental properties",
+   "products": [],
+   "description": "Owns commercial rental properties.",
+   "evidence": "We have two reportable operating segments: residential rental properties and commercial rental properties."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Residents and commercial tenants pay rent.",
+  "evidence": "During the fiscal year ended December 31, 2025, we derived approximately 78% of our revenues from rents received from residents in our apartment rental properties and the remainder from commercial and retail rental customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (residential rental properties): apartment rentals",
+  "product not in text (commercial rental properties): commercial rentals"
+ ],
+ "reader": "agent"
+}

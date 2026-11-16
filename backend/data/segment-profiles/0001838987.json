@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001838987",
+ "issuerName": "SUNPOWER INC.",
+ "builtAt": "2026-11-16T05:33:49.560Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-043623",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1838987/000121390026043623/ea0283920-10k_sunpower.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

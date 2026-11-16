@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001023313",
+ "issuerName": "FORRESTER RESEARCH, INC.",
+ "builtAt": "2026-11-16T05:34:30.213Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-105114",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1023313/000119312526105114/forr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research",
+   "products": [
+    "research services"
+   ],
+   "description": "Sells research and advisory subscriptions.",
+   "evidence": "We deliver our products and services globally through three business segments – Research, Consulting and Events."
+  },
+  {
+   "name": "Consulting",
+   "products": [
+    "consulting services"
+   ],
+   "description": "Provides consulting engagements.",
+   "evidence": "We deliver our products and services globally through three business segments – Research, Consulting and Events."
+  },
+  {
+   "name": "Events",
+   "products": [],
+   "description": "Runs conferences and events.",
+   "evidence": "We deliver our products and services globally through three business segments – Research, Consulting and Events."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay subscriptions, consulting fees and event fees.",
+  "evidence": "We sell our products and services through our direct sales force across North America, Europe and the Asia Pacific region."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Events): events"
+ ],
+ "reader": "agent"
+}

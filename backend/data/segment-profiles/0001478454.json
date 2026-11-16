@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001478454",
+ "issuerName": "Eagle Bancorp Montana, Inc.",
+ "builtAt": "2026-11-16T05:33:46.007Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007330",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1478454/000143774926007330/ebmt20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Segment Reporting Management considers operations to be aggregated in one operating segment, as well as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "The President/Chief Executive Officer (\"CEO\") serves as the Company's chief operating decision maker (\"CODM\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

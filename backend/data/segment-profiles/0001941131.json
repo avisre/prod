@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001941131",
+ "issuerName": "TORO CORP.",
+ "builtAt": "2026-11-16T05:34:27.986Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-014706",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1941131/000114036126014706/ef20060830_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

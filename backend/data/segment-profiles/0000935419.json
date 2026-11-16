@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000935419",
+ "issuerName": "RCI HOSPITALITY HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:33:45.584Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-019804",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/935419/000162828026019804/rick-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nightclubs",
+   "products": [
+    "alcoholic beverages",
+    "food",
+    "merchandise"
+   ],
+   "description": "Runs its adult nightclub venues.",
+   "evidence": "OUR BUSINESS Our subsidiaries operate several businesses, which we aggregate for financial reporting purposes into two reportable segments – Nightclubs and Bombshells."
+  },
+  {
+   "name": "Bombshells",
+   "products": [],
+   "description": "Runs its Bombshells restaurants.",
+   "evidence": "OUR BUSINESS Our subsidiaries operate several businesses, which we aggregate for financial reporting purposes into two reportable segments – Nightclubs and Bombshells."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay for drinks, food and entry.",
+  "evidence": "We generate revenue from our nightclubs through the sale of alcoholic beverages, food, and merchandise items; service in the form of cover charge, licensing fees, and room rentals; and through other related means"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Bombshells): food and beverages"
+ ],
+ "reader": "agent"
+}

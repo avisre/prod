@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001084765",
+ "issuerName": "RESOURCES CONNECTION, INC.",
+ "builtAt": "2026-11-16T05:34:28.233Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001084765-26-000051",
+  "periodEnd": "2026-05-30",
+  "filingDate": "2026-07-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1084765/000108476526000051/rgp-20260530.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "On-Demand Talent",
+   "products": [
+    "talent services"
+   ],
+   "description": "Provides on-demand experts, mainly to CFO offices.",
+   "evidence": "Business Segments For fiscal 2026, the Company's operating segments were as follows: • On-Demand Talent – provides businesses with a go-to source for bringing in experts when they need them, serving predominantly the office of the CFO."
+  },
+  {
+   "name": "Outsourced Services",
+   "products": [
+    "outsourced finance",
+    "accounting",
+    "HR services"
+   ],
+   "description": "Provides outsourced finance, accounting and HR.",
+   "evidence": "Business Segments For fiscal 2026, the Company's operating segments were as follows: • On-Demand Talent – provides businesses with a go-to source for bringing in experts when they need them, serving predominantly the office of the CFO."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay fees for consultants and outsourced work.",
+  "evidence": "• Outsourced Services – operating under the Countsy by RGP TM brand, this segment offers outsourced finance, accounting and human resource (\"HR\")"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

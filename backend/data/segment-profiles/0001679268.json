@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001679268",
+ "issuerName": "Mammoth Energy Services, Inc.",
+ "builtAt": "2026-11-16T05:33:50.748Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015693",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1679268/000162828026015693/tusk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "rental services",
+   "products": [
+    "equipment rental"
+   ],
+   "description": "Rents equipment to oilfield, construction and aviation users.",
+   "evidence": "Our rental services segment provides a wide range of equipment used in oilfield, construction and aviation activities."
+  },
+  {
+   "name": "drilling services",
+   "products": [
+    "directional drilling"
+   ],
+   "description": "Provides directional drilling to oilfield operators.",
+   "evidence": "Our rental services segment provides a wide range of equipment used in oilfield, construction and aviation activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oilfield and industrial customers pay for equipment and drilling.",
+  "evidence": "Our drilling services segment provides directional drilling to oilfield operators."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

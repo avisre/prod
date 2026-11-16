@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001499832",
+ "issuerName": "Townsquare Media, Inc.",
+ "builtAt": "2026-11-16T05:34:32.003Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001499832-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1499832/000149983226000020/tsq-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Advertising",
+   "products": [],
+   "description": "Sells digital advertising on its local properties.",
+   "evidence": "Our Segments The Company has identified three segments, which are Digital Advertising, Subscription Digital Marketing Solutions, and Broadcast Advertisin"
+  },
+  {
+   "name": "Subscription Digital Marketing Solutions",
+   "products": [],
+   "description": "Sells subscription marketing services to SMBs.",
+   "evidence": "Our Segments The Company has identified three segments, which are Digital Advertising, Subscription Digital Marketing Solutions, and Broadcast Advertisin"
+  },
+  {
+   "name": "Broadcast Advertising",
+   "products": [
+    "radio advertising"
+   ],
+   "description": "Sells radio advertising.",
+   "evidence": "Our Segments The Company has identified three segments, which are Digital Advertising, Subscription Digital Marketing Solutions, and Broadcast Advertisin"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers and small businesses pay for ads and marketing.",
+  "evidence": "And through our portfolio of local radio stations strategically situated outside the Top 50 markets in the United States, we provide effective advertising solutions for our clients and relevant local content for our audiences."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Digital Advertising): digital advertising",
+  "product not in text (Subscription Digital Marketing Solutions): digital marketing subscriptions"
+ ],
+ "reader": "agent"
+}

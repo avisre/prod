@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001302387",
+ "issuerName": "BV FINANCIAL, INC.",
+ "builtAt": "2026-11-16T05:33:47.529Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-128285",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1302387/000119312526128285/bvfl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its commercial bank.",
+   "evidence": "Note 15 - Segment Reporting The Company operates a single reportable business segment that is comprised of commercial banking ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns the spread between interest earned and interest paid.",
+  "evidence": "We derive our income mainly from the difference or \"spread\" between the interest earned on loans, securities and other interest-earning assets and interest paid on deposits, borrowings and other interest-bearing liabilities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

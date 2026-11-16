@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001745114",
+ "issuerName": "MOLECULAR PARTNERS AG",
+ "builtAt": "2026-11-16T05:34:27.684Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001745114-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1745114/000174511426000009/moln-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Molecular Partners",
+   "products": [
+    "protein therapeutics"
+   ],
+   "description": "Develops protein-based therapeutics.",
+   "evidence": "The executive management, acting together as the chief operating decision maker, assess the financial performance and allocate resources on an aggregated level, and monitor the Group's operating expenses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and collaboration revenue.",
+  "evidence": "The executive management, acting together as the chief operating decision maker, assess the financial performance and allocate resources on an aggregated level, and monitor the Group's operating expenses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

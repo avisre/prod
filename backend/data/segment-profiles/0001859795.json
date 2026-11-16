@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001859795",
+ "issuerName": "NOVONIX Ltd",
+ "builtAt": "2026-11-16T05:34:27.941Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-072814",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1859795/000119312526072814/nvx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Battery Technology Solutions",
+   "products": [
+    "synthetic graphite",
+    "battery materials"
+   ],
+   "description": "Makes battery materials and synthetic graphite.",
+   "evidence": "Our Battery Technology Solutions (\"BTS\") business is currently our only business that is generating revenue, and BTS has generated most of its revenue from a limited number of customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Battery makers buy its anode materials.",
+  "evidence": "Our Battery Technology Solutions (\"BTS\") business is currently our only business that is generating revenue, and BTS has generated most of its revenue from a limited number of customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

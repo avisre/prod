@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001701541",
+ "issuerName": "BLACK DIAMOND THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T05:34:30.009Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001701541-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1701541/000170154126000009/bdtx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Black Diamond",
+   "products": [],
+   "description": "Develops precision oncology therapies.",
+   "evidence": "142 Table of Contents Segment information The Company manages its operations as a single operating segment and single reportable segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Revenue Recognition The Company recognizes revenue in accordance with ASC Topic 606, Revenue from Contracts with Customers , (ASC 606)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Black Diamond): precision oncology medicines"
+ ],
+ "reader": "agent"
+}

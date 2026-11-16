@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001697818",
+ "issuerName": "Amber International Holding Limited",
+ "builtAt": "2026-11-16T05:33:50.103Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-060362",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1697818/000110465926060362/ambr-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

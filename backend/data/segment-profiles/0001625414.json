@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001625414",
+ "issuerName": "Baozun Inc.",
+ "builtAt": "2026-11-16T05:34:27.873Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-047177",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1625414/000110465926047177/bzun-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E-Commerce",
+   "products": [
+    "e-commerce services"
+   ],
+   "description": "Runs its e-commerce operations for brands.",
+   "evidence": "Starting from the first quarter of 2023, we have two operating segments: E-Commerce (encompassing BEC and BZI) and Brand Management (representing BBM)."
+  },
+  {
+   "name": "Brand Management",
+   "products": [],
+   "description": "Manages brands including BBM.",
+   "evidence": "Starting from the first quarter of 2023, we have two operating segments: E-Commerce (encompassing BEC and BZI) and Brand Management (representing BBM)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Brands pay for e-commerce operations and brand management.",
+  "evidence": "As a result, we reported two operating segments, namely E-Commerce (including BEC and BZI) and Brand Management (BBM)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Brand Management): brand management"
+ ],
+ "reader": "agent"
+}

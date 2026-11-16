@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001006655",
+ "issuerName": "Evolution Petroleum Corp",
+ "builtAt": "2026-11-16T05:34:27.230Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-108258",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1006655/000110465926108258/epm-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and natural gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Owns and invests in onshore oil and gas properties.",
+   "evidence": "The Company has one reportable segment, which focuses on the ownership of and investment in onshore oil and natural gas properties in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns revenue from oil and gas sold by operators.",
+  "evidence": "The Company's chief executive officer, chief operating officer, and chief financial officer together function as the chief operating decision maker (\"CODM\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

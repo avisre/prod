@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001574085",
+ "issuerName": "BRAEMAR HOTELS & RESORTS INC.",
+ "builtAt": "2026-11-16T05:33:45.522Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001574085-26-000038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1574085/000157408526000038/bhr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hotel investment",
+   "products": [
+    "hotel properties"
+   ],
+   "description": "Owns hotels and earns room and food revenue.",
+   "evidence": "We operate in the direct hotel investment segment of the hotel lodging industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates and hotel charges.",
+  "evidence": "To the extent we sell hotel properties, we generally intend to redeploy the capital into investment opportunities that we believe will achieve higher returns, repay debt, or buy back our common stock or other securities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

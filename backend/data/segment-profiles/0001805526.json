@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001805526",
+ "issuerName": "DEFI DEVELOPMENT CORP.",
+ "builtAt": "2026-11-16T05:34:31.969Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001805526-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1805526/000180552626000006/dfdv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Asset Treasury",
+   "products": [
+    "digital assets"
+   ],
+   "description": "Holds and manages a digital asset treasury.",
+   "evidence": "We consider these our two operating segments: • Digital Asset Treasury : focuses on executing and managing our treasury strategy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns staking and platform fees.",
+  "evidence": "Platform The real estate segment derives its revenue primarily from platform fees."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

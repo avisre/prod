@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001772921",
+ "issuerName": "OneWater Marine Inc.",
+ "builtAt": "2026-11-16T05:33:46.607Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001772921-25-000085",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1772921/000177292125000085/onew-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dealerships",
+   "products": [
+    "boats"
+   ],
+   "description": "Runs its boat dealerships.",
+   "evidence": "We report our operations through two reportable segments: Dealerships and Distribution."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "boats",
+    "parts"
+   ],
+   "description": "Distributes boats and parts.",
+   "evidence": "We report our operations through two reportable segments: Dealerships and Distribution."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Boat buyers pay for boats, parts and services.",
+  "evidence": "We believe that we are a market leader by volume in sales of premium boats in many of the markets in which we operate."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

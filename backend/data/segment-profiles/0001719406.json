@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001719406",
+ "issuerName": "NRX PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-16T05:33:50.701Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009418",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1719406/000143774926009418/nrxp20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NRx",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops medicines for suicidal ideation and other conditions.",
+   "evidence": "The Company operates as a single operating and reportable segment, consistent with the manner in which the CODM evaluates perform"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "Segment Information The Company's Chief Operating Decision Maker (CODM) is its Chief Executive Officer, who reviews financial information presented for purposes of making operating decisions, assessing financial performance, and allocating resources."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

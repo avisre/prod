@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001941506",
+ "issuerName": "ZJK Industrial Co., Ltd",
+ "builtAt": "2026-11-16T05:33:47.145Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001731122-26-000625",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1941506/000173112226000625/e7578_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

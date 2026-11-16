@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819404",
  "issuerName": "NERDY INC.",
- "builtAt": "2026-11-15T14:14:59.736Z",
+ "builtAt": "2026-11-16T05:33:50.398Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001819404-26-000015",
@@ -13,12 +13,8 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Learners pay fixed monthly rates through Learning Memberships and Institutions pay fixed rates through access-based subscriptions and prepaid high-dosage contracts for tutoring services.",
-  "evidence": "Contracts with Learners are sold through Learning Memberships, whereby Learners pay a fixed monthly rate over the contract term."
- },
+ "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Live Tutoring Platform"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

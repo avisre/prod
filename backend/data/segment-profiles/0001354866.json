@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001354866",
+ "issuerName": "Byrna Technologies Inc.",
+ "builtAt": "2026-11-16T05:34:30.171Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-003206",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1354866/000143774926003206/byrn20251130_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

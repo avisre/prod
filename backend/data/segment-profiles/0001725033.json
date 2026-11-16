@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001725033",
+ "issuerName": "X Financial",
+ "builtAt": "2026-11-16T05:33:48.142Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-052016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1725033/000110465926052016/xyf-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

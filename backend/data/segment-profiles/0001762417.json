@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001762417",
+ "issuerName": "DouYu International Holdings Ltd",
+ "builtAt": "2026-11-16T05:34:27.746Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044566",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1762417/000110465926044566/doyu-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DouYu",
+   "products": [
+    "live streaming"
+   ],
+   "description": "Runs its live streaming platform.",
+   "evidence": "21 Segment information The Group operates as one operating segment and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Viewers pay for virtual gifts and advertisers pay for promotion.",
+  "evidence": "The Group's chief operating decision maker (\"CODM\") is the Co-CEO, who reviews financial information presented on a consolidated basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

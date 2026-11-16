@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001620459",
+ "issuerName": "James River Group Holdings, Inc.",
+ "builtAt": "2026-11-16T05:33:45.792Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001620459-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1620459/000162045926000009/jrvr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Excess and Surplus Lines",
+   "products": [
+    "excess and surplus lines insurance"
+   ],
+   "description": "Writes excess and surplus lines insurance.",
+   "evidence": "Following the sale of JRG Re, our continuing operations are comprised of two operating segments, Excess and Surplus Lines and Specialty Admitted Insurance, and a third s"
+  },
+  {
+   "name": "Specialty Admitted Insurance",
+   "products": [],
+   "description": "Writes specialty admitted insurance.",
+   "evidence": "Following the sale of JRG Re, our continuing operations are comprised of two operating segments, Excess and Surplus Lines and Specialty Admitted Insurance, and a third s"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums.",
+  "evidence": "In 2025, the Company concluded its leadership reorganization with new appointments on our board and across several key management positions including appointing new Presidents at both of our operating segments."
+ },
+ "changes": [
+  {
+   "text": "After selling JRG Re, continuing operations are two segments: Excess and Surplus Lines and Specialty Admitted Insurance.",
+   "evidence": "Following the sale of JRG Re, our continuing operations are comprised of two operating segments, Excess and Surplus Lines and Specialty Admitted Insurance, and a third s"
+  }
+ ],
+ "dropped": [
+  "product not in text (Specialty Admitted Insurance): specialty admitted insurance"
+ ],
+ "reader": "agent"
+}

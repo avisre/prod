@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001749723",
+ "issuerName": "New Fortress Energy Inc.",
+ "builtAt": "2026-11-16T05:33:46.682Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001749723-26-000032",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1749723/000174972326000032/nfe-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ships",
+   "products": [
+    "vessels"
+   ],
+   "description": "Owns and operates LNG vessels.",
+   "evidence": "Our shipping assets are included in our two operating segments, Ships and Terminals and Infrastructure."
+  },
+  {
+   "name": "Terminals and Infrastructure",
+   "products": [
+    "LNG terminals",
+    "infrastructure"
+   ],
+   "description": "Owns LNG terminals and infrastructure.",
+   "evidence": "Our shipping assets are included in our two operating segments, Ships and Terminals and Infrastructure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for LNG, terminal capacity and shipping.",
+  "evidence": "Our shipping assets are included in our two operating segments, Ships and Terminals and Infrastructure."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

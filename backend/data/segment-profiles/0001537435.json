@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001537435",
+ "issuerName": "TECOGEN INC.",
+ "builtAt": "2026-11-16T05:33:45.820Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001537435-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1537435/000153743526000013/tgen-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Products Segment",
+   "products": [
+    "cogeneration and chiller systems"
+   ],
+   "description": "Makes cogeneration and chiller systems.",
+   "evidence": "Our Business Our business operations are comprised of three business segments: • Products Segment - designs, manufactures and sells industrial and commercial cogeneration and chiller systems; • Services Segment - provides operations and maintenance (\"O&M\") services for our products under long term service contracts; and • Energy Production Segment - installs, operates and maint"
+  },
+  {
+   "name": "Services Segment",
+   "products": [
+    "operations and maintenance (\"O&M\") services"
+   ],
+   "description": "Provides O&M services for its systems.",
+   "evidence": "Our Business Our business operations are comprised of three business segments: • Products Segment - designs, manufactures and sells industrial and commercial cogeneration and chiller systems; • Services Segment - provides operations and maintenance (\"O&M\") services for our products under long term service contracts; and • Energy Production Segment - installs, operates and maint"
+  },
+  {
+   "name": "Energy Production Segment",
+   "products": [
+    "energy production"
+   ],
+   "description": "Installs and operates energy production assets.",
+   "evidence": "Our Business Our business operations are comprised of three business segments: • Products Segment - designs, manufactures and sells industrial and commercial cogeneration and chiller systems; • Services Segment - provides operations and maintenance (\"O&M\") services for our products under long term service contracts; and • Energy Production Segment - installs, operates and maint"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Buildings buy its systems and pay for service and energy.",
+  "evidence": "Our Business Our business operations are comprised of three business segments: • Products Segment - designs, manufactures and sells industrial and commercial cogeneration and chiller systems; • Services Segment - provides operations and maintenance (\"O&M\") services for our products under long term service contracts; and • Energy Production Segment - installs, operates and maint"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

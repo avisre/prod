@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001932770",
+ "issuerName": "Here Group Limited",
+ "builtAt": "2026-11-16T05:34:31.354Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-114370",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1932770/000121390026114370/ea030926901-20f_heregroup.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

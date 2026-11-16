@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000913277",
+ "issuerName": "CLARUS CORPORATION",
+ "builtAt": "2026-11-16T05:34:32.048Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024159",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/913277/000110465926024159/clar-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
