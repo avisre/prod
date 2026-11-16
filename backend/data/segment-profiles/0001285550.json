@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001285550",
  "issuerName": "ClearPoint Neuro, Inc.",
- "builtAt": "2026-11-16T05:27:43.171Z",
+ "builtAt": "2026-11-16T10:37:35.902Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-111231",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1285550/000119312526111231/clpt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical device",
+   "products": [
+    "neurosurgery navigation products",
+    "therapy products",
+    "neurocritical care products",
+    "biologics and drug delivery products",
+    "Capital equipment and software",
+    "ClearPoint system",
+    "IRRA flow system",
+    "ClearPoint software"
+   ],
+   "description": "Sells neurosurgery navigation, therapy, neurocritical care and biologics and drug delivery products, plus ClearPoint and IRRA flow capital equipment and software to hospitals and clinicians.",
+   "evidence": "The Company is a medical device company offering precise navigation to the brain, and provides clinical products and preclinical development services for controlled drug and device delivery."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hospitals, surgeons and trial sponsors pay for disposable products, capital equipment and software, plus development services and consultation for preclinical and clinical trials.",
+  "evidence": "The Company's revenue is comprised primarily of: (1) product revenue resulting from the sale of disposable products related to neurosurgery navigation, therapy, neurocritical care, and biologics and drug delivery, as well as ClearPoint and IRRA flow capital equipment and ClearPoint software; and (2) service revenue resulting from development services and consultation revenue in connection with customer-sponsored preclinical and clinical trials, as well as revenue resulting from the service, inst"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

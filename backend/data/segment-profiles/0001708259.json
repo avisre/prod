@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001708259",
  "issuerName": "LexinFintech Holdings Ltd.",
- "builtAt": "2026-11-16T05:27:40.502Z",
+ "builtAt": "2026-11-16T10:35:49.017Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-189256",
@@ -10,10 +10,23 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1708259/000119312526189256/lx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online consumer finance",
+   "products": [
+    "online direct sales services",
+    "online consumer finance services"
+   ],
+   "description": "Provides online direct sales and online consumer finance services to customers in the PRC as a single operating segment.",
+   "evidence": "The Group engages primarily in online direct sales services and online consumer finance services for its customers in the PRC."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers and customers in the PRC pay interest, guarantee fees, insurance premiums and other charges on consumer finance loans and online direct sales.",
+  "evidence": "Comprehensive financing costs refer to interest and fees borne by the borrower directly related to the loan business, including but not limited to loan interest, guarantee fees, and insurance premiums."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

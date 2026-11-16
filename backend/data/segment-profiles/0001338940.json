@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001338940",
  "issuerName": "Perion Network Ltd.",
- "builtAt": "2026-11-16T05:27:42.832Z",
+ "builtAt": "2026-11-16T10:36:45.520Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-000927",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1338940/000117891326000927/zk2634522.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "digital advertising",
+   "products": [
+    "Perion One",
+    "Outmax",
+    "WAVE"
+   ],
+   "description": "AI-native digital advertising execution infrastructure connecting data, creative and media channels for brands, agencies, publishers and retailers.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Brands, agencies, publishers and retailers pay for AI-driven digital advertising execution that connects data, creative and media channels across CTV, DOOH, retail media, social and the Open Web.",
+  "evidence": "To help brands, agencies and retailers maximize the value of their media investments, we focus on making advertising more effective by seamlessly connecting data, creative, and media channels."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

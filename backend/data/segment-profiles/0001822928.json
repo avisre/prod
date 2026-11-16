@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001822928",
  "issuerName": "HOLLEY INC.",
- "builtAt": "2026-11-16T05:27:44.293Z",
+ "builtAt": "2026-11-16T10:37:38.516Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-018218",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1822928/000162828026018218/hlly-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "performance automotive aftermarket",
+   "products": [
+    "carburetors",
+    "fuel pumps",
+    "fuel injection systems",
+    "superchargers",
+    "exhaust headers",
+    "mufflers",
+    "ignition components",
+    "engine tuners"
+   ],
+   "description": "Designs, manufactures and distributes high-performance automotive aftermarket parts for car and truck enthusiasts through direct-to-consumer and distribution channels.",
+   "evidence": "Under this organizational and reporting structure, the Company has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Enthusiasts and distribution partners pay for high-performance automotive aftermarket parts sold through direct-to-consumer and distribution channels.",
+  "evidence": "Our principle is sales growth through our DTC channel and our loyal distribution partners."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

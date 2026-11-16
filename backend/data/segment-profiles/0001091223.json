@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001091223",
  "issuerName": "MATERIALISE NV",
- "builtAt": "2026-11-16T05:27:42.162Z",
+ "builtAt": "2026-11-16T10:37:19.517Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-047671",
@@ -10,10 +10,48 @@
   "filingDate": "2026-04-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1091223/000110465926047671/mtls-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Materialise Medical",
+   "products": [
+    "medical software packages",
+    "medical devices",
+    "digital planning tools",
+    "personalized medical device portfolio",
+    "surgical guides"
+   ],
+   "description": "Develops and delivers medical software solutions and medical devices, including planning tools and personalized devices, for hospitals and medical customers.",
+   "evidence": "The Materialise Medical segment, which develops and delivers medical software solutions, medical devices and other related products and services"
+  },
+  {
+   "name": "Materialise Software",
+   "products": [
+    "Magics",
+    "Magics 3D Print Suite",
+    "CO-AM",
+    "Materialise Controllers"
+   ],
+   "description": "Develops and delivers additive manufacturing software solutions and related services for machine makers and printing service bureaus.",
+   "evidence": "The Materialise Software segment, which develops and delivers additive manufacturing software solutions and related services"
+  },
+  {
+   "name": "Materialise Manufacturing",
+   "products": [
+    "3D printed products",
+    "end-use products",
+    "Phits customized 3D printed insoles",
+    "pressure plate technology"
+   ],
+   "description": "Delivers printed parts, end-use products and related services for industrial and medical customers, including footwear insoles.",
+   "evidence": "The Materialise Manufacturing segment, which delivers 3D printed products and related services"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Materialise for software licenses and maintenance, medical devices and related services, and printed parts.",
+  "evidence": "Revenue is generated primarily by the sale of our software and 3D printed and complex manufactured products and services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

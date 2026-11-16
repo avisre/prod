@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001840706",
  "issuerName": "SOPHiA GENETICS SA",
- "builtAt": "2026-11-16T05:27:42.220Z",
+ "builtAt": "2026-11-16T10:36:23.635Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001840706-26-000006",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1840706/000184070626000006/soph-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision medicine",
+   "products": [
+    "SOPHiA DDM Platform",
+    "Alamut",
+    "DNA enrichment kits",
+    "set-up programs",
+    "training",
+    "kits and tests",
+    "DNA sequencing automation equipment",
+    "analyses"
+   ],
+   "description": "Sells data-driven precision medicine platform access, genomic analyses, consumables and software to hospitals, laboratories and biopharma customers.",
+   "evidence": "The Company operates in a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers and biopharma partners pay for platform analyses, DNA enrichment kits, set-up programs and training, and Alamut software licensing.",
+  "evidence": "The majority of the sales revenue is recognized: (i) when customers generate analyses on their patient data through the SOPHiA DDM Platform, (ii) when consumables, namely DNA enrichment kits, are delivered to customers at which point control transfers, (iii) when services, namely set-up programs, are performed and (iv) over the duration of the software licensing arrangements for the Alamut software offerings."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

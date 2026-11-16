@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001846253",
  "issuerName": "OMNIAB, INC.",
- "builtAt": "2026-11-16T05:27:40.411Z",
+ "builtAt": "2026-11-16T10:35:27.541Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001846253-26-000009",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1846253/000184625326000009/ck0001846253-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Discovery research technology",
+   "products": [
+    "OmniRat ®",
+    "OmniChicken ®",
+    "OmniMouse ®",
+    "OmniFlic ®",
+    "OmniClic ®",
+    "OmniTaur ™",
+    "Omni dAb ™",
+    "OmniUltra ™"
+   ],
+   "description": "Licenses transgenic animal and single B cell screening technology platforms to pharmaceutical, biotech and academic partners for discovering next-generation antibody therapeutics.",
+   "evidence": "The Company operates under one reportable business segment, providing discovery research technology to enable the discovery of next-generation therapeutics."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Pharmaceutical and biotech partners and academic institutions pay upfront or annual access fees, service revenue, milestones and royalties on commercial sales under structured platform license agreements.",
+  "evidence": "Our business model aligns our interests with the scientific and economic interests of our partners through structured platform license agreements that generally include upfront or annual access fees, service revenue, milestones and royalties on commercial sales."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

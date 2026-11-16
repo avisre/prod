@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001769663",
  "issuerName": "Pioneer Bancorp, Inc./MD",
- "builtAt": "2026-11-16T05:27:41.879Z",
+ "builtAt": "2026-11-16T10:36:04.141Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-027092",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1769663/000110465926027092/pbfs-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "retail and commercial banking services",
+    "commercial and consumer insurance products",
+    "employee benefit products and services",
+    "wealth management services",
+    "human resources consulting services",
+    "demand accounts",
+    "savings accounts",
+    "money market accounts"
+   ],
+   "description": "A community bank serving the Capital Region of New York with retail and commercial banking, plus insurance, wealth management and benefits services.",
+   "evidence": "The Company's operations are primarily in the community banking industry and includes retail and commercial banking services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Depositors, municipalities and borrowers pay the Bank for deposit accounts and loans, and customers pay for insurance, wealth management and employee benefits.",
+  "evidence": "We attract deposits from the general public and municipalities and use those funds along with advances from the Federal Home Loan Bank of New York (\"FHLBNY\") and funds generated from operations to originate commercial real estate loans, commercial and industrial loans, commercial construction loans and home equity loans and lines of credit and, to a lesser extent, consumer loans."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

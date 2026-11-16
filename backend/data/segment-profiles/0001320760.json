@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001320760",
  "issuerName": "TSS, INC.",
- "builtAt": "2026-11-16T05:27:40.857Z",
+ "builtAt": "2026-11-16T10:35:42.767Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001654954-26-002342",
@@ -10,10 +10,39 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1320760/000165495426002342/tssi_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Facilities Management",
+   "products": [
+    "Maintenance revenues",
+    "Equipment sales, deployment and other services"
+   ],
+   "description": "Installs, integrates, tests and maintains modular data centers and mission-critical facilities for enterprise and data center customers, including ongoing maintenance contracts.",
+   "evidence": "These increases were partially offset by a $0.1 million (1%) decrease in revenue from the facilities management segment, primarily due to a decrease in maintenance revenues largely offset by an increase in discrete projects."
+  },
+  {
+   "name": "Systems Integration",
+   "products": [
+    "Integration services"
+   ],
+   "description": "Provides rack-level and systems integration, configuration and testing of IT hardware, including AI-enabled computer racks, in its own integration facility for OEM and enterprise customers.",
+   "evidence": "The systems integration business growth was driven primarily by the significant increase in rack integration of AI-enabled computer racks."
+  },
+  {
+   "name": "Procurement",
+   "products": [
+    "Procurement services"
+   ],
+   "description": "Sources third-party hardware, software and services for customers, sometimes acting as an agent, and arranges a single-source solution for their IT needs.",
+   "evidence": "The 68% increase in procurement revenues, from $117.5 million in 2024 to $197.5 million in 2025, was driven primarily by an increase in purchases from the federal government including several individually large sales, combined with a mix shift with a greater proportion of the revenues coming from gross deals, as opposed to net deals."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including a large US-based OEM and federal government buyers, pay fees for integration, procurement and facilities management services and for equipment deployment.",
+  "evidence": "We recognize revenues when control of the promised goods or services is transferred to our customers in an amount that reflects the consideration we expect to be entitled to in exchange for those goods or services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

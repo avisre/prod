@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000899923",
  "issuerName": "MYRIAD GENETICS, INC.",
- "builtAt": "2026-11-16T05:27:41.249Z",
+ "builtAt": "2026-11-16T10:36:03.221Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000899923-26-000018",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/899923/000089992326000018/mygn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Molecular diagnostics",
+   "products": [
+    "MyRisk",
+    "BRACAnalysis CDx",
+    "MyChoice CDx",
+    "Prolaris",
+    "EndoPredict",
+    "Precise Tumor",
+    "Precise MRD",
+    "GeneSight"
+   ],
+   "description": "Develops and commercializes molecular diagnostic and precision medicine tests that assess disease risk and guide treatment decisions for patients and providers.",
+   "evidence": "Accordingly, the Company has determined that it operates as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Payers and patients pay the company for molecular diagnostic tests that assess disease risk and guide treatment decisions across medical specialties.",
+  "evidence": "We develop and commercialize molecular tests that help patients and providers uncover genetic insights."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company divested the EndoPredict business to Eurobio Scientific.",
+   "evidence": "In August 2024, we divested the EndoPredict business to Eurobio Scientific."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

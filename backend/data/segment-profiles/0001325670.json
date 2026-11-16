@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001325670",
  "issuerName": "PRIMIS FINANCIAL CORP.",
- "builtAt": "2026-11-16T05:27:42.467Z",
+ "builtAt": "2026-11-16T10:37:15.634Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-028599",
@@ -10,11 +10,48 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1325670/000110465926028599/frst-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Primis Bank",
+   "products": [
+    "Commercial Business Lending",
+    "Commercial Real Estate Lending",
+    "Construction Lending",
+    "SBA Lending",
+    "Panacea Practice Solutions",
+    "Mortgage Warehouse Lending",
+    "Home Equity Lines of Credit",
+    "Secured Personal Loans"
+   ],
+   "description": "Provides commercial, commercial real estate, construction and consumer lending plus deposit services to businesses, non-profits, municipalities and individual consumers.",
+   "evidence": "Primis Bank. This segment specializes in providing financing services to businesses in various industries along with consumer and residential loans to individuals."
+  },
+  {
+   "name": "Primis Mortgage",
+   "products": [
+    "residential mortgage loans",
+    "Residential Construction"
+   ],
+   "description": "Originates residential mortgages across the United States and sells them, earning mortgage banking income from that origination and sale activity.",
+   "evidence": "Primis Mortgage. This segment specializes in originating mortgages in a majority of the U.S."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Primis Bank earns interest income from loans it originates and from deposit-related services, while Primis Mortgage earns noninterest income from originating and selling mortgage loans.",
+  "evidence": "The primary source of revenue for this segment is noninterest income generated from the origination and sale of mortgage loans, while the primary expense of the segment is personnel costs."
+ },
+ "changes": [
+  {
+   "text": "The Company deconsolidated PFH, which owns the Panacea Financial brand, in 2025 after concluding it was no longer the primary beneficiary.",
+   "evidence": "As discussed in Note 1 – Organization and Significant Accounting Policies, the Company reassessed its relationship with PFH in 2025 and determined it remained a VIE but the Company no longer had a controlling financial interest, was not the primary beneficiary, and therefore de-consolidated PFH from the Company as of March 31, 2025."
+  },
+  {
+   "text": "The Company sold most of its life premium finance loans in 2024 and stopped offering them in 2025.",
+   "evidence": "We sold a majority of these loans to EverBank, N.A. (\"EverBank\") in 2024 and no longer offer these loans as of January 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

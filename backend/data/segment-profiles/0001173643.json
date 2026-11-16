@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001173643",
  "issuerName": "TRX GOLD Corporation",
- "builtAt": "2026-11-16T05:27:42.332Z",
+ "builtAt": "2026-11-16T10:37:06.341Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001171843-25-007686",
@@ -10,8 +10,17 @@
   "filingDate": "2025-12-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1173643/000117184325007686/f40f_111825.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gold",
+   "products": [
+    "Buckreef Gold Mine Project"
+   ],
+   "description": "Owns the Buckreef Gold Mine Project in Tanzania, where the company mines and produces gold.",
+   "evidence": "Preliminary Economic Assessment and Updated Mineral Resource Estimate of the Buckreef Gold Mine Project, Tanzania"
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001720592",
  "issuerName": "Repay Holdings Corporation",
- "builtAt": "2026-11-16T05:27:45.015Z",
+ "builtAt": "2026-11-16T10:38:22.121Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-098518",
@@ -10,10 +10,36 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1720592/000119312526098518/rpay-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Payments",
+   "products": [
+    "debit and credit card processing",
+    "ACH processing",
+    "loan disbursement product",
+    "clearing and settlement solutions"
+   ],
+   "description": "Provides card, ACH and other electronic payment processing plus clearing and settlement so clients can collect payments and disburse funds to consumers.",
+   "evidence": "Our Consumer Payments segment provides payment processing solutions (including debit and credit card processing, Automated Clearing House (\"ACH\") processing and other electronic payment acceptance solutions, as well as our loan disbursement product) that enable our clients to collect payments and disburse funds to consumers and includes our clearing and settlement solutions (\"RCS\") offering."
+  },
+  {
+   "name": "Business Payments",
+   "products": [
+    "accounts payable automation",
+    "virtual credit card processing",
+    "debit and credit card processing",
+    "ACH processing"
+   ],
+   "description": "Provides accounts payable automation and card, virtual card and ACH processing so clients can collect or send payments to other businesses.",
+   "evidence": "Our Business Payments segment provides payment processing solutions (including accounts payable automation, debit and credit card processing, virtual credit card processing, ACH processing and other electronic payment acceptance solutions) that enable our clients to collect or send payments to other businesses."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay volume-based discount fees and fixed per-transaction fees for processing payments and related services.",
+  "evidence": "Most of our revenues are derived from volume-based payment processing fees (\"discount fees\") and other related fixed per transaction fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

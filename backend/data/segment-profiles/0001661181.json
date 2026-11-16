@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001661181",
  "issuerName": "ORGANOGENESIS HOLDINGS INC.",
- "builtAt": "2026-11-16T05:27:43.575Z",
+ "builtAt": "2026-11-16T10:37:46.343Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076730",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1661181/000119312526076730/orgo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "regenerative medicine",
+   "products": [
+    "Apligraf",
+    "Dermagraft",
+    "PuraPly AM",
+    "PuraPly XT",
+    "CYGNUS Dual",
+    "CYGNUS Matrix",
+    "VIA Matrix",
+    "SimpliMax"
+   ],
+   "description": "Develops, manufactures and sells regenerative medicine products for advanced wound care and surgical and sports medicine sold to hospitals, wound care centers and physician offices.",
+   "evidence": "The Company has determined that it has a single operating segment—regenerative medicine."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Health care providers such as hospitals, wound care centers, government facilities, ambulatory surgery centers and physician offices pay for the company's regenerative medicine products and in-house customer support.",
+  "evidence": "We offer our differentiated products and in-house customer support to a wide range of health care customers including hospitals, wound care centers, government facilities, ambulatory surgery centers (\"ASCs\") and physician offices."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

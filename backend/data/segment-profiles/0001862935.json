@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001862935",
  "issuerName": "CURRENC GROUP INC.",
- "builtAt": "2026-11-16T05:27:40.985Z",
+ "builtAt": "2026-11-16T10:36:18.345Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-020709",
@@ -10,11 +10,44 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1862935/000149315226020709/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Remittance services",
+   "products": [
+    "cross-border money transfer",
+    "switching services",
+    "real-time foreign exchange services",
+    "cash pick-up services"
+   ],
+   "description": "Operates a cross-border remittance hub for bank partners, corporate clients and migrant workers, settling payments globally.",
+   "evidence": "The remittance segment is operated through Tranglo."
+  },
+  {
+   "name": "Sales of airtime",
+   "products": [
+    "international airtime transfer business",
+    "retail airtime trading business",
+    "cross-border airtime wholesale and transfer services",
+    "internet data top-up",
+    "cash top-up",
+    "utility or bill payments"
+   ],
+   "description": "Sells and transfers airtime and data top-ups to retail users and migrant workers through Tranglo and WalletKu.",
+   "evidence": "The Company operates the airtime segment via its international airtime transfer business through Tranglo and its retail airtime trading business locally in Indonesian through WalletKu."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Business-to-business partners, corporate clients and retail users pay transaction and foreign exchange fees for cross-border remittance and airtime transfer services.",
+  "evidence": "At December 31, 2025, Tranglo had more than 5,000 bank partners, 35 e-Wallets, 130,000 cash pick-up points, and more than 140 corporate clients for remittances, with a remittance network covering more than 100 countries."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company announced it had agreed to sell its controlling interest in Tranglo to New Margin.",
+   "evidence": "On January 2, 2026, in connection with the Proposed Merger, we announced that our wholly owned subsidiary, Seamless, entered into a Share Purchase Agreement to sell its 60% controlling interest in Tranglo to New Margin."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001788999",
  "issuerName": "XPERI INC.",
- "builtAt": "2026-11-16T05:27:39.642Z",
+ "builtAt": "2026-11-16T10:35:34.642Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076849",
@@ -10,11 +10,39 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1788999/000119312526076849/xper-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Entertainment technology",
+   "products": [
+    "TiVo OS",
+    "TiVo One",
+    "DTS AutoStage",
+    "HD Radio",
+    "DTS Play-Fi",
+    "DTS Virtual:X",
+    "Electronic Program Guides",
+    "TiVo IPTV"
+   ],
+   "description": "Licenses media, audio and advertising technology and platforms to TV operators, device makers, automakers and advertisers, monetizing engagement across connected devices.",
+   "evidence": "We operate in one reportable business segment and group our revenue into four categories: Pay-TV, Consumer Electronics, Connected Car and Media Platform."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Xperi is paid royalties, fixed license fees and per-subscriber fees by device makers, automakers, pay-TV operators and advertisers for its technology, platforms and advertising.",
+  "evidence": "The Company derives the majority of its revenue from licensing its technologies and solutions to customers within the Pay-TV, Consumer Electronics, Connected Car and Media Platform product categories."
+ },
+ "changes": [
+  {
+   "text": "In 2024 Xperi sold its AutoSense in-cabin safety business and related imaging solutions to Tobii AB.",
+   "evidence": "The AutoSense Divestiture was completed in January 2024 and has streamlined our business and further enhanced our focus on entertainment markets."
+  },
+  {
+   "text": "In 2024 Xperi sold substantially all of the assets of Perceive Corporation to Amazon.com Services LLC.",
+   "evidence": "The Perceive Transaction was completed in October 2024, allowing us to be fully focused on entertainment-based solutions to grow our independent media platform and licensing businesses."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

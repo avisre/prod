@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001903508",
  "issuerName": "Public Policy Holding Company, Inc.",
- "builtAt": "2026-11-16T05:27:42.943Z",
+ "builtAt": "2026-11-16T10:36:49.813Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-022359",
@@ -10,10 +10,54 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1903508/000162828026022359/pphc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Government Relations Consulting",
+   "products": [
+    "advocacy",
+    "strategic guidance",
+    "political intelligence",
+    "issue monitoring",
+    "direct advocacy services",
+    "strategic intelligence",
+    "reputation management"
+   ],
+   "description": "Provides federal and state lobbying, advocacy and political intelligence services to corporate and non-profit clients in the US and UK.",
+   "evidence": "Government Relations Consulting services (which are also commonly referred to as \"lobbying\") include advocacy, strategic guidance, political intelligence and issue monitoring at the US federal and state levels and in the United Kingdom through our offices in London;"
+  },
+  {
+   "name": "Corporate Communications & Public Affairs Consulting",
+   "products": [
+    "crisis communications",
+    "financial communications and investor relations",
+    "litigation support",
+    "community relations",
+    "social and digital media",
+    "public opinion research",
+    "branding and messaging",
+    "relationship marketing"
+   ],
+   "description": "Advises clients on reputation building, crisis management, stakeholder engagement, digital strategy and grassroots advocacy across the US and internationally.",
+   "evidence": "Corporate Communications & Public Affairs Consulting services include crisis communications, financial communications and investor relations, litigation support, community relations, social and digital media, public opinion research, branding and messaging, and relationship marketing, across the United States and internationally through our offices in London, Shanghai, Abu Dhabi, and Dubai;"
+  },
+  {
+   "name": "Compliance and Insights Services",
+   "products": [
+    "legislative tracking",
+    "lobbying and campaign finance compliance",
+    "local government monitoring and alert services",
+    "lobbying compliance services"
+   ],
+   "description": "Sells legislative tracking and lobbying and campaign finance compliance services, principally through MultiState, helping clients monitor and report on policy developments.",
+   "evidence": "Our Compliance and Insights Services segment is currently principally operated through MultiState, and includes legislative tracking as well as lobbying and campaign finance compliance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay fixed monthly retainers or subscriptions for a predetermined set of professional services, with a smaller portion from project-specific work.",
+  "evidence": "We generate substantially all of our revenue by providing consulting services related to Government Relations, Corporate Communications and Public Affairs Consulting and Compliance and Insights Services, primarily through fixed-fee arrangements whereby the client pays a fixed monthly retainer or subscription amount in exchange for a predetermined set of professional services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

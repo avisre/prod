@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001510593",
  "issuerName": "Xunlei Ltd",
- "builtAt": "2026-11-16T05:27:40.919Z",
+ "builtAt": "2026-11-16T10:36:00.334Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-050304",
@@ -10,11 +10,46 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1510593/000110465926050304/xnet-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "Xunlei",
+   "products": [
+    "Subscription revenue",
+    "Live streaming revenue and others",
+    "Cloud computing services and product revenue",
+    "online advertising",
+    "online games and related distribution services",
+    "technical services",
+    "rental services"
+   ],
+   "description": "Pre-existing business of the group, selling subscription, live streaming and cloud computing services and products in China.",
+   "evidence": "Upon completion of the acquisition of Hupu in May 2025, the Group started to report results of operations in two segments: (i) Xunlei, for the pre-existing business, and (ii) Hupu, for the newly acquired business."
+  },
+  {
+   "name": "Hupu",
+   "products": [
+    "Live streaming revenue and others"
+   ],
+   "description": "Newly acquired business, reported separately since the acquisition and contributing live streaming revenue and other revenue.",
+   "evidence": "The goodwill of US$ 38,454,000 was assigned to the Hupu reportable segment and is primarily attributable to expected synergies from the assembled workforce and the anticipated benefits of post-acquisition business cooperation with Xunlei."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Users and advertisers pay for subscriptions, live streaming, cloud computing services and products, online advertising, online games, technical services and rental services.",
+  "evidence": "Others mainly comprised online advertising, online games and related distribution services, technical services and rental services."
+ },
+ "changes": [
+  {
+   "text": "2025: following the Hupu acquisition the group began reporting two segments, Xunlei and Hupu.",
+   "evidence": "Upon completion of the acquisition of Hupu in May 2025, the Group started to report results of operations in two segments: (i) Xunlei, for the pre-existing business, and (ii) Hupu, for the newly acquired business."
+  },
+  {
+   "text": "2023 and 2024: segment information was recast because the group had operated under a single reportable segment in prior periods.",
+   "evidence": "The Group operated under a single reportable segment in prior periods, the retrospective recast primarily involves reclassifying significant segment expenses and updating usage metrics."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002058601",
  "issuerName": "BRBI BR Partners S.A.",
- "builtAt": "2026-11-16T05:27:44.343Z",
+ "builtAt": "2026-11-16T10:38:00.447Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050426",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2058601/000121390026050426/ea0285533-20f_brbibr.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Banking",
+   "products": [
+    "Capital Market",
+    "Treasury Sales & Structuring",
+    "Investments",
+    "Wealth Management",
+    "Capital remuneration"
+   ],
+   "description": "Single reportable segment providing investment banking advisory, capital markets, treasury, investment and wealth management services to Brazilian corporate, institutional and high-income clients.",
+   "evidence": "The Group has a single reportable segment as of December 31, 2025, and 2024. This segment offers investment banking services, which are administered and managed according to the products offered."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Corporate, institutional and high-income clients pay advisory and service fees for investment banking, capital markets, treasury and wealth management services.",
+  "evidence": "We generate investment banking revenue based on advisory service fees that are calculated as a percentage of the completed transaction."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

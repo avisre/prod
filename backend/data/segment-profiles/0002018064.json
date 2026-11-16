@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002018064",
  "issuerName": "TECHTARGET, INC.",
- "builtAt": "2026-11-16T05:27:43.841Z",
+ "builtAt": "2026-11-16T10:38:16.314Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-102183",
@@ -10,11 +10,38 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/2018064/000119312526102183/ttgt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Market insight and market access",
+   "products": [
+    "purchase intent driven advertising campaigns",
+    "data and research reports",
+    "Legacy TechTarget",
+    "Bluefin",
+    "NetLine",
+    "Industry Dive",
+    "Canalys"
+   ],
+   "description": "Provides market insight and market access to the technology market, informing and influencing technology buyers and sellers globally through advertising, data and research.",
+   "evidence": "The Company generates revenue by providing market insight and market access to the technology market, including enterprise technology, artificial intelligence, channel, cybersecurity, media & entertainment, and service providers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Enterprise technology companies pay for purchase intent driven advertising campaigns and for subscriptions to our platforms, data and research reports.",
+  "evidence": "Because most of our customers are in the enterprise technology industry, our revenues are subject to characteristics of the enterprise technology industry that can affect advertising spending by B2B technology companies."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company operated as one segment as it integrated and reorganized the combined businesses following the Merger.",
+   "evidence": "During the year ended December 31, 2025, the Company operated as one segment."
+  },
+  {
+   "text": "In 2025 the Company began reorganizing into the Intelligence and Advisory and Brand to Demand business segments, which it does not yet report.",
+   "evidence": "The Company expects to complete the integration and reorganization, including the establishment and reporting of information such as key performance indicators for the following business segments: Intelligence and Advisory, and Brand to Demand, which the Company will report on once the ability to assess performance and make resource allocation is complete."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

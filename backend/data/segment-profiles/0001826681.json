@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001826681",
  "issuerName": "Palladyne AI Corp.",
- "builtAt": "2026-11-16T05:27:44.842Z",
+ "builtAt": "2026-11-16T10:38:18.784Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-092443",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1826681/000119312526092443/pdyn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI/ML Foundational Technology",
+   "products": [
+    "BRAIN family of guidance and navigation computer chips",
+    "BRAIN X2",
+    "BRAIN advanced avionics flight computers",
+    "Palladyne IQ",
+    "Palladyne IQ 2.0",
+    "Palladyne SwarmOS",
+    "IntelliSwarm",
+    "precision machined and fabricated components"
+   ],
+   "description": "Develops AI/ML autonomy software, hardware and engineering services, and precision manufacturing for U.S. government, defense and commercial customers.",
+   "evidence": "Currently, we conduct business through one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The U.S. government and commercial customers pay for research and development, engineering and design services, hardware products and precision manufacturing.",
+  "evidence": "First, we enter into service contracts to provide research and development, engineering and design services with the U.S. government and commercial customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

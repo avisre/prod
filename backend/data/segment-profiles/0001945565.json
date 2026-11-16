@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001945565",
  "issuerName": "BGIN BLOCKCHAIN LIMITED",
- "builtAt": "2026-11-16T05:27:39.790Z",
+ "builtAt": "2026-11-16T10:35:18.473Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048532",
@@ -10,11 +10,44 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1945565/000121390026048532/ea0287441-20f_bgin.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cryptocurrency mining",
+   "products": [
+    "mining pool services",
+    "KAS"
+   ],
+   "description": "Self-mines cryptocurrencies at subsidiary-owned mining farms and operates mining pools for third-party participants, earning coin rewards.",
+   "evidence": "the Company operated in two primary reportable segments, which were the cryptocurrency mining, which included mining revenue and mining pool revenue, and the sale of mining machines."
+  },
+  {
+   "name": "sale of mining machines",
+   "products": [
+    "\"KS\" series",
+    "\"AL\" series",
+    "\"RX\" series",
+    "\"AE\" series",
+    "ASIC chips",
+    "KS7",
+    "BL1",
+    "BT1"
+   ],
+   "description": "Designs, manufactures and sells proprietary ASIC-chip mining machines to distributors, mining companies and individual miners.",
+   "evidence": "In April 2023, we started selling mining machines designed by us, installed with our proprietary ASIC chips, to customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Mining machine customers and hosting clients pay us for machines and capacity, pool participants pay fees, and we earn cryptocurrency rewards from our own mining.",
+  "evidence": "we generate income by receiving crypto coins as rewards and deducting a percentage of such rewards as pool fees from payouts to pool participants."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company determined to wind down its mining pool business.",
+   "evidence": "we have determined that the mining pool business will be wound down and have proactively taken steps to implement this rundown of the business segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

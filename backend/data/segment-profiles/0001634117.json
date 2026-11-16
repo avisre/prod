@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001634117",
  "issuerName": "BARNES & NOBLE EDUCATION, INC.",
- "builtAt": "2026-11-16T05:27:44.593Z",
+ "builtAt": "2026-11-16T10:38:15.127Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001634117-26-000070",
@@ -10,11 +10,35 @@
   "filingDate": "2026-07-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1634117/000163411726000070/bned-20260502.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "campus bookstores",
+   "products": [
+    "course materials",
+    "new, used, rental and digital textbooks",
+    "general merchandise",
+    "emblematic apparel and gifts",
+    "trade books",
+    "computer products",
+    "school and dorm supplies",
+    "graduation products"
+   ],
+   "description": "Operates physical and virtual bookstores for college and university campuses, selling course materials, books, emblematic apparel, supplies and general merchandise to students and faculty.",
+   "evidence": "The Company currently operates as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Students and campus institutions pay for course materials, textbooks and general merchandise, with institutions billed directly for the First Day affordable access programs.",
+  "evidence": "students are billed the below market rate directly by the institution as a course charge or included in tuition."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2025 the company realigned its operating and reporting segments around a centralized management structure supporting company-wide procurement, marketing and selling, delivery, and customer service.",
+   "evidence": "During fiscal year 2025, management realigned the Company's operating and reporting segments to better reflect a centralized management structure supporting company-wide procurement, marketing and selling, delivery, and customer service."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

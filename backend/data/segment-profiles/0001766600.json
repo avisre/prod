@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001766600",
  "issuerName": "SNDL Inc.",
- "builtAt": "2026-11-16T05:27:40.112Z",
+ "builtAt": "2026-11-16T10:35:53.907Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001193125-26-102524",
@@ -11,10 +11,50 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1766600/000119312526102524/sndl-ex99_2.htm",
   "exhibit": "sndl-ex99_2.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Liquor retail",
+   "products": [
+    "wines",
+    "beers",
+    "spirits"
+   ],
+   "description": "Sells wines, beers and spirits to consumers through the Company's owned liquor stores.",
+   "evidence": "Liquor retail includes the sale of wines, beers and spirits through owned liquor stores."
+  },
+  {
+   "name": "Cannabis retail",
+   "products": [
+    "adult-use cannabis products",
+    "accessories",
+    "Value Buds"
+   ],
+   "description": "Sells adult-use cannabis products and accessories to consumers through corporate-owned, controlled and franchised retail cannabis stores.",
+   "evidence": "Cannabis retail includes the private sale of adult-use cannabis products and accessories through corporate-owned, controlled and franchised retail cannabis stores."
+  },
+  {
+   "name": "Cannabis operations",
+   "products": [
+    "cannabis for the adult-use and medical markets",
+    "proprietary cannabis processing services",
+    "cannabis consumer packaged goods"
+   ],
+   "description": "Cultivates, distributes and sells cannabis for domestic adult-use and medical markets and export, and provides processing and consumer packaged goods.",
+   "evidence": "Cannabis operations include the cultivation, distribution and sale of cannabis for the adult-use and medical markets domestically and for export, and providing proprietary cannabis processing services, in addition to product development, manufacturing, and commercialization of cannabis consumer packaged goods."
+  },
+  {
+   "name": "Investments",
+   "products": [],
+   "description": "Deploys the Company's capital into investment opportunities, including its equity-accounted joint venture.",
+   "evidence": "Investments include the deployment of capital to investment opportunities."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Consumers pay for liquor, cannabis and accessories in stores; provincial boards and export buyers pay for cannabis supplied by cannabis operations.",
+  "evidence": "Cannabis operations include the cultivation, distribution and sale of cannabis for the adult-use and medical markets domestically and for export, and providing proprietary cannabis processing services, in addition to product development, manufacturing, and commercialization of cannabis consumer packaged goods."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

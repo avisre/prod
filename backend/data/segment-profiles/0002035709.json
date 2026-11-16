@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002035709",
  "issuerName": "Phoenix     Asia Holdings Limited",
- "builtAt": "2026-11-16T05:27:43.377Z",
+ "builtAt": "2026-11-16T10:37:18.312Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-038397",
@@ -10,10 +10,27 @@
   "filingDate": "2026-08-14",
   "url": "https://www.sec.gov/Archives/edgar/data/2035709/000149315226038397/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Foundation works",
+   "products": [
+    "site formation",
+    "ground investigation",
+    "foundation and piling",
+    "structural steelworks",
+    "advisory services and supervision services",
+    "marine grouting works"
+   ],
+   "description": "Provides substructure and foundation works plus related construction services in Hong Kong, mostly for public sector clients as a subcontractor.",
+   "evidence": "The single segment represents the Company's core business of providing foundation works and other foundation related ancillary works to its customers in Hong Kong."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hong Kong public and private sector customers pay the company for substructure works, mostly as a subcontractor, and for advisory and supervision services charged monthly.",
+  "evidence": "We mostly undertake substructure works in the role of subcontractor."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

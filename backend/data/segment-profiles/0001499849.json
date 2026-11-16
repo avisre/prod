@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001499849",
  "issuerName": "BrasilAgro – Brazilian Agricultural Real Estate Company",
- "builtAt": "2026-11-16T05:27:39.752Z",
+ "builtAt": "2026-11-16T10:35:09.494Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-114187",
@@ -10,10 +10,67 @@
   "filingDate": "2026-10-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1499849/000121390026114187/ea0309497-20f_brasilagro.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "sale of farms",
+    "rural properties"
+   ],
+   "description": "Sells the Company's agricultural farms and rural properties, generating gains on sale of farms for the group.",
+   "evidence": "The real estate segment presents the results of operations carried out in the Company's subsidiaries."
+  },
+  {
+   "name": "Grains",
+   "products": [
+    "soybean",
+    "corn",
+    "beans"
+   ],
+   "description": "Produces and sells soybean, corn and beans to crop customers in Brazil, Paraguay and Bolivia.",
+   "evidence": "The main activity of the grains segment is the production and sale of soybean, corn and beans."
+  },
+  {
+   "name": "Sugarcane",
+   "products": [
+    "raw product"
+   ],
+   "description": "Produces and sells the raw sugarcane product to sugar and ethanol mills and other buyers.",
+   "evidence": "The sugarcane segment includes the sale of the raw product."
+  },
+  {
+   "name": "Cattle",
+   "products": [
+    "beef calves post-weaning"
+   ],
+   "description": "Runs a cattle breeding, rearing and fattening operation and sells beef calves after weaning.",
+   "evidence": "The cattle raising segment consists of the production and sale of beef calves post-weaning, characterized as a cattle breeding, rearing, and fattening operation."
+  },
+  {
+   "name": "Cotton",
+   "products": [
+    "cotton lint",
+    "seed"
+   ],
+   "description": "Produces and sells cotton lint and cotton seed to buyers of the fibre and seed.",
+   "evidence": "The cotton segment is engaged primarily in the production and sale of cotton lint and seed."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "pearl millet",
+    "sorghum"
+   ],
+   "description": "Holds insignificant services and crops outside the main farming segments, including minor cereals.",
+   "evidence": "The Company has six segments, namely: (i) real estate, (ii) grains, (iii) sugarcane, (iv) cattle, (v) cotton and (vi) other, basically represented by insignificant services and crops."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the Company for agricultural commodities and farms it produces and sells, with much of the crop sold to a few large buyers.",
+  "evidence": "We currently sell a substantial portion of our total crop production to a small number of customers who have considerable bargaining power."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

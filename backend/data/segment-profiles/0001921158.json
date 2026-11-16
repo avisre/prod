@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001921158",
  "issuerName": "BitFuFu Inc.",
- "builtAt": "2026-11-16T05:27:43.751Z",
+ "builtAt": "2026-11-16T10:37:43.176Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048533",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1921158/000121390026048533/ea0286816-20f_bitfufu.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital asset mining",
+   "products": [
+    "Cloud mining solutions",
+    "Bitcoin self-mining",
+    "Sales of mining equipment",
+    "Hosting services and others"
+   ],
+   "description": "Runs cloud mining, self-mining, mining equipment sales and hosting services for enterprise and individual customers.",
+   "evidence": "For the years ended December 31, 2025, 2024 and 2023, the Company operates in a single operating segment that mainly includes: 1) cloud mining solutions services; 2) self-mining; 3) sale of mining equipment; and 4) hosting services and others."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Enterprise and individual customers pay in digital assets or U.S. dollars for cloud mining solutions, self-mining output, mining equipment and hosting services.",
+  "evidence": "The amount of revenue recognized from receipt of digital assets and receipt of U.S. dollars is presented separately as follows:"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

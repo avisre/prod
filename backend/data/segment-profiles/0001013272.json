@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001013272",
  "issuerName": "Norwood Financial Corp",
- "builtAt": "2026-11-16T05:27:44.674Z",
+ "builtAt": "2026-11-16T10:38:03.746Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001013272-26-000003",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1013272/000101327226000003/nwfl-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "commercial and retail financial services",
+    "time, savings and demand deposits",
+    "commercial, consumer and mortgage loans",
+    "safe deposit services",
+    "personal, corporate, pension and fiduciary services"
+   ],
+   "description": "Community bank serving individuals, businesses, government and nonprofit customers with deposits, loans, trust and investment services through its Community Office and ATM network.",
+   "evidence": "Accordingly, all the financial service operations are considered by management to be aggregated in one reportable operating segment, Community Banking."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the Bank for personal and business credit services, trust and investment products, and real estate settlement services.",
+  "evidence": "The Bank offers a wide variety of personal and business credit services and trust and investment products and real estate settlement services to the consumers, businesses, nonprofit organizations, and municipalities in each of the communities that the Bank serves."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

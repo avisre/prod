@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001793229",
  "issuerName": "CLARITEV CORPORATION",
- "builtAt": "2026-11-16T05:27:39.784Z",
+ "builtAt": "2026-11-16T10:35:08.030Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001793229-26-000017",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1793229/000179322926000017/ctev-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cost management",
+   "products": [
+    "Claims Intelligence Solutions",
+    "Network Solutions",
+    "Payment and Revenue Integrity Solutions",
+    "Data and Analytics Solutions"
+   ],
+   "description": "Provides data analytics and technology-enabled cost management, payment and revenue integrity solutions to healthcare payers and the employers and members they serve.",
+   "evidence": "The Company manages its operations as a single segment for the purposes of assessing performance and making decisions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Payers, including administrative services only platforms and third-party administrators, pay for claims intelligence, network, payment integrity and data and analytics solutions delivered to employers and members.",
+  "evidence": "Although our direct clients are typically payers, including administrative services only platforms (\"ASO\") and third-party administrators (\"TPA\"), the end beneficiaries of our solutions include employers and other plan sponsors and the health plan members and patients they serve."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

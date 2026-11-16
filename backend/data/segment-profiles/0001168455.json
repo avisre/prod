@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001168455",
  "issuerName": "Plumas Bancorp",
- "builtAt": "2026-11-16T05:27:40.579Z",
+ "builtAt": "2026-11-16T10:35:48.067Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-008956",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1168455/000143774926008956/plbc20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "commercial real estate",
+    "commercial and industrial loans",
+    "agricultural loans",
+    "consumer loans",
+    "construction and land development",
+    "residential real estate",
+    "SBA 7(a) loan product",
+    "checking"
+   ],
+   "description": "Community bank providing loans, deposits and related services to individuals and small and middle market businesses in its service areas.",
+   "evidence": "The chief operating decision maker makes operating decisions and assesses performance based on an ongoing review of the Company's community banking activities, which constitutes the Company's only operating segment for financial reporting purposes."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and on investment securities, and customers pay service fees for banking services.",
+  "evidence": "The Bank primarily generates revenue from loans and investment securities in its portfolio and, to a lesser extent, service fees."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company discontinued its auto loan program.",
+   "evidence": "We discontinued our auto loan program in the fourth quarter of 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

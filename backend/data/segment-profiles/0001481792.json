@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001481792",
  "issuerName": "Quad/Graphics, Inc.",
- "builtAt": "2026-11-16T05:27:40.130Z",
+ "builtAt": "2026-11-16T10:35:28.517Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001481792-26-000042",
@@ -10,11 +10,46 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1481792/000148179226000042/quad-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States Print and Related Services",
+   "products": [
+    "retail inserts",
+    "catalogs",
+    "long-run publications",
+    "special interest publications",
+    "journals",
+    "direct mail",
+    "directories",
+    "packaging"
+   ],
+   "description": "Provides United States printing, logistics, marketing and other complementary services, including data, technology and media, to brands across commerce, financial services and health.",
+   "evidence": "The United States Print and Related Services segment is predominantly comprised of the Company's United States printing operations, managed as one integrated platform, and marketing and other complementary services."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Catalog, publications, retail inserts and directories",
+    "Direct mail and other printed products",
+    "Logistics services",
+    "Marketing services and medical services"
+   ],
+   "description": "Runs printing operations in Latin America and, before the 2025 sale, Europe, selling printed products and marketing services consistent with the United States segment.",
+   "evidence": "The International segment consists of the Company's printing operations in Latin America, including operations in Colombia, Mexico and Peru, as well as operations in Europe, including operations in England, France, Germany and Poland, until the European operations were sold on February 28, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay Quad for printed products and for logistics, marketing and medical services, typically under standard short payment terms.",
+  "evidence": "The Company recognizes its products and services revenue based on when the transfer of control passes to the client or when the service is completed and accepted by the client."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Quad sold its European operations, which had been reported within the International segment.",
+   "evidence": "On February 28, 2025, the Company sold its European operations, which primarily consisted of all employees and facilities for Quad/Graphics Europe print and ink manufacturing headquartered in Wyszkow, Poland; the Peppermint agency in Warsaw, Poland; and Quad Point of Sale (including Marin's International SAS), which has locations throughout Europe."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

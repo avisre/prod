@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001847398",
  "issuerName": "NorthEast Community Bancorp, Inc.",
- "builtAt": "2026-11-16T05:27:44.404Z",
+ "builtAt": "2026-11-16T10:37:55.198Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-027566",
@@ -10,11 +10,32 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1847398/000110465926027566/necb-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "construction loans",
+    "commercial and industrial loans",
+    "multifamily and mixed-use residential real estate loans",
+    "non-residential real estate loans",
+    "retail deposit products"
+   ],
+   "description": "A New York State-chartered savings bank serving individuals and businesses in its New York and Massachusetts market areas with loans and deposits.",
+   "evidence": "Substantially most of the Company's operations occur through the bank and involve the delivery of loan and deposit products to customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The Bank earns interest paid by borrowers on loans, and to a lesser extent on investment securities, plus deposit fees and service charges paid by customers.",
+  "evidence": "The Bank's revenues are derived primarily from interest on loans and, to a lesser extent, interest on investment securities and mortgage-backed securities."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Bank completed the sale of the assets of its Harbor West Wealth Management Group investment advisory division and no longer generates investment advisory fees.",
+   "evidence": "In December 2023, the Bank entered into an agreement to sell all of the Bank's assets relating to Harbor West Wealth Management Group to a third party and the asset sale was completed in January 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
