@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001860543",
  "issuerName": "CADRE HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:11:22.738Z",
+ "builtAt": "2026-11-16T10:07:36.865Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-025862",
@@ -10,10 +10,40 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1860543/000110465926025862/cdre-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Product",
+   "products": [
+    "body armor",
+    "explosive ordnance disposal equipment",
+    "duty gear",
+    "remote handling solutions",
+    "containers for the storage of radioactive materials",
+    "ventilation and containment solutions",
+    "safety holsters"
+   ],
+   "description": "Manufactures and sells safety equipment, including body armor, duty gear, explosive ordnance disposal and nuclear safety products, to law enforcement, military and nuclear customers.",
+   "evidence": "In order to reflect the way our chief operating decision maker reviews and assesses the performance of the business, Cadre has determined that it has two reportable segments — the Product segment , which is comprised of components that manufacture and sell products, and the Distribution segment, which is comprised of our business that serves as a one-stop shop for law enforcement agencies that sells goods produced by the Product segment, as well as other third-party products."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "uniforms",
+    "optics",
+    "boots",
+    "firearms",
+    "ammunition"
+   ],
+   "description": "Serves as a one-stop shop for law enforcement agencies and first responders, selling goods made by the Product segment plus third-party products.",
+   "evidence": "In addition, through our owned distribution, we serve as a one-stop shop for first responders providing equipment we manufacture as well as third-party products including uniforms, optics, boots, firearms, and ammunition."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Law enforcement, first responder, military and nuclear customers pay for safety equipment and related products bought directly and through distribution.",
+  "evidence": "We are a global leader in the manufacturing and distribution of safety equipment and other related products for the law enforcement, first responder, military and nuclear markets."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

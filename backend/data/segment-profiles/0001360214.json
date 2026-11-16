@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001360214",
  "issuerName": "Harrow, Inc.",
- "builtAt": "2026-11-16T05:11:25.259Z",
+ "builtAt": "2026-11-16T10:08:50.557Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-008562",
@@ -10,10 +10,37 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1360214/000149315226008562/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Branded",
+   "products": [
+    "IHEEZO",
+    "VEVYE",
+    "TRIESENCE",
+    "BYOOVIZ",
+    "OPUVIZ",
+    "BYQLOVI",
+    "VIGAMOX",
+    "ILEVRO"
+   ],
+   "description": "Markets FDA-approved branded ophthalmic pharmaceutical products to U.S. eyecare prescribers and patients, and out-licenses rights to certain products.",
+   "evidence": "The Branded segment includes activities of our FDA approved ophthalmology pharmaceutical products, including the out-licensing of rights to certain of our products."
+  },
+  {
+   "name": "ImprimisRx",
+   "products": [
+    "MKO Melt"
+   ],
+   "description": "Runs an ophthalmology-focused compounding pharmacy and outsourcing facility making customized formulations for eyecare prescribers and their patients.",
+   "evidence": "ImprimisRx is our ophthalmology-focused pharmaceutical compounding business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Branded sales are made mostly to third-party distributors, which resell to pharmacies and end-users, while ImprimisRx sells compounded formulations to eyecare prescribers.",
+  "evidence": "Substantially all of the Company's Branded sales are made to third-party distributors who sell the products to pharmacies and to the end-users."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

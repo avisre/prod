@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001670076",
  "issuerName": "Frontier Group Holdings, Inc.",
- "builtAt": "2026-11-16T05:11:26.176Z",
+ "builtAt": "2026-11-16T10:09:16.727Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001670076-26-000020",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1670076/000167007626000020/fron-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Air transportation",
+   "products": [
+    "FRONTIER Miles",
+    "co-brand credit card partnership",
+    "GoWild! All-You-Can-Fly Pass",
+    "Discount Den membership",
+    "Kids Fly Free",
+    "extended-legroom premium seats",
+    "checked baggage",
+    "advance seat selection"
+   ],
+   "description": "Ultra low-cost carrier flying leisure passengers across the United States and select international destinations in the Americas, selling low fares with optional and bundled services.",
+   "evidence": "The Company is managed as a single business unit that provides air transportation for passengers and management has concluded there is only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Leisure passengers pay base fares plus fees for optional services such as baggage, seat selection and bundled packages, while partners pay for the co-brand credit card and loyalty programs.",
+  "evidence": "We combine our low fares with flexible optional services for an additional cost."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

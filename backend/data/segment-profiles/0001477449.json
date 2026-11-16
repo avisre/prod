@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001477449",
  "issuerName": "TELADOC HEALTH, INC.",
- "builtAt": "2026-11-16T05:11:27.211Z",
+ "builtAt": "2026-11-16T10:10:13.348Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001477449-26-000012",
@@ -10,10 +10,38 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1477449/000147744926000012/tdoc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated Care",
+   "products": [
+    "general medical",
+    "expert medical services",
+    "specialty medical",
+    "chronic condition management",
+    "mental health",
+    "enabling technologies",
+    "enterprise telehealth solutions for hospitals and health systems"
+   ],
+   "description": "Delivers virtual medical care, chronic condition management and telehealth technology and hardware to employers, health plans, hospitals and health systems for their members.",
+   "evidence": "The Integrated Care segment includes a suite of global virtual medical services including general medical, expert medical services, specialty medical, chronic condition management, mental health, and enabling technologies and enterprise telehealth solutions for hospitals and health systems."
+  },
+  {
+   "name": "BetterHelp",
+   "products": [
+    "virtual therapy",
+    "other wellness services",
+    "BetterSleep app"
+   ],
+   "description": "Provides online counseling and therapy through licensed clinicians to individual consumers who pay directly or through insurance coverage.",
+   "evidence": "The BetterHelp segment includes virtual therapy and other wellness services provided on a global basis which are predominantly marketed and sold on a direct-to-consumer basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Employers, health plans and health systems pay recurring access and visit fees for enrolled members, while BetterHelp users pay fees for therapy and wellness services.",
+  "evidence": "Clients pay monthly access fees on a per-member-per-month (\"PMPM\") model, a per-employee-per-month (\"PEPM\") model, or on a per-participant-per-month (\"PPPM\") model, based on the number of actively enrolled members each month."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

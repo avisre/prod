@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001173489",
  "issuerName": "Ceva, Inc.",
- "builtAt": "2026-11-16T05:11:27.351Z",
+ "builtAt": "2026-11-16T10:10:18.709Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-006091",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1173489/000143774926006091/ceva20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IP Licensing",
+   "products": [
+    "NeuProNano",
+    "NeuProM",
+    "SensPro",
+    "RealSpace",
+    "MotionEngine",
+    "PentaG2",
+    "DragonFly"
+   ],
+   "description": "Ceva licenses wireless connectivity, sensing and AI inference IP, processors and software to semiconductor and OEM customers who integrate them into their chips.",
+   "evidence": "The Company manages its business on a basis of one reportable segment: the licensing of IP to semiconductor companies and electronic equipment manufacturers"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Semiconductor and OEM customers pay license fees, and later royalties, plus support and professional services fees, for the right to use Ceva's IP in their chips.",
+  "evidence": "The Company generates its revenues from (1) licensing intellectual properties, which in certain circumstances are modified for customer-specific requirements, (2) royalty revenues, and (3) other revenues, which include revenues from support, professional services, training and sale of development systems and chips"
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company sold its Intrinsix subsidiary, whose results are reported as a discontinued operation.",
+   "evidence": "As a result of the Transaction, Intrinsix's results of operations are disclosed as a discontinued operation, including the resulting income from the sale."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

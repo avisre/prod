@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001820721",
  "issuerName": "ARRAY TECHNOLOGIES, INC.",
- "builtAt": "2026-11-16T05:11:22.934Z",
+ "builtAt": "2026-11-16T10:07:58.844Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001820721-26-000008",
@@ -10,11 +10,43 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1820721/000182072126000008/arry-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Array Legacy Operations",
+   "products": [
+    "DuraTrack ® HZ v3",
+    "Array OmniTrack",
+    "Array SkyLink",
+    "Array SmarTrack ®",
+    "Array APA Foundation Solutions",
+    "APA Titan",
+    "APA A-Frame TM Interface",
+    "APA Titan Duo TM"
+   ],
+   "description": "Designs and delivers solar tracking systems, racking, foundation systems and software for utility-scale solar projects in the United States.",
+   "evidence": "Array Legacy Operations consists primarily of amounts earned from the design and delivery of solar arrays in the United States, and STI Operations consists primarily of amounts earned from the design and delivery of solar arrays outside of the United States."
+  },
+  {
+   "name": "STI Operations",
+   "products": [
+    "Array STI H250"
+   ],
+   "description": "Designs and delivers dual-row solar tracker systems and related products for solar projects outside the United States.",
+   "evidence": "The Array STI H250 tracker system is designed to deliver a favorable LCOE with a robust, dual-row tracker system."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Solar developers, independent power producers, utilities and EPCs pay for trackers, racking, foundations, software and field services under supply and procurement contracts.",
+  "evidence": "We sell our products to solar developers, independent power producers, utilities, and EPCs that build solar energy projects, often under master supply agreements or multi-year procurement contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired APA Solar, whose racking and foundation systems are reported within the Array Legacy Operations segment.",
+   "evidence": "On August 14, 2025, the Company acquired 100 % of the issued and outstanding equity interests of APA Solar, LLC (\"APA\"), the terms of which are discussed in Note 3 – Acquisition (the \"APA Acquisition\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001464343",
  "issuerName": "Atlanticus Holdings Corp",
- "builtAt": "2026-11-16T05:11:22.893Z",
+ "builtAt": "2026-11-16T10:07:51.661Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-007972",
@@ -10,10 +10,38 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1464343/000143774926007972/atlc20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CaaS",
+   "products": [
+    "private label credit cards",
+    "Fortiva",
+    "Curae",
+    "general purpose credit cards",
+    "Aspire",
+    "Imagine",
+    "Mercury"
+   ],
+   "description": "Provides its technology platform and program management to bank partners that originate private label and general purpose credit cards for underserved consumers.",
+   "evidence": "These products include private label credit cards using the Fortiva and Curae brand names as well as merchant associated brands."
+  },
+  {
+   "name": "Auto Finance",
+   "products": [
+    "loans secured by automobiles",
+    "floor plan financing",
+    "installment lending products"
+   ],
+   "description": "Purchases and services loans secured by automobiles and provides floor plan financing to independent used-car dealers and automotive finance companies.",
+   "evidence": "Within our Auto Finance segment, our CAR subsidiary operations principally purchase and/or service loans secured by automobiles from or for, and also provide floor plan financing for, a pre-qualified network of independent automotive dealers and automotive finance companies in the buy-here, pay-here, used car business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Lenders, including our bank partners, pay us fees and sell us the receivables their cards and loans generate; consumers pay finance charges and fees.",
+  "evidence": "These lenders pay us a fee and in most circumstances, the lenders are then obligated to sell us the receivables they generate from these products and services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

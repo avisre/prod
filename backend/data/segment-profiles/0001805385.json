@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001805385",
  "issuerName": "Evolv Technologies Holdings, Inc.",
- "builtAt": "2026-11-16T05:11:27.678Z",
+ "builtAt": "2026-11-16T10:10:38.643Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001805385-26-000012",
@@ -10,11 +10,31 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1805385/000180538526000012/evlv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security screening",
+   "products": [
+    "Evolv Express®",
+    "Evolv eXpedite™",
+    "Evolv Insights®",
+    "add-on accessories"
+   ],
+   "description": "Develops, manufactures, markets and sells AI-powered security screening products and subscription services to schools, hospitals, sports and entertainment venues and workplaces.",
+   "evidence": "On the basis of these factors, the Company determined that it operates and manages its business as one operating and reporting segment, that develops, manufactures, markets and sells security screening products and specific services, and accordingly has one reportable segment for financial reporting purposes."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Venue and facility customers pay for leased or purchased screening hardware plus an annual Security-as-a-Service subscription covering software, maintenance and support.",
+  "evidence": "We offer our products hardware for lease or purchase, combined with Security-as-a-Service annual subscription primarily under a multi-year pricing model that delivers ongoing value to customers, generates predictable revenue, and creates expansion and upsell opportunities."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the distributor license model ended when the Distribution and License Agreement with Columbia Tech expired.",
+   "evidence": "The Distribution and License Agreement expired on December 31, 2025, and the Company no longer offers the distributor license model."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

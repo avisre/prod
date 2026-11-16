@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001337117",
  "issuerName": "Ituran Location & Control Ltd.",
- "builtAt": "2026-11-16T05:11:26.331Z",
+ "builtAt": "2026-11-16T10:09:33.952Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-002205",
@@ -10,10 +10,40 @@
   "filingDate": "2026-04-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1337117/000117891326002205/zk2635065.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telematics services",
+   "products": [
+    "stolen vehicle recovery (SVR) services",
+    "fleet management services",
+    "value-added services",
+    "connected car",
+    "UBI (usage base insurance)",
+    "personal advanced locater services",
+    "concierge services"
+   ],
+   "description": "Provides stolen vehicle recovery, fleet management and value-added tracking services, including connected car, UBI and concierge, to retail, commercial, insurance and car manufacturer customers.",
+   "evidence": "The telematics services segment consists predominantly of regionally- based stolen vehicle recovery (SVR) services, fleet management services and value-added services that include among others, connected car, UBI (usage base insurance), personal advanced locater services and concierge services."
+  },
+  {
+   "name": "Telematics products",
+   "products": [
+    "short and medium range two-way machine-to-machine wireless communications produc",
+    "automatic vehicle location",
+    "automatic vehicle identification",
+    "telematics end-unit",
+    "SMART and GPS/GPRS products"
+   ],
+   "description": "Designs and sells short and medium range two-way wireless communications products used for automatic vehicle location and identification, mainly to support its own services.",
+   "evidence": "The telematics product segment consists mainly of short and medium range two-way machine-to-machine wireless communications products that are used for various applications, including automatic vehicle location, and automatic vehicle identification."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Subscribers, car manufacturers and insurers pay subscription fees for telematics services, and customers pay for the purchase or lease of telematics products.",
+  "evidence": "We generate our revenues from subscription fees paid for our telematics services and from the sale and lease of our telematics products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

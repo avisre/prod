@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001873951",
  "issuerName": "Exzeo Group, Inc.",
- "builtAt": "2026-11-16T05:11:25.596Z",
+ "builtAt": "2026-11-16T10:09:16.611Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076686",
@@ -10,11 +10,33 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1873951/000119312526076686/xzo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance technology",
+   "products": [
+    "Advanced Underwriting Solutions",
+    "Data Analytics Solutions",
+    "Insurance Management Solutions",
+    "underwriting and management services",
+    "claim services",
+    "other technology services"
+   ],
+   "description": "Provides insurance technology and operations solutions to P&C insurance carriers and their agents through the Exzeo Platform.",
+   "evidence": "The Exzeo Platform has three core components: advanced underwriting solutions, data analytics solutions, and insurance management solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "P&C insurance carriers and their agents pay variable fees based on premium managed through the platform, and pay for underwriting, claims and technology services.",
+  "evidence": "We generate revenue from underwriting and management services, claim services, and other technology services that are provided through and powered by the Exzeo Platform."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold its insurance carrier subsidiary TTIC to HCI and classified its results as discontinued operations.",
+   "evidence": "On July 1, 2024, we sold our wholly owned insurance carrier subsidiary, TTIC, to HCI in a transaction under common control."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

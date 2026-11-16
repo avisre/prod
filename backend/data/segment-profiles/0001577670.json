@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001577670",
  "issuerName": "Ladder Capital Corp",
- "builtAt": "2026-11-16T05:11:23.273Z",
+ "builtAt": "2026-11-16T10:08:21.769Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001577670-26-000011",
@@ -10,10 +10,55 @@
   "filingDate": "2026-02-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1577670/000157767026000011/ladr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Loans",
+   "products": [
+    "balance sheet loans",
+    "conduit loans",
+    "balance sheet first mortgage loans",
+    "conduit first mortgage loans",
+    "mezzanine loans",
+    "note purchase financings",
+    "subordinated debt",
+    "mezzanine debt"
+   ],
+   "description": "Originates and holds senior first mortgage balance sheet loans and conduit loans secured by commercial real estate for property owners.",
+   "evidence": "The loans segment includes all of the Company's activities related to mortgage loan receivables held for investment (balance sheet loans) and mortgage loan receivables held for sale (conduit loans)."
+  },
+  {
+   "name": "Securities",
+   "products": [
+    "CMBS",
+    "CRE CLOs",
+    "U.S. Agency securities",
+    "corporate bonds",
+    "equity securities",
+    "U.S. Treasury securities",
+    "AAA-rated real estate securities"
+   ],
+   "description": "Invests in investment grade securities secured by first mortgage loans on commercial real estate, mainly CMBS, for its own portfolio.",
+   "evidence": "The securities segment includes of all of the Company's activities related to securities, which include investments in CMBS, U.S. Agency securities, corporate bonds, equity securities and U.S. Treasury securities not classified as cash and cash equivalents."
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "net leased properties",
+    "other diversified real estate",
+    "investments in unconsolidated ventures",
+    "single tenant net leased properties",
+    "diversified commercial real estate properties"
+   ],
+   "description": "Owns and operates net leased and diversified commercial real estate properties, plus real estate ventures, collecting rent from tenants.",
+   "evidence": "The real estate segment includes all of the Company's activities related to net leased properties, other diversified real estate and investments in unconsolidated ventures."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on the mortgage loans it originates, tenants pay rent on owned properties, and securities generate interest income.",
+  "evidence": "Our businesses, including balance sheet lending, conduit lending, securities investments, and real estate investments, provide for a stable base of net interest and rental income."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

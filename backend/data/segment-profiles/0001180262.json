@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001180262",
  "issuerName": "HERBALIFE LTD.",
- "builtAt": "2026-11-16T05:11:25.403Z",
+ "builtAt": "2026-11-16T10:09:36.650Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-057113",
@@ -10,10 +10,35 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1180262/000119312526057113/hlf-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Primary Reporting Segment",
+   "products": [
+    "Formula 1 Healthy Meal",
+    "Herbal Tea Concentrate",
+    "Protein Drink Mix",
+    "Personalized Protein Powder",
+    "Total Control",
+    "Formula 2 Multivitamin Complex",
+    "Protein Bars",
+    "Herbalife24"
+   ],
+   "description": "Aggregates the North America, Latin America, EMEA and Asia Pacific regions, selling nutrition products to Members who consume or resell them.",
+   "evidence": "We aggregate our operating segments, excluding China, into a reporting segment, or the Primary Reporting Segment."
+  },
+  {
+   "name": "China",
+   "products": [],
+   "description": "Sells nutrition products in China through independent service providers and Company-operated retail platforms.",
+   "evidence": "China has been identified as a separate reporting segment as it does not meet the criteria for aggregation."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Independent Members pay wholesale prices for nutrition products, which they consume themselves or resell at retail to consumers.",
+  "evidence": "We use a direct-selling business model to distribute and market our nutrition products to and through a global network of Members."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

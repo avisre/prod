@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001425292",
  "issuerName": "CVR PARTNERS, LP",
- "builtAt": "2026-11-16T05:11:23.149Z",
+ "builtAt": "2026-11-16T10:07:55.182Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001425292-26-000011",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1425292/000142529226000011/cvi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nitrogen Fertilizer",
+   "products": [
+    "ammonia",
+    "urea ammonium nitrate",
+    "UAN",
+    "nitric acid"
+   ],
+   "description": "Produces and distributes nitrogen fertilizer products, ammonia, UAN and nitric acid, sold wholesale to farmers, retailers, distributors and industrial customers in the United States.",
+   "evidence": "CVR Partners has one operating and reportable segment: Nitrogen Fertilizer."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Farmers, retailers, distributors and industrial customers pay wholesale prices for nitrogen fertilizer products, mainly UAN and ammonia, under contracts or purchase orders.",
+  "evidence": "We primarily market UAN products to agricultural customers and ammonia products to agricultural and industrial customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

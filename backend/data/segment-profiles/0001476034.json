@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001476034",
  "issuerName": "Metropolitan Bank Holding Corp.",
- "builtAt": "2026-11-16T05:11:28.009Z",
+ "builtAt": "2026-11-16T10:11:09.197Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-018208",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1476034/000110465926018208/mcb-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "CRE and C&I loans",
+    "acquisition loans",
+    "renovation loans",
+    "construction loans",
+    "working capital lines of credit",
+    "letters of credit",
+    "corporate cash management and retail banking services",
+    "EB-5 Program escrow accounts"
+   ],
+   "description": "A New York commercial bank serving small businesses, middle-market enterprises, public entities and individuals with commercial real estate, commercial and industrial lending and deposit services.",
+   "evidence": "The CODM regularly assesses performance of the aggregated single operating and reporting segment and decides how to allocate resources based on net income calculated on the same basis as is net income reported in the Company's consolidated statements of operations."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Commercial clients, public entities and individuals pay interest on loans and fees for banking, cash management and deposit services.",
+  "evidence": "The Company provides a comprehensive set of commercial and retail banking products and services customized to meet the needs of its clients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

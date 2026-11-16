@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001001385",
  "issuerName": "NWPX Infrastructure, Inc.",
- "builtAt": "2026-11-16T05:11:27.977Z",
+ "builtAt": "2026-11-16T10:11:00.102Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005861",
@@ -10,11 +10,46 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1001385/000143774926005861/nwpx20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Transmission Systems",
+   "products": [
+    "steel casing pipe",
+    "bar-wrapped concrete cylinder pipe",
+    "pipeline system joints and fittings",
+    "large-diameter, high-pressure steel pipeline systems"
+   ],
+   "description": "Manufactures large-diameter, high-pressure steel pipeline systems and fittings for water transmission, hydroelectric, wastewater, industrial and structural applications.",
+   "evidence": "WTS manufactures large-diameter, high-pressure steel pipeline systems for use in water infrastructure applications, which are primarily related to drinking water systems."
+  },
+  {
+   "name": "Precast Infrastructure and Engineered Systems",
+   "products": [
+    "reinforced concrete pipe",
+    "manholes",
+    "box culverts",
+    "vaults",
+    "catch basins",
+    "pump lift stations",
+    "oil water separators",
+    "biofiltration units"
+   ],
+   "description": "Makes precast and reinforced concrete stormwater and wastewater products, including pipe, manholes, vaults and pump lift stations, for sewer and stormwater projects.",
+   "evidence": "Precast manufactures stormwater and wastewater technology products, high-quality precast and reinforced concrete products, including reinforced concrete pipe (\"RCP\"), manholes, box culverts, vaults, and catch basins, pump lift stations, oil water separators, biofiltration units, and other environmental and engineered solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Water infrastructure products are sold to installation contractors, who include them in bids to federal, state and municipal agencies, private water companies and developers.",
+  "evidence": "Our water infrastructure products are sold generally to installation contractors, who include our products in their bids to federal, state, and municipal agencies, privately-owned water companies, or developers for specific projects."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the segment previously called Engineered Steel Pressure Pipe (SPP) was renamed Water Transmission Systems (WTS), without changing segment composition.",
+   "evidence": "The segment previously referred to as \"Engineered Steel Pressure Pipe (SPP)\" has been renamed \"Water Transmission Systems (WTS)\" to better reflect the value contribution specifically from our business unit's capabilities in engineering, production execution, and delivery of critical integrated water pipeline systems."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

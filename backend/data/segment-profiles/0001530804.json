@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001530804",
  "issuerName": "TRONOX HOLDINGS PLC",
- "builtAt": "2026-11-16T05:11:26.227Z",
+ "builtAt": "2026-11-16T10:09:44.227Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001530804-26-000006",
@@ -10,11 +10,33 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1530804/000153080426000006/trox-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tronox",
+   "products": [
+    "TiO 2 Pigment",
+    "Ultrafine Specialty TiO 2",
+    "Zircon",
+    "High Purity Pig Iron",
+    "Monazite",
+    "Titanium Tetrachloride"
+   ],
+   "description": "Vertically integrated miner and producer of titanium dioxide pigment, zircon, pig iron, monazite and titanium chemicals sold to industrial customers worldwide.",
+   "evidence": "We operate our business under one operating segment, Tronox, which is also our reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Industrial customers worldwide pay for titanium dioxide pigment, mineral sands co-products such as zircon and pig iron, and titanium chemicals.",
+  "evidence": "We believe that vertical integration is the best way to achieve our ultimate goal of delivering low cost, high-quality pigment to our approximately 1,200 TiO 2 customers throughout the world."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company shut down the Botlek pigment plant in the Netherlands and idled the Fuzhou pigment plant in China.",
+   "evidence": "At the same time, throughout 2025, we implemented targeted operational measures to manage near-term cash flow, including: shutting down the Botlek pigment plant in the Netherlands, idling the Fuzhou pigment plant in China, and temporarily idling one furnace at the Namakwa smelter."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

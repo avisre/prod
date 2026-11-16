@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002068385",
  "issuerName": "SharonAI Holdings Inc.",
- "builtAt": "2026-11-16T05:11:28.517Z",
+ "builtAt": "2026-11-16T10:12:24.638Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014068",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2068385/000149315226014068/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High Performance Compute Services (HPC)",
+   "products": [
+    "SharonAI Cloud",
+    "Supercluster",
+    "GPU Infrastructure services",
+    "GPU compute"
+   ],
+   "description": "Sells sovereign, low-latency accelerated GPU computing and its orchestration platform to enterprise, government and research customers for AI and HPC workloads.",
+   "evidence": "The Company operates in one operating segment, and therefore one reportable segment, focused on the provision of High Performance Compute Services (HPC)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Enterprise, government and research customers pay a fee for sovereign GPU compute capacity and AI cloud platform services.",
+  "evidence": "Our operations can only be profitable if the costs, inclusive of hardware and electricity costs, associated with high-performance computing and data center operations are lower than the reward or fee for service received."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company announced a transition from a hybrid model of site development to a pure-play Neocloud operator.",
+   "evidence": "Also in December 2025, we announced a transition from a hybrid model of site development to a pure-play Neocloud operator for the immediate term."
+  },
+  {
+   "text": "SharonAI sold its interest in the Texas Critical Data Center joint venture to its partner New Era.",
+   "evidence": "SharonAI sold its 50% interest in TCDC to its joint venture partner, New Era, for a consideration of US$70 million, paid via a combination of cash, a secured convertible promissory note and equity in New Era."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

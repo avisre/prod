@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001829118",
  "issuerName": "Tuya Inc.",
- "builtAt": "2026-11-16T05:11:25.157Z",
+ "builtAt": "2026-11-16T10:08:51.153Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-046399",
@@ -10,10 +10,20 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1829118/000110465926046399/tuya-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IoT",
+   "products": [],
+   "description": "The group runs its business as a single reportable segment, selling its products and services or platform and underlying technology to customers.",
+   "evidence": "Hence, the Group has only one operating segment and one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the group for its products and services, and may be required to make advance payments or a deposit before services are rendered.",
+  "evidence": "The Group assesses the creditworthiness of each customer when providing services and may require the customers to make advance payments or a deposit before the services are rendered."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

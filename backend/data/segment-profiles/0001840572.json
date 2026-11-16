@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001840572",
  "issuerName": "LUCKY STRIKE ENTERTAINMENT CORPORATION",
- "builtAt": "2026-11-16T05:11:24.790Z",
+ "builtAt": "2026-11-16T10:08:10.094Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-059179",
@@ -10,10 +10,28 @@
   "filingDate": "2026-08-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1840572/000162828026059179/bowl-20260628.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Location-based entertainment",
+   "products": [
+    "bowling",
+    "amusements",
+    "water parks",
+    "family entertainment centers (FECs)",
+    "arcades",
+    "lounge seating",
+    "enhanced food and beverage offerings"
+   ],
+   "description": "Operates bowling, amusement, water park and family entertainment venues across North America for walk-in guests, leagues, group events and pass holders.",
+   "evidence": "We manage our business activities on a consolidated basis and operate as a single operating segment: Location-based entertainment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Guests, league members, group events and pass holders pay for bowling, food and beverage, amusements and water park visits at company locations.",
+  "evidence": "Group events, such as birthday parties and corporate events, are a consistent revenue stream with significant growth potential at our locations."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

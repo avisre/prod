@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001784535",
  "issuerName": "Porch Group, Inc.",
- "builtAt": "2026-11-16T05:11:28.141Z",
+ "builtAt": "2026-11-16T10:11:04.994Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001784535-26-000008",
@@ -10,11 +10,73 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1784535/000178453526000008/prch-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance Services",
+   "products": [
+    "management fees",
+    "policy fees",
+    "lead fees",
+    "surplus notes",
+    "captive reinsurer"
+   ],
+   "description": "Manages and operates the Reciprocal, earning management, policy and lead fees, and providing reinsurance support to the exchange.",
+   "evidence": "Our Insurance Services segment earns management fees from the Reciprocal in exchange for managing and operating its business."
+  },
+  {
+   "name": "Software & Data",
+   "products": [
+    "ISN",
+    "Rynoh",
+    "Floify",
+    "iRoofing",
+    "Porch Group Media",
+    "Home Factors"
+   ],
+   "description": "Provides SaaS to inspection, mortgage, title and roofing companies, plus property data insights for insurance carriers.",
+   "evidence": "This segment includes the Inspection Support Network (\"ISN\") collection of brands, which are leading SaaS solutions for inspectors with easy-to-use tools."
+  },
+  {
+   "name": "Consumer Services",
+   "products": [
+    "Porch Warranty",
+    "whole-home",
+    "service line",
+    "extended labor warranties",
+    "MovingPlace",
+    "HireAHelper",
+    "SML",
+    "Moving Staffers"
+   ],
+   "description": "Sells home warranty products and moving-related services such as movers, TV/Internet and security to homeowners.",
+   "evidence": "Our Consumer Services segment provides warranty products through Porch Warranty and other warranty brands to protect the whole home."
+  },
+  {
+   "name": "Reciprocal Segment",
+   "products": [
+    "property-related insurance products",
+    "homeowners insurance policies"
+   ],
+   "description": "Writes homeowners insurance for policyholder members, using Porch data to assess and price property risk.",
+   "evidence": "The Reciprocal Segment includes HOA and its parent, the Reciprocal, which is a member-owned reciprocal exchange, owned by policyholder members rather than Porch."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Policyholders pay premiums to the Reciprocal, while homeowners and businesses pay for warranty, moving, software and data services.",
+  "evidence": "The Reciprocal Segment provides policyholders with insurance to protect their homes, earning revenue primarily through premiums collected on policies."
+ },
+ "changes": [
+  {
+   "text": "Beginning in January 2025, the reportable segments changed from Vertical Software and Insurance to Insurance Services, Software & Data, Consumer Services, and the Reciprocal Segment.",
+   "evidence": "As a result, our reportable segments, that are also our operating segments, changed from Vertical Software and Insurance prior to 2025 to Insurance Services, Software & Data, Consumer Services, and the Reciprocal Segment."
+  },
+  {
+   "text": "In January 2025 the company sold its legacy homeowners insurance carrier, Homeowners of America, to the Reciprocal.",
+   "evidence": "In January 2025, we completed the formation of Porch Reciprocal Exchange (the \"Reciprocal\") and, as part of this process, sold our legacy homeowners insurance carrier, Homeowners of America (\"HOA\"), to the Reciprocal."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

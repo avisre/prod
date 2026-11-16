@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001881487",
  "issuerName": "ProFrac Holding Corp.",
- "builtAt": "2026-11-16T05:11:23.177Z",
+ "builtAt": "2026-11-16T10:08:45.303Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-106120",
@@ -10,10 +10,67 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1881487/000119312526106120/acdc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Stimulation Services",
+   "products": [
+    "hydraulic fracturing services",
+    "well stimulation services",
+    "mobile hydraulic fracturing units",
+    "auxiliary equipment"
+   ],
+   "description": "Owns and operates mobile hydraulic fracturing fleets, providing stimulation services to E&P companies across major U.S. basins.",
+   "evidence": "Our Stimulation Services segment, which primarily relates to ProFrac LLC, owns and operates a fleet of mobile hydraulic fracturing units and other auxiliary equipment that generates revenue by providing stimulation services to our customers."
+  },
+  {
+   "name": "Proppant Production",
+   "products": [
+    "proppant",
+    "frac sand"
+   ],
+   "description": "Produces and sells frac sand and proppant to oilfield service providers and E&P companies from its own mines.",
+   "evidence": "Proppant Production. We generate revenue through the sale of frac sand to oilfield service providers and E&P companies."
+  },
+  {
+   "name": "Manufacturing",
+   "products": [
+    "high horsepower pumps",
+    "valves",
+    "piping",
+    "swivels",
+    "large-bore manifold systems",
+    "fluid ends"
+   ],
+   "description": "Machines, assembles and factory tests oilfield equipment such as pumps, valves and manifold systems, largely for the company's own fleets.",
+   "evidence": "Our Manufacturing segment sells products such as high horsepower pumps, valves, piping, swivels, large-bore manifold systems, and fluid ends."
+  },
+  {
+   "name": "Flotek",
+   "products": [
+    "chemical products",
+    "equipment",
+    "field services",
+    "installation",
+    "maintenance"
+   ],
+   "description": "Supplies chemistry products and equipment along with field, installation and maintenance services to oilfield customers, including its own segment.",
+   "evidence": "Flotek. We generate revenue through sales of chemical products and equipment as well as various services associated with products sold, which includes field services, installation, maintenance, and other functions."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Livewire"
+   ],
+   "description": "Holds other business activities, including Livewire, serving the company's own operations and third parties.",
+   "evidence": "Other revenues in 2025 increased $14.2 million from 2024."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "E&P companies and oilfield service providers pay for stimulation services, frac sand, manufactured equipment and chemistry products and services.",
+  "evidence": "We generate revenue through the sale of frac sand to oilfield service providers and E&P companies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

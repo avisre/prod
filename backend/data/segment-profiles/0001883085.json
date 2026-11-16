@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001883085",
  "issuerName": "Pagaya Technologies Ltd.",
- "builtAt": "2026-11-16T05:11:28.375Z",
+ "builtAt": "2026-11-16T10:11:12.873Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001883085-26-000018",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1883085/000188308526000018/pgy-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lending Technology",
+   "products": [
+    "Decline Monetization",
+    "Dual Look",
+    "First Look",
+    "Affiliate Optimizer Engine",
+    "Direct Marketing Engine",
+    "FastPass",
+    "Financing Vehicles"
+   ],
+   "description": "Provides AI-powered lending technology products to financial institutions and connects their loan applications with institutional and sophisticated investors.",
+   "evidence": "The Company manages, monitors, and reports its financial performance as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Lenders and institutional investors pay fees for the lending product suite and the financing vehicles that connect loan applications to capital.",
+  "evidence": "We believe our mission will be accomplished by becoming the trusted lending technology partner for the consumer finance ecosystem, with an expansive product suite that serves lenders and institutional investors (the fee-generating side of our business), fueled by effective and efficient capital and risk management (the capital efficiency side of our business)."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

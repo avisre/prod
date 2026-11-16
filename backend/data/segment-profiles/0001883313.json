@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001883313",
  "issuerName": "Savers Value Village, Inc.",
- "builtAt": "2026-11-16T05:11:25.224Z",
+ "builtAt": "2026-11-16T10:08:47.667Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001883313-26-000014",
@@ -10,10 +10,40 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1883313/000188331326000014/svv-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Retail",
+   "products": [
+    "clothing",
+    "home goods",
+    "books",
+    "shoes",
+    "accessories",
+    "housewares"
+   ],
+   "description": "Operates thrift stores in the United States, selling low-priced secondhand clothing, home goods and books to local retail customers.",
+   "evidence": "The increase in U.S. Retail segment profit primarily reflects higher profit from our comparable stores, partially offset by the impact of new stores."
+  },
+  {
+   "name": "Canada Retail",
+   "products": [
+    "clothing",
+    "home goods",
+    "books",
+    "shoes",
+    "accessories",
+    "housewares"
+   ],
+   "description": "Operates thrift stores in Canada, selling low-priced secondhand clothing, home goods and books to local retail customers.",
+   "evidence": "The decrease in Canada Retail segment profit primarily reflects deleverage of expenses as a percentage of net sales on comparable store sales and the unfavorable impact of foreign currency exchange rates."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retail customers pay for low-priced secondhand merchandise in stores, while wholesale customers pay for items unsuited for or unsold at retail.",
+  "evidence": "Items that are unsuited for or unsold at retail stores are marketed to wholesale customers who reuse or repurpose the items they purchase from us."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

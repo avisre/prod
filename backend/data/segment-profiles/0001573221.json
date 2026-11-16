@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001573221",
  "issuerName": "TheRealReal, Inc.",
- "builtAt": "2026-11-16T05:11:27.538Z",
+ "builtAt": "2026-11-16T10:10:36.045Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001573221-26-000010",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1573221/000157322126000010/real-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Luxury resale",
+   "products": [
+    "pre-owned luxury goods",
+    "women's fashion",
+    "men's fashion",
+    "jewelry and watches"
+   ],
+   "description": "Runs an online marketplace and retail stores selling authenticated, primarily pre-owned luxury goods to buyers, with consignment services for consignors.",
+   "evidence": "The Company has one reportable segment as its CODM reviews financial information on a consolidated basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Buyers pay for pre-owned luxury goods, while consignors pay the company a percentage of sale proceeds as a take rate.",
+  "evidence": "The Company retains a percentage of the proceeds received as payment for its consignment service, which the Company refers to as its take rate."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

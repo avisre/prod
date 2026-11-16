@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001964333",
  "issuerName": "Burke & Herbert Financial Services Corp.",
- "builtAt": "2026-11-16T05:11:25.302Z",
+ "builtAt": "2026-11-16T10:08:56.654Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001964333-26-000016",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1964333/000196433326000016/bhrb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "checking",
+    "savings and money market accounts",
+    "certificates of deposit",
+    "commercial and industrial loans",
+    "commercial real estate loans",
+    "residential mortgage",
+    "acquisition, construction & development loans",
+    "wealth & trust services"
+   ],
+   "description": "Community bank providing deposit accounts, commercial and consumer loans, and wealth and trust services to local businesses and individuals.",
+   "evidence": "The Company operates in one segment – Community Banking and the financial performance of this one segment is used to make resource allocations and performance decisions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Depositors and borrowers pay interest and fees on deposit accounts, commercial and consumer loans and wealth and trust services.",
+  "evidence": "Some of the products and services that we offer include checking, savings and money market accounts, certificates of deposit, treasury and cash management services, commercial and industrial loans, commercial real estate loans, residential mortgage, acquisition, construction & development loans, online banking, mobile banking, and wealth & trust services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

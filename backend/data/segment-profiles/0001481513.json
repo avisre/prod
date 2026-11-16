@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001481513",
  "issuerName": "JinkoSolar Holding Co., Ltd.",
- "builtAt": "2026-11-16T05:11:26.494Z",
+ "builtAt": "2026-11-16T10:09:40.611Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-050737",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1481513/000110465926050737/jks-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "vertically integrated solar power products manufacturing business",
+   "products": [
+    "silicon ingots",
+    "wafers",
+    "cells",
+    "solar modules",
+    "ESS products"
+   ],
+   "description": "Manufactures and sells solar power products, silicon ingots, wafers, cells and solar modules, plus energy storage products, to customers worldwide as one integrated business.",
+   "evidence": "Hence, we have only one operating segment which is vertically integrated solar power products manufacturing business from silicon ingots, wafers, cells to solar modules."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers worldwide buy photovoltaic products, mainly solar modules, and ESS products from the group, which pays for manufacturing and shipping them.",
+  "evidence": "Our revenue from sales of photovoltaic products decreased by 30.5% from RMB89.99 billion in 2024 to RMB62.53 billion (US$8.94 billion) in 2025, primarily due to a decrease in average selling price of solar modules compared to 2024."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

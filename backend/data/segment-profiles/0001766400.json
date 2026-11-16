@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001766400",
  "issuerName": "THE PENNANT GROUP, INC.",
- "builtAt": "2026-11-16T05:11:27.250Z",
+ "builtAt": "2026-11-16T10:10:45.942Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001766400-26-000014",
@@ -10,10 +10,35 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1766400/000176640026000014/pntg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home Health and Hospice Services",
+   "products": [
+    "home health",
+    "hospice",
+    "home care",
+    "geriatric primary and palliative care"
+   ],
+   "description": "Provides home health, hospice, home care, and geriatric primary and palliative care services to patients in their homes and other settings.",
+   "evidence": "We have two reportable segments: (1) home health and hospice services, which includes our home health, hospice, home care, and geriatric primary and palliative care businesses; and (2) senior living services, which includes our assisted living, independent living and memory care services."
+  },
+  {
+   "name": "Senior Living Services",
+   "products": [
+    "assisted living",
+    "independent living",
+    "memory care"
+   ],
+   "description": "Operates assisted living, independent living and memory care communities providing accommodation, meals, housekeeping and daily living assistance to seniors.",
+   "evidence": "We have two reportable segments: (1) home health and hospice services, which includes our home health, hospice, home care, and geriatric primary and palliative care businesses; and (2) senior living services, which includes our assisted living, independent living and memory care services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Medicare, Medicaid, managed care organizations, and private patients and residents pay for home health, hospice and senior living services.",
+  "evidence": "We derive revenue from a diversified blend of payors including Medicare and Medicaid programs, private pay patients and residents, and managed care payors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
