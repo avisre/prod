@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001337298",
  "issuerName": "FUTUREFUEL CORP.",
- "builtAt": "2026-11-16T05:33:46.656Z",
+ "builtAt": "2026-11-16T10:51:45.396Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-008411",
@@ -10,10 +10,42 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1337298/000143774926008411/ff20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chemicals",
+   "products": [
+    "custom manufacturing",
+    "performance chemicals",
+    "biocides",
+    "specialty polymers",
+    "dyes",
+    "Polymer Modifiers",
+    "Specialty Solvents & Surfactants",
+    "Glycerin Products"
+   ],
+   "description": "Makes custom and performance specialty chemicals for third-party industrial customers in agrochemical, coatings, cleaning and polymer markets.",
+   "evidence": "The Company's chemicals segment manufactures diversified chemical products that are sold to third party customers."
+  },
+  {
+   "name": "Biofuels",
+   "products": [
+    "biodiesel",
+    "biodiesel blends with petrodiesel",
+    "petrodiesel with no biodiesel added",
+    "RINs",
+    "biodiesel production byproducts",
+    "Legacy Regional Transport"
+   ],
+   "description": "Produces and sells biodiesel and petrodiesel blends from its Batesville plant to fuel and distribution customers.",
+   "evidence": "The Company's biofuels segment manufactures and markets biodiesel."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for custom chemical manufacturing under long-term contracts, for performance chemicals bought to specification, and for biodiesel and petrodiesel blends.",
+  "evidence": "Custom manufacturing is a service-based business focused on producing unique, proprietary molecules for strategic customers, typically under long-term or multi-year contracts."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

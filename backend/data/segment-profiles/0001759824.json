@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001759824",
  "issuerName": "ALTA EQUIPMENT GROUP INC.",
- "builtAt": "2026-11-16T05:33:45.505Z",
+ "builtAt": "2026-11-16T10:51:20.559Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076932",
@@ -10,11 +10,56 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1759824/000119312526076932/altg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Material Handling",
+   "products": [
+    "New and used equipment sales",
+    "Parts sales",
+    "Service revenues",
+    "Rental revenues",
+    "Rental equipment sales",
+    "warehouse management system integration solutions"
+   ],
+   "description": "Sells, rents and services material handling equipment and warehouse automation solutions, with parts and maintenance, for industrial customers.",
+   "evidence": "Additionally, we provide design and build services related to automated equipment installation and warehouse management system integration solutions within our Material Handling segment."
+  },
+  {
+   "name": "Construction Equipment",
+   "products": [
+    "New and used equipment sales",
+    "Parts sales",
+    "Service revenues",
+    "Rental revenues",
+    "Rental equipment sales"
+   ],
+   "description": "Sells, rents and services heavy and compact construction equipment, crushing, screening and paving equipment, with parts, for contractors.",
+   "evidence": "In our Material Handling segment, our rental equipment sales are primarily of rent-to-rent equipment and in our Construction Equipment segment, our rental equipment sales are primarily of rent-to-sell equipment."
+  },
+  {
+   "name": "Master Distribution",
+   "products": [
+    "New and used equipment sales",
+    "Parts sales",
+    "Service revenues",
+    "Rental revenues"
+   ],
+   "description": "Distributes equipment and parts to sub-dealers, mainly for European OEMs exposed to tariffs on imported goods.",
+   "evidence": "Master Distribution segment revenues for the year ended December 31, 2025 were $67.3 million, an increase of $8.1 million from the prior year same period."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for new and used equipment, parts, repair and maintenance services, equipment rentals and rental equipment sales.",
+  "evidence": "We engage in five principal business activities in these equipment categories: (i) new and used equipment sales; (ii) parts sales; (iii) repair and maintenance services; (iv) equipment rentals and (v) rental equipment sales."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company completed two divestitures, removing the disposed businesses from its segments.",
+   "evidence": "and other investing activities partially offset by $20.9 million proceeds from the two divestitures discussed in Note 15, and $11.4 million proceeds from the sale of rent-to-rent equipment and non-rental property and equipment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

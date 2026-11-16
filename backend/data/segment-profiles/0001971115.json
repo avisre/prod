@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001971115",
  "issuerName": "Ryde Group Ltd",
- "builtAt": "2026-11-16T05:33:45.799Z",
+ "builtAt": "2026-11-16T10:51:18.665Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-018829",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1971115/000149315226018829/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Super mobility app",
+   "products": [
+    "carpooling",
+    "ride-hailing",
+    "RydePOOL",
+    "parcel delivery services",
+    "multi-stop parcel delivery"
+   ],
+   "description": "Runs one super mobility app in Singapore offering carpooling, ride-hailing rides and on-demand parcel delivery to consumers and driver partners.",
+   "evidence": "The Company has determined that it operates as a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Platform users pay prices, fees and commissions for carpooling, ride-hailing rides and parcel deliveries booked through the mobile app.",
+  "evidence": "From time-to-time, competitive factors have caused, and may continue to cause, us to adjust prices or fees and commissions and increase driver partner or consumer incentives and marketing expenses, which has impacted and could continue to impact our revenues and costs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

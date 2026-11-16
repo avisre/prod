@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001857853",
  "issuerName": "Traeger, Inc",
- "builtAt": "2026-11-16T05:33:49.197Z",
+ "builtAt": "2026-11-16T10:52:54.335Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-015450",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1857853/000162828026015450/tra-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wood Pellet Grills",
+   "products": [
+    "wood pellet fueled barbecue grills",
+    "pellets",
+    "rubs",
+    "spices",
+    "sauces",
+    "grill accessories"
+   ],
+   "description": "Designs, sources and sells wood pellet barbecue grills with the pellets, rubs, sauces and accessories used with them.",
+   "evidence": "The Company's one operating segment derives revenues from customers through the design, sourcing, sales, and support of wood pellet fueled barbecue grills, the pellets used to fire the grills as well as rubs, spices, sauces, and grill accessories."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail partners and consumers pay for grills, pellets, rubs, sauces and accessories, with consumables driving recurring revenue.",
+  "evidence": "In addition, we offer consumable products, such as wood pellets, rubs, and sauces, that drive recurring revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company exited the Traeger direct-to-consumer business and discontinued the Costco roadshow program under Project Gravity.",
+   "evidence": "Going forward, as part of Project Gravity, we are discontinuing the Costco roadshow program, redirecting Traeger.com consumers to our retail partners' websites as part of our exit from the Traeger direct-to-consumer business, and transitioning to a distributor model in certain European markets that currently operate under a direct model."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

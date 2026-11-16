@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001833769",
  "issuerName": "Hyperfine, Inc.",
- "builtAt": "2026-11-16T05:33:49.716Z",
+ "builtAt": "2026-11-16T10:53:34.987Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-114044",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1833769/000119312526114044/hypr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Swoop® system",
+   "products": [
+    "Swoop® Portable MR Imaging® System",
+    "Optive AI",
+    "T1",
+    "T2",
+    "diffusion-weighted imaging",
+    "fluid-attenuated inversion recovery"
+   ],
+   "description": "Produces, supplies, services and commercializes a portable AI-powered ultra-low-field MR brain imaging system for hospitals, clinics and physician offices.",
+   "evidence": "The Company operates in one business segment, which includes all activities related to production, supply, service and commercialization of the Swoop® system."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Hospitals, critical care units, office-based neurology practices and third-party distributors pay for Swoop® system scanners and Optive AI software.",
+  "evidence": "Our initial commercial focus has been in the U.S. market and with customers that use the Swoop® system inside the hospital setting primarily in critical care for pediatric and adult applications."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

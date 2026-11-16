@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001697818",
  "issuerName": "Amber International Holding Limited",
- "builtAt": "2026-11-16T05:33:50.103Z",
+ "builtAt": "2026-11-16T10:54:41.114Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-060362",
@@ -10,11 +10,44 @@
   "filingDate": "2026-05-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1697818/000110465926060362/ambr-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Assets Services and Solution",
+   "products": [
+    "Structured Investment Products",
+    "Yield & DeFi Solutions",
+    "Collateralized Lending",
+    "Automated Execution",
+    "OTC Trading",
+    "Fiat On/Off-Ramp",
+    "Amber Premium Crypto Card"
+   ],
+   "description": "Digital asset wealth management platform serving institutional investors and high-net-worth individuals with trading, investment products and crypto payment services.",
+   "evidence": "Digital Assets Services and Solution 36,851 129,834 167,574 Online Advertising and SaaS Solutions — — 75,267"
+  },
+  {
+   "name": "Online Advertising and SaaS Solutions",
+   "products": [],
+   "description": "Online advertising and SaaS solutions, the legacy iClick online marketing business retained after the 2024 disposals.",
+   "evidence": "Online Advertising and SaaS Solutions — — 75,267 Total segment assets 36,851 129,834 242,841"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Institutional investors and high-net-worth individuals pay for digital asset trading, wealth management products and crypto payment services.",
+  "evidence": "We act as the institutional gateway to crypto finance, providing market access, execution infrastructure, and investment solutions for institutional investors and high-net-worth individuals (HNWIs)."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company completed the disposals of its Chinese Mainland enterprise solutions business and demand-side marketing solutions business.",
+   "evidence": "iClick implemented an ADS ratio change on November 14, 2022, and completed the disposals of its Chinese Mainland enterprise solutions business and demand-side marketing solutions business in 2024 (the \"Disposals\")."
+  },
+  {
+   "text": "The company closed the Merger in 2025, adding the digital asset wealth management business under the Amber Premium name.",
+   "evidence": "The Merger was closed on March 12, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

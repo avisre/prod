@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000096536",
  "issuerName": "Taylor Devices, Inc.",
- "builtAt": "2026-11-16T05:33:48.380Z",
+ "builtAt": "2026-11-16T10:53:22.088Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001376474-26-000567",
@@ -10,10 +10,29 @@
   "filingDate": "2026-08-18",
   "url": "https://www.sec.gov/Archives/edgar/data/96536/000137647426000567/tayd-20260531_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shock Absorption",
+   "products": [
+    "Seismic Dampers",
+    "Fluidicshoks®",
+    "Crane and Industrial Buffers",
+    "Self-Adjusting Shock Absorbers",
+    "Liquid Die Springs",
+    "Vibration Dampers",
+    "Machined Springs",
+    "Custom Shock and Vibration Isolators"
+   ],
+   "description": "Designs, develops, manufactures and sells shock absorption, rate control and energy storage devices for machinery, equipment and structures.",
+   "evidence": "These similar products are included in one of nine categories, namely, Seismic Dampers, Fluidicshoks®, Crane and Industrial Buffers, Self-Adjusting Shock Absorbers, Liquid Die Springs, Vibration Dampers, Machined Springs, Custom Shock and Vibration Isolators, and Custom Actuators."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Aerospace, defense, structural and industrial customers pay the company for standard and custom-designed shock absorption and vibration control devices.",
+  "evidence": "Due to the volatility of structural and aerospace/defense programs, we usually require progress payments for larger projects where the Company supplies custom designed components."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002023153",
  "issuerName": "HomesToLife Ltd",
- "builtAt": "2026-11-16T05:33:49.958Z",
+ "builtAt": "2026-11-16T10:54:08.147Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-012071",
@@ -10,10 +10,39 @@
   "filingDate": "2026-03-23",
   "url": "https://www.sec.gov/Archives/edgar/data/2023153/000149315226012071/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Business",
+   "products": [
+    "furniture products",
+    "merchandise"
+   ],
+   "description": "Operates retail outlets and digital platform sales in Singapore and Korea, selling furniture to individual consumers, including franchisee and department store channels.",
+   "evidence": "The Retail segment of the Company includes the results of operations of HTL SG and HTLK."
+  },
+  {
+   "name": "Export Sales Business",
+   "products": [
+    "upholstered sofas"
+   ],
+   "description": "Sells upholstered sofas and other products to business customers overseas through export entities across Europe, Australia, North America and Asia Pacific.",
+   "evidence": "The Export Sales segment of the Company includes the results of operations of HTL FE, HTLF, HTLA, HTLJ, HTLUK, and HTL Marketing in relation to export sales."
+  },
+  {
+   "name": "Leather Trading",
+   "products": [
+    "leather materials"
+   ],
+   "description": "Trades leather materials to corporate customers, primarily through HTL Marketing, with sales focused on leather materials.",
+   "evidence": "The Leather Trading segment of the Company includes the results of operations of HTL Marketing in relation to leather trading."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Individual consumers pay retail outlets in Singapore and Korea for furniture, while business and corporate customers pay for exported upholstered sofas and leather materials.",
+  "evidence": "The Company's export sales revenue and leather trading revenue are principally derived from the sale of products, including upholstered sofas, and sale of leather materials, to corporate customers in overseas."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

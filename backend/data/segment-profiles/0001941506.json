@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001941506",
  "issuerName": "ZJK Industrial Co., Ltd",
- "builtAt": "2026-11-16T05:33:47.145Z",
+ "builtAt": "2026-11-16T10:52:26.766Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001731122-26-000625",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1941506/000173112226000625/e7578_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "precision metal parts",
+   "products": [
+    "standard screws",
+    "nuts",
+    "bolts",
+    "turning parts",
+    "stamping parts",
+    "CNC machining parts",
+    "precision fasteners",
+    "structural parts"
+   ],
+   "description": "Manufactures and sells precision fasteners, structural parts and other precision metal parts for new energy vehicle and intelligent electronic equipment customers.",
+   "evidence": "As a result of the assessment made by CODM, the Company has only one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers and original equipment manufacturers in consumer electronics, new energy vehicles and other fields buy precision metal parts through a direct sales model.",
+  "evidence": "We use a direct sales model and the sales department is responsible for customer contact, product sales, after-sales services and customer maintenance."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

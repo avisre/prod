@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001693577",
  "issuerName": "MainStreet Bancshares, Inc.",
- "builtAt": "2026-11-16T05:33:49.920Z",
+ "builtAt": "2026-11-16T10:53:46.666Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-008073",
@@ -10,11 +10,45 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1693577/000143774926008073/main20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Core Banking",
+   "products": [
+    "Loans",
+    "Investments",
+    "Service charge income",
+    "Other fee income"
+   ],
+   "description": "Community commercial bank serving retail customers, small to medium-sized businesses and professionals in Northern Virginia and greater Washington, D.C. with loans, deposits and cash management.",
+   "evidence": "Loans and investments provide the revenues in the core banking segment, and service charges provided the revenues in the financial technology segment."
+  },
+  {
+   "name": "Financial Technology",
+   "products": [
+    "Service charge income",
+    "Avenu SaaS software program",
+    "BaaS services"
+   ],
+   "description": "Provided banking-as-a-service technology, including the Avenu SaaS software program and service charges on customer transactions, now shut down.",
+   "evidence": "Financial technology segment pretax profit or loss was used to assess the performance of the financial technology segment by monitoring the service charge income received on customer transactions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans, the Company earns income on investments, and customers pay service charges on transactions.",
+  "evidence": "Loans and investments provide the revenues in the core banking segment, and service charges provided the revenues in the financial technology segment."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the financial technology segment was shut down as the Company pivoted away from operating certain BaaS services.",
+   "evidence": "financial technology segment has been shut down given the Company's decision to pivot away from operating certain BaaS services."
+  },
+  {
+   "text": "From 2025 onward the core banking segment is the sole segment.",
+   "evidence": "The core banking segment will be the sole segment from this point on."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

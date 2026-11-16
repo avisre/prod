@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001916331",
  "issuerName": "Neo-Concept International Group Holdings Limited",
- "builtAt": "2026-11-16T05:33:47.117Z",
+ "builtAt": "2026-11-16T10:52:03.314Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050005",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1916331/000121390026050005/ea0286052-20f_neoconcept.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sale of apparel products",
+   "products": [
+    "one-stop apparel solution service",
+    "own-branded apparel products",
+    "les 100 ciels",
+    "merino wool and cashmere",
+    "recycled cashmere and undyed cashmere"
+   ],
+   "description": "One-stop apparel solution provider offering design, sourcing, production, quality control and logistics to European and North American customers, plus own-branded apparel retail.",
+   "evidence": "The sale of apparel products segment generated revenue by providing one-stop apparel solution service and sales of own-branded apparel products through retail stores."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Apparel customers in Europe and North America pay for apparel solution services, and retail shoppers buy own-branded apparel.",
+  "evidence": "We offer a full suite of services in the apparel supply chain, including market trend analysis, product design and development, raw material sourcing, production and quality control, and logistics management serving customers located in the European, and North American markets through Neo-Concept HK."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

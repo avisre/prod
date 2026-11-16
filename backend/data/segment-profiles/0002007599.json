@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002007599",
  "issuerName": "Robot Consulting Co., Ltd.",
- "builtAt": "2026-11-16T05:33:47.419Z",
+ "builtAt": "2026-11-16T10:52:26.766Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-035636",
@@ -10,10 +10,28 @@
   "filingDate": "2026-07-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2007599/000149315226035636/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software",
+   "products": [
+    "Labor Robot",
+    "Billing Robot",
+    "Robot Lawyer",
+    "Lawyer Robot",
+    "e-learning service",
+    "Sales of software",
+    "Consulting and support services"
+   ],
+   "description": "Provides cloud-based accounting and human resource software in Japan, including Labor Robot and Billing Robot, to corporate customers.",
+   "evidence": "The Company operates and manages its business as one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Corporate customers pay for software sales, consulting and support services, and usage fees for Billing Robot and application handling fees.",
+  "evidence": "Usage fee revenue generated from Billing Robot fees charged to a certain customer based on fixed rates specified in the contract."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

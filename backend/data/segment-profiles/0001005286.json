@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001005286",
  "issuerName": "LIFECORE BIOMEDICAL, INC.",
- "builtAt": "2026-11-16T05:33:45.845Z",
+ "builtAt": "2026-11-16T10:51:33.846Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001005286-25-000108",
@@ -10,11 +10,35 @@
   "filingDate": "2025-08-07",
   "url": "https://www.sec.gov/Archives/edgar/data/1005286/000100528625000108/lfcr-20250525.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CDMO",
+   "products": [
+    "pharmaceutical-grade, non-animal-sourced hyaluronic acid",
+    "HA in bulk form",
+    "formulated and filled syringes and vials",
+    "aseptic filling",
+    "formulation development",
+    "analytical method development and validation",
+    "process scale-up",
+    "process validation"
+   ],
+   "description": "Contract development and manufacturing of complex sterile injectable drug and device products, including HA, for biopharmaceutical customers.",
+   "evidence": "The Company's chief operating decision maker, as defined by U.S. generally accepted accounting principles (\"U.S. GAAP\"), manages CDMO and HA manufacturing operations on the basis of a single integrated segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Biopharmaceutical and biotechnology customers pay for development services and for cGMP manufacturing and aseptic filling of their sterile injectable products.",
+  "evidence": "We manufacture HA in bulk form as well as for use in formulated and filled syringes and vials for our customers' injectable products used in treating a broad spectrum of medical conditions and procedures, including ophthalmic and orthopedic applications."
+ },
+ "changes": [
+  {
+   "text": "In 2023 Lifecore divested its food businesses and began operating as a stand-alone integrated CDMO.",
+   "evidence": "In May 2023, Lifecore completed the divestiture of these food businesses, and beginning with fiscal year 2024, we operate as a stand-alone integrated CDMO."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

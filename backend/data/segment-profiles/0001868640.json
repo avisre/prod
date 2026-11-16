@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001868640",
  "issuerName": "ROADZEN INC.",
- "builtAt": "2026-11-16T05:33:50.305Z",
+ "builtAt": "2026-11-16T10:54:30.895Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-031069",
@@ -10,10 +10,29 @@
   "filingDate": "2026-06-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1868640/000149315226031069/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance as a Service",
+   "products": [
+    "IaaS platform",
+    "roadside assistance",
+    "claims management",
+    "vehicle inspection",
+    "workshop management platform",
+    "extended warranties",
+    "motor insurance products",
+    "telematics"
+   ],
+   "description": "Sells an AI, telematics and computer-vision insurance platform plus brokerage, claims and roadside assistance services to insurers, carmakers and fleets.",
+   "evidence": "Roadzen has built a pioneering technology platform that uses telematics, computer vision and data science to spearhead innovation across the insurance value chain, namely underwriting, distribution, claims and road safety."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Insurers, carmakers and fleets pay brokerage commissions and platform fees for insurance distribution and IaaS technology.",
+  "evidence": "Roadzen has two principal models for generating revenue: 1) platform sales of our IaaS platform, and 2) brokerage commissions and fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

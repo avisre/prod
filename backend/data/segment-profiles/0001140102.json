@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001140102",
  "issuerName": "HireQuest, Inc.",
- "builtAt": "2026-11-16T05:33:46.782Z",
+ "builtAt": "2026-11-16T10:52:22.178Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-010435",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1140102/000143774926010435/hqi20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Temporary staffing",
+   "products": [
+    "HireQuest Direct",
+    "Snelling",
+    "DriverQuest",
+    "HireQuest Health",
+    "Northbound Executive Search",
+    "Management Recruiters International",
+    "TradeCorp",
+    "Sales Consultants"
+   ],
+   "description": "Franchises temporary staffing offices offering direct-dispatch and commercial staffing, plus professional recruitment offices providing permanent placement for executive, managerial and administrative roles.",
+   "evidence": "We currently operate as a single reporting segment based on our organization structure and the information regularly reviewed by our chief operating decision-maker"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Franchisees pay royalty fees and license fees on the operations of their offices, plus interest charged on overdue accounts receivable and notes receivable.",
+  "evidence": "Our reportable segment derives its revenue primarily from royalties received from franchisees."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company agreed to contribute certain MRINetwork assets and liabilities to MRI Operations, closing at the start of the following year.",
+   "evidence": "Pursuant to the Contribution Agreement, HQ MRI agreed to transfer, and MRI Operations agreed to accept, certain assets and liabilities associated with the MRINetwork as of the Effective Date in exchange for MRI Operations issuing to HQ MRI 40% of the ownership units of MRI Operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

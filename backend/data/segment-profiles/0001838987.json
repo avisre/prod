@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001838987",
  "issuerName": "SUNPOWER INC.",
- "builtAt": "2026-11-16T05:33:49.560Z",
+ "builtAt": "2026-11-16T10:53:41.756Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-043623",
@@ -10,11 +10,58 @@
   "filingDate": "2026-04-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1838987/000121390026043623/ea0283920-10k_sunpower.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential Solar Installation",
+   "products": [
+    "solar system",
+    "storage and battery installations",
+    "battery storage",
+    "solar energy systems"
+   ],
+   "description": "Performs solar system, storage and battery installations for residential homeowners in the markets the company serves.",
+   "evidence": "This segment performs solar system, storage and battery installations for residential homeowners."
+  },
+  {
+   "name": "New Homes Business",
+   "products": [
+    "solar system installations",
+    "solar energy system",
+    "lease arrangements"
+   ],
+   "description": "Performs solar system installations for new home builders, with limited lease arrangements recognized upon system acceptance.",
+   "evidence": "This segment performs solar system installations for new home builders."
+  },
+  {
+   "name": "Dealer",
+   "products": [
+    "third-party solar energy sales force",
+    "Merdeka"
+   ],
+   "description": "Provides a third-party solar energy sales force that initiates and executes customer contracts sold to installation companies.",
+   "evidence": "This segment provides a third-party solar energy sales force to initiate and execute contracts with customers throughout the United States."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Homeowners and leasing partners pay the company for residential solar installations, and home builders pay for new home systems.",
+  "evidence": "Homeowners are the customers in cash and financing arrangements, while leasing partners are the customers in power purchase and lease arrangements."
+ },
+ "changes": [
+  {
+   "text": "The New Homes Business segment was new in 2024 after the acquisition of the SunPower Businesses.",
+   "evidence": "This segment was new in fiscal year 2024 as a result of the acquisition of the SunPower Businesses in the fourth quarter of fiscal year 2024."
+  },
+  {
+   "text": "The Dealer segment was added in 2025 through the acquisition of Sunder.",
+   "evidence": "Dealer revenues are attributable to the acquisition of Sunder."
+  },
+  {
+   "text": "In 2023 the company sold the solar panel assets of The Solaria Corporation.",
+   "evidence": "In October 2023, we sold the solar panel assets of The Solaria Corporation, including intellectual property and customer contracts to Maxeon Solar Technologies, Ltd."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001290900",
  "issuerName": "COMMERCIAL VEHICLE GROUP, INC.",
- "builtAt": "2026-11-16T05:33:46.815Z",
+ "builtAt": "2026-11-16T10:52:08.566Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-016520",
@@ -10,11 +10,71 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1290900/000162828026016520/cvgi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Seating",
+   "products": [
+    "Commercial vehicle seats",
+    "Seats and components",
+    "Office seats",
+    "mechanical and air suspension seats",
+    "static seats",
+    "bus seats",
+    "military seats"
+   ],
+   "description": "Designs, manufactures and sells commercial vehicle, aftermarket repair and office seats to truck, construction, agriculture and office furniture customers.",
+   "evidence": "We design, engineer and produce seats for MD/HD truck, bus, construction, agriculture and military markets."
+  },
+  {
+   "name": "Global Electrical Systems",
+   "products": [
+    "Cable and harness assemblies",
+    "control boxes",
+    "dashboard assemblies",
+    "Wire Harness Assemblies",
+    "Ethernet",
+    "battery cables",
+    "power distribution boxes"
+   ],
+   "description": "Designs and produces low and high voltage cable and harness assemblies, control boxes and dashboard assemblies for vehicle and industrial customers.",
+   "evidence": "Cable and harness assemblies for both high and low voltage applications, control boxes, dashboard assemblies and design and engineering for these applications."
+  },
+  {
+   "name": "Trim Systems and Components",
+   "products": [
+    "Plastic components",
+    "Commercial vehicle accessories",
+    "Molded Products",
+    "Instrument Panels",
+    "Cab Interiors",
+    "mirrors",
+    "wipers",
+    "sensors"
+   ],
+   "description": "Produces plastic trim, instrument panels, cab interiors and accessories such as mirrors and wipers for truck, power sports and specialty vehicle makers.",
+   "evidence": "Commercial vehicle accessories including wipers, mirrors, and sensors."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Original equipment manufacturers, parts and service dealers and distributors pay for customized systems, assemblies and components, including repair and replacement products.",
+  "evidence": "We believe our products are used by a majority of the North American Commercial Truck manufacturers, many construction and agriculture vehicle original equipment manufacturers (\"OEMs\"), parts and service dealers and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company reorganized its operations into three segments: Global Seating, Global Electrical Systems, and Trim Systems and Components.",
+   "evidence": "During the quarter ended March 31, 2025, the Company completed a strategic reorganization of its operations into three segments: Global Seating, Global Electrical Systems, and Trim Systems and Components."
+  },
+  {
+   "text": "In 2024 the Company sold its cab structures business, which is reported as a discontinued operation.",
+   "evidence": "On July 31, 2024, the Company entered into a purchase agreement to sell its cab structures business with operations in Kings Mountain, North Carolina for approximately $ 40 million."
+  },
+  {
+   "text": "In 2024 the Company sold its First Source Electronics business, the Industrial Automation segment.",
+   "evidence": "On October 30, 2024, the Company entered into a purchase agreement to sell its First Source Electronics (FSE) business with operations in Elkridge, Maryland for approximately $ 1.5 million, with a note in the amount of $ 0.5 million and earn out potential of an additional $ 1.5 million subject to certain criteria."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

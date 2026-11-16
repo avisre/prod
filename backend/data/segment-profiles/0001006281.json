@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001006281",
  "issuerName": "Protalix BioTherapeutics, Inc.",
- "builtAt": "2026-11-16T05:33:47.329Z",
+ "builtAt": "2026-11-16T10:52:21.357Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-029858",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1006281/000110465926029858/plx-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Elelyso",
+    "Elfabrio",
+    "PRX-115",
+    "PRX-119"
+   ],
+   "description": "Commercial-stage biopharmaceutical company developing and selling plant-cell-expressed enzyme replacement therapies for rare diseases, mainly Gaucher and Fabry disease.",
+   "evidence": "The Company operates in Israel as a single operating segment"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Pfizer, Fiocruz and Chiesi pay for drug substance and drug product we manufacture, and we also earn license and R&D service revenues.",
+  "evidence": "We sell drug substance to Pfizer for the production of Elelyso, subject to certain terms and conditions, and Pfizer retains the revenues generated from its sales of the product."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

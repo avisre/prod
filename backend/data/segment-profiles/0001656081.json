@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001656081",
  "issuerName": "ENDAVA PLC",
- "builtAt": "2026-11-16T05:33:47.548Z",
+ "builtAt": "2026-11-16T10:52:30.255Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001656081-25-000039",
@@ -10,11 +10,32 @@
   "filingDate": "2025-09-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1656081/000165608125000039/dava-20250630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Next-generation technology services",
+   "products": [
+    "Endava Flow",
+    "The Endava Adaptive Model, or TEAM",
+    "TEAM Enterprise Scaling, or TEAS",
+    "AI Native Delivery",
+    "digital transformation"
+   ],
+   "description": "Provides next-generation technology services, consulting and delivering digital transformation, AI-enabled delivery and engineering solutions to enterprise clients across industries.",
+   "evidence": "Therefore, the Group has determined that it operates in a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay Endava for technology services and tailor-made digital transformation solutions delivered through its engineering and AI-enabled delivery model.",
+  "evidence": "By combining innovative technologies and deep industry expertise with an AI-native approach, we consult and partner with our clients to create solutions that drive transformation, augment intelligence and deliver lasting impact."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2024 the industry vertical breakdown was updated, splitting Payments and Financial Services into Payments, BCM and Insurance.",
+   "evidence": "The previous \"Payments and Financial Services\" industry vertical has been split into Payments, BCM, and Insurance."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

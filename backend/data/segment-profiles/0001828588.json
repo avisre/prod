@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001828588",
  "issuerName": "Hanover Bancorp, Inc. /MD",
- "builtAt": "2026-11-16T05:33:48.654Z",
+ "builtAt": "2026-11-16T10:52:51.663Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-027651",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1828588/000110465926027651/hnvr-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "SBA 7(a) variable-rate loans",
+    "C&I loans",
+    "commercial real estate loans",
+    "construction and land development loans",
+    "home equity loans",
+    "first-time home buyer loans",
+    "Residential Investor Program",
+    "municipal banking accounts"
+   ],
+   "description": "A New York metro community commercial bank providing personalized consumer and commercial banking products and services to local businesses, municipalities and individuals.",
+   "evidence": "The Company has one reportable segment, \"Community Banking.\""
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Deposit and loan customers pay the bank interest, fees and charges for banking services, deposits and lending.",
+  "evidence": "The Company earns fees from its deposit customers for transaction-based, account maintenance, and overdraft services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

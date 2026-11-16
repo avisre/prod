@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000924719",
  "issuerName": "Smith-Midland Corporation",
- "builtAt": "2026-11-16T05:33:49.545Z",
+ "builtAt": "2026-11-16T10:53:10.926Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001654954-26-003505",
@@ -10,10 +10,27 @@
   "filingDate": "2026-04-14",
   "url": "https://www.sec.gov/Archives/edgar/data/924719/000165495426003505/smid_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precast Concrete Segment",
+   "products": [
+    "SlenderWall®",
+    "J-J Hooks® Highway Safety Barrier",
+    "SoftSound™",
+    "Sierra Wall™",
+    "Easi-Set®",
+    "Easi-Span®"
+   ],
+   "description": "Makes and installs proprietary precast concrete products such as cladding panels, sound barriers, highway safety barriers and transportable buildings for contractors, transportation authorities and farmers.",
+   "evidence": "The Company currently operates in one operating and reportable business segment for financial reporting purposes (the \"Precast Concrete Segment\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "General contractors and federal, state and local transportation authorities pay for precast concrete products, barrier rentals and licenses of proprietary products.",
+  "evidence": "The Company's precast, licensing, and barrier rental customers are primarily general contractors and federal, state, and local transportation authorities located in the Mid-Atlantic, Northeastern, Midwestern and Southeastern regions of the United States."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

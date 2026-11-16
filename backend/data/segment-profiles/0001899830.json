@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001899830",
  "issuerName": "Perfect Corp.",
- "builtAt": "2026-11-16T05:33:47.727Z",
+ "builtAt": "2026-11-16T10:52:49.394Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001899830-26-000013",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1899830/000189983026000013/perf-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beauty and fashion technology",
+   "products": [
+    "YouCam",
+    "AR Makeup solution",
+    "premium features"
+   ],
+   "description": "Provides AI- and AR-based beauty and fashion technology solutions, mobile apps and web services to brands and consumers.",
+   "evidence": "The Group's chief operating decision maker who allocates resources and assesses performance of the Group as a whole, has identified that the Group has only one reportable operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Brands pay for AI- and AR-based beauty and fashion solutions, and consumers pay for premium app and web subscriptions.",
+  "evidence": "Our mobile app or web service users, facing financial pressures due to the economic downturn, may also choose to cancel or refrain from subscribing for the premium features of our apps or web services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

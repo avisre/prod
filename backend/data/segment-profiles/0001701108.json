@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001701108",
  "issuerName": "Spero Therapeutics, Inc.",
- "builtAt": "2026-11-16T05:33:49.368Z",
+ "builtAt": "2026-11-16T10:53:51.069Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-126192",
@@ -10,11 +10,34 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1701108/000119312526126192/spro-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "tebipenem HBr",
+    "SPR720",
+    "SPR206"
+   ],
+   "description": "Clinical-stage biopharmaceutical company identifying and developing novel treatments for bacterial infections, including MDR bacterial infections, and rare diseases with high unmet need.",
+   "evidence": "The Company manages its operations as a single operating segment for the purpose of assessing performance and making operating decisions, resulting in a single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The company is paid by collaboration partners such as GSK and through government grant awards for licensing and research work, not by product sales.",
+  "evidence": "The Company earns revenue from collaboration agreements with third parties and grant revenue in connection with various government awards."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company ceased development of its two earlier stage antibiotic programs to focus resources on tebipenem HBr.",
+   "evidence": "As of March 2025, we have ceased development of our SPR206 program, and as of November 2025, we have ceased development of our SPR720 oral program, and have shifted our focus and resources to advancing the development of the tebipenem HBr program, as well as other corporate activities."
+  },
+  {
+   "text": "In 2025 the company mutually agreed with Pfizer to terminate the Pfizer License Agreement.",
+   "evidence": "On December 31, 2025, the Company mutually agreed with Pfizer to terminate the Pfizer License Agreement."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

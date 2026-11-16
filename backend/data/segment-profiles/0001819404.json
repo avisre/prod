@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819404",
  "issuerName": "NERDY INC.",
- "builtAt": "2026-11-16T05:33:50.398Z",
+ "builtAt": "2026-11-16T10:54:14.640Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001819404-26-000015",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1819404/000181940426000015/nrdy-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tutoring",
+   "products": [
+    "Learning Memberships",
+    "Varsity Tutors for Schools",
+    "one-on-one instruction",
+    "small group tutoring",
+    "large format classes",
+    "essay review",
+    "adaptive assessments",
+    "self-study tools"
+   ],
+   "description": "Sells live tutoring and learning services to Learners and Institutions, delivered by Experts through its proprietary Live Learning Platform.",
+   "evidence": "The Company has one reportable segment: Tutoring."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Learners and Institutions pay for tutoring services delivered by Experts through the Company's platform, sold through Learning Memberships and access-based subscriptions.",
+  "evidence": "The Company generates revenue by selling tutoring services to Learners and Institutions that are fulfilled by Experts, who deliver instruction on its behalf through its proprietary Live Learning Platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

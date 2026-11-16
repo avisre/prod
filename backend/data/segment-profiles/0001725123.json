@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001725123",
  "issuerName": "Cango Inc.",
- "builtAt": "2026-11-16T05:33:45.827Z",
+ "builtAt": "2026-11-16T10:51:09.760Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-041972",
@@ -10,11 +10,46 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1725123/000110465926041972/cang-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin Mining Business",
+   "products": [
+    "Bitcoin",
+    "mining machines"
+   ],
+   "description": "Mines Bitcoin using its own mining machines, mining sites and purchased hashrate, and holds and sells the Bitcoin it mines.",
+   "evidence": "In 2024, following the commencement of the Bitcoin mining business, the CODM began to evaluate the performance of the overall business based on two distinct reportable segments"
+  },
+  {
+   "name": "International Automobile Trading Business",
+   "products": [
+    "used car trading",
+    "international automobile trading"
+   ],
+   "description": "Trades automobiles internationally, mainly through used car trading operations conducted from outside the PRC-based business it sold.",
+   "evidence": "Accordingly, the Company now reports segment financial information based on two reportable segments: (i) Bitcoin Mining Business and (ii) International Automobile Trading Business"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay the company for Bitcoin it mines and for automobiles it trades across international markets.",
+  "evidence": "Disaggregated revenue data by geographic area in terms of customers' locations is as follows:"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company divested its PRC business of loan facilitations, aftermarket services, financing leasing and domestic automobile trading, reported as discontinued operations.",
+   "evidence": "On May 27, 2025, the Company finalized the divestment of all its business related to loan facilitations, aftermarket services, financing leasing services, domestic automotible trading and related services in the PRC"
+  },
+  {
+   "text": "In 2024 the company began Bitcoin mining and added a second reportable segment beside Automobile and Related Business.",
+   "evidence": "In 2024, following the commencement of the Bitcoin mining business, the CODM began to evaluate the performance of the overall business based on two distinct reportable segments"
+  },
+  {
+   "text": "In 2025 the automobile segment was narrowed to the International Automobile Trading Business that started that year.",
+   "evidence": "In 2025, the CODM ceased reviewing the performance of Automobile and Related Business other than the International Automobile Trading Business, which commenced in the second quarter of fiscal year 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

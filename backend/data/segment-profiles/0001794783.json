@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001794783",
  "issuerName": "SelectQuote, Inc.",
- "builtAt": "2026-11-16T05:33:46.061Z",
+ "builtAt": "2026-11-16T10:51:44.323Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001794783-26-000057",
@@ -10,11 +10,62 @@
   "filingDate": "2026-08-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1794783/000179478326000057/slqt-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Senior",
+   "products": [
+    "Medicare Advantage",
+    "Medicare Supplement",
+    "prescription drug",
+    "dental, vision, and hearing",
+    "critical illness products"
+   ],
+   "description": "Offers senior consumers unbiased comparison shopping for Medicare Advantage and Medicare Supplement plans plus ancillary prescription drug, dental, vision, hearing and critical illness products.",
+   "evidence": "Senior was launched in 2010 and provides unbiased comparison shopping for Medicare Advantage (\"MA\") and Medicare Supplement (\"MS\") insurance plans as well as prescription drug and dental, vision, and hearing (\"DVH\") plans, and critical illness products."
+  },
+  {
+   "name": "Healthcare Services",
+   "products": [
+    "SelectRx",
+    "Healthcare Select",
+    "SPM",
+    "essential prescription medications",
+    "customized medication packaging",
+    "medication therapy management",
+    "health risk and lifestyle assessments"
+   ],
+   "description": "Provides pharmacy and health-related products and services to Medicare policyholders, focused on improving patient health outcomes through SelectRx, Healthcare Select and SPM.",
+   "evidence": "Healthcare Services, launched in 2021, offers various health-related products and services through SelectRx, Healthcare Select, and SPM."
+  },
+  {
+   "name": "Life",
+   "products": [
+    "term life",
+    "final expense",
+    "critical illness",
+    "accidental death",
+    "juvenile insurance"
+   ],
+   "description": "Direct-to-consumer term life insurance distributor offering unbiased comparison shopping for term life, final expense and other ancillary life products.",
+   "evidence": "Our platform provides unbiased comparison shopping for life insurance products such as term life, final expense, and other ancillary products like critical illness, accidental death, and juvenile insurance."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insurance carrier partners pay commissions for the policies the company places on their behalf, and pharmacy operations generate revenue for prescription medications dispensed to members.",
+  "evidence": "In return, we earn commissions from our insurance carrier partners for the policies we sell on their behalf."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company realigned its reportable segments, and the Auto & Home business no longer meets the thresholds to be separately disclosed, moving into an All Other category.",
+   "evidence": "As of July 1, 2024, the Company realigned its reportable segments."
+  },
+  {
+   "text": "In 2024 the Company launched SPM through an acquisition of a chronic care management platform, adding it to Healthcare Services.",
+   "evidence": "In 2024, we launched SPM, via a $4.0 million acquisition of an existing chronic care management platform, which offers providers, payers, and Accountable Care Organizations scalable, technology-enhanced services for patients living with chronic conditions."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

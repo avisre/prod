@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001600641",
  "issuerName": "1stdibs.com, Inc.",
- "builtAt": "2026-11-16T05:33:49.336Z",
+ "builtAt": "2026-11-16T10:53:06.209Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001600641-26-000007",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1600641/000160064126000007/dibs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online marketplace",
+   "products": [
+    "vintage, antique, and contemporary furniture",
+    "home décor",
+    "jewelry",
+    "watches",
+    "art",
+    "fashion"
+   ],
+   "description": "Operates a global online marketplace where vetted sellers list luxury design items and buyers purchase them directly.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Sellers pay commissions on marketplace transactions plus subscription, sponsored listings and advertising revenue for platform access and marketing.",
+  "evidence": "The Company's accounts receivable are recorded at amounts billed to sellers, generally for non-transactional revenue, which includes subscription, sponsored listings and advertising revenue"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

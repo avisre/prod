@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001726126",
  "issuerName": "EPSILON ENERGY LTD.",
- "builtAt": "2026-11-16T05:33:46.743Z",
+ "builtAt": "2026-11-16T10:51:51.135Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-035794",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1726126/000110465926035794/epsn-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Upstream",
+   "products": [
+    "natural gas",
+    "natural gas liquids",
+    "oil and condensate"
+   ],
+   "description": "Acquires, develops and produces natural gas and oil reserves on properties in the United States and Canada for sale to purchasers.",
+   "evidence": "The Upstream segment activities include acquisition, development and production of natural gas and oil reserves on properties within the United States and Canada; and"
+  },
+  {
+   "name": "Gas Gathering",
+   "products": [
+    "natural gas gathering system",
+    "gathering and compression fees"
+   ],
+   "description": "Partners with two other companies to operate a natural gas gathering system, earning gathering and compression fees from shippers.",
+   "evidence": "The Gas Gathering segment partners with two other companies to operate a natural gas gathering system."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Purchasers such as ARM Energy and Ares Energy pay the Upstream segment for natural gas, natural gas liquids, oil and condensate, while shippers pay gathering and compression fees.",
+  "evidence": "For the year ended December 31, 2025, three purchasers each accounted for 10 % or more of our total revenue: ARM Energy ( 55 %) and Ares Energy ( 20 %) from the upstream segment and Williams ( 17 %) from the gas gathering segment."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold all of its Anadarko Basin assets in Oklahoma.",
+   "evidence": "The Company sold all of its assets in the Anadarko Basin in December 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

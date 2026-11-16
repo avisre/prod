@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001605301",
  "issuerName": "CB FINANCIAL SERVICES, INC.",
- "builtAt": "2026-11-16T05:33:45.991Z",
+ "builtAt": "2026-11-16T10:51:35.784Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001605301-26-000009",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1605301/000160530126000009/cbfv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking services",
+   "products": [
+    "residential and commercial real estate loans",
+    "commercial and industrial loans",
+    "consumer loans",
+    "time deposits",
+    "checking and savings accounts",
+    "deposit products"
+   ],
+   "description": "A Pennsylvania-chartered community bank serving individuals and small businesses with loans and deposit products through branch offices.",
+   "evidence": "The Company has evaluated the provisions of ASC Topic 280, Segment Reporting, and determined that at December 31, 2025 and 2024, the Company had one reportable segment, community banking services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Individuals and small and medium sized businesses pay interest and fees on loans and use deposit and checking accounts at the Bank's branches.",
+  "evidence": "The Bank is a community-oriented institution offering residential and commercial real estate loans, commercial and industrial loans, and consumer loans as well as a variety of deposit products for individuals and businesses in its market area."
+ },
+ "changes": [
+  {
+   "text": "The Bank sold Exchange Underwriters, its full-service independent insurance agency subsidiary, in December 2023.",
+   "evidence": "On December 1, 2023, the Company announced that the Bank and EU entered into an Asset Purchase Agreement with World Insurance Associates, LLC (\"World\") pursuant to which EU sold substantially all of its assets to World for a purchase price of $30.5 million cash plus possible additional earn-out payments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
