@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001468174",
+ "issuerName": "Hyatt Hotels Corp",
+ "builtAt": "2026-11-16T03:47:30.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001468174-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1468174/000146817426000007/h-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Management and franchising",
+   "products": [
+    "franchising"
+   ],
+   "description": "Manages and franchises hotels and licenses its brands.",
+   "evidence": "Business Segment, Revenues, and Geographical Information We manage our business within the following reportable segments: • Management and franchising, which consists of the provision of management, franchising, and hotel services, or the licensing of our intellectual property to, (i) our property portfolio, (ii) our co-branded credit card programs, and (iii) other hospitality-related businesses, including the Unlimited Vacation Club; • Owned and leased, which consists of our owned and leased ho"
+  },
+  {
+   "name": "Owned and leased",
+   "products": [
+    "owned and leased hotels"
+   ],
+   "description": "Owns and leases hotels and reports their results.",
+   "evidence": "Business Segment, Revenues, and Geographical Information We manage our business within the following reportable segments: • Management and franchising, which consists of the provision of management, franchising, and hotel services, or the licensing of our intellectual property to, (i) our property portfolio, (ii) our co-branded credit card programs, and (iii) other hospitality-related businesses, including the Unlimited Vacation Club; • Owned and leased, which consists of our owned and leased ho"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hotel owners pay management and franchise fees; guests pay room rates at owned hotels.",
+  "evidence": "Business Segment, Revenues, and Geographical Information We manage our business within the following reportable segments: • Management and franchising, which consists of the provision of management, franchising, and hotel services, or the licensing of our intellectual property to, (i) our property portfolio, (ii) our co-branded credit card programs, and (iii) other hospitality-related businesses, including the Unlimited Vacation Club; • Owned and leased, which consists of our owned and leased ho"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Management and franchising): hotel management services",
+  "product not in text (Management and franchising): licensing of intellectual property"
+ ],
+ "reader": "agent"
+}

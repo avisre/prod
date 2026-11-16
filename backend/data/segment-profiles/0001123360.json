@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001123360",
+ "issuerName": "GLOBAL PAYMENTS INC.",
+ "builtAt": "2026-11-16T03:47:30.512Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001123360-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1123360/000112336026000008/gpn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Merchant Solutions",
+   "products": [
+    "payment processing"
+   ],
+   "description": "Processes card payments for merchants.",
+   "evidence": "Beginning in the second quarter of 2025, the results of our Issuer Solutions business have been reported as discontinued operations and therefore, no longer presented as a reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants pay processing fees on card transactions.",
+  "evidence": "Beginning in the second quarter of 2025, the results of our Issuer Solutions business have been reported as discontinued operations and therefore, no longer presented as a reportable segment."
+ },
+ "changes": [
+  {
+   "text": "Moved Issuer Solutions to discontinued operations in the second quarter of 2025, leaving Merchant Solutions as the reportable segment.",
+   "evidence": "Beginning in the second quarter of 2025, the results of our Issuer Solutions business have been reported as discontinued operations and therefore, no longer presented as a reportable segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

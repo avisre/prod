@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001159036",
+ "issuerName": "HALOZYME THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T03:47:31.090Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001159036-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1159036/000115903626000024/halo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ENHANZE technology",
+   "products": [
+    "Hylenex ®",
+    "XYOSTED ®"
+   ],
+   "description": "Licenses its drug-delivery technology for royalties and sells its own products.",
+   "evidence": "Our commercial portfolio of proprietary products includes Hylenex ® , utilizing rHuPH20, and XYOSTED ® , utilizing our auto-injector technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay royalties and milestones, and customers buy its products.",
+  "evidence": "We generate revenues from payments received (i) as royalties from licensing our ENHANZE technology and other royalty arrangements, (ii) under collaborative agreements and (iii) from sales of our proprieta"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (ENHANZE technology): ENHANZE technology"
+ ],
+ "reader": "agent"
+}

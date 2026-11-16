@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001674168",
+ "issuerName": "Hilton Grand Vacations Inc.",
+ "builtAt": "2026-11-16T03:47:31.217Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001674168-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1674168/000167416826000017/hgv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate sales and financing",
+   "products": [
+    "VOI Sales",
+    "Financing"
+   ],
+   "description": "Sells vacation ownership interests and finances member purchases.",
+   "evidence": "Our Reportable Segments We operate our business across two segments: (1) Real estate sales and financing and (2) Resort operations and club management."
+  },
+  {
+   "name": "Resort operations and club management",
+   "products": [
+    "resort operations",
+    "club management"
+   ],
+   "description": "Runs resorts and manages vacation clubs.",
+   "evidence": "Our Reportable Segments We operate our business across two segments: (1) Real estate sales and financing and (2) Resort operations and club management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Members buy vacation ownership intervals and pay dues and financing interest.",
+  "evidence": "Our real estate sales and financing segment primarily generates revenue from: • VOI Sales —We sell our owned inventory and interests directly and, through our fee-for-service agreements, we sell VOIs on behalf of third-party developers using the Hilton Grand Vacations brand in exchange for fee-for-service commissions and brand fees."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

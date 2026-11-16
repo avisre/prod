@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0001121788",
+ "issuerName": "GARMIN LTD",
+ "builtAt": "2026-11-16T03:47:30.531Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-056028",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1121788/000119312526056028/grmn-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "fitness",
+   "products": [
+    "cycling computers",
+    "power meters",
+    "bike radars",
+    "cameras",
+    "smart lights",
+    "speed and cadence sensors"
+   ],
+   "description": "Sells fitness and cycling devices.",
+   "evidence": "Garmin is organized in the five operating segments of fitness, outdoor, aviation, marine, and auto OEM, which represent the primary markets served by the Company."
+  },
+  {
+   "name": "outdoor",
+   "products": [],
+   "description": "Sells outdoor navigation devices.",
+   "evidence": "Garmin is organized in the five operating segments of fitness, outdoor, aviation, marine, and auto OEM, which represent the primary markets served by the Company."
+  },
+  {
+   "name": "aviation",
+   "products": [
+    "avionics"
+   ],
+   "description": "Sells aviation avionics and displays.",
+   "evidence": "Garmin is organized in the five operating segments of fitness, outdoor, aviation, marine, and auto OEM, which represent the primary markets served by the Company."
+  },
+  {
+   "name": "marine",
+   "products": [],
+   "description": "Sells marine navigation and sonar.",
+   "evidence": "Garmin is organized in the five operating segments of fitness, outdoor, aviation, marine, and auto OEM, which represent the primary markets served by the Company."
+  },
+  {
+   "name": "auto OEM",
+   "products": [],
+   "description": "Supplies electronics to car makers.",
+   "evidence": "Garmin is organized in the five operating segments of fitness, outdoor, aviation, marine, and auto OEM, which represent the primary markets served by the Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and OEMs buy its devices and services through retailers and distributors.",
+  "evidence": "Garmin offers a broad range of products and services across its reportable segments as outlined below."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (outdoor): outdoor handheld devices",
+  "product not in text (marine): marine electronics",
+  "product not in text (auto OEM): automotive electronics"
+ ],
+ "reader": "agent"
+}

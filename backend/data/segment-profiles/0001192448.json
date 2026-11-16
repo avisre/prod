@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001192448",
+ "issuerName": "GLAUKOS Corp",
+ "builtAt": "2026-11-16T03:47:30.086Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-061944",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1192448/000119312526061944/gkos-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ophthalmology",
+   "products": [
+    "iStent family of products"
+   ],
+   "description": "Develops and sells surgical therapies for glaucoma and other eye diseases.",
+   "evidence": "Products and Pipeline We operate in one operating segment and our primary business activity is the development and commercialization of therapies across several end markets within ophthalmology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Eye surgeons and hospitals buy its implants and devices.",
+  "evidence": "We currently operate in one operating and reportable segment and our primary business activity is the development and commercialization of therapies across several end markets within ophthalmology."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

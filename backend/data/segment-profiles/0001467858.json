@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001467858",
+ "issuerName": "GENERAL MOTORS COMPANY",
+ "builtAt": "2026-11-16T03:47:30.104Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001467858-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785826000013/gm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "GM North America",
+   "products": [
+    "trucks",
+    "crossovers",
+    "cars",
+    "automobile parts",
+    "software-enabled services and subscriptions"
+   ],
+   "description": "Builds and sells Buick, Cadillac, Chevrolet and GMC vehicles in North America.",
+   "evidence": "Our automotive operations meet the demands of our customers through our segments: GM North America (GMNA) and GM International (GMI) with vehicles developed, manufactured, and/or marketed under the Buick, Cadillac, Chevrolet, and GMC brands."
+  },
+  {
+   "name": "GM International",
+   "products": [
+    "trucks",
+    "crossovers",
+    "cars",
+    "automobile parts"
+   ],
+   "description": "Builds and sells vehicles outside North America.",
+   "evidence": "Our automotive operations meet the demands of our customers through our segments: GM North America (GMNA) and GM International (GMI) with vehicles developed, manufactured, and/or marketed under the Buick, Cadillac, Chevrolet, and GMC brands."
+  },
+  {
+   "name": "General Motors Financial",
+   "products": [
+    "automotive financing"
+   ],
+   "description": "Provides automotive financing to dealers and customers.",
+   "evidence": "We provide automotive financing services through our General Motors Financial Company, Inc."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dealers and retail customers buy vehicles, parts and financing.",
+  "evidence": "We design, build, and sell trucks, crossovers, cars, and automobile parts and provide software-enabled services and subscriptions worldwide."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

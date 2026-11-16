@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001526113",
+ "issuerName": "Global Net Lease, Inc.",
+ "builtAt": "2026-11-16T03:47:30.147Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011696",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1526113/000162828026011696/gnl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial & Distribution",
+   "products": [
+    "industrial and distribution properties"
+   ],
+   "description": "Owns industrial and distribution properties leased to tenants.",
+   "evidence": "Reportable Segments The Company determined that it has three reportable segments based on property type: (1) Industrial & Distribution, (2) Retail and (3) Office (see Note 17 — Segment Reporting for additional information)."
+  },
+  {
+   "name": "Retail",
+   "products": [
+    "retail properties"
+   ],
+   "description": "Owns retail properties leased to tenants.",
+   "evidence": "Reportable Segments The Company determined that it has three reportable segments based on property type: (1) Industrial & Distribution, (2) Retail and (3) Office (see Note 17 — Segment Reporting for additional information)."
+  },
+  {
+   "name": "Office",
+   "products": [
+    "office properties"
+   ],
+   "description": "Owns office properties leased to tenants.",
+   "evidence": "Reportable Segments The Company determined that it has three reportable segments based on property type: (1) Industrial & Distribution, (2) Retail and (3) Office (see Note 17 — Segment Reporting for additional information)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under leases.",
+  "evidence": "For the years ended December 31, 2025, 2024 and 2023, our revenue from tenants included the impact of unbilled rental revenue of $3."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

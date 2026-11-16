@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001691303",
+ "issuerName": "Warrior Met Coal, Inc.",
+ "builtAt": "2026-11-16T03:47:31.150Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-048914",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1691303/000119312526048914/hcc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mining",
+   "products": [
+    "premium steelmaking coal"
+   ],
+   "description": "Mines and sells premium steelmaking coal.",
+   "evidence": "We have one reportable segment identified as Mining which consists of Mine No."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Blast furnace steel producers buy its coal in seaborne markets.",
+  "evidence": "We sell our coal to a diversified customer base of blast furnace steel producers, primarily located in Europe, South America and Asia."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

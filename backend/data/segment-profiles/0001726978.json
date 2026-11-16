@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001726978",
+ "issuerName": "GOOSEHEAD INSURANCE, INC.",
+ "builtAt": "2026-11-16T03:47:30.547Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001726978-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1726978/000172697826000010/gshd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "insurance distribution",
+   "products": [
+    "Contingent Commissions"
+   ],
+   "description": "Franchises insurance agencies that sell personal lines policies.",
+   "evidence": "Segment information The Company is organized into a single reportable segment: insurance distribution."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Carriers pay commissions, including contingent commissions, on policies placed by its franchisees.",
+  "evidence": "Since 2023, revenue from Contingent Commissions has represented approximately 0."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

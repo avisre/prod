@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001109242",
+ "issuerName": "HANMI FINANCIAL CORPORATION",
+ "builtAt": "2026-11-16T03:47:31.062Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082425",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1109242/000119312526082425/hafc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "demand, time and savings deposits",
+    "real estate lending",
+    "consumer lending"
+   ],
+   "description": "Runs a community bank lending and deposit franchise.",
+   "evidence": "Accordingly, we consider all of our operations to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and depositors earn interest on deposits.",
+  "evidence": "Through our branch network and lending units, we provide a broad range of financial products and services to individuals and companies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (banking): commercial and industrial lending"
+ ],
+ "reader": "agent"
+}

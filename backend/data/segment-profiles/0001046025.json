@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001046025",
+ "issuerName": "HERITAGE FINANCIAL CORP",
+ "builtAt": "2026-11-16T03:47:31.187Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012703",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1046025/000162828026012703/hfwa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Heritage Bank",
+   "products": [
+    "deposits",
+    "loans"
+   ],
+   "description": "Runs its community bank through Heritage Bank.",
+   "evidence": "We are primarily engaged in the business of planning, directing, and coordinating the business activities of our wholly-owned subsidiary and single reportable segment, Heritage Bank."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Personal and business customers pay interest and fees on loans and deposits.",
+  "evidence": "We offer a full range of products and services to customers for personal and business banking needs designed to attract both short-term and long-term deposits."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001276520",
+ "issuerName": "GENWORTH FINANCIAL, INC.",
+ "builtAt": "2026-11-16T03:47:30.328Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012828",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1276520/000162828026012828/gnw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Enact",
+   "products": [
+    "private mortgage insurance products"
+   ],
+   "description": "Writes private mortgage insurance.",
+   "evidence": "Under the new reporting structure, we operate our business through the following two reportable segments: Enact, comprised primarily of private mortgage insurance products, and Closed Block, comprised of long-term care insurance, life insurance and annuity products that were previously sold through our legacy insurance companies."
+  },
+  {
+   "name": "Closed Block",
+   "products": [
+    "long-term care insurance",
+    "life insurance",
+    "annuity products"
+   ],
+   "description": "Runs the legacy long-term care, life and annuity business.",
+   "evidence": "Under the new reporting structure, we operate our business through the following two reportable segments: Enact, comprised primarily of private mortgage insurance products, and Closed Block, comprised of long-term care insurance, life insurance and annuity products that were previously sold through our legacy insurance companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Lenders and borrowers pay mortgage insurance premiums; policyholders pay premiums.",
+  "evidence": "Under the new reporting structure, we operate our business through the following two reportable segments: Enact, comprised primarily of private mortgage insurance products, and Closed Block, comprised of long-term care insurance, life insurance and annuity products that were previously sold through our legacy insurance companies."
+ },
+ "changes": [
+  {
+   "text": "Changed reportable segments in the fourth quarter of 2025 after ceasing sales through GLIC.",
+   "evidence": "In connection with the cessation of sales through GLIC, beginning in the fourth quarter of 2025, we changed our reportable segments to better align with how we currently manage our business."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

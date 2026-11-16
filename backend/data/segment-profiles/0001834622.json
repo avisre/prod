@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001834622",
+ "issuerName": "Hayward Holdings, Inc.",
+ "builtAt": "2026-11-16T03:47:31.119Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001834622-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1834622/000183462226000008/hayw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "pool equipment"
+   ],
+   "description": "Sells pool equipment in North America.",
+   "evidence": "Our business is organized into two reportable segments: North America (\"NAM\") and Europe & Rest of World (\"E&RW\")."
+  },
+  {
+   "name": "Europe & Rest of World",
+   "products": [
+    "pool equipment"
+   ],
+   "description": "Sells pool equipment in Europe and the rest of the world.",
+   "evidence": "Our business is organized into two reportable segments: North America (\"NAM\") and Europe & Rest of World (\"E&RW\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pool owners and dealers buy pool equipment and parts.",
+  "evidence": "Segments We operate in a global pool equipment market with an installed base that we estimate to be approximately 25 million pools globally."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

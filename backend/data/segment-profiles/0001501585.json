@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001501585",
+ "issuerName": "HUNTINGTON INGALLS INDUSTRIES, INC.",
+ "builtAt": "2026-11-16T03:47:31.253Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001501585-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1501585/000150158526000006/hii-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ingalls",
+   "products": [
+    "non-nuclear ships"
+   ],
+   "description": "Designs and builds non-nuclear ships for the U.S. Navy.",
+   "evidence": "Our Mission Technologies segment provides a wide range of services and products, including command, control, computers, communications, cyber, intelligence, surveillance, and reconnaissance (\"C5ISR\") systems and operations; the application of artificial intelligence and machine learning to battlefield decisions; defense and offensive cyberspace strategies and electronic warfare; unmanned autonomous systems; live, virtual, and constructive training solutions; platform modernization; and critical "
+  },
+  {
+   "name": "Mission Technologies",
+   "products": [
+    "unmanned autonomous systems",
+    "training solutions",
+    "critical nuclear operations"
+   ],
+   "description": "Provides defense technology and services.",
+   "evidence": "Our Mission Technologies segment provides a wide range of services and products, including command, control, computers, communications, cyber, intelligence, surveillance, and reconnaissance (\"C5ISR\") systems and operations; the application of artificial intelligence and machine learning to battlefield decisions; defense and offensive cyberspace strategies and electronic warfare; unmanned autonomous systems; live, virtual, and constructive training solutions; platform modernization; and critical "
+  },
+  {
+   "name": "Newport News",
+   "products": [
+    "nuclear ships"
+   ],
+   "description": "Designs and builds nuclear-powered ships.",
+   "evidence": "Our Mission Technologies segment provides a wide range of services and products, including command, control, computers, communications, cyber, intelligence, surveillance, and reconnaissance (\"C5ISR\") systems and operations; the application of artificial intelligence and machine learning to battlefield decisions; defense and offensive cyberspace strategies and electronic warfare; unmanned autonomous systems; live, virtual, and constructive training solutions; platform modernization; and critical "
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The U.S. government pays for shipbuilding and defense services.",
+  "evidence": "Our Mission Technologies segment provides a wide range of services and products, including command, control, computers, communications, cyber, intelligence, surveillance, and reconnaissance (\"C5ISR\") systems and operations; the application of artificial intelligence and machine learning to battlefield decisions; defense and offensive cyberspace strategies and electronic warfare; unmanned autonomous systems; live, virtual, and constructive training solutions; platform modernization; and critical "
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mission Technologies): C5ISR systems and operations"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001326380",
+ "issuerName": "GameStop Corp.",
+ "builtAt": "2026-11-16T03:47:30.124Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001326380-26-000013",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326380/000132638026000013/gme-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "games",
+    "collectibles",
+    "entertainment products",
+    "technology"
+   ],
+   "description": "Runs retail stores in the United States.",
+   "evidence": "Reportable Segments 2 We operate our business in three geographic segments: United States, Australia and Europe."
+  },
+  {
+   "name": "Australia",
+   "products": [
+    "games",
+    "collectibles",
+    "entertainment products",
+    "technology"
+   ],
+   "description": "Runs retail stores in Australia and New Zealand.",
+   "evidence": "Reportable Segments 2 We operate our business in three geographic segments: United States, Australia and Europe."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "games",
+    "collectibles",
+    "entertainment products",
+    "technology"
+   ],
+   "description": "Runs retail stores in Europe.",
+   "evidence": "Reportable Segments 2 We operate our business in three geographic segments: United States, Australia and Europe."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy games, collectibles and technology in stores and online.",
+  "evidence": "Each segment consists primarily of retail operations, with the significant majority focused on games, collectibles, entertainment products and technology."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

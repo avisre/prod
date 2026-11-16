@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001672013",
+ "issuerName": "Acushnet Holdings Corp.",
+ "builtAt": "2026-11-16T03:47:30.365Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001672013-26-000057",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1672013/000167201326000057/golf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Titleist golf equipment",
+   "products": [
+    "golf clubs",
+    "golf balls"
+   ],
+   "description": "Makes Titleist clubs and balls.",
+   "evidence": "We operate under the following three reportable segments: (i) Titleist golf equipment, (ii) FootJoy golf wear and (iii) Golf gear, which represented approximately 62%, 22% and 10%, respectively, of net sales in 2025."
+  },
+  {
+   "name": "FootJoy golf wear",
+   "products": [
+    "golf wear"
+   ],
+   "description": "Makes FootJoy golf apparel and footwear.",
+   "evidence": "We operate under the following three reportable segments: (i) Titleist golf equipment, (ii) FootJoy golf wear and (iii) Golf gear, which represented approximately 62%, 22% and 10%, respectively, of net sales in 2025."
+  },
+  {
+   "name": "Golf gear",
+   "products": [],
+   "description": "Sells golf bags, gloves and accessories.",
+   "evidence": "We operate under the following three reportable segments: (i) Titleist golf equipment, (ii) FootJoy golf wear and (iii) Golf gear, which represented approximately 62%, 22% and 10%, respectively, of net sales in 2025."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Golfers buy its equipment and apparel through golf shops and retailers.",
+  "evidence": "We are the global leader in the design, development, manufacture and distribution of performance‑driven golf products, and these products are widely recognized for their quality excellence."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Golf gear): golf gear"
+ ],
+ "reader": "agent"
+}

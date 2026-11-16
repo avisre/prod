@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001237831",
+ "issuerName": "GLOBUS MEDICAL, INC.",
+ "builtAt": "2026-11-16T03:47:30.168Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011209",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1237831/000162828026011209/gmed-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Musculoskeletal Solutions",
+   "products": [
+    "Enabling Technologies"
+   ],
+   "description": "Makes implants and enabling technology for musculoskeletal surgery.",
+   "evidence": "Although we manage our business globally within one reportable segment, we separate our products and services into two major categories: Musculoskeletal Solutions and Enabling Technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Surgeons and hospitals buy implants and enabling technology through direct and distributor sales.",
+  "evidence": "With 9 product launches in 2025 and operations across 65 countries worldwide, we offer a comprehensive portfolio of innovative and differentiated technologies that are used to treat a variety of musculoskeletal conditions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Musculoskeletal Solutions): Musculoskeletal Solutions"
+ ],
+ "reader": "agent"
+}

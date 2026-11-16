@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001474735",
+ "issuerName": "GENERAC HOLDINGS INC.",
+ "builtAt": "2026-11-16T03:47:30.309Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004568",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1474735/000143774926004568/gnrc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Domestic",
+   "products": [],
+   "description": "Sells generators and power equipment in the United States.",
+   "evidence": "The following sets forth our reportable segment information for the periods indicated: Net Sales by Reportable Segment Year Ended December 31, (U."
+  },
+  {
+   "name": "International",
+   "products": [],
+   "description": "Sells generators and power equipment outside the United States.",
+   "evidence": "The following sets forth our reportable segment information for the periods indicated: Net Sales by Reportable Segment Year Ended December 31, (U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
