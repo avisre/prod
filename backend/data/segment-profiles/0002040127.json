@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002040127",
+ "issuerName": "KARMAN HOLDINGS INC.",
+ "builtAt": "2026-11-16T03:52:51.914Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002040127-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/2040127/000204012726000014/krmn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "space and defense",
+   "products": [],
+   "description": "Builds space and defense systems and components.",
+   "evidence": "For purpose of testing goodwill for impairment, we operate as a single reporting unit, which is consistent with our single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government and defense customers buy its space and defense systems.",
+  "evidence": "For purpose of testing goodwill for impairment, we operate as a single reporting unit, which is consistent with our single operating segment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (space and defense): space and defense systems"
+ ],
+ "reader": "agent"
+}

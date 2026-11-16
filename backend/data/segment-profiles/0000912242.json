@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000912242",
+ "issuerName": "MACERICH CO",
+ "builtAt": "2026-11-16T03:53:16.268Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000912242-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/912242/000091224226000016/mac-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "regional and community/power shopping centers",
+   "products": [
+    "regional shopping centers",
+    "community/power shopping centers"
+   ],
+   "description": "Owns and leases regional and community shopping centers.",
+   "evidence": "Segment Reporting: The Company operates as one operating segment and is involved in the acquisition, ownership, development, redevelopment, management and leasing of regional and community/power shopping centers located throughout the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail tenants pay rent and recoveries.",
+  "evidence": "The CODM assesses performance for the Company's single reportable segment and decides how to allocate resources based on consolidated net income (see the Consolidated Statements of Operations)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

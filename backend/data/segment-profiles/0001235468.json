@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001235468",
+ "issuerName": "LIQUIDITY SERVICES, INC",
+ "builtAt": "2026-11-16T03:52:53.069Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-289159",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1235468/000119312525289159/lqdt-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "GovDeals",
+   "products": [
+    "online auction marketplace"
+   ],
+   "description": "Runs an online marketplace for government surplus.",
+   "evidence": "Reportable Segments The Company has five operating segments and three reportable segments under which we conduct business: GovDeals, Retail Supply Chain Group (RSCG), and Capital Assets Group (CAG)."
+  },
+  {
+   "name": "Retail Supply Chain Group",
+   "products": [],
+   "description": "Sells retail surplus and returned goods.",
+   "evidence": "Reportable Segments The Company has five operating segments and three reportable segments under which we conduct business: GovDeals, Retail Supply Chain Group (RSCG), and Capital Assets Group (CAG)."
+  },
+  {
+   "name": "Capital Assets Group",
+   "products": [],
+   "description": "Auctions capital assets for industrial sellers.",
+   "evidence": "Reportable Segments The Company has five operating segments and three reportable segments under which we conduct business: GovDeals, Retail Supply Chain Group (RSCG), and Capital Assets Group (CAG)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Sellers pay commissions and buyers pay fees on auction sales.",
+  "evidence": "On January 31, 2025, the Company formed our Software Solutions operating segment through the acquisition of Auction Software, a private-label marketplace and SaaS solutions provider offering scalable auction platform services to entrepreneurs and businesses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Retail Supply Chain Group): surplus and returned goods marketplace",
+  "product not in text (Capital Assets Group): capital asset auction services"
+ ],
+ "reader": "agent"
+}

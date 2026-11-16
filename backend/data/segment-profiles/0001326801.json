@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001326801",
+ "issuerName": "Meta Platforms, Inc.",
+ "builtAt": "2026-11-16T03:53:17.133Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-003942",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FoA",
+   "products": [
+    "advertising placements"
+   ],
+   "description": "Sells advertising on Facebook, Instagram, WhatsApp and Messenger.",
+   "evidence": "Currently, we generate substantially all of our revenue from selling advertising placements on our family of apps to marketers, which is reflected in FoA."
+  },
+  {
+   "name": "RL",
+   "products": [
+    "consumer hardware products",
+    "software",
+    "content"
+   ],
+   "description": "Sells consumer hardware and virtual reality products.",
+   "evidence": "RL generates revenue from sales of consumer hardware products, software, and content."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Marketers pay for ad placements; consumers buy devices.",
+  "evidence": "Currently, we generate substantially all of our revenue from selling advertising placements on our family of apps to marketers, which is reflected in FoA."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0001099219",
+ "issuerName": "MetLife, Inc.",
+ "builtAt": "2026-11-16T03:53:17.063Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001099219-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1099219/000109921926000013/met-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Group Benefits",
+   "products": [
+    "group benefits products"
+   ],
+   "description": "Sells group life, disability and other benefits.",
+   "evidence": "MetLife Group Benefits RIS Asia Latin America EMEA MIM 5 Table of Contents Segments and Corporate & Other We offer a broad range of products and services aimed at serving the financial needs of our customers."
+  },
+  {
+   "name": "RIS",
+   "products": [
+    "retirement and income solutions"
+   ],
+   "description": "Sells retirement and income solutions.",
+   "evidence": "MetLife Group Benefits RIS Asia Latin America EMEA MIM 5 Table of Contents Segments and Corporate & Other We offer a broad range of products and services aimed at serving the financial needs of our customers."
+  },
+  {
+   "name": "Asia",
+   "products": [
+    "insurance products"
+   ],
+   "description": "Sells insurance in Asia.",
+   "evidence": "MetLife Group Benefits RIS Asia Latin America EMEA MIM 5 Table of Contents Segments and Corporate & Other We offer a broad range of products and services aimed at serving the financial needs of our customers."
+  },
+  {
+   "name": "Latin America",
+   "products": [
+    "insurance products"
+   ],
+   "description": "Sells insurance in Latin America.",
+   "evidence": "MetLife Group Benefits RIS Asia Latin America EMEA MIM 5 Table of Contents Segments and Corporate & Other We offer a broad range of products and services aimed at serving the financial needs of our customers."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "insurance products"
+   ],
+   "description": "Sells insurance in Europe, the Middle East and Africa.",
+   "evidence": "MetLife Group Benefits RIS Asia Latin America EMEA MIM 5 Table of Contents Segments and Corporate & Other We offer a broad range of products and services aimed at serving the financial needs of our customers."
+  },
+  {
+   "name": "MIM",
+   "products": [
+    "institutional asset management"
+   ],
+   "description": "Manages institutional assets.",
+   "evidence": "MetLife Group Benefits RIS Asia Latin America EMEA MIM 5 Table of Contents Segments and Corporate & Other We offer a broad range of products and services aimed at serving the financial needs of our customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers and individuals pay premiums and asset management fees.",
+  "evidence": "We offer a broad range of products and services aimed at serving the financial needs of our customers."
+ },
+ "changes": [
+  {
+   "text": "MetLife Investment Management became a reportable segment and MetLife Holdings was removed as one.",
+   "evidence": "MetLife Investment Management, the Company's institutional asset management business (\"MIM\"), which was previously reported in Corporate & Other, became a reportable segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

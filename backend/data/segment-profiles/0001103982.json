@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001103982",
+ "issuerName": "Mondelez International, Inc.",
+ "builtAt": "2026-11-16T03:53:16.953Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-005345",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1103982/000162828026005345/mdlz-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

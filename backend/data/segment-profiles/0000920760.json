@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000920760",
+ "issuerName": "LENNAR CORP /NEW/",
+ "builtAt": "2026-11-16T03:52:52.224Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-003870",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/920760/000162828026003870/len-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Homebuilding",
+   "products": [
+    "homes"
+   ],
+   "description": "Builds and sells homes.",
+   "evidence": "Our other reportable segments are Financial Services, Multifamily and Lennar Other."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "mortgage financing",
+    "title insurance"
+   ],
+   "description": "Provides mortgages and title services to homebuyers.",
+   "evidence": "Our other reportable segments are Financial Services, Multifamily and Lennar Other."
+  },
+  {
+   "name": "Multifamily",
+   "products": [
+    "apartments"
+   ],
+   "description": "Develops and owns multifamily rental properties.",
+   "evidence": "Our other reportable segments are Financial Services, Multifamily and Lennar Other."
+  },
+  {
+   "name": "Lennar Other",
+   "products": [],
+   "description": "Holds other strategic investments and operations.",
+   "evidence": "Our other reportable segments are Financial Services, Multifamily and Lennar Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuyers pay for homes; buyers pay financing and title fees.",
+  "evidence": "We generally acquire, or obtain options to acquire, land for development and for the construction of homes that we sell to homebuyers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

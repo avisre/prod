@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001707925",
+ "issuerName": "Linde plc",
+ "builtAt": "2026-11-16T03:52:52.837Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011430",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1707925/000162828026011430/lin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "industrial gases"
+   ],
+   "description": "Supplies industrial gases in the Americas.",
+   "evidence": "As further described in the following paragraph, Linde's industrial gases operations are managed on a geographic basis, which represents three of the company's reportable segments - Americas, EMEA (Europe/Middle East/Africa), and APAC (Asia/South Pacific); a fourth reportable segment, which represents the company's Engineering bu"
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "industrial gases"
+   ],
+   "description": "Supplies industrial gases in Europe, the Middle East and Africa.",
+   "evidence": "As further described in the following paragraph, Linde's industrial gases operations are managed on a geographic basis, which represents three of the company's reportable segments - Americas, EMEA (Europe/Middle East/Africa), and APAC (Asia/South Pacific); a fourth reportable segment, which represents the company's Engineering bu"
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "industrial gases"
+   ],
+   "description": "Supplies industrial gases in Asia and the South Pacific.",
+   "evidence": "As further described in the following paragraph, Linde's industrial gases operations are managed on a geographic basis, which represents three of the company's reportable segments - Americas, EMEA (Europe/Middle East/Africa), and APAC (Asia/South Pacific); a fourth reportable segment, which represents the company's Engineering bu"
+  },
+  {
+   "name": "Engineering",
+   "products": [],
+   "description": "Designs and builds industrial gas plants.",
+   "evidence": "As further described in the following paragraph, Linde's industrial gases operations are managed on a geographic basis, which represents three of the company's reportable segments - Americas, EMEA (Europe/Middle East/Africa), and APAC (Asia/South Pacific); a fourth reportable segment, which represents the company's Engineering bu"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers pay for gases under long-term supply contracts.",
+  "evidence": "As further described in the following paragraph, Linde's industrial gases operations are managed on a geographic basis, which represents three of the company's reportable segments - Americas, EMEA (Europe/Middle East/Africa), and APAC (Asia/South Pacific); a fourth reportable segment, which represents the company's Engineering bu"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Engineering): engineering services"
+ ],
+ "reader": "agent"
+}

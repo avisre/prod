@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001161728",
+ "issuerName": "MGE Energy, Inc.",
+ "builtAt": "2026-11-16T03:53:17.161Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067036",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1161728/000119312526067036/mgee-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regulated electric utility operations",
+   "products": [
+    "electricity"
+   ],
+   "description": "Generates, buys and distributes electricity through MGE.",
+   "evidence": "MGE Energy operates in the following business segments: • Regulated electric utility operations – generating, purchasing, and distributing electricity through MGE."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated customers pay rates for electricity.",
+  "evidence": "MGE Energy operates in the following business segments: • Regulated electric utility operations – generating, purchasing, and distributing electricity through MGE."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

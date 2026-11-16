@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001819576",
+ "issuerName": "LIQUIDIA     CORPORATION",
+ "builtAt": "2026-11-16T03:52:53.034Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-023804",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819576/000110465926023804/lqda-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "respiratory and vascular diseases",
+   "products": [],
+   "description": "Develops therapies for pulmonary arterial hypertension and related diseases.",
+   "evidence": "Segment Information We operate as a single business segment focused on revolutionizing care for patients with challenging respiratory and vascular diseases such as PAH and PH-ILD."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients' insurers and specialty pharmacies pay for its therapies.",
+  "evidence": "Segment Information We operate as a single business segment focused on revolutionizing care for patients with challenging respiratory and vascular diseases such as PAH and PH-ILD."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (respiratory and vascular diseases): PAH and PH-ILD therapies"
+ ],
+ "reader": "agent"
+}

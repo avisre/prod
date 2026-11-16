@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001090425",
+ "issuerName": "LAMAR ADVERTISING CO/NEW",
+ "builtAt": "2026-11-16T03:52:52.102Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001090425-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1090425/000109042526000008/lamr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "billboard",
+   "products": [
+    "billboards"
+   ],
+   "description": "Sells billboard advertising space.",
+   "evidence": "We manage our business through three operating segments –billboard, logo and transit advertising."
+  },
+  {
+   "name": "logo",
+   "products": [
+    "logo signs"
+   ],
+   "description": "Sells logo sign advertising.",
+   "evidence": "We manage our business through three operating segments –billboard, logo and transit advertising."
+  },
+  {
+   "name": "transit advertising",
+   "products": [
+    "transit advertising displays"
+   ],
+   "description": "Sells advertising on transit displays.",
+   "evidence": "We manage our business through three operating segments –billboard, logo and transit advertising."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay for outdoor advertising space.",
+  "evidence": "We operate three types of outdoor advertising displays: billboards, logo signs and transit advertising displays."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

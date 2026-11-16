@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001336920",
+ "issuerName": "Leidos Holdings, Inc.",
+ "builtAt": "2026-11-16T03:52:52.193Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001336920-26-000030",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1336920/000133692026000030/ldos-20260102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "National Security & Digital",
+   "products": [
+    "digital modernization and transformation",
+    "scientific, engineering and technical services"
+   ],
+   "description": "Provides digital and national security services.",
+   "evidence": "OUR BUSINESS SEGMENTS As of January 2, 2026, our business is aligned into four reportable segments: National Security & Digital, Health & Civil, Commercial & International and Defense Systems."
+  },
+  {
+   "name": "Health & Civil",
+   "products": [
+    "scientific, engineering and technical services"
+   ],
+   "description": "Serves health and civil agencies.",
+   "evidence": "OUR BUSINESS SEGMENTS As of January 2, 2026, our business is aligned into four reportable segments: National Security & Digital, Health & Civil, Commercial & International and Defense Systems."
+  },
+  {
+   "name": "Commercial & International",
+   "products": [
+    "scientific, engineering and technical services"
+   ],
+   "description": "Serves commercial and international clients.",
+   "evidence": "OUR BUSINESS SEGMENTS As of January 2, 2026, our business is aligned into four reportable segments: National Security & Digital, Health & Civil, Commercial & International and Defense Systems."
+  },
+  {
+   "name": "Defense Systems",
+   "products": [],
+   "description": "Provides defense systems and integration.",
+   "evidence": "OUR BUSINESS SEGMENTS As of January 2, 2026, our business is aligned into four reportable segments: National Security & Digital, Health & Civil, Commercial & International and Defense Systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "U.S. and allied governments pay for services, software and systems.",
+  "evidence": "We provide a wide array of scientific, engineering and technical services and solutions across these reportable segments."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Defense Systems): defense systems"
+ ],
+ "reader": "agent"
+}

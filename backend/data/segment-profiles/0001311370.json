@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001311370",
+ "issuerName": "Lazard, Inc.",
+ "builtAt": "2026-11-16T03:52:52.155Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001311370-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1311370/000131137026000008/laz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial Advisory",
+   "products": [
+    "financial advisory services"
+   ],
+   "description": "Advises on mergers, restructurings and capital raises.",
+   "evidence": "Principal Business Lines We focus primarily on two business segments: Financial Advisory and Asset Management."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "asset management services"
+   ],
+   "description": "Manages investment portfolios for clients.",
+   "evidence": "Principal Business Lines We focus primarily on two business segments: Financial Advisory and Asset Management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay advisory fees and asset management fees.",
+  "evidence": "We believe that the mix of our activities across business segments, geographic regions, industries and investment strategies helps to diversify and stabilize our revenue stream."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

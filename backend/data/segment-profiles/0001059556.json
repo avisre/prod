@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001059556",
+ "issuerName": "Moody’s Corporation",
+ "builtAt": "2026-11-16T03:53:16.891Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009136",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1059556/000162828026009136/mco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MA",
+   "products": [
+    "credit ratings"
+   ],
+   "description": "Provides ratings, research and analytical tools.",
+   "evidence": "Moody's has two reportable segments: MA and MIS."
+  },
+  {
+   "name": "MIS",
+   "products": [
+    "credit ratings"
+   ],
+   "description": "Rates debt issuers and securities.",
+   "evidence": "Moody's has two reportable segments: MA and MIS."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Issuers pay ratings fees and investors pay for research and data.",
+  "evidence": "MIS also generates revenue from certain non-ratings-related operations, which primarily consist of financial instruments pricing services in the Asia-Pacific region, revenue from Second Party Opinions and Net Zero Assessments and revenue from ICRA's non-ratings operations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (MA): research and analytics"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001869198",
+ "issuerName": "Life Time Group Holdings, Inc.",
+ "builtAt": "2026-11-16T03:52:53.285Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001869198-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1869198/000186919826000010/lth-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001069202",
+ "issuerName": "LENNOX INTERNATIONAL INC",
+ "builtAt": "2026-11-16T03:52:52.811Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001069202-26-000028",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069202/000106920226000028/lii-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home Comfort Solutions",
+   "products": [
+    "heat pumps",
+    "furnaces",
+    "air conditioners",
+    "packaged heating and cooling systems",
+    "comfort control products",
+    "replacement parts"
+   ],
+   "description": "Sells residential heating, cooling and indoor air quality products.",
+   "evidence": "Our two business segments, Home Comfort Solutions and Building Climate Solutions, the key products, services and well-known product and brand names within each segment and net sales in 2025 by segment are shown in the table below."
+  },
+  {
+   "name": "Building Climate Solutions",
+   "products": [
+    "HVACR equipment",
+    "replacement parts"
+   ],
+   "description": "Sells commercial HVACR equipment and parts.",
+   "evidence": "Our two business segments, Home Comfort Solutions and Building Climate Solutions, the key products, services and well-known product and brand names within each segment and net sales in 2025 by segment are shown in the table below."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dealers and contractors buy HVACR equipment for homes and buildings.",
+  "evidence": "We design, manufacture and market a broad range of products for the heating, ventilation, air conditioning and refrigeration (\"HVACR\") markets."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

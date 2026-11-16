@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000907242",
+ "issuerName": "MONARCH CASINO & RESORT, INC.",
+ "builtAt": "2026-11-16T03:53:16.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018717",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/907242/000110465926018717/mcri-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "casino resort",
+   "products": [],
+   "description": "Owns and operates casino resorts in Nevada and Colorado.",
+   "evidence": "The Company views each property as an operating segment and the two operating segments have been aggregated into one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay for gaming, hotel rooms, dining and entertainment.",
+  "evidence": "The Company views each property as an operating segment and the two operating segments have been aggregated into one reporting segment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (casino resort): casino resorts"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001679273",
+ "issuerName": "LAMB WESTON HOLDINGS, INC.",
+ "builtAt": "2026-11-16T03:53:15.952Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001679273-26-000026",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1679273/000167927326000026/lw-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "frozen potato products"
+   ],
+   "description": "Sells frozen potato products in North America.",
+   "evidence": "Segments We have two reportable segments: North America and International."
+  },
+  {
+   "name": "International",
+   "products": [
+    "frozen potato products"
+   ],
+   "description": "Sells frozen potato products outside North America.",
+   "evidence": "Segments We have two reportable segments: North America and International."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Restaurants, retailers and distributors buy its frozen potato products.",
+  "evidence": "We offer a broad product portfolio to a diverse channel and customer base in over 100 countries."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

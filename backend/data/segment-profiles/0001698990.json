@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001698990",
+ "issuerName": "Magnolia Oil & Gas Corp",
+ "builtAt": "2026-11-16T03:53:17.187Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001698990-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1698990/000169899026000005/mgy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and natural gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Acquires, develops and produces oil and gas properties.",
+   "evidence": "Segment Information and Geographic Area The Company operates in one reportable segment engaged in the acquisition, development, exploration, and production of oil and natural gas properties located in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "Segment Information and Geographic Area The Company operates in one reportable segment engaged in the acquisition, development, exploration, and production of oil and natural gas properties located in the United States."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

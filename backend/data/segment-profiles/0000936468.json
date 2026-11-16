@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000936468",
+ "issuerName": "LOCKHEED MARTIN CORPORATION",
+ "builtAt": "2026-11-16T03:52:52.962Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-004195",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/lmt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aeronautics",
+   "products": [
+    "aircraft"
+   ],
+   "description": "Designs and builds military aircraft.",
+   "evidence": "Business Segments We operate in four business segments: Aeronautics, Missiles and Fire Control (MFC), Rotary and Mission Systems (RMS) and Space."
+  },
+  {
+   "name": "Missiles and Fire Control",
+   "products": [
+    "missiles",
+    "fire control systems"
+   ],
+   "description": "Makes missiles and fire control systems.",
+   "evidence": "Business Segments We operate in four business segments: Aeronautics, Missiles and Fire Control (MFC), Rotary and Mission Systems (RMS) and Space."
+  },
+  {
+   "name": "Rotary and Mission Systems",
+   "products": [
+    "helicopters",
+    "mission systems"
+   ],
+   "description": "Makes rotorcraft and mission systems.",
+   "evidence": "Business Segments We operate in four business segments: Aeronautics, Missiles and Fire Control (MFC), Rotary and Mission Systems (RMS) and Space."
+  },
+  {
+   "name": "Space",
+   "products": [],
+   "description": "Builds space and strategic missile systems.",
+   "evidence": "Business Segments We operate in four business segments: Aeronautics, Missiles and Fire Control (MFC), Rotary and Mission Systems (RMS) and Space."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The U.S. government and allies pay for aircraft, missiles and space systems.",
+  "evidence": "We organize our business segments based on the nature of the products and services offered."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Space): space systems"
+ ],
+ "reader": "agent"
+}

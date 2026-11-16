@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000927653",
+ "issuerName": "McKESSON CORPORATION",
+ "builtAt": "2026-11-16T03:53:16.856Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000927653-26-000069",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/927653/000092765326000069/mck-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North American Pharmaceutical",
+   "products": [
+    "pharmaceutical distribution"
+   ],
+   "description": "Distributes pharmaceuticals in North America.",
+   "evidence": "Business Segments 4 North American Pharmaceutical 4 Oncology & Multispecialty 7 Prescription Technology Solutions 8 Medical-Surgical Solutions 8 Investments, Restructuring, Business Combinations, and Divestitures 8 Competition 8 Patents, Trademarks, Copyrights, and Licenses 9 Human Capital 9 Government Regulation 10 Other Information about the Business 13 Forward-Looking Statements 14 General McKesson Corporation together with its subsidiaries (collectively, the \"Company,\" \"McKesson,\" \"we,\" \"our"
+  },
+  {
+   "name": "Oncology & Multispecialty",
+   "products": [],
+   "description": "Distributes oncology and specialty pharmaceuticals.",
+   "evidence": "Business Segments 4 North American Pharmaceutical 4 Oncology & Multispecialty 7 Prescription Technology Solutions 8 Medical-Surgical Solutions 8 Investments, Restructuring, Business Combinations, and Divestitures 8 Competition 8 Patents, Trademarks, Copyrights, and Licenses 9 Human Capital 9 Government Regulation 10 Other Information about the Business 13 Forward-Looking Statements 14 General McKesson Corporation together with its subsidiaries (collectively, the \"Company,\" \"McKesson,\" \"we,\" \"our"
+  },
+  {
+   "name": "Prescription Technology Solutions",
+   "products": [
+    "prescription technology"
+   ],
+   "description": "Provides prescription technology and adherence solutions.",
+   "evidence": "Business Segments 4 North American Pharmaceutical 4 Oncology & Multispecialty 7 Prescription Technology Solutions 8 Medical-Surgical Solutions 8 Investments, Restructuring, Business Combinations, and Divestitures 8 Competition 8 Patents, Trademarks, Copyrights, and Licenses 9 Human Capital 9 Government Regulation 10 Other Information about the Business 13 Forward-Looking Statements 14 General McKesson Corporation together with its subsidiaries (collectively, the \"Company,\" \"McKesson,\" \"we,\" \"our"
+  },
+  {
+   "name": "Medical-Surgical Solutions",
+   "products": [
+    "medical-surgical products"
+   ],
+   "description": "Distributes medical-surgical supplies.",
+   "evidence": "Business Segments 4 North American Pharmaceutical 4 Oncology & Multispecialty 7 Prescription Technology Solutions 8 Medical-Surgical Solutions 8 Investments, Restructuring, Business Combinations, and Divestitures 8 Competition 8 Patents, Trademarks, Copyrights, and Licenses 9 Human Capital 9 Government Regulation 10 Other Information about the Business 13 Forward-Looking Statements 14 General McKesson Corporation together with its subsidiaries (collectively, the \"Company,\" \"McKesson,\" \"we,\" \"our"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies, hospitals and manufacturers pay for distribution and technology services.",
+  "evidence": "Business Segments 4 North American Pharmaceutical 4 Oncology & Multispecialty 7 Prescription Technology Solutions 8 Medical-Surgical Solutions 8 Investments, Restructuring, Business Combinations, and Divestitures 8 Competition 8 Patents, Trademarks, Copyrights, and Licenses 9 Human Capital 9 Government Regulation 10 Other Information about the Business 13 Forward-Looking Statements 14 General McKesson Corporation together with its subsidiaries (collectively, the \"Company,\" \"McKesson,\" \"we,\" \"our"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Oncology & Multispecialty): oncology and specialty drugs"
+ ],
+ "reader": "agent"
+}

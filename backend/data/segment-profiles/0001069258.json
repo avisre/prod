@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001069258",
+ "issuerName": "KRATOS DEFENSE & SECURITY SOLUTIONS, INC.",
+ "builtAt": "2026-11-16T03:52:51.948Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001069258-26-000013",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069258/000106925826000013/ktos-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Kratos Government Solutions",
+   "products": [
+    "microwave electronics products",
+    "space",
+    "satellite",
+    "cyber",
+    "training solutions",
+    "C5ISR/modular systems",
+    "turbine technologies"
+   ],
+   "description": "Sells defense electronics, space and training systems.",
+   "evidence": "The Kratos Government Solutions (\"KGS\") reportable segment is comprised of an aggregation of KGS operating segments, including our microwave electronics products, space, satellite and cyber, training solutions, C5ISR/modular systems, turbine technologies, and defense"
+  },
+  {
+   "name": "Unmanned Systems",
+   "products": [
+    "unmanned aerial",
+    "unmanned ground",
+    "unmanned seaborne",
+    "command, control and communications systems"
+   ],
+   "description": "Makes unmanned aerial, ground and sea systems.",
+   "evidence": "The Unmanned Systems (\"US\") reportable segment is comprised of an aggregation of US operating segments, including our unmanned aerial, unmanned ground, unmanned seaborne and command, control and communications system businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Defense and government agencies pay for its systems and services.",
+  "evidence": "The Kratos Government Solutions (\"KGS\") reportable segment is comprised of an aggregation of KGS operating segments, including our microwave electronics products, space, satellite and cyber, training solutions, C5ISR/modular systems, turbine technologies, and defense"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

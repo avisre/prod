@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001335258",
+ "issuerName": "LIVE NATION ENTERTAINMENT, INC.",
+ "builtAt": "2026-11-16T03:53:16.111Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001335258-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1335258/000133525826000009/lyv-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001633978",
+ "issuerName": "Lumentum Holdings Inc.",
+ "builtAt": "2026-11-16T03:52:52.865Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-057358",
+  "periodEnd": "2026-06-27",
+  "filingDate": "2026-08-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026057358/lite-20260627.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "optical and photonic products",
+   "products": [
+    "optical components",
+    "photonic products"
+   ],
+   "description": "Makes optical and photonic components for cloud, telecom and industrial markets.",
+   "evidence": "We operate in one reportable segment as a single, integrated enterprise."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Network equipment makers and cloud operators buy its photonic components.",
+  "evidence": "Our products are essential to a range of cloud, artificial intelligence and machine learning (\"AI/ML\"), telecommunications, consumer, and industrial end-market applications."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

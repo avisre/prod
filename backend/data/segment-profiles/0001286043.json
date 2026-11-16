@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001286043",
+ "issuerName": "KITE REALTY GROUP TRUST",
+ "builtAt": "2026-11-16T03:52:51.807Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001286043-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1286043/000128604326000009/krg-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

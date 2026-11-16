@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001629019",
+ "issuerName": "MERCHANTS BANCORP",
+ "builtAt": "2026-11-16T03:53:16.815Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021549",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1629019/000110465926021549/mbin-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multi-family Mortgage Banking",
+   "products": [
+    "multi-family housing and healthcare facility financing and servicing",
+    "syndicator of low-income housing tax credit and debt funds"
+   ],
+   "description": "Finances and services multifamily and healthcare properties.",
+   "evidence": "We currently operate in multiple business segments, including Multi-family Mortgage Banking that offers multi-family housing and healthcare facility financing and servicing (through this segment we also serve as a syndicator of low-income housing tax credit and debt funds); Mortgage Warehousing that offers mortgage warehouse financing, commercial loans, and deposit services; and Banking that offers portfolio lending for multi-family and healthcare facility loans, retail and correspondent residen"
+  },
+  {
+   "name": "Mortgage Warehousing",
+   "products": [
+    "mortgage warehouse financing",
+    "commercial loans",
+    "deposit services"
+   ],
+   "description": "Provides mortgage warehouse lines and deposits.",
+   "evidence": "We currently operate in multiple business segments, including Multi-family Mortgage Banking that offers multi-family housing and healthcare facility financing and servicing (through this segment we also serve as a syndicator of low-income housing tax credit and debt funds); Mortgage Warehousing that offers mortgage warehouse financing, commercial loans, and deposit services; and Banking that offers portfolio lending for multi-family and healthcare facility loans, retail and correspondent residen"
+  },
+  {
+   "name": "Banking",
+   "products": [
+    "portfolio lending for multi-family and healthcare facility loans",
+    "residential mortgage banking",
+    "agricultural lending",
+    "SBA lending",
+    "traditional community banking"
+   ],
+   "description": "Runs its community and specialty lending bank.",
+   "evidence": "We currently operate in multiple business segments, including Multi-family Mortgage Banking that offers multi-family housing and healthcare facility financing and servicing (through this segment we also serve as a syndicator of low-income housing tax credit and debt funds); Mortgage Warehousing that offers mortgage warehouse financing, commercial loans, and deposit services; and Banking that offers portfolio lending for multi-family and healthcare facility loans, retail and correspondent residen"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans and warehouse lines.",
+  "evidence": "We currently operate in multiple business segments, including Multi-family Mortgage Banking that offers multi-family housing and healthcare facility financing and servicing (through this segment we also serve as a syndicator of low-income housing tax credit and debt funds); Mortgage Warehousing that offers mortgage warehouse financing, commercial loans, and deposit services; and Banking that offers portfolio lending for multi-family and healthcare facility loans, retail and correspondent residen"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

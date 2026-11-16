@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001489393",
+ "issuerName": "LYONDELLBASELL INDUSTRIES N.V.",
+ "builtAt": "2026-11-16T03:53:16.094Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001489393-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1489393/000148939326000012/lyb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Olefins and Polyolefins-Americas",
+   "products": [
+    "olefins",
+    "polyolefins"
+   ],
+   "description": "Makes olefins and polyolefins in the Americas.",
+   "evidence": "Our reportable segments are: • Olefins and Polyolefins-Americas (\"O&P-Americas\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers buy its chemicals and polymers.",
+  "evidence": "SEGMENTS We manage our operations through five operating segments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

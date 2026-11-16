@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000916076",
+ "issuerName": "MARTIN MARIETTA MATERIALS, INC.",
+ "builtAt": "2026-11-16T03:53:17.463Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-059193",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/916076/000119312526059193/mlm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "East Group",
+   "products": [
+    "aggregates",
+    "cement",
+    "ready-mixed concrete",
+    "asphalt"
+   ],
+   "description": "Produces building materials in its eastern region.",
+   "evidence": "Business Segment Information The Company conducts its Building Materials business for continuing operations through two reportable segments, organized by geography: the East Group and the West Group."
+  },
+  {
+   "name": "West Group",
+   "products": [
+    "aggregates",
+    "cement",
+    "ready-mixed concrete",
+    "asphalt"
+   ],
+   "description": "Produces building materials in its western region.",
+   "evidence": "Business Segment Information The Company conducts its Building Materials business for continuing operations through two reportable segments, organized by geography: the East Group and the West Group."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Construction contractors and public agencies buy aggregates, cement and concrete.",
+  "evidence": "In 2025, aggregates generated 88% of the Company's total reportable segment gross profit."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

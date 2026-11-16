@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001521036",
+ "issuerName": "LANTHEUS HOLDINGS, INC.",
+ "builtAt": "2026-11-16T03:52:53.000Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073498",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1521036/000119312526073498/lnth-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "diagnostics",
+   "products": [
+    "PYLARIFY",
+    "PET diagnostic products"
+   ],
+   "description": "Develops and sells diagnostic imaging agents.",
+   "evidence": "Segment Information The Company operates as one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Imaging centres and hospitals buy its diagnostic agents.",
+  "evidence": "The results of this operating segment are regularly reviewed by the Company's chief operating decision maker (\"CODM\"), the Chief Executive Officer ."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

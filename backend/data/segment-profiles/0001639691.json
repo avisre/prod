@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001639691",
+ "issuerName": "LivaNova PLC",
+ "builtAt": "2026-11-16T03:52:52.894Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001639691-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1639691/000163969126000010/livn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardiopulmonary",
+   "products": [],
+   "description": "Sells heart-lung machines and cardiopulmonary products.",
+   "evidence": "LivaNova has two reportable segments: Cardiopulmonary and Neuromodulation."
+  },
+  {
+   "name": "Neuromodulation",
+   "products": [],
+   "description": "Sells neuromodulation and epilepsy devices.",
+   "evidence": "LivaNova has two reportable segments: Cardiopulmonary and Neuromodulation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and surgeons buy its medical devices.",
+  "evidence": "LivaNova identifies operating segments based on how it manages, evaluates, and internally reports its business activities to allocate resources, develop and execute its strategy, and assess performance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cardiopulmonary): cardiopulmonary devices",
+  "product not in text (Neuromodulation): neuromodulation devices"
+ ],
+ "reader": "agent"
+}

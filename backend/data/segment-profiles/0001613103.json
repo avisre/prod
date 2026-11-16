@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001613103",
+ "issuerName": "Medtronic plc",
+ "builtAt": "2026-11-16T03:53:16.991Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-044354",
+  "periodEnd": "2026-04-24",
+  "filingDate": "2026-06-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1613103/000162828026044354/mdt-20260424.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardiovascular Portfolio",
+   "products": [],
+   "description": "Sells cardiovascular devices and therapies.",
+   "evidence": "We have three reportable segments that primarily develop, manufacture, distribute, and sell device-based medical therapies and services: the Cardiovascular Portfolio, the Neuroscience Portfolio, and the Medical Surgical Portfolio."
+  },
+  {
+   "name": "Neuroscience Portfolio",
+   "products": [],
+   "description": "Sells neuroscience and neuromodulation devices.",
+   "evidence": "We have three reportable segments that primarily develop, manufacture, distribute, and sell device-based medical therapies and services: the Cardiovascular Portfolio, the Neuroscience Portfolio, and the Medical Surgical Portfolio."
+  },
+  {
+   "name": "Medical Surgical Portfolio",
+   "products": [],
+   "description": "Sells medical surgical devices.",
+   "evidence": "We have three reportable segments that primarily develop, manufacture, distribute, and sell device-based medical therapies and services: the Cardiovascular Portfolio, the Neuroscience Portfolio, and the Medical Surgical Portfolio."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and clinicians buy its devices and therapies.",
+  "evidence": "We have three reportable segments that primarily develop, manufacture, distribute, and sell device-based medical therapies and services: the Cardiovascular Portfolio, the Neuroscience Portfolio, and the Medical Surgical Portfolio."
+ },
+ "changes": [
+  {
+   "text": "The Diabetes Operating Unit stopped being a reportable segment in the fourth quarter of fiscal year 2026.",
+   "evidence": "As a result, during the fourth quarter of fiscal year 2026, the Diabetes Operating Unit was no longer considered a reportable segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Cardiovascular Portfolio): cardiovascular devices",
+  "product not in text (Neuroscience Portfolio): neuroscience devices",
+  "product not in text (Medical Surgical Portfolio): medical surgical devices"
+ ],
+ "reader": "agent"
+}

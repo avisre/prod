@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000912595",
+ "issuerName": "MID-AMERICA APARTMENT COMMUNITIES, INC.",
+ "builtAt": "2026-11-16T03:53:16.148Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-041208",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/912595/000119312526041208/maa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Same Store",
+   "products": [
+    "apartment communities"
+   ],
+   "description": "Owns and operates stabilised apartment communities.",
+   "evidence": "The Company has aggregated its operating segments into two reportable segments as management believes the apartment communities in each reportable segment generally have similar economic characteristics, facilities, services"
+  },
+  {
+   "name": "Non-Same Store and Other",
+   "products": [
+    "apartment communities"
+   ],
+   "description": "Holds recently acquired and non-stabilised apartment communities.",
+   "evidence": "The Company has aggregated its operating segments into two reportable segments as management believes the apartment communities in each reportable segment generally have similar economic characteristics, facilities, services"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay monthly rent for apartments.",
+  "evidence": "The Company views each consolidated apartment community as an operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
