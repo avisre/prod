@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001467373",
+ "issuerName": "Accenture plc",
+ "builtAt": "2026-11-16T02:18:17.048Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001467373-26-000049",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1467373/000146737326000049/acn-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [],
+   "description": "Provides consulting and managed services to clients across the Americas.",
+   "evidence": "Our three reportable operating segments are our geographic markets, the Americas, EMEA and Asia Pacific."
+  },
+  {
+   "name": "EMEA",
+   "products": [],
+   "description": "Provides consulting and managed services to clients in Europe, the Middle East and Africa.",
+   "evidence": "Our three reportable operating segments are our geographic markets, the Americas, EMEA and Asia Pacific."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [],
+   "description": "Provides consulting and managed services to clients across Asia Pacific.",
+   "evidence": "Our three reportable operating segments are our geographic markets, the Americas, EMEA and Asia Pacific."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Large companies and governments pay for consulting and managed services.",
+  "evidence": "Our revenues are derived primarily from Forbes Global 2000 companies, governments and government agencies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

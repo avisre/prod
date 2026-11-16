@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001053507",
+ "issuerName": "AMERICAN TOWER CORPORATION",
+ "builtAt": "2026-11-16T02:21:13.711Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001053507-26-000035",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1053507/000105350726000035/amt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. & Canada property",
+   "products": [],
+   "description": "Owns and leases communications towers in the United States and Canada.",
+   "evidence": "& Canada property (which includes all assets in the United States and Canada, other than our data center facilities and related assets)"
+  },
+  {
+   "name": "Africa & Asia-Pacific",
+   "products": [],
+   "description": "Operates towers and related infrastructure in Africa and Asia-Pacific.",
+   "evidence": "Africa & Asia-Pacific (\"APAC\") property, Europe property, Latin America property, Data Centers and Services"
+  },
+  {
+   "name": "Europe property",
+   "products": [],
+   "description": "Owns and leases towers and communications infrastructure in Europe.",
+   "evidence": "Africa & Asia-Pacific (\"APAC\") property, Europe property, Latin America property, Data Centers and Services"
+  },
+  {
+   "name": "Latin America property",
+   "products": [],
+   "description": "Owns and leases towers and communications infrastructure in Latin America.",
+   "evidence": "Africa & Asia-Pacific (\"APAC\") property, Europe property, Latin America property, Data Centers and Services"
+  },
+  {
+   "name": "Data Centers and Services",
+   "products": [
+    "data center facilities",
+    "distributed antenna system (\"DAS\") networks"
+   ],
+   "description": "Leases data centre space and runs in-building and outdoor coverage networks.",
+   "evidence": "Africa & Asia-Pacific (\"APAC\") property, Europe property, Latin America property, Data Centers and Services"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Communications service providers and enterprises pay rent for tower, data centre and network space.",
+  "evidence": "We also hold other telecommunications infrastructure, fiber and property interests that we lease primarily to communications service providers and third-party tower operators, and, as discussed further below, we hold a portfolio of highly interconnected data center facilities and related assets in the United States that we provide for the leasing of space primarily to enterprises, network operators, cloud providers and supporting service providers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

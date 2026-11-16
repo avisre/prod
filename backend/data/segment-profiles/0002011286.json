@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0002011286",
+ "issuerName": "Amentum Holdings, Inc.",
+ "builtAt": "2026-11-16T02:20:46.473Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-053993",
+  "periodEnd": "2025-10-03",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2011286/000162828025053993/amtm-20251003.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Solutions",
+   "products": [],
+   "description": "Provides digital, engineering and technology services to government and commercial customers.",
+   "evidence": "We operate our business activities and report financial results as two reportable segments: Digital Solutions (\"DS\") and Global Engineering Solutions (\"GES\")."
+  },
+  {
+   "name": "Global Engineering Solutions",
+   "products": [],
+   "description": "Provides engineering and mission support services for large government programmes.",
+   "evidence": "We operate our business activities and report financial results as two reportable segments: Digital Solutions (\"DS\") and Global Engineering Solutions (\"GES\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "US government agencies and commercial customers pay for engineering, technology and mission support services.",
+  "evidence": "We develop new technologies and innovative solutions for both government and commercial customers that are transferrable and tailorable across domains."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

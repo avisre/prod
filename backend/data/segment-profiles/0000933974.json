@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000933974",
+ "issuerName": "AZENTA, INC.",
+ "builtAt": "2026-11-16T02:22:56.111Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-036931",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/933974/000143774925036931/azta20250930_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sample Management Solutions",
+   "products": [
+    "Automated Stores",
+    "Cryogenic Systems",
+    "Automated Sample Tube",
+    "Consumables and Instruments",
+    "Controlled Rate Thawing Devices"
+   ],
+   "description": "Sells sample storage, automation and consumables products and manages sample inventories.",
+   "evidence": "Sample Management Solutions Within our Sample Management Solutions segment, we operate as a single business unit offering end-to-end sample management products and services, including SRS and Core Products (Automated Stores, Cryogenic Systems, Automated Sample Tube, Consumables and Instruments and Controlled Rate Thawing Devices)."
+  },
+  {
+   "name": "Multiomics",
+   "products": [],
+   "description": "Provides genomics, proteomics and cellular analysis services and products to researchers.",
+   "evidence": "This strategic action is intended to simplify our portfolio and allow management to focus on driving revenue growth and profitability in our core Sample Management Solutions and Multiomics segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Life science researchers and hospitals buy its sample management products and multiomics services.",
+  "evidence": "We offer enhanced on-site and off-site management of biological sample inventories and integration solutions to our customers for their increasingly distributed workflows."
+ },
+ "changes": [
+  {
+   "text": "Announced in the first quarter of fiscal 2025 that it is pursuing a sale of B Medical Systems.",
+   "evidence": "During the first quarter of fiscal year 2025, we announced that we are pursuing a sale of our B Medical Systems business, a manufacturer and global distributor of medical refrigeration devices based in Luxembourg."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

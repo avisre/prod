@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001531152",
+ "issuerName": "BJ’S WHOLESALE CLUB HOLDINGS, INC.",
+ "builtAt": "2026-11-16T02:22:56.487Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001531152-26-000007",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1531152/000153115226000007/bj-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "warehouse club",
+   "products": [
+    "groceries",
+    "fresh foods",
+    "general merchandise",
+    "gasoline",
+    "ancillary services"
+   ],
+   "description": "Runs membership warehouse clubs selling groceries, merchandise and fuel.",
+   "evidence": "Segments Our operations are primarily retail club and other sales procured from clubs and distribution centers, representing one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Members pay a membership fee and buy groceries, merchandise and fuel in clubs and online.",
+  "evidence": "We offer Club and Club+ memberships to both individuals and businesses, which allow customers to shop in the Company's clubs, on bjs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

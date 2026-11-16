@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001725255",
+ "issuerName": "AdaptHealth Corp.",
+ "builtAt": "2026-11-16T02:18:53.654Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011213",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1725255/000162828026011213/ahco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sleep Health",
+   "products": [
+    "sleep therapy equipment, supplies and related services",
+    "continuous positive airway pressure and BiLevel services"
+   ],
+   "description": "Supplies sleep therapy equipment and supplies to people treated for obstructive sleep apnea.",
+   "evidence": "Sleep Health The Sleep Health segment provides sleep therapy equipment, supplies and related services (including continuous positive airway pressure and BiLevel services) to individuals for the treatment of obstructive sleep apnea."
+  },
+  {
+   "name": "Respiratory Health",
+   "products": [
+    "oxygen and home mechanical ventilation equipment and supplies",
+    "related chronic therapy services"
+   ],
+   "description": "Provides oxygen and home ventilation equipment and therapy services for respiratory disease.",
+   "evidence": "Respiratory Health The Respiratory Health segment provides oxygen and home mechanical ventilation equipment and supplies and related chronic therapy services to individuals for the treatment of respiratory diseases, such as chronic obstructive pulmonary disease and chronic respiratory failure."
+  },
+  {
+   "name": "Diabetes Health",
+   "products": [
+    "continuous glucose monitors",
+    "insulin pumps",
+    "related services"
+   ],
+   "description": "Supplies glucose monitors, insulin pumps and related services to patients with diabetes.",
+   "evidence": "Diabetes Health The Diabetes Health segment provides medical devices, including continuous glucose monitors and insulin pumps, and related services to patients for the treatment of diabetes."
+  },
+  {
+   "name": "Wellness at Home",
+   "products": [
+    "home medical equipment and services"
+   ],
+   "description": "Provides home medical equipment to patients discharged from acute care and other facilities.",
+   "evidence": "Wellness at Home The Wellness at Home segment provides home medical equipment and services to patients in their homes including those who have been discharged from acute care and other facilities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Medicare, Medicaid and commercial insurers reimburse it for equipment delivered to patients at home.",
+  "evidence": "AdaptHealth invoices payors and patients directly for the products that are delivered and for the services that are provided."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

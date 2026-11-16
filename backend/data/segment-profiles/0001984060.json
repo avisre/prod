@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001984060",
+ "issuerName": "Atlas Energy Solutions Inc.",
+ "builtAt": "2026-11-16T02:18:53.638Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067145",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1984060/000119312526067145/aesi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sand and Logistics",
+   "products": [
+    "dry and damp sand",
+    "100 mesh and 40/70 mesh"
+   ],
+   "description": "Mines and sells proppant sand and runs logistics for oil and gas producers in the Permian Basin.",
+   "evidence": "Segments Sand and Logistics We operate 14 proppant production facilities across the Permian Basin including both large-scale in-basin facilities and smaller distributed mining units."
+  },
+  {
+   "name": "Power",
+   "products": [
+    "natural gas-powered reciprocating generators"
+   ],
+   "description": "Provides distributed power generation to oil and gas production and artificial lift operations.",
+   "evidence": "Power We provide distributed power solutions through a fleet of natural gas-powered reciprocating generators primarily supporting production and artificial lift operations across major United States resource basins."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas producers buy proppant sand, logistics and distributed power in the Permian Basin.",
+  "evidence": "We operate a differentiated logistics platform that is designed to increase the efficiency, safety and sustainability of the oil and natural gas industry primarily within the Permian Basin."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

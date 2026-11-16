@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001024305",
+ "issuerName": "COTY INC.",
+ "builtAt": "2026-11-16T02:25:48.345Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001024305-26-000048",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1024305/000102430526000048/coty-20260630.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

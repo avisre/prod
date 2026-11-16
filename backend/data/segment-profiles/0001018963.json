@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001018963",
+ "issuerName": "ATI Inc.",
+ "builtAt": "2026-11-16T02:22:17.362Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010140",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1018963/000162828026010140/ati-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High Performance Materials & Components",
+   "products": [
+    "nickel-based alloys and superalloys",
+    "titanium and titanium-based alloys",
+    "metallic powder alloys"
+   ],
+   "description": "Makes high-performance alloys and components for aerospace, defence and energy customers.",
+   "evidence": "We operate in two business segments: High Performance Materials & Components (HPMC) and Advanced Alloys & Solutions (AA&S)."
+  },
+  {
+   "name": "Advanced Alloys & Solutions",
+   "products": [
+    "flat rolled products",
+    "nickel-based alloys and superalloys",
+    "titanium and titanium-based alloys"
+   ],
+   "description": "Produces flat rolled and specialty alloy products for energy, medical and electronics markets.",
+   "evidence": "The major end markets for our flat rolled products are aerospace & defense, specialty and conventional energy, automotive, medical and electronics markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Aerospace, defence, energy and medical customers buy its specialty alloys and components.",
+  "evidence": "Our products are sold to a variety of end customers in the end-use energy market, with a focus on specialty energy, which includes nuclear power generation and gas turbines."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

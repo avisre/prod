@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000899629",
+ "issuerName": "ACADIA REALTY TRUST",
+ "builtAt": "2026-11-16T02:19:25.343Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-051677",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/899629/000119312526051677/akr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "REIT Portfolio",
+   "products": [],
+   "description": "Owns and leases retail and other properties to tenants.",
+   "evidence": "See Note 12 in the Notes to Consolidated Financial Statements for an overview of our three reportable segments: REIT Portfolio, Investment Management and Structured Financing."
+  },
+  {
+   "name": "Investment Management",
+   "products": [],
+   "description": "Manages property investments for third parties in exchange for fees.",
+   "evidence": "See Note 12 in the Notes to Consolidated Financial Statements for an overview of our three reportable segments: REIT Portfolio, Investment Management and Structured Financing."
+  },
+  {
+   "name": "Structured Financing",
+   "products": [],
+   "description": "Provides structured property financing and earns interest and related income.",
+   "evidence": "See Note 12 in the Notes to Consolidated Financial Statements for an overview of our three reportable segments: REIT Portfolio, Investment Management and Structured Financing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent and their share of operating expenses under leases.",
+  "evidence": "However, most of our leases include contractual rent escalations and require tenants to pay their share of operating expenses, including common area maintenance, real estate taxes, and insurance, which help mitigate inflationary impacts on costs and operating expenses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000949157",
+ "issuerName": "Century Aluminum Company",
+ "builtAt": "2026-11-16T02:24:41.153Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013788",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/949157/000162828026013788/cenx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "primary aluminum",
+   "products": [
+    "value-added primary aluminum products",
+    "standard-grade aluminum",
+    "alumina"
+   ],
+   "description": "Smelts primary aluminium, including value-added products, for industrial customers.",
+   "evidence": "We operate our business on a consolidated basis, through one operating segment and thus, one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells primary aluminium and alumina at market prices, with premiums for value-added products.",
+  "evidence": "These value-added primary aluminum products are sold at a premium to standard-grade aluminum."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

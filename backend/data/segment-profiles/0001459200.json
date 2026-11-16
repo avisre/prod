@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001459200",
+ "issuerName": "ALARM.COM HOLDINGS, INC.",
+ "builtAt": "2026-11-16T02:20:27.353Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001459200-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1459200/000145920026000005/alrm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alarm.com",
+   "products": [
+    "cloud-based SaaS services",
+    "indoor and outdoor video cameras",
+    "hardware"
+   ],
+   "description": "Runs cloud platforms and sells hardware for connected homes and businesses through service providers.",
+   "evidence": "Alarm.com segment represents our cloud-based and Software platforms for intelligently connected properties and related solutions that contributed 91%, 92% and 93% of our revenue, net of intersegment eliminations, for the years ended December 31, 2025, 2024 and 2023, respectively."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "residential and commercial automation solutions",
+    "energy management products and services"
+   ],
+   "description": "Develops automation and energy management products for adjacent markets.",
+   "evidence": "Our Other segment is focused on researching, developing and offering residential and commercial automation solutions and energy management products and services in adjacent markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Service provider partners pay it for platforms and hardware and resell them to property owners.",
+  "evidence": "We sell our platform and hardware solutions to service provider partners that resell our solutions and hardware to residential and commercial property owners, who are the service provider partners' customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000936395",
+ "issuerName": "Ciena Corp",
+ "builtAt": "2026-11-16T02:25:14.319Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-056698",
+  "periodEnd": "2025-11-01",
+  "filingDate": "2025-12-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/936395/000162828025056698/cien-20251101.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

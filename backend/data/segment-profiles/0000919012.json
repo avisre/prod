@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000919012",
+ "issuerName": "American Eagle Outfitters, Inc.",
+ "builtAt": "2026-11-16T02:18:53.524Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-132097",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/919012/000119312526132097/aeo-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "American Eagle brand",
+   "products": [
+    "casual, comfortable, timeless outfitting and high-quality products"
+   ],
+   "description": "Sells casual clothing and accessories under the American Eagle brand in stores and online.",
+   "evidence": "We offer casual, comfortable, timeless outfitting and high-quality products that are made to last under the American Eagle (\"AE\") brand, and intimates, apparel, activewear, and swim collections under the Aerie and OFFLINE by Aerie brands."
+  },
+  {
+   "name": "Aerie brand",
+   "products": [
+    "intimates",
+    "apparel",
+    "activewear",
+    "swim collections",
+    "OFFLINE by Aerie"
+   ],
+   "description": "Sells intimates, apparel, activewear and swimwear under the Aerie and OFFLINE by Aerie brands.",
+   "evidence": "We offer casual, comfortable, timeless outfitting and high-quality products that are made to last under the American Eagle (\"AE\") brand, and intimates, apparel, activewear, and swim collections under the Aerie and OFFLINE by Aerie brands."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Todd Snyder",
+    "Unsubscribed"
+   ],
+   "description": "Holds the Todd Snyder and Unsubscribed brands, below the reporting threshold.",
+   "evidence": "Additionally, our Todd Snyder and Unsubscribed brands have been identified as separate operating segments; however, as they do not meet the quantitative thresholds for separate disclosure they are presented under the Other caption."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shoppers buy its clothing and accessories in stores, online and through concession shops.",
+  "evidence": "We sell directly to consumers through our retail channels, which includes online, stores, and concession-based shops-within-shops."
+ },
+ "changes": [
+  {
+   "text": "Closed the Quiet Platforms business in fiscal 2025 and stopped serving third-party customers.",
+   "evidence": "In Fiscal 2025, as part of our continued supply chain network optimization project, we made the decision to close the Quiet Platforms business and discontinue services for all third-party customers."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

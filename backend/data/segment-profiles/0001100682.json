@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001100682",
+ "issuerName": "CHARLES RIVER LABORATORIES INTERNATIONAL, INC.",
+ "builtAt": "2026-11-16T02:25:49.039Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001100682-26-000022",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1100682/000110068226000022/crl-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research Models and Services",
+   "products": [
+    "research models"
+   ],
+   "description": "Breeds and supplies research models to pharmaceutical and academic researchers.",
+   "evidence": "We have three reportable segments: Research Models and Services (RMS), Discovery and Safety Assessment (DSA) and Manufacturing Solutions (Manufacturing)."
+  },
+  {
+   "name": "Discovery and Safety Assessment",
+   "products": [
+    "drug discovery research",
+    "non-clinical and clinical bioanalytical activities",
+    "regulatory-required safety testing"
+   ],
+   "description": "Provides outsourced drug discovery research and safety testing services.",
+   "evidence": "Our DSA segment provides services that enable our clients to outsource their innovative drug discovery research, their related non-clinical and clinical bioanalytical activities, and regulatory-required safety testing of potential new drugs, vaccines, industrial and agricultural chemicals, consumer products, veterinary medicines and medical devices."
+  },
+  {
+   "name": "Manufacturing Solutions",
+   "products": [],
+   "description": "Provides contract manufacturing and testing solutions to biopharmaceutical clients.",
+   "evidence": "We have three reportable segments: Research Models and Services (RMS), Discovery and Safety Assessment (DSA) and Manufacturing Solutions (Manufacturing)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmaceutical and biotech companies, governments and hospitals pay for research models and testing services.",
+  "evidence": "We provide our research models to numerous clients around the world, including most pharmaceutical companies, a broad range of biotechnology companies, contract research organizations and many government agencies, hospitals, and academic institutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Manufacturing Solutions): manufacturing solutions"
+ ],
+ "reader": "agent"
+}

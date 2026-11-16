@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001108134",
+ "issuerName": "Beacon Financial Corp",
+ "builtAt": "2026-11-16T02:22:56.242Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013247",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1108134/000162828026013247/brkl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loan and lease products"
+   ],
+   "description": "Runs a community bank, earning interest on the loans and leases it makes.",
+   "evidence": "The Company is a bank holding company operating through a single business segment, which derives interest income on loan and lease products the Company offers to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on the loans and leases the bank makes.",
+  "evidence": "The Company is a bank holding company operating through a single business segment, which derives interest income on loan and lease products the Company offers to customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

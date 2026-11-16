@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001031308",
+ "issuerName": "BENTLEY SYSTEMS, INCORPORATED",
+ "builtAt": "2026-11-16T02:23:46.579Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001031308-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1031308/000103130826000007/bsy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "computer software and related services",
+   "products": [
+    "modeling and simulation applications",
+    "digital twin"
+   ],
+   "description": "Develops infrastructure engineering software for designing and operating built assets.",
+   "evidence": "We manage our business globally within one reportable segment, the development and marketing of computer software and related services, which is consistent with how our chief operating decision maker (\"CODM\") reviews and manages our business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Engineering firms and asset owners pay for subscriptions, perpetual licences and services.",
+  "evidence": "Revenues We generate revenues from subscriptions, perpetual licenses, and services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

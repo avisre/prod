@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001646972",
+ "issuerName": "Albertsons Companies, Inc.",
+ "builtAt": "2026-11-16T02:18:16.881Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001646972-26-000032",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1646972/000164697226000032/aci-20260228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Grocery",
+   "products": [
+    "grocery products",
+    "general merchandise",
+    "health and beauty care products",
+    "pharmacy",
+    "vaccines",
+    "fuel"
+   ],
+   "description": "Runs grocery stores and pharmacies, selling food, merchandise and fuel in stores and online.",
+   "evidence": "Products We offer grocery products, general merchandise, health and beauty care products, pharmacy, vaccines, fuel and other items and services through our stores and digital channels, including delivery and curbside pickup."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shoppers buy groceries, general merchandise, pharmacy items and fuel in its stores and online.",
+  "evidence": "We offer delivery services in more than 2,200 of our stores and our Drive Up & Go curbside pickup service is offered in more than 2,100 stores."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

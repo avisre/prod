@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0001576940",
+ "issuerName": "Century Communities, Inc.",
+ "builtAt": "2026-11-16T02:24:41.025Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001576940-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1576940/000157694026000005/ccs-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "West",
+   "products": [],
+   "description": "Builds and sells homes in California and Washington.",
+   "evidence": "Our homebuilding operations are organized into the following five reportable segments: West, Mountain, Texas, Southeast, and Century Complete."
+  },
+  {
+   "name": "Mountain",
+   "products": [],
+   "description": "Builds and sells homes in Arizona, Colorado, Nevada and Utah.",
+   "evidence": "Our homebuilding operations are organized into the following five reportable segments: West, Mountain, Texas, Southeast, and Century Complete."
+  },
+  {
+   "name": "Texas",
+   "products": [],
+   "description": "Builds and sells homes across Texas.",
+   "evidence": "Our homebuilding operations are organized into the following five reportable segments: West, Mountain, Texas, Southeast, and Century Complete."
+  },
+  {
+   "name": "Southeast",
+   "products": [],
+   "description": "Builds and sells homes in the Southeast states.",
+   "evidence": "Our homebuilding operations are organized into the following five reportable segments: West, Mountain, Texas, Southeast, and Century Complete."
+  },
+  {
+   "name": "Century Complete",
+   "products": [],
+   "description": "Offers affordable homes under the Century Complete brand.",
+   "evidence": "Our homebuilding operations are organized into the following five reportable segments: West, Mountain, Texas, Southeast, and Century Complete."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "mortgage, title, insurance brokerage, and escrow services"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Century Living",
+   "products": [],
+   "description": "Owns and rents out multi-family properties.",
+   "evidence": "Beginning in the first quarter of 2025, we have separately reported our Century Living segment as a reportable segment, which was previously included in our Corporate segment, in order to reflect the distinct nature of our multi-family rental operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuyers pay for new homes, and its financial services arm earns fees on mortgages, title and escrow.",
+  "evidence": "While we offer homes that appeal to a broad range of entry-level, move-up, and lifestyle homebuyers, our offerings are heavily weighted towards providing affordable housing options in each of our homebuyer segments."
+ },
+ "changes": [
+  {
+   "text": "Began separately reporting its Century Living multi-family rental segment in the first quarter of 2025.",
+   "evidence": "Beginning in the first quarter of 2025, we have separately reported our Century Living segment as a reportable segment, which was previously included in our Corporate segment, in order to reflect the distinct nature of our multi-family rental operations."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Financial Services"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000947484",
+ "issuerName": "ARCH CAPITAL GROUP LTD.",
+ "builtAt": "2026-11-16T02:18:16.864Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000947484-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/947484/000094748426000017/acgl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "insurance",
+   "products": [],
+   "description": "Writes insurance policies for businesses and individuals through its subsidiaries.",
+   "evidence": "We classify our businesses into three underwriting segments: insurance, reinsurance and mortgage."
+  },
+  {
+   "name": "reinsurance",
+   "products": [],
+   "description": "Takes on reinsurance of risks written by other insurers and reinsurers.",
+   "evidence": "We classify our businesses into three underwriting segments: insurance, reinsurance and mortgage."
+  },
+  {
+   "name": "mortgage",
+   "products": [],
+   "description": "Writes mortgage insurance covering lenders against borrower default.",
+   "evidence": "We classify our businesses into three underwriting segments: insurance, reinsurance and mortgage."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insureds and reinsureds pay premiums, and the reinsurance group pays brokers fees on premiums written.",
+  "evidence": "Our reinsurance group generally pays brokerage fees to brokers based on negotiated percentages of the premiums written through such brokers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

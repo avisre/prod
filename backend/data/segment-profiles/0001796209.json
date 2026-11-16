@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001796209",
+ "issuerName": "APi Group Corporation",
+ "builtAt": "2026-11-16T02:22:16.927Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011620",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1796209/000162828026011620/apg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Safety Services",
+   "products": [
+    "fire protection solutions",
+    "electronic security systems",
+    "elevators and escalators"
+   ],
+   "description": "Designs, installs, inspects and monitors fire, security and elevator systems.",
+   "evidence": "We operate our business under three primary operating segments, two of which are aggregated into a single reportable segment, resulting in two reportable segments: • Safety Services – A leading provider of safety services in North America, Europe, and Asia-Pacific, focusing on fire protection solutions, electronic security systems, and elevators and escalators, including design, installation, inspection, service, and monitoring of these systems."
+  },
+  {
+   "name": "Specialty Services",
+   "products": [
+    "specialty contracting",
+    "fabrication and distribution",
+    "infrastructure and utility services"
+   ],
+   "description": "Provides specialty contracting, fabrication and infrastructure and utility services.",
+   "evidence": "• Specialty Services – A leading provider of a variety of specialty contracting, fabrication and distribution, and infrastructure and utility services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Building owners and operators pay for inspection, service and monitoring under recurring contracts.",
+  "evidence": "We have repeat revenue from a diverse set of long-standing blue-chip customers who are spread across a variety of end markets and geographies with low concentration."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

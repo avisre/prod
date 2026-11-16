@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001140859",
+ "issuerName": "CENCORA, INC.",
+ "builtAt": "2026-11-16T02:25:48.310Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140859-25-000131",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1140859/000114085925000131/cor-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

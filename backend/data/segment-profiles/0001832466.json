@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001832466",
+ "issuerName": "ALIGNMENT HEALTHCARE, INC.",
+ "builtAt": "2026-11-16T02:19:25.322Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012545",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1832466/000162828026012545/alhc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "healthcare services",
+   "products": [
+    "Medicare Advantage plans"
+   ],
+   "description": "Sells Medicare Advantage plans and coordinates care for seniors.",
+   "evidence": "We operate and manage the business as one reportable segment and one operating segment, which is to provide healthcare services to our seniors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The federal government pays monthly premiums for members under its CMS contracts.",
+  "evidence": "Premium revenue is derived monthly from the federal government based on our contracts with the Centers for Medicare and Medicaid Services (\"CMS\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

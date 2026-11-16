@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001297184",
+ "issuerName": "Amphastar Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-16T02:20:46.305Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001297184-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1297184/000129718426000009/amph-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceutical products",
+   "products": [
+    "BAQSIMI ® glucagon nasal powder",
+    "Primatene MIST ®",
+    "glucagon",
+    "epinephrine",
+    "lidocaine"
+   ],
+   "description": "Develops and makes injectable and nasal pharmaceutical products sold in the United States.",
+   "evidence": "Business Segments Our performance is assessed and resources are allocated based on one reportable segment, pharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

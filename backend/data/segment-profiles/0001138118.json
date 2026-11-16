@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001138118",
+ "issuerName": "CBRE GROUP, INC.",
+ "builtAt": "2026-11-16T02:24:40.802Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001138118-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1138118/000113811826000005/cbre-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advisory Services",
+   "products": [],
+   "description": "Advises property owners and occupiers on sales, leasing and valuation.",
+   "evidence": "Business Segments We serve clients and report our financial results through four business segments: Advisory Services, Building Operations & Experience, Project Management and Real Estate Investments."
+  },
+  {
+   "name": "Building Operations & Experience",
+   "products": [
+    "enterprise facilities management",
+    "local facilities management",
+    "property management",
+    "digital infrastructure services",
+    "flexible workplace solutions"
+   ],
+   "description": "Runs facilities and property management and workplace services for building owners.",
+   "evidence": "This segment consists of CBRE's enterprise facilities management, local facilities management, property management, digital infrastructure services and flexible workplace solutions/workplace experience business lines."
+  },
+  {
+   "name": "Project Management",
+   "products": [
+    "Turner & Townsend",
+    "project management services"
+   ],
+   "description": "Manages construction and infrastructure projects for clients worldwide.",
+   "evidence": "In January 2025, we merged our wholly owned CBRE project management services business into Turner & Townsend and established Project Management as a separate business segment and now own 70% of the combined entity."
+  },
+  {
+   "name": "Real Estate Investments",
+   "products": [],
+   "description": "Invests in and develops real estate alongside capital partners.",
+   "evidence": "Our portfolio includes projects that are 100% owned or those in which we hold a co-investment i"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Real estate investors and occupiers pay fees for advisory, facilities management and project services.",
+  "evidence": "We derive competitive advantage from our considerable scale and ability to offer integrated solutions for real estate investors and occupiers in more than 100 countries."
+ },
+ "changes": [
+  {
+   "text": "Merged its project management business into Turner & Townsend in January 2025 and made it a segment.",
+   "evidence": "In January 2025, we merged our wholly owned CBRE project management services business into Turner & Townsend and established Project Management as a separate business segment and now own 70% of the combined entity."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

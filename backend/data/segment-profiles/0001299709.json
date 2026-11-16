@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001299709",
+ "issuerName": "AXOS FINANCIAL, INC.",
+ "builtAt": "2026-11-16T02:23:14.728Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001299709-26-000060",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1299709/000129970926000060/ax-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking Business Segment",
+   "products": [
+    "checking",
+    "savings",
+    "money market",
+    "certificates of deposit",
+    "loan products"
+   ],
+   "description": "Takes deposits and makes loans to businesses, investors and high-net-worth individuals.",
+   "evidence": "We conduct business primarily through two operating segments: the Banking Business Segment and the Securities Business Segment."
+  },
+  {
+   "name": "Securities Business Segment",
+   "products": [
+    "securities products and services",
+    "direct-to-consumer securities trading",
+    "digital investment management products"
+   ],
+   "description": "Clears and custodies securities and offers trading and advisory services.",
+   "evidence": "We conduct business primarily through two operating segments: the Banking Business Segment and the Securities Business Segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Depositors and borrowers pay interest and fees, and advisors and traders pay for securities services.",
+  "evidence": "Our deposit products are sourced from a wide range of retail and commercial distribution channels"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

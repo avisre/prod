@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001169770",
+ "issuerName": "BANC OF CALIFORNIA, INC.",
+ "builtAt": "2026-11-16T02:22:56.221Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012946",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1169770/000162828026012946/banc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "checking",
+    "savings",
+    "money market",
+    "certificates of deposit",
+    "loan types"
+   ],
+   "description": "Takes deposits and makes commercial and consumer loans to businesses and individuals.",
+   "evidence": "The Company operates as one reportable segment - Commercial Banking - based on how the CODM manages the business activities, which are described above."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and depositors are paid interest on their deposits.",
+  "evidence": "We offer a wide variety of deposit, loan, and other financial services to small and middle-market businesses, venture capital and private equity firms, non-profit organizations, business owners, entrepreneurs, professionals and high-net worth individuals."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

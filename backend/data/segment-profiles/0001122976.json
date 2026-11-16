@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001122976",
+ "issuerName": "AVIENT CORPORATION",
+ "builtAt": "2026-11-16T02:22:17.469Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001122976-26-000039",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1122976/000112297626000039/avnt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Color, Additives and Inks",
+   "products": [
+    "color and additive solutions"
+   ],
+   "description": "Makes colourants, additives and inks for plastics and other materials.",
+   "evidence": "Avient Segments We operate in two reportable segments: (1) Color, Additives and Inks and (2) Specialty Engineered Materials."
+  },
+  {
+   "name": "Specialty Engineered Materials",
+   "products": [
+    "performance fibers",
+    "advanced composites"
+   ],
+   "description": "Formulates engineered materials, composites and fibers for demanding applications.",
+   "evidence": "Our products include specialty engineered materials, performance fibers, advanced composites and color and additive solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Manufacturers buy its engineered materials, fibres and colourants directly and through distributors.",
+  "evidence": "Methods of Distribution We sell products primarily through direct sales personnel, distributors, and commissioned sales agents."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Specialty Engineered Materials): specialty engineered materials"
+ ],
+ "reader": "agent"
+}

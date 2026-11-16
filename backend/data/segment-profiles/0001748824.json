@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001748824",
+ "issuerName": "Acadian Asset Management Inc.",
+ "builtAt": "2026-11-16T02:17:49.159Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012856",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1748824/000162828026012856/aami-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Quant & Solutions",
+   "products": [
+    "Emerging Equity",
+    "Non-U.S. Equity",
+    "Global Equity",
+    "Small Cap Equity",
+    "Enhanced Equity",
+    "Equity Extensions",
+    "Systematic Credit",
+    "Alternatives"
+   ],
+   "description": "Manages systematic equity and credit strategies for institutional clients worldwide.",
+   "evidence": "Acadian LLC comprises our Quant & Solutions reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutional investors pay the firm to manage their assets in systematic strategies.",
+  "evidence": "We offer our investment products to institutional clients directly and by marketing our services to the investment consultants and advisors that advise them."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

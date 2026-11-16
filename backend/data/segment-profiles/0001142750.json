@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001142750",
+ "issuerName": "AMN HEALTHCARE SERVICES, INC.",
+ "builtAt": "2026-11-16T02:20:46.288Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009918",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1142750/000162828026009918/amn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "nurse and allied solutions",
+   "products": [
+    "travel nurse staffing",
+    "international nurse staffing",
+    "crisis nurse staffing",
+    "local staffing of all nursing specialties",
+    "allied health professionals"
+   ],
+   "description": "Places travel, international and local nurses and allied staff in healthcare facilities.",
+   "evidence": "Our Services In 2025, we conducted our business through three reportable segments: (1) nurse and allied solutions, (2) physician and leadership solutions, and (3) technology and workforce solutions."
+  },
+  {
+   "name": "physician and leadership solutions",
+   "products": [
+    "specialty recruitment",
+    "permanent placement",
+    "leadership development"
+   ],
+   "description": "Recruits physicians and healthcare leaders for permanent and interim roles.",
+   "evidence": "Our Services In 2025, we conducted our business through three reportable segments: (1) nurse and allied solutions, (2) physician and leadership solutions, and (3) technology and workforce solutions."
+  },
+  {
+   "name": "technology and workforce solutions",
+   "products": [
+    "remote medical coding",
+    "clinical documentation improvement",
+    "case management",
+    "clinical data registry"
+   ],
+   "description": "Sells workforce technology and outsourced clinical coding and documentation services.",
+   "evidence": "We provide skilled labor solutions for remote medical coding, clinical documentation improvement, case management, and clinical data registry, and also pr"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and other healthcare facilities pay for temporary and permanent staffing and workforce services.",
+  "evidence": "We provide allied health professionals to acute-care hospitals and other healthcare facilities such as skilled nursing facilities, rehabilitation clinics, schools, and pharmacies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

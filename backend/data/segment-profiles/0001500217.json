@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001500217",
+ "issuerName": "AMERICAN ASSETS TRUST, INC.",
+ "builtAt": "2026-11-16T02:17:49.179Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001500217-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1500217/000150021726000008/aat-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "office",
+   "products": [
+    "office real estate"
+   ],
+   "description": "Owns, acquires and redevelops office buildings and leases space to tenants.",
+   "evidence": "We operate in four reportable segments: the acquisition, redevelopment, ownership and management of office real estate, retail real estate, multifamily real estate and mixed-use real estate."
+  },
+  {
+   "name": "retail",
+   "products": [
+    "retail real estate"
+   ],
+   "description": "Owns and leases retail properties to tenant businesses.",
+   "evidence": "We operate in four business segments: office, retail, multifamily and mixed-use."
+  },
+  {
+   "name": "multifamily",
+   "products": [
+    "multifamily real estate"
+   ],
+   "description": "Owns and leases multifamily residential properties.",
+   "evidence": "We operate in four reportable segments: the acquisition, redevelopment, ownership and management of office real estate, retail real estate, multifamily real estate and mixed-use real estate."
+  },
+  {
+   "name": "mixed-use",
+   "products": [
+    "mixed-use real estate"
+   ],
+   "description": "Owns mixed-use properties combining several uses on one site.",
+   "evidence": "We operate in four business segments: office, retail, multifamily and mixed-use."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent for leased office, retail, multifamily and mixed-use space.",
+  "evidence": "We actively manage our properties, employ targeted leasing strategies, leverage our existing tenant relationships and focus on reducing operating expenses to increase occupancy rates at our properties, attract high quality tenants and increase property cash flows, thereby enhancing the value of our properties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

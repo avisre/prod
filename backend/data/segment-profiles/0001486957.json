@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001486957",
+ "issuerName": "BWX TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-16T02:23:46.769Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001486957-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1486957/000148695726000007/bwxt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Government Operations",
+   "products": [
+    "advanced nuclear fuel",
+    "reactor design",
+    "nuclear components, fuels and assemblies"
+   ],
+   "description": "Supplies nuclear fuel, components and reactor services to government programmes.",
+   "evidence": "Business Segments We operate in two reportable segments: Government Operations and Commercial Operations."
+  },
+  {
+   "name": "Commercial Operations",
+   "products": [
+    "nuclear steam generators",
+    "heat exchangers",
+    "pressure vessels",
+    "reactor components"
+   ],
+   "description": "Makes nuclear power plant equipment and components for commercial utilities.",
+   "evidence": "Commercial Operations Through this segment, we design and manufacture commercial nuclear steam generators, heat exchangers, pressure vessels, reactor components and other auxiliary equipment, including containers for the storage of spent nuclear fuel and other high-level nuclear waste."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Governments and utilities pay for nuclear components, fuel and engineering services under large contracts.",
+  "evidence": "In general, we operate in capital-intensive industries and rely on large contracts for a substantial amount of our revenues."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

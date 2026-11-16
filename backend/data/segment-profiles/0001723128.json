@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001723128",
+ "issuerName": "AMNEAL PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-16T02:20:46.339Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001723128-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1723128/000172312826000011/amrx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Affordable Medicines",
+   "products": [
+    "retail generics",
+    "injectables",
+    "biosimilars",
+    "oral solids",
+    "nasal sprays",
+    "inhalation and respiratory products",
+    "ophthalmics",
+    "transdermal patches"
+   ],
+   "description": "Sells generic prescription medicines across many dosage forms, mainly in the United States.",
+   "evidence": "Segments of the Business We have three reportable segments: Affordable Medicines, Specialty, and AvKARE."
+  },
+  {
+   "name": "Specialty",
+   "products": [
+    "branded pharmaceuticals"
+   ],
+   "description": "Sells branded medicines for central nervous system and endocrine disorders through specialty sales teams.",
+   "evidence": "In our Specialty segment, we offer a portfolio of branded pharmaceuticals focused primarily on central nervous system and endocrine disorders."
+  },
+  {
+   "name": "AvKARE",
+   "products": [
+    "pharmaceuticals"
+   ],
+   "description": "Supplies pharmaceuticals mainly to United States government agencies.",
+   "evidence": "AvKARE Our AvKARE segment provides pharmaceuticals primarily to governmental agencies, predominantly focused on serving the U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wholesalers, chain retailers and government agencies buy its generic and branded medicines.",
+  "evidence": "The majority of our Affordable Medicines pharmaceutical products are marketed to large group purchasing organizations (\"GPOs\") and sold through wholesalers, directly to large chain retailers or to mail order customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001675149",
+ "issuerName": "ALCOA CORP",
+ "builtAt": "2026-11-16T02:17:49.128Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-077167",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1675149/000119312526077167/aa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alumina",
+   "products": [
+    "bauxite",
+    "smelter grade and non-metallurgical alumina"
+   ],
+   "description": "Mines bauxite and refines it into alumina for smelters and industrial chemical customers.",
+   "evidence": "The Alumina segment primarily consists of the Company's bauxite mines and alumina refineries, and its operations generally include the mining of bauxite and other aluminous ores, as well as the refining, production, and sale of smelter grade and non-metallurgical alumina."
+  },
+  {
+   "name": "Aluminum",
+   "products": [
+    "energy production assets"
+   ],
+   "description": "Smelts and casts aluminum and runs most of the company's power generation assets.",
+   "evidence": "The Aluminum segment consists of the Company's aluminum smelting and casting operations along with most of the Company's energy production assets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Aluminum smelters and industrial chemical makers buy alumina, and third parties buy bauxite and aluminum.",
+  "evidence": "The alumina produced by this segment is sold primarily to internal and external aluminum smelter customers; a portion of the alumina is sold to external customers who process it into industrial chemical products."
+ },
+ "changes": [
+  {
+   "text": "Sold its interest in the Saudi Arabia joint venture in 2025.",
+   "evidence": "prior to the sale of Alcoa's interest in the Saudi Arabia joint venture in July 2025"
+  }
+ ],
+ "dropped": [
+  "product not in text (Aluminum): aluminum"
+ ],
+ "reader": "agent"
+}

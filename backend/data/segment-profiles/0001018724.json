@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0001018724",
+ "issuerName": "AMAZON.COM, INC.",
+ "builtAt": "2026-11-16T02:21:13.835Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001018724-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Amazon Prime",
+    "Kindle",
+    "Fire tablet",
+    "Fire TV",
+    "Echo",
+    "Ring",
+    "Blink",
+    "eero"
+   ],
+   "description": "Sells products and runs online and physical stores for North American consumers and sellers.",
+   "evidence": "We have organized our operations into three segments: North America, International, and Amazon Web Services (\"AWS\")."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Amazon Prime",
+    "electronic devices",
+    "media content"
+   ],
+   "description": "Runs its e-commerce stores, devices and media businesses outside North America.",
+   "evidence": "We have organized our operations into three segments: North America, International, and Amazon Web Services (\"AWS\")."
+  },
+  {
+   "name": "Amazon Web Services",
+   "products": [
+    "compute",
+    "storage",
+    "database",
+    "analytics",
+    "artificial intelligence and machine learning"
+   ],
+   "description": "Sells on-demand cloud technology services to developers, enterprises and government agencies.",
+   "evidence": "Developers and Enterprises We serve developers and enterprises of all sizes, including start-ups, government agencies, and academic institutions, through AWS, which offers a broad set of on-demand technology services, including compute, storage, database, analytics, artificial intelligence and machine learning, and other services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers, sellers, developers and advertisers pay for shopping, cloud services, subscriptions and advertising.",
+  "evidence": "In each of our segments, we serve our primary customer sets, consisting of consumers, sellers, developers, enterprises, content creators, advertisers, and employees."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001144980",
+ "issuerName": "ASBURY AUTOMOTIVE GROUP, INC.",
+ "builtAt": "2026-11-16T02:17:49.198Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001144980-26-000051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1144980/000114498026000051/abg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dealerships",
+   "products": [
+    "new and used vehicles",
+    "parts and service",
+    "F&I products"
+   ],
+   "description": "Runs franchised dealerships selling vehicles, parts, service and finance products.",
+   "evidence": "Our store operations are conducted by our subsidiaries and the Company operates in two reportable segments, Dealerships and TCA."
+  },
+  {
+   "name": "TCA",
+   "products": [
+    "vehicle service contracts",
+    "GAP",
+    "prepaid maintenance contracts",
+    "appearance protection contracts"
+   ],
+   "description": "Sells vehicle protection and finance products through its own and independent dealerships.",
+   "evidence": "Our TCA segment revenues, reflected in F&I revenue, net, are derived from the sale of various vehicle protection products including vehicle service contracts, GAP, prepaid maintenance contracts, and appearance protection contracts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Vehicle buyers pay dealerships for cars, parts, service and finance products, and TCA for protection contracts.",
+  "evidence": "F&I products are offered by dealerships to customers in connection with the purchase of vehicles through either TCA or independent third parties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

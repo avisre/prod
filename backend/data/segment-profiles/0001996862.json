@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001996862",
+ "issuerName": "BUNGE GLOBAL SA",
+ "builtAt": "2026-11-16T02:22:56.310Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009842",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Soybean Processing and Refining",
+   "products": [],
+   "description": "Crushes soybeans and refines the oil and meal for food, feed and fuel customers.",
+   "evidence": "Operating Segments We conduct our operations through four reportable segments: Soybean Processing and Refining, Softseed Processing and Refining, Other Oilseeds Processing and Refining, and Grain Merchandising and Milling, which are organized based upon their similar economic characteristics, products and services offered, production processes, types and classes of customer, and distribution methods."
+  },
+  {
+   "name": "Softseed Processing and Refining",
+   "products": [],
+   "description": "Processes and refines softseed crops such as rapeseed and sunflower seed.",
+   "evidence": "Operating Segments We conduct our operations through four reportable segments: Soybean Processing and Refining, Softseed Processing and Refining, Other Oilseeds Processing and Refining, and Grain Merchandising and Milling, which are organized based upon their similar economic characteristics, products and services offered, production processes, types and classes of customer, and distribution methods."
+  },
+  {
+   "name": "Other Oilseeds Processing and Refining",
+   "products": [],
+   "description": "Processes and refines other oilseeds for food and industrial uses.",
+   "evidence": "Operating Segments We conduct our operations through four reportable segments: Soybean Processing and Refining, Softseed Processing and Refining, Other Oilseeds Processing and Refining, and Grain Merchandising and Milling, which are organized based upon their similar economic characteristics, products and services offered, production processes, types and classes of customer, and distribution methods."
+  },
+  {
+   "name": "Grain Merchandising and Milling",
+   "products": [],
+   "description": "Trades grain and mills wheat into flour and other products.",
+   "evidence": "Operating Segments We conduct our operations through four reportable segments: Soybean Processing and Refining, Softseed Processing and Refining, Other Oilseeds Processing and Refining, and Grain Merchandising and Milling, which are organized based upon their similar economic characteristics, products and services offered, production processes, types and classes of customer, and distribution methods."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Farmers sell it crops and food, feed and fuel customers buy the processed products.",
+  "evidence": "Business Overview We are a premier agribusiness solutions company, connecting farmers to consumers and delivering essential food, feed and fuel to the world."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

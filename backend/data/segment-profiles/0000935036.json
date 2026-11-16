@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000935036",
+ "issuerName": "ACI WORLDWIDE, INC.",
+ "builtAt": "2026-11-16T02:18:16.900Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000935036-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/935036/000093503626000011/aciw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payment Software",
+   "products": [],
+   "description": "Sells payment software to banks and merchants, protecting them against fraud.",
+   "evidence": "The following is selected financial data for our reportable segments for the periods indicated (in thousands): Years Ended December 31, 2025 2024 Revenues Payment Software $ 942,053 $ 867,770 Biller 817,729 726,518 Total revenue $ 1,759,782 $ 1,594,288"
+  },
+  {
+   "name": "Biller",
+   "products": [],
+   "description": "Provides bill payment software and services to billers.",
+   "evidence": "The following is selected financial data for our reportable segments for the periods indicated (in thousands): Years Ended December 31, 2025 2024 Revenues Payment Software $ 942,053 $ 867,770 Biller 817,729 726,518 Total revenue $ 1,759,782 $ 1,594,288"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "Merged its Banks and Merchants segments into Payment Software and kept Biller in 2025.",
+   "evidence": "Beginning in the first quarter of 2025, the Company reported financial performance based on its new operating segments, Payment Software, which merged the previously reported operating segments Banks and Merchants, and maintained Biller."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

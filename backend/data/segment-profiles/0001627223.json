@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001627223",
+ "issuerName": "The Chemours Company",
+ "builtAt": "2026-11-16T02:24:40.839Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-065201",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1627223/000119312526065201/cc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Thermal & Specialized Solutions",
+   "products": [
+    "refrigerants"
+   ],
+   "description": "Makes refrigerants and specialised thermal fluids for cooling applications.",
+   "evidence": "We manage and report our operating results through three principal reportable segments: Thermal & Specialized Solutions, Titanium Technologies, and Advanced Performance Materials."
+  },
+  {
+   "name": "Titanium Technologies",
+   "products": [
+    "titanium dioxide (\"TiO 2 \") pigment"
+   ],
+   "description": "Produces titanium dioxide pigment for paints, coatings and plastics.",
+   "evidence": "We manage and report our operating results through three principal reportable segments: Thermal & Specialized Solutions, Titanium Technologies, and Advanced Performance Materials."
+  },
+  {
+   "name": "Advanced Performance Materials",
+   "products": [
+    "industrial fluoropolymer resins"
+   ],
+   "description": "Makes fluoropolymer resins and advanced materials for industrial uses.",
+   "evidence": "We manage and report our operating results through three principal reportable segments: Thermal & Specialized Solutions, Titanium Technologies, and Advanced Performance Materials."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial and consumer manufacturers buy its refrigerants, pigments and fluoropolymer resins.",
+  "evidence": "Our principal products include refrigerants, titanium dioxide (\"TiO 2 \") pigment and industrial fluoropolymer resins."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

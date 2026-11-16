@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001048477",
+ "issuerName": "BioMarin Pharmaceutical Inc",
+ "builtAt": "2026-11-16T02:23:46.451Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001048477-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1048477/000104847726000004/bmrn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "therapies",
+   "products": [
+    "ALDURAZYME"
+   ],
+   "description": "Develops and commercialises therapies for rare and serious diseases.",
+   "evidence": "SEGMENT INFORMATION The Company operates and is managed as one operating segment which derives revenue from activities related to the development and commercialization of innovative therapies for people with serious and life-threatening rare diseases and medical conditions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients' insurers and health systems pay for its rare disease therapies.",
+  "evidence": "SEGMENT INFORMATION The Company operates and is managed as one operating segment which derives revenue from activities related to the development and commercialization of innovative therapies for people with serious and life-threatening rare diseases and medical conditions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

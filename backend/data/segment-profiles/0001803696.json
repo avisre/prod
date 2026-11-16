@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001803696",
+ "issuerName": "ADEIA INC.",
+ "builtAt": "2026-11-16T02:18:36.250Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076549",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1803696/000119312526076549/adea-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IP Licensing",
+   "products": [],
+   "description": "Licenses its intellectual property, mainly to semiconductor and pay-TV customers, for fees and royalties.",
+   "evidence": "Reportable Segments We operate and report in one segment: IP Licensing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay licence fees and royalties to use its intellectual property.",
+  "evidence": "We derive the majority of our revenue from the licensing of our IP rights to customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

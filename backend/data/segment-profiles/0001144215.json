@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001144215",
+ "issuerName": "ACUITY INC",
+ "builtAt": "2026-11-16T02:22:56.085Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001144215-26-000052",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1144215/000114421526000052/ayi-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Acuity Brands Lighting",
+   "products": [
+    "Lithonia Lighting ®",
+    "Holophane ®",
+    "Juno ®",
+    "Gotham ®",
+    "SensorSwitch TM",
+    "nLight ®",
+    "IOTA ®",
+    "American Electric Lighting ®"
+   ],
+   "description": "Designs and sells lighting fixtures and controls for commercial and residential buildings.",
+   "evidence": "Through our two business segments, Acuity Brands Lighting (\"ABL\") and Acuity Intelligent Spaces (\"AIS\"), we design, manufacture, and bring to market products and services that make a valuable difference in people's lives."
+  },
+  {
+   "name": "Acuity Intelligent Spaces",
+   "products": [
+    "lighting controls",
+    "building management systems",
+    "audio, video, and control platforms"
+   ],
+   "description": "Sells building management, audio, video and control platforms for intelligent spaces.",
+   "evidence": "We operate training and education facilities that illustrate a wide range of our solutions including lighting, lighting controls, building management systems, and audio, video, and control platforms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Distributors, contractors and end customers buy its lighting and controls.",
+  "evidence": "Products are delivered directly from our manufacturing facilities or through a network of distribution centers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

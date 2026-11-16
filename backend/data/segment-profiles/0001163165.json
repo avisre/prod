@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0001163165",
+ "issuerName": "ConocoPhillips",
+ "builtAt": "2026-11-16T02:25:48.179Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001163165-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alaska",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Explores for and produces oil and gas in Alaska.",
+   "evidence": "Operating Segments We manage our operations through five operating segments, which are primarily defined by geographic region: Alaska; Lower 48; Canada; Europe, Middle East and North Africa; and Asia Pacific."
+  },
+  {
+   "name": "Lower 48",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Explores for and produces oil and gas in the contiguous United States.",
+   "evidence": "Operating Segments We manage our operations through five operating segments, which are primarily defined by geographic region: Alaska; Lower 48; Canada; Europe, Middle East and North Africa; and Asia Pacific."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Explores for and produces oil and gas in Canada.",
+   "evidence": "Operating Segments We manage our operations through five operating segments, which are primarily defined by geographic region: Alaska; Lower 48; Canada; Europe, Middle East and North Africa; and Asia Pacific."
+  },
+  {
+   "name": "Europe, Middle East and North Africa",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Explores for and produces oil and gas in Europe, the Middle East and North Africa.",
+   "evidence": "Operating Segments We manage our operations through five operating segments, which are primarily defined by geographic region: Alaska; Lower 48; Canada; Europe, Middle East and North Africa; and Asia Pacific."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Explores for and produces oil and gas in Asia Pacific.",
+   "evidence": "Operating Segments We manage our operations through five operating segments, which are primarily defined by geographic region: Alaska; Lower 48; Canada; Europe, Middle East and North Africa; and Asia Pacific."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "Dropped its former Other International operating segment in the fourth quarter of 2025.",
+   "evidence": "Effective in the fourth quarter of 2025, we determined that our former Other International operating segment, which consisted of activities associated with prior operations in other countries, was no longer an operating segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001130310",
+ "issuerName": "CENTERPOINT ENERGY INC",
+ "builtAt": "2026-11-16T02:25:14.577Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001130310-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1130310/000113031026000008/cnp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric",
+   "products": [
+    "electricity"
+   ],
+   "description": "Generates, transmits and distributes electricity to customers in its service areas.",
+   "evidence": "As of December 31, 2025, CenterPoint Energy's reportable segments were Electric, Natural Gas and Corporate and Other."
+  },
+  {
+   "name": "Natural Gas",
+   "products": [],
+   "description": "Distributes natural gas to residential and business customers.",
+   "evidence": "As of December 31, 2025, CenterPoint Energy's reportable segments were Electric, Natural Gas and Corporate and Other."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [],
+   "description": "Holds corporate functions and non-utility activities.",
+   "evidence": "As of December 31, 2025, CenterPoint Energy's reportable segments were Electric, Natural Gas and Corporate and Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utility customers pay regulated rates for electricity and natural gas service.",
+  "evidence": "Electric (CenterPoint Energy) The Electric reportable segment is comprised of Houston Electric and Indiana Electric."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Natural Gas): natural gas"
+ ],
+ "reader": "agent"
+}

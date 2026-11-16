@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001047127",
+ "issuerName": "AMKOR TECHNOLOGY, INC.",
+ "builtAt": "2026-11-16T02:20:46.272Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001047127-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000014/amkr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "packaging and test services",
+   "products": [
+    "package design",
+    "wafer bump",
+    "wafer probe",
+    "wafer back-grind",
+    "packaging",
+    "burn-in",
+    "system level and final test",
+    "drop shipment services"
+   ],
+   "description": "Provides outsourced semiconductor packaging and test services to chip makers.",
+   "evidence": "Business Segments, Customer Concentrations and Geographic Information We operate as a single operating segment as managed by our Chief Executive Officer, who is considered our chief operating decision maker (\"CODM\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Chip makers, fabless semiconductor companies, equipment makers and foundries pay for packaging and test.",
+  "evidence": "We provide our services to integrated device manufacturers (\"IDMs\"), \"fabless\" semiconductor companies, original equipment manufacturers (\"OEMs\") and contract foundries."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

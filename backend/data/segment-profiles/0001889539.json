@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001889539",
+ "issuerName": "Corebridge Financial, Inc.",
+ "builtAt": "2026-11-16T02:25:48.871Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001889539-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1889539/000188953926000022/crbg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Individual Retirement",
+   "products": [
+    "annuities"
+   ],
+   "description": "Sells individual retirement annuities and related products.",
+   "evidence": "We offer a broad set of products and services through our market leading Individual Retirement, Group Retirement, Life Insurance and Institutional Markets businesses, each of which features capabilities and industry experience"
+  },
+  {
+   "name": "Group Retirement",
+   "products": [],
+   "description": "Provides group retirement savings plans to employers and their employees.",
+   "evidence": "We offer a broad set of products and services through our market leading Individual Retirement, Group Retirement, Life Insurance and Institutional Markets businesses, each of which features capabilities and industry experience"
+  },
+  {
+   "name": "Life Insurance",
+   "products": [],
+   "description": "Writes life insurance policies and related protection products.",
+   "evidence": "We offer a broad set of products and services through our market leading Individual Retirement, Group Retirement, Life Insurance and Institutional Markets businesses, each of which features capabilities and industry experience"
+  },
+  {
+   "name": "Institutional Markets",
+   "products": [],
+   "description": "Provides retirement and insurance solutions to institutional clients.",
+   "evidence": "We offer a broad set of products and services through our market leading Individual Retirement, Group Retirement, Life Insurance and Institutional Markets businesses, each of which features capabilities and industry experience"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals and institutions pay premiums and fees for retirement and insurance products.",
+  "evidence": "We offer a broad set of products and services through our market leading Individual Retirement, Group Retirement, Life Insurance and Institutional Markets businesses, each of which features capabilities and industry experience"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Group Retirement): group retirement plans",
+  "product not in text (Life Insurance): life insurance",
+  "product not in text (Institutional Markets): institutional retirement and insurance products"
+ ],
+ "reader": "agent"
+}

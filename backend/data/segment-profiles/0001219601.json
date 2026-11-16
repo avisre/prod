@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001219601",
+ "issuerName": "CROWN HOLDINGS, INC.",
+ "builtAt": "2026-11-16T02:24:40.990Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012904",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1219601/000162828026012904/cck-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas Beverage",
+   "products": [
+    "metal cans"
+   ],
+   "description": "Makes beverage cans for drink makers in the Americas.",
+   "evidence": "The reportable segments are: Americas Beverage, European Beverage, Asia Pacific, and Transit Packaging."
+  },
+  {
+   "name": "European Beverage",
+   "products": [
+    "metal cans"
+   ],
+   "description": "Makes beverage cans for drink makers in Europe.",
+   "evidence": "The reportable segments are: Americas Beverage, European Beverage, Asia Pacific, and Transit Packaging."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "metal cans"
+   ],
+   "description": "Makes beverage cans and packaging in Asia Pacific.",
+   "evidence": "The reportable segments are: Americas Beverage, European Beverage, Asia Pacific, and Transit Packaging."
+  },
+  {
+   "name": "Transit Packaging",
+   "products": [
+    "automation and equipment technologies",
+    "protective packaging solutions",
+    "steel and plastic consumables"
+   ],
+   "description": "Supplies protective and transit packaging, equipment and consumables to industry.",
+   "evidence": "TRANSIT PACKAGING The Company's Transit Packaging segment includes the Company's worldwide automation and equipment technologies, protective packaging solutions, and steel and plastic consumables."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Food, beverage and industrial companies buy its cans and protective packaging.",
+  "evidence": "The Company's transit packaging products include automation and equipment technologies, protective packaging solutions, and steel and plastic consumables which are sold into the metals, food and beverage, construction, agricultural, corrugated, and general industries."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

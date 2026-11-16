@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001097149",
+ "issuerName": "ALIGN TECHNOLOGY, INC.",
+ "builtAt": "2026-11-16T02:20:27.193Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001097149-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1097149/000109714926000014/algn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clear Aligner",
+   "products": [
+    "Invisalign Comprehensive",
+    "Invisalign First",
+    "Invisalign Comprehensive 3in3",
+    "Invisalign Moderate",
+    "Invisalign Go",
+    "Invisalign Palatal Expander"
+   ],
+   "description": "Makes Invisalign clear aligners and sells them to orthodontists and dentists.",
+   "evidence": "We group our operations into two reportable segments: Clear Aligner segment and Systems and Services segment."
+  },
+  {
+   "name": "Systems and Services",
+   "products": [
+    "iTero intraoral scanning systems",
+    "scanner wand upgrades",
+    "exocad's CAD/CAM software solutions",
+    "disposables",
+    "pay per scan services"
+   ],
+   "description": "Sells intraoral scanners, CAD/CAM software and related services to dental practices and labs.",
+   "evidence": "We group our operations into two reportable segments: Clear Aligner segment and Systems and Services segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Orthodontists, dentists and dental labs pay for aligners, scanners and software.",
+  "evidence": "We sell the majority of our products and services directly through a dedicated and specialized sales force to our customers: orthodontists, GPs, including prosthodontists, periodontists, oral surgeons and dental laboratories."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

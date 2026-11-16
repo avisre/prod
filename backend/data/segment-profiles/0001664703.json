@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001664703",
+ "issuerName": "BLOOM ENERGY CORPORATION",
+ "builtAt": "2026-11-16T02:22:56.294Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-006516",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1664703/000162828026006516/be-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "fuel cell",
+   "products": [
+    "Bloom Energy Server®",
+    "Bloom Electrolyzer™",
+    "solid oxide platform"
+   ],
+   "description": "Makes fuel cell systems that generate electricity and electrolysers that produce hydrogen.",
+   "evidence": "The CODM reviews consolidated results when making decisions about allocating resources and assessing the performance of the Company as a whole and hence, we have only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy the energy servers and pay for long-term operations and maintenance.",
+  "evidence": "Our revenue is derived primarily from product sales of our Energy Server systems, with additional recurring revenue from long-term operations and maintenance agreements that support availability and performance over the contract life."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

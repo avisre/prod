@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001018840",
+ "issuerName": "Abercrombie & Fitch Co.",
+ "builtAt": "2026-11-16T02:21:13.870Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001018840-26-000012",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1018840/000101884026000012/anf-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Abercrombie & Fitch",
+    "abercrombie kids",
+    "Your Personal Best (YPB)",
+    "Hollister"
+   ],
+   "description": "Sells casual apparel and accessories in North and South America through stores and online.",
+   "evidence": "The Company manages its business on a geographic basis, consisting of three reportable segments: Americas; Europe, the Middle East and Africa (\"EMEA\"); and Asia-Pacific (\"APAC\")."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Abercrombie & Fitch",
+    "abercrombie kids",
+    "Hollister"
+   ],
+   "description": "Sells its clothing brands in Europe, the Middle East and Africa.",
+   "evidence": "The Company manages its business on a geographic basis, consisting of three reportable segments: Americas; Europe, the Middle East and Africa (\"EMEA\"); and Asia-Pacific (\"APAC\")."
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "Abercrombie & Fitch",
+    "abercrombie kids",
+    "Hollister"
+   ],
+   "description": "Sells its clothing brands across Asia and Oceania.",
+   "evidence": "The Company manages its business on a geographic basis, consisting of three reportable segments: Americas; Europe, the Middle East and Africa (\"EMEA\"); and Asia-Pacific (\"APAC\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shoppers buy its apparel and accessories in stores and online.",
+  "evidence": "(\"A&F\"), a company incorporated in Delaware in 1996, through its subsidiaries (collectively, A&F and its subsidiaries are referred to as the \"Company\"), is a global, digitally-led, omnichannel retailer."
+ },
+ "changes": [
+  {
+   "text": "Reorganised around three geographic segments in fiscal 2023.",
+   "evidence": "During Fiscal 2023, to drive ongoing brand growth and leverage the knowledge and experience of its regional teams, the Company reorganized its structure and now primarily manages its business on a geographic basis, consisting of three reportable segments: Americas; EMEA, and APAC."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

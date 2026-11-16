@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001866581",
+ "issuerName": "DUTCH BROS INC.",
+ "builtAt": "2026-11-16T02:23:46.567Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001866581-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1866581/000186658126000006/bros-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Company-operated shops",
+   "products": [
+    "hot, iced, and blended beverages",
+    "food offerings"
+   ],
+   "description": "Runs Dutch Bros coffee shops selling drinks and food to customers.",
+   "evidence": "We have two reportable operating segments: Company-operated shops and Franchising and other."
+  },
+  {
+   "name": "Franchising and other",
+   "products": [],
+   "description": "Franchises Dutch Bros shops and earns royalties and other fees.",
+   "evidence": "We have two reportable operating segments: Company-operated shops and Franchising and other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy drinks and food at its shops, and franchisees pay for the right to operate.",
+  "evidence": "Our Menu We sell a wide range of customizable hot, iced, and blended beverages, as well as certain food offerings."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

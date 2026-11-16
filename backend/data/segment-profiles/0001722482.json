@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001722482",
+ "issuerName": "Avantor, Inc.",
+ "builtAt": "2026-11-16T02:22:55.910Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007118",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1722482/000162828026007118/avtr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Laboratory Solutions",
+   "products": [
+    "materials & consumables",
+    "equipment & instrumentation",
+    "services & specialty procurement",
+    "DNA extraction",
+    "media preparation",
+    "bioreactor servicing",
+    "compound management"
+   ],
+   "description": "Supplies lab materials, instruments and services to biopharma, healthcare and education customers.",
+   "evidence": "1 Business segments We report financial results in two segments: Laboratory Solutions and Bioscience Production."
+  },
+  {
+   "name": "Bioscience Production",
+   "products": [
+    "proprietary products",
+    "high value specialty products"
+   ],
+   "description": "Manufactures proprietary materials and ingredients used in bioproduction and medical technology.",
+   "evidence": "Second, we manufacture proprietary products used in life sciences and medical technology applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Biopharmaceutical, healthcare, education and industrial customers buy its materials, equipment and services.",
+  "evidence": "Within our reportable segments, we sell materials & consumables, equipment & instrumentation and services & specialty procurement to customers in the biopharmaceutical, healthcare, education & government and advanced technologies & applied materials industries."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001703056",
+ "issuerName": "ADT Inc.",
+ "builtAt": "2026-11-16T02:18:36.281Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001703056-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1703056/000170305626000022/adt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "security and smart home",
+   "products": [
+    "professionally installed and DIY security and smart home solutions",
+    "routine maintenance",
+    "installation of upgraded or additional equipment"
+   ],
+   "description": "Sells and installs security and smart home systems and monitors them for customers.",
+   "evidence": "We offer both professionally installed and DIY security and smart home solutions, and we are increasingly focused on expanding and enhancing our DIY offerings as part of our growth strategy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay recurring monthly fees for monitoring and maintenance, plus installation charges.",
+  "evidence": "We offer our customers routine maintenance and the installation of upgraded or additional equipment, which provide additional value to the customer and generate incremental recurring monthly revenue."
+ },
+ "changes": [
+  {
+   "text": "Divested its Commercial business, leaving one reportable segment focused on consumers.",
+   "evidence": "Prior to the Commercial Divestiture, ADT had three business segments, CSB, Commercial, and Solar."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

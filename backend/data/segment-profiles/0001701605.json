@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001701605",
+ "issuerName": "Baker Hughes Company",
+ "builtAt": "2026-11-16T02:23:46.382Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001701605-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1701605/000170160526000007/bkr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oilfield Services & Equipment",
+   "products": [
+    "well projects"
+   ],
+   "description": "Provides oilfield equipment and services to energy companies on a well-by-well basis.",
+   "evidence": "We see increasing commercial synergy opportunities across our two operating segments: Oilfield Services & Equipment (\"OFSE\") and Industrial & Energy Technology (\"IET\") as discussed Baker Hughes Company 2025 Form 10-K | 1 below under \"Products and Services,\" and each are among the top providers for the majority of the product lines in the markets they serve."
+  },
+  {
+   "name": "Industrial & Energy Technology",
+   "products": [],
+   "description": "Supplies industrial and energy technology equipment and services across five product lines.",
+   "evidence": "The IET segment consists of five product lines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Energy and industrial customers buy its equipment and services directly and through indirect channels.",
+  "evidence": "We sell to our customers through direct and indirect channels."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

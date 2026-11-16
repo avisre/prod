@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001632970",
+ "issuerName": "American Healthcare REIT, Inc.",
+ "builtAt": "2026-11-16T02:19:25.159Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082692",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1632970/000119312526082692/ahr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ISHC",
+   "products": [
+    "integrated senior health campuses"
+   ],
+   "description": "Owns and operates integrated senior health campuses, charging residents for housing and care.",
+   "evidence": "We own and operate our integrated senior health campuses, or ISHC, and senior-housing operating properties, or SHOP, utilizing the structure permitted by the REIT Investment Diversification and Empowerment Act of 2007, which is commonly referred to as a \"RIDEA\" structure."
+  },
+  {
+   "name": "OM",
+   "products": [],
+   "description": "Owns outpatient medical buildings leased to physicians and health systems.",
+   "evidence": "Real Estate Investments As of December 31, 2025, we operated through four reportable business segments: ISHC, OM, SHOP and triple-net leased properties."
+  },
+  {
+   "name": "SHOP",
+   "products": [
+    "senior-housing operating properties"
+   ],
+   "description": "Operates senior housing properties and earns resident fees.",
+   "evidence": "We own and operate our integrated senior health campuses, or ISHC, and senior-housing operating properties, or SHOP, utilizing the structure permitted by the REIT Investment Diversification and Empowerment Act of 2007, which is commonly referred to as a \"RIDEA\" structure."
+  },
+  {
+   "name": "triple-net leased properties",
+   "products": [],
+   "description": "Owns healthcare properties leased to operators on triple-net terms.",
+   "evidence": "Real Estate Investments As of December 31, 2025, we operated through four reportable business segments: ISHC, OM, SHOP and triple-net leased properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay fees for senior housing and care, and tenants pay rent under leases.",
+  "evidence": "Resident Fees and Services Revenue For our ISHC segment, we increased resident fees and services revenue by $144,123,000 for the year ended December 31, 2025, as compared to the year ended December 31, 2024"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (OM): outpatient medical buildings"
+ ],
+ "reader": "agent"
+}

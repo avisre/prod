@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001035443",
+ "issuerName": "ALEXANDRIA REAL ESTATE EQUITIES, INC.",
+ "builtAt": "2026-11-16T02:22:17.161Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001035443-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1035443/000103544326000013/are-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "real estate",
+   "products": [],
+   "description": "Owns and leases life science and technology campuses to tenants under long-term leases.",
+   "evidence": "Based on shared economic characteristics, we have aggregated our seven operating segments into one reportable segment for segment reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Life science and technology tenants pay rent under long-term leases.",
+  "evidence": "We believe our unique business model and diligent underwriting ensure a high-quality and diverse tenant base that results in higher occupancy levels, longer lease terms, higher rental income, higher returns, and greater long-term asset value."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

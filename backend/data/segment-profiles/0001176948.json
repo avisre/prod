@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001176948",
+ "issuerName": "ARES MANAGEMENT CORPORATION",
+ "builtAt": "2026-11-16T02:22:16.994Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011413",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001468328",
+ "issuerName": "Addus HomeCare Corp",
+ "builtAt": "2026-11-16T02:18:36.304Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005352",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1468328/000143774926005352/adus20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "personal care",
+   "products": [
+    "assistance with bathing, grooming, oral care, feeding and dressing",
+    "medication reminders",
+    "meal planning and preparation",
+    "housekeeping and transportation services"
+   ],
+   "description": "Provides non-medical help with daily living to elderly, chronically ill and disabled consumers.",
+   "evidence": "Personal Care Our personal care segment provides non-medical assistance with activities of daily living, primarily to persons who are at increased risk of hospitalization or institutionalization, such as the elderly, chronically ill or disabled."
+  },
+  {
+   "name": "hospice",
+   "products": [
+    "palliative nursing care",
+    "social work",
+    "spiritual counseling",
+    "homemaker services",
+    "bereavement counseling"
+   ],
+   "description": "Provides physical, emotional and spiritual care to terminally ill people and their families.",
+   "evidence": "Hospice Our hospice segment provides physical, emotional and spiritual care for people who are terminally ill as well as related services for their families."
+  },
+  {
+   "name": "home health",
+   "products": [
+    "skilled nursing",
+    "physical, occupational and speech therapy"
+   ],
+   "description": "Provides medical home health services to people recovering from illness or hospitalization.",
+   "evidence": "Home Health Our home health segment provides services that are primarily medical in nature to individuals who may require assistance during an illness or after hospitalization and include skilled nursing and physical, occupational and speech therapy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers covered by Medicare and Medicaid pay, through managed care plans and state programmes, for home visits.",
+  "evidence": "Our consumers are predominantly \"dual eligible,\" meaning they are eligible to receive both Medicare and Medicaid benefits."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

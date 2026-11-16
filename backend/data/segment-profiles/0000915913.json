@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000915913",
+ "issuerName": "ALBEMARLE CORPORATION",
+ "builtAt": "2026-11-16T02:19:25.310Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000915913-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591326000018/alb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy Storage",
+   "products": [
+    "lithium carbonate",
+    "lithium hydroxide",
+    "lithium chloride"
+   ],
+   "description": "Makes lithium compounds for batteries and other energy storage uses.",
+   "evidence": "Business Segments During 2025, we managed and reported our operations under three reportable segments: Energy Storage, Specialties and Ketjen."
+  },
+  {
+   "name": "Specialties",
+   "products": [
+    "lithium specialties products",
+    "bromine specialties",
+    "elemental bromine",
+    "alkyl bromides",
+    "inorganic bromides",
+    "butyllithium"
+   ],
+   "description": "Makes lithium and bromine specialty chemicals for pharmaceuticals, electronics and other uses.",
+   "evidence": "Business Segments During 2025, we managed and reported our operations under three reportable segments: Energy Storage, Specialties and Ketjen."
+  },
+  {
+   "name": "Ketjen",
+   "products": [
+    "FCC catalyst systems",
+    "HPC products",
+    "organometallic co-catalysts"
+   ],
+   "description": "Supplies refinery catalysts and related products to refining and petrochemical customers.",
+   "evidence": "Business Segments During 2025, we managed and reported our operations under three reportable segments: Energy Storage, Specialties and Ketjen."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Battery makers, refiners and chemical customers buy its lithium, bromine and catalyst products.",
+  "evidence": "We develop and manufacture a broad range of basic lithium compounds, including lithium carbonate, lithium hydroxide, and lithium chloride."
+ },
+ "changes": [
+  {
+   "text": "Signed a deal in 2025 to divest Ketjen's Refining Solutions business, expected to close in 2026.",
+   "evidence": "On October 25, 2025, the Company signed a definitive agreement to divest the controlling ownership interest of Ketjen's Refining Solutions business to ChemCat AcquisitionCo, LLC and contribute the remaining ownership interest to ChemCat Holdings, LP, a newly formed limited partnership (\"Holdco\")."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

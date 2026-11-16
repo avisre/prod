@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001596532",
+ "issuerName": "Arista Networks, Inc.",
+ "builtAt": "2026-11-16T02:21:13.853Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001596532-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1596532/000159653226000013/anet-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cloud networking solutions",
+   "products": [
+    "modular and fixed-form-factor campus spine switches",
+    "Power-over-Ethernet (\"PoE\") leaf switches",
+    "Wi-Fi access points",
+    "CloudVision®",
+    "security solutions"
+   ],
+   "description": "Builds switching, routing and software platforms for data centre and campus networks.",
+   "evidence": "Segment Reporting We develop, market and sell cloud networking solutions, which primarily consist of our switching and routing platforms and related network applications, and there are no segment managers who are held accountable for operations or operating results below the Company level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises, cloud providers and service providers buy its network switches and software.",
+  "evidence": "Enterprises and service providers worldwide are therefore adopting these hyperscale technologies and principles for their own network operations to achieve similar performance, operational efficiencies, and cost reductions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

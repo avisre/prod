@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001841666",
+ "issuerName": "APA CORPORATION",
+ "builtAt": "2026-11-16T02:21:13.903Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001841666-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1841666/000184166626000015/apa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Egypt",
+   "products": [],
+   "description": "Explores for and produces oil and gas in Egypt.",
+   "evidence": "BUSINESS SEGMENT INFORMATION As of December 31, 2025, the Company's consolidated subsidiaries are engaged in exploration, development and/or production activities across four operating segments: Egypt, North Sea, Suriname, and the U."
+  },
+  {
+   "name": "North Sea",
+   "products": [],
+   "description": "Explores for and produces oil and gas in the North Sea.",
+   "evidence": "BUSINESS SEGMENT INFORMATION As of December 31, 2025, the Company's consolidated subsidiaries are engaged in exploration, development and/or production activities across four operating segments: Egypt, North Sea, Suriname, and the U."
+  },
+  {
+   "name": "Suriname",
+   "products": [],
+   "description": "Explores for and produces oil and gas offshore Suriname.",
+   "evidence": "BUSINESS SEGMENT INFORMATION As of December 31, 2025, the Company's consolidated subsidiaries are engaged in exploration, development and/or production activities across four operating segments: Egypt, North Sea, Suriname, and the U."
+  },
+  {
+   "name": "U.S.",
+   "products": [],
+   "description": "Explores for and produces oil and gas in the United States.",
+   "evidence": "BUSINESS SEGMENT INFORMATION As of December 31, 2025, the Company's consolidated subsidiaries are engaged in exploration, development and/or production activities across four operating segments: Egypt, North Sea, Suriname, and the U."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "It sells crude oil, natural gas and natural gas liquids at market prices.",
+  "evidence": "In accordance with the provisions of ASC 606, \"Revenue from Contracts with Customers,\" variable market prices for each short-term commodity sale are allocated entirely to each performance obligation as the terms of payment relate specifically to the Company's efforts to satisfy its obligations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

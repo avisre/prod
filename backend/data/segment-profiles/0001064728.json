@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001064728",
+ "issuerName": "PEABODY ENERGY CORP",
+ "builtAt": "2026-11-16T02:23:46.605Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001064728-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1064728/000106472826000006/btu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Seaborne Thermal",
+   "products": [
+    "coal"
+   ],
+   "description": "Mines thermal coal for export from its seaborne operations.",
+   "evidence": "Segment and Geographic Information As of December 31, 2025, Peabody reports its results of operations primarily through the following reportable segments: Seaborne Thermal, Seaborne Metallurgical, Powder River Basin and Other U."
+  },
+  {
+   "name": "Seaborne Metallurgical",
+   "products": [
+    "coal"
+   ],
+   "description": "Mines metallurgical coal for steelmakers from its seaborne operations.",
+   "evidence": "The mine is expected to enhance both the quantity and quality of the Company's production from the Seaborne Metallurgical reportable segment."
+  },
+  {
+   "name": "Powder River Basin",
+   "products": [
+    "coal"
+   ],
+   "description": "Mines coal in the Powder River Basin for United States power generators.",
+   "evidence": "Segment and Geographic Information As of December 31, 2025, Peabody reports its results of operations primarily through the following reportable segments: Seaborne Thermal, Seaborne Metallurgical, Powder River Basin and Other U."
+  },
+  {
+   "name": "Other U.S. Thermal",
+   "products": [
+    "coal"
+   ],
+   "description": "Mines thermal coal at its other United States operations.",
+   "evidence": "Segment and Geographic Information As of December 31, 2025, Peabody reports its results of operations primarily through the following reportable segments: Seaborne Thermal, Seaborne Metallurgical, Powder River Basin and Other U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Power generators and steelmakers buy its coal under supply agreements.",
+  "evidence": "For the year ended December 31, 2025, Peabody derived 25% of its revenue from coal supply agreements from its five largest customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

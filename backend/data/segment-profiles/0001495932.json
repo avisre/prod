@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001495932",
+ "issuerName": "AGNT, INC.",
+ "builtAt": "2026-11-16T02:18:53.679Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019145",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1495932/000110465926019145/expi-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North American Realty",
+   "products": [],
+   "description": "Brokers residential and commercial property sales across the United States and Canada.",
+   "evidence": "Business Segments The Company operates its business through three reportable segments: North American Realty, International Realty, and Other Affiliated Services."
+  },
+  {
+   "name": "International Realty",
+   "products": [],
+   "description": "Brokers property transactions in countries outside North America.",
+   "evidence": "Business Segments The Company operates its business through three reportable segments: North American Realty, International Realty, and Other Affiliated Services."
+  },
+  {
+   "name": "Other Affiliated Services",
+   "products": [
+    "SUCCESS ® magazine",
+    "training, classes, resources, and tools"
+   ],
+   "description": "Publishes SUCCESS magazine and sells training and tools to agents and customers.",
+   "evidence": "Other Affiliated Services The Company's Other Affiliated Services segment includes SUCCESS ® magazine and its related media properties, which provide training, classes, resources, and tools to empower our agents, brokers, staff, and general customers to excel and empower their professional development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Home buyers and sellers pay commissions on property transactions brokered by its agents.",
+  "evidence": "Both the North American Realty segment and the International Realty segment generate revenue primarily by serving as a licensed broker for the purpose of processing residential and commercial real estate transactions, from which the Company earns commissions."
+ },
+ "changes": [
+  {
+   "text": "Wound down the Virbela business in 2024 and reported it in discontinued operations.",
+   "evidence": "In 2024, the Company wound down the Virbela business, and its remaining operations no longer met the criteria for a reportable segment; therefore, any operating results related to Virbela, prior to the completion of its disposition in the fourth quarter of 2024, are included in discontinued operations."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

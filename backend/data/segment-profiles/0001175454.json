@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001175454",
+ "issuerName": "Corpay, Inc",
+ "builtAt": "2026-11-16T02:25:48.364Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001175454-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1175454/000117545426000018/flt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate Payments",
+   "products": [
+    "invoice and payments automation solutions",
+    "API products"
+   ],
+   "description": "Provides corporate payment, invoice automation and cross-border payment services.",
+   "evidence": "Corpay has the following reportable segments: Corporate Payments, Vehicle Payments, Lodging Payments and Other."
+  },
+  {
+   "name": "Vehicle Payments",
+   "products": [
+    "fuel cards",
+    "vehicle payment solutions"
+   ],
+   "description": "Provides fuel card and vehicle-related payment products to fleets.",
+   "evidence": "Corpay has the following reportable segments: Corporate Payments, Vehicle Payments, Lodging Payments and Other."
+  },
+  {
+   "name": "Lodging Payments",
+   "products": [
+    "lodging payment solutions"
+   ],
+   "description": "Provides payment services to the lodging industry.",
+   "evidence": "Corpay has the following reportable segments: Corporate Payments, Vehicle Payments, Lodging Payments and Other."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Holds smaller payment businesses outside the main segments.",
+   "evidence": "Corpay has the following reportable segments: Corporate Payments, Vehicle Payments, Lodging Payments and Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay fees for payment processing and payment automation services.",
+  "evidence": "the majority of revenue is derived from business customers, which tend to have relatively predictable, consistent volumes"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

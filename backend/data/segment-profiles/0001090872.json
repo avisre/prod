@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0001090872",
+ "issuerName": "AGILENT TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-16T02:17:49.149Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001090872-25-000087",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1090872/000109087225000087/a-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life Sciences and Diagnostics Markets",
+   "products": [
+    "reagents",
+    "instruments",
+    "software",
+    "consumables",
+    "liquid chromatography and liquid chromatography mass spectrometry instrument pla"
+   ],
+   "description": "Sells instruments, reagents and consumables, plus contract manufacturing, to pharmaceutical and diagnostics laboratories.",
+   "evidence": "We provide specialty contract development and manufacturing services for pharmaceutical customers as well as solutions that include reagents, instruments, software and consumables which enable customers in the clinical and life sciences research areas to interrogate samples at the cellular and molecular level."
+  },
+  {
+   "name": "Agilent CrossLab",
+   "products": [
+    "services and consumables portfolio",
+    "software",
+    "laboratory automation solutions",
+    "chemistries and supplies"
+   ],
+   "description": "Supplies lab services, consumables, software and automation that keep instruments running across the lab.",
+   "evidence": "The Agilent CrossLab segment spans the entire lab with its extensive services and consumables portfolio in addition to software and laboratory automation solutions, which are designed to improve customer outcomes and represents a broad range of offerings designed to serve customer needs across end-markets and applications."
+  },
+  {
+   "name": "Applied Markets",
+   "products": [
+    "instruments",
+    "software",
+    "gas chromatography",
+    "gas chromatography mass spectrometry",
+    "spectroscopy"
+   ],
+   "description": "Sells instruments and software used to identify and analyse substances in applied markets.",
+   "evidence": "Our Applied Markets segment provides application-focused solutions that include instruments and software that enable customers to identify, quantify and analyze the physical and biological properties of substances and products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Laboratories and pharmaceutical customers buy its instruments, software, services and consumables directly and through distributors.",
+  "evidence": "We sell our products primarily through direct sales, but we also utilize distributors, resellers, manufacturers' representatives and electronic commerce."
+ },
+ "changes": [
+  {
+   "text": "Reorganised into three reportable segments in 2024.",
+   "evidence": "In November 2024, we announced a change in our organizational structure to support our market-focused, customer-centric strategy."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

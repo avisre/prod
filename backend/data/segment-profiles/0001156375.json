@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001156375",
+ "issuerName": "CME GROUP INC.",
+ "builtAt": "2026-11-16T02:25:26.408Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001156375-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1156375/000115637526000009/cme-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CME",
+   "products": [
+    "futures and options on futures contracts",
+    "clearing and settlement services",
+    "data products and services"
+   ],
+   "description": "Runs futures exchanges and a clearing house, and sells market data.",
+   "evidence": "The company reports the results of its operations as one operating segment primarily comprised of the businesses of CME, CBOT, NYMEX, COMEX and our cash markets business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Traders and clearing firms pay transaction and clearing fees, and subscribers pay for market data.",
+  "evidence": "Derivatives Clearing Business: Through our derivatives clearing house, operated by CME, we provide clearing and settlement services for a broad range of exchange-traded futures and options on futures contracts, exchange-traded swaps and OTC derivatives."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

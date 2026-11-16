@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001071739",
+ "issuerName": "CENTENE CORPORATION",
+ "builtAt": "2026-11-16T02:25:14.491Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001071739-26-000049",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1071739/000107173926000049/cnc-20251231.htm"
+ },
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "Medicaid",
+   "products": [
+    "managed healthcare products and services"
+   ],
+   "description": "Provides managed care coverage to Medicaid members under state contracts.",
+   "evidence": "During 2025, we operated in four segments: Medicaid, Medicare, Commercial and Other."
+  },
+  {
+   "name": "Medicare",
+   "products": [
+    "managed healthcare products and services"
+   ],
+   "description": "Sells Medicare Advantage and related plans to seniors.",
+   "evidence": "During 2025, we operated in four segments: Medicaid, Medicare, Commercial and Other."
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "managed healthcare products and services"
+   ],
+   "description": "Sells commercial health plans to employers and individuals.",
+   "evidence": "During 2025, we operated in four segments: Medicaid, Medicare, Commercial and Other."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Holds smaller healthcare businesses outside the main segments.",
+   "evidence": "During 2025, we operated in four segments: Medicaid, Medicare, Commercial and Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "States, the federal government and employers pay premiums to cover members' healthcare.",
+  "evidence": "We provide a full spectrum of managed healthcare products and services, primarily through Medicaid, Medicare and commercial products."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001130464",
+ "issuerName": "Black Hills Corporation",
+ "builtAt": "2026-11-16T02:22:56.503Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-046028",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1130464/000119312526046028/bkh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric Utilities",
+   "products": [
+    "electricity",
+    "non-regulated services"
+   ],
+   "description": "Generates, transmits and distributes electricity to regulated utility customers.",
+   "evidence": "We operate our business in the United States, reporting our operating results through our Electric Utilities and Gas Utilities segments."
+  },
+  {
+   "name": "Gas Utilities",
+   "products": [
+    "natural gas"
+   ],
+   "description": "Distributes natural gas to residential, commercial and industrial customers.",
+   "evidence": "We operate our business in the United States, reporting our operating results through our Electric Utilities and Gas Utilities segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utility customers pay regulated rates for electricity and natural gas.",
+  "evidence": "Our Electric Utilities segment generates, transmits and distributes electricity to approximately 227,000 electric utility customers in Colorado, Montana, South Dakota, and Wyoming."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

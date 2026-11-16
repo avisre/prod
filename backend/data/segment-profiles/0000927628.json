@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000927628",
+ "issuerName": "CAPITAL ONE FINANCIAL CORP",
+ "builtAt": "2026-11-16T02:25:14.782Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000927628-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/927628/000092762826000024/cof-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Credit Card",
+   "products": [
+    "credit cards"
+   ],
+   "description": "Issues credit cards to consumers and earns interest and fees.",
+   "evidence": "Our principal operations are organized for management reporting purposes into three major business segments, which are defined primarily based on the products and services provided or the types of customers served: Credit Card, Consumer Banking and Commercial Banking."
+  },
+  {
+   "name": "Consumer Banking",
+   "products": [
+    "deposits",
+    "auto loans",
+    "consumer loans"
+   ],
+   "description": "Offers deposit accounts and consumer loans through branches and digital channels.",
+   "evidence": "Our principal operations are organized for management reporting purposes into three major business segments, which are defined primarily based on the products and services provided or the types of customers served: Credit Card, Consumer Banking and Commercial Banking."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "commercial loans",
+    "deposits"
+   ],
+   "description": "Lends to and takes deposits from commercial clients.",
+   "evidence": "Our principal operations are organized for management reporting purposes into three major business segments, which are defined primarily based on the products and services provided or the types of customers served: Credit Card, Consumer Banking and Commercial Banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and businesses pay interest and fees on card balances, loans and deposits.",
+  "evidence": "Our consolidated total net revenues are derived primarily from lending to consumer and commercial customers net of funding costs associated with our deposits, long-term debt and other borrowings."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

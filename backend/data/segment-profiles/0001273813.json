@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001273813",
+ "issuerName": "ASSURED GUARANTY LTD.",
+ "builtAt": "2026-11-16T02:18:53.697Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001273813-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1273813/000127381326000011/ago-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "financial guaranty insurance"
+   ],
+   "description": "Insures bond issuers' debt, mainly municipal and infrastructure obligations, against default.",
+   "evidence": "The Company reports its results of operations in two distinct segments, Insurance and Asset Management, consistent with the manner in which the Company's chief operating decision maker reviews the business to assess performance and allocate resources."
+  },
+  {
+   "name": "Asset Management",
+   "products": [],
+   "description": "Manages investments and third-party funds for fees.",
+   "evidence": "The Company reports its results of operations in two distinct segments, Insurance and Asset Management, consistent with the manner in which the Company's chief operating decision maker reviews the business to assess performance and allocate resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Debt issuers pay insurance premiums, partly up front and partly in instalments over the exposure's life.",
+  "evidence": "5 billion of net par outstanding as of December 31, 2025, and also affects projected future installment premiums on the portion of such exposure that pays at least a portion of the premium on an installment basis over the term of the exposure."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001060822",
+ "issuerName": "CARTER’S, INC.",
+ "builtAt": "2026-11-16T02:25:49.005Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001060822-26-000016",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1060822/000106082226000016/cri-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Retail",
+   "products": [
+    "apparel"
+   ],
+   "description": "Sells children's apparel through United States stores, websites and its mobile app.",
+   "evidence": "Retail segment consists of revenue primarily from sales of products in the United States through our retail stores, eCommerce websites, and mobile app."
+  },
+  {
+   "name": "Wholesale",
+   "products": [
+    "apparel"
+   ],
+   "description": "Sells products to wholesale customers in the United States.",
+   "evidence": "Wholesale segment consists of revenue primarily from sales in the United States of products to our wholesale customers."
+  },
+  {
+   "name": "International",
+   "products": [
+    "apparel"
+   ],
+   "description": "Sells products outside the United States through stores, websites and wholesale.",
+   "evidence": "Our International segment consists of revenue primarily from sales of products outside the United States, largely through our retail stores and eCommerce websites in Canada and Mexico, and sales to our international wholesale customers and licensees."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Families buy its children's clothing in stores and online, and wholesale customers buy stock.",
+  "evidence": "The chief operating decision maker evaluates the operating performance of the segments based upon each segment's net sales and segment operating income."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

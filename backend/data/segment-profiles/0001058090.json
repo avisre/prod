@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001058090",
+ "issuerName": "CHIPOTLE MEXICAN GRILL, INC.",
+ "builtAt": "2026-11-16T02:25:14.475Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001058090-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1058090/000105809026000009/cmg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "restaurants",
+   "products": [],
+   "description": "Runs fast-casual restaurants selling burritos, bowls and other Mexican-inspired food.",
+   "evidence": "operations based on 11 regions and aggregate our operations to one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay for food and drinks at its restaurants.",
+  "evidence": "Our revenue is derived from sales by our restaurants."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

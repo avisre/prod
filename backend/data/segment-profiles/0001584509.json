@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001584509",
+ "issuerName": "Aramark",
+ "builtAt": "2026-11-16T02:22:17.195Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001584509-25-000219",
+  "periodEnd": "2025-10-03",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1584509/000158450925000219/cik0-20251003.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Food and Support Services United States",
+   "products": [
+    "dining",
+    "catering",
+    "food service management",
+    "convenience-oriented retail operations",
+    "facility support services",
+    "concessions",
+    "merchandise sales",
+    "facility management services"
+   ],
+   "description": "Runs food, catering and facility services for United States clients across many sectors.",
+   "evidence": "We operate our business in two reportable segments that share many of the same operating characteristics: Food and Support Services United States (\"FSS United States\") and Food and Support Services International (\"FSS International\")."
+  },
+  {
+   "name": "Food and Support Services International",
+   "products": [
+    "dining",
+    "catering",
+    "facility support services"
+   ],
+   "description": "Provides the same range of food and support services to clients outside the United States.",
+   "evidence": "Our FSS International segment provides a similar range of services as those provided to our FSS United States segment clients and operates in each of the sectors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Schools, hospitals, businesses and venues pay it to run their food and facility services.",
+  "evidence": "We offer our education clients a single source provider for food-related managed service solutions, including dining, catering, food service management and convenience-oriented retail operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

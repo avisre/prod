@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001482981",
+ "issuerName": "The Vita Coco Company, Inc.",
+ "builtAt": "2026-11-16T02:25:14.748Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001482981-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1482981/000148298126000022/coco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Vita Coco coconut water"
+   ],
+   "description": "Sells coconut water and other beverages mainly in the United States and Canada.",
+   "evidence": "Business Operations As of December 31, 2025, we operated in two business segments: (i) the Americas segment, comprised of our operations primarily in the U."
+  },
+  {
+   "name": "International",
+   "products": [
+    "coconut water",
+    "beverages"
+   ],
+   "description": "Sells its beverages in Europe, the Middle East, Africa and Asia Pacific.",
+   "evidence": "and Canada; and (ii) the International segment, comprised of operations primarily in Europe, the Middle East, Africa and the Asia Pacific regions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers buy its beverages for sale in club, grocery, convenience and online channels.",
+  "evidence": "Our beverages and other products are sold in club stores, supermarkets, convenience stores, drug stores, and e-commerce websites, as well as other outlets."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

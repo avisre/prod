@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001273685",
+ "issuerName": "ADAMAS TRUST, INC.",
+ "builtAt": "2026-11-16T02:18:36.131Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001273685-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1273685/000127368526000029/adam-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment portfolio",
+   "products": [],
+   "description": "Holds a portfolio of real estate securities and earns interest and other income from it.",
+   "evidence": "We derive the substantial portion of our revenues and income from our investment portfolio."
+  },
+  {
+   "name": "Constructive",
+   "products": [
+    "business purpose loans"
+   ],
+   "description": "Originates business purpose loans through a wholly owned subsidiary.",
+   "evidence": "With our acquisition of Constructive, we commenced the operation of a new business segment, the direct origination of business purpose loans through a wholly-owned subsidiary."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns interest and other income from the securities it holds and the loans Constructive originates.",
+  "evidence": "We derive the substantial portion of our revenues and income from our investment portfolio."
+ },
+ "changes": [
+  {
+   "text": "Bought the half of Constructive it did not own in 2025, reporting two segments since.",
+   "evidence": "As a result of the acquisition of the outstanding 50% ownership interests in Constructive that were not previously owned by the Company on July 15, 2025, the Company currently operates in two reportable segments: (i) investment portfolio and (ii) Constructive."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

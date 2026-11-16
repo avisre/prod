@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0001324404",
+ "issuerName": "CF INDUSTRIES HOLDINGS, INC.",
+ "builtAt": "2026-11-16T02:24:41.175Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001324404-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1324404/000132440426000007/cf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ammonia",
+   "products": [],
+   "description": "Produces ammonia for fertilizer and industrial uses.",
+   "evidence": "Reportable Segments Our reportable segments consist of the following segments: Ammonia, Granular Urea, UAN, AN and Other."
+  },
+  {
+   "name": "Granular Urea",
+   "products": [],
+   "description": "Upgrades ammonia into granular urea fertilizer.",
+   "evidence": "Reportable Segments Our reportable segments consist of the following segments: Ammonia, Granular Urea, UAN, AN and Other."
+  },
+  {
+   "name": "UAN",
+   "products": [],
+   "description": "Produces urea ammonium nitrate solution for growers.",
+   "evidence": "Reportable Segments Our reportable segments consist of the following segments: Ammonia, Granular Urea, UAN, AN and Other."
+  },
+  {
+   "name": "AN",
+   "products": [],
+   "description": "Produces ammonium nitrate for agricultural and industrial customers.",
+   "evidence": "Reportable Segments Our reportable segments consist of the following segments: Ammonia, Granular Urea, UAN, AN and Other."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "DEF"
+   ],
+   "description": "Sells diesel exhaust fluid and other nitrogen products.",
+   "evidence": "We sell the ammonia itself or upgrade it to products such as granular urea, UAN and DEF."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Farmers buy its nitrogen products as fertilizer, and industry buys them for emissions control.",
+  "evidence": "A majority of the ammonia and ammonia-derived products we manufacture are used as fertilizer, as the nitrogen content provides energy essential for crop growth."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Ammonia): ammonia",
+  "product not in text (Granular Urea): granular urea",
+  "product not in text (UAN): UAN",
+  "product not in text (AN): AN"
+ ],
+ "reader": "agent"
+}

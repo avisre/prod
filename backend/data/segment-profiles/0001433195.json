@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001433195",
  "issuerName": "AppFolio, Inc.",
- "builtAt": "2026-11-15T14:26:11.922Z",
+ "builtAt": "2026-11-16T02:22:16.960Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001433195-26-000011",
@@ -10,15 +10,23 @@
   "filingDate": "2026-02-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1433195/000143319526000011/appf-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AppFolio Platform",
+   "products": [
+    "FolioGuard™"
+   ],
+   "description": "Provides a cloud platform property managers use to run their businesses, plus risk products.",
+   "evidence": "We provide a cloud-based platform, the AppFolio Platform, on which our customers operate their businesses."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Property management companies pay subscription fees for the AppFolio Platform plans and fees for value added services such as electronic payments, tenant screening, and risk mitigation.",
-  "evidence": "We categorize our products and services into two categories, Subscription Services and Value Added Services."
+  "text": "Property managers pay for use of the cloud platform and its risk mitigation products.",
+  "evidence": "Through our FolioGuard™ offerings, we offer risk mitigation products for property managers and residents."
  },
  "changes": [],
- "dropped": [
-  "segment name not in text: Real estate technology"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

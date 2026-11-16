@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001094831",
+ "issuerName": "BGC Group, Inc.",
+ "builtAt": "2026-11-16T02:22:56.436Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013162",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1094831/000162828026013162/bgcg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "brokerage",
+   "products": [
+    "fixed income securities",
+    "interest rate derivatives",
+    "credit derivatives",
+    "foreign exchange",
+    "equities",
+    "futures and options",
+    "market data and information services",
+    "post-trade services"
+   ],
+   "description": "Brokers trades in rates, credit, foreign exchange, equities and futures for clients.",
+   "evidence": "Segments: The Company has one reportable segment (see Note 22—\"Segment and Geographic Information\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Banks, funds and other clients pay commissions and fees for trade execution and market data.",
+  "evidence": "Additionally, we provide brokerage services across fixed income securities such as government bonds and corporate bonds, as well as interest rate derivatives and credit derivatives, foreign exchange, equities and futures and options."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

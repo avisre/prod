@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0001674862",
+ "issuerName": "ASHLAND INC.",
+ "builtAt": "2026-11-16T02:22:17.211Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-289248",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1674862/000119312525289248/ash-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life Sciences",
+   "products": [
+    "cellulosics and vinyl pyrrolidone polymers",
+    "rheology modifiers",
+    "foam control agents",
+    "surfactants and wetting agents",
+    "pH neutralizers"
+   ],
+   "description": "Makes excipients and additives for drug formulations and other life science uses.",
+   "evidence": "Ashland's reportable operating segments (\"reportable segments\") include: Life Sciences; Personal Care; Specialty Additives; and Intermediates."
+  },
+  {
+   "name": "Personal Care",
+   "products": [
+    "advanced styling polymers",
+    "fixatives",
+    "conditioning polymers",
+    "emulsifiers",
+    "preservatives",
+    "rheology modifiers",
+    "biofunctional actives"
+   ],
+   "description": "Supplies polymers and ingredients to hair care and personal care formulators.",
+   "evidence": "The Personal Care portfolio of hair care products includes advanced styling polymers, fixatives, conditioning polymers, emulsifiers, preservatives, rheology modifiers and biofunctional actives."
+  },
+  {
+   "name": "Specialty Additives",
+   "products": [
+    "hydroxyethylcellulose (\"HEC\")",
+    "nonionic synthetic associative thickeners (\"NSATs\")"
+   ],
+   "description": "Makes thickeners and additives for paints, coatings and industrial applications.",
+   "evidence": "Products include hydroxyethylcellulose (\"HEC\"), which provides thickening and application properties for interior and exterior paints, and nonionic synthetic associative thickeners (\"NSATs\"), which are APEO-free liquid synthetics for high-performance paint and industrial coatings."
+  },
+  {
+   "name": "Intermediates",
+   "products": [
+    "BDO"
+   ],
+   "description": "Produces chemical intermediates, including BDO, for internal use and external sale.",
+   "evidence": "BDO is also supplied to Life Sciences, Personal Care, and Specialty Additives reportable segments for use as a raw material."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumer, industrial, pharmaceutical and food manufacturers buy its specialty chemicals.",
+  "evidence": "The Company serves customers in a wide range of consumer and industrial markets including, architectural coatings, construction, energy, food and beverage, personal care and pharmaceutical."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

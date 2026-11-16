@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001748790",
+ "issuerName": "AMCOR PLC",
+ "builtAt": "2026-11-16T02:20:27.501Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001748790-26-000022",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1748790/000174879026000022/amcr-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Flexible Packaging Solutions",
+   "products": [
+    "polymer resin, aluminum, and fiber based flexible packaging solutions"
+   ],
+   "description": "Develops and supplies flexible packaging to food, beverage and healthcare customers worldwide.",
+   "evidence": "In applying the criteria set forth in ASC 280, we have determined we have two reportable segments, Global Flexible Packaging Solutions and Global Rigid Packaging Solutions."
+  },
+  {
+   "name": "Global Rigid Packaging Solutions",
+   "products": [
+    "rigid packaging containers",
+    "closures",
+    "dispensing and pharma delivery devices"
+   ],
+   "description": "Makes rigid containers, closures and dispensing devices for consumer and healthcare products.",
+   "evidence": "Global Rigid Packaging Solutions Segment Our Global Rigid Packaging Solutions segment manufactures rigid packaging containers, closures, dispensing and pharma delivery devices, and related products globally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumer goods, food and healthcare companies buy its packaging.",
+  "evidence": "The reportable segments produce differentiated solutions, which are sold to customers participating in a range of attractive end markets throughout Europe, North America, Latin America, and the Asia Pacific regions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

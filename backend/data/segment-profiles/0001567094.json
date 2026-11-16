@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001567094",
+ "issuerName": "CNH INDUSTRIAL N.V.",
+ "builtAt": "2026-11-16T02:25:14.507Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001567094-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1567094/000156709426000006/cnhi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agriculture",
+   "products": [
+    "agriculture equipment, implements and precision agriculture solutions"
+   ],
+   "description": "Builds and sells agricultural equipment and precision farming technology through dealers.",
+   "evidence": "Business Segments The Agriculture segment develops, manufactures, distributes and supports a full line of agriculture equipment, implements and precision agriculture solutions."
+  },
+  {
+   "name": "Construction",
+   "products": [
+    "construction equipment",
+    "mini track loaders"
+   ],
+   "description": "Builds construction equipment sold through dealers worldwide.",
+   "evidence": "In 2023, we developed and launched our first range of mini track loaders under our Eurocomach brand, further expanding our product portfolio and reinforcing our commitment to innovation and customer needs."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "Retail financing",
+    "revolving charge account financing"
+   ],
+   "description": "Finances equipment purchases for end customers and dealers.",
+   "evidence": "The Financial Services segment provides and administers financing to end-use customers for the purchase of new and used agricultural and construction equipment and components sold through CNH's dealer network, as well as revolving charge account financing and other financial services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Farmers and builders buy equipment through dealers, and its finance arm lends to equipment buyers.",
+  "evidence": "CNH operates through three business segments: Agriculture, Construction and Financial Services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

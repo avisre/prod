@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0002014596",
+ "issuerName": "CONCENTRA GROUP HOLDINGS PARENT, INC.",
+ "builtAt": "2026-11-16T02:25:48.161Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002014596-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2014596/000201459626000029/cghp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "occupational health",
+   "products": [
+    "workers' compensation",
+    "employer services",
+    "consumer health services",
+    "occupational health centers",
+    "onsite health clinics"
+   ],
+   "description": "Runs occupational health centres and onsite clinics for employers' workers.",
+   "evidence": "All three operating segments are aggregated into a single reportable segment in our consolidated financial statements based on similar services provided, service delivery process involved, target customers, and similar economic characteristics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers pay for workers' compensation and occupational health services for their employees.",
+  "evidence": "In this operating segment, we serve all types of employers, from Fortune 100 companies to small businesses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

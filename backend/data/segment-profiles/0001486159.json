@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001486159",
+ "issuerName": "Chord Energy Corporation",
+ "builtAt": "2026-11-16T02:24:41.320Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001486159-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1486159/000148615926000005/chrd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "exploration and production of crude oil, NGL and natural gas",
+   "products": [
+    "crude oil",
+    "NGL",
+    "natural gas"
+   ],
+   "description": "Explores for and produces crude oil, natural gas liquids and natural gas.",
+   "evidence": "The Company has evaluated how it is organized and managed and has identified only one reportable business segment, which is the E&P of crude oil, NGL and natural gas."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil, NGLs and natural gas from its wells at market prices.",
+  "evidence": "Our single reportable business segment, which is the exploration and production of crude oil, NGL and natural gas, was the reporting unit that carried our goodwill balance as of December 31, 2024."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

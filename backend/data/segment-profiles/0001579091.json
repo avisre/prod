@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001579091",
+ "issuerName": "MAPLEBEAR INC.",
+ "builtAt": "2026-11-16T02:24:40.775Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001579091-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1579091/000157909126000018/cart-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "online grocery",
+   "products": [],
+   "description": "Runs an online grocery marketplace connecting shoppers, retailers and brands.",
+   "evidence": "As such, the Company has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers pay for marketplace orders, brands pay for advertising and shoppers earn fees for deliveries.",
+  "evidence": "As of December 31, 2025, we provide discovery and attractive return on investment for over 9,000 active brands through our industry-leading advertising tools and insights purpose-built for the online grocery category."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

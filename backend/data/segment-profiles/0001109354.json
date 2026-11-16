@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001109354",
+ "issuerName": "BRUKER CORPORATION",
+ "builtAt": "2026-11-16T02:23:46.557Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082523",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1109354/000119312526082523/brkr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "BSI BioSpin",
+   "products": [
+    "analytical instruments",
+    "scientific instruments"
+   ],
+   "description": "Makes magnetic resonance and analytical instruments for scientific research.",
+   "evidence": "Bruker is organized into four reportable segments: BSI BioSpin Segment, the BSI CALID Segment, the BSI NANO Segment, and the BEST Segment."
+  },
+  {
+   "name": "BSI CALID",
+   "products": [
+    "life science mass spectrometry products",
+    "analytical instruments"
+   ],
+   "description": "Sells chemistry, applied markets, life science and diagnostics instruments.",
+   "evidence": "Bruker is organized into four reportable segments: BSI BioSpin Segment, the BSI CALID Segment, the BSI NANO Segment, and the BEST Segment."
+  },
+  {
+   "name": "BSI NANO",
+   "products": [
+    "analytical instruments"
+   ],
+   "description": "Supplies nanoscale analysis and metrology instruments.",
+   "evidence": "Bruker is organized into four reportable segments: BSI BioSpin Segment, the BSI CALID Segment, the BSI NANO Segment, and the BEST Segment."
+  },
+  {
+   "name": "BEST",
+   "products": [
+    "superconducting materials"
+   ],
+   "description": "Makes superconducting materials and energy technologies.",
+   "evidence": "Bruker is organized into four reportable segments: BSI BioSpin Segment, the BSI CALID Segment, the BSI NANO Segment, and the BEST Segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Research, pharmaceutical and industrial customers buy its analytical instruments.",
+  "evidence": "Bruker Life Science Mass Spectrometry products are used in research, pharmaceutical and biotechnology development."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (BEST): energy technologies"
+ ],
+ "reader": "agent"
+}

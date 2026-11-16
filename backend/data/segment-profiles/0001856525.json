@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001856525",
+ "issuerName": "Core & Main, Inc.",
+ "builtAt": "2026-11-16T02:25:14.561Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001856525-26-000031",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1856525/000185652526000031/cnm-20260201.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

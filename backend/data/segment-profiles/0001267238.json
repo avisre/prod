@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001267238",
+ "issuerName": "Assurant, Inc.",
+ "builtAt": "2026-11-16T02:19:25.289Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001267238-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1267238/000126723826000010/aiz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Lifestyle",
+   "products": [
+    "mobile device solutions",
+    "extended service contracts",
+    "credit and other insurance products",
+    "vehicle protection services",
+    "commercial equipment protection"
+   ],
+   "description": "Provides device protection, service contracts, vehicle protection and credit insurance through partners.",
+   "evidence": "Through our Global Lifestyle segment, we provide mobile device solutions, extended service contracts and related services for consumer electronics and appliances, and credit and other insurance products (referred to as \"Connected Living\"); and vehicle protection services, commercial equipment protection and other related services (referred to as \"Global Automotive\")."
+  },
+  {
+   "name": "Global Housing",
+   "products": [
+    "lender-placed homeowners, manufactured housing and flood insurance",
+    "voluntary manufactured housing, condominium and homeowners insurance",
+    "renters insurance"
+   ],
+   "description": "Writes lender-placed and voluntary homeowners, flood and renters insurance.",
+   "evidence": "Through our Global Housing segment, we provide lender-placed homeowners, manufactured housing and flood insurance, as well as voluntary manufactured housing, condominium and homeowners insurance (referred to as \"Homeowners\"); and renters insurance and other products (referred to as \"Renters and Other\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers, lenders and consumers pay for protection cover on devices, appliances and homes.",
+  "evidence": "We provide coverage for repairing or replacing these consumer goods in the event of loss, theft, accidental damage, mechanical breakdown or electronic malfunction after the manufacturer's warranty expires."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

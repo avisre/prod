@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0001783180",
+ "issuerName": "CARRIER GLOBAL Corp",
+ "builtAt": "2026-11-16T02:23:46.814Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001783180-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000008/carr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Climate Solutions Americas",
+   "products": [
+    "climate and energy solutions"
+   ],
+   "description": "Sells heating, cooling and refrigeration equipment in the Americas.",
+   "evidence": "Under the revised segment structure, we globally manage our business operations through four segments: Climate Solutions Americas (\"CSA\"), Climate Solutions Europe (\"CSE\"), Climate Solutions Asia Pacific, Middle East & Africa (\"CSAME\") and Climate Solutions Transportation (\"CST\")."
+  },
+  {
+   "name": "Climate Solutions Europe",
+   "products": [
+    "climate and energy solutions"
+   ],
+   "description": "Sells climate control equipment and services in Europe.",
+   "evidence": "Under the revised segment structure, we globally manage our business operations through four segments: Climate Solutions Americas (\"CSA\"), Climate Solutions Europe (\"CSE\"), Climate Solutions Asia Pacific, Middle East & Africa (\"CSAME\") and Climate Solutions Transportation (\"CST\")."
+  },
+  {
+   "name": "Climate Solutions Asia Pacific, Middle East & Africa",
+   "products": [
+    "climate and energy solutions"
+   ],
+   "description": "Sells climate control equipment and services in Asia Pacific, the Middle East and Africa.",
+   "evidence": "Under the revised segment structure, we globally manage our business operations through four segments: Climate Solutions Americas (\"CSA\"), Climate Solutions Europe (\"CSE\"), Climate Solutions Asia Pacific, Middle East & Africa (\"CSAME\") and Climate Solutions Transportation (\"CST\")."
+  },
+  {
+   "name": "Climate Solutions Transportation",
+   "products": [
+    "trucks, trailers, shipping containers and intermodal applications"
+   ],
+   "description": "Provides transport refrigeration and monitoring for trucks, trailers and containers.",
+   "evidence": "The Climate Solutions Transportation segment provides climate and energy solutions for customers globally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Building owners and transport customers buy its climate equipment and maintenance, repair and monitoring services.",
+  "evidence": "Products include trucks, trailers, shipping containers and intermodal applications to meet customer needs for both ground transport and ocean freight, while services include maintenance, repair, and monitoring."
+ },
+ "changes": [
+  {
+   "text": "Changed its reportable segments in May 2025 to four Climate Solutions segments.",
+   "evidence": "Business Segments In May 2025, we announced changes to our reportable segments to better align our reporting structure with our business strategy, resource allocation and performance assessment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Climate Solutions Americas): HVAC systems",
+  "product not in text (Climate Solutions Europe): HVAC systems",
+  "product not in text (Climate Solutions Asia Pacific, Middle East & Africa): HVAC systems"
+ ],
+ "reader": "agent"
+}

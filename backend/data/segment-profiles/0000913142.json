@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000913142",
+ "issuerName": "BELDEN INC.",
+ "builtAt": "2026-11-16T02:22:56.281Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000913142-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/913142/000091314226000009/bdc-20251231.htm"
+ },
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "Smart Infrastructure Solutions",
+   "products": [
+    "connectivity products"
+   ],
+   "description": "Supplies network and connectivity equipment for smart infrastructure.",
+   "evidence": "Segments As of December 31, 2025, we operated our business under two segments – Smart Infrastructure Solutions and Automation Solutions."
+  },
+  {
+   "name": "Automation Solutions",
+   "products": [
+    "automation products"
+   ],
+   "description": "Supplies networking and automation equipment to industrial customers.",
+   "evidence": "Segments As of December 31, 2025, we operated our business under two segments – Smart Infrastructure Solutions and Automation Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Distributors, OEMs, installers and end users buy its products.",
+  "evidence": "We sell our products to distributors, end-users, installers, and directly to original equipment manufacturers (OEMs)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Smart Infrastructure Solutions): networking products"
+ ],
+ "reader": "agent"
+}

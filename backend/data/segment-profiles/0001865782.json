@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001865782",
+ "issuerName": "BrightSpring Health Services, Inc.",
+ "builtAt": "2026-11-16T02:23:46.587Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-079454",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1865782/000119312526079454/btsg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmacy Solutions",
+   "products": [
+    "Infusion and Specialty Pharmacy",
+    "infused, injectable, and oral medication services"
+   ],
+   "description": "Provides infusion, specialty and community pharmacy services to complex patients.",
+   "evidence": "Our services are organized and managed through two reportable segments: Pharmacy Solutions and Provider Services."
+  },
+  {
+   "name": "Provider Services",
+   "products": [],
+   "description": "Provides home and community-based clinical care to patients with complex conditions.",
+   "evidence": "Our services are organized and managed through two reportable segments: Pharmacy Solutions and Provider Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients' payers and health plans pay for pharmacy and home care services.",
+  "evidence": "We have built a significant presence and capability in delivering complementary and high-touch daily healthcare services and programs to complex patients in their homes and in communities in order to address their multiple health needs and requirements more completely, through two reportable segments: Pharmacy Solutions and Provider Services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Provider Services): home and community healthcare services"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001113232",
+ "issuerName": "AXCELIS TECHNOLOGIES INC",
+ "builtAt": "2026-11-16T02:18:16.920Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020461",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1113232/000110465926020461/acls-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "capital equipment",
+   "products": [
+    "ion implantation and other processing equipment",
+    "used tools",
+    "spare parts",
+    "equipment upgrades",
+    "maintenance services",
+    "customer training"
+   ],
+   "description": "Builds ion implantation and processing equipment for chip makers and supports it after sale.",
+   "evidence": "We operate in one business segment, which is the manufacture of capital equipment for the semiconductor chip manufacturing industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Semiconductor chip manufacturers buy its equipment and aftermarket parts, upgrades, maintenance and training.",
+  "evidence": "In addition to equipment, we provide extensive aftermarket lifecycle products and services, including used tools, spare parts, equipment upgrades, maintenance services and customer training."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

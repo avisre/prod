@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001034670",
+ "issuerName": "AUTOLIV, INC.",
+ "builtAt": "2026-11-16T02:20:27.379Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-058162",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1034670/000119312526058162/alv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "passive safety systems",
+   "products": [
+    "frontal-impact airbag protection systems",
+    "side-impact airbag protection systems",
+    "steering wheels",
+    "inflator technologies",
+    "seatbelts",
+    "pedestrian protection systems",
+    "battery cut-off switches"
+   ],
+   "description": "Develops and supplies airbags, seatbelts and steering wheels to vehicle manufacturers.",
+   "evidence": "The Company is a leading developer, manufacturer, and supplier of passive safety systems to the automotive industry with a broad range of product offerings."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Car makers buy its airbags, seatbelts and steering wheels for the vehicles they build.",
+  "evidence": "Passive safety systems include modules and components for frontal-impact airbag protection systems, side-impact airbag protection systems, pedestrian protection systems, steering wheels, inflator technologies, battery cut-off switches and seatbelts."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001921963",
+ "issuerName": "Atmus Filtration Technologies Inc.",
+ "builtAt": "2026-11-16T02:22:17.370Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001921963-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1921963/000192196326000015/atmu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "filtration",
+   "products": [
+    "fuel filters",
+    "lube filters",
+    "air filters",
+    "crankcase ventilation",
+    "hydraulic filters",
+    "coolants and other chemicals"
+   ],
+   "description": "Makes filtration products for new equipment and the replacement aftermarket.",
+   "evidence": "Segment Information We operate our business as one operating segment and also one reportable segment based on the manner in which we review and evaluate operating performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Equipment makers buy first-fit filters and equipment owners buy replacement filters and chemicals.",
+  "evidence": "Atmus estimates that approximately 14% of Atmus' net sales in 2025 were generated through first-fit sales to original equipment manufacturers (\"OEM\"s), where Atmus' products are installed as components for new vehicles and equipment, and approximately 86% were generated in the aftermarket, where Atmus' products are installed as replacement o r repair parts, leading to a strong recurring revenue base."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

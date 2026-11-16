@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000909832",
+ "issuerName": "COSTCO WHOLESALE CORP /NEW",
+ "builtAt": "2026-11-16T02:25:48.327Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000909832-26-000093",
+  "periodEnd": "2026-08-30",
+  "filingDate": "2026-10-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/cost-20260830.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

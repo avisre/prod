@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001050377",
+ "issuerName": "PC CONNECTION, INC.",
+ "builtAt": "2026-11-16T02:25:14.731Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019108",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1050377/000110465926019108/cnxn-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Connection Enterprise Solutions",
+   "products": [
+    "computer systems",
+    "data center solutions",
+    "security",
+    "software and peripheral equipment",
+    "networking communications"
+   ],
+   "description": "Sells IT hardware, software and services to large enterprise customers.",
+   "evidence": "These entities represent our three operating segments and their respective markets:"
+  },
+  {
+   "name": "Connection Business Solutions",
+   "products": [
+    "computer systems",
+    "software",
+    "networking communications"
+   ],
+   "description": "Sells IT products and solutions to small and medium-sized businesses.",
+   "evidence": "These entities represent our three operating segments and their respective markets:"
+  },
+  {
+   "name": "Connection Public Sector Solutions",
+   "products": [
+    "computer systems",
+    "software",
+    "networking communications"
+   ],
+   "description": "Sells IT products and services to government agencies and educational institutions.",
+   "evidence": "These entities represent our three operating segments and their respective markets:"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses, governments and schools buy IT hardware, software and services from it.",
+  "evidence": "We provide a wide range of IT solutions, from the desktop to the cloud—including computer systems, data center solutions, security, artificial intelligence, or AI, software and peripheral equipment, networking communications, and other products and accessories that we develop internally and secure from manufacturers, distributors, and other suppliers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

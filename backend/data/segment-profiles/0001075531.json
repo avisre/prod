@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001075531",
+ "issuerName": "Booking Holdings Inc.",
+ "builtAt": "2026-11-16T02:23:46.262Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001075531-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1075531/000107553126000009/bkng-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "online travel reservation services",
+   "products": [],
+   "description": "Runs online travel booking brands that take reservations for hotels, flights and other travel.",
+   "evidence": "The operating segments are aggregated into one reportable segment based on the similarity in economic characteristics, other qualitative factors, and the objectives and principles of ASC 280, Segment Reporting"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Travelers pay for bookings and travel service providers pay commissions to the brands.",
+  "evidence": "We derive substantially all of our revenues from providing online travel reservation services, which facilitate online travel purchases by travelers from travel service providers (which we generally refer to as \"consumers\" and \"partners,\" respectively)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

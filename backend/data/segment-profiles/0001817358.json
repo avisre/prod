@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001817358",
+ "issuerName": "Academy Sports and Outdoors, Inc.",
+ "builtAt": "2026-11-16T02:22:17.227Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001817358-26-000031",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1817358/000181735826000031/aso-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sporting goods",
+   "products": [
+    "outdoor",
+    "sports & recreation",
+    "apparel",
+    "footwear"
+   ],
+   "description": "Runs sporting goods and outdoor recreation stores in the United States.",
+   "evidence": "We operate in one operating segment with one reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Shoppers buy sporting goods, apparel and footwear in its stores and online.",
+  "evidence": "Our product assortment focuses on key categories of outdoor, sports & recreation, apparel, and footwear (representing 31%, 22%, 27% and 20% of our 2025 net sales, respectively) through both leading national brands and a portfolio of 19 private label brands, which go well beyond traditional sporting goods and apparel offerings."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

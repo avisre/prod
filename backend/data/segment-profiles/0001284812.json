@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001284812",
+ "issuerName": "COHEN & STEERS, INC.",
+ "builtAt": "2026-11-16T02:25:14.674Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001284812-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1284812/000128481226000011/cns-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment management",
+   "products": [
+    "open-end funds",
+    "closed-end funds",
+    "ETFs",
+    "subadvisory accounts"
+   ],
+   "description": "Manages specialised investment funds and accounts for institutional and wealth clients.",
+   "evidence": "The Company uses a consolidated approach to assess performance and allocate resources and as such operates in a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Funds and institutional clients pay advisory, administration, distribution and service fees.",
+  "evidence": "Our revenue from the institutional channel is derived from fees received from our clients for managing advised and subadvised accounts."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

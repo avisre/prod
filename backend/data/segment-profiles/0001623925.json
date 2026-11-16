@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001623925",
+ "issuerName": "ANTERO MIDSTREAM CORPORATION",
+ "builtAt": "2026-11-16T02:20:27.392Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-013380",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1623925/000110465926013380/am-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "gathering and processing",
+   "products": [
+    "gathering pipelines and compressor stations"
+   ],
+   "description": "Gathers and processes natural gas from Antero Resources' wells in the Appalachian Basin.",
+   "evidence": "The gathering and processing segment includes a network of gathering pipelines and compressor stations that collect and process production from Antero Resources' wells in the Appalachian Basin, as well as equity in earnings from our investments in the Joint Venture and Stonewall."
+  },
+  {
+   "name": "water handling",
+   "products": [
+    "water blending and storage infrastructure",
+    "high rate transfer",
+    "wastewater transportation",
+    "disposal and blending"
+   ],
+   "description": "Delivers water for well completion and handles wastewater for producers.",
+   "evidence": "The water handling segment includes (i) two independent systems that deliver water from sources including the Ohio River, local reservoirs and several regional waterways, and (ii) other fluid handling services, which include high rate transfer, wastewater transportation, disposal and blending."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Antero Resources pays fees for gathering, processing and water handling services.",
+  "evidence": "Revenue–Antero Resources ​ $ 926,063 ​ ​ 248,858 ​ ​ — ​ ​ 1,174,921 ​ Revenue–third-party ​ ​ — ​ ​ 1,944 ​ ​ — ​ ​ 1,944"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

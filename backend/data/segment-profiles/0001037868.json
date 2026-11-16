@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001037868",
+ "issuerName": "AMETEK, Inc.",
+ "builtAt": "2026-11-16T02:20:46.151Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001037868-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1037868/000103786826000016/ame-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronic Instruments",
+   "products": [
+    "advanced analytical, test and measurement instruments",
+    "airborne data systems",
+    "turbine engine temperature measurement products",
+    "vibration-monitoring systems",
+    "cockpit instruments and displays",
+    "fuel and fluid measurement products",
+    "embedded computing systems",
+    "sensors and switches"
+   ],
+   "description": "Designs and makes analytical, test and measurement instruments for process, aerospace, medical and industrial customers.",
+   "evidence": "EIG is a leader in the design and manufacture of advanced analytical, test and measurement instruments for the process, aerospace, medical, research, power and industrial markets."
+  },
+  {
+   "name": "Electromechanical",
+   "products": [
+    "precision motion control solutions",
+    "highly engineered medical components and devices",
+    "thermal management systems",
+    "specialty metals",
+    "electrical interconnects"
+   ],
+   "description": "Supplies motion control, medical components, thermal systems and specialty metals to niche markets.",
+   "evidence": "Electromechanical is a differentiated supplier of precision motion control solutions, highly engineered medical components and devices, thermal management systems, specialty metals and electrical interconnects."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial, aerospace, medical and research customers buy its instruments and electromechanical products.",
+  "evidence": "AMETEK's products are marketed and sold worldwide through two operating groups: Electronic Instruments (\"EIG\") and Electromechanical (\"EMG\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001704715",
+ "issuerName": "ALPHA METALLURGICAL RESOURCES, INC.",
+ "builtAt": "2026-11-16T02:20:46.324Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001704715-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1704715/000170471526000010/amr-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

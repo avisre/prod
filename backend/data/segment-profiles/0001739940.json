@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001739940",
+ "issuerName": "The Cigna Group",
+ "builtAt": "2026-11-16T02:25:14.298Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001739940-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1739940/000173994026000006/ci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Evernorth Health Services",
+   "products": [
+    "Pharmacy Benefit Services",
+    "Specialty and Care Services"
+   ],
+   "description": "Runs pharmacy benefit and specialty care services for health plans and employers.",
+   "evidence": "The Evernorth Health Services segment, through our Pharmacy Benefit Services and Specialty and Care Services operating segments, provides independent and coordinated health solutions and capabilities to enable the health care system to work better and help people live healthier lives."
+  },
+  {
+   "name": "Cigna Healthcare",
+   "products": [
+    "comprehensive medical and coordinated solutions"
+   ],
+   "description": "Provides medical and coordinated health coverage to clients and customers.",
+   "evidence": "Healthcare and International Health operating segments, which provide comprehensive medical and coordinated solutions to clients and customers."
+  },
+  {
+   "name": "International Health",
+   "products": [
+    "comprehensive medical and coordinated solutions"
+   ],
+   "description": "Provides health coverage and solutions in international markets.",
+   "evidence": "Healthcare and International Health operating segments, which provide comprehensive medical and coordinated solutions to clients and customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers, health plans and governments pay premiums and fees for health coverage and pharmacy services.",
+  "evidence": "We present the financial results of our businesses in the following segments (see the \"Executive Overview\" section of Management's Discussion and Analysis of Financial Condition and Results of Operations (\"MD&A\") located in Part II, Item 7 of this Form 10-K for a financial summary): Evernorth Health Services includes our Pharmacy Benefit Services and Specialty and Care Services operating segments, which provide independent and coordinated health solutions and capabilities to enable the health ca"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

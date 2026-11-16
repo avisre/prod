@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001786352",
+ "issuerName": "BILL HOLDINGS, INC.",
+ "builtAt": "2026-11-16T02:22:56.471Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-058238",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1786352/000162828026058238/bill-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "accounts payable",
+   "products": [
+    "accounts payable (AP)",
+    "accounts receivable (AR)",
+    "expenses",
+    "forecasting",
+    "procurement"
+   ],
+   "description": "Sells a platform that automates bill payment, invoicing and spend management for small businesses.",
+   "evidence": "Segment Reporting The Company operates as one operating segment because its chief operating decision maker (CODM), who is the Chief Executive Officer, reviews its financial information on a consolidated basis with net income (loss) as the primary measure of segment profitability for purposes of making decisions regarding allocating resources and assessing performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Small and mid-sized businesses pay subscription and transaction fees to pay suppliers and collect payments.",
+  "evidence": "Our Solution Our intelligent platform automates the SMB back office and enables businesses using our solutions to pay their suppliers and collect payments from their clients, acting as a system of control for their accounts payable, accounts receivable, and spend and expense management activities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

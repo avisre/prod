@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001043277",
+ "issuerName": "C.H. ROBINSON WORLDWIDE, INC.",
+ "builtAt": "2026-11-16T02:25:14.165Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001043277-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1043277/000104327726000009/chrw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North American Surface Transportation",
+   "products": [
+    "Truckload",
+    "intermodal transportation service",
+    "dry vans",
+    "temperature-controlled vans",
+    "flatbeds",
+    "bulk capacity"
+   ],
+   "description": "Brokers truckload and intermodal freight across North America.",
+   "evidence": "We have two reportable segments, North American Surface Transportation (\"NAST\") and Global Forwarding, with our remaining operating segments reported as All Other and Corporate."
+  },
+  {
+   "name": "Global Forwarding",
+   "products": [
+    "freight forwarding"
+   ],
+   "description": "Forwards freight internationally by ocean and air.",
+   "evidence": "We have two reportable segments, North American Surface Transportation (\"NAST\") and Global Forwarding, with our remaining operating segments reported as All Other and Corporate."
+  },
+  {
+   "name": "All Other and Corporate",
+   "products": [
+    "Robinson Fresh",
+    "Managed Solutions",
+    "warehousing services"
+   ],
+   "description": "Holds fresh produce sourcing, managed solutions and other surface transportation.",
+   "evidence": "The All Other and Corporate segment includes Robinson Fresh, Managed Solutions, Other Surface Transportation outside of North America, and other miscellaneous revenues and unallocated corporate expenses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers pay for freight services and it keeps the spread over what carriers charge.",
+  "evidence": "We make a profit that is driven by the value we provide our customers and the resulting difference between what we charge to our customers for the totality of services provided to them and what we pay to the transportation providers to transport the freight."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

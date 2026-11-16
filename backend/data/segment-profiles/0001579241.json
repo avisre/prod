@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001579241",
+ "issuerName": "Allegion plc",
+ "builtAt": "2026-11-16T02:20:27.336Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001579241-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1579241/000157924126000007/alle-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Allegion Americas",
+   "products": [
+    "locks",
+    "locksets",
+    "portable locks",
+    "key systems",
+    "door controls and door control systems",
+    "exit devices",
+    "electronic security products",
+    "access control systems"
+   ],
+   "description": "Sells locks, door hardware and access control to commercial, institutional and residential buildings in the Americas.",
+   "evidence": "Review of Business Segments We operate in and report financial results for two segments: Allegion Americas and Allegion International."
+  },
+  {
+   "name": "Allegion International",
+   "products": [
+    "locks",
+    "locksets",
+    "portable locks",
+    "key systems",
+    "door controls and door control systems",
+    "exit devices",
+    "electronic security products",
+    "access control systems"
+   ],
+   "description": "Provides security and access products and solutions across Europe, Asia and Oceania.",
+   "evidence": "Allegion International Our Allegion International segment provides security products, services and solutions primarily throughout Europe, Asia and Oceania."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Building owners and contractors buy its security and access control products through distributors and dealers.",
+  "evidence": "We sell a wide range of security and access control solutions for end-users in commercial, institutional and residential facilities worldwide, including education, healthcare, government, hospitality, retail, commercial office and single and multi-family residential markets."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001002910",
+ "issuerName": "AMEREN CORP",
+ "builtAt": "2026-11-16T02:18:36.323Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001002910-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1002910/000100291026000009/aee-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ameren Missouri",
+   "products": [
+    "electric generation, transmission, and distribution",
+    "natural gas distribution"
+   ],
+   "description": "Runs regulated electric and natural gas utilities in Missouri.",
+   "evidence": "BUSINESS SEGMENTS Ameren has four segments: Ameren Missouri, Ameren Illinois Electric Distribution, Ameren Illinois Natural Gas, and Ameren Transmission."
+  },
+  {
+   "name": "Ameren Illinois Electric Distribution",
+   "products": [
+    "electric distribution"
+   ],
+   "description": "Distributes electricity to customers in Illinois under regulated rates.",
+   "evidence": "BUSINESS SEGMENTS Ameren has four segments: Ameren Missouri, Ameren Illinois Electric Distribution, Ameren Illinois Natural Gas, and Ameren Transmission."
+  },
+  {
+   "name": "Ameren Illinois Natural Gas",
+   "products": [
+    "natural gas distribution"
+   ],
+   "description": "Distributes natural gas to customers in Illinois under regulated rates.",
+   "evidence": "BUSINESS SEGMENTS Ameren has four segments: Ameren Missouri, Ameren Illinois Electric Distribution, Ameren Illinois Natural Gas, and Ameren Transmission."
+  },
+  {
+   "name": "Ameren Transmission",
+   "products": [
+    "electric transmission"
+   ],
+   "description": "Owns and operates regulated electric transmission lines across its region.",
+   "evidence": "BUSINESS SEGMENTS Ameren has four segments: Ameren Missouri, Ameren Illinois Electric Distribution, Ameren Illinois Natural Gas, and Ameren Transmission."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utility customers pay rates set by regulators for electricity and natural gas service.",
+  "evidence": "The rates that Ameren Missouri, Ameren Illinois, and ATXI are allowed to charge for their utility services significantly influence the results of operations, financial position, and liquidity of these companies and Ameren."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

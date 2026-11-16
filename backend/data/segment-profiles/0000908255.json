@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000908255",
+ "issuerName": "BORGWARNER INC.",
+ "builtAt": "2026-11-16T02:23:46.631Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000908255-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/908255/000090825526000011/bwa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Turbos & Thermal Technologies",
+   "products": [
+    "turbochargers",
+    "thermal technologies"
+   ],
+   "description": "Makes turbocharging and thermal management products for vehicle makers.",
+   "evidence": "6 Table of Contents Narrative Description of Reportable Segments The Company discloses segment information under four reportable segments, consistent with the way operating results are evaluated by management: Turbos & Thermal Technologies, Drivetrain & Morse Systems, PowerDrive Systems and Battery & Charging Systems."
+  },
+  {
+   "name": "Drivetrain & Morse Systems",
+   "products": [
+    "Morse systems"
+   ],
+   "description": "Supplies drivetrain components and systems to vehicle manufacturers.",
+   "evidence": "6 Table of Contents Narrative Description of Reportable Segments The Company discloses segment information under four reportable segments, consistent with the way operating results are evaluated by management: Turbos & Thermal Technologies, Drivetrain & Morse Systems, PowerDrive Systems and Battery & Charging Systems."
+  },
+  {
+   "name": "PowerDrive Systems",
+   "products": [
+    "eProducts",
+    "Foundational products"
+   ],
+   "description": "Makes electric and hybrid powertrain systems for vehicles.",
+   "evidence": "6 Table of Contents Narrative Description of Reportable Segments The Company discloses segment information under four reportable segments, consistent with the way operating results are evaluated by management: Turbos & Thermal Technologies, Drivetrain & Morse Systems, PowerDrive Systems and Battery & Charging Systems."
+  },
+  {
+   "name": "Battery & Charging Systems",
+   "products": [
+    "battery systems",
+    "charging systems"
+   ],
+   "description": "Supplies battery packs and charging systems for electric vehicles.",
+   "evidence": "6 Table of Contents Narrative Description of Reportable Segments The Company discloses segment information under four reportable segments, consistent with the way operating results are evaluated by management: Turbos & Thermal Technologies, Drivetrain & Morse Systems, PowerDrive Systems and Battery & Charging Systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Car, truck and off-highway vehicle makers buy its powertrain products and components.",
+  "evidence": "The Company's products are also sold to OEMs of commercial vehicles (medium-duty trucks, heavy-duty trucks and buses) and off-highway vehicles (agricultural and construction machinery and marine applications)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Drivetrain & Morse Systems): drivetrain products"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001685040",
+ "issuerName": "Brighthouse Financial, Inc.",
+ "builtAt": "2026-11-16T02:22:56.454Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001685040-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1685040/000168504026000011/bhf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Annuities",
+   "products": [
+    "variable, fixed, index-linked and income annuities",
+    "single premium immediate annuities",
+    "deferred income annuities (\"DIA\")"
+   ],
+   "description": "Sells variable, fixed and income annuities for retirement savings and income.",
+   "evidence": "Segment Information We are organized into the following reportable segments: Annuities; Life; Run-off; and Corporate & Other."
+  },
+  {
+   "name": "Life",
+   "products": [
+    "life insurance"
+   ],
+   "description": "Writes life insurance policies for individuals and groups.",
+   "evidence": "Segment Information We are organized into the following reportable segments: Annuities; Life; Run-off; and Corporate & Other."
+  },
+  {
+   "name": "Run-off",
+   "products": [],
+   "description": "Manages insurance businesses that are no longer actively sold.",
+   "evidence": "Segment Information We are organized into the following reportable segments: Annuities; Life; Run-off; and Corporate & Other."
+  },
+  {
+   "name": "Corporate & Other",
+   "products": [],
+   "description": "Holds corporate items and smaller businesses outside the main segments.",
+   "evidence": "Segment Information We are organized into the following reportable segments: Annuities; Life; Run-off; and Corporate & Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums and contract charges, and the company earns investment spread on reserves.",
+  "evidence": "Annuities Our Annuities segment consists of a variety of variable, fixed, index-linked and income annuities designed to address contract holders' needs for protected wealth accumulation on a tax-deferred basis, wealth transfer and income security."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

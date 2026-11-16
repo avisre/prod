@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001306830",
+ "issuerName": "CELANESE CORPORATION",
+ "builtAt": "2026-11-16T02:24:41.046Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001306830-26-000031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1306830/000130683026000031/ce-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineered Materials",
+   "products": [
+    "Ethylene acrylic elastomers (\"EAE\")",
+    "Liquid crystal polymers (\"LCP\")",
+    "Nylon compounds or formulations",
+    "Polyoxymethylene (\"POM\")",
+    "Thermoplastic elastomers (\"TPE\")",
+    "Thermoplastic polyesters",
+    "Ultra-high molecular weight polyethylene (\"UHMW-PE\")"
+   ],
+   "description": "Makes engineering polymers and compounds for automotive, medical and consumer products.",
+   "evidence": "Business Segment Overview We operate principally through two business segments: Engineered Materials and the Acetyl Chain."
+  },
+  {
+   "name": "Acetyl Chain",
+   "products": [
+    "acetyl products"
+   ],
+   "description": "Produces acetyl intermediates and derivatives for industrial and consumer customers.",
+   "evidence": "Business Segment Overview We operate principally through two business segments: Engineered Materials and the Acetyl Chain."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Automotive, medical, consumer and industrial manufacturers buy its polymers and acetyl products.",
+  "evidence": "These products are used in automotive, transportation and industrial applications, such as instrument panels, consoles and front end modules."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

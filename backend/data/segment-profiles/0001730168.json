@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001730168",
+ "issuerName": "Broadcom Inc.",
+ "builtAt": "2026-11-16T02:22:17.383Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001730168-25-000121",
+  "periodEnd": "2025-11-02",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1730168/000173016825000121/avgo-20251102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "semiconductor solutions",
+   "products": [
+    "Custom Silicon Solutions",
+    "Ethernet switching and routing products",
+    "radio frequency (\"RF\") front-end modules and filters",
+    "Wi-Fi/Bluetooth combination chips",
+    "Fibre Channel Products",
+    "HDD & SSD Solutions",
+    "Set-Top Box"
+   ],
+   "description": "Designs and sells semiconductors for networking, wireless, broadband, storage and custom silicon.",
+   "evidence": "We have two reportable segments: semiconductor solutions and infrastructure software"
+  },
+  {
+   "name": "infrastructure software",
+   "products": [],
+   "description": "Sells enterprise infrastructure and security software.",
+   "evidence": "We have two reportable segments: semiconductor solutions and infrastructure software"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Equipment makers, data centre operators and enterprises buy its chips and infrastructure software.",
+  "evidence": "We develop semiconductor products that enable accelerated compute and networking connectivity deployed in enterprise and AI data centers and service providers for their workloads."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

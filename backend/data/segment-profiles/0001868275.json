@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0001868275",
+ "issuerName": "CONSTELLATION ENERGY CORPORATION",
+ "builtAt": "2026-11-16T02:24:41.055Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001868275-26-000032",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mid-Atlantic",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Runs generating plants and sells power in the mid-Atlantic region.",
+   "evidence": "We have five reportable segments, as described in the table below, representing the different geographic regions in which our owned generating resources are located and our customer-facing activities are conducted."
+  },
+  {
+   "name": "Midwest",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Runs generating plants and sells power across the Midwest.",
+   "evidence": "We have five reportable segments, as described in the table below, representing the different geographic regions in which our owned generating resources are located and our customer-facing activities are conducted."
+  },
+  {
+   "name": "New York",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Sells power from its New York generating resources.",
+   "evidence": "We have five reportable segments, as described in the table below, representing the different geographic regions in which our owned generating resources are located and our customer-facing activities are conducted."
+  },
+  {
+   "name": "ERCOT",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Sells power into the ERCOT market in Texas.",
+   "evidence": "We have five reportable segments, as described in the table below, representing the different geographic regions in which our owned generating resources are located and our customer-facing activities are conducted."
+  },
+  {
+   "name": "Other Power Regions",
+   "products": [
+    "electricity",
+    "natural gas"
+   ],
+   "description": "Covers its generation in New England, the South, West and Canada.",
+   "evidence": "We have five reportable segments, as described in the table below, representing the different geographic regions in which our owned generating resources are located and our customer-facing activities are conducted."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities, businesses and households buy its electricity, natural gas and energy products.",
+  "evidence": "Through our integrated business operations, we sell electricity, natural gas, and other energy-related products and sustainable solutions to various types of customers, including distribution utilities, municipalities, cooperatives, and commercial, industrial, public sector, and residential customers in markets across"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

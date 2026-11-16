@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001739445",
+ "issuerName": "Arcosa, Inc.",
+ "builtAt": "2026-11-16T02:18:16.743Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001739445-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1739445/000173944526000029/aca-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction Products",
+   "products": [
+    "natural and recycled aggregates",
+    "specialty materials",
+    "asphalt mix",
+    "trench shields and shoring products"
+   ],
+   "description": "Produces aggregates, asphalt mix and construction site support equipment for infrastructure and building work.",
+   "evidence": "Products Through wholly owned subsidiaries, our Construction Products segment produces and sells natural and recycled aggregates, specialty materials, asphalt mix, and construction site support equipment, including trench shields and shoring products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Contractors, distributors, installers and rental companies buy its construction and infrastructure products.",
+  "evidence": "Some of Arcosa's products are sold to contractors, distributors, installers, and rental companies who may misuse, abuse, improperly install, or improperly or inadequately maintain or repair such products, thereby potentially exposing Arcosa to claims that could increase Arcosa's costs and weaken Arcosa's liquidity and financial condition."
+ },
+ "changes": [
+  {
+   "text": "Divested its steel components business in 2024.",
+   "evidence": "On August 16, 2024, the Company completed the divestiture of its steel components business."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

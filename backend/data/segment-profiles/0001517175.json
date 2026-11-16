@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001517175",
+ "issuerName": "CHEFS’ WAREHOUSE, INC.",
+ "builtAt": "2026-11-16T02:24:41.217Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001517175-26-000005",
+  "periodEnd": "2025-12-26",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1517175/000151717526000005/chef-20251226.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "foodservice",
+   "products": [
+    "basic ingredients and staples",
+    "custom-cut steaks",
+    "seafood",
+    "produce",
+    "pastries",
+    "regional olive oils",
+    "truffles",
+    "charcuterie"
+   ],
+   "description": "Distributes specialty food products to restaurants and other foodservice customers.",
+   "evidence": "The Company's business consists of three operating segments: East, Midwest and West that aggregate into one reportable segment"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Restaurants and food retailers buy specialty foods from its distribution centres.",
+  "evidence": "We operate 44 distribution centers and provide service six days a week in many of our service areas, utilizing our fleet of delivery trucks to fill our customers' orders."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

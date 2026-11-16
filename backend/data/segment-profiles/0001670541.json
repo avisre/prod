@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001670541",
+ "issuerName": "Adient plc",
+ "builtAt": "2026-11-16T02:18:36.268Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001670541-25-000152",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1670541/000167054125000152/adnt-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "complete seating systems",
+    "frames",
+    "mechanisms",
+    "foam",
+    "head restraints",
+    "armrests",
+    "trim covers"
+   ],
+   "description": "Designs and builds complete seats and components for vehicle makers in the Americas.",
+   "evidence": "Adient is a global seat supplier with the capability to design, develop, engineer, manufacture, and deliver complete seat systems and components in every major automotive producing region in the world."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "complete seating systems",
+    "frames",
+    "mechanisms",
+    "trim covers"
+   ],
+   "description": "Supplies seating systems and components to vehicle makers in Europe, the Middle East and Africa.",
+   "evidence": "Adient is a global seat supplier with the capability to design, develop, engineer, manufacture, and deliver complete seat systems and components in every major automotive producing region in the world."
+  },
+  {
+   "name": "Asia Pacific/China",
+   "products": [
+    "complete seating systems",
+    "components"
+   ],
+   "description": "Supplies seating systems and components to vehicle makers across Asia Pacific and China.",
+   "evidence": "Adient is a global seat supplier with the capability to design, develop, engineer, manufacture, and deliver complete seat systems and components in every major automotive producing region in the world."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Automotive original equipment manufacturers buy complete seat systems and components from it.",
+  "evidence": "Adient is a global seat supplier with the capability to design, develop, engineer, manufacture, and deliver complete seat systems and components in every major automotive producing region in the world."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000907471",
+ "issuerName": "PATHWARD FINANCIAL, INC.",
+ "builtAt": "2026-11-16T02:24:40.661Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000907471-25-000116",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/907471/000090747125000116/cash-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer",
+   "products": [
+    "Partner Solutions"
+   ],
+   "description": "Partners with companies to offer payments and consumer lending products.",
+   "evidence": "The Consumer segment includes the Partner Solutions business line, which collaborates with partners to navigate payment and lending needs."
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "alternative energy financing",
+    "conventional loans",
+    "term lending",
+    "asset-based lending",
+    "factoring",
+    "lease financing",
+    "government guaranteed lending"
+   ],
+   "description": "Lends to businesses through commercial finance products nationwide.",
+   "evidence": "These products include term lending, asset-based lending, factoring, lease financing, government guaranteed lending, and other commercial finance products offered on a nationwide basis."
+  },
+  {
+   "name": "Corporate Services/Other",
+   "products": [],
+   "description": "Holds corporate functions and other activities outside the two lending segments.",
+   "evidence": "The Bank, a wholly-owned full-service banking subsidiary of Pathward Financial, operates through three reportable segments (Consumer, Commercial, and Corporate Services/Other)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners, borrowers and depositors pay interest and fees on loans and banking programmes.",
+  "evidence": "The Commercial segment includes the Company's Commercial Finance business line, which helps businesses access funds they need to launch, operate, and grow."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

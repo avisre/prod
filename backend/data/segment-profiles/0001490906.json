@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001490906",
+ "issuerName": "Capitol Federal Financial, Inc.",
+ "builtAt": "2026-11-16T02:24:41.192Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001490906-25-000033",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1490906/000149090625000033/cffn-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

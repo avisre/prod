@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001521332",
+ "issuerName": "APTIV PLC",
+ "builtAt": "2026-11-16T02:22:16.981Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001521332-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1521332/000152133226000009/aptv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced Safety and User Experience",
+   "products": [
+    "advanced software and services",
+    "intelligent sensors",
+    "high-performance compute platforms"
+   ],
+   "description": "Supplies software, sensors and compute platforms for advanced vehicle safety and user experience.",
+   "evidence": "Our Advanced Safety and User Experience segment provides advanced software and services, intelligent sensors and high-performance compute platforms; our Engineered Components Group segment provides connection systems, high-performance interconnects, and cable management and protection solutions; and our Electrical Distribution Systems segment provides low voltage and high voltage power, signal and data distribution."
+  },
+  {
+   "name": "Engineered Components Group",
+   "products": [
+    "connection systems",
+    "high-performance interconnects",
+    "cable management and protection solutions"
+   ],
+   "description": "Makes connectors, interconnects and cable management products for power, signal and data.",
+   "evidence": "• Engineered Components Group— This segment provides connection systems, high-performance interconnects, and cable management and protection solutions that optimize the distribution of power, signal, and data for next-generation applications across multiple end markets."
+  },
+  {
+   "name": "Electrical Distribution Systems",
+   "products": [
+    "low voltage and high voltage power, signal and data distribution solutions"
+   ],
+   "description": "Supplies low and high voltage power, signal and data distribution systems to vehicle makers.",
+   "evidence": "• Electrical Distribution Systems— This segment provides a full range of low voltage and high voltage power, signal and data distribution solutions needed to deliver fully integrated, cost-optimized architectures."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vehicle manufacturers buy its software, sensors, connectors and electrical architectures.",
+  "evidence": "We operate 139 major manufacturing facilities and 11 major technical centers utilizing a regional service model that enables us to efficiently and effectively serve our global customers from best cost countries."
+ },
+ "changes": [
+  {
+   "text": "Realigned into three reportable segments in the first quarter of 2025.",
+   "evidence": "In connection with the Separation, in the first quarter of 2025, Aptiv realigned its business into three reportable operating segments: Advanced Safety and User Experience, Engineered Components Group and Electrical Distribution Systems."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

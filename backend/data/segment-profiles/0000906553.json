@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000906553",
+ "issuerName": "BOYD GAMING CORP",
+ "builtAt": "2026-11-16T02:23:46.802Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004908",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/906553/000143774926004908/bgc20251121_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Las Vegas Locals",
+   "products": [
+    "slot machines",
+    "table games",
+    "hotel rooms"
+   ],
+   "description": "Runs casinos and hotels serving local customers in Las Vegas.",
+   "evidence": "For financial reporting purposes, we aggregate these operations into four reportable segments: (i) Las Vegas Locals; (ii) Downtown Las Vegas; (iii) Midwest & South; and (iv) Online, (collectively \"Reportable Segments\")."
+  },
+  {
+   "name": "Downtown Las Vegas",
+   "products": [
+    "slot machines",
+    "table games",
+    "hotel rooms"
+   ],
+   "description": "Runs casino and hotel properties in downtown Las Vegas.",
+   "evidence": "For financial reporting purposes, we aggregate these operations into four reportable segments: (i) Las Vegas Locals; (ii) Downtown Las Vegas; (iii) Midwest & South; and (iv) Online, (collectively \"Reportable Segments\")."
+  },
+  {
+   "name": "Midwest & South",
+   "products": [
+    "slot machines",
+    "table games",
+    "hotel rooms"
+   ],
+   "description": "Runs casinos and hotels across the Midwest and South.",
+   "evidence": "For financial reporting purposes, we aggregate these operations into four reportable segments: (i) Las Vegas Locals; (ii) Downtown Las Vegas; (iii) Midwest & South; and (iv) Online, (collectively \"Reportable Segments\")."
+  },
+  {
+   "name": "Online",
+   "products": [
+    "online sports wagering",
+    "online casinos"
+   ],
+   "description": "Offers online sports betting and casino games through market access agreements.",
+   "evidence": "The Online segment includes the operating results of our online gaming operations through market access agreements with third parties throughout the United States and the operations of Boyd Interactive."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay to gamble, stay in its hotels and bet online.",
+  "evidence": "As of December 31, 2025, we operated 27 gaming entertainment properties offering a total of 1,730,321 square feet of casino space, 27,267 slot machines, 600 table games and 10,146 hotel rooms."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

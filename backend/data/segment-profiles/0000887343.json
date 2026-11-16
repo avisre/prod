@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000887343",
+ "issuerName": "COLUMBIA BANKING SYSTEM, INC.",
+ "builtAt": "2026-11-16T02:25:48.115Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000887343-26-000088",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/887343/000088734326000088/colb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking operations",
+   "products": [
+    "consumer and residential real estate loans",
+    "commercial lending products",
+    "deposit products",
+    "treasury and wealth management services"
+   ],
+   "description": "Runs a regional bank serving consumers, businesses and institutions.",
+   "evidence": "Note 26 – Segment Reporting The Company has one operating and reportable segment based on the products and services offered, primarily banking operations as well as the operations, technology, and administrative functions of the Bank and Holding Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns interest and fees on loans, deposits and treasury and wealth management services.",
+  "evidence": "The Company primarily derives revenue from banking operations by providing consumer and residential real estate loans, commercial lending products, deposit products, and treasury and wealth management services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

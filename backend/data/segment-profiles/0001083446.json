@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001083446",
+ "issuerName": "Astrana Health, Inc.",
+ "builtAt": "2026-11-16T02:22:17.323Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-103128",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1083446/000119312526103128/asth-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Care Partners",
+   "products": [],
+   "description": "Works with physician groups and health plans to coordinate patient care.",
+   "evidence": "We have three reportable segments: Care Partners, Care Delivery, and Care Enablement."
+  },
+  {
+   "name": "Care Delivery",
+   "products": [],
+   "description": "Provides primary care and specialist services through clinics and affiliated providers.",
+   "evidence": "We implement and operate different innovative healthcare models, primarily including the following three reportable segments: • Care Partners; • Care Delivery; and • Care Enablement."
+  },
+  {
+   "name": "Care Enablement",
+   "products": [
+    "proprietary technology suite",
+    "management services organizations (\"MSOs\")"
+   ],
+   "description": "Provides technology and management services to payers, providers and medical groups.",
+   "evidence": "Our Care Enablement segment provides solutions to payers and providers, including independent physicians, providers, and medical groups, as well as ACOs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Health plans and providers pay for care coordination, management and technology services.",
+  "evidence": "We provide care coordination services to each major constituent of the healthcare delivery system, including patients, families, primary care physicians, specialists, acute care hospitals, alternative sites of inpatient care, physician groups, and health plans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

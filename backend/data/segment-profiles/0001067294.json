@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001067294",
+ "issuerName": "Cracker Barrel Old Country Store, Inc.",
+ "builtAt": "2026-11-16T02:24:40.819Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-110772",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1067294/000110465926110772/cbrl-20260731x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "restaurant and retail",
+   "products": [
+    "Apparel and Accessories",
+    "Food",
+    "Toys",
+    "Décor",
+    "Bed & Bath"
+   ],
+   "description": "Runs country stores with restaurants and gift shops selling home-style food and merchandise.",
+   "evidence": "Using these criteria, the Company manages its business on the basis of one operating and one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Guests pay for meals in its restaurants and buy merchandise in the adjoining gift shops.",
+  "evidence": "We believe that we achieve high retail sales per square foot of retail selling space (approximately $432 per square foot in 2026) as compared to traditional retail stores both by offering appealing merchandise and by having a significant source of customers who are typically our restaurant guests."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

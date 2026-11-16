@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0001710366",
+ "issuerName": "Core Natural Resources, Inc.",
+ "builtAt": "2026-11-16T02:25:14.594Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001710366-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1710366/000171036626000007/cnr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High CV Thermal",
+   "products": [
+    "thermal coal"
+   ],
+   "description": "Mines high calorific value thermal coal for power generation.",
+   "evidence": "Thus, the Company reassessed its reporting segments, and the Company now consists of four reportable segments: (1) the High CV Thermal segment; (2) the Metallurgical segment; (3) the Powder River Basin (\"PRB\") segment; and (4) the Core Marine Terminal segment."
+  },
+  {
+   "name": "Metallurgical",
+   "products": [
+    "metallurgical coal"
+   ],
+   "description": "Mines metallurgical coal for steelmakers and industrial users.",
+   "evidence": "Thus, the Company reassessed its reporting segments, and the Company now consists of four reportable segments: (1) the High CV Thermal segment; (2) the Metallurgical segment; (3) the Powder River Basin (\"PRB\") segment; and (4) the Core Marine Terminal segment."
+  },
+  {
+   "name": "Powder River Basin",
+   "products": [
+    "thermal coal"
+   ],
+   "description": "Mines coal in the Powder River Basin for United States power plants.",
+   "evidence": "Thus, the Company reassessed its reporting segments, and the Company now consists of four reportable segments: (1) the High CV Thermal segment; (2) the Metallurgical segment; (3) the Powder River Basin (\"PRB\") segment; and (4) the Core Marine Terminal segment."
+  },
+  {
+   "name": "Core Marine Terminal",
+   "products": [],
+   "description": "Operates a marine terminal that ships coal to export markets.",
+   "evidence": "Thus, the Company reassessed its reporting segments, and the Company now consists of four reportable segments: (1) the High CV Thermal segment; (2) the Metallurgical segment; (3) the Powder River Basin (\"PRB\") segment; and (4) the Core Marine Terminal segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Steelmakers, industrial users and power plants buy its coal, much of it for export.",
+  "evidence": "We believe that the Company will continue to generate significant cash provided by operating activities across a range of market environments through the combination of revenue from contracted thermal coal production and sales, coupled with a strong metallurgical coal platform."
+ },
+ "changes": [
+  {
+   "text": "Reset its reporting segments to four after completing its merger.",
+   "evidence": "Following completion of the Merger, the Company adjusted its internal reporting structure, and the Company's chief operating decision maker (\"CODM\") changed the manner in which he measures financial performance and allocates resources."
+  }
+ ],
+ "dropped": [
+  "product not in text (Core Marine Terminal): coal terminal services"
+ ],
+ "reader": "agent"
+}

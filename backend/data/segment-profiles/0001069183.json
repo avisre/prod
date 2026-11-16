@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001069183",
+ "issuerName": "Axon Enterprise, Inc.",
+ "builtAt": "2026-11-16T02:22:56.045Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011360",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069183/000162828026011360/axon-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software and Services",
+   "products": [
+    "cloud-based Software-as-a-Service (\"SaaS\") solutions",
+    "professional services",
+    "on-premise licenses"
+   ],
+   "description": "Sells cloud software that captures, stores and analyses video and digital evidence.",
+   "evidence": "Software and Services: We develop, manufacture and sell cloud-based Software-as-a-Service (\"SaaS\") solutions that leverage AI and enable our customers to capture, securely store, manage, share and analyze video and other digital evidence."
+  },
+  {
+   "name": "Connected Devices",
+   "products": [
+    "conducted energy devices (\"CEDs\")",
+    "body cameras",
+    "fixed and in-car cameras",
+    "drone and counter-drone technologies",
+    "accessories",
+    "extended warranties"
+   ],
+   "description": "Makes TASER devices, cameras, drones and related hardware for law enforcement.",
+   "evidence": "Connected Devices: We develop, manufacture and sell fully integrated hardware solutions such as conducted energy devices (\"CEDs\") sold under the TASER brand, body cameras, fixed and in-car cameras, drone and counter-drone technologies, and a broad ecosystem of accessories, extended warranties and related hardware products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Police agencies and other customers pay for hardware, software subscriptions, services and warranties.",
+  "evidence": "Our revenue is derived from a combination of hardware sales, multi-year recurring software subscriptions, professional services, and extend ed warranties."
+ },
+ "changes": [
+  {
+   "text": "Realigned in 2025 from TASER and Software and Sensors into Software and Services and Connected Devices.",
+   "evidence": "Previously reported within two reportable segments, TASER and Software and Sensors, we realigned our business in a manner that provides increased transparency and distinction between our software and services and hardware components."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

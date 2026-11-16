@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001616862",
+ "issuerName": "AXALTA COATING SYSTEMS LTD.",
+ "builtAt": "2026-11-16T02:22:56.062Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1616862/000162828026008008/axta-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Performance Coatings",
+   "products": [
+    "liquid and powder coating solutions",
+    "color matching technologies",
+    "waterborne and solventborne products and systems",
+    "Axalta Irus Scan™",
+    "VINdicator ®"
+   ],
+   "description": "Supplies refinish, industrial and powder coatings for vehicle repair and industrial uses.",
+   "evidence": "SEGMENT OVERVIEW Performance Coatings Through our Performance Coatings segment, we provide high-quality sustainable liquid and powder coating solutions to both large regional and global customers and to a fragmented and local customer base."
+  },
+  {
+   "name": "Mobility Coatings",
+   "products": [
+    "coatings"
+   ],
+   "description": "Supplies coatings to vehicle manufacturers and mobility customers.",
+   "evidence": "We operate our business in two operating segments, Performance Coatings and Mobility Coatings, serving four end-markets globally as highlighted below."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Body shops and industrial customers buy its coatings through a network of local distributors.",
+  "evidence": "Most of our products are supplied by our network of over 5,000 independent local distributors."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

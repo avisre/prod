@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001267565",
+ "issuerName": "Collegium Pharmaceutical, Inc.",
+ "builtAt": "2026-11-16T02:25:48.132Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011992",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1267565/000162828026011992/coll-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceuticals",
+   "products": [
+    "Nucynta Products",
+    "extended-release (\"ER\") and immediate-release (\"IR\") oral formulations of tapent"
+   ],
+   "description": "Develops and sells prescription pain and other pharmaceutical products.",
+   "evidence": "As the internal reporting is based on the consolidated results, the Company has identified one operating and reportable segment and the measure of segment profit or loss is consolidated net income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

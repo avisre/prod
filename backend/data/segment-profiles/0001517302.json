@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001517302",
+ "issuerName": "Artisan Partners Asset Management Inc.",
+ "builtAt": "2026-11-16T02:22:16.811Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001517302-26-000047",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1517302/000151730226000047/apam-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment management",
+   "products": [
+    "separate accounts",
+    "pooled vehicles"
+   ],
+   "description": "Manages actively managed investment strategies for institutions and their intermediaries.",
+   "evidence": "The Company's Chief Operating Decision Maker (the \"CODM\") is its Chief Executive Officer and President, who reviews financial information on a consolidated basis for purposes of allocating resources and assessing financial performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutional clients pay investment management fees based on a percentage of their average assets.",
+  "evidence": "We derive essentially all of our revenues from investment management fees, which primarily are based on a specified percentage of clients' average AUM."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

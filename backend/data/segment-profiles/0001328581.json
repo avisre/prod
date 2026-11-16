@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001328581",
+ "issuerName": "Boise Cascade Company",
+ "builtAt": "2026-11-16T02:22:56.263Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001328581-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1328581/000132858126000006/bcc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Building Materials Distribution",
+   "products": [
+    "commodities",
+    "siding",
+    "composite decking",
+    "doors and millwork",
+    "metal products",
+    "roofing",
+    "insulation",
+    "EWP"
+   ],
+   "description": "Distributes building materials and engineered wood products to dealers and builders.",
+   "evidence": "6 Table of Contents Segment Detail Building Materials Distribution Products We sell a broad line of building materials, including commodities; general line items such as siding, composite decking, doors and millwork, metal products, roofing, and insulation; and EWP."
+  },
+  {
+   "name": "Wood Products",
+   "products": [
+    "laminated veneer lumber (LVL)",
+    "I-joists",
+    "laminated beams",
+    "plywood panels",
+    "ponderosa pine lumber"
+   ],
+   "description": "Manufactures engineered wood products and plywood for home building.",
+   "evidence": "In our Wood Products segment, we manufacture laminated veneer lumber (LVL), I-joists, and laminated beams, which are collectively referred to as EWP."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dealers, builders and industrial customers buy its building materials and engineered wood.",
+  "evidence": "Our products are used in the construction of new residential housing, including single-family, multi-family, and manufactured homes, the repair-and-remodeling of existing housing, the construction of light industrial and commercial buildings, and other industrial applications."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
