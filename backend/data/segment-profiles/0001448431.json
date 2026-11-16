@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001448431",
  "issuerName": "OptimizeRx Corporation",
- "builtAt": "2026-11-16T05:40:02.843Z",
+ "builtAt": "2026-11-16T11:04:34.553Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001448431-26-000005",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1448431/000144843126000005/oprx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital healthcare technology",
+   "products": [
+    "Dynamic Audience Activation Platform",
+    "Micro-Neighborhood® Targeting",
+    "Profiler",
+    "Pharmacy Alerts",
+    "Financial Messaging"
+   ],
+   "description": "Provides life sciences brands tech-enabled HCP and consumer marketing, audience activation and financial messaging through an omnichannel network embedded in EHR and eRx platforms.",
+   "evidence": "We operate in one reportable segment and use consolidated net income (loss) as our measure of segment profit and loss."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Life sciences brand customers and their agency partners pay for tech-enabled marketing solutions, audience targeting and media execution reaching healthcare providers and patients.",
+  "evidence": "Customers are able to execute traditional marketing campaigns utilizing our proprietary digital point-of-care network, as well as dynamic DTC marketing campaigns that optimize audiences in real time to increase the value of treatment information for HCPs and patients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

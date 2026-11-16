@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001723464",
  "issuerName": "BIOHARVEST SCIENCES INC.",
- "builtAt": "2026-11-16T05:40:03.055Z",
+ "builtAt": "2026-11-16T11:29:21.184Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001376474-26-000257",
@@ -11,11 +11,34 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1723464/000137647426000257/bhst-20251231_ex99z2.htm",
   "exhibit": "bhst-20251231_ex99z2.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Products",
+   "products": [
+    "Botanical Synthesis Platform Technology"
+   ],
+   "description": "Sells and transfers goods to customers, using the company's Botanical Synthesis Platform Technology to produce plant-based ingredients and products.",
+   "evidence": "In the products business unit, the Company derives its revenue from selling and transferring goods."
+  },
+  {
+   "name": "CDMO Services",
+   "products": [],
+   "description": "Provides end-to-end contract research, development and manufacturing services to customers for specific plant-based active molecules.",
+   "evidence": "In the CDMO Services business unit, the Company derives its revenue through completing an end-to-end service activity for the research, development and manufacturing of specific plant-based active molecules."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for goods sold and transferred, and for completed end-to-end research, development and manufacturing service work.",
+  "evidence": "The Company generates revenue from two primary sources: (1) In the products business unit, the Company derives its revenue from selling and transferring goods."
+ },
+ "changes": [
+  {
+   "text": "From 2024 the company reports the Products business unit and the CDMO Services business unit as its operating segments.",
+   "evidence": "Effective January 1, 2024, the Company has two operating segments or business units: the Products business unit and the CDMO Services business unit."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

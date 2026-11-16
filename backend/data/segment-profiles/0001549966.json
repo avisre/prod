@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001549966",
  "issuerName": "Silvercrest Asset Management Group Inc.",
- "builtAt": "2026-11-16T05:40:02.892Z",
+ "builtAt": "2026-11-16T11:04:38.506Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-108402",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1549966/000119312526108402/samg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment management industry",
+   "products": [
+    "Managed accounts",
+    "Silvercrest funds",
+    "Tax and family office services",
+    "Fund administration"
+   ],
+   "description": "Provides investment management, advisory and family office services to ultra-high net worth individuals and institutional investors through a single reportable segment.",
+   "evidence": "The Company views its operations as comprising one operating and reportable segment, the investment management industry."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay management and advisory fees, performance fees and family office services fees for asset management and related services.",
+  "evidence": "We generate revenue from management and advisory fees, performance fees and family office services fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

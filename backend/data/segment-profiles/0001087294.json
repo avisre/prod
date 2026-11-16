@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001087294",
  "issuerName": "Cumberland Pharmaceuticals Inc.",
- "builtAt": "2026-11-16T05:40:03.072Z",
+ "builtAt": "2026-11-16T11:04:58.510Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001087294-26-000020",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1087294/000108729426000020/cpix-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "specialty pharmaceutical products",
+   "products": [
+    "Acetadote",
+    "Caldolor",
+    "Kristalose",
+    "Sancuso",
+    "Vaprisol",
+    "Vibativ",
+    "Talicia"
+   ],
+   "description": "Specialty pharmaceutical company that acquires, develops and commercializes branded prescription medicines for hospital acute care, gastroenterology and oncology in the United States.",
+   "evidence": "The Company has one operating segment which is specialty pharmaceutical products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Independent pharmaceutical wholesalers, hospitals and international partners pay for branded prescription pharmaceuticals; government and managed care organizations receive rebates on filled prescriptions.",
+  "evidence": "The majority of the Company's products are distributed through independent pharmaceutical wholesalers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

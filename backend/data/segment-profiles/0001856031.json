@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001856031",
  "issuerName": "Vivid Seats Inc.",
- "builtAt": "2026-11-16T05:40:02.826Z",
+ "builtAt": "2026-11-16T11:04:37.654Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-103023",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1856031/000119312526103023/seat-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketplace",
+   "products": [
+    "Vivid Seats mobile app and website",
+    "Vegas.com",
+    "Wavedash",
+    "Private Label Offering",
+    "Skybox",
+    "Game Center"
+   ],
+   "description": "Acts as an intermediary connecting ticket buyers, sellers and partners, earning fees for processing live event ticket sales and facilitating hotel and package bookings.",
+   "evidence": "In our Marketplace segment, we primarily act as an intermediary between ticket buyers, sellers, and partners, for which we earn revenue from processing ticket sales for live events and facilitating the booking of hotel rooms and packages through our:"
+  },
+  {
+   "name": "Resale",
+   "products": [],
+   "description": "Acquires tickets to resell on secondary ticket marketplaces, including its own, and supports development of seller software and tools.",
+   "evidence": "In our Resale segment, we primarily acquire tickets to resell on secondary ticket marketplaces, including our own."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Ticket buyers pay service and delivery fees, plus referral fees from event insurance providers; resale revenue comes from tickets the company acquires and resells.",
+  "evidence": "The amount of Marketplace revenue earned in a given period is primarily represented by service and delivery fees charged to buyers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company ceased operating Vivid Picks, its real-money daily fantasy sports mobile app.",
+   "evidence": "Until it ceased operations on July 18, 2025, we also earned Marketplace revenue from Vivid Picks, LLC (\" Vivid Picks \"), a real-money daily fantasy sports mobile app, which represented the difference between cash entry fees collected and cash amounts paid out to users for winning picks, less customer promotions and incentives."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

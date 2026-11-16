@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001351636",
  "issuerName": "SoundThinking, Inc.",
- "builtAt": "2026-11-16T05:40:03.616Z",
+ "builtAt": "2026-11-16T11:04:58.921Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-132104",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1351636/000119312526132104/ssti-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Public safety technology",
+   "products": [
+    "ShotSpotter",
+    "CrimeTracer",
+    "CaseBuilder",
+    "ResourceRouter",
+    "PlateRanger",
+    "SafePointe",
+    "ShotSpotter for Campus",
+    "ShotSpotter for Corporate"
+   ],
+   "description": "Provides gunshot detection, crime data analysis, case management, patrol deployment and weapons screening software to law enforcement, security teams and civic leadership.",
+   "evidence": "Accordingly, the Company has determined that it operates as a single operating and reportable segment ."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Law enforcement agencies and other customers pay subscription fees for data-driven public safety solutions delivered as software-as-a-service.",
+  "evidence": "We offer the majority of our solutions on a software-as-a-service subscription model to our customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
