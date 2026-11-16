@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001503274",
  "issuerName": "Quanterix Corporation",
- "builtAt": "2026-11-16T05:34:31.049Z",
+ "builtAt": "2026-11-16T10:59:41.880Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001503274-26-000013",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1503274/000150327426000013/qtrx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Protein biomarker solutions",
+   "products": [
+    "HD-X",
+    "SR-X",
+    "Simoa",
+    "Spatial Biology",
+    "LucentAD Complete",
+    "Accelerator Laboratory"
+   ],
+   "description": "Develops and commercializes ultra-sensitive protein biomarker detection instruments, consumables and services for research laboratories, CROs, academic institutions and biopharmaceutical companies.",
+   "evidence": "As a result of the acquisition of Akoya, the Company reassessed its operating segments and concluded that the Company continues to operate as one reportable segment as of December 31, 2025."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "We sell our proprietary instruments and related consumables to research laboratories, CROs, academic institutions and biopharmaceutical companies, and provide contract research and clinical laboratory testing services.",
+  "evidence": "We sell our proprietary instruments and related consumables worldwide to research laboratories, contract research organizations (\"CROs\"), academic institutions, and bio-pharmaceutical companies."
+ },
+ "changes": [
+  {
+   "text": "In 2025, after the Akoya acquisition, the company reassessed its operating segments and concluded it still operates as one reportable segment.",
+   "evidence": "As a result of the acquisition of Akoya, the Company reassessed its operating segments and concluded that the Company continues to operate as one reportable segment as of December 31, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001597835",
  "issuerName": "Cheetah Mobile Inc.",
- "builtAt": "2026-11-16T05:34:28.334Z",
+ "builtAt": "2026-11-16T10:56:53.777Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-171821",
@@ -10,11 +10,40 @@
   "filingDate": "2026-04-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1597835/000119312526171821/cmcm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Internet Business",
+   "products": [
+    "Duba Anti-virus",
+    "Clean Master"
+   ],
+   "description": "Offers mobile and PC internet security and anti-virus applications to users, selling advertisements and referring traffic to customers.",
+   "evidence": "The Group has two reportable segments: internet business and AI and others."
+  },
+  {
+   "name": "AI and others",
+   "products": [
+    "overseas advertising agency service",
+    "multi-cloud management service",
+    "robotic products",
+    "other AI-related services"
+   ],
+   "description": "Sells and rents robotic products and provides overseas advertising agency, multi-cloud management and other AI-related services to business customers.",
+   "evidence": "AI and others revenues mainly comprise overseas advertising agency service, multi-cloud management service, sale and rental of our robotic products, as well as other AI-related services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Mobile advertising networks and partners, e-commerce companies, mobile app and game developers and individual users pay us for referred traffic, advertisements and network security and technical services.",
+  "evidence": "Our customers primarily comprise mobile advertising networks and partners, e-commerce companies, mobile application developers and mobile game developers, as well as individual customers, to which we refer traffic, sell advertisements, provide network security and technical services."
+ },
+ "changes": [
+  {
+   "text": "The company consolidated Beijing OrionStar in 2023 and UFACTORY in 2025, reporting both within the AI and others segment.",
+   "evidence": "The Group consolidated Beijing OrionStar since November 30, 2023 and UFACTORY since July 29, 2025, and reported the results of Beijing OrionStar and UFACTORY in the AI and others segment based on the information reviewed by CODM."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

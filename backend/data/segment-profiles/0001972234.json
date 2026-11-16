@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001972234",
  "issuerName": "VENHUB GLOBAL, INC.",
- "builtAt": "2026-11-16T05:34:31.949Z",
+ "builtAt": "2026-11-16T11:00:13.214Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-033427",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1972234/000121390026033427/ea0280137-10k_venhub.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "autonomous retail",
+   "products": [
+    "VenHub Smart Stores",
+    "Version 1 Smart Stores",
+    "VenHub Owners App",
+    "Software as a Service (SaaS) solutions"
+   ],
+   "description": "Builds, sells, installs and services autonomous robotic smart stores and their software for retail store owners and consumers.",
+   "evidence": "The Company is managed at the consolidated level and therefore operates and reports as a single segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Store clients pay for the sale, installation and integration of Smart Stores, and store owners pay for SaaS software licensing and ongoing support.",
+  "evidence": "Additionally, VenHub, LLC is responsible for the sales, installation, and seamless integration of these Smart Stores for its clients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

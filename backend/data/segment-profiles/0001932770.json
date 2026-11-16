@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001932770",
  "issuerName": "Here Group Limited",
- "builtAt": "2026-11-16T05:34:31.354Z",
+ "builtAt": "2026-11-16T10:59:42.805Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-114370",
@@ -10,11 +10,32 @@
   "filingDate": "2026-10-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1932770/000121390026114370/ea030926901-20f_heregroup.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pop toy business",
+   "products": [
+    "pop toys"
+   ],
+   "description": "Incubates IP and sells pop toys and related products to consumers in the PRC through the pop toy business.",
+   "evidence": "For the fiscal year ended June 30, 2025, as a result of the acquisition of Shenzhen Letsvan in March 2025, we identified one more operating segment, pop toy business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers pay for pop toys; revenue comes solely from pop toy sales and related activities.",
+  "evidence": "Our revenues from continuing operations, generated solely from pop toy sales and related activities, were RMB596.8 million (US$88.0 million) for the fiscal year ended June 30, 2026, from RMB65.8 million for the fiscal year ended June 30, 2025."
+ },
+ "changes": [
+  {
+   "text": "In March 2025 the company acquired Shenzhen Letsvan, which added the pop toy business as an operating segment.",
+   "evidence": "For the year ended June 30, 2025, as a result of the acquisition of Shenzhen Letsvan in March 2025 (Note 3), the Group identified one more operating segment, pop toy business."
+  },
+  {
+   "text": "The legacy businesses were disposed of in September 2025, leaving pop toy as the only reportable segment.",
+   "evidence": "Subsequent to the disposal of Divested Business in September 2025 (Note 4), the Group's CODM relies upon the consolidated results of operations as a whole for the only remaining pop toy business when making decisions about allocating resources and assessing the performance of the Group."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

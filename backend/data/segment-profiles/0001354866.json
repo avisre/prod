@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001354866",
  "issuerName": "Byrna Technologies Inc.",
- "builtAt": "2026-11-16T05:34:30.171Z",
+ "builtAt": "2026-11-16T10:58:52.758Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-003206",
@@ -10,11 +10,53 @@
   "filingDate": "2026-02-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1354866/000143774926003206/byrn20251130_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct-to-Consumer",
+   "products": [
+    "Byrna SD",
+    "Byrna CL™",
+    "Byrna LE™",
+    "Byrna LE PRO™",
+    "Byrna Max",
+    "Byrna Pepper",
+    "Byrna Bad Guy Repellent™",
+    "Byrna Shield"
+   ],
+   "description": "Sells Byrna launchers, projectiles, sprays and accessories directly to consumers online, through Amazon and in Company-operated retail stores.",
+   "evidence": "Direct‑to‑Consumer (\"DTC\") – includes sales through the Company's e‑commerce websites, Amazon storefronts, and Company‑operated retail stores"
+  },
+  {
+   "name": "Wholesale",
+   "products": [
+    "Byrna LE™",
+    "Byrna LE PRO™",
+    "Byrna TCR",
+    "Byrna M-4",
+    "Fox Labs International",
+    "Eco-Kinetic",
+    "12-gauge kinetic round"
+   ],
+   "description": "Supplies Byrna launchers, projectiles and defensive sprays to distributors, law-enforcement agencies, retailers and international distributors for resale or duty use.",
+   "evidence": "Wholesale (\"dealer/distributor\") – includes sales to distributors, law‑enforcement agencies, retailers, and international distributors"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers and security professionals pay the company for less-lethal launchers, projectiles, sprays and accessories, bought directly online or in stores or through dealers, distributors and retailers.",
+  "evidence": "Our products are sold in both the consumer and security professional markets."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold its ownership interest in its Latin American joint venture, Byrna LATAM, to an affiliate of Bersa S.A.",
+   "evidence": "On August 19, 2024, we sold our 51% ownership interest to Fusady S.A., an affiliate of Bersa S.A."
+  },
+  {
+   "text": "Beginning in fiscal 2025 the Company reports through two sales channels, Direct-to-Consumer and Wholesale.",
+   "evidence": "Beginning in fiscal 2025, the Company manages its operations through two reportable channels: ( 1 ) Direct‑to‑Consumer (\"DTC\") – includes sales through the Company's e‑commerce websites, Amazon storefronts, and Company‑operated retail stores, and ( 2 ) Wholesale (\"dealer/distributor\") – includes sales to distributors, law‑enforcement agencies, retailers, and international distributors."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

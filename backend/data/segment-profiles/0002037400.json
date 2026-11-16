@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002037400",
  "issuerName": "China Automotive Systems, Inc.",
- "builtAt": "2026-11-16T05:34:28.820Z",
+ "builtAt": "2026-11-16T10:57:35.915Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-046434",
@@ -10,10 +10,68 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/2037400/000110465926046434/caas-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Henglong",
+   "products": [
+    "rack and pinion power steering gears"
+   ],
+   "description": "Makes rack and pinion power steering gears for cars and light-duty vehicles sold to Chinese automakers.",
+   "evidence": "Henglong was established in 1997 and mainly engages in the production of rack and pinion power steering gears for cars and light-duty vehicles."
+  },
+  {
+   "name": "Jiulong",
+   "products": [
+    "integral power steering gears"
+   ],
+   "description": "Produces integral power steering gears for heavy-duty vehicles for truck and commercial vehicle manufacturers.",
+   "evidence": "Jiulong was established in 1993 and mainly engages in the production of integral power steering gears for heavy-duty vehicles."
+  },
+  {
+   "name": "Wuhu",
+   "products": [
+    "automobile steering systems"
+   ],
+   "description": "Produces and sells automobile steering systems to vehicle manufacturers in China.",
+   "evidence": "Wuhu was established in 2006 and mainly engages in the production and sales of automobile steering systems."
+  },
+  {
+   "name": "Hubei Henglong",
+   "products": [
+    "automotive steering systems"
+   ],
+   "description": "Produces and sells automotive steering systems through its subsidiaries and joint ventures for vehicle makers.",
+   "evidence": "On March 7, 2007, Genesis established Hubei Henglong, formerly known as Jingzhou Hengsheng Automotive System Co., Ltd., its wholly-owned subsidiary, to engage in the production and sales of automotive steering systems."
+  },
+  {
+   "name": "Henglong KYB",
+   "products": [
+    "automobile electronic systems"
+   ],
+   "description": "Designs, manufactures and sells automobile electronic steering systems, including after-sales service, for vehicle makers.",
+   "evidence": "established Hubei Henglong KYB Automobile Electric Steering System Co., Ltd., \"Henglong KYB\", which mainly engages in design, manufacture, sales and after-sales service of automobile electronic systems."
+  },
+  {
+   "name": "Brazil Henglong",
+   "products": [
+    "automotive parts"
+   ],
+   "description": "Imports and sells automotive parts in Brazil to local customers.",
+   "evidence": "Brazil Henglong engages mainly in the import and sales of automotive parts in Brazil."
+  },
+  {
+   "name": "Other Entities",
+   "products": [],
+   "description": "Groups the remaining smaller subsidiaries and joint ventures reported beside the named product sectors.",
+   "evidence": "The following table presents a reconciliation of total assets of reportable segments to consolidated total assets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Vehicle manufacturers and other customers pay the company for automotive steering systems, steering gears and related automotive parts.",
+  "evidence": "Genesis mainly engages in the manufacture and sale of automotive systems and components through its controlled subsidiaries and the joint ventures, as described below."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

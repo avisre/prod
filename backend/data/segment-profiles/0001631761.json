@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001631761",
  "issuerName": "Yiren Digital Ltd.",
- "builtAt": "2026-11-16T05:34:31.150Z",
+ "builtAt": "2026-11-16T11:00:10.172Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-049159",
@@ -10,11 +10,59 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1631761/000121390026049159/ea0287206-20f_yirendigi.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Credit solution business",
+   "products": [
+    "loan facilitation services",
+    "self-funded financing services",
+    "credit products",
+    "loan products",
+    "small revolving loan facilitation services"
+   ],
+   "description": "Provides loan facilitation and self-funded financing services to individual borrowers and small business owners, funded mainly by financial institutions.",
+   "evidence": "The credit solution business, formerly known as the \"financial services business\", continues to offer loan facilitation services and self-funded financing services with no significant changes in product and service offerings."
+  },
+  {
+   "name": "Insurance brokerage business",
+   "products": [
+    "insurance products",
+    "insurance referral business"
+   ],
+   "description": "Distributes insurance products online as a brokerage, serving clients acquired through direct marketing, referrals and channel partners.",
+   "evidence": "For our insurance brokerage business, we acquire clients through a variety of channels"
+  },
+  {
+   "name": "Others",
+   "products": [
+    "electronic commerce services",
+    "Network and marketing services",
+    "Technology services"
+   ],
+   "description": "Holds the remaining electronic commerce and emerging technology services revenue, serving existing members until their memberships expire.",
+   "evidence": "The \"Others\" primarily represent the remaining electronic commerce services revenue from the consumption and lifestyle business segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Borrowers and institutional funding partners pay for loan facilitation, insurers pay brokerage commissions, and consumers pay for commerce, marketing and technology services.",
+  "evidence": "We earn brokerage commissions from insurance companies based on a pre-agreed rate applied to the actual premium amounts paid by policyholders."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company re-branded its credit business as \"credit solution business\" for segment reporting.",
+   "evidence": "In 2025, we re-branded it as \"credit solution business\"."
+  },
+  {
+   "text": "In 2025, the company adjusted the names of its business segments and stopped reporting the consumption and lifestyle business as a separate operating segment.",
+   "evidence": "As a result, we no longer report the consumption and lifestyle business as a separate operating segment in this annual report."
+  },
+  {
+   "text": "In 2023, the company re-categorized its non-financial products and services into a new segment called the Consumption and Lifestyle Business and Others.",
+   "evidence": "In the first quarter of 2023, we re-categorized these non-financial products and services primarily offered through Yixianghua and Yiren Select into a new business segment, namely the Consumption and Lifestyle Business and Others"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

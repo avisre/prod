@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001598981",
  "issuerName": "SKYX Platforms Corp.",
- "builtAt": "2026-11-16T05:34:28.089Z",
+ "builtAt": "2026-11-16T10:56:44.822Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-012927",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1598981/000149315226012927/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "advanced-safe-smart technologies and related products",
+   "products": [
+    "Sky Plug & Receptacle",
+    "Sky Universal Power-Plug & Receptacle",
+    "Power-Plug Retrofit Kit",
+    "Ceiling Receptacle",
+    "SkyHome App",
+    "Smart Sky Platform",
+    "ceiling fans",
+    "light fixtures"
+   ],
+   "description": "One segment selling advanced safe and smart plug and play technologies and related products, including ceiling fans, light fixtures and the Smart Sky Platform.",
+   "evidence": "The Company operates in one segment: advanced-safe-smart technologies and related products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Retail customers, builders and professionals pay for third-party ceiling fans, heaters and light fixtures resold through the company's websites, paired with its plug and play technology.",
+  "evidence": "Substantially most of our revenues come from the resale of third-party products, which include ceiling fans, heaters, light fixtures, paired, to the extent possible, with our standard \"plug and play\" feature either built in or with an adaptive kit."
+ },
+ "changes": [
+  {
+   "text": "In 2024 management concluded it would discontinue using its legacy e-commerce technology platforms.",
+   "evidence": "Management believes it will discontinue using its legacy platforms by October 1, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

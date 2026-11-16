@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001075880",
  "issuerName": "Kazia Therapeutics Limited.",
- "builtAt": "2026-11-16T05:34:28.591Z",
+ "builtAt": "2026-11-16T10:56:39.628Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-25-272284",
@@ -10,11 +10,34 @@
   "filingDate": "2025-11-07",
   "url": "https://www.sec.gov/Archives/edgar/data/1075880/000119312525272284/d908386d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical research and development",
+   "products": [
+    "Paxalisib",
+    "EVT-801",
+    "Cantrixil"
+   ],
+   "description": "An oncology-focused biotechnology company developing pharmaceutical drug candidates, principally Paxalisib, for patients with brain cancer and other oncology indications.",
+   "evidence": "The Consolidated Entity operates in the pharmaceutical research and development business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Licensees and collaborators pay upfront license fees, development milestones and royalties for rights to the company's intellectual property.",
+  "evidence": "The terms of the license include standard provisions for an upfront license fee and development milestones related to the initiation of Phase 1, Phase 2 trial, first Phase 3 trial, first product approval."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold all intellectual property and trademark rights to Cantrixil.",
+   "evidence": "Other sundry income represents the sale of all intellectual property and trademark rights to Cantrixil for US$ 1 million (A$ 1.6 million)."
+  },
+  {
+   "text": "In 2025 the company deprioritised a development program, with no further development activities planned for it.",
+   "evidence": "As a result, the EVT-801 program has been deprioritised and no further development activities are planned."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

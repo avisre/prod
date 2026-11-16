@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001320854",
  "issuerName": "FREIGHTCAR AMERICA, INC.",
- "builtAt": "2026-11-16T05:34:27.415Z",
+ "builtAt": "2026-11-16T10:55:13.798Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-098668",
@@ -10,10 +10,41 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1320854/000119312526098668/rail-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacturing",
+   "products": [
+    "new railcar manufacturing",
+    "used railcar sales",
+    "major railcar conversions and rebodies",
+    "box cars",
+    "covered hoppers",
+    "open top hoppers",
+    "gondolas",
+    "intermodal and non-intermodal flat cars"
+   ],
+   "description": "Designs and manufactures new freight railcars, sells used railcars, and performs major conversions and rebodies for shippers, railroads and financial institutions.",
+   "evidence": "The Company's Manufacturing segment includes new railcar manufacturing, used railcar sales, and major railcar conversions and rebodies."
+  },
+  {
+   "name": "Aftermarket",
+   "products": [
+    "forged, cast and fabricated railcar parts",
+    "replacement components and other supplies",
+    "safety training",
+    "railcar inspections",
+    "preventative maintenance"
+   ],
+   "description": "Sells forged, cast and fabricated railcar parts and supplies and provides aftermarket services such as inspections, preventative maintenance and safety training to railcar owners.",
+   "evidence": "The Company's Aftermarket segment includes the selling of forged, cast and fabricated railcar parts, replacement components and other supplies for all railcar types, and provides aftermarket services including safety training, railcar inspections, and preventative maintenance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Shippers, railroads and financial institutions pay for new railcars, conversions and rebodies, and for replacement parts, supplies and aftermarket services.",
+  "evidence": "Our Manufacturing segment revenues are generated primarily from sales of the railcars that we manufacture."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

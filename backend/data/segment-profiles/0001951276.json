@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001951276",
  "issuerName": "SR Bancorp, Inc.",
- "builtAt": "2026-11-16T05:34:28.899Z",
+ "builtAt": "2026-11-16T10:56:56.844Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-031222",
@@ -10,11 +10,32 @@
   "filingDate": "2026-09-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1951276/000143774926031222/srbk20260630_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "commercial, retail and related banking services",
+    "residential mortgage loans",
+    "multi-family loans",
+    "commercial and industrial loans",
+    "consumer loans"
+   ],
+   "description": "Community bank providing commercial, retail and related banking services and loans to individuals and small businesses in New Jersey.",
+   "evidence": "The Company's CEO is the chief operating decision maker who uses consolidated net income to assess performance and profitability of our single business segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The Bank earns interest and fees from deposit and loan products sold to individuals and small businesses.",
+  "evidence": "The Bank offers a variety of deposit and loan products to individuals and small businesses, most of which are located in our primary market."
+ },
+ "changes": [
+  {
+   "text": "In 2023 Somerset Bank and Regal Bank were combined to form Somerset Regal Bank.",
+   "evidence": "Somerset Regal Bank was formed through the combination on September 19, 2023 of Somerset Bank and Regal Bank, two New Jersey chartered institutions."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

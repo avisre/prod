@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001610853",
  "issuerName": "SOLANA COMPANY",
- "builtAt": "2026-11-16T05:34:30.062Z",
+ "builtAt": "2026-11-16T10:57:16.812Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-037194",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1610853/000110465926037194/hsdt-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Asset Treasury",
+   "products": [
+    "SOL",
+    "Unlocked SOL",
+    "Locked SOL",
+    "Locked PIPE SOL",
+    "Digital Assets Receivable",
+    "Digital Asset Fund Investment"
+   ],
+   "description": "Acquires, holds and stakes Solana tokens as its digital asset treasury, while also running a smaller neurotechnology business focused on neurological wellness.",
+   "evidence": "therefore, the Company has a single reporting segment and the determination of the single segment is consistent with the information provided to the CODM."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Validator service providers pay in staking rewards for access to delegated SOL, while patients, an e-commerce partner and clinics pay for product sales.",
+  "evidence": "the Company provides the validator service providers with the right to use its delegated SOL in exchange for noncash consideration in the form of protocol-generated staking."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company adopted a digital asset treasury strategy centered on acquiring SOL and repositioned a substantial portion of its balance sheet around it.",
+   "evidence": "In September 2025, we adopted a digital asset treasury strategy centered on acquiring SOL and began repositioning a substantial portion of our balance sheet around that strategy."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

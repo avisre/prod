@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002025774",
  "issuerName": "ALPS GROUP INC",
- "builtAt": "2026-11-16T05:34:32.187Z",
+ "builtAt": "2026-11-16T11:00:29.448Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-036364",
@@ -10,11 +10,51 @@
   "filingDate": "2026-08-06",
   "url": "https://www.sec.gov/Archives/edgar/data/2025774/000149315226036364/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical and Wellness",
+   "products": [
+    "Non-surgical aesthetic services",
+    "surgical aesthetic services",
+    "medical consultation",
+    "health screenings",
+    "cellular therapy and research",
+    "COVID-19 testing"
+   ],
+   "description": "Provides non-surgical and surgical aesthetic treatments, medical consultations, health screenings and cellular therapy to patients and customers in Malaysia.",
+   "evidence": "Medical and Wellness Non-surgical aesthetic services, surgical aesthetic services, medical consultation, health screenings, cellular therapy and research and COVID-19 testing"
+  },
+  {
+   "name": "Life Science",
+   "products": [
+    "Whole genome sequencing",
+    "pharmacogenomics"
+   ],
+   "description": "Runs genomic testing and molecular laboratory work, offering whole genome sequencing and pharmacogenomics to clients and patients.",
+   "evidence": "Life Science Whole genome sequencing and pharmacogenomics"
+  },
+  {
+   "name": "Others",
+   "products": [
+    "Investment holding",
+    "provision for management services"
+   ],
+   "description": "Holds investments and provides management services within the group.",
+   "evidence": "Others Investment holding and provision for management services"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Patients and customers pay for aesthetic treatments, general healthcare, wellness services and genomic testing, and that revenue funds the group's research and development.",
+  "evidence": "Rather, we provide aesthetic treatments, general healthcare and wellness services to generate revenue which is used to support and sustain our research and development activities."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company divested its interest in Vax Biotech Sdn. Bhd. and discontinued the related cholera vaccine research and development activities.",
+   "evidence": "On March 30, 2026, we divested the 30% equity interest in Vax Biotech Sdn. Bhd. previously held by Alps Global Holding Berhad."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

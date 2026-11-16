@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001817004",
  "issuerName": "NEXTNRG, INC.",
- "builtAt": "2026-11-16T05:34:30.430Z",
+ "builtAt": "2026-11-16T10:58:56.306Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016896",
@@ -10,11 +10,45 @@
   "filingDate": "2026-04-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1817004/000149315226016896/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy Infrastructure",
+   "products": [
+    "NextNRG Smart Microgrids",
+    "solar energy systems",
+    "AI/ML powered smart microgrid technology",
+    "wireless EV charging technology",
+    "Microgrid Controller",
+    "PEACE Controller",
+    "HOPES Controller",
+    "RenCast"
+   ],
+   "description": "Owns and operates solar power systems, smart microgrids and EV charging technology, selling power and licensing its AI platform to utilities and commercial off-takers.",
+   "evidence": "The Company operates in two reportable segments: Energy Infrastructure and Mobile Fuel Delivery."
+  },
+  {
+   "name": "Mobile Fuel Delivery",
+   "products": [
+    "on-demand fuel delivery services",
+    "fuel delivery trucks",
+    "EzFill mobile application"
+   ],
+   "description": "Delivers fuel on demand to individual consumers and commercial fleets through a fleet of fuel trucks and a proprietary mobile app.",
+   "evidence": "The Company's mobile fueling segment provides on-demand fuel delivery services through a growing fleet of fuel trucks operating across a national footprint."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers, from individual consumers to commercial fleets, pay for scheduled fuel delivery, while energy infrastructure customers pay through power purchase agreements, leases, SaaS and technology licensing.",
+  "evidence": "The Company's revenue is generated primarily from the sale and delivery of fuel."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company combined its mobile fueling operations with its energy infrastructure business through a common control transaction, and it presents those two segments.",
+   "evidence": "The Company presents its consolidated financial statements with segments for mobile fuel delivery and energy infrastructure."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

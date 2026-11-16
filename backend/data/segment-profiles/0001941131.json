@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001941131",
  "issuerName": "TORO CORP.",
- "builtAt": "2026-11-16T05:34:27.986Z",
+ "builtAt": "2026-11-16T10:56:28.477Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001140361-26-014706",
@@ -10,11 +10,54 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1941131/000114036126014706/ef20060830_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Eco tanker segment",
+   "products": [
+    "M/T Wonder Altair",
+    "M/T Wonder Mimosa"
+   ],
+   "description": "Operates the eco-design tanker M/T Wonder Altair and the legacy Handysize vessel M/T Wonder Mimosa for charterers under period time charters.",
+   "evidence": "The M/T Wonder Mimosa is a 2010-built Handysize vessel that does not have eco-design characteristics, but its results are included within the Eco tanker segment as the successor to the former Handysize tanker segment."
+  },
+  {
+   "name": "Non-Eco tanker segment",
+   "products": [
+    "M/T Wonder Maia"
+   ],
+   "description": "Operates the non-eco design tanker M/T Wonder Maia for charterers under period time charters.",
+   "evidence": "As a result we operated in three reportable segments: (i) the Eco tanker segment (comprising of M/T Wonder Altair as discussed above), (ii) the Non-Eco tanker segment (comprising of M/T Wonder Maia ) and the (iii) LPG carrier segment (comprising of LPG Dream Arrax and LPG Dream Vermax ) and, each on a continuing operations basis."
+  },
+  {
+   "name": "LPG carrier segment",
+   "products": [
+    "LPG Dream Arrax",
+    "LPG Dream Vermax"
+   ],
+   "description": "Operates LPG carrier vessels transporting liquefied petroleum gas for charterers under period time charters.",
+   "evidence": "As a result, Toro operated in three reportable segments: (i) the Eco tanker segment (comprising of M/T Wonder Altair as discussed above), (ii) the Non-Eco tanker segment (comprising of M/T Wonder Maia ) and (iii) LPG carrier segment (comprising of LPG Dream Arrax and LPG Dream Vermax ), each on a continuing operations basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Charterers pay fixed or floating daily hire rates under time charters, and vessel cargoes generate voyage charter freight.",
+  "evidence": "Under our time charter agreements, whereby our vessels are utilized by a charterer for a set duration of time, the charterer pays a fixed or floating daily hire rate and other compensation costs related to the contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold the M/T Wonder Sirius and reported the related tanker segment as discontinued operations.",
+   "evidence": "Following the sale of the M/T Wonder Sirius in January of 2024, we no longer had any Aframax/LR2 vessels and the results of operations and cash flows of the Aframax/LR2 segment, as well as its assets and liabilities, are reported as discontinued operations."
+  },
+  {
+   "text": "In 2025 the former Handysize tanker segment was renamed to reflect the updated fleet composition and the strategic continuity of the segment.",
+   "evidence": "Following the Robin Spin-Off of the Handysize tanker vessel and the acquisition of the new MR (MR2 class) tanker vessel, M/T Wonder Altair (built in 2021) on July 11, 2025, the former Handysize segment was renamed \"MR (Handysize/MR2)\" to reflect both the updated fleet composition and the strategic continuity of the segment."
+  },
+  {
+   "text": "In 2025 the tanker segments were reassessed and an additional Non-Eco tanker segment was created alongside the Eco tanker segment.",
+   "evidence": "the Company reassessed its segments and the MR (Handysize/MR2) segment was replaced with the Eco tanker segment and an additional Non-Eco tanker segment was created."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

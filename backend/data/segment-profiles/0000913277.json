@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000913277",
  "issuerName": "CLARUS CORPORATION",
- "builtAt": "2026-11-16T05:34:32.048Z",
+ "builtAt": "2026-11-16T11:00:04.364Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-024159",
@@ -10,11 +10,58 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/913277/000110465926024159/clar-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Outdoor",
+   "products": [
+    "apparel",
+    "footwear",
+    "headlamps",
+    "lights",
+    "trekking poles",
+    "gloves",
+    "packs",
+    "avalanche airbags"
+   ],
+   "description": "Designs, manufactures and markets outdoor engineered equipment and apparel for climbing, mountaineering, trail running, backpacking and skiing enthusiasts worldwide.",
+   "evidence": "Our Outdoor segment is a global leader in designing, manufacturing, and marketing innovative outdoor engineered equipment and apparel for climbing, mountaineering, trail running, backpacking, skiing, and a wide range of other year-round outdoor recreation activities."
+  },
+  {
+   "name": "Adventure",
+   "products": [
+    "automotive roof racks",
+    "trays",
+    "mounting systems",
+    "luggage boxes",
+    "carriers",
+    "recovery tracks",
+    "bicycle transport systems",
+    "accessories"
+   ],
+   "description": "Manufactures automotive roof racks, carriers, recovery boards and bicycle racks for outdoor enthusiasts and tradesmen, mainly in Australia and New Zealand.",
+   "evidence": "Our Adventure segment, which includes Rhino-Rack, MAXTRAX, TRED, and RockyMounts is a manufacturer of highly-engineered automotive roof racks, trays, mounting systems, luggage boxes, carriers, recovery boards, bicycle racks, and accessories in Australia and New Zealand and a growing presence in the United States and Europe."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Specialty retailers, distributors, original equipment manufacturers and consumers on our websites pay for outdoor equipment, lifestyle products and automotive accessories.",
+  "evidence": "We market and distribute our products in over 50 countries, primarily through independent specialty stores and specialty chains, premium sporting goods and outdoor recreation stores, distributors and original equipment manufacturers (\"OEMs\") in the United States, Canada, Europe, Middle East, Asia, Australia, New Zealand, Africa, and South America."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold its Precision Sport segment, leaving two segments instead of three.",
+   "evidence": "We operated our business within three segments until the sale of the Precision Sport segment on February 29, 2024."
+  },
+  {
+   "text": "After that 2024 sale the Company reports its business within two segments.",
+   "evidence": "After the sale of the Precision Sport segment, we operate the business within two segments."
+  },
+  {
+   "text": "In 2025 the Company sold PIEPS, which had been part of the Outdoor segment.",
+   "evidence": "Prior to its sale on July 11, 2025, PIEPS was included in our Outdoor segment alongside Black Diamond Equipment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

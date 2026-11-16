@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001674335",
  "issuerName": "JELD-WEN Holding, Inc.",
- "builtAt": "2026-11-16T05:34:27.185Z",
+ "builtAt": "2026-11-16T10:55:13.797Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001674335-26-000043",
@@ -10,11 +10,54 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1674335/000167433526000043/jeld-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "residential doors",
+    "non-residential doors",
+    "interior and exterior doors",
+    "patio doors",
+    "folding or sliding wall systems",
+    "wood and vinyl windows",
+    "impact windows",
+    "stile and rail doors"
+   ],
+   "description": "Supplies windows and doors for residential and commercial markets in the U.S. and Canada, serving new construction and repair and remodel projects.",
+   "evidence": "In our North America segment, we compete primarily in the new construction and R&R market for residential doors and windows in the U.S. and Canada."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "residential and non-residential doors",
+    "Swedoor",
+    "DANA",
+    "Kellpex"
+   ],
+   "description": "Competes in the residential and non-residential door market across Germany, the U.K., France, Austria, Switzerland, and Scandinavia for builders and renovators.",
+   "evidence": "In our Europe segment, we compete primarily in the market for residential and non-residential doors in Germany, the U.K., France, Austria, Switzerland, and Scandinavia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Wholesale distributors and retailers, individual contractors and consumers pay for interior and exterior doors, windows and related building products.",
+  "evidence": "Our customers include wholesale distributors and retailers as well as individual contractors and consumers."
+ },
+ "changes": [
+  {
+   "text": "Sold the Australasia business, including JW Australia, in 2023; its results are reported as discontinued operations.",
+   "evidence": "On July 2, 2023, we completed the sale of JW Australia."
+  },
+  {
+   "text": "Divested the Towanda facility and related assets in 2025, having reported it within North America through the sale date.",
+   "evidence": "As a result, we were required to divest our Towanda facility and related assets, which occurred on January 17, 2025."
+  },
+  {
+   "text": "Sold its business in St. Kitts in 2024.",
+   "evidence": "Tax effect on sale of business during the year ended December 31, 2024, primarily relates to the sale of our business in St. Kitts."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

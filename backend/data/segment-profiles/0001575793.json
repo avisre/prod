@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001575793",
  "issuerName": "ENERGOUS CORPORATION",
- "builtAt": "2026-11-16T05:34:27.056Z",
+ "builtAt": "2026-11-16T10:54:35.588Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-035214",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1575793/000110465926035214/watt-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wireless Power Network",
+   "products": [
+    "PowerBridge transmitter systems",
+    "transmitter systems",
+    "receiver integrated circuits",
+    "battery-free receiver products",
+    "e-Sense tag",
+    "e-Compass cloud-based software platform",
+    "RF Tags",
+    "Electronic Shelf Labels"
+   ],
+   "description": "Develops and sells RF wireless power transmitters, receivers and software that charge battery-free IoT devices for retail, industrial, healthcare and logistics customers.",
+   "evidence": "Our WPN technology consists of transmitter systems, receiver integrated circuits, and supporting software designed to deliver power and data to battery-free IoT devices across a range of operating distances and power levels."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers and value-chain partners pay for transmitter systems, receiver integrated circuits, power amplifier ICs and the supporting software that powers battery-free IoT devices.",
+  "evidence": "We pursue an ecosystem-based approach by engaging customers for our transmitter, receiver, and power amplifier ICs and solutions, as well as their upstream and downstream value-chain partners."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001524025",
  "issuerName": "TILLY’S, INC.",
- "builtAt": "2026-11-16T05:34:29.982Z",
+ "builtAt": "2026-11-16T10:57:15.688Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-024440",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1524025/000162828026024440/tlys-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "retail segment",
+   "products": [
+    "casual apparel",
+    "footwear",
+    "accessories",
+    "hardgoods"
+   ],
+   "description": "Retailer of casual apparel, footwear, accessories and hardgoods sold through its stores and website to young men, young women, boys and girls.",
+   "evidence": "Tillys operates in one , consolidated operating and reportable segment, which is as a retailer of casual apparel, footwear, accessories, and hardgoods (the \"retail segment\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for casual apparel, footwear, accessories and hardgoods bought in its stores and on its website.",
+  "evidence": "The retail segment derives revenues from our stores located in a variety of retail centers in the United States and via our website."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

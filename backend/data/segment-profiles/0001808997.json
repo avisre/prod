@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001808997",
  "issuerName": "American Outdoor Brands, Inc.",
- "builtAt": "2026-11-16T05:34:31.458Z",
+ "builtAt": "2026-11-16T10:59:40.382Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001808997-26-000031",
@@ -10,10 +10,29 @@
   "filingDate": "2026-06-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1808997/000180899726000031/aout-20260430.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Outdoor Lifestyle and Shooting Sports",
+   "products": [
+    "premium sportsman knives and tools for fishing and hunting",
+    "land management tools for hunting preparedness and for use in the backyard",
+    "meat processing equipment",
+    "outdoor cooking products",
+    "rests, vaults, and other related accessories",
+    "hunting optics, firearm aiming devices, flashlights, and laser grips",
+    "reloading, gunsmithing, and firearm cleaning supplies",
+    "Caldwell ClayCopter"
+   ],
+   "description": "Designs, sources and sells outdoor lifestyle products and shooting sports accessories under owned brands for rugged outdoor enthusiasts, hunters, anglers and shooters.",
+   "evidence": "We have evaluated our operations under ASC 280-10-50-1 – Segment Reporting and have concluded that we are operating as one segment based on several key factors, including the reporting and review process used by the chief operating decision maker, or CODM, who reviews only consolidated financial information and makes decisions to allocate resources based on those financial statements."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Consumers and retailers pay the company for outdoor lifestyle products and shooting sports accessories bought through e-commerce and traditional distribution channels.",
+  "evidence": "Our primary target customers are consumers who participate in outdoor and recreational activities and maintain active lifestyles."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

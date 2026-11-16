@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001781162",
  "issuerName": "Momentus Inc.",
- "builtAt": "2026-11-16T05:34:27.198Z",
+ "builtAt": "2026-11-16T10:54:46.896Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-022291",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1781162/000162828026022291/mnts-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial space",
+   "products": [
+    "satellites",
+    "satellite buses",
+    "solar arrays",
+    "other satellite components",
+    "Tape Spring Solar Array",
+    "Microwave Electrothermal Thruster",
+    "Orbital Service Vehicles",
+    "Vigoride"
+   ],
+   "description": "Develops and sells satellites, satellite buses and components, plus space transportation, hosted payload and in-orbit servicing to government and commercial satellite operators.",
+   "evidence": "Momentus is a U.S. commercial space company that offers satellites, satellite buses, and other satellite components, transportation, communication, and infrastructure services, including hosted payloads and other in-orbit services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Government and commercial satellite operators and space technology companies pay for satellites, satellite buses, hosted payloads, and last mile transportation of their payloads to custom orbits.",
+  "evidence": "Government and commercial satellite operators and space technology companies and organizations are our principal customers and target customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

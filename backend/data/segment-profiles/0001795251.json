@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001795251",
  "issuerName": "NANO-X IMAGING LTD",
- "builtAt": "2026-11-16T05:34:29.109Z",
+ "builtAt": "2026-11-16T10:58:54.668Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050191",
@@ -10,10 +10,45 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1795251/000121390026050191/ea0282652-20f_nanox.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nanox.ARC",
+   "products": [
+    "Nanox.ARC X",
+    "Nanox.CLOUD",
+    "Nanox System",
+    "MSaaS"
+   ],
+   "description": "Sells its X-ray source technology and the Nanox System, including Nanox.CLOUD imaging software, to imaging providers and distribution partners.",
+   "evidence": "our collaborative arrangements are subject to conditionality, including receipt of regulatory clearance and material compliance with acceptance test protocol, among other things, for the Nanox.ARC and the Nanox.ARC X;"
+  },
+  {
+   "name": "Radiology Services",
+   "products": [
+    "teleradiology services",
+    "USARAD"
+   ],
+   "description": "Provides teleradiology services and remote image interpretation by USARAD radiologists to healthcare providers and imaging facilities.",
+   "evidence": "The goodwill is assigned to the reporting units of the AI Solutions segment (which was recorded in the acquisition of Nanox AI) and the Radiology Services segment (which was recorded in the acquisition of USARAD)."
+  },
+  {
+   "name": "AI and software Solutions",
+   "products": [
+    "AI solutions",
+    "Nanox AI",
+    "AI and software products",
+    "population health applications"
+   ],
+   "description": "Develops and sells AI-based medical imaging software and population health applications to hospitals and healthcare providers.",
+   "evidence": "Nanox health IT Inc.'s operational results are included in the AI and software solutions segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers and healthcare providers pay for imaging services from the Nanox System, AI and software products, teleradiology and other services.",
+  "evidence": "As of December 31, 2025, we have generated revenue from sales of imaging services from the Nanox System, AI and software products, teleradiology and other services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

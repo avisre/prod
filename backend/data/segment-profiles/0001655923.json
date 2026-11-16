@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001655923",
  "issuerName": "Alpha Cognition Inc.",
- "builtAt": "2026-11-16T05:34:30.471Z",
+ "builtAt": "2026-11-16T10:59:04.966Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037614",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1655923/000121390026037614/ea0280314-10k_alphacog.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical treatments",
+   "products": [
+    "ZUNVEYL",
+    "ZUNVEYL oral tablet formulation",
+    "ALPHA-1062 sublingual formulation",
+    "ALPHA-1062 for mTBI and related conditions",
+    "ALPHA-1062 for Acute pancreatitis",
+    "ALPHA-0602",
+    "ALPHA-0702 & ALPHA-0802",
+    "benzgalantamine sublingual formulation"
+   ],
+   "description": "Develops, manufactures and sells ZUNVEYL oral tablets for Alzheimer's disease patients in long-term care, plus pre-clinical neurological disease programs.",
+   "evidence": "We focus on the development of commercial manufacturing and commercial sales of ZUNVEYL oral tablet formulation."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "U.S. wholesalers, payors and patients pay for ZUNVEYL prescriptions, and licensing partners pay milestones and royalties on sales in licensed territories.",
+  "evidence": "Patients' out-of-pocket cost for treatment with ZUNVEYL will depend on their length of treatment and their insurance."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company exercised a reversion of rights for its traumatic brain injury and pancreatitis compounds, bringing those programs back in-house.",
+   "evidence": "The Company exercised a reversion of rights for ALPHA-1062 for TBI, pancreatitis, and related conditions in January 2025 and has brought ALPHA-1062 for mTBI and related conditions, ALPHA-1062 for Acute pancreatitis back to the Company to develop both compounds for said conditions."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001792267",
  "issuerName": "Burning Rock Biotech Limited",
- "builtAt": "2026-11-16T05:34:27.815Z",
+ "builtAt": "2026-11-16T10:57:46.879Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-183377",
@@ -10,10 +10,44 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1792267/000119312526183377/d31568d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Central laboratory business",
+   "products": [
+    "cancer therapy selection tests",
+    "test reports"
+   ],
+   "description": "Issues test reports from its central laboratory for cancer patients' tissue and liquid biopsy samples, selling cancer therapy selection tests to individual patients.",
+   "evidence": "Central laboratory business revenue is generated from sales of our cancer therapy selection tests to individual patients."
+  },
+  {
+   "name": "In-hospital business",
+   "products": [
+    "laboratory equipment",
+    "reagent kits",
+    "cancer therapy selection testing"
+   ],
+   "description": "Helps partner hospitals set up in-hospital laboratories, selling them laboratory equipment and reagent kits so they can run cancer therapy selection testing themselves.",
+   "evidence": "Under our in-hospital business, we (i) in some instances facilitate the hospitals' procurement of laboratory equipment required to set up their in-hospital laboratories, for which we charge a fee, and (ii) sell our reagent kits to hospitals for them to perform cancer therapy selection testing in the in-hospital laboratories we helped them establish."
+  },
+  {
+   "name": "Pharma research and development services",
+   "products": [
+    "cancer therapy selection tests services",
+    "companion diagnostics development services",
+    "customized tests services",
+    "analytical validation services"
+   ],
+   "description": "Provides cancer therapy selection tests, companion diagnostics development and analytical validation services to pharmaceutical companies developing cancer drugs and to hospitals.",
+   "evidence": "We provide pharma research and development services, primarily cancer therapy selection tests services, companion diagnostics development services, and other service agreements with the combination of various customized tests services and analytical validation services, to pharmaceutical companies for developing new drugs for targeted therapies, immunotherapies on various types of cancers and to hospitals for their studies on cancer diagnosis and treatment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Patients pay out of pocket for cancer therapy selection tests ordered by their physicians; hospitals pay fees and buy reagent kits; pharmaceutical companies pay for research and development services.",
+  "evidence": "Patients pay us for these tests with out-of-pocket payments after their physicians have ordered our tests."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

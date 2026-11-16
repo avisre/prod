@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001612630",
  "issuerName": "Joint Corp",
- "builtAt": "2026-11-16T05:34:30.116Z",
+ "builtAt": "2026-11-16T10:57:59.789Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001612630-26-000022",
@@ -10,11 +10,40 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1612630/000161263026000022/jynt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Franchise Operations",
+   "products": [
+    "Royalty fees",
+    "Franchise fees",
+    "Advertising fund revenue",
+    "Software fees",
+    "Other revenues"
+   ],
+   "description": "Franchises chiropractic clinics across the United States and collects royalties, franchise fees, advertising fund and software fees from its franchisees.",
+   "evidence": "The following discussion and analysis of our financial results encompasses our consolidated results and results of our business segment: Franchise Operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Franchisees pay the company royalties, initial franchise fees, national marketing fees and software fees based on the gross sales of their clinics.",
+  "evidence": "We collect a royalty of 7.0% of gross sales from franchised clinics."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company classified its corporate clinic business segment as held for sale as part of its refranchising strategy.",
+   "evidence": "since the fourth quarter of 2024, we have classified our corporate clinic business segment as held for sale."
+  },
+  {
+   "text": "In 2025 the company completed many clinic divestitures and moved its previous company-owned clinic segment to discontinued operations, shifting to a pure-play franchisor.",
+   "evidence": "During the year ended December 31, 2025, we completed 41 clinic divestitures and entered into an Asset Purchase Agreement for the sale of 22 additional clinics, which represents a major milestone of our strategic shift to a pure-play franchisor business and our financial statements now reflect our previous company-owned or managed clinic segment as discontinued operations."
+  },
+  {
+   "text": "In 2024 the company expanded its refranchising plan to additional clinic markets of company-owned or managed clinics.",
+   "evidence": "During the third quarter of 2024, we expanded the refranchising plan to include additional clinic markets of company-owned or managed clinics, marketing the clinics in clusters grouped by proximity to larger private equity firms."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

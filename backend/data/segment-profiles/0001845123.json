@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001845123",
  "issuerName": "AleAnna, Inc.",
- "builtAt": "2026-11-16T05:34:31.779Z",
+ "builtAt": "2026-11-16T10:59:42.294Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-036606",
@@ -10,11 +10,38 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1845123/000121390026036606/ea0281737-10k_aleanna.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Conventional",
+   "products": [
+    "conventional natural gas"
+   ],
+   "description": "Explores for and produces conventional natural gas onshore in Italy, selling production to European gas buyers.",
+   "evidence": "The Conventional segment consists of the natural gas exploration and production activities conducted by AleAnna Italia."
+  },
+  {
+   "name": "Renewable",
+   "products": [
+    "electricity",
+    "RNG",
+    "biomethane"
+   ],
+   "description": "Produces electricity and renewable natural gas from animal and agricultural waste at acquired Italian digesters converted to biomethane.",
+   "evidence": "The Renewable segment consists of the RNG and electricity production activities conducted by AleAnna Renewable and the RNG Subsidiaries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Shell Energy Europe buys all conventional gas production, while GSE is the sole customer for the renewable segment's electricity, each paying for volumes delivered.",
+  "evidence": "For the year ended December 31, 2025, the Company's Conventional segment sold all conventional gas production to Shell Energy Europe Limited"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company disaggregated its single reportable segment into two reportable segments, Conventional and Renewable.",
+   "evidence": "Segment Results During 2025, in connection with the commencement of production at the Longanesi field, the Company's evaluation of operating results between conventional and renewable operations became more relevant to the chief operating decision maker, resulting in further disaggregation of the Company's single reportable segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

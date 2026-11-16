@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001803914",
  "issuerName": "Playboy, Inc.",
- "builtAt": "2026-11-16T05:34:28.186Z",
+ "builtAt": "2026-11-16T10:55:58.690Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-018238",
@@ -10,11 +10,49 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1803914/000162828026018238/ply-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct-to-Consumer",
+   "products": [
+    "luxury lingerie",
+    "lingerie",
+    "certain other apparel",
+    "bedroom accessories",
+    "intimacy products",
+    "other adult products"
+   ],
+   "description": "Sells Honey Birdette luxury lingerie and related products to consumers through owned e-commerce sites and physical retail stores in Australia, the United States and the United Kingdom.",
+   "evidence": "Our Direct-to-Consumer segment consists of our Honey Birdette business, which primarily sells luxury lingerie online and at physical stores in Australia, the United States and the United Kingdom."
+  },
+  {
+   "name": "Licensing",
+   "products": [
+    "Playboy",
+    "Rabbit Head Design",
+    "Playboy Club",
+    "Playboy Plus",
+    "Playboy TV"
+   ],
+   "description": "Licenses Playboy trademarks and digital businesses to strategic partners for products, venues, online gaming, entertainment and events in exchange for royalties.",
+   "evidence": "We license the Playboy name, Rabbit Head Design, and other trademarks and related properties to strategic partners around the world."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Licensees pay royalties on their sales of Playboy-branded products and services, while Honey Birdette shoppers pay for lingerie bought online and in stores.",
+  "evidence": "Our licensing agreements permit licensees the right to use certain Playboy trademarks for certain categories of products in certain territories for a fee, which is typically a royalty calculated as a percentage of net revenue from wholesale and/or retail sales of such products"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Digital Subscriptions and Content operating and reportable segment was eliminated when its operations became a licensing model under the LMA.",
+   "evidence": "Upon the transition of our digital subscriptions and content operations into a licensing model in conjunction with the LMA, our previously reported Digital Subscriptions and Content operating and reportable segment was eliminated as of January 1, 2025."
+  },
+  {
+   "text": "In 2025 the prior year operations of that eliminated segment were recast into All Other for comparative purposes.",
+   "evidence": "As a result, our previously reported Digital Subscriptions and Content operating and reportable segment was eliminated and its operations in the prior year comparative period were recast to be included in \"All Other\" for comparative purposes."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002019793",
  "issuerName": "XCF GLOBAL, INC.",
- "builtAt": "2026-11-16T05:34:28.042Z",
+ "builtAt": "2026-11-16T10:55:37.546Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014280",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2019793/000149315226014280/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "renewable fuels",
+   "products": [
+    "sustainable aviation fuel",
+    "neat SAF",
+    "blended SAF",
+    "renewable diesel",
+    "biodiesel",
+    "bio-based glycerol",
+    "natural glycerin"
+   ],
+   "description": "Produces renewable fuels at its plants, principally sustainable aviation fuel sold to offtake partners, serving aviation and renewable fuel markets.",
+   "evidence": "The Company has one reportable segment: renewable fuels."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Offtake partners such as energy companies, fuel wholesalers and brokers, airlines and fixed-based operators pay for SAF and other renewable fuels produced at the company's plants.",
+  "evidence": "The Company intends to generate revenues from the sale of its SAF products to offtake partners, which include energy companies, fuel wholesalers and brokers, airlines, or fixed-based operators"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001013880",
  "issuerName": "TTEC Holdings, Inc.",
- "builtAt": "2026-11-16T05:34:30.749Z",
+ "builtAt": "2026-11-16T10:59:01.949Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-020532",
@@ -10,10 +10,39 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1013880/000110465926020532/ttec-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TTEC Digital",
+   "products": [
+    "Professional Services",
+    "Managed Services",
+    "CX Consulting",
+    "CX Data and Analytics",
+    "IP & Software"
+   ],
+   "description": "Designs, builds and manages cloud and premise CX technology, CRM, AI and analytics solutions for enterprise, small business and public sector clients.",
+   "evidence": "TTEC Digital is one of the largest CX technology and service providers and is focused on the intersection of Contact Center as a Service (\"CCaaS\"), Customer Relationship Management (\"CRM\"), and AI and Analytics."
+  },
+  {
+   "name": "TTEC Engage",
+   "products": [
+    "Customer Support",
+    "Tech Support",
+    "Revenue Generation and Growth Services",
+    "Fraud Mitigation",
+    "AI Operations, including data annotation and labeling",
+    "Back-office Support"
+   ],
+   "description": "Provides digital first, AI-enabled customer experience operations and managed services at scale to large, complex enterprise clients worldwide.",
+   "evidence": "TTEC Engage provides digital first, AI-enabled CX operational and managed services to support large, complex enterprise clients' end-to-end customer interactions at scale across the world."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay TTEC for outsourced customer experience technology, managed services and digital solutions delivered across live interaction channels.",
+  "evidence": "is a global customer experience (\"CX\") technology and services outsourcing partner for marquee and high-growth brands and public sector clients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

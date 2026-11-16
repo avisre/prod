@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001439725",
  "issuerName": "BIODESIX, INC.",
- "builtAt": "2026-11-16T05:34:27.245Z",
+ "builtAt": "2026-11-16T10:54:59.256Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-076547",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1439725/000119312526076547/bdsx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diagnostic Testing",
+   "products": [
+    "Nodify Lung® Nodule Risk Assessment testing",
+    "Nodify XL2",
+    "Nodify CDT",
+    "BDX004"
+   ],
+   "description": "Provides blood-based lung diagnostic testing for healthcare providers and diagnostic testing services and consulting to biopharmaceutical, life sciences and diagnostics companies.",
+   "evidence": "The CODM views the Company's operations as a single operating segment as each revenue stream utilizes the same equipment and resources."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Healthcare providers and payers pay for blood-based lung diagnostic tests, while biopharmaceutical, life sciences and diagnostic companies pay for diagnostic testing services and consulting.",
+  "evidence": "We derive our revenue from two sources: (i) Diagnostic Tests, providing lung diagnostic testing services for healthcare providers associated with our five blood-based tests and (ii) Development Services, providing diagnostic testing services to biopharmaceutical, life sciences, and diagnostic companies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

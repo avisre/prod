@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001792781",
  "issuerName": "TORRID HOLDINGS INC.",
- "builtAt": "2026-11-16T05:34:28.260Z",
+ "builtAt": "2026-11-16T10:55:57.669Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001792781-26-000007",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1792781/000179278126000007/thi-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Apparel, Intimates and Accessories",
+   "products": [
+    "tops",
+    "bottoms",
+    "denim",
+    "dresses",
+    "intimates",
+    "activewear",
+    "footwear",
+    "accessories"
+   ],
+   "description": "Direct-to-consumer brand selling stylish apparel, intimates and accessories designed for curvy women through its e-Commerce platform and retail stores.",
+   "evidence": "We have determined that we have one reportable segment, which includes the operation of our e-Commerce platform and stores."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for apparel, intimates and accessories purchased through the Company's e-Commerce platform and retail stores.",
+  "evidence": "Through our unified commerce platform, which includes our e-Commerce and retail stores, we deliver a seamless brand experience to our customers wherever and whenever she chooses to shop."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

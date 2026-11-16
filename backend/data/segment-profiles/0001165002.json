@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001165002",
  "issuerName": "WESTWOOD HOLDINGS GROUP, INC.",
- "builtAt": "2026-11-16T05:34:27.218Z",
+ "builtAt": "2026-11-16T10:55:30.795Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001165002-26-000020",
@@ -10,10 +10,33 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1165002/000116500226000020/whg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advisory",
+   "products": [
+    "Institutional",
+    "Mutual Funds & ETFs",
+    "Wealth Management",
+    "Westwood Funds"
+   ],
+   "description": "Provides investment advisory and sub-advisory services through institutional, mutual fund and ETF, and wealth management mandates for clients in the U.S. and Canada.",
+   "evidence": "We operate two segments: Advisory and Trust. These segments are managed separately based on the types of products and services offered and their related client bases."
+  },
+  {
+   "name": "Trust",
+   "products": [
+    "trust services"
+   ],
+   "description": "Provides trust services to clients, earning trust fees from assets under advisement alongside the advisory business.",
+   "evidence": "We completed our most recent annual goodwill impairment assessment during the third quarter of 2025 and determined that no goodwill impairment related to the Advisory or Trust segment was required."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay investment advisory and trust fees calculated as a percentage of the assets the company manages and advises.",
+  "evidence": "Advisory and Trust fees are calculated based on a percentage of AUM and AUA, and the performance obligation is realized over the then-current calendar quarter."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

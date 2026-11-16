@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001936224",
  "issuerName": "SURF AIR MOBILITY INC.",
- "builtAt": "2026-11-16T05:34:30.780Z",
+ "builtAt": "2026-11-16T10:59:10.041Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-104468",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1936224/000119312526104468/srfm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Air Mobility",
+   "products": [
+    "Scheduled Air Service",
+    "On-Demand"
+   ],
+   "description": "Operates scheduled regional flights sold per seat and subsidized Essential Air Service routes, plus an on-demand charter marketplace for passengers.",
+   "evidence": "The Company and its chief operating decision maker (\"CODM\"), which is the Company's chief executive officer , organize and manage the Company on a consolidated basis, and, accordingly, the Company operates as a single operating and reportable segment, namely its Air Mobility segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Passengers pay per seat for scheduled flights and for on-demand charter flights, while the Department of Transportation pays EAS subsidy awards for completed flights.",
+  "evidence": "Scheduled Air Service - revenue from operating scheduled commercial air service flights which are sold to the public primarily on a per seat basis, and through subsidized EAS revenue awards from the Department of Transportation."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

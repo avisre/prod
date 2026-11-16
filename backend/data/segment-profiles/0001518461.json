@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001518461",
  "issuerName": "AMPLITECH GROUP, INC.",
- "builtAt": "2026-11-16T05:34:30.281Z",
+ "builtAt": "2026-11-16T10:58:08.901Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-012914",
@@ -10,10 +10,38 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1518461/000149315226012914/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacturing and Engineering",
+   "products": [
+    "low noise amplifiers",
+    "medium power amplifiers",
+    "cryogenic amplifiers",
+    "custom assembly designs",
+    "precision SATCOM microwave components",
+    "waveguides",
+    "MMIC components",
+    "non-recurring engineering services"
+   ],
+   "description": "Designs, engineers and assembles microwave amplifiers, subsystems and passive components to customer specifications for satellite, defense, space and telecom customers.",
+   "evidence": "AmpliTech, Inc. designs, engineers and assembles micro-wave component-based amplifiers that meet individual customer specifications."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "integrated circuits packages and lids",
+    "IC packaging and lids"
+   ],
+   "description": "Distributes integrated circuit packages and lids used for semiconductor device assembly, prototyping, testing and production to customers worldwide.",
+   "evidence": "The manufacturing and engineering segment assembles microwave components, and the distribution segment is a global distributor of integrated circuits packages and lids."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Aerospace, government, defense, satellite and telecom customers buy amplifiers, subsystems and components, plus engineering services billed per project or time and materials.",
+  "evidence": "We also offer non-recurring engineering services on a project-by-project basis, for a predetermined fixed contractual amount, or on a time plus material basis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
