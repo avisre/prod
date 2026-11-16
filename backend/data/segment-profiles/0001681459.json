@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001681459",
+ "issuerName": "TechnipFMC plc",
+ "builtAt": "2026-11-16T03:00:54.890Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001681459-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1681459/000168145926000010/fti-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Subsea",
+   "products": [
+    "subsea systems",
+    "subsea field infrastructure",
+    "subsea pipeline systems"
+   ],
+   "description": "Designs and installs subsea production systems for oil and gas operators.",
+   "evidence": "BUSINESS SEGMENTS Subsea Our Subsea segment provides integrated design, engineering, procurement, manufacturing, fabrication, installation, and life of field services for subsea systems, subsea field infrastructure, and subsea pipeline systems used in oil and natural gas production and transportation."
+  },
+  {
+   "name": "Surface Technologies",
+   "products": [
+    "surface production equipment"
+   ],
+   "description": "Supplies surface production and pressure control equipment.",
+   "evidence": "Organized in two business segments - Subsea and Surface Technologies - we will continue driving change in the energy industry with our pioneering integrated ecosystems, technology leadership, and digital innovation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas operators pay for subsea and surface equipment and services.",
+  "evidence": "Organized in two business segments - Subsea and Surface Technologies - we will continue driving change in the energy industry with our pioneering integrated ecosystems, technology leadership, and digital innovation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001999001",
+ "issuerName": "Six Flags Entertainment Corporation/NEW",
+ "builtAt": "2026-11-16T03:00:55.006Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001999001-26-000048",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1999001/000199900126000048/fun-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "amusement and water parks",
+   "products": [
+    "admission",
+    "food",
+    "merchandise and games",
+    "accommodations",
+    "extra-charge products"
+   ],
+   "description": "Runs amusement and water parks with resort facilities.",
+   "evidence": "The Company operates within a single reportable segment of amusement and water parks with accompanying resort facilities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay for admission, food, merchandise, games and accommodation.",
+  "evidence": "The Company generates revenue from sales of admission to the amusement parks and water parks, from purchases of food, merchandise and games both inside and outside the parks, from the sale of accommodations and other extra-charge products, and other revenue sources."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

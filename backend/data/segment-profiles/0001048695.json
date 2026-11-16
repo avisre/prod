@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001048695",
+ "issuerName": "F5, INC.",
+ "builtAt": "2026-11-16T03:00:53.824Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001048695-25-000157",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1048695/000104869525000157/ffiv-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

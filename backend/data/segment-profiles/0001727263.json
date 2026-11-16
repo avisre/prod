@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001727263",
+ "issuerName": "Frontdoor, Inc.",
+ "builtAt": "2026-11-16T03:00:54.864Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076548",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1727263/000119312526076548/ftdr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "home warranty",
+   "products": [],
+   "description": "Sells home service plans that cover repairs to household systems and appliances.",
+   "evidence": "Segments We operate as one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homeowners pay plan fees and contractors are paid to complete covered repairs.",
+  "evidence": "We provide our customers with a compelling value proposition by offering financial protection against unplanned and expensive home repairs, coupled with the convenience of having repairs guaranteed by us and completed by experienced professionals whose quality levels are regularly monitored."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (home warranty): home repair plans"
+ ],
+ "reader": "agent"
+}

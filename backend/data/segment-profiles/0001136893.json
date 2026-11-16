@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001136893",
+ "issuerName": "Fidelity National Information Services, Inc.",
+ "builtAt": "2026-11-16T03:00:53.977Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001136893-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1136893/000113689326000013/fis-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "stored-value card types and loyalty programs"
+   ],
+   "description": "Provides core banking processing, card and payment technology to financial institutions.",
+   "evidence": "We provide our clients integrated solutions characterized by multi-year processing contracts that generate recurring revenue."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Banks and payment clients pay recurring processing fees under multi-year contracts.",
+  "evidence": "We provide our clients integrated solutions characterized by multi-year processing contracts that generate recurring revenue."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking): core processing solutions",
+  "product not in text (Banking): EMV integrated circuit cards"
+ ],
+ "reader": "agent"
+}

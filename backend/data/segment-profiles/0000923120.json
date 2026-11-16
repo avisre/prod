@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000923120",
+ "issuerName": "THE GREENBRIER COMPANIES, INC.",
+ "builtAt": "2026-11-16T03:00:55.029Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-431954",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/923120/000119312526431954/gbx-20260831.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

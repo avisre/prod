@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001754301",
+ "issuerName": "Fox Corp",
+ "builtAt": "2026-11-16T03:00:54.836Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-053960",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1754301/000162828026053960/fox-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cable Network Programming",
+   "products": [
+    "news and sports content"
+   ],
+   "description": "Produces and licenses news and sports programming for cable and digital distributors.",
+   "evidence": "The Company is a news, sports and entertainment company, which manages and reports its businesses in four operating segments: Cable Network Programming, Television, Credible and the FOX Studio Lot with the following two reportable segments: • Cable Network Programming , which produces and licenses news and sports content distributed through traditional cable television systems, direct broadcast satellite operators and telecommunication companies (\"traditional MVPDs\"), virtual multi-channel video"
+  },
+  {
+   "name": "Television",
+   "products": [
+    "broadcast programming"
+   ],
+   "description": "Runs the Fox broadcast network and television stations.",
+   "evidence": "The Company is a news, sports and entertainment company, which manages and reports its businesses in four operating segments: Cable Network Programming, Television, Credible and the FOX Studio Lot with the following two reportable segments: • Cable Network Programming , which produces and licenses news and sports content distributed through traditional cable television systems, direct broadcast satellite operators and telecommunication companies (\"traditional MVPDs\"), virtual multi-channel video"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cable and satellite distributors pay affiliate fees, and advertisers pay for airtime.",
+  "evidence": "The Company is a news, sports and entertainment company, which manages and reports its businesses in four operating segments: Cable Network Programming, Television, Credible and the FOX Studio Lot with the following two reportable segments: • Cable Network Programming , which produces and licenses news and sports content distributed through traditional cable television systems, direct broadcast satellite operators and telecommunication companies (\"traditional MVPDs\"), virtual multi-channel video"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

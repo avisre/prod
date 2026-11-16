@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001039399",
+ "issuerName": "FormFactor, Inc.",
+ "builtAt": "2026-11-16T03:00:54.257Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001039399-26-000009",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1039399/000103939926000009/form-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Probe Cards",
+   "products": [],
+   "description": "Makes probe cards that test semiconductor devices.",
+   "evidence": "As of December 27, 2025, we operate in two reportable segments consisting of the Probe Cards segment and the Systems segment."
+  },
+  {
+   "name": "Systems",
+   "products": [
+    "analytical probes",
+    "probe stations",
+    "thermal systems",
+    "cryogenic systems"
+   ],
+   "description": "Sells probe stations, thermal and cryogenic systems to labs and chip makers.",
+   "evidence": "As of December 27, 2025, we operate in two reportable segments consisting of the Probe Cards segment and the Systems segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Semiconductor makers and research institutions buy its probe cards and measurement systems.",
+  "evidence": "We provide a broad range of high-performance probe cards, analytical probes, probe stations, thermal systems, and cryogenic systems to both semiconductor companies and scientific institutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Probe Cards): probe cards"
+ ],
+ "reader": "agent"
+}

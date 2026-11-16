@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001331875",
+ "issuerName": "FIDELITY NATIONAL FINANCIAL, INC.",
+ "builtAt": "2026-11-16T03:00:54.181Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001331875-26-000026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1331875/000133187526000026/fnf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "title insurance",
+   "products": [
+    "escrow and other title-related services",
+    "trust activities",
+    "trustee sales guarantees",
+    "home warranty products"
+   ],
+   "description": "Writes title insurance and provides escrow and mortgage transaction services.",
+   "evidence": "This segment consists of the operations of our title insurance underwriters and related businesses, which provide title insurance and escrow and other title-related services including trust activities, trustee sales guarantees, and home warranty products."
+  },
+  {
+   "name": "corporate",
+   "products": [
+    "real estate technology"
+   ],
+   "description": "Holds the parent, real estate technology businesses and corporate costs.",
+   "evidence": "This segment consists of the operations of the parent holding company, our real estate technology subsidiaries, other smaller, non-title businesses and certain unallocated corporate overhead expenses and eliminations of revenues and expens"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Home buyers, sellers and lenders pay title insurance premiums and escrow fees.",
+  "evidence": "Through our subsidiary ServiceLink Holdings, LLC (\"ServiceLink\"), we provide mortgage transaction services including title-related services and facilitation of production and management of mortgage loans."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (title insurance): title insurance"
+ ],
+ "reader": "agent"
+}

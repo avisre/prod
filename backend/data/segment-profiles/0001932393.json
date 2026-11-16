@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001932393",
+ "issuerName": "GE HEALTHCARE TECHNOLOGIES INC.",
+ "builtAt": "2026-11-16T03:00:55.110Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001932393-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1932393/000193239326000007/gehc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Imaging",
+   "products": [
+    "Molecular Imaging (\"MI\")",
+    "Computed Tomography (\"CT\")",
+    "Magnetic Resonance (\"MR\")",
+    "Women's Health",
+    "X-ray"
+   ],
+   "description": "Sells medical imaging systems and related services.",
+   "evidence": "OUR SEGMENTS Our business is organized into four segments that are aligned with the industries we serve: Imaging, Advanced Visualization Solutions (\"AVS\"), Patient Care S olutions (\"PCS\"), and Pharmaceutical Diagnostics (\"PDx\")."
+  },
+  {
+   "name": "Advanced Visualization Solutions",
+   "products": [
+    "advanced visualization"
+   ],
+   "description": "Sells advanced visualization and image guidance products.",
+   "evidence": "OUR SEGMENTS Our business is organized into four segments that are aligned with the industries we serve: Imaging, Advanced Visualization Solutions (\"AVS\"), Patient Care S olutions (\"PCS\"), and Pharmaceutical Diagnostics (\"PDx\")."
+  },
+  {
+   "name": "Patient Care Solutions",
+   "products": [],
+   "description": "Sells patient monitoring and care devices.",
+   "evidence": "OUR SEGMENTS Our business is organized into four segments that are aligned with the industries we serve: Imaging, Advanced Visualization Solutions (\"AVS\"), Patient Care S olutions (\"PCS\"), and Pharmaceutical Diagnostics (\"PDx\")."
+  },
+  {
+   "name": "Pharmaceutical Diagnostics",
+   "products": [
+    "diagnostic agents"
+   ],
+   "description": "Supplies pharmaceutical diagnostic agents.",
+   "evidence": "OUR SEGMENTS Our business is organized into four segments that are aligned with the industries we serve: Imaging, Advanced Visualization Solutions (\"AVS\"), Patient Care S olutions (\"PCS\"), and Pharmaceutical Diagnostics (\"PDx\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and health systems buy medical devices, consumables, service and software.",
+  "evidence": "We generate revenue from the sale of medical devices, consumable products, service capabilities, and AI-enabled cloud and software solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Patient Care Solutions): patient care devices"
+ ],
+ "reader": "agent"
+}

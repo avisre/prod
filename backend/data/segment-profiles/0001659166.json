@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001659166",
+ "issuerName": "Fortive Corporation",
+ "builtAt": "2026-11-16T03:00:54.987Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001659166-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1659166/000165916626000007/ftv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intelligent Operating Solutions",
+   "products": [
+    "instrumentation",
+    "software",
+    "services"
+   ],
+   "description": "Sells instrumentation, software and services for mission-critical workflows.",
+   "evidence": "Reportable Segments We operate and report our results in two segments, Intelligent Operating Solutions and Advanced Healthcare Solutions, both of which are further described below."
+  },
+  {
+   "name": "Advanced Healthcare Solutions",
+   "products": [
+    "healthcare products and services"
+   ],
+   "description": "Sells healthcare products and services.",
+   "evidence": "Reportable Segments We operate and report our results in two segments, Intelligent Operating Solutions and Advanced Healthcare Solutions, both of which are further described below."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial and healthcare customers buy its instruments, software and services.",
+  "evidence": "Intelligent Operating Solutions Our Intelligent Operating Solutions segment provides advanced instrumentation, software and services to tens of thousands of customers enabling their mission-critical workflows."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001035983",
+ "issuerName": "COMFORT SYSTEMS USA, INC.",
+ "builtAt": "2026-11-16T03:00:54.002Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-017530",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1035983/000110465926017530/fix-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mechanical",
+   "products": [],
+   "description": "Installs and services mechanical systems for commercial and industrial buildings.",
+   "evidence": "We provide mechanical and electrical contracting services."
+  },
+  {
+   "name": "Electrical",
+   "products": [
+    "installation and servicing of electrical systems"
+   ],
+   "description": "Installs and services electrical systems.",
+   "evidence": "Our electrical segment includes installation and servicing of electrical systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Building owners and contractors pay for mechanical and electrical installation and service work.",
+  "evidence": "We operate primarily in the commercial, industrial and institutional MEP markets and perform most of our services in manufacturing, healthcare, education, office, technology, retail and government facilities."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mechanical): mechanical contracting services"
+ ],
+ "reader": "agent"
+}

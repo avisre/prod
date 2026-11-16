@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001056288",
+ "issuerName": "Federated Hermes, Inc.",
+ "builtAt": "2026-11-16T03:00:53.957Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001056288-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1056288/000105628826000007/fhi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment management",
+   "products": [
+    "investment advisory, administrative and other service fees"
+   ],
+   "description": "Manages mutual funds and institutional portfolios for fees.",
+   "evidence": "Federated Hermes operates in one operating segment, the investment management business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fund shareholders and institutions pay advisory and administrative fees.",
+  "evidence": "6 Revenue Federated Hermes' revenue from investment advisory, administrative and other service fees over the last three years were as follows: Year Ended December 31, 2025 vs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

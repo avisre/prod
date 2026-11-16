@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001124198",
+ "issuerName": "FLUOR CORPORATION",
+ "builtAt": "2026-11-16T03:00:54.149Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001124198-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1124198/000112419826000007/flr-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
