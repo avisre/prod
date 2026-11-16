@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001067983",
  "issuerName": "BERKSHIRE HATHAWAY INC",
- "builtAt": "2026-11-16T02:35:08.693Z",
+ "builtAt": "2026-11-16T06:23:07.118Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-083899",
@@ -10,10 +10,95 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526083899/brka-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "GEICO",
+    "Berkshire Hathaway Primary Group",
+    "Berkshire Hathaway Reinsurance Group",
+    "private passenger automobile insurance policies",
+    "property and casualty insurance policies",
+    "excess-of-loss, quota-share and facultative reinsurance contracts"
+   ],
+   "description": "Underwrites private passenger automobile, commercial property and casualty, and life and health risks, plus reinsurance, worldwide through GEICO, BH Primary and BHRG.",
+   "evidence": "Berkshire's insurance subsidiaries provide insurance and reinsurance of property and casualty risks as well as life and health risks worldwide."
+  },
+  {
+   "name": "Burlington Northern Santa Fe",
+   "products": [
+    "freight rail transportation system"
+   ],
+   "description": "Operates a large freight rail transportation system in North America, hauling freight for shippers across the continent.",
+   "evidence": "Through BNSF Railway, BNSF operates over 32,500 route miles of track (excluding multiple main tracks, yard tracks and sidings) in 28 states."
+  },
+  {
+   "name": "Berkshire Hathaway Energy",
+   "products": [
+    "regulated electric and gas utilities",
+    "natural gas pipelines",
+    "power generation and distribution businesses",
+    "real estate brokerage activities"
+   ],
+   "description": "Operates regulated electric and gas utilities, natural gas pipelines, power generation and distribution businesses, and real estate brokerage activities.",
+   "evidence": "Berkshire Hathaway Energy (\"BHE\") Operator of regulated electric and gas utilities, natural gas pipelines and other power generation and distribution businesses, and real estate brokerage activities"
+  },
+  {
+   "name": "Manufacturing",
+   "products": [
+    "industrial products",
+    "building products",
+    "consumer products",
+    "recreational vehicles",
+    "batteries",
+    "apparel",
+    "footwear"
+   ],
+   "description": "Manufactures and distributes industrial, consumer and building products, and builds homes with related financial services for customers.",
+   "evidence": "Berkshire's numerous and diverse manufacturing subsidiaries are grouped into three categories: (1) industrial products, (2) building products and (3) consumer products."
+  },
+  {
+   "name": "Service and retailing",
+   "products": [
+    "shared aircraft ownership programs",
+    "aviation pilot training",
+    "electronic components distribution",
+    "over-the-road trailer and furniture leasing",
+    "automobile dealerships",
+    "home furnishings retailers"
+   ],
+   "description": "Provides aviation services, electronic components distribution, trailer and furniture leasing, and retailing including automobile dealerships and home furnishings stores.",
+   "evidence": "Berkshire's service businesses provide shared aircraft ownership programs and professional aviation training programs (\"aviation services\"), and distribution of electronic components."
+  },
+  {
+   "name": "McLane Company",
+   "products": [
+    "wholesale distribution services",
+    "grocery and non-food consumer products",
+    "retail distribution",
+    "restaurant distribution",
+    "beverage distribution"
+   ],
+   "description": "Distributes food and non-food items wholesale to convenience stores, discount retailers, restaurants and other retail customers.",
+   "evidence": "McLane Company, Inc. (\"McLane\") provides wholesale distribution services in all 50 states to customers that include convenience stores, discount retailers, wholesale clubs, drug stores, military bases, quick service restaurants and casual dining restaurants."
+  },
+  {
+   "name": "Pilot Travel Centers",
+   "products": [
+    "retail travel centers",
+    "wholesale fuel and fuel marketing businesses",
+    "water disposal business"
+   ],
+   "description": "Operates retail travel centers in North America and markets fuel wholesale to customers and third parties.",
+   "evidence": "Pilot Travel Centers (\"Pilot\") (1) Operator of retail travel centers in North America and a marketer of fuel on a wholesale basis"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Berkshire's subsidiaries for insurance and reinsurance cover, freight rail transportation, electricity and natural gas, and manufactured, distributed and retailed goods and services.",
+  "evidence": "The following table summarizes customer contract revenues disaggregated by reportable segment and the source of the revenue for each of the three years ended December 31, 2025 (in millions)."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
