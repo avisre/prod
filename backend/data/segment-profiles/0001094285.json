@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001094285",
  "issuerName": "TELEDYNE TECHNOLOGIES INC",
- "builtAt": "2026-11-16T04:33:44.382Z",
+ "builtAt": "2026-11-16T08:57:42.491Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001094285-26-000017",
@@ -10,10 +10,68 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1094285/000109428526000017/tdy-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Imaging",
+   "products": [
+    "high-performance sensors",
+    "cameras and systems",
+    "MEMS",
+    "high-performance, high-reliability semiconductors",
+    "analog-to-digital and digital-to-analog converters",
+    "unmanned aerial and ground systems",
+    "high-resolution, low-dose X-ray sensors",
+    "multi-spectrum electro-optic/infrared imaging systems"
+   ],
+   "description": "Makes high-performance sensors, cameras, MEMS, semiconductors and imaging systems for industrial, government, scientific and medical customers.",
+   "evidence": "Our Digital Imaging segment includes high-performance sensors, cameras and systems within the visible, infrared, ultraviolet and X-ray spectra for use in industrial, scientific, government, space, defense, security, medical and other applications."
+  },
+  {
+   "name": "Instrumentation",
+   "products": [
+    "Marine Instrumentation",
+    "Environmental Instrumentation",
+    "Test and Measurement Instrumentation",
+    "monitoring and control instruments",
+    "electronic test and measurement equipment",
+    "harsh environment interconnect products"
+   ],
+   "description": "Supplies marine, environmental and industrial monitoring and control instruments and electronic test and measurement equipment to commercial, government and laboratory customers.",
+   "evidence": "Our Instrumentation segment provides monitoring and control instruments for marine, environmental, industrial and other applications, and electronic test and measurement equipment."
+  },
+  {
+   "name": "Aerospace and Defense Electronics",
+   "products": [
+    "sophisticated electronic components and subsystems",
+    "communications products",
+    "defense electronics",
+    "harsh environment interconnects",
+    "data acquisition and communications equipment for aircraft",
+    "subsystems for wireless and satellite communications",
+    "general aviation batteries",
+    "aircraft data and connectivity solutions"
+   ],
+   "description": "Provides electronic components, interconnects, avionics and communications equipment and subsystems to commercial aerospace, defense, space and wireless customers.",
+   "evidence": "Our Aerospace and Defense Electronics segment provides sophisticated electronic and optical components and subsystems, data acquisition and communications components and equipment, harsh environment interconnects, general aviation batteries, and other components for a variety of commercial and defense applications that require high performance and high reliability."
+  },
+  {
+   "name": "Engineered Systems",
+   "products": [
+    "systems engineering and integration",
+    "advanced technology application",
+    "software development and manufacturing solutions",
+    "electrochemical energy systems"
+   ],
+   "description": "Delivers systems engineering, integration, software and manufacturing solutions, plus electrochemical energy systems, for defense, space, environmental and energy customers.",
+   "evidence": "Our Engineered Systems segment provides innovative systems engineering, integration and advanced technology development, and complex manufacturing solutions for defense, space, environmental and energy applications."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Industrial growth market customers, including aerospace and defense, factory automation, environmental monitoring, medical imaging and research, pay for enabling technology products, instruments and engineered systems.",
+  "evidence": "Teledyne Technologies Incorporated is a Delaware corporation that provides enabling technologies to sense, analyze and distribute information for industrial growth markets that require advanced technology and high reliability."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

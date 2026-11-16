@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001620533",
  "issuerName": "SHAKE SHACK INC.",
- "builtAt": "2026-11-16T04:33:42.645Z",
+ "builtAt": "2026-11-16T08:54:31.019Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001620533-26-000018",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1620533/000162053326000018/shak-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shake Shack restaurants",
+   "products": [
+    "burgers",
+    "chicken",
+    "hot dogs",
+    "crinkle cut fries",
+    "shakes",
+    "frozen custard",
+    "beer",
+    "wine"
+   ],
+   "description": "Operates and licenses Shake Shack restaurants serving burgers, chicken, fries, shakes and more to guests in the United States and internationally.",
+   "evidence": "The Company determined it has one operating segment and one reportable segment, as the CODM regularly reviews Shack operations and financial performance at a consolidated level."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Guests pay for burgers, chicken, fries, shakes and more at Company-operated Shacks, and the Company also licenses Shacks domestically and internationally.",
+  "evidence": "The Company operates Shacks in the United States and has both domestic and international licensed Shacks."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

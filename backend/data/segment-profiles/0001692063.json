@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001692063",
  "issuerName": "Schneider National, Inc.",
- "builtAt": "2026-11-16T04:33:42.975Z",
+ "builtAt": "2026-11-16T08:55:05.248Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001692063-26-000013",
@@ -10,11 +10,67 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1692063/000169206326000013/sndr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Truckload",
+   "products": [
+    "Over-the-road freight transportation",
+    "dry van",
+    "bulk",
+    "temperature-controlled",
+    "lightweight",
+    "flat-bed trailers",
+    "dedicated",
+    "network configurations"
+   ],
+   "description": "Over-the-road freight transportation by company drivers and owner-operators, including dedicated and network configurations, for customers across North America.",
+   "evidence": "Our Truckload segment competes with thousands of dry van and specialty equipment carriers."
+  },
+  {
+   "name": "Intermodal",
+   "products": [
+    "Door-to-door container on flat car service",
+    "rail intermodal",
+    "drayage services",
+    "Company-owned containers",
+    "chassis",
+    "dray tractors"
+   ],
+   "description": "Door-to-door container on flat car service combining rail and dray transportation for shippers needing intermodal capacity.",
+   "evidence": "The Intermodal reportable segment provides rail intermodal and drayage services using Company-owned containers, chassis, and dray tractors."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "freight brokerage",
+    "traditional brokerage",
+    "Power Only",
+    "supply chain",
+    "3PL",
+    "warehousing",
+    "import/export services",
+    "transloading"
+   ],
+   "description": "Asset-light brokerage, supply chain, warehousing and import/export services that manage customers' freight using company and third-party capacity.",
+   "evidence": "In the Logistics segment, we provide additional sources of truck capacity, manage transportation-systems analysis requirements for individual customers, and provide transloading and warehousing services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers across multiple end markets pay the company for truckload, intermodal, logistics, leasing and insurance services.",
+  "evidence": "Our revenue comes from a broad customer base spanning multiple end markets, including consumer products, retail, automotive, chemicals, electronics and appliances, e-commerce, home improvement, and food and beverage."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Cowan logistics operations were integrated into the Logistics reportable segment.",
+   "evidence": "In December 2024, Cowan's logistics operations were integrated into the Logistics reportable segment."
+  },
+  {
+   "text": "In 2023 the acquired M&M dedicated carrier results were reported within the Truckload segment.",
+   "evidence": "The operating results of M&M are reported in Dedicated operations as part of our Truckload segment beginning in the third quarter of 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

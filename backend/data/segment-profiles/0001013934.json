@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001013934",
  "issuerName": "Strategic Education, Inc.",
- "builtAt": "2026-11-16T04:33:43.880Z",
+ "builtAt": "2026-11-16T08:57:30.574Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001013934-26-000006",
@@ -10,10 +10,45 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1013934/000101393426000006/stra-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Higher Education",
+   "products": [
+    "Capella University",
+    "Strayer University",
+    "Jack Welch Management Institute",
+    "Hackbright Academy",
+    "Devmountain"
+   ],
+   "description": "Provides flexible, affordable certificate and degree programs to working adults through Capella University and Strayer University, including MBA and non-degree application development courses.",
+   "evidence": "Our USHE segment provides flexible and affordable certificate and degree programs to working adults primarily through Capella University and Strayer University (the \"USHE Universities\"), including the Jack Welch Management Institute (\"JWMI\") MBA, which is an offering of Strayer University."
+  },
+  {
+   "name": "Australia/New Zealand",
+   "products": [
+    "Torrens University",
+    "Think Education",
+    "MDS"
+   ],
+   "description": "Offers undergraduate, graduate, research and vocational programs at campuses and online in Australia and New Zealand to domestic and international students.",
+   "evidence": "MDS continues to be part of our ANZ reportable segment."
+  },
+  {
+   "name": "Education Technology Services",
+   "products": [
+    "Workforce Edge",
+    "Sophia Learning"
+   ],
+   "description": "Builds employer education benefits programs giving employees access to affordable training, certificate and degree programs, plus low-cost online general education courses.",
+   "evidence": "The Company's organizational structure includes three operating and reportable segments: U.S. Higher Education, Education Technology Services, and Australia/New Zealand."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Students pay tuition per course, term or subscription period for degree, certificate and course offerings, while employers pay for education benefits programs.",
+  "evidence": "Students enrolled in GuidedPath credit hour programs are charged tuition on a per course or per term basis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

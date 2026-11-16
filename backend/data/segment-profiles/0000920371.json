@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000920371",
  "issuerName": "Simpson Manufacturing Co., Inc.",
- "builtAt": "2026-11-16T04:33:43.634Z",
+ "builtAt": "2026-11-16T08:56:21.014Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012920",
@@ -10,10 +10,50 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/920371/000162828026012920/ssd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "connectors",
+    "truss plates",
+    "screw fastening systems",
+    "fasteners",
+    "pre-fabricated lateral-force resisting systems",
+    "adhesives",
+    "mechanical anchors",
+    "automated saws and equipment"
+   ],
+   "description": "Manufactures and sells wood and concrete structural connectors, fasteners and anchors to lumber dealers, home centers and contractors in the United States and Canada.",
+   "evidence": "The North America segment includes operations primarily in the U.S. and Canada."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "connectors",
+    "fasteners",
+    "mass timber solutions",
+    "anchors"
+   ],
+   "description": "Sells wood and concrete construction products such as connectors, fasteners, anchors and mass timber solutions to residential, commercial and OEM customers across Europe.",
+   "evidence": "The Europe segment includes operations primarily in France, the United Kingdom, Germany, Denmark, Switzerland, Portugal, Poland, The Netherlands, Belgium, Spain, Sweden, Norway, and Italy."
+  },
+  {
+   "name": "Asia/Pacific",
+   "products": [
+    "connectors",
+    "anchors",
+    "adhesives"
+   ],
+   "description": "Distributes connectors, anchors and adhesive products to customers in Australia, New Zealand, China, Taiwan and Vietnam.",
+   "evidence": "The Asia/Pacific segment includes operations primarily in Australia, New Zealand, China, Taiwan, and Vietnam."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Lumber dealers, home centers, component manufacturers, OEMs, distributors and contractors pay for structural connectors, fasteners, anchors and related software and engineering services.",
+  "evidence": "The Company sells a significant portion of its products directly to lumber dealers and building materials cooperatives that serve residential and light commercial construction markets."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

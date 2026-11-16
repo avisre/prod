@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001001316",
  "issuerName": "TG THERAPEUTICS, INC.",
- "builtAt": "2026-11-16T04:34:04.068Z",
+ "builtAt": "2026-11-16T08:57:26.533Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-006133",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1001316/000143774926006133/tgtx20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B-cell mediated disease therapy",
+   "products": [
+    "BRIUMVI (ublituximab-xiiy)",
+    "Ublituximab IV (anti-CD20 mAb)",
+    "Ublituximab Subcutaneous (anti-CD20 mAb)",
+    "Azer-cel"
+   ],
+   "description": "Single reportable segment that develops and commercializes novel treatments, including BRIUMVI, for patients with B-cell mediated diseases such as relapsing multiple sclerosis.",
+   "evidence": "The Company operates as a single reportable segment, focused on B-cell mediated disease therapy, which includes all activities related to the development and commercialization of novel treatments, including BRIUMVI, to address unmet medical needs and improve the lives of patients."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The company sells BRIUMVI to specialty distributors in the U.S. and, outside the U.S., to its licensing partner Neuraxpharm, which pays for commercialization rights.",
+  "evidence": "The Company primarily sells BRIUMVI through specialty distributors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

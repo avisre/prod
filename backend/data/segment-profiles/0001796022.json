@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001796022",
  "issuerName": "STEPSTONE GROUP INC.",
- "builtAt": "2026-11-16T04:33:43.656Z",
+ "builtAt": "2026-11-16T08:55:47.698Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-038446",
@@ -10,10 +10,27 @@
   "filingDate": "2026-05-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1796022/000162828026038446/step-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private Markets Solutions",
+   "products": [
+    "Separately managed accounts",
+    "Focused commingled funds",
+    "Advisory and data services",
+    "Portfolio analytics and reporting",
+    "SPI Research",
+    "SPI Reporting"
+   ],
+   "description": "Provides customized private markets investment solutions and advisory and data services to pension funds, sovereign wealth funds, insurers and other institutional and private wealth clients.",
+   "evidence": "We are a global private markets investment firm focused on providing customized investment solutions and advisory and data services to our clients."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay management and advisory fees on SMAs, focused commingled funds and advisory services, plus incentive fees and carried interest allocations.",
+  "evidence": "We generate revenues primarily from management and advisory fees, incentive fees and allocations of carried interest."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001575515",
  "issuerName": "Sprouts Farmers Market, Inc.",
- "builtAt": "2026-11-16T04:33:42.613Z",
+ "builtAt": "2026-11-16T08:54:30.647Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001575515-26-000008",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1575515/000157551526000008/sfm-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "healthy grocery stores",
+   "products": [
+    "produce",
+    "meat and meat alternatives",
+    "seafood",
+    "deli",
+    "bakery",
+    "dairy and dairy alternatives",
+    "vitamins and supplements",
+    "natural health and body care"
+   ],
+   "description": "Operates specialty grocery stores selling fresh, natural and organic foods and better-for-you products to health-focused shoppers across the United States.",
+   "evidence": "The Company has one operating segment, and therefore, one reportable segment: healthy grocery stores."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay at Sprouts stores for fresh, natural and organic groceries, in store or through delivery and pickup.",
+  "evidence": "The Company derives all its revenues from the sale of products at its various store locations across the United States."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

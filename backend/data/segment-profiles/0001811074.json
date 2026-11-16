@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001811074",
  "issuerName": "Texas Pacific Land Corporation",
- "builtAt": "2026-11-16T04:33:45.314Z",
+ "builtAt": "2026-11-16T08:58:24.785Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001811074-26-000018",
@@ -10,10 +10,41 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1811074/000181107426000018/tpl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Land and Resource Management",
+   "products": [
+    "Oil and gas royalties",
+    "Easements",
+    "commercial leases",
+    "renewables",
+    "caliche",
+    "sand",
+    "Land sales"
+   ],
+   "description": "Owns Permian Basin land and oil and gas royalty interests, earning royalties, easement and lease income, and land and material sales.",
+   "evidence": "Our Land and Resource Management segment encompasses the business of managing our approximately 882,000 surface acres of land and approximately 224,000 NRA of oil and gas royalty interests, principally concentrated in the Permian Basin."
+  },
+  {
+   "name": "Water Services and Operations",
+   "products": [
+    "water sourcing",
+    "produced-water treatment",
+    "infrastructure development",
+    "disposal solutions",
+    "Water sales",
+    "Produced water royalties"
+   ],
+   "description": "Provides full-service water offerings, including sourcing, treatment, infrastructure and disposal, to oil and gas operators in the Permian Basin.",
+   "evidence": "Our Water Services and Operations segment encompasses the business of providing full-service water offerings to oil and gas operators in the Permian Basin through our wholly-owned subsidiary, Texas Pacific Water Resources LLC (\"TPWR\")."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Oil and gas operators and other third parties pay royalties, easements, lease fees, and charges for caliche, sand, water and land.",
+  "evidence": "During the production phase, we receive revenue from our oil and gas royalty interests and revenue related to saltwater disposal on our land."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

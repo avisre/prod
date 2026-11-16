@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001040971",
  "issuerName": "SL GREEN REALTY CORP",
- "builtAt": "2026-11-16T04:33:42.882Z",
+ "builtAt": "2026-11-16T08:54:59.876Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-008669",
@@ -10,10 +10,43 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1040971/000162828026008669/slg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "real estate",
+   "products": [
+    "Manhattan Office",
+    "Retail",
+    "Development/Redevelopment",
+    "Suburban Office",
+    "Manhattan Residential"
+   ],
+   "description": "Owns, manages, leases and repositions Manhattan office, retail and residential properties, earning rent from tenants and income from joint venture properties.",
+   "evidence": "For the real estate segment, the primary sources of revenue are tenant rents and escalations and reimbursement revenue."
+  },
+  {
+   "name": "debt and preferred equity investments",
+   "products": [
+    "CMBS",
+    "debt and preferred equity positions"
+   ],
+   "description": "Holds debt and preferred equity investments and the Fund, financing New York City commercial real estate and earning interest and fee income.",
+   "evidence": "We allocate loan loss reserves, net of recoveries, and transaction related costs to the debt and preferred equity segment."
+  },
+  {
+   "name": "SUMMIT",
+   "products": [
+    "ticket sales"
+   ],
+   "description": "Operates one location at One Vanderbilt Avenue in midtown Manhattan, with revenue generated primarily from selling tickets.",
+   "evidence": "SUMMIT currently operates one location at One Vanderbilt Avenue in midtown Manhattan with the primary source of revenue generated from ticket sales."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Tenants pay rent, escalations and reimbursements for office, retail and residential space; borrowers pay interest and fees; SUMMIT visitors pay for tickets.",
+  "evidence": "The Company's primary sources of real estate revenue are tenant rents, escalations and reimbursement revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002005951",
  "issuerName": "Smurfit Westrock plc",
- "builtAt": "2026-11-16T04:33:44.076Z",
+ "builtAt": "2026-11-16T08:56:57.990Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012555",
@@ -10,11 +10,63 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/2005951/000162828026012555/smur-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "linerboard",
+    "white-top linerboard",
+    "containerboard",
+    "kraft paper",
+    "paperboard",
+    "market pulp",
+    "folding cartons",
+    "inserts and labels"
+   ],
+   "description": "Produces containerboard, paperboard, kraft paper and corrugated and consumer packaging from integrated mills and converting plants for customers in the U.S., Canada and Mexico.",
+   "evidence": "We are one of the largest integrated producers of linerboard, white-top linerboard and containerboard and kraft paper in North America (including the U.S., Canada and Mexico), and we serve primarily corrugated packaging markets."
+  },
+  {
+   "name": "Europe, MEA and APAC",
+   "products": [
+    "containerboard",
+    "corrugated packaging",
+    "consumer packaging",
+    "sack kraft paper",
+    "machine glazed paper",
+    "graphic board",
+    "solidboard",
+    "boxboard"
+   ],
+   "description": "Integrated mills and converting plants making containerboard, corrugated and consumer packaging, bag-in-box and other paper grades for European and other customers.",
+   "evidence": "Our Europe, MEA and APAC segment mill operations consist of 21 mills, and includes a system of mills and box plants that primarily produce a full line of containerboard that is converted into corrugated containers."
+  },
+  {
+   "name": "LATAM",
+   "products": [
+    "containerboard",
+    "consumer packaging board",
+    "sack kraft paper",
+    "corrugated containers",
+    "folding cartons",
+    "paper sacks"
+   ],
+   "description": "Mills and corrugated, folding carton and paper sack plants serving packaging customers across Latin America and the Caribbean.",
+   "evidence": "We also have folding cartons operations in Costa Rica and El Salvador and the Dominican Republic, paper sack operations in Colombia, Ecuador, Costa Rica and the Dominican Republic, and a recycling plant in Nicaragua."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for paper-based packaging and paper products; we sell through our own sales force, independent representatives and distributors, generally manufacturing to customer orders.",
+  "evidence": "We market our products through our own sales force."
+ },
+ "changes": [
+  {
+   "text": "In 2024, following the Combination, the company changed its reportable segments to North America, Europe, MEA and APAC, and LATAM.",
+   "evidence": "During the third quarter of 2024, following the completion of the Combination, the Company changed its reportable segments and reassessed its reporting units."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001295401",
  "issuerName": "THE BANCORP, INC.",
- "builtAt": "2026-11-16T04:33:44.193Z",
+ "builtAt": "2026-11-16T08:57:51.422Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001295401-26-000002",
@@ -10,10 +10,64 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1295401/000129540126000002/tbbk-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fintech",
+   "products": [
+    "Program sponsorship",
+    "Payment services",
+    "Sponsored lending",
+    "Fintech loans",
+    "debit, credit and prepaid cards",
+    "Rapid Funds Transfer",
+    "ACH"
+   ],
+   "description": "Issues sponsor-bank deposit accounts and debit, credit and prepaid cards, provides ACH and payment processing, and makes sponsored fintech loans for partner companies.",
+   "evidence": "The Fintech Solutions business line partners with fintech companies and other technology focused payment-based providers (collectively \"partners\") to deliver payment, deposit, and sponsored lending products that attract stable, lower-cost deposits and generate fee income."
+  },
+  {
+   "name": "REBL",
+   "products": [
+    "commercial real estate bridge loans",
+    "apartment building rehabilitation loans",
+    "REBL loans"
+   ],
+   "description": "Makes commercial real estate bridge loans to finance the purchase and rehabilitation of multi-family workforce housing properties with existing cash flow.",
+   "evidence": "Real estate bridge lending (\"REBL\") is $2.26 billion of loans, or 31% of our total loan portfolio , and consists of commercial real estate bridge loans for purchase and rehabilitation of existing multi-family workforce housing properties that have existing cash flow."
+  },
+  {
+   "name": "Institutional Banking",
+   "products": [
+    "securities-backed lines of credit",
+    "insurance policy cash value-backed lines of credit",
+    "SBLOCs",
+    "IBLOCs",
+    "advisor financing",
+    "lending and banking services to wealth management clients"
+   ],
+   "description": "Lends to wealth management clients and investment advisors through securities-backed and insurance policy-backed credit lines and advisor financing.",
+   "evidence": "Institutional banking is $1.96 billion of loans, or 27% of our total loan portfolio , and includes lending and banking services to wealth management clients"
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "Small Business Administration (SBA) loans",
+    "7(a) Loan Guarantee Program",
+    "504 Fixed Asset Financing Program",
+    "SBL commercial mortgage",
+    "direct lease financing",
+    "fleet management services"
+   ],
+   "description": "Makes SBA-guaranteed small business loans, commercial mortgages and construction loans, and leases vehicle fleets and equipment to businesses and government.",
+   "evidence": "Small business lending (\"SBL\") is $1.01 billion of loans, or 14% of our total loan portfolio, and is comprised primarily of Small Business Administration (\"SBA\") loans, including the 7(a) Loan Guarantee Program and the 504 Fixed Asset Financing Program."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Fintech partners pay contractual per-transaction and monthly service fees, card networks pay interchange, and specialty lending borrowers pay interest and fees.",
+  "evidence": "The majority of fees that we earn result from contractual fees paid by our partners, computed on a per transaction basis, and monthly service fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

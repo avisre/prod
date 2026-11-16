@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001063761",
  "issuerName": "SIMON PROPERTY GROUP, INC.",
- "builtAt": "2026-11-16T04:33:43.335Z",
+ "builtAt": "2026-11-16T08:55:51.600Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-019419",
@@ -10,11 +10,32 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1063761/000110465926019419/spg-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "malls",
+    "Premium Outlets",
+    "The Mills",
+    "lifestyle centers",
+    "other retail properties"
+   ],
+   "description": "Owns, develops and manages malls, Premium Outlets, The Mills and lifestyle centers, leasing retail space to tenants in the United States and internationally.",
+   "evidence": "We have aggregated our consolidated real estate operations, including malls, Premium Outlets, The Mills, and our consolidated international real estate operations into one reportable segment because they have similar economic characteristics and we provide similar products and services to similar types of, and in many cases, the same, tenants."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Tenants pay lease income for retail space in the company's malls, Premium Outlets, The Mills and international properties.",
+  "evidence": "Revenue earned from these segment operations represents substantially all of lease income reported on the consolidated statements of operations and comprehensive income"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired the remaining interest in TRG, consolidating its properties into the real estate segment.",
+   "evidence": "The 11 consolidated properties are now reported within our Real estate segment in Note 11."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

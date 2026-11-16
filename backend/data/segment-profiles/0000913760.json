@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000913760",
  "issuerName": "StoneX Group Inc.",
- "builtAt": "2026-11-16T04:33:43.254Z",
+ "builtAt": "2026-11-16T08:56:57.984Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000913760-25-000196",
@@ -10,11 +10,66 @@
   "filingDate": "2025-11-28",
   "url": "https://www.sec.gov/Archives/edgar/data/913760/000091376025000196/intl-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial",
+   "products": [
+    "risk management and hedging services",
+    "execution and clearing of exchange-traded and OTC products",
+    "voice brokerage",
+    "market intelligence",
+    "physical trading",
+    "commodity financing and logistics services"
+   ],
+   "description": "Serves commercial companies that need to hedge commodity and financial risks, offering execution, clearing, market intelligence and physical commodity trading.",
+   "evidence": "We offer our commercial clients a comprehensive array of products and services, including risk management and hedging services, execution and clearing of exchange-traded and OTC products, voice brokerage, market intelligence and physical trading as well as commodity financing and logistics services."
+  },
+  {
+   "name": "Institutional",
+   "products": [
+    "equity trading services",
+    "fixed income products",
+    "clearing and execution",
+    "prime brokerage",
+    "investment banking services",
+    "equity research"
+   ],
+   "description": "Serves institutional clients such as asset managers and brokers with equity trading, fixed income liquidity, clearing, prime brokerage, investment banking and equity research.",
+   "evidence": "The Company provides institutional clients with a complete suite of equity trading services to help them find liquidity with best execution, consistent liquidity across a robust array of fixed income products, competitive and efficient clearing and execution in all major futures and securities exchanges globally as well as prime brokerage in equities and major foreign currency pairs"
+  },
+  {
+   "name": "Self-Directed/Retail",
+   "products": [
+    "spot foreign exchange",
+    "CFDs",
+    "independent wealth management"
+   ],
+   "description": "Serves self-directed and retail clients worldwide with forex and CFD trading plus independent wealth management for U.S. retail investors.",
+   "evidence": "The Company provides self-directed/retail clients around the world access to over 18,000 global financial markets, including spot foreign exchange (\"forex\"), as well as CFDs, which are investment products with returns linked to the performance of underlying assets."
+  },
+  {
+   "name": "Payments",
+   "products": [
+    "customized payment, technology and treasury services",
+    "payments services",
+    "Payment Technology Services"
+   ],
+   "description": "Provides banks, commercial businesses, charities and government organizations with cross-border payment, technology and treasury services in many currencies.",
+   "evidence": "The Company provides customized payment, technology and treasury services to banks and commercial businesses as well as charities and non-governmental organizations and government organizations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay commissions and spreads on transactions, interest and fees earned on client balances, and consulting fees for market intelligence and risk management services.",
+  "evidence": "Our business model has created a revenue stream diversified by asset class, client type and geography, earning commissions and spreads as clients execute transactions across our global network, monetizing non-trading client activity including interest and fee earnings on client balances as well as earning consulting fees for our market intelligence and risk management services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the precious metals activities previously reported in Self-Directed/Retail were combined into the Commercial segment.",
+   "evidence": "We determined the acquired business activities of RJO were similar to our existing businesses, and the reassessment confirmed the current composition of the Company's operating segments, except for one change resulting in the combination of all physical trading capabilities in precious metals being reported within the Commercial segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

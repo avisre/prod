@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001822479",
  "issuerName": "SOTERA HEALTH COMPANY",
- "builtAt": "2026-11-16T04:33:42.655Z",
+ "builtAt": "2026-11-16T08:54:44.619Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001822479-26-000015",
@@ -10,10 +10,49 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1822479/000182247926000015/shc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sterigenics",
+   "products": [
+    "gamma irradiation",
+    "EO processing",
+    "E-beam irradiation",
+    "X-ray irradiation",
+    "terminal sterilization",
+    "irradiation services"
+   ],
+   "description": "Provides outsourced terminal sterilization and irradiation services using gamma, EO and E-beam technologies for medical device, pharmaceutical and food safety customers.",
+   "evidence": "Sterigenics provides outsourced terminal sterilization and irradiation services for the medical device, pharmaceutical, food safety and advanced applications markets using three major technologies: gamma irradiation, EO processing and E-beam irradiation."
+  },
+  {
+   "name": "Nordion",
+   "products": [
+    "Co-60 radiation sources",
+    "gamma irradiation systems",
+    "HSA Co-60",
+    "medical Co-60"
+   ],
+   "description": "Supplies radioactive cobalt sources, gamma irradiation systems and related lifecycle services to medical device, pharmaceutical, food safety and cancer treatment customers.",
+   "evidence": "Nordion is a leading global provider of Co-60 used in the sterilization and irradiation processes for the medical device, pharmaceutical, food safety, and high-performance materials industries, as well as in the treatment of cancer."
+  },
+  {
+   "name": "Nelson Labs",
+   "products": [
+    "microbiological and analytical chemistry testing and advisory services",
+    "expert advisory services and consulting",
+    "pharma testing services",
+    "core lab testing services"
+   ],
+   "description": "Provides outsourced microbiological and analytical chemistry testing and advisory services to medical device and pharmaceutical companies.",
+   "evidence": "Nelson Labs provides outsourced microbiological and analytical chemistry testing and advisory services for the medical device and pharmaceutical industries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Medical device, pharmaceutical and food customers pay for contract sterilization, lab testing and advisory services, and for gamma irradiation systems and sources.",
+  "evidence": "Service revenues primarily consist of revenue generated from contract sterilization and lab testing and advisory services within our Sterigenics and Nelson Labs segments, respectively."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

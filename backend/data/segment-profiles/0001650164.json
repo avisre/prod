@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001650164",
  "issuerName": "Toast, Inc.",
- "builtAt": "2026-11-16T04:33:45.175Z",
+ "builtAt": "2026-11-16T08:58:09.224Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001650164-26-000057",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1650164/000165016426000057/tost-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Toast, Inc.",
+   "products": [
+    "Toast IQ",
+    "Kitchen Display System",
+    "Toast Benchmarking",
+    "xtraCHEF by Toast",
+    "Local by Toast",
+    "Toast Payroll",
+    "Toast Capital"
+   ],
+   "description": "Provides restaurants and food and beverage retailers a cloud-based platform of software, payments, hardware and financial technology solutions.",
+   "evidence": "We have one reportable segment, Toast, Inc., consisting of a comprehensive platform of software-as-a-service, or SaaS, products, financial technology solutions, including integrated payment processing, restaurant-grade hardware, and a broad ecosystem of third-party partners."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Restaurants and food and beverage retailers pay subscription fees for software access, transaction fees for payment processing, and fees for hardware and professional services.",
+  "evidence": "Subscription services revenue is generated from fees charged to customers for access to our software applications."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

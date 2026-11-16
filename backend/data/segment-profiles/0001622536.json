@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001622536",
  "issuerName": "Talen Energy Corporation",
- "builtAt": "2026-11-16T04:33:44.721Z",
+ "builtAt": "2026-11-16T08:57:52.835Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001622536-26-000017",
@@ -10,11 +10,41 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1622536/000162253626000017/tln-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PJM",
+   "products": [
+    "electricity generation",
+    "marketing activities",
+    "commodity risk and fuel management",
+    "Susquehanna",
+    "natural gas and coal generation facilities in PJM"
+   ],
+   "description": "Generates and sells electricity, capacity and ancillary services from Susquehanna and its natural gas and coal plants in the PJM wholesale market.",
+   "evidence": "\"PJM\" is engaged in electricity generation, marketing activities, and commodity risk and fuel management within the PJM market and is comprised of Susquehanna and Talen's natural gas and coal generation facilities in PJM."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Colstrip",
+    "Bitcoin mining"
+   ],
+   "description": "Operates and markets Talen Montana's proportionate share of Colstrip in the WECC market plus other non-material operating and development activities.",
+   "evidence": "\"Other\" represents an operating segment that includes the operating and marketing activities of Talen Montana's proportionate share of Colstrip in the WECC market and other non-material operating and development activities."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Wholesale power markets and data center customers pay the company for electricity, capacity and ancillary services, and for contracted long-term power supply.",
+  "evidence": "We produce and sell electricity, capacity, and ancillary services into wholesale U.S. power markets, with our generation fleet principally located in the Mid-Atlantic, Ohio, and Montana."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company suspended Bitcoin mining operations at Nautilus and disposed of its Texas ERCOT power generation facilities.",
+   "evidence": "\"Other\" also includes the operating activities of Nautilus until Bitcoin mining operations were suspended in October 2024 and the operating activities of our Texas power generation facilities in the ERCOT market prior to their disposition in May 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

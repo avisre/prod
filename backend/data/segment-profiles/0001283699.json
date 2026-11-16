@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001283699",
  "issuerName": "T-MOBILE US, INC.",
- "builtAt": "2026-11-16T04:33:45.083Z",
+ "builtAt": "2026-11-16T08:58:08.109Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001283699-26-000010",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1283699/000128369926000010/tmus-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wireless",
+   "products": [
+    "smartphones",
+    "wearables",
+    "tablets",
+    "5G broadband gateways",
+    "Experience More",
+    "Experience Beyond",
+    "Essentials",
+    "5G broadband"
+   ],
+   "description": "Provides wireless communications and broadband services, devices and accessories to postpaid and prepaid customers, businesses and wholesale partners in the United States.",
+   "evidence": "We manage our business activities on a consolidated basis and operate as a single operating segment: Wireless."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Postpaid and prepaid customers pay for wireless communications and broadband services, devices and accessories, while wholesale partners pay for network access.",
+  "evidence": "We generate the majority of our service revenues by providing wireless communications and broadband services to postpaid and prepaid customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

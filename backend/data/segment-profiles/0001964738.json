@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001964738",
  "issuerName": "SOLVENTUM CORPORATION",
- "builtAt": "2026-11-16T04:33:43.300Z",
+ "builtAt": "2026-11-16T08:56:33.677Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001964738-26-000007",
@@ -10,11 +10,58 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1964738/000196473826000007/solv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MedSurg",
+   "products": [
+    "negative pressure wound therapy",
+    "advanced wound dressings",
+    "advanced skin care",
+    "synthetic tissue matrices",
+    "I.V. site management",
+    "sterilization assurance",
+    "temperature management",
+    "surgical supplies"
+   ],
+   "description": "Sells wound therapy, wound dressings, skin care, surgical, infection prevention and sterilization products to hospitals, clinics and other healthcare providers.",
+   "evidence": "MedSurg (57.9% of 2025 total sales) is a provider of solutions including negative pressure wound therapy, advanced wound dressings, advanced skin care, synthetic tissue matrices, I.V. site management, sterilization assurance, temperature management, surgical supplies, medical tapes and wraps, stethoscopes, medical electrodes, and medical technologies Original Equipment Manufacturer (\"OEM\" ) ."
+  },
+  {
+   "name": "Dental Solutions",
+   "products": [
+    "brackets",
+    "aligners",
+    "restorative cements",
+    "bonding agents"
+   ],
+   "description": "Provides dental and orthodontic products such as brackets, aligners and cements to dental professionals and orthodontists.",
+   "evidence": "Dental Solutions (16.2% of 2025 total sales) is a provider of a comprehensive suite of dental and orthodontic products including brackets, aligners, restorative cements, and bonding agents that span the \"life of the tooth,\" including products designed for preventative dental care, direct and indirect restoration, and broad orthodontic needs."
+  },
+  {
+   "name": "Health Information Systems",
+   "products": [
+    "computer-assisted physician documentation",
+    "direct-to-bill and coding automation",
+    "classification methodologies",
+    "speech recognition",
+    "data visualization platforms"
+   ],
+   "description": "Sells healthcare software for documentation, coding, reimbursement and data visualization to hospitals and healthcare systems.",
+   "evidence": "Health Information Systems (16.3% of 2025 total sales) provides healthcare systems with software solutions – including computer-assisted physician documentation, direct-to-bill and coding automation, classification methodologies, speech recognition, and data visualization platforms – that are designed to eliminate revenue cycle waste, create more time for patient care, and support value-based care."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitals, clinics, dental professionals and healthcare systems pay for medical supplies, dental products and software that improve care delivery and workflows.",
+  "evidence": "We serve a diverse customer base, ranging from multidisciplinary hospitals to local clinics/practices."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold its Purification and Filtration business, ending its separate segment reporting.",
+   "evidence": "Also in 2025, the Company sold its Purification and Filtration business to Thermo Fischer Scientific Inc."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001973266",
  "issuerName": "TKO GROUP HOLDINGS, INC.",
- "builtAt": "2026-11-16T04:33:44.696Z",
+ "builtAt": "2026-11-16T08:58:19.857Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-071651",
@@ -10,11 +10,61 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1973266/000119312526071651/tko-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "UFC",
+   "products": [
+    "media rights fees",
+    "ticket sales and site fees",
+    "partnerships and marketing",
+    "consumer products licensing agreements of UFC-branded products"
+   ],
+   "description": "Owns and promotes UFC mixed martial arts events, selling media rights, live event tickets, sponsorships and UFC-branded consumer product licenses to broadcasters, sponsors and fans.",
+   "evidence": "The UFC segment reflects the business operations of UFC."
+  },
+  {
+   "name": "WWE",
+   "products": [
+    "media rights fees",
+    "ticket sales and site fees",
+    "partnerships and marketing",
+    "consumer products licensing agreements of WWE-branded products"
+   ],
+   "description": "Produces professional wrestling programming and live events, selling media rights, tickets, sponsorships and WWE-branded consumer product licenses to networks, sponsors and fans.",
+   "evidence": "The WWE segment reflects the business operations of WWE."
+  },
+  {
+   "name": "IMG",
+   "products": [
+    "On Location",
+    "media rights management and sales",
+    "multi-channel content production and distribution",
+    "brand partnerships",
+    "strategic consulting",
+    "digital services",
+    "event management",
+    "curated guest experiences"
+   ],
+   "description": "Runs sports marketing, media rights sales, content production and On Location premium hospitality experiences for rights holders, brands and event attendees.",
+   "evidence": "The IMG segment reflects the operations of the following businesses:"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Media, cable and streaming partners pay media rights fees, fans pay for tickets and hospitality, sponsors pay for partnerships, and licensees pay consumer products royalties.",
+  "evidence": "TKO primarily generates revenue via domestic and international media rights fees, production services and studio fees, ticket sales at live events, hospitality sales and site fees, partnerships and marketing, and consumer products licensing."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company added IMG as a third reportable segment alongside UFC and WWE, following the Endeavor Asset Acquisition.",
+   "evidence": "Prior to the Endeavor Asset Acquisition, the Company identified two reportable segments: UFC and WWE"
+  },
+  {
+   "text": "In 2023 the businesses of UFC and WWE were combined under TKO Group Holdings.",
+   "evidence": "refer, collectively, to the combination of the businesses of UFC and WWE under TKO Group Holdings, Inc. consummated in September 2023."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

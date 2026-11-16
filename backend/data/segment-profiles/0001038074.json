@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001038074",
  "issuerName": "SILICON LABORATORIES INC.",
- "builtAt": "2026-11-16T04:33:42.827Z",
+ "builtAt": "2026-11-16T08:54:44.167Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001038074-26-000005",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1038074/000103807426000005/slab-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mixed-signal analog intensive products",
+   "products": [
+    "Wireless Microcontrollers",
+    "EFM32™",
+    "EFM8™",
+    "8051",
+    "wireless MCUs",
+    "wireless SoCs",
+    "modules",
+    "Simplicity Studio™"
+   ],
+   "description": "Designs and sells mixed-signal analog-intensive wireless integrated circuits and software platforms for developers building Internet of Things devices for industrial, commercial, home and life applications.",
+   "evidence": "The Company has one operating segment, mixed-signal analog intensive products, consisting of numerous product areas."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, mainly electronics manufacturers, pay for mixed-signal integrated circuit products under a single performance obligation, satisfied when control transfers, typically on shipment.",
+  "evidence": "Substantially all of the Company's contracts with customers contain a single performance obligation, the sale of mixed-signal integrated circuit (IC) products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

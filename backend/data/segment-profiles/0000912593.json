@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000912593",
  "issuerName": "SUN COMMUNITIES, INC",
- "builtAt": "2026-11-16T04:33:44.000Z",
+ "builtAt": "2026-11-16T08:56:26.959Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000912593-26-000086",
@@ -10,11 +10,54 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/912593/000091259326000086/sui-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MH",
+   "products": [
+    "MH communities",
+    "manufactured home sales",
+    "leasing services"
+   ],
+   "description": "Owns, operates and develops MH communities in the U.S., leasing sites to residents and selling and leasing manufactured homes.",
+   "evidence": "The MH segment owns, operates, develops, or has an interest in, a portfolio of MH communities in the U.S., and is in the business of acquiring, operating and developing ground-up MH communities to provide affordable housing solutions to residents."
+  },
+  {
+   "name": "RV",
+   "products": [
+    "RV communities",
+    "vacation rentals",
+    "leasing services"
+   ],
+   "description": "Owns, operates and develops RV communities in the U.S. and Canada, providing sites and vacation rental leasing to guests.",
+   "evidence": "The RV segment owns, operates, develops, or has an interest in, a portfolio of RV communities and is in the business of acquiring, operating, and developing ground-up RV communities in the U.S. and Canada."
+  },
+  {
+   "name": "UK",
+   "products": [
+    "holiday parks",
+    "home sales",
+    "site license activities"
+   ],
+   "description": "Owns, operates and develops holiday parks in the United Kingdom, selling homes and site licenses to owners and tenants.",
+   "evidence": "The UK segment owns, operates, develops, or has an interest in, a portfolio of communities, referred to as holiday parks, and is in the business of acquiring, operating, and developing communities in the United Kingdom."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Residents, holiday homeowners and homebuyers pay site fees, lease payments and purchase prices for land parcels, homes and vacation stays.",
+  "evidence": "For our MH and RV businesses, we lease individual parcels of land, or sites, with utility access for the placement of manufactured homes and RVs to our MH and RV customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold the Safe Harbor marina business, fully divesting that investment.",
+   "evidence": "On August 29, 2025, we completed the closing of the final nine Delayed Consent Subsidiaries for $117.5 million and fully divested our investment in the Safe Harbor business."
+  },
+  {
+   "text": "In 2025, following the Safe Harbor Sale, reporting changed from four segments to three.",
+   "evidence": "In 2025, following the Safe Harbor Sale, we revised our reporting structure from four segments to three segments, which consist of (i) MH communities, (ii) RV communities, and (iii) the communities in the UK."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

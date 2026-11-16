@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001552033",
  "issuerName": "TransUnion",
- "builtAt": "2026-11-16T04:33:45.860Z",
+ "builtAt": "2026-11-16T08:58:48.437Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001552033-26-000012",
@@ -10,11 +10,51 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1552033/000155203326000012/tru-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Markets",
+   "products": [
+    "credit reporting",
+    "credit marketing",
+    "analytics and consulting",
+    "identity verification and authentication",
+    "debt recovery solutions",
+    "credit reports",
+    "credit monitoring",
+    "identity protection and resolution"
+   ],
+   "description": "Provides data, analytics and actionable insights to U.S. businesses and consumers, covering credit risk, marketing, fraud, identity verification and personal finance management.",
+   "evidence": "The U.S. Markets segment provides data, analytics and actionable insights to businesses and consumers."
+  },
+  {
+   "name": "International",
+   "products": [
+    "credit reports",
+    "analytics and solutions services",
+    "other value-added risk management services",
+    "insurance, business, and automotive databases",
+    "consumer services"
+   ],
+   "description": "Provides credit reporting, analytics and risk management services, plus consumer solutions, to businesses and consumers outside the United States.",
+   "evidence": "The International segment provides services similar to our U.S. Markets segment to businesses in select regions outside the United States."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Businesses and consumers pay TransUnion for data, analytics and insights used to manage credit risk, market to customers, verify identities, mitigate fraud and manage personal finances.",
+  "evidence": "Our solutions enable businesses to manage and measure credit risk, market to new and existing customers, verify consumer identities, and mitigate fraud."
+ },
+ "changes": [
+  {
+   "text": "In 2024 TransUnion merged its Consumer Interactive operating segment into its U.S. Markets operating segment.",
+   "evidence": "In 2024, we reorganized our operations to merge our Consumer Interactive operating segment with our U.S. Markets operating segment."
+  },
+  {
+   "text": "In 2024 responsibility for certain international operations moved from the U.S. Markets segment to regions within the International segment.",
+   "evidence": "In addition, we changed the responsibility for certain international operations previously managed within the U.S. Markets segment to certain regions within the International segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000903129",
  "issuerName": "GENTHERM INCORPORATED",
- "builtAt": "2026-11-16T04:33:44.584Z",
+ "builtAt": "2026-11-16T09:04:33.351Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-059602",
@@ -10,10 +10,34 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/903129/000119312526059602/thrm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive",
+   "products": [
+    "Climate Control Seats",
+    "Climate Control Interiors",
+    "Lumbar and Massage Comfort Solutions",
+    "Climate and Comfort Electronics",
+    "Valve Systems"
+   ],
+   "description": null,
+   "evidence": "The Automotive reporting segment is comprised of our global automotive businesses, including the design, development, manufacturing and sales of our Automotive Climate and Comfort Solutions (including Climate Control Seats, Climate Control Interiors, Lumbar and Massage Comfort Solutions and Climate and Comfort Electronics), Valve Systems and other automotive products."
+  },
+  {
+   "name": "Medical",
+   "products": [
+    "patient temperature management systems"
+   ],
+   "description": "Supplies patient temperature management systems for hyper-hypothermia therapy in intensive care, normothermia in surgery and warming/cooling therapies in acute and chronic care.",
+   "evidence": "The Medical reporting segment is comprised of our patient temperature management business in the medical industry."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Light vehicle manufacturers and their suppliers pay for automotive thermal management and pneumatic comfort products, and hospitals pay for patient temperature management systems.",
+  "evidence": "As such, our customers primarily include light vehicle OEMs and Tier 1s."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

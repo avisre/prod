@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001113169",
  "issuerName": "PRICE T ROWE GROUP INC",
- "builtAt": "2026-11-16T04:33:45.828Z",
+ "builtAt": "2026-11-16T08:58:21.126Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-008002",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1113169/000162828026008002/trow-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment management services",
+   "products": [
+    "U.S. mutual funds",
+    "collective investment trusts",
+    "exchange-traded funds",
+    "subadvised funds",
+    "separately managed accounts",
+    "other sponsored products"
+   ],
+   "description": "Provides global investment advisory and related administrative services, including mutual funds, collective investment trusts and separate accounts, to individuals, advisors, institutions and retirement plan sponsors.",
+   "evidence": "We have one reportable segment: investment management services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay investment advisory, administrative, distribution and recordkeeping fees for managing assets and providing related services.",
+  "evidence": "Our revenue is earned from investment advisory, administrative, and distribution services we provide to our clients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

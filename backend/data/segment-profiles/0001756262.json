@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001756262",
  "issuerName": "TransMedics Group, Inc.",
- "builtAt": "2026-11-16T04:33:44.873Z",
+ "builtAt": "2026-11-16T08:58:14.547Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-067032",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1756262/000119312526067032/tmdx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "organ transplant",
+   "products": [
+    "OCS Heart",
+    "OCS Lung",
+    "OCS Liver",
+    "OCS Consoles",
+    "disposable sets",
+    "OCS Perfusion Sets",
+    "OCS Solutions",
+    "NOP"
+   ],
+   "description": "Sells OCS Heart, Lung and Liver perfusion systems with single-use disposable sets and provides outsourced organ procurement and transplant logistics services to US transplant centers.",
+   "evidence": "The Company manages its operations as a single segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Transplant centers and hospitals pay for single-use organ-specific disposable sets used with each OCS transplant, for OCS Consoles, and for outsourced organ procurement, perfusion management and logistics services.",
+  "evidence": "The Company generates net product revenue primarily from sales of its single-use, organ-specific disposable sets used on its organ-specific OCS Consoles."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
