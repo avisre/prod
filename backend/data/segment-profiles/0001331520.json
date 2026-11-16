@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001331520",
+ "issuerName": "HOME BANCSHARES, INC.",
+ "builtAt": "2026-11-16T03:48:13.917Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001331520-26-000051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1331520/000133152026000051/homb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "commercial real estate loans",
+    "commercial and industrial loans",
+    "commercial and consumer marine loans",
+    "deposits"
+   ],
+   "description": "Runs community bank lending and deposit franchises.",
+   "evidence": "Accordingly, all of the banking services, b"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and depositors are paid on balances.",
+  "evidence": "Through our Centennial CFG franchise, we operate a national lending platform that focuses on commercial real estate plus commercial and industrial loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

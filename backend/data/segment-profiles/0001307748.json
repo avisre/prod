@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001307748",
+ "issuerName": "INVENTRUST PROPERTIES CORP.",
+ "builtAt": "2026-11-16T03:48:41.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001307748-26-000045",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1307748/000130774826000045/ivtp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "multi-tenant retail",
+   "products": [
+    "retail properties"
+   ],
+   "description": "Owns and operates multi-tenant retail properties.",
+   "evidence": "The Company has a single reportable segment, multi-tenant retail, for disclosure purposes in accordance with United States (\"U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail tenants pay rent under leases.",
+  "evidence": "The Company's Chief Executive Officer (the \"CEO\") evaluates the performance of the Company's portfolio of retail properties and determines how resources are allocated."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

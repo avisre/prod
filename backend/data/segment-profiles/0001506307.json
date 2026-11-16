@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001506307",
+ "issuerName": "KINDER MORGAN, INC.",
+ "builtAt": "2026-11-16T03:48:42.726Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001506307-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1506307/000150630726000011/kmi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural Gas Pipelines",
+   "products": [
+    "natural gas transportation",
+    "natural gas storage"
+   ],
+   "description": "Transports and stores natural gas.",
+   "evidence": "Business Segments 6 Natural Gas Pipelines 7 Products Pipelines 10 Terminals 12 CO 2 14 Major Customers 16 Regulation 17 Human Capital 22 Properties and Rights-of-Way 23 Available Information 23 Item 1A."
+  },
+  {
+   "name": "Products Pipelines",
+   "products": [
+    "refined products pipelines"
+   ],
+   "description": "Transports refined petroleum products.",
+   "evidence": "Business Segments 6 Natural Gas Pipelines 7 Products Pipelines 10 Terminals 12 CO 2 14 Major Customers 16 Regulation 17 Human Capital 22 Properties and Rights-of-Way 23 Available Information 23 Item 1A."
+  },
+  {
+   "name": "Terminals",
+   "products": [],
+   "description": "Operates liquids and bulk terminals.",
+   "evidence": "Business Segments 6 Natural Gas Pipelines 7 Products Pipelines 10 Terminals 12 CO 2 14 Major Customers 16 Regulation 17 Human Capital 22 Properties and Rights-of-Way 23 Available Information 23 Item 1A."
+  },
+  {
+   "name": "CO 2",
+   "products": [
+    "carbon dioxide"
+   ],
+   "description": "Gathers and transports carbon dioxide for oil recovery.",
+   "evidence": "Business Segments 6 Natural Gas Pipelines 7 Products Pipelines 10 Terminals 12 CO 2 14 Major Customers 16 Regulation 17 Human Capital 22 Properties and Rights-of-Way 23 Available Information 23 Item 1A."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers pay tariffs and fee-based fees for transportation and storage.",
+  "evidence": "Business Segments 6 Natural Gas Pipelines 7 Products Pipelines 10 Terminals 12 CO 2 14 Major Customers 16 Regulation 17 Human Capital 22 Properties and Rights-of-Way 23 Available Information 23 Item 1A."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Terminals): terminals"
+ ],
+ "reader": "agent"
+}

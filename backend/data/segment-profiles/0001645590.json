@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001645590",
+ "issuerName": "HEWLETT PACKARD ENTERPRISE COMPANY",
+ "builtAt": "2026-11-16T03:48:13.972Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001645590-25-000130",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559025000130/hpe-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Server",
+   "products": [
+    "servers"
+   ],
+   "description": "Sells servers and related products.",
+   "evidence": "Our Business Segments, Products and Services Our operations are organized into five reportable business segments: Server, Hybrid Cloud, Networking, Financial Services, and Corporate Investments and Other."
+  },
+  {
+   "name": "Hybrid Cloud",
+   "products": [
+    "hybrid cloud solutions"
+   ],
+   "description": "Sells hybrid cloud and private cloud solutions.",
+   "evidence": "Our Business Segments, Products and Services Our operations are organized into five reportable business segments: Server, Hybrid Cloud, Networking, Financial Services, and Corporate Investments and Other."
+  },
+  {
+   "name": "Networking",
+   "products": [
+    "networking solutions"
+   ],
+   "description": "Sells data-centre networking, including AI-native networking.",
+   "evidence": "Our Business Segments, Products and Services Our operations are organized into five reportable business segments: Server, Hybrid Cloud, Networking, Financial Services, and Corporate Investments and Other."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "financing"
+   ],
+   "description": "Provides customer financing and leasing.",
+   "evidence": "Our Business Segments, Products and Services Our operations are organized into five reportable business segments: Server, Hybrid Cloud, Networking, Financial Services, and Corporate Investments and Other."
+  },
+  {
+   "name": "Corporate Investments and Other",
+   "products": [],
+   "description": "Holds corporate investments and other businesses.",
+   "evidence": "Our Business Segments, Products and Services Our operations are organized into five reportable business segments: Server, Hybrid Cloud, Networking, Financial Services, and Corporate Investments and Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and governments buy its hardware, software and services, some via financing.",
+  "evidence": "The AI market requires a modern and high-performing networking fabric as a core foundation to deliver a more efficient data-center cloud, which we offer through our AI-native portfolio of networking solutions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

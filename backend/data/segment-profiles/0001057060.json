@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001057060",
+ "issuerName": "MARINEMAX INC",
+ "builtAt": "2026-11-16T03:48:14.413Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-284680",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1057060/000119312525284680/hzo-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Operations",
+   "products": [
+    "new and used recreational boats",
+    "pleasure and fishing boats"
+   ],
+   "description": "Sells boats and related services through retail stores.",
+   "evidence": "As of September 30, 2025, the Retail Operations segment included the activity of over 70 retail locations in Alabama, California, Connecticut, Florida, Georgia, Illinois, Maryland, Massachusetts, Michigan, Minnesota, Missouri, New Jersey, New York, North Carolina, Ohio, Oklahoma, Rhode Island, South Carolina, Texas, Washington and Wisconsin, where we sell new and used recreational boats, including pleasure and fishing boats, with a focus on premium brands in"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Boat buyers pay for boats, financing, insurance and services.",
+  "evidence": "Through Newcoast Financial Services, we provide third-party financing and insurance products for boats and yachts primarily for transactions not associated with our dealership locations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

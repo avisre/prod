@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000917520",
+ "issuerName": "INTEGRA LIFESCIENCES HOLDINGS CORP",
+ "builtAt": "2026-11-16T03:48:14.429Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000917520-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/917520/000091752026000011/iart-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Codman Specialty Surgical",
+   "products": [],
+   "description": "Sells neurosurgical and specialty surgical devices.",
+   "evidence": "We manufacture and sell medical technologies and products in two reportable business segments: Codman Specialty Surgical (\"CSS\") and Tissue Technologies (\"TT\")."
+  },
+  {
+   "name": "Tissue Technologies",
+   "products": [
+    "wound reconstruction and care",
+    "private label"
+   ],
+   "description": "Sells wound care and private label products.",
+   "evidence": "We manufacture and sell medical technologies and products in two reportable business segments: Codman Specialty Surgical (\"CSS\") and Tissue Technologies (\"TT\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Surgeons and hospitals buy its medical devices and implants.",
+  "evidence": "Our product portfolio represents a continuum of care from pre-operative, to the neurosurgery operating room, to the neuro-critical care unit and post care for both adult and pediatric patients suffering from brain tumors, brain injury, cereb"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Codman Specialty Surgical): neurosurgery products"
+ ],
+ "reader": "agent"
+}

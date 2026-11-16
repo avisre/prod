@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001580905",
+ "issuerName": "Installed Building Products, Inc.",
+ "builtAt": "2026-11-16T03:48:14.486Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001580905-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1580905/000158090526000004/ibp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Installation",
+   "products": [
+    "installation services"
+   ],
+   "description": "Installs insulation and building products for builders.",
+   "evidence": "The Installation operating segment represents the majority of our net revenue and gross profit and forms our one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuilders and commercial contractors pay for installed building products.",
+  "evidence": "We offer our portfolio of services from our national network of approximately 250 branch locations serving all 48 continental states and the District of Columbia."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

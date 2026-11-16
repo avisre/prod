@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001114483",
+ "issuerName": "INTEGER HOLDINGS CORPORATION",
+ "builtAt": "2026-11-16T03:48:41.937Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001114483-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1114483/000111448326000003/gb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "medical devices",
+   "products": [
+    "Cardio & Vascular",
+    "Cardiac Rhythm Management & Neuromodulation",
+    "Other Markets"
+   ],
+   "description": "Makes medical devices across three product lines.",
+   "evidence": "REPORTING SEGMENT AND PRODUCT LINES We operate our business in one reportable segment and derive our revenues from three principal product lines: Cardio & Vascular, Cardiac Rhythm Management & Neuromodulation and Other Markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Medical device makers and hospitals buy its components and devices.",
+  "evidence": "REPORTING SEGMENT AND PRODUCT LINES We operate our business in one reportable segment and derive our revenues from three principal product lines: Cardio & Vascular, Cardiac Rhythm Management & Neuromodulation and Other Markets."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

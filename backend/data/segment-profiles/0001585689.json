@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001585689",
+ "issuerName": "Hilton Worldwide Holdings Inc.",
+ "builtAt": "2026-11-16T03:48:13.897Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001585689-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1585689/000158568926000007/hlt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "management and franchise",
+   "products": [
+    "management services",
+    "franchising"
+   ],
+   "description": "Manages and franchises hotels for third-party owners.",
+   "evidence": "We operate our business through: (i) a management and franchise segment and (ii) an ownership segment, each of which is reported as a segment based on (a) delivering a similar set of products and services and (b) being managed separately given its distinct economic characteristics."
+  },
+  {
+   "name": "ownership",
+   "products": [
+    "owned and leased hotels"
+   ],
+   "description": "Owns and leases hotels and reports their results.",
+   "evidence": "We operate our business through: (i) a management and franchise segment and (ii) an ownership segment, each of which is reported as a segment based on (a) delivering a similar set of products and services and (b) being managed separately given its distinct economic characteristics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Owners pay management and franchise fees; guests pay room rates at owned hotels.",
+  "evidence": "The management and franchise segment includes all of the hotels we manage for third-party owners, as well as all properties that license our intellectual property (\"IP\") and/or use our booking channels and related programs, and where we provide other contracted services, but the day-to-day services of the hotels are operated or managed by someone other than us."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (management and franchise): licensing of intellectual property"
+ ],
+ "reader": "agent"
+}

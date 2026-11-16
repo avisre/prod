@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001478242",
+ "issuerName": "IQVIA HOLDINGS INC.",
+ "builtAt": "2026-11-16T03:48:41.766Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008322",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1478242/000162828026008322/iqv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology & Analytics Solutions",
+   "products": [
+    "cloud-based applications",
+    "implementation services"
+   ],
+   "description": "Sells healthcare data, analytics and software to life sciences clients.",
+   "evidence": "We have three reportable segments: Technology & Analytics Solutions, Research & Development Solutions and Contract Sales & Medical Solutions."
+  },
+  {
+   "name": "Research & Development Solutions",
+   "products": [
+    "clinical research services"
+   ],
+   "description": "Runs clinical trials and R&D services for biopharma.",
+   "evidence": "We have three reportable segments: Technology & Analytics Solutions, Research & Development Solutions and Contract Sales & Medical Solutions."
+  },
+  {
+   "name": "Contract Sales & Medical Solutions",
+   "products": [
+    "contract sales",
+    "medical solutions"
+   ],
+   "description": "Provides contract sales forces and medical affairs services.",
+   "evidence": "We have three reportable segments: Technology & Analytics Solutions, Research & Development Solutions and Contract Sales & Medical Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Life sciences and healthcare clients pay for data, software and research services.",
+  "evidence": "Our Offerings We offer hundreds of distinct services, applications, technology platforms and solutions to help our clients make critical decisions and perform better."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

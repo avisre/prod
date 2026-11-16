@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000940942",
+ "issuerName": "HUB GROUP, INC.",
+ "builtAt": "2026-11-16T03:48:14.396Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000950170-25-026866",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/940942/000095017025026866/hubg-20241231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intermodal and Transportation Solutions",
+   "products": [
+    "intermodal",
+    "dedicated trucking"
+   ],
+   "description": "Provides intermodal and dedicated trucking services.",
+   "evidence": "We have two reportable segments: Intermodal and Transportation Solutions (\"ITS\") and Logistics which are based primarily on the services each segment provides."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "full outsource logistics solutions",
+    "transportation management services",
+    "consolidation and fulfillment services",
+    "final mile delivery services"
+   ],
+   "description": "Provides outsourced logistics and final mile delivery.",
+   "evidence": "We have two reportable segments: Intermodal and Transportation Solutions (\"ITS\") and Logistics which are based primarily on the services each segment provides."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers pay for intermodal, trucking and logistics services.",
+  "evidence": "We believe that fostering long-term customer relationships is critical to our success and allows us to better understand our customers' needs and specifically tailor the transportation and logistics services we provide to them."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

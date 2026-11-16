@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001070750",
+ "issuerName": "HOST HOTELS & RESORTS, INC.",
+ "builtAt": "2026-11-16T03:48:14.276Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001070750-26-000054",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1070750/000107075026000054/hst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hotels",
+   "products": [
+    "hotel rooms",
+    "food and beverage"
+   ],
+   "description": "Owns hotels and earns room, food and beverage revenue.",
+   "evidence": "We consider each one of our hotels to be an operating segment, as we allocate resources and assess operating performance based on individual hotels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates and hotel charges.",
+  "evidence": "While we do not consider the following disclosure of hotel revenues by location to consist of reportable segments, we have disaggregated hotel revenues by market location."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

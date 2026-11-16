@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001232524",
+ "issuerName": "Jazz Pharmaceuticals plc",
+ "builtAt": "2026-11-16T03:48:42.029Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001232524-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1232524/000123252426000013/jazz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceutical products",
+   "products": [],
+   "description": "Develops and sells medicines for unmet medical needs.",
+   "evidence": "We have determined that we operate in one business segment, which is the identification, development and commercialization of meaningful pharmaceutical products that address unmet medical needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its prescription medicines.",
+  "evidence": "We have determined that we operate in one business segment, which is the identification, development and commercialization of meaningful pharmaceutical products that address unmet medical needs."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (pharmaceutical products): pharmaceutical products"
+ ],
+ "reader": "agent"
+}

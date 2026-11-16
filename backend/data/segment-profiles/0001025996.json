@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001025996",
+ "issuerName": "KILROY REALTY CORP",
+ "builtAt": "2026-11-16T03:48:42.887Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1025996/000162828026007051/krc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "office properties",
+   "products": [],
+   "description": "Owns and operates office properties leased to tenants.",
+   "evidence": "Segment and Geographic Financial Information During 2025 and 2024, we had one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Office tenants pay rent under leases.",
+  "evidence": "Our approach is designed to attract, retain, develop, and incentivize talented and experienced individuals in the highly competitive employment and commercial real estate markets in which we operate."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (office properties): office properties"
+ ],
+ "reader": "agent"
+}

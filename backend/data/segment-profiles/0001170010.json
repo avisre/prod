@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001170010",
+ "issuerName": "CARMAX, INC.",
+ "builtAt": "2026-11-16T03:48:42.761Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001170010-26-000021",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1170010/000117001026000021/kmx-20260228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CarMax Sales Operations",
+   "products": [
+    "used vehicles",
+    "wholesale vehicles"
+   ],
+   "description": "Sells and wholesales used cars through its stores.",
+   "evidence": "We operate in two reportable segments: CarMax Sales Operations and CarMax Auto Finance (\"CAF\")."
+  },
+  {
+   "name": "CarMax Auto Finance",
+   "products": [],
+   "description": "Provides vehicle financing to customers.",
+   "evidence": "We operate in two reportable segments: CarMax Sales Operations and CarMax Auto Finance (\"CAF\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy cars and pay interest on financing.",
+  "evidence": "We operate in two reportable segments: CarMax Sales Operations and CarMax Auto Finance (\"CAF\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CarMax Auto Finance): auto financing"
+ ],
+ "reader": "agent"
+}

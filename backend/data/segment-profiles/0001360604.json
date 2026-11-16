@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001360604",
+ "issuerName": "HEALTHCARE REALTY TRUST INCORPORATED",
+ "builtAt": "2026-11-16T03:48:14.138Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001360604-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1360604/000136060426000018/hr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "REIT",
+   "products": [
+    "healthcare facilities"
+   ],
+   "description": "Owns and leases healthcare real estate.",
+   "evidence": "The Company is managed as one operating segment, rather than multiple operating segments, for internal reporting purposes and for internal decision-making and discloses its operating results in a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare tenants pay rent under leases.",
+  "evidence": "Segment Reporting The Company is a REIT that owns, leases, ac"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

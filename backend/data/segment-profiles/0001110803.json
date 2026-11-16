@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001110803",
+ "issuerName": "Illumina, Inc.",
+ "builtAt": "2026-11-16T03:48:14.609Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001110803-26-000024",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1110803/000111080326000024/ilmn-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Core Illumina",
+   "products": [
+    "sequencing instruments",
+    "consumables"
+   ],
+   "description": "Sells DNA sequencing instruments and consumables.",
+   "evidence": "Segment and Geographic Information We have one reportable segment, Core Illumina, as of December 28, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Research and clinical labs buy sequencing systems and consumables.",
+  "evidence": "Segment and Geographic Information We have one reportable segment, Core Illumina, as of December 28, 2025."
+ },
+ "changes": [
+  {
+   "text": "GRAIL was spun off in June 2024, leaving Core Illumina as the only reportable segment.",
+   "evidence": "Prior to the Spin-Off of GRAIL into a separate, independent publicly traded company on June 24, 2024, our reportable segments included both Core Illumina and GRAIL."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

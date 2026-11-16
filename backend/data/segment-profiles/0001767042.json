@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001767042",
+ "issuerName": "Kodiak Gas Services, Inc.",
+ "builtAt": "2026-11-16T03:48:42.668Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001767042-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1767042/000176704226000012/kgs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract Services",
+   "products": [
+    "large horsepower compression units"
+   ],
+   "description": "Provides compression under fixed-revenue term contracts.",
+   "evidence": "Our business is managed through the following two operating segments: Contract Services and Other Services."
+  },
+  {
+   "name": "Other Services",
+   "products": [
+    "compression services"
+   ],
+   "description": "Provides other compression-related services.",
+   "evidence": "Our business is managed through the following two operating segments: Contract Services and Other Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Upstream and midstream customers pay fixed monthly fees for compression.",
+  "evidence": "We operate our large horsepower compression units under fixed-revenue term contracts with many upstream and midstream customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

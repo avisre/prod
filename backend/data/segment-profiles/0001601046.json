@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001601046",
+ "issuerName": "KEYSIGHT TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-16T03:48:42.643Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001601046-25-000127",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1601046/000160104625000127/keys-20251031.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

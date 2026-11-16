@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001265131",
+ "issuerName": "Hilltop Holdings Inc.",
+ "builtAt": "2026-11-16T03:48:14.311Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-015264",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1265131/000110465926015264/hth-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its bank subsidiary.",
+   "evidence": "our business units are comprised of three reportable business segments organized primarily by the core products offered to the segments' respective customers: banking, broker-dealer, and mortgage origination."
+  },
+  {
+   "name": "broker-dealer",
+   "products": [
+    "securities brokerage"
+   ],
+   "description": "Runs its broker-dealer business.",
+   "evidence": "our business units are comprised of three reportable business segments organized primarily by the core products offered to the segments' respective customers: banking, broker-dealer, and mortgage origination."
+  },
+  {
+   "name": "mortgage origination",
+   "products": [
+    "mortgage loans"
+   ],
+   "description": "Originates residential mortgages.",
+   "evidence": "our business units are comprised of three reportable business segments organized primarily by the core products offered to the segments' respective customers: banking, broker-dealer, and mortgage origination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees, and clients pay brokerage commissions.",
+  "evidence": "our business units are comprised of three reportable business segments organized primarily by the core products offered to the segments' respective customers: banking, broker-dealer, and mortgage origination."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

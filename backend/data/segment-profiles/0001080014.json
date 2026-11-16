@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001080014",
+ "issuerName": "INNOVIVA, INC.",
+ "builtAt": "2026-11-16T03:48:14.687Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071776",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1080014/000119312526071776/inva-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Innoviva",
+   "products": [
+    "net product sales"
+   ],
+   "description": "Holds royalty and product interests in medicines.",
+   "evidence": "SEGMENT REPORTING We operate as a single operating and reportable segment, focused on creating value for our stockholders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns royalties and net product sales from its medicines.",
+  "evidence": "We also generate revenue from net product sales of GIA"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

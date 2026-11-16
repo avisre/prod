@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001587523",
+ "issuerName": "Knowles Corporation",
+ "builtAt": "2026-11-16T03:48:42.790Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001587523-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1587523/000158752326000005/kn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision Devices",
+   "products": [
+    "capacitor products",
+    "RF solutions"
+   ],
+   "description": "Makes capacitors and RF products for defense and industrial markets.",
+   "evidence": "Our Business Segments We have two reportable segments - Precision Devices (\"PD\") and MedTech & Specialty Audio (\"MSA\")."
+  },
+  {
+   "name": "MedTech & Specialty Audio",
+   "products": [],
+   "description": "Makes components for medtech and audio customers.",
+   "evidence": "Our Business Segments We have two reportable segments - Precision Devices (\"PD\") and MedTech & Specialty Audio (\"MSA\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs buy its components for their products.",
+  "evidence": "Our Business Segments We have two reportable segments - Precision Devices (\"PD\") and MedTech & Specialty Audio (\"MSA\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (MedTech & Specialty Audio): medtech components",
+  "product not in text (MedTech & Specialty Audio): specialty audio components"
+ ],
+ "reader": "agent"
+}

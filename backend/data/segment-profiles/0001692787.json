@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001692787",
+ "issuerName": "KINETIK HOLDINGS INC.",
+ "builtAt": "2026-11-16T03:48:42.832Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001692787-26-000048",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1692787/000169278726000048/apa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Midstream Logistics",
+   "products": [
+    "gas gathering and processing",
+    "crude oil gathering, stabilization and storage services",
+    "produced water gathering and disposal"
+   ],
+   "description": "Gathers, processes and transports gas, crude and water.",
+   "evidence": "Midstream Logistics The Midstream Logistics segment provides three service offerings: 1) gas gathering and processing, 2) crude oil gathering, stabilization and storage services and 3) produced water gathering and disposal."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Producers pay gathering, processing and disposal fees.",
+  "evidence": "Midstream Logistics The Midstream Logistics segment provides three service offerings: 1) gas gathering and processing, 2) crude oil gathering, stabilization and storage services and 3) produced water gathering and disposal."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

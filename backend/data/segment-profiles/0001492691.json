@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001492691",
+ "issuerName": "Knight-Swift Transportation Holdings Inc.",
+ "builtAt": "2026-11-16T03:48:42.860Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001492691-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1492691/000149269126000016/knx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Truckload",
+   "products": [
+    "full truckload"
+   ],
+   "description": "Provides truckload capacity to shippers.",
+   "evidence": "Our four reportable segments are Truckload, LTL, Logistics, and Intermodal."
+  },
+  {
+   "name": "LTL",
+   "products": [
+    "less-than-truckload"
+   ],
+   "description": "Provides less-than-truckload freight service.",
+   "evidence": "Our four reportable segments are Truckload, LTL, Logistics, and Intermodal."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "logistics services"
+   ],
+   "description": "Brokers freight and provides logistics services.",
+   "evidence": "Our four reportable segments are Truckload, LTL, Logistics, and Intermodal."
+  },
+  {
+   "name": "Intermodal",
+   "products": [],
+   "description": "Moves freight by rail and road.",
+   "evidence": "Our four reportable segments are Truckload, LTL, Logistics, and Intermodal."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers pay for truckload, LTL, intermodal and brokerage services.",
+  "evidence": "We provide full truckload and LTL capacity for customers in high-density lanes, where we can provide a high level of service, as well as flexible and customized logistics services on a nationwide basis."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Intermodal): intermodal"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001048268",
+ "issuerName": "IES Holdings, Inc.",
+ "builtAt": "2026-11-16T03:48:14.592Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001048268-25-000174",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1048268/000104826825000174/iesc-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications",
+   "products": [
+    "technology infrastructure services"
+   ],
+   "description": "Builds and maintains communications infrastructure in data centers.",
+   "evidence": "Our operations are organized into four business segments, based upon the nature of our services: • Communications – Nationwide provider of technology infrastructure services, including the design, build, and maintenance of the communications infrastructure within data centers for co-location and managed hosting customers, for both large corporations and independent businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Data center and enterprise customers pay for infrastructure design, build and maintenance.",
+  "evidence": "Our operations are organized into four business segments, based upon the nature of our services: • Communications – Nationwide provider of technology infrastructure services, including the design, build, and maintenance of the communications infrastructure within data centers for co-location and managed hosting customers, for both large corporations and independent businesses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001679049",
+ "issuerName": "International Seaways, Inc.",
+ "builtAt": "2026-11-16T03:48:14.668Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020113",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1679049/000110465926020113/insw-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Crude Tankers",
+   "products": [
+    "VLCC",
+    "Suezmax",
+    "Aframax"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Product Carriers",
+   "products": [
+    "LR2",
+    "LR1",
+    "MR"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil companies and traders pay charter rates for vessel voyages.",
+  "evidence": "Total at December 31, 2025 Vessel Fleet and Type ​ Vessels Owned ​ Vessels Chartered-in ​ Number ​ Total Dwt Operating Fleet"
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Crude Tankers",
+  "segment evidence not verbatim: Product Carriers"
+ ],
+ "reader": "agent"
+}

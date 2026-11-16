@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001095565",
+ "issuerName": "HEALTHSTREAM INC",
+ "builtAt": "2026-11-16T03:48:14.291Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005916",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1095565/000143774926005916/hstm20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "subscription-based solutions",
+   "products": [
+    "implementation, training, and account management services"
+   ],
+   "description": "Sells subscription software and services to healthcare organisations.",
+   "evidence": "Since January 2023, the Company's operations have been streamlined around a consolidated, enterprise approach, and since January 1, 2023, the Company has had a single reportable segment and presents financial information on a single segment basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and healthcare organisations pay subscriptions and service fees.",
+  "evidence": "We offer implementation, training, and account management services to facilitate adoption of our subscription-based solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (subscription-based solutions): subscription-based solutions"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001867072",
+ "issuerName": "Kyndryl Holdings, Inc",
+ "builtAt": "2026-11-16T03:48:42.609Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-067881",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1867072/000110465926067881/kd-20260331x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "cloud services",
+    "core enterprise services",
+    "applications",
+    "data and artificial intelligence (\"AI\") services",
+    "digital workplace services",
+    "security and resiliency services",
+    "network and edge services"
+   ],
+   "description": "Provides IT infrastructure services in the United States.",
+   "evidence": "The Company is organized, managed and classified into four reportable segments by geography: United States, Japan, Principal Markets and Strategic Markets."
+  },
+  {
+   "name": "Japan",
+   "products": [
+    "managed services"
+   ],
+   "description": "Provides IT infrastructure services in Japan.",
+   "evidence": "The Company is organized, managed and classified into four reportable segments by geography: United States, Japan, Principal Markets and Strategic Markets."
+  },
+  {
+   "name": "Principal Markets",
+   "products": [
+    "managed services"
+   ],
+   "description": "Provides IT infrastructure services in its principal markets.",
+   "evidence": "The Company is organized, managed and classified into four reportable segments by geography: United States, Japan, Principal Markets and Strategic Markets."
+  },
+  {
+   "name": "Strategic Markets",
+   "products": [
+    "managed services"
+   ],
+   "description": "Provides IT infrastructure services in strategic markets.",
+   "evidence": "The Company is organized, managed and classified into four reportable segments by geography: United States, Japan, Principal Markets and Strategic Markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay for advisory, implementation and managed IT services.",
+  "evidence": "We offer services across a number of areas of expertise, such as cloud services, core enterprise services, applications, data and artificial intelligence (\"AI\") services, digital workplace services, security and resiliency services and network and edge services as we continue to support our customers through technological change."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

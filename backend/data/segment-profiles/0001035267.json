@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001035267",
+ "issuerName": "Intuitive Surgical, Inc.",
+ "builtAt": "2026-11-16T03:48:41.916Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001035267-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000010/isrg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "da Vinci surgical systems",
+   "products": [
+    "instruments and accessories"
+   ],
+   "description": "Sells robotic surgical systems, instruments and accessories.",
+   "evidence": "The Company manages the business activities on a consolidated basis and operates in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals buy systems, instruments and accessories and pay service fees.",
+  "evidence": "Instruments and Accessories We offer a comprehensive suite of stapling, energy, and core instrumentation for our da Vinci surgical systems."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (da Vinci surgical systems): da Vinci surgical systems"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001571949",
+ "issuerName": "INTERCONTINENTAL EXCHANGE, INC.",
+ "builtAt": "2026-11-16T03:48:14.502Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001571949-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1571949/000157194926000004/ice-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exchanges",
+   "products": [
+    "listing",
+    "trading and clearing",
+    "data and connectivity services"
+   ],
+   "description": "Runs regulated exchanges and clearing houses.",
+   "evidence": "Our segments are as follows: • Exchanges: We operate regulated marketplace technology for the listing, trading and clearing of a broad array of derivatives contracts and financial securities as well as data and connectivity services related to our exchanges and clearing houses."
+  },
+  {
+   "name": "Fixed Income and Data Services",
+   "products": [
+    "fixed income pricing",
+    "reference data",
+    "indices",
+    "analytics"
+   ],
+   "description": "Sells fixed income data, indices and analytics.",
+   "evidence": "• Fixed Income and Data Services: We provide fixed income pricing, reference data, indices, analytics and execution ser"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Market participants pay transaction, clearing, listing and data fees.",
+  "evidence": "Although we report our results in three reportable business segments, we operate as one business, leveraging the collective expertise, particularly in data services and technology, that exists across our platforms to inform and enhance our operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

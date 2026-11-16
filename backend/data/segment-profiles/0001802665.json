@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001802665",
  "issuerName": "HARMONY BIOSCIENCES HOLDINGS, INC.",
- "builtAt": "2026-11-15T14:14:44.871Z",
+ "builtAt": "2026-11-16T03:48:14.152Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-018859",
@@ -10,15 +10,23 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465926018859/hrmy-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Harmony Biosciences",
+   "products": [
+    "prescription medicines"
+   ],
+   "description": "Develops and sells medicines for sleep and neurological disorders.",
+   "evidence": "The Company has determined it operates in a single operating segment and, therefore, has one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company earns net product revenue from sales of its sole commercial product, WAKIX, primarily through specialty pharmaceutical distributors and pharmacies in the United States.",
-  "evidence": "Net product revenue related to the sales of WAKIX was $868.5 million for the year ended December 31, 2025."
+  "text": "Patients' insurers and pharmacies pay for its prescription medicines.",
+  "evidence": "The Company has determined it operates in a single operating segment and, therefore, has one reportable segment."
  },
  "changes": [],
- "dropped": [
-  "segment name not in text: Neuroscience pharmaceuticals"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

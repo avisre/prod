@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001302215",
+ "issuerName": "Houlihan Lokey, Inc.",
+ "builtAt": "2026-11-16T03:48:13.781Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001302215-26-000053",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1302215/000130221526000053/hli-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate Finance",
+   "products": [
+    "M&A and capital solutions"
+   ],
+   "description": "Advises on mergers, acquisitions and capital raising.",
+   "evidence": "We market our services through our product areas, our industry groups and our Financial Sponsors group, serving our clients in three business segments: Corporate Finance (\"CF\"), encompassing M&A and capital solutions; Financial Restructuring (\"FR\"), including restructurings both out-of-court and in formal bankruptcy or insolvency proceedings; and Financial and Valuation Advisory (\"FVA\"), including financial opinions and a variety of valuation and financial consulting services."
+  },
+  {
+   "name": "Financial Restructuring",
+   "products": [
+    "restructurings"
+   ],
+   "description": "Advises on out-of-court and in-court restructurings.",
+   "evidence": "We market our services through our product areas, our industry groups and our Financial Sponsors group, serving our clients in three business segments: Corporate Finance (\"CF\"), encompassing M&A and capital solutions; Financial Restructuring (\"FR\"), including restructurings both out-of-court and in formal bankruptcy or insolvency proceedings; and Financial and Valuation Advisory (\"FVA\"), including financial opinions and a variety of valuation and financial consulting services."
+  },
+  {
+   "name": "Financial and Valuation Advisory",
+   "products": [
+    "financial opinions",
+    "valuation and financial consulting services"
+   ],
+   "description": "Provides fairness opinions and valuation advice.",
+   "evidence": "We market our services through our product areas, our industry groups and our Financial Sponsors group, serving our clients in three business segments: Corporate Finance (\"CF\"), encompassing M&A and capital solutions; Financial Restructuring (\"FR\"), including restructurings both out-of-court and in formal bankruptcy or insolvency proceedings; and Financial and Valuation Advisory (\"FVA\"), including financial opinions and a variety of valuation and financial consulting services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay transaction and advisory fees for its advice.",
+  "evidence": "We provide our financial professionals with an integrated platform that enables them to deliver meaningful and differentiated advice to our clients."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

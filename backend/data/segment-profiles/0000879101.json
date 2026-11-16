@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000879101",
+ "issuerName": "Kimco Realty Corporation",
+ "builtAt": "2026-11-16T03:48:42.694Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-060760",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/879101/000119312526060760/kim-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "retail properties",
+   "products": [
+    "shopping centers"
+   ],
+   "description": "Owns and operates grocery-anchored shopping centers.",
+   "evidence": "Accordingly, the Company believes it has a single reportable segment for disclosure purposes in accordance with GAAP."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail tenants pay rent and recoveries under leases.",
+  "evidence": "As a result, each of the Company's individual properties is a separate operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

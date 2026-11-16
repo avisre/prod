@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001054905",
+ "issuerName": "INNOSPEC INC.",
+ "builtAt": "2026-11-16T03:48:41.735Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-056502",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1054905/000119312526056502/iosp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Performance Chemicals",
+   "products": [
+    "technology-based solutions"
+   ],
+   "description": "Sells specialty chemicals for personal care, home care and industrial uses.",
+   "evidence": "Segment Information The Company reports its financial performance based on three reportable segments which are Performance Chemicals, Fuel Specialties and Oilfield Services."
+  },
+  {
+   "name": "Fuel Specialties",
+   "products": [
+    "fuel additives"
+   ],
+   "description": "Sells fuel additives and specialty chemicals.",
+   "evidence": "Segment Information The Company reports its financial performance based on three reportable segments which are Performance Chemicals, Fuel Specialties and Oilfield Services."
+  },
+  {
+   "name": "Oilfield Services",
+   "products": [
+    "oilfield chemicals"
+   ],
+   "description": "Supplies chemicals and services to oilfields.",
+   "evidence": "Segment Information The Company reports its financial performance based on three reportable segments which are Performance Chemicals, Fuel Specialties and Oilfield Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers buy its specialty chemicals.",
+  "evidence": "Performance Chemicals Our Performance Chemicals segment provides innovative technology-based solutions for our customers' processes or products in personal care, home care, agrochemical, construction, mining and other industrial markets."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
