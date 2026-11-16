@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001176948",
  "issuerName": "ARES MANAGEMENT CORPORATION",
- "builtAt": "2026-11-16T06:56:51.893Z",
+ "builtAt": "2026-11-16T07:02:33.197Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011413",
@@ -10,6 +10,75 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm"
  },
- "status": "model-unparseable",
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Credit Group",
+   "products": [
+    "liquid credit",
+    "alternative credit",
+    "opportunistic credit",
+    "direct lending"
+   ],
+   "description": "Manages credit strategies across the liquid and illiquid spectrum for the institutional and wealth investors in its funds.",
+   "evidence": "The Credit Group manages credit strategies across the liquid and illiquid spectrum, including liquid credit, alternative credit, opportunistic credit, direct lending and Asia-Pacific (\"APAC\") credit."
+  },
+  {
+   "name": "Real Assets Group",
+   "products": [
+    "real estate",
+    "infrastructure",
+    "digital infrastructure",
+    "real estate debt"
+   ],
+   "description": "Manages equity and debt strategies across real estate and infrastructure investments for its fund investors worldwide.",
+   "evidence": "The Real Assets Group manages comprehensive equity and debt strategies across real estate and infrastructure investments."
+  },
+  {
+   "name": "Secondaries Group",
+   "products": [
+    "secondary funds",
+    "multi-asset portfolios",
+    "single asset joint ventures"
+   ],
+   "description": "Invests in secondary markets across alternative asset class strategies, acquiring existing fund interests and building structured solutions.",
+   "evidence": "The Secondaries Group invests in secondary markets across a range of alternative asset class strategies"
+  },
+  {
+   "name": "Private Equity Group",
+   "products": [
+    "Corporate Private Equity",
+    "APAC Private Equity"
+   ],
+   "description": "Partners with management teams to scale businesses and pursue durable growth for its private equity fund investors.",
+   "evidence": "The following charts present the Private Equity Group's AUM and FPAUM as of December 31, 2025 by investment strategy ($ in billions):"
+  },
+  {
+   "name": "Other Businesses",
+   "products": [
+    "Ares Insurance Solutions",
+    "SPAC business",
+    "venture capital business"
+   ],
+   "description": "Collects smaller operating segments and growth initiatives, including insurance solutions, SPAC activities and venture capital.",
+   "evidence": "The following charts present Other Businesses AUM and FPAUM as of December 31, 2025 by investment strategy ($ in billions):"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fund and account investors pay management fees plus performance and incentive income to Ares subsidiaries acting as their general partner or investment manager.",
+  "evidence": "These subsidiaries provide investment advisory services to the Ares Funds in exchange for management fees."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Ares combined the presentation of its real estate strategies and infrastructure strategies within Real Assets.",
+   "evidence": "In the first quarter of 2025, we combined the presentation of real estate strategies and infrastructure strategies within Real Assets."
+  },
+  {
+   "text": "In 2025 Americas real estate equity was renamed from North American real estate equity and took in Brazil after the GCP Acquisition.",
+   "evidence": "Americas real estate equity, which we had recently renamed from North American real estate equity, now includes the activities of Brazil following the GCP Acquisition."
+  }
+ ],
+ "dropped": [],
  "reader": "agent"
 }

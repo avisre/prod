@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001037540",
  "issuerName": "BXP, INC.",
- "builtAt": "2026-11-16T02:35:08.864Z",
+ "builtAt": "2026-11-16T07:03:49.581Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001037540-26-000006",
@@ -10,10 +10,86 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1037540/000103754026000006/bxp-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Boston",
+   "products": [
+    "Office",
+    "life sciences",
+    "retail",
+    "Residential",
+    "Hotel"
+   ],
+   "description": "Owns, develops, manages and leases premier workplaces in Boston, including office, life sciences, retail, residential and hotel properties, for clients.",
+   "evidence": "Our properties are concentrated in six dynamic gateway markets—Boston, Los Angeles, New York, San Francisco, Seattle and Washington, DC."
+  },
+  {
+   "name": "Los Angeles",
+   "products": [
+    "Office",
+    "life sciences",
+    "retail",
+    "Residential",
+    "Hotel"
+   ],
+   "description": "Owns, develops, manages and leases premier workplaces in Los Angeles, including office, life sciences, retail, residential and hotel properties, for clients.",
+   "evidence": "The Company's segments by geographic area are Boston, Los Angeles, New York, San Francisco, Seattle and Washington, DC."
+  },
+  {
+   "name": "New York",
+   "products": [
+    "Office",
+    "life sciences",
+    "retail",
+    "Residential",
+    "Hotel"
+   ],
+   "description": "Owns, develops, manages and leases premier workplaces in New York, including office, life sciences, retail, residential and hotel properties, for clients.",
+   "evidence": "Our performance depends upon the economic conditions, particularly the supply and demand characteristics, of our markets—Boston, Los Angeles, New York, San Francisco, Seattle and Washington, DC."
+  },
+  {
+   "name": "San Francisco",
+   "products": [
+    "Office",
+    "life sciences",
+    "retail",
+    "Residential",
+    "Hotel"
+   ],
+   "description": "Owns, develops, manages and leases premier workplaces in San Francisco, including office, life sciences, retail, residential and hotel properties, for clients.",
+   "evidence": "The Company's segments by geographic area are Boston, Los Angeles, New York, San Francisco, Seattle and Washington, DC."
+  },
+  {
+   "name": "Seattle",
+   "products": [
+    "Office",
+    "life sciences",
+    "retail",
+    "Residential",
+    "Hotel"
+   ],
+   "description": "Owns, develops, manages and leases premier workplaces in Seattle, including office, life sciences, retail, residential and hotel properties, for clients.",
+   "evidence": "The Company also presents information for each segment by property type, including Office (which includes office, life sciences and retail), Residential and Hotel."
+  },
+  {
+   "name": "Washington, DC",
+   "products": [
+    "Office",
+    "life sciences",
+    "retail",
+    "Residential",
+    "Hotel"
+   ],
+   "description": "Owns, develops, manages and leases premier workplaces in Washington, DC, including office, life sciences, retail, residential and hotel properties, for clients.",
+   "evidence": "The Company's segments by geographic area are Boston, Los Angeles, New York, San Francisco, Seattle and Washington, DC."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients lease space in the company's premier workplaces, paying upper-tier rental rates for the buildings it owns, develops and manages.",
+  "evidence": "As such, these properties attract creditworthy clients and command upper-tier rental rates in their markets."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
