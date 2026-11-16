@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001034054",
+ "issuerName": "SBA COMMUNICATIONS CORPORATION",
+ "builtAt": "2026-11-16T04:32:29.852Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001034054-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1034054/000103405426000002/sbac-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "domestic site leasing",
+   "products": [
+    "site leasing",
+    "towers",
+    "tenant leases"
+   ],
+   "description": "Leases antenna space on communications towers and other sites in the United States to wireless carriers under long-term tenant leases.",
+   "evidence": "We derive domestic site leasing revenues primarily from T-Mobile, AT&T Wireless, and Verizon Wireless."
+  },
+  {
+   "name": "international site leasing",
+   "products": [
+    "site leasing",
+    "towers",
+    "tenant leases"
+   ],
+   "description": "Owns and operates towers in international markets, leasing space to wireless carriers under long-term tenant leases.",
+   "evidence": "We currently own and operate towers in 12 international markets throughout South America, Central America, and Africa."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Wireless carriers pay SBA Communications rent under long-term tenant leases for space on its towers and other sites.",
+  "evidence": "In the United States, our tenant leases are generally for an initial term of five years to ten years with multiple renewal periods at the option of the tenant."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

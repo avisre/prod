@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001377121",
  "issuerName": "PROTAGONIST THERAPEUTICS, INC.",
- "builtAt": "2026-11-15T14:10:43.835Z",
+ "builtAt": "2026-11-16T04:32:26.294Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-019696",
@@ -13,12 +13,8 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "The company derives revenue from its two collaboration partners, JNJ and Takeda, through non-refundable upfront and milestone payments and cost sharing payments under license and collaboration agreements.",
-  "evidence": "The Company derives revenues from its collaboration partners, consisting of non-refundable upfront and milestone payments and cost sharing payments under its license and collaboration agreements."
- },
+ "revenueModel": null,
  "changes": [],
- "dropped": [
-  "segment name not in text: Pharmaceutical discovery and development"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

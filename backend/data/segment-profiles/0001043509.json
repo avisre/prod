@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001043509",
+ "issuerName": "SONIC AUTOMOTIVE, INC.",
+ "builtAt": "2026-11-16T04:32:29.747Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010570",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1043509/000162828026010570/sah-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Franchised Dealerships Segment",
+   "products": [
+    "new vehicles",
+    "used vehicles",
+    "parts and service"
+   ],
+   "description": "Runs franchised car dealerships.",
+   "evidence": "As a result of the way we manage our business, we had three reportable segments as of December 31, 2025: (1) the Franchised Dealerships Segment; (2) the EchoPark Segment; and (3) the Powersports Segment."
+  },
+  {
+   "name": "EchoPark Segment",
+   "products": [
+    "used vehicles"
+   ],
+   "description": "Runs its EchoPark used-vehicle stores.",
+   "evidence": "As a result of the way we manage our business, we had three reportable segments as of December 31, 2025: (1) the Franchised Dealerships Segment; (2) the EchoPark Segment; and (3) the Powersports Segment."
+  },
+  {
+   "name": "Powersports Segment",
+   "products": [
+    "powersports vehicles"
+   ],
+   "description": "Runs powersports dealerships.",
+   "evidence": "As a result of the way we manage our business, we had three reportable segments as of December 31, 2025: (1) the Franchised Dealerships Segment; (2) the EchoPark Segment; and (3) the Powersports Segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy vehicles and parts and pay for service.",
+  "evidence": "As a result of the way we manage our business, we had three reportable segments as of December 31, 2025: (1) the Franchised Dealerships Segment; (2) the EchoPark Segment; and (3) the Powersports Segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

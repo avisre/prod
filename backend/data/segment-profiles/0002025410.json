@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002025410",
+ "issuerName": "StandardAero, Inc.",
+ "builtAt": "2026-11-16T04:32:29.802Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-072618",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2025410/000119312526072618/saro-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

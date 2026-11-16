@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001050915",
+ "issuerName": "Quanta Services, Inc.",
+ "builtAt": "2026-11-16T04:32:26.520Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001050915-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1050915/000105091526000006/pwr-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

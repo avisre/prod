@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001281761",
+ "issuerName": "Regions Financial Corporation",
+ "builtAt": "2026-11-16T04:32:27.729Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001281761-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1281761/000128176126000019/rf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate Bank",
+   "products": [
+    "commercial loans",
+    "deposits"
+   ],
+   "description": "Banks commercial and corporate clients.",
+   "evidence": "Business Segments Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
+  },
+  {
+   "name": "Consumer Bank",
+   "products": [
+    "consumer loans",
+    "deposits"
+   ],
+   "description": "Banks consumers.",
+   "evidence": "Business Segments Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [],
+   "description": "Provides wealth and investment services.",
+   "evidence": "Business Segments Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees, and depositors are paid on balances.",
+  "evidence": "Business Segments Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wealth Management): wealth management services"
+ ],
+ "reader": "agent"
+}

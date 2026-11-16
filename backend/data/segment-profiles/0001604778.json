@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001604778",
+ "issuerName": "Qorvo, Inc.",
+ "builtAt": "2026-11-16T04:32:26.732Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-032873",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1604778/000162828026032873/rfmd-20260328.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High Performance Analog",
+   "products": [
+    "switches",
+    "filters",
+    "LNA modules",
+    "discrete LNAs",
+    "variable gain amplifiers",
+    "control circuits"
+   ],
+   "description": "Sells analog and RF semiconductor products.",
+   "evidence": "We are organized into three operating and reportable segments that align our technologies and applications with customers and end markets: High Performance Analog (\"HPA\"), Connectivity and Sensors Group (\"CSG\") and Advanced Cellular Group (\"ACG\")."
+  },
+  {
+   "name": "Connectivity and Sensors Group",
+   "products": [
+    "sensors"
+   ],
+   "description": "Sells connectivity and sensor products.",
+   "evidence": "We are organized into three operating and reportable segments that align our technologies and applications with customers and end markets: High Performance Analog (\"HPA\"), Connectivity and Sensors Group (\"CSG\") and Advanced Cellular Group (\"ACG\")."
+  },
+  {
+   "name": "Advanced Cellular Group",
+   "products": [],
+   "description": "Sells cellular RF components.",
+   "evidence": "We are organized into three operating and reportable segments that align our technologies and applications with customers and end markets: High Performance Analog (\"HPA\"), Connectivity and Sensors Group (\"CSG\") and Advanced Cellular Group (\"ACG\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Phone, network and defense customers buy its RF chips.",
+  "evidence": "Qorvo's cellular infrastructure products include switches, filters, LNA modules, discrete LNAs, variable gain amplifiers and control circuits."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Connectivity and Sensors Group): connectivity products",
+  "product not in text (Advanced Cellular Group): cellular components"
+ ],
+ "reader": "agent"
+}

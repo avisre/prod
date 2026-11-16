@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001012019",
+ "issuerName": "RUSH ENTERPRISES, INC",
+ "builtAt": "2026-11-16T04:32:29.304Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005424",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1012019/000143774926005424/rusha20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Truck Segment",
+   "products": [
+    "commercial vehicle dealerships"
+   ],
+   "description": "Runs commercial truck dealerships through Rush Truck Centers.",
+   "evidence": "consists of one reportable segment, the Truck Segment, and conducts business through its subsidiaries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fleets and owners buy and service trucks and parts.",
+  "evidence": "The Truck Segment includes our operation of a network of commercial vehicle dealerships under the name \"Rush Truck Centers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

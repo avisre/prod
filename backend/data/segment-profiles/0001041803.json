@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001041803",
+ "issuerName": "PriceSmart, Inc.",
+ "builtAt": "2026-11-16T04:32:26.191Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001041803-26-000039",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1041803/000104180326000039/psmt-20260831.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

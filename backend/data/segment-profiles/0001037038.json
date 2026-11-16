@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001037038",
+ "issuerName": "Ralph Lauren Corporation",
+ "builtAt": "2026-11-16T04:32:28.075Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-037074",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1037038/000162828026037074/rl-20260328.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "apparel",
+    "accessories"
+   ],
+   "description": "Sells its brands in North America.",
+   "evidence": "We organize our business into the following three reportable segments: North America, Europe, and Asia."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "apparel",
+    "accessories"
+   ],
+   "description": "Sells its brands in Europe.",
+   "evidence": "We organize our business into the following three reportable segments: North America, Europe, and Asia."
+  },
+  {
+   "name": "Asia",
+   "products": [
+    "apparel",
+    "accessories"
+   ],
+   "description": "Sells its brands in Asia.",
+   "evidence": "We organize our business into the following three reportable segments: North America, Europe, and Asia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy apparel through stores, concessions and digital commerce.",
+  "evidence": "We sell directly to consumers through our integrated retail channel, which includes our retail stores, concession-based shop-within-shops, and digital commerce operations around the world."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

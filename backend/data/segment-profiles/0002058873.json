@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0002058873",
+ "issuerName": "QNITY ELECTRONICS, INC.",
+ "builtAt": "2026-11-16T04:32:26.627Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002058873-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2058873/000205887326000010/q-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor Technologies",
+   "products": [
+    "materials and solutions"
+   ],
+   "description": "Supplies materials for semiconductor manufacturing.",
+   "evidence": "We have aligned our businesses, and report our financial results, across two operating segments: • Semiconductor Technologies: Our Semiconductor Technologies segment provides a portfolio of innovative materials and solutions utilized across multiple stages of the semiconductor manufacturing process."
+  },
+  {
+   "name": "Interconnect Solutions",
+   "products": [],
+   "description": "Sells interconnect products.",
+   "evidence": "• Interconnect Solutions: Our Interconnect Solutions segment offers what we believe to be a comprehensive range of best-in-class"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Chip makers buy its materials and interconnect products.",
+  "evidence": "We have aligned our businesses, and report our financial results, across two operating segments: • Semiconductor Technologies: Our Semiconductor Technologies segment provides a portfolio of innovative materials and solutions utilized across multiple stages of the semiconductor manufacturing process."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Interconnect Solutions): interconnect products"
+ ],
+ "reader": "agent"
+}

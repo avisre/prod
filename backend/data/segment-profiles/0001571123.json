@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001571123",
+ "issuerName": "Science Applications International Corporation",
+ "builtAt": "2026-11-16T04:32:29.779Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001571123-26-000029",
+  "periodEnd": "2026-01-30",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1571123/000157112326000029/saic-20260130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Defense and Intelligence",
+   "products": [
+    "engineering and technical services"
+   ],
+   "description": "Serves defense and intelligence agencies.",
+   "evidence": "Our two reportable segments are the Defense and Intelligence segment and the Civilian segment."
+  },
+  {
+   "name": "Civilian",
+   "products": [
+    "engineering and technical services"
+   ],
+   "description": "Serves civilian agencies.",
+   "evidence": "Our two reportable segments are the Defense and Intelligence segment and the Civilian segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government agencies pay for services and IT work.",
+  "evidence": "The five business groups, which are also our operating segments, are aggregated into two reportable segments for financial reporting purposes given the similarity in economic and qualitative characteristics, and based on the nature of the customers they serve."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

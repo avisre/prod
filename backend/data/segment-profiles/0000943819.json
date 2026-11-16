@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000943819",
+ "issuerName": "ResMed Inc.",
+ "builtAt": "2026-11-16T04:32:28.381Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000943819-26-000047",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/943819/000094381926000047/rmd-20260630.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

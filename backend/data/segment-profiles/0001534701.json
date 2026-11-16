@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001534701",
+ "issuerName": "Phillips 66",
+ "builtAt": "2026-11-16T04:32:26.170Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001534701-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1534701/000153470126000006/psx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Midstream",
+   "products": [
+    "crude oil and refined petroleum product transportation",
+    "terminaling and storage services",
+    "natural gas and natural gas liquids (NGL) gathering"
+   ],
+   "description": "Transports, stores and processes crude, products and gas.",
+   "evidence": "Operating Segments Our businesses are organized into five operating segments: 1) Midstream— Provides crude oil and refined petroleum product transportation, terminaling and storage services, as well as natural gas and natural gas liquids (NGL) gathering, processing, transportation, fractionation, storage and marketing services in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers pay tariffs and processing fees.",
+  "evidence": "Operating Segments Our businesses are organized into five operating segments: 1) Midstream— Provides crude oil and refined petroleum product transportation, terminaling and storage services, as well as natural gas and natural gas liquids (NGL) gathering, processing, transportation, fractionation, storage and marketing services in the United States."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

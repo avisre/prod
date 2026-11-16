@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001070081",
+ "issuerName": "PTC Therapeutics, Inc.",
+ "builtAt": "2026-11-16T04:32:26.215Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-017575",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1070081/000110465926017575/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life science",
+   "products": [
+    "net product sales"
+   ],
+   "description": "Develops and sells therapies for rare diseases.",
+   "evidence": "Revenue recognition Net product sales The Company views its operations and manages its business in one operating segment: life science."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "Revenue recognition Net product sales The Company views its operations and manages its business in one operating segment: life science."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

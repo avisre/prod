@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001597033",
+ "issuerName": "Sabre Corporation",
+ "builtAt": "2026-11-16T04:32:29.713Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008800",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1597033/000162828026008800/sabr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "travel technology",
+   "products": [
+    "software technology products",
+    "software-as-a-service (\"SaaS\")"
+   ],
+   "description": "Sells travel software to airlines and travel suppliers.",
+   "evidence": "Business Segments and Products We manage and report our business in one reportable segment following the disposition of our Hospitality Solutions business during 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Airlines and travel suppliers pay for software and hosted services.",
+  "evidence": "Business Segments and Products We manage and report our business in one reportable segment following the disposition of our Hospitality Solutions business during 2025."
+ },
+ "changes": [
+  {
+   "text": "Reports one segment after disposing of its Hospitality Solutions business in 2025.",
+   "evidence": "Business Segments and Products We manage and report our business in one reportable segment following the disposition of our Hospitality Solutions business during 2025."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

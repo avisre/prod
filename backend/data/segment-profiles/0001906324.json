@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001906324",
+ "issuerName": "QUIDELORTHO CORP",
+ "builtAt": "2026-11-16T04:32:26.647Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001906324-26-000008",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1906324/000190632426000008/qdel-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [],
+   "description": "Sells diagnostics in North America.",
+   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+  },
+  {
+   "name": "EMEA",
+   "products": [],
+   "description": "Sells diagnostics in Europe, the Middle East and Africa.",
+   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+  },
+  {
+   "name": "China",
+   "products": [],
+   "description": "Sells diagnostics in China.",
+   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+  },
+  {
+   "name": "JPAC",
+   "products": [],
+   "description": "Sells diagnostics in Japan and Asia-Pacific.",
+   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+  },
+  {
+   "name": "Latin America",
+   "products": [],
+   "description": "Sells diagnostics in Latin America.",
+   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and labs buy its diagnostic tests and instruments.",
+  "evidence": "We operate globally with manufacturing facilities in the U."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (North America): diagnostic testing products",
+  "product not in text (EMEA): diagnostic testing products",
+  "product not in text (China): diagnostic testing products",
+  "product not in text (JPAC): diagnostic testing products",
+  "product not in text (Latin America): diagnostic testing products"
+ ],
+ "reader": "agent"
+}

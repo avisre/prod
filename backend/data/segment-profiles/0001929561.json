@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001929561",
+ "issuerName": "RXO, INC.",
+ "builtAt": "2026-11-16T04:32:29.397Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001929561-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1929561/000192956126000013/rxo-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

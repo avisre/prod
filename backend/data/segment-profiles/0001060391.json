@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001060391",
+ "issuerName": "REPUBLIC SERVICES, INC.",
+ "builtAt": "2026-11-16T04:32:28.794Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001060391-26-000094",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1060391/000106039126000094/rsg-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

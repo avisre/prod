@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002041385",
+ "issuerName": "Ralliant Corporation",
+ "builtAt": "2026-11-16T04:32:26.751Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002041385-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2041385/000204138526000023/ral-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Test and Measurement",
+   "products": [
+    "test and measurement instruments"
+   ],
+   "description": "Sells test and measurement equipment.",
+   "evidence": "Reportable Segments The Company operates and reports its results in two segments, Test and Measurement an"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers buy its test and measurement instruments.",
+  "evidence": "Reportable Segments The Company operates and reports its results in two segments, Test and Measurement an"
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Became a separate public company when Fortive separated its Precision Technologi"
+ ],
+ "reader": "agent"
+}

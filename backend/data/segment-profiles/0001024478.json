@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001024478",
+ "issuerName": "Rockwell Automation, Inc.",
+ "builtAt": "2026-11-16T04:32:28.689Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001024478-25-000116",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1024478/000102447825000116/rok-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intelligent Devices",
+   "products": [
+    "drives",
+    "motion",
+    "advanced material handling",
+    "safety",
+    "sensing",
+    "industrial components",
+    "configured-to-order products"
+   ],
+   "description": "Sells automation hardware.",
+   "evidence": "Operating Segments We have three operating segments: Intelligent Devices, Software & Control, and Lifecycle Services."
+  },
+  {
+   "name": "Software & Control",
+   "products": [
+    "software"
+   ],
+   "description": "Sells control and software products.",
+   "evidence": "Operating Segments We have three operating segments: Intelligent Devices, Software & Control, and Lifecycle Services."
+  },
+  {
+   "name": "Lifecycle Services",
+   "products": [
+    "services"
+   ],
+   "description": "Provides maintenance and lifecycle services.",
+   "evidence": "Operating Segments We have three operating segments: Intelligent Devices, Software & Control, and Lifecycle Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Manufacturers buy its automation hardware, software and services.",
+  "evidence": "The Intelligent Devices segment includes drives, motion, advanced material handling, safety, sensing, industrial components, and configured-to-order products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Software & Control): control products"
+ ],
+ "reader": "agent"
+}

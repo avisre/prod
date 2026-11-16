@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001040829",
+ "issuerName": "RYMAN HOSPITALITY PROPERTIES, INC.",
+ "builtAt": "2026-11-16T04:32:27.845Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019035",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1040829/000110465926019035/rhp-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hospitality",
+   "products": [
+    "hotel rooms",
+    "food and beverage"
+   ],
+   "description": "Owns and operates hotels and resorts.",
+   "evidence": "Our operations are organized into three principal business segments: (i) Hospitality, which includes our Gaylord Hotels properties, our JW Marriott properties, the Inn at Opryland and the AC Hotel; (ii) Entertainment, which includes the entertainment and media assets comprising OEG; and (iii) Corporate and Other, which includes corporate expenses."
+  },
+  {
+   "name": "Entertainment",
+   "products": [
+    "entertainment and media assets"
+   ],
+   "description": "Runs entertainment and media assets through OEG.",
+   "evidence": "Our operations are organized into three principal business segments: (i) Hospitality, which includes our Gaylord Hotels properties, our JW Marriott properties, the Inn at Opryland and the AC Hotel; (ii) Entertainment, which includes the entertainment and media assets comprising OEG; and (iii) Corporate and Other, which includes corporate expenses."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [],
+   "description": "Holds corporate expenses.",
+   "evidence": "Our operations are organized into three principal business segments: (i) Hospitality, which includes our Gaylord Hotels properties, our JW Marriott properties, the Inn at Opryland and the AC Hotel; (ii) Entertainment, which includes the entertainment and media assets comprising OEG; and (iii) Corporate and Other, which includes corporate expenses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay room rates and event tickets.",
+  "evidence": "Our operations are organized into three principal business segments: (i) Hospitality, which includes our Gaylord Hotels properties, our JW Marriott properties, the Inn at Opryland and the AC Hotel; (ii) Entertainment, which includes the entertainment and media assets comprising OEG; and (iii) Corporate and Other, which includes corporate expenses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

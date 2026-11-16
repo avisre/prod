@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001585364",
+ "issuerName": "Perrigo Company plc",
+ "builtAt": "2026-11-16T04:32:25.965Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001585364-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1585364/000158536426000009/prgo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Self-Care Americas",
+   "products": [],
+   "description": "Sells consumer self-care products in the Americas.",
+   "evidence": "Our reporting and operating segments are: • Consumer Self-Care Americas (\"CSCA\") comprises our consumer self-care business in the U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers buy its consumer self-care brands.",
+  "evidence": "Our reporting and operating segments are: • Consumer Self-Care Americas (\"CSCA\") comprises our consumer self-care business in the U."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Consumer Self-Care Americas): consumer self-care products"
+ ],
+ "reader": "agent"
+}

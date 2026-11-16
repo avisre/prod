@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001475922",
+ "issuerName": "Primerica, Inc.",
+ "builtAt": "2026-11-16T04:32:25.984Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082233",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1475922/000119312526082233/pri-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Term Life Insurance",
+   "products": [],
+   "description": "Sells term life policies through its agents.",
+   "evidence": "Fee-Based and Complementary Nature of Primary Business Segments We use three operating segments to organize, evaluate and manage our business: Term Life Insurance; Investment and Savings Products; and Corporate and Other Distributed Products."
+  },
+  {
+   "name": "Investment and Savings Products",
+   "products": [
+    "mutual funds",
+    "annuities"
+   ],
+   "description": "Distributes investment and savings products.",
+   "evidence": "Fee-Based and Complementary Nature of Primary Business Segments We use three operating segments to organize, evaluate and manage our business: Term Life Insurance; Investment and Savings Products; and Corporate and Other Distributed Products."
+  },
+  {
+   "name": "Corporate and Other Distributed Products",
+   "products": [
+    "insurance products"
+   ],
+   "description": "Distributes other insurance products.",
+   "evidence": "Fee-Based and Complementary Nature of Primary Business Segments We use three operating segments to organize, evaluate and manage our business: Term Life Insurance; Investment and Savings Products; and Corporate and Other Distributed Products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums and product holders pay sales and asset fees.",
+  "evidence": "Fee-Based and Complementary Nature of Primary Business Segments We use three operating segments to organize, evaluate and manage our business: Term Life Insurance; Investment and Savings Products; and Corporate and Other Distributed Products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Term Life Insurance): term life insurance"
+ ],
+ "reader": "agent"
+}

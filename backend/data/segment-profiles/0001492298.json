@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001492298",
+ "issuerName": "SABRA HEALTH CARE REIT, INC.",
+ "builtAt": "2026-11-16T04:32:29.877Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001492298-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1492298/000149229826000008/sbra-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "healthcare",
+   "products": [
+    "skilled nursing/transitional care facilities",
+    "senior housing communities",
+    "behavioral health facilities",
+    "specialty hospitals",
+    "loans receivable",
+    "preferred equity investments"
+   ],
+   "description": "Owns and invests in healthcare real estate, leasing skilled nursing, senior housing, behavioral health and specialty hospital facilities to third-party operators.",
+   "evidence": "The Company conducts and manages its business of investing in the healthcare sector as one reportable segment for internal reporting and internal decision-making purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Third-party healthcare operators pay Sabra rent under leases and property management agreements for its healthcare facilities.",
+  "evidence": "We primarily generate revenues by leasing properties to tenants and owning properties operated by third-party property managers"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
