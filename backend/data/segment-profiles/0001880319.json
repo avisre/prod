@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001880319",
+ "issuerName": "PERIMETER GROUP INC.",
+ "builtAt": "2026-11-16T04:53:39.443Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001880319-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1880319/000188031926000013/prm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fire Safety",
+   "products": [
+    "fire retardants",
+    "fire suppressants",
+    "related equipment and services"
+   ],
+   "description": "Makes fire retardants, suppressants and equipment.",
+   "evidence": "Fire Safety Segment The Fire Safety Segment includes the manufacture and sale of fire retardants and fire suppressants, together with related equipment and services, used in wildfire, industrial and structural firefighting operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Agencies and industrial customers buy its firefighting products.",
+  "evidence": "Fire Safety Segment The Fire Safety Segment includes the manufacture and sale of fire retardants and fire suppressants, together with related equipment and services, used in wildfire, industrial and structural firefighting operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

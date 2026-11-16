@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001872195",
+ "issuerName": "Bullish",
+ "builtAt": "2026-11-16T04:53:39.330Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001437749-26-007417",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1872195/000143774926007417/blsh20251231_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Market Infrastructure",
+   "products": [
+    "digital assets spot and derivatives exchange"
+   ],
+   "description": "Runs the Bullish exchange.",
+   "evidence": "43 Operating under the brands \"Bullish\" and \"CoinDesk\", we provide several distinct but complementary services that span the digital assets industry: Market Infrastructure (branded as Bullish): ● Bullish Exchange: Bullish Exchange operates a regulated and institutionally focused digital assets spot and derivatives exchange, integrating a high-performance global central limit order book matching engine with automated market mak"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutions pay trading and market fees.",
+  "evidence": "43 Operating under the brands \"Bullish\" and \"CoinDesk\", we provide several distinct but complementary services that span the digital assets industry: Market Infrastructure (branded as Bullish): ● Bullish Exchange: Bullish Exchange operates a regulated and institutionally focused digital assets spot and derivatives exchange, integrating a high-performance global central limit order book matching engine with automated market mak"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

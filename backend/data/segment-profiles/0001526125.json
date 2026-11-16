@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001526125",
+ "issuerName": "GDS Holdings Limited",
+ "builtAt": "2026-11-16T04:53:35.957Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-051006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1526125/000110465926051006/gds-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

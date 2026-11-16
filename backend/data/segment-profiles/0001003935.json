@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001003935",
+ "issuerName": "NICE LTD.",
+ "builtAt": "2026-11-16T04:53:38.610Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001003935-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1003935/000100393526000010/nice-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial Crime and Compliance",
+   "products": [
+    "AI solutions"
+   ],
+   "description": "Sells anti-money-laundering and compliance software.",
+   "evidence": "In Financial Crime and Compliance, we provide embedded AI solutions that help financial institutions prevent money laundering and fraud, and ensure real-time regulatory compliance across financial markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Banks and enterprises pay for software and services.",
+  "evidence": "In Financial Crime and Compliance, we provide embedded AI solutions that help financial institutions prevent money laundering and fraud, and ensure real-time regulatory compliance across financial markets."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

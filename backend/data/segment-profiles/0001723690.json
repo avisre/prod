@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001723690",
+ "issuerName": "Bilibili Inc.",
+ "builtAt": "2026-11-16T04:53:35.103Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-157842",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1723690/000119312526157842/d91984d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bilibili",
+   "products": [
+    "online entertainment services"
+   ],
+   "description": "Runs its video and online entertainment platforms.",
+   "evidence": "Hence, the Group has only one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Users pay for memberships and advertisers pay for promotion.",
+  "evidence": "Hence, the Group has only one operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

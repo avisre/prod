@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001860742",
+ "issuerName": "Bausch & Lomb Corp",
+ "builtAt": "2026-11-16T04:53:38.558Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001860742-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1860742/000186074226000007/blco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vision Care",
+   "products": [
+    "consumer eye care",
+    "contact lens"
+   ],
+   "description": "Sells contact lenses and eye care products.",
+   "evidence": "Segment Information Our portfolio of products fall into three operating and reportable segments: (i) Vision Care, (ii) Pharmaceuticals and (iii) Surgical."
+  },
+  {
+   "name": "Pharmaceuticals",
+   "products": [
+    "pharmaceutical products"
+   ],
+   "description": "Sells ophthalmic pharmaceuticals.",
+   "evidence": "Segment Information Our portfolio of products fall into three operating and reportable segments: (i) Vision Care, (ii) Pharmaceuticals and (iii) Surgical."
+  },
+  {
+   "name": "Surgical",
+   "products": [
+    "surgical products"
+   ],
+   "description": "Sells surgical devices for eyes.",
+   "evidence": "Segment Information Our portfolio of products fall into three operating and reportable segments: (i) Vision Care, (ii) Pharmaceuticals and (iii) Surgical."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Eye care professionals, hospitals and consumers buy its products.",
+  "evidence": "Vision Care Our Vision Care segment consists of our consumer eye care and contact lens businesses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

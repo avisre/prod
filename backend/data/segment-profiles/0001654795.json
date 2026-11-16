@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001654795",
+ "issuerName": "Brookfield Business Corporation",
+ "builtAt": "2026-11-16T04:53:35.509Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-022148",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1654795/000162828026022148/bbu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "business services",
+   "products": [],
+   "description": "Owns business services companies.",
+   "evidence": "Operating Segments We have four operating segments which are organized based on how management views business activities within particular sectors: business services, infrastructure services, industrials, and corporate."
+  },
+  {
+   "name": "infrastructure services",
+   "products": [],
+   "description": "Owns infrastructure services companies.",
+   "evidence": "Operating Segments We have four operating segments which are organized based on how management views business activities within particular sectors: business services, infrastructure services, industrials, and corporate."
+  },
+  {
+   "name": "industrials",
+   "products": [],
+   "description": "Owns industrial businesses.",
+   "evidence": "Operating Segments We have four operating segments which are organized based on how management views business activities within particular sectors: business services, infrastructure services, industrials, and corporate."
+  },
+  {
+   "name": "corporate",
+   "products": [],
+   "description": "Holds corporate activities.",
+   "evidence": "Operating Segments We have four operating segments which are organized based on how management views business activities within particular sectors: business services, infrastructure services, industrials, and corporate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Its operating companies earn fees and sell services to customers.",
+  "evidence": "5 billion for the year ended December 31, 2025 by operating segment and region."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (business services): business services",
+  "product not in text (infrastructure services): infrastructure services",
+  "product not in text (industrials): industrial businesses"
+ ],
+ "reader": "agent"
+}

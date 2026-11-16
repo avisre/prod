@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001482512",
+ "issuerName": "Hudson Pacific Properties, Inc.",
+ "builtAt": "2026-11-16T04:53:39.471Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001482512-26-000038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1482512/000148251226000038/hpp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "office properties and related operations",
+   "products": [
+    "office properties"
+   ],
+   "description": "Owns and operates office properties.",
+   "evidence": "Segment and Geographic Financial Information We report our results of operations through two reportable segments: (i) office properties and related operations and (ii) studio properties and related operations."
+  },
+  {
+   "name": "studio properties and related operations",
+   "products": [
+    "studio properties"
+   ],
+   "description": "Owns and operates studio properties.",
+   "evidence": "Segment and Geographic Financial Information We report our results of operations through two reportable segments: (i) office properties and related operations and (ii) studio properties and related operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Office and studio tenants pay rent.",
+  "evidence": "Segment and Geographic Financial Information We report our results of operations through two reportable segments: (i) office properties and related operations and (ii) studio properties and related operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

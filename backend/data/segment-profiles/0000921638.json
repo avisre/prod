@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000921638",
+ "issuerName": "SSR MINING INC.",
+ "builtAt": "2026-11-16T04:53:36.864Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000921638-26-000035",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/921638/000092163826000035/ssrm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Çöpler",
+   "products": [
+    "gold"
+   ],
+   "description": "Mines gold at Çöpler in Türkiye.",
+   "evidence": "Segment Information The Company's operations consist of five reportable and operating segments for each of its producing mine sites - Çöpler, located in Erzincan Province, Türkiye (\"Çöpler\"), Marigold, located in Nevada, United States (\"Marigold\"), Crippler Creek & Victor, located in Colorado, United States (\"CC&V\"), Seabee, located in Saskatchewan, Canada (\"Seabee\"), and Puna, located in Jujuy Province, Argentina (\"Puna\") - e"
+  },
+  {
+   "name": "Marigold",
+   "products": [
+    "gold"
+   ],
+   "description": "Mines gold at Marigold in Nevada.",
+   "evidence": "Segment Information The Company's operations consist of five reportable and operating segments for each of its producing mine sites - Çöpler, located in Erzincan Province, Türkiye (\"Çöpler\"), Marigold, located in Nevada, United States (\"Marigold\"), Crippler Creek & Victor, located in Colorado, United States (\"CC&V\"), Seabee, located in Saskatchewan, Canada (\"Seabee\"), and Puna, located in Jujuy Province, Argentina (\"Puna\") - e"
+  },
+  {
+   "name": "Crippler Creek & Victor",
+   "products": [
+    "gold"
+   ],
+   "description": "Mines gold in Colorado.",
+   "evidence": "Segment Information The Company's operations consist of five reportable and operating segments for each of its producing mine sites - Çöpler, located in Erzincan Province, Türkiye (\"Çöpler\"), Marigold, located in Nevada, United States (\"Marigold\"), Crippler Creek & Victor, located in Colorado, United States (\"CC&V\"), Seabee, located in Saskatchewan, Canada (\"Seabee\"), and Puna, located in Jujuy Province, Argentina (\"Puna\") - e"
+  },
+  {
+   "name": "Seabee",
+   "products": [
+    "gold"
+   ],
+   "description": "Mines gold at Seabee in Saskatchewan.",
+   "evidence": "Segment Information The Company's operations consist of five reportable and operating segments for each of its producing mine sites - Çöpler, located in Erzincan Province, Türkiye (\"Çöpler\"), Marigold, located in Nevada, United States (\"Marigold\"), Crippler Creek & Victor, located in Colorado, United States (\"CC&V\"), Seabee, located in Saskatchewan, Canada (\"Seabee\"), and Puna, located in Jujuy Province, Argentina (\"Puna\") - e"
+  },
+  {
+   "name": "Puna",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Mines gold and silver at Puna in Argentina.",
+   "evidence": "Segment Information The Company's operations consist of five reportable and operating segments for each of its producing mine sites - Çöpler, located in Erzincan Province, Türkiye (\"Çöpler\"), Marigold, located in Nevada, United States (\"Marigold\"), Crippler Creek & Victor, located in Colorado, United States (\"CC&V\"), Seabee, located in Saskatchewan, Canada (\"Seabee\"), and Puna, located in Jujuy Province, Argentina (\"Puna\") - e"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells gold doré and concentrate to refiners.",
+  "evidence": "Segment Information The Company's operations consist of five reportable and operating segments for each of its producing mine sites - Çöpler, located in Erzincan Province, Türkiye (\"Çöpler\"), Marigold, located in Nevada, United States (\"Marigold\"), Crippler Creek & Victor, located in Colorado, United States (\"CC&V\"), Seabee, located in Saskatchewan, Canada (\"Seabee\"), and Puna, located in Jujuy Province, Argentina (\"Puna\") - e"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002064124",
  "issuerName": "FIGURE TECHNOLOGY SOLUTIONS, INC.",
- "builtAt": "2026-11-15T14:17:45.572Z",
+ "builtAt": "2026-11-16T04:53:35.088Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002064124-26-000009",
@@ -13,17 +13,8 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Figure earns fees from partners based on the principal balance of loans originated on its LOS and transacted on Figure Connect, plus origination, gain on sale, servicing and interest revenue from assets generated through its LOS.",
-  "evidence": "The fees we earn from partners are based on the principal balance of each loan originated on our LOS and the principal balance of loans transacted on Figure Connect."
- },
- "changes": [
-  {
-   "text": "In 2025, the Recombination combined FTI and FMH into a single operating entity, reducing the company to one reportable segment.",
-   "evidence": "As detailed in Note 1, the Recombination that was effective on August 29, 2025 recombined FTI and FMH through a series of transactions into a single operating entity."
-  }
- ],
- "dropped": [
-  "segment name not in text: Blockchain capital markets"
- ]
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

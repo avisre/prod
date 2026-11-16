@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001636282",
+ "issuerName": "SPYRE THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T04:53:36.912Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001636282-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1636282/000163628226000020/syre-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Spyre",
+   "products": [
+    "biopharmaceutical products"
+   ],
+   "description": "Develops medicines for inflammatory bowel disease.",
+   "evidence": "Segment Reporting The Company operates under a single operating and reportable segment, which is the development of biopharmaceutical products for the treatment of patients with IBD and other immune-mediated diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Segment Reporting The Company operates under a single operating and reportable segment, which is the development of biopharmaceutical products for the treatment of patients with IBD and other immune-mediated diseases."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

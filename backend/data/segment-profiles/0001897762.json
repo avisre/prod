@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001897762",
+ "issuerName": "Ingram Micro Holding Corp",
+ "builtAt": "2026-11-16T04:53:36.959Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013588",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1897762/000162828026013588/ingm-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [],
+   "description": "Distributes technology in North America.",
+   "evidence": "Our business is organized into four reportable segments based on the different geographic regions in which we operate: North America; Europe, Middle East and Africa (\"EMEA\"); Asia-Pacific; and Latin America."
+  },
+  {
+   "name": "EMEA",
+   "products": [],
+   "description": "Distributes technology in Europe, the Middle East and Africa.",
+   "evidence": "Our business is organized into four reportable segments based on the different geographic regions in which we operate: North America; Europe, Middle East and Africa (\"EMEA\"); Asia-Pacific; and Latin America."
+  },
+  {
+   "name": "Asia-Pacific",
+   "products": [],
+   "description": "Distributes technology in Asia-Pacific.",
+   "evidence": "Our business is organized into four reportable segments based on the different geographic regions in which we operate: North America; Europe, Middle East and Africa (\"EMEA\"); Asia-Pacific; and Latin America."
+  },
+  {
+   "name": "Latin America",
+   "products": [],
+   "description": "Distributes technology in Latin America.",
+   "evidence": "Our business is organized into four reportable segments based on the different geographic regions in which we operate: North America; Europe, Middle East and Africa (\"EMEA\"); Asia-Pacific; and Latin America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Resellers buy technology products and services from it.",
+  "evidence": "Our Products and Solutions We provide a broad line of technology, services and solutions from approximately 1,500 vendor partners, enabling us to offer comprehensive solutions to our reseller customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (North America): technology products and solutions",
+  "product not in text (EMEA): technology products and solutions",
+  "product not in text (Asia-Pacific): technology products and solutions",
+  "product not in text (Latin America): technology products and solutions"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001062579",
+ "issuerName": "AMDOCS LIMITED",
+ "builtAt": "2026-11-16T04:53:36.069Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-25-319187",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312525319187/dox-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001316835",
+ "issuerName": "BUILDERS FIRSTSOURCE, INC.",
+ "builtAt": "2026-11-16T04:53:34.961Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-054643",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1316835/000119312526054643/bldr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "East",
+   "products": [
+    "building products"
+   ],
+   "description": "Supplies building products in its eastern division.",
+   "evidence": "Given the span and depth of our geographical reach, our locations are organized into three geographical divisions (East, Central, and West), which are also our operating segments."
+  },
+  {
+   "name": "Central",
+   "products": [
+    "building products"
+   ],
+   "description": "Supplies building products in its central division.",
+   "evidence": "Given the span and depth of our geographical reach, our locations are organized into three geographical divisions (East, Central, and West), which are also our operating segments."
+  },
+  {
+   "name": "West",
+   "products": [
+    "building products"
+   ],
+   "description": "Supplies building products in its western division.",
+   "evidence": "Given the span and depth of our geographical reach, our locations are organized into three geographical divisions (East, Central, and West), which are also our operating segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Builders and contractors buy its building products and services.",
+  "evidence": "All of our segments have similar customers, products and services, and distribution methods."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

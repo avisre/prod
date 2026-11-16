@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001759425",
+ "issuerName": "Mirum Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-16T04:53:37.429Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001759425-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1759425/000175942526000013/mirm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mirum",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops and sells medicines for rare liver diseases.",
+   "evidence": "The Company views its operations and manages its business as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "The Company determined its operating segment on the same basis that it uses to evaluate its performance internally."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

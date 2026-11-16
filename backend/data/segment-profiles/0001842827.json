@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001842827",
+ "issuerName": "KANZHUN LIMITED",
+ "builtAt": "2026-11-16T04:53:37.378Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-050959",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1842827/000110465926050959/bz-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "online recruitment services",
+   "products": [],
+   "description": "Runs the BOSS Zhipin recruitment platform.",
+   "evidence": "(z) Segment reporting The Group has one operating and reportable segment mainly engaged in providing online recruitment services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers pay for recruitment services on its platform.",
+  "evidence": "(z) Segment reporting The Group has one operating and reportable segment mainly engaged in providing online recruitment services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (online recruitment services): online recruitment services"
+ ],
+ "reader": "agent"
+}

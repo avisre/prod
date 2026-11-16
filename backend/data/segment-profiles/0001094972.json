@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001094972",
+ "issuerName": "ULTRAPAR HOLDINGS INC.",
+ "builtAt": "2026-11-16T04:53:37.473Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001554855-26-000796",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1094972/000155485526000796/ugp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ultragaz",
+   "products": [
+    "LPG distribution"
+   ],
+   "description": "Distributes LPG to homes and businesses.",
+   "evidence": "In addition to its retail operations, Ipiranga maintains a strong presence in the business-to-business segment (B2B), supplying fuel and managing logistics for companies across multiple industries and sizes."
+  },
+  {
+   "name": "Ipiranga",
+   "products": [
+    "fuel distribution"
+   ],
+   "description": "Distributes fuel through its service stations.",
+   "evidence": "In addition to its retail operations, Ipiranga maintains a strong presence in the business-to-business segment (B2B), supplying fuel and managing logistics for companies across multiple industries and sizes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Resellers and businesses buy fuel and LPG.",
+  "evidence": "We offer distribution exclusivity and differentiate incentive programs for resellers in Ultragaz and Ipiranga, and invest in training them to maximize efficiency, further strengthen our relationship with them and promote h"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

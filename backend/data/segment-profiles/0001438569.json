@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001438569",
+ "issuerName": "Grifols SA",
+ "builtAt": "2026-11-16T04:53:38.877Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044901",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1438569/000110465926044901/grfs-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharma",
+   "products": [
+    "plasma-derived medicines"
+   ],
+   "description": "Makes plasma-derived medicines.",
+   "evidence": "As a result, our presentation of consolidated financial information excludes Plasma Procurement as an operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and pharmacies buy its plasma therapies.",
+  "evidence": "We believe that by consolidating the description of plasma procurement within Biopharma, we provide a clearer picture of how plasma sourcing directly supports revenue generation, cost efficiency and strategic decision-making, while also ensuring consistency in segment reporting and financial disclosures."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

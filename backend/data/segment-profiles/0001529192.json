@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001529192",
+ "issuerName": "Vipshop Holdings Limited",
+ "builtAt": "2026-11-16T04:53:35.635Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1529192/000110465926044015/vips-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vipshop",
+   "products": [],
+   "description": "Runs its online discount retail platform.",
+   "evidence": "com 52,212 1,647 (1,933) Shan Shan Outlets 112,868 121,071 141,924 Others (84,779) 44,262 153,928 Total 80,301 166,980 293,919 ​ The following table sets forth assets information and investments in equity method investees information in the reportable segments reviewed by our management."
+  },
+  {
+   "name": "Shan Shan Outlets",
+   "products": [],
+   "description": "Runs Shan Shan Outlets offline stores.",
+   "evidence": "com 52,212 1,647 (1,933) Shan Shan Outlets 112,868 121,071 141,924 Others (84,779) 44,262 153,928 Total 80,301 166,980 293,919 ​ The following table sets forth assets information and investments in equity method investees information in the reportable segments reviewed by our management."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Holds other operations.",
+   "evidence": "com 52,212 1,647 (1,933) Shan Shan Outlets 112,868 121,071 141,924 Others (84,779) 44,262 153,928 Total 80,301 166,980 293,919 ​ The following table sets forth assets information and investments in equity method investees information in the reportable segments reviewed by our management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shoppers buy discounted branded goods online and in outlets.",
+  "evidence": "com 52,212 1,647 (1,933) Shan Shan Outlets 112,868 121,071 141,924 Others (84,779) 44,262 153,928 Total 80,301 166,980 293,919 ​ The following table sets forth assets information and investments in equity method investees information in the reportable segments reviewed by our management."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Vipshop): online discount retail",
+  "product not in text (Shan Shan Outlets): outlet stores"
+ ],
+ "reader": "agent"
+}

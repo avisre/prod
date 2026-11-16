@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001345105",
+ "issuerName": "COPA HOLDINGS, S.A.",
+ "builtAt": "2026-11-16T04:53:37.730Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001345105-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1345105/000134510526000019/cpa-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

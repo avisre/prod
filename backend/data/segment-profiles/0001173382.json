@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "cik": "0001173382",
+ "issuerName": "CAE INC.",
+ "builtAt": "2026-11-16T04:53:35.098Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001173382-26-000026",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1173382/000117338226000026/cae-20260331.htm"
+ },
+ "status": "filing-unreadable"
+}

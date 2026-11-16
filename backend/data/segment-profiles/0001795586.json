@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001795586",
+ "issuerName": "Chime Financial, Inc.",
+ "builtAt": "2026-11-16T04:53:35.925Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001795586-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1795586/000179558626000013/chym-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

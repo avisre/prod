@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001835963",
+ "issuerName": "Global-E Online Ltd.",
+ "builtAt": "2026-11-16T04:53:39.812Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001772",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1835963/000117891326001772/zk2634880.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

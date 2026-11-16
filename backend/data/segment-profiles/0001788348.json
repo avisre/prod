@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001788348",
+ "issuerName": "BROOKFIELD INFRASTRUCTURE CORPORATION",
+ "builtAt": "2026-11-16T04:53:39.364Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001788348-26-000001",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1788348/000178834826000001/bipc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "utilities",
+   "products": [],
+   "description": "Owns utility businesses.",
+   "evidence": "and Brazil, shareholders have exposure to eight markets across utilities, transport, midstream, and data operating segments by virtue of the exchange feature of our company's exchangeable shares."
+  },
+  {
+   "name": "transport",
+   "products": [],
+   "description": "Owns transport infrastructure.",
+   "evidence": "and Brazil, shareholders have exposure to eight markets across utilities, transport, midstream, and data operating segments by virtue of the exchange feature of our company's exchangeable shares."
+  },
+  {
+   "name": "midstream",
+   "products": [],
+   "description": "Owns midstream infrastructure.",
+   "evidence": "and Brazil, shareholders have exposure to eight markets across utilities, transport, midstream, and data operating segments by virtue of the exchange feature of our company's exchangeable shares."
+  },
+  {
+   "name": "data",
+   "products": [
+    "data centers"
+   ],
+   "description": "Owns data infrastructure.",
+   "evidence": "and Brazil, shareholders have exposure to eight markets across utilities, transport, midstream, and data operating segments by virtue of the exchange feature of our company's exchangeable shares."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated and contracted customers pay for utility and transport services.",
+  "evidence": "and Brazil, shareholders have exposure to eight markets across utilities, transport, midstream, and data operating segments by virtue of the exchange feature of our company's exchangeable shares."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (utilities): utilities",
+  "product not in text (transport): transport assets",
+  "product not in text (midstream): midstream assets"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002003292",
+ "issuerName": "Klarna Group plc",
+ "builtAt": "2026-11-16T04:53:36.155Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002003292-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2003292/000200329226000007/klar-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002019061",
+ "issuerName": "SOUTH BOW CORPORATION",
+ "builtAt": "2026-11-16T04:53:35.066Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0002019061-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2019061/000201906126000006/sobo-20251231_d2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001050140",
+ "issuerName": "DESCARTES SYSTEMS GROUP INC",
+ "builtAt": "2026-11-16T04:53:37.089Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-026450",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1050140/000110465926026450/dsgx-20260131xex99d2.htm",
+  "exhibit": "dsgx-20260131xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "logistics technology solutions",
+   "products": [],
+   "description": "Sells logistics and trade compliance software.",
+   "evidence": "Accordingly, we have determined that we operate in one reportable business segment providing logistics technology solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers and brokers pay subscription and transaction fees.",
+  "evidence": "We operate in one business segment providing logistics technology solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (logistics technology solutions): logistics technology solutions"
+ ],
+ "reader": "agent"
+}

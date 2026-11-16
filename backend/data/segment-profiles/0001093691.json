@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001093691",
+ "issuerName": "PLUG POWER INC",
+ "builtAt": "2026-11-16T04:53:39.185Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-022286",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1093691/000110465926022286/plug-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hydrogen products and solutions",
+   "products": [],
+   "description": "Sells hydrogen fuel cells and electrolysers.",
+   "evidence": "As a result of this structure, we concluded that we have one operating and reportable segment — the design, development and sale of hydrogen products and solutions that help customers meet their business goals while decarbonizing their operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers buy its hydrogen systems and services.",
+  "evidence": "As a result of this structure, we concluded that we have one operating and reportable segment — the design, development and sale of hydrogen products and solutions that help customers meet their business goals while decarbonizing their operations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (hydrogen products and solutions): hydrogen products and solutions"
+ ],
+ "reader": "agent"
+}
