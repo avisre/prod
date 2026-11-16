@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001783879",
  "issuerName": "Robinhood Markets, Inc.",
- "builtAt": "2026-11-16T03:48:13.929Z",
+ "builtAt": "2026-11-16T08:11:05.087Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001783879-26-000023",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1783879/000178387926000023/hood-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brokerage",
+   "products": [
+    "U.S.-listed stocks and ETFs",
+    "options",
+    "ADRs",
+    "futures",
+    "event contracts",
+    "Robinhood Legend",
+    "Cash Sweep",
+    "Robinhood Gold"
+   ],
+   "description": "Commission-free investing and trading platforms for retail customers, offering equities, options, futures, event contracts and retirement accounts.",
+   "evidence": "Our platforms allow our customers to invest commission-free in U.S.-listed stocks and ETFs, as well as related options and ADRs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Market makers pay for routed user orders, while customers pay commissions on futures and event contracts, Gold subscription fees, and interest on margin loans and Cash Sweep.",
+  "evidence": "We primarily earn transaction-based revenues from routing user orders for options, cryptocurrencies, and equities to market makers when the performance obligation is satisfied, which is at the point in time when a routed order is executed by the market maker."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

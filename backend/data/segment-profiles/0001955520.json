@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001955520",
  "issuerName": "Knife River Corporation",
- "builtAt": "2026-11-16T03:48:42.809Z",
+ "builtAt": "2026-11-16T08:20:43.553Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001955520-26-000003",
@@ -10,11 +10,77 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1955520/000195552026000003/knf-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "West",
+   "products": [
+    "construction aggregates (crushed stone and sand and gravel)",
+    "asphalt",
+    "ready-mix concrete",
+    "heavy-civil construction",
+    "asphalt and concrete paving",
+    "site development and grading",
+    "cement",
+    "merchandise"
+   ],
+   "description": "Mines aggregates and produces asphalt and ready-mix concrete, with contracting services, serving public and private customers in Alaska, California, Hawaii, Oregon and Washington.",
+   "evidence": "Our former Pacific and Northwest operating segments were combined to form the new West operating segment."
+  },
+  {
+   "name": "Mountain",
+   "products": [
+    "construction aggregates (crushed stone and sand and gravel)",
+    "asphalt",
+    "ready-mix concrete",
+    "heavy-civil construction",
+    "asphalt and concrete paving",
+    "site development and grading",
+    "cement",
+    "merchandise"
+   ],
+   "description": "Mines aggregates and produces asphalt and ready-mix concrete, with contracting services, serving public and private customers in Idaho, Montana and Wyoming.",
+   "evidence": "The reorganization resulted in four operating segments: West, Mountain, Central and Energy Services, each of which is also a reportable segment."
+  },
+  {
+   "name": "Central",
+   "products": [
+    "construction aggregates (crushed stone and sand and gravel)",
+    "asphalt",
+    "ready-mix concrete",
+    "heavy-civil construction",
+    "asphalt and concrete paving",
+    "site development and grading",
+    "cement",
+    "merchandise"
+   ],
+   "description": "Mines aggregates and produces asphalt and ready-mix concrete, with contracting services, serving public and private customers in Iowa, Minnesota, North Dakota, South Dakota and Texas.",
+   "evidence": "Our former North Central and South operating segments were combined to form the new Central operating segment."
+  },
+  {
+   "name": "Energy Services",
+   "products": [
+    "liquid asphalt"
+   ],
+   "description": "Produces and supplies liquid asphalt, mainly for asphalt road construction, and serves the company's other segments and outside customers.",
+   "evidence": "The Energy Services segment, which has locations throughout our geographic footprint, produces and supplies liquid asphalt, primarily for use in asphalt road construction, and is a supplier to some of our other segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Public and private customers pay for construction materials and contracting services such as highways, roads, bridges and site development.",
+  "evidence": "Our construction materials are sold to public and private-sector customers, including federal, state and municipal governments, as well as industrial, commercial and residential developers and other private parties."
+ },
+ "changes": [
+  {
+   "text": "In January 2025, the former Pacific and Northwest operating segments were combined to form the new West operating segment.",
+   "evidence": "Our former Pacific and Northwest operating segments were combined to form the new West operating segment."
+  },
+  {
+   "text": "In January 2025, the former North Central and South operating segments were combined to form the new Central operating segment.",
+   "evidence": "Our former North Central and South operating segments were combined to form the new Central operating segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

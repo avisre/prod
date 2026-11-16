@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001037976",
  "issuerName": "Jones Lang LaSalle Incorporated",
- "builtAt": "2026-11-16T03:48:42.430Z",
+ "builtAt": "2026-11-16T08:18:07.225Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001037976-26-000037",
@@ -10,11 +10,71 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1037976/000103797626000037/jll-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Management Services",
+   "products": [
+    "Workplace Management",
+    "Project Management",
+    "Property Management",
+    "Portfolio Services"
+   ],
+   "description": "Provides facility, property and project management and portfolio services to occupiers and owners of real estate worldwide.",
+   "evidence": "Our Real Estate Management Services business provides a broad suite of integrated services to occupiers of real estate, including facility and property management, project management, and portfolio and other services."
+  },
+  {
+   "name": "Leasing Advisory",
+   "products": [
+    "agency leasing",
+    "tenant representation",
+    "advisory and consulting services"
+   ],
+   "description": "Offers agency leasing, tenant representation and advisory and consulting services to property owners and occupiers globally.",
+   "evidence": "Leasing Advisory offers agency leasing and tenant representation, as well as advisory and consulting services."
+  },
+  {
+   "name": "Capital Markets Services",
+   "products": [
+    "investment sales",
+    "debt and equity advisory",
+    "value and risk advisory"
+   ],
+   "description": "Provides investment sales, debt and equity advisory and value and risk advisory services to real estate investors.",
+   "evidence": "Through December 31, 2025, we managed and reported our operations as five business segments: Real Estate Management Services, Leasing Advisory, Capital Markets Services, Investment Management, and Software and Technology Solutions."
+  },
+  {
+   "name": "Investment Management",
+   "products": [
+    "LaSalle Investment Management",
+    "private assets",
+    "publicly traded real estate securities"
+   ],
+   "description": "Invests for clients globally in private real estate assets and publicly traded real estate securities.",
+   "evidence": "Through LaSalle Investment Management (also referred to as \"LaSalle\" or our \"Investment Management\" segment), we invest for clients on a global basis in both private assets and publicly traded real estate securities."
+  },
+  {
+   "name": "Software and Technology Solutions",
+   "products": [],
+   "description": "Provides software and technology products and services to real estate clients.",
+   "evidence": "Effective January 1, 2026, the Software and Technology Solutions segment will merge into Real Estate Management Services with results of operations reported as a subsegment within Real Estate Management Services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Real estate owners, occupiers, investors and developers pay fees and cost reimbursements for property, facility, project, leasing and advisory services.",
+  "evidence": "We offer our real estate services locally, regionally and globally to real estate owners, occupiers, investors and developers for a variety of property types"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the investments historically reported within Software and Technology Solutions moved to All Other.",
+   "evidence": "Effective July 1, 2025, we report the balances and activity associated with the investments historically reported within Software and Technology Solutions in \"All Other.\""
+  },
+  {
+   "text": "In 2026 the Software and Technology Solutions segment merges into Real Estate Management Services as a subsegment.",
+   "evidence": "Effective January 1, 2026, the Software and Technology Solutions segment will merge into Real Estate Management Services with results of operations reported as a subsegment within Real Estate Management Services."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

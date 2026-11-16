@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001158463",
  "issuerName": "JETBLUE AIRWAYS CORP",
- "builtAt": "2026-11-16T03:48:42.066Z",
+ "builtAt": "2026-11-16T08:17:32.086Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001158463-26-000007",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1158463/000115846326000007/jblu-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "air transportation services",
+   "products": [
+    "core experience",
+    "EvenMore ®",
+    "Mint ®",
+    "Blue Basic",
+    "Blue Plus",
+    "Blue Extra",
+    "Fly-Fi ®",
+    "Paisly"
+   ],
+   "description": "Operates scheduled passenger airline service across the United States, the Caribbean, Latin America, Canada and Europe for leisure and business travelers.",
+   "evidence": "JetBlue has one reportable operating segment, air transportation services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Passengers pay fares and fees for air travel, ancillary upgrades such as EvenMore and Mint, and vacation packages booked through Paisly.",
+  "evidence": "All JetBlue fares include a free carry-on bag, free seatback entertainment, free high-speed Wi-Fi, free snacks, and free non-alcoholic beverages."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

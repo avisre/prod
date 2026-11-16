@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001046257",
  "issuerName": "INGREDION INCORPORATED",
- "builtAt": "2026-11-16T03:48:14.628Z",
+ "builtAt": "2026-11-16T08:12:44.323Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-008603",
@@ -10,11 +10,71 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1046257/000162828026008603/ingr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Texture & Healthful Solutions",
+   "products": [
+    "modified and native starches",
+    "clean-label texturizers",
+    "hydrocolloids",
+    "customized formulations"
+   ],
+   "description": "Supplies global and regional food customers with starch, texturizer and hydrocolloid ingredient solutions that add texture and healthful attributes.",
+   "evidence": "T&HS product categories are primarily comprised of modified and native starches, clean-label texturizers, hydrocolloids, and customized formulations."
+  },
+  {
+   "name": "Food & Industrial Ingredients–LATAM",
+   "products": [
+    "starches",
+    "sweeteners",
+    "co-products",
+    "high maltose corn syrup"
+   ],
+   "description": "Converts corn, tapioca and sugar into starches, sweeteners and co-products for food and industrial customers across Latin America.",
+   "evidence": "F&II–LATAM consists of nine manufacturing facilities in Mexico and South America that convert primarily corn, but also some tapioca and sugar, into starches, sweeteners and co-products for the local needs of food and industrial markets in Latin America."
+  },
+  {
+   "name": "Food & Industrial Ingredients–U.S./Canada",
+   "products": [
+    "starches",
+    "sweeteners",
+    "co-products"
+   ],
+   "description": "Converts corn into starches, sweeteners and co-products for food and industrial customers in the United States and Canada.",
+   "evidence": "F&II–U.S./Canada consists of six manufacturing facilities in the U.S. and Canada that convert corn into starches and sweeteners and co-products for the local needs of food and industrial markets."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "sweetener and starch sales by our Pakistan business",
+    "stevia",
+    "other sweeteners",
+    "pea protein"
+   ],
+   "description": "Groups the smaller operating businesses that are not individually or collectively reportable, serving niche sweetener and protein customers.",
+   "evidence": "We do not separately report results for operating segments that we classify in All Other, which includes sweetener and starch sales by our Pakistan business, sales of stevia by our PureCircle business, sales of other sweeteners from our Sugar Reduction businesses, and pea protein from our Protein Fortification business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Food, beverage, brewing and industrial manufacturers and distributors pay Ingredion for starches, sweeteners and other plant-based ingredient solutions.",
+  "evidence": "Members of our salaried sales workforce, who are generally dedicated to customers in a geographic region, sell our products directly to manufacturers and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2024 Ingredion re-aligned its operating segments, replacing its prior reportable segments with three new ones.",
+   "evidence": "Beginning January 1, 2024, we re-aligned our operating segments, which resulted in a change to our reportable business segments."
+  },
+  {
+   "text": "Ingredion sold its South Korea business in 2024.",
+   "evidence": "We sold our South Korea business on February 1, 2024."
+  },
+  {
+   "text": "In 2025 Ingredion agreed to sell a majority ownership interest in its Pakistan business.",
+   "evidence": "In September 2025, we entered into a definitive agreement, which is subject to certain conditions and approvals, to sell a 51 percent ownership interest in the Pakistan business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

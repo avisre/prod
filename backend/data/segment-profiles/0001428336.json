@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001428336",
  "issuerName": "HEALTHEQUITY, INC.",
- "builtAt": "2026-11-16T03:48:14.126Z",
+ "builtAt": "2026-11-16T08:12:14.333Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001428336-26-000010",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1428336/000142833626000010/hqy-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Administration services",
+   "products": [
+    "Health savings accounts",
+    "Investment platform and advisory services",
+    "Healthcare flexible spending accounts",
+    "Dependent care flexible spending accounts",
+    "Health reimbursement arrangements",
+    "COBRA",
+    "Commuter programs",
+    "Marketplace"
+   ],
+   "description": "Administers health savings accounts and complementary consumer-directed benefits, plus payment, investment and marketplace services, for employers and their employees.",
+   "evidence": "The Company is managed as a single operating segment that provides administration services in connection with HSAs and other CDBs, which reflects the way in which its chief operating decision maker (\"CODM\"), the Chief Executive Officer, reviews the Company's financial performance and makes decisions about resource allocation."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Employers, network partners and members pay fees for account administration, invested assets and card payments.",
+  "evidence": "We earn service revenue mainly from fees paid by our Clients, Network Partners, and account holders, which we refer to as members, for the administration services we provide in connection with the HSAs and other CDBs we offer."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

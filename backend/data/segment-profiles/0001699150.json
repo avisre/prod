@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001699150",
  "issuerName": "Ingersoll Rand Inc.",
- "builtAt": "2026-11-16T03:48:41.788Z",
+ "builtAt": "2026-11-16T08:16:06.271Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-008617",
@@ -10,11 +10,48 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1699150/000162828026008617/iri-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial Technologies and Services",
+   "products": [
+    "air and gas compression and treatment equipment",
+    "vacuum and blower products",
+    "fluid transfer equipment",
+    "loading systems",
+    "power tools and lifting equipment",
+    "aftermarket parts, consumables and services"
+   ],
+   "description": "Designs, manufactures, markets and services compression, vacuum, blower, fluid transfer, loading, power tool and lifting equipment for industrial customers, with aftermarket parts and services.",
+   "evidence": "We design, manufacture, market and service a broad range of air and gas compression and treatment equipment, vacuum and blower products, fluid transfer equipment, loading systems, power tools and lifting equipment, and other specialized equipment including associated aftermarket parts, consumables and services."
+  },
+  {
+   "name": "Precision and Science Technologies",
+   "products": [
+    "pumps and liquid handling systems",
+    "life science tools and systems",
+    "diaphragm pumps",
+    "gas boosters",
+    "hydrogen compression systems",
+    "automated liquid handling systems",
+    "single-use powder and liquid handling systems and isolators",
+    "space suits, inflatable habitats, and lighter-than-air vehicles"
+   ],
+   "description": "Supplies highly specialized pumps, liquid handling, life science tools and containment systems to industrial, life sciences, medical and energy customers.",
+   "evidence": "Within life science tools and systems, our primary offerings include single-use powder and liquid handling systems and isolators for disposable process and containment applications, and contract design and productions for services for silicone, thermoplastic, and specialty components and assemblies for medical devices."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Industrial end users, distributors, original equipment manufacturers and engineering, procurement and construction firms pay for equipment and for recurring aftermarket parts, consumables and services.",
+  "evidence": "Our sales are realized primarily through a combination of independent specialty and national distributors and relationships directly with original equipment manufacturers (\"OEM\"), Engineering, Procurement and Construction (\"EPC\") companies and end users."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company divested three wholly-owned subsidiaries that held asbestos liabilities and related insurance assets.",
+   "evidence": "Under the Purchase Agreement, the Company transferred 100 % of the equity interests of three wholly-owned subsidiaries that hold asbestos liabilities and certain assets, including the related insurance assets, to the Buyer, effective as of June 10, 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

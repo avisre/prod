@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001357615",
  "issuerName": "KBR, Inc.",
- "builtAt": "2026-11-16T03:48:42.506Z",
+ "builtAt": "2026-11-16T08:19:23.164Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001357615-26-000051",
@@ -10,11 +10,57 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1357615/000135761526000051/kbr-20260102.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mission Technology Solutions",
+   "products": [
+    "research and development",
+    "advanced prototyping",
+    "acquisition support",
+    "systems engineering",
+    "C5ISR",
+    "cyber analytics",
+    "space domain awareness",
+    "test and evaluation"
+   ],
+   "description": "Provides full life-cycle engineering, science and technology support to military, intelligence, space and aviation programs for U.S., U.K. and Australian government agencies.",
+   "evidence": "Our Mission Technology Solutions business segment provides full life-cycle support solutions to defense, intelligence, space, aviation and other programs and missions for military and other government agencies primarily in the U.S., U.K. and Australia."
+  },
+  {
+   "name": "Sustainable Technology Solutions",
+   "products": [
+    "ammonia/syngas",
+    "chemical/petrochemicals",
+    "clean refining",
+    "circular process/circular economy solutions",
+    "advisory and consulting",
+    "high-end engineering, design and program management",
+    "digitally-enabled operating and monitoring solutions"
+   ],
+   "description": "Licenses proprietary process technologies and provides engineering, advisory and digital services to governments and industrial customers for energy transition and decarbonization.",
+   "evidence": "Our Sustainable Technology Solutions business segment is anchored by our portfolio of over 85 innovative, proprietary, sustainability-focused process technologies that reduce emissions, increase efficiency and/or accelerate and enable energy transition across the industrial base in four primary verticals: ammonia/syngas, chemical/petrochemicals, clean refining and circular process/circular economy solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "U.S. and allied government agencies and commercial and industrial clients pay for engineering, science, technology and logistics support services delivered under contracts and programs.",
+  "evidence": "We provide services and technology to a diverse customer base, including domestic and foreign governments and commercial and industrial companies."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the Government Solutions reportable segment was renamed Mission Technology Solutions, while Sustainable Technology Solutions retained its name.",
+   "evidence": "As part of this realignment, our Government Solutions reportable segment has been renamed Mission Technology Solutions while Sustainable Technology Solutions has retained its name."
+  },
+  {
+   "text": "HomeSafe was disposed of in fiscal 2025 and its results are reported as discontinued operations.",
+   "evidence": "We disposed of HomeSafe in the second quarter of fiscal 2025 and determined that this disposal met the requirements to be reported as discontinued operations."
+  },
+  {
+   "text": "In September 2025 the company announced its intention to spin off the Mission Technology Solutions business into a separate public company.",
+   "evidence": "In September 2025, we announced our intention to spin off our Mission Technology Solutions business into a separate, U.S. publicly-traded company (the \"Planned Spin-Off\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

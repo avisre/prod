@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001601046",
  "issuerName": "KEYSIGHT TECHNOLOGIES, INC.",
- "builtAt": "2026-11-16T03:48:42.643Z",
+ "builtAt": "2026-11-16T08:20:04.053Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001601046-25-000127",
@@ -10,11 +10,37 @@
   "filingDate": "2025-12-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1601046/000160104625000127/keys-20251031.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications Solutions Group",
+   "products": [
+    "electronic design and test software",
+    "instrumentation",
+    "systems",
+    "related services"
+   ],
+   "description": "Supplies electronic design and test software, instrumentation, systems and related services to commercial communications and aerospace, defense and government customers.",
+   "evidence": "CSG serves customers spanning the global commercial communications and aerospace, defense, and government end markets."
+  },
+  {
+   "name": "Electronic Industrial Solutions Group",
+   "products": [],
+   "description": "One of Keysight's two reportable operating segments, focused on electronic industrial solutions; the supplied text gives no further description of what it sells.",
+   "evidence": "Keysight has two reportable operating segments, the Communications Solutions Group (\"CSG\") and the Electronic Industrial Solutions Group (\"EISG\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for design and test hardware, software and services used mainly in research and development and, to a lesser degree, in manufacturing and operations.",
+  "evidence": "Our revenue is derived primarily from solutions addressing research and development (\"R&D\") applications, and to a lesser degree, applications in manufacturing and operations."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Keysight sold Spirent's high-speed ethernet, network security, and channel emulation business lines, whose results are presented in discontinued operations.",
+   "evidence": "On October 16, 2025, we sold Spirent's high-speed ethernet, network security, and channel emulation business lines for $ 399 million to Viavi, resulting in an immaterial pre-tax loss."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

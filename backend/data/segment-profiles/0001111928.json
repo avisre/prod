@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001111928",
  "issuerName": "IPG PHOTONICS CORP",
- "builtAt": "2026-11-16T03:48:41.751Z",
+ "builtAt": "2026-11-16T08:14:43.226Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001111928-26-000040",
@@ -10,10 +10,26 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1111928/000111192826000040/ipgp-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fiber Lasers",
+   "products": [
+    "laser and non-laser systems",
+    "fiber amplifiers",
+    "related optical components",
+    "diode lasers",
+    "packaged semiconductor diodes"
+   ],
+   "description": "Designs, manufactures and sells fiber lasers, laser and non-laser systems, fiber amplifiers and related optical components for OEMs, system integrators and end users worldwide.",
+   "evidence": "The Company operates in one segment which involves the design, development, production and distribution of fiber lasers, laser and non-laser systems, fiber amplifiers, and related optical components."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers including OEMs, system integrators and end users pay for high-performance fiber lasers, amplifiers, diode lasers and laser-based systems used in materials processing, medical and advanced applications.",
+  "evidence": "We sell our products globally to original equipment manufacturers (\"OEMs\"), system integrators and end users."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001822993",
  "issuerName": "Jackson Financial Inc.",
- "builtAt": "2026-11-16T03:48:42.457Z",
+ "builtAt": "2026-11-16T08:18:53.073Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001822993-26-000022",
@@ -10,10 +10,50 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1822993/000182299326000022/jxn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Annuities",
+   "products": [
+    "Variable annuities",
+    "Registered index-linked annuities",
+    "Fixed and fixed index annuities",
+    "Payout annuities",
+    "Lifetime Income Strategy"
+   ],
+   "description": "Offers retirement income and savings annuities, including variable, registered index-linked, fixed and payout annuities, to U.S. retail investors and retirement savers.",
+   "evidence": "The Company's Retail Annuities segment offers a variety of retirement income and savings products through its diverse suite of products, consisting primarily of variable annuities, registered index-linked annuities (\"RILA\"), fixed annuities, fixed index annuities, and payout annuities."
+  },
+  {
+   "name": "Institutional Products",
+   "products": [
+    "Traditional guaranteed investment contracts",
+    "Funding agreements backed by medium-term notes",
+    "Funding agreements backed by commercial paper",
+    "Funding agreements"
+   ],
+   "description": "Issues guaranteed investment contracts and funding agreements to institutional investors, earning a spread between investment returns and credited interest.",
+   "evidence": "financial results of the Company's institutional products business are primarily dependent on the Company's ability to earn a spread between earned investment rates on general account assets and the interest credited on GICs and funding agreements."
+  },
+  {
+   "name": "Closed Life and Annuity Blocks",
+   "products": [
+    "whole life",
+    "universal life",
+    "variable universal life",
+    "term life insurance products",
+    "protection products",
+    "fixed, fixed index, and payout annuities"
+   ],
+   "description": "Operates blocks of acquired life insurance and annuity business, including protection products, that the company no longer actively sells.",
+   "evidence": "The Company's Closed Life and Annuity Blocks segment is primarily composed of blocks of business that have been acquired since 2004."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retail annuity customers pay fees, and institutional clients pay for funding agreements and guaranteed investment contracts, while the company also earns investment income.",
+  "evidence": "We earn revenues predominantly from fee income, income from investments, and insurance premiums."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

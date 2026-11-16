@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000914208",
  "issuerName": "Invesco Ltd.",
- "builtAt": "2026-11-16T03:48:41.991Z",
+ "builtAt": "2026-11-16T08:16:44.969Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000914208-26-000079",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/914208/000091420826000079/ivz-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment management",
+   "products": [
+    "ETFs and Index",
+    "Fundamental Fixed Income",
+    "Fundamental Equities",
+    "Private Markets",
+    "Multi-Asset/Other",
+    "Global Liquidity",
+    "QQQ"
+   ],
+   "description": "Manages equity, fixed income, balanced, alternatives and money market strategies for retail and institutional clients worldwide as an integrated global investment manager.",
+   "evidence": "The company has one operating segment, investment management."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients and sponsored investment vehicles pay investment management, service and distribution fees based on the value of the assets managed.",
+  "evidence": "Investment management fees are derived from providing professional services to manage client accounts and sponsored investment vehicles."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

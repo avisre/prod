@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001042893",
  "issuerName": "INNOVEX INTERNATIONAL, INC.",
- "builtAt": "2026-11-16T03:48:41.614Z",
+ "builtAt": "2026-11-16T08:14:13.817Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-067228",
@@ -10,11 +10,31 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1042893/000119312526067228/invx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drilling equipment",
+   "products": [
+    "Products",
+    "Services",
+    "Rental",
+    "drilling equipment and related technology"
+   ],
+   "description": "One consolidated segment designing, manufacturing, selling, renting and installing drilling and well products and services for oil and natural gas operators worldwide.",
+   "evidence": "We operate in one reportable segment as our chief operating decision maker (\"CODM\") assesses performance and allocates resources based on financial information presented at a consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Oil and natural gas companies pay Innovex for the products it designs, manufactures and sells and for services and rental equipment it provides.",
+  "evidence": "We design, manufacture, sell, rent and install products that are used in oil and natural gas exploration, development and production activities"
+ },
+ "changes": [
+  {
+   "text": "In 2024 the merger of Legacy Innovex and Dril-Quip combined the two businesses and the Dril-Quip name was changed to Innovex International.",
+   "evidence": "Following the Merger, Legacy Innovex became a wholly owned subsidiary of Dril-Quip, and the name \"Dril-Quip, Inc.\" was changed to \"Innovex International, Inc.\""
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

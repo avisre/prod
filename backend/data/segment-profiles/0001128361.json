@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001128361",
  "issuerName": "HOPE BANCORP, INC.",
- "builtAt": "2026-11-16T03:48:13.953Z",
+ "builtAt": "2026-11-16T08:11:39.413Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001128361-26-000011",
@@ -10,11 +10,39 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1128361/000112836126000011/hope-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking Operations",
+   "products": [
+    "commercial and commercial real estate lending",
+    "SBA 7(a) loans",
+    "residential mortgage and other consumer lending",
+    "treasury management services",
+    "foreign currency exchange solutions",
+    "interest rate risk hedging products",
+    "international trade financing",
+    "deposit and fee-based products and services"
+   ],
+   "description": "Raises funds from deposits and borrowings and provides lending products, including real estate, commercial and consumer loans, to customers.",
+   "evidence": "\"Banking Operations\" is considered to be the Company's single combined operating segment, which raises funds from deposits and borrowings for loans and investments, and provides lending products, including real estate, commercial, and consumer loans to its customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and customers pay fees for banking services, funded by customer deposits and other borrowings.",
+  "evidence": "Our principal business activities are conducted through the Bank and primarily consist of earning interest on loans and investment securities, which are primarily funded by customer deposits and other borrowings."
+ },
+ "changes": [
+  {
+   "text": "Hope Bancorp exited its consumer credit cards line of business in 2025.",
+   "evidence": "In 2025, we exited our consumer credit cards line of business."
+  },
+  {
+   "text": "The 2025 Territorial merger added branches to the single segment without creating additional operating segments.",
+   "evidence": "The Merger did not result in any additional operating segments for the Company since Territorial branches became part of the Company's single segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

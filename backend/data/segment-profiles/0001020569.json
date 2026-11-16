@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001020569",
  "issuerName": "IRON MOUNTAIN INC",
- "builtAt": "2026-11-16T03:48:41.806Z",
+ "builtAt": "2026-11-16T08:16:31.050Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001020569-26-000013",
@@ -10,10 +10,44 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1020569/000102056926000013/irm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global RIM Business",
+   "products": [
+    "Records Management",
+    "Data Management",
+    "Global Digital Solutions",
+    "Secure Shredding",
+    "Media and Archive Services",
+    "Consumer Storage"
+   ],
+   "description": "Stores physical records and provides information management, digital solutions, secure shredding, media and archive, and consumer storage services to customers in many countries.",
+   "evidence": "The Global Records and Information Management (\"Global RIM\") Business segment includes several distinct offerings."
+  },
+  {
+   "name": "Global Data Center Business",
+   "products": [
+    "Data Center"
+   ],
+   "description": "Provides enterprise-class data center facilities and hyperscale-ready capacity that protect mission-critical assets and keep customers' IT infrastructure operating reliably.",
+   "evidence": "The Global Data Center Business segment provides enterprise-class data center facilities and hyperscale-ready capacity to protect mission-critical assets and ensure the continued operation of our customers' IT infrastructure with secure, reliable and flexible data center options."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [
+    "ALM",
+    "Fine Arts"
+   ],
+   "description": "Runs the asset lifecycle management and fine arts businesses and carries corporate items such as executive, finance, human resources and IT costs.",
+   "evidence": "Corporate and Other consists primarily of our ALM and Fine Arts businesses and other corporate items (\"Corporate and Other\")."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay storage rental and service fees, largely recurring under multi-year agreements, for records storage, digital solutions, data center capacity and asset lifecycle management.",
+  "evidence": "Our contracted storage rental agreements in our Records Management business generally range from one to five years in length."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
