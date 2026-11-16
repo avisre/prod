@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001543151",
+ "issuerName": "UBER TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-16T04:38:26.024Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001543151-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1543151/000154315126000015/uber-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobility",
+   "products": [
+    "rides"
+   ],
+   "description": "Connects riders with drivers.",
+   "evidence": "Our Segments As of December 31, 2025, we had three operating and reportable segments: Mobility, Delivery and Freight."
+  },
+  {
+   "name": "Delivery",
+   "products": [],
+   "description": "Delivers restaurant and grocery orders.",
+   "evidence": "Our Segments As of December 31, 2025, we had three operating and reportable segments: Mobility, Delivery and Freight."
+  },
+  {
+   "name": "Freight",
+   "products": [
+    "freight brokerage"
+   ],
+   "description": "Connects shippers with carriers.",
+   "evidence": "Our Segments As of December 31, 2025, we had three operating and reportable segments: Mobility, Delivery and Freight."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Riders, eaters and shippers pay fees for trips and deliveries.",
+  "evidence": "We develop and operate proprietary technology applications supporting a variety of offerings on our platform (\"platform(s)\" or \"Platform(s)\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mobility): delivery of people",
+  "product not in text (Delivery): food and grocery delivery"
+ ],
+ "reader": "agent"
+}

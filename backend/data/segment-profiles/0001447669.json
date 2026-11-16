@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001447669",
+ "issuerName": "TWILIO INC.",
+ "builtAt": "2026-11-16T04:38:25.681Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001447669-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1447669/000144766926000021/twlo-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

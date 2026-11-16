@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000943452",
+ "issuerName": "WESTINGHOUSE AIR BRAKE TECHNOLOGIES CORPORATION",
+ "builtAt": "2026-11-16T04:38:28.345Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008067",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/943452/000162828026008067/wab-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Freight Segment",
+   "products": [
+    "locomotives",
+    "aftermarket parts"
+   ],
+   "description": "Sells freight rail equipment and services.",
+   "evidence": "3 Business Segments and Products We provide our products and services through two principal business segments, the Freight Segment and the Transit Segment, both of which have different market characteristics and business drivers."
+  },
+  {
+   "name": "Transit Segment",
+   "products": [
+    "aftermarket parts"
+   ],
+   "description": "Sells transit rail equipment and services.",
+   "evidence": "3 Business Segments and Products We provide our products and services through two principal business segments, the Freight Segment and the Transit Segment, both of which have different market characteristics and business drivers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Rail operators pay for new equipment, parts and services.",
+  "evidence": "The following is a summary of our primary products and services in both aftermarket and original equipment across both of our business segments: Equipment: • Diesel-electric and liquid natural gas pow"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Freight Segment): freight car equipment",
+  "product not in text (Transit Segment): transit equipment"
+ ],
+ "reader": "agent"
+}

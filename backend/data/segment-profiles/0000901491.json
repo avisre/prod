@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000901491",
  "issuerName": "PAPA JOHN’S INTERNATIONAL, INC.",
- "builtAt": "2026-11-16T04:33:02.138Z",
+ "builtAt": "2026-11-16T04:37:23.754Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011965",
@@ -15,40 +15,49 @@
   {
    "name": "Domestic Company-owned restaurants",
    "products": [
-    "pizza and other food and beverage products"
+    "pizza",
+    "other food and beverage products"
    ],
-   "description": "Runs its company-owned U.S. restaurants.",
-   "evidence": "Segment Overview Papa Johns has four defined reportable segments: Domestic Company-owned restaurants, North America franchising, North America commissaries, and International."
+   "description": "Operates Company-owned Papa Johns restaurants in the United States, selling pizza and other food and beverage products to customers.",
+   "evidence": "The Domestic Company-owned restaurant segment consists of the operations of all Domestic Company-owned restaurants and derives its revenues principally from retail sales of pizza and other food and beverage products."
   },
   {
    "name": "North America franchising",
    "products": [
-    "franchise rights"
+    "franchise and development rights",
+    "royalties"
    ],
-   "description": "Franchises restaurants in North America.",
-   "evidence": "Segment Overview Papa Johns has four defined reportable segments: Domestic Company-owned restaurants, North America franchising, North America commissaries, and International."
+   "description": "Sells franchise and development rights and collects royalties and marketing fund contributions from franchisees in the United States and Canada.",
+   "evidence": "The North America franchising segment consists of our franchise sales and support activities and derives its revenues from the sale of franchise and development rights and the collection of royalties from our franchisees located in the United States and Canada."
   },
   {
    "name": "North America commissaries",
    "products": [
-    "food and supplies"
+    "pizza sauce",
+    "dough",
+    "food products",
+    "paper products",
+    "smallwares",
+    "cleaning supplies"
    ],
-   "description": "Supplies franchisees through commissaries.",
-   "evidence": "Segment Overview Papa Johns has four defined reportable segments: Domestic Company-owned restaurants, North America franchising, North America commissaries, and International."
+   "description": "Runs dough production and distribution centers that supply pizza sauce, dough, food, paper products and supplies to restaurants.",
+   "evidence": "The North America commissary segment comprises 11 full-service regional dough production and distribution centers"
   },
   {
    "name": "International",
    "products": [
-    "franchise rights"
+    "distribution sales",
+    "franchise and development rights",
+    "royalties"
    ],
-   "description": "Franchises restaurants internationally.",
-   "evidence": "Segment Overview Papa Johns has four defined reportable segments: Domestic Company-owned restaurants, North America franchising, North America commissaries, and International."
+   "description": "Operates and franchises Papa Johns restaurants outside the United States and Canada and distributes food and supplies to them.",
+   "evidence": "The International segment is defined as all restaurant operations outside of the United States and Canada."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Guests buy pizzas; franchisees pay royalties and buy supplies.",
-  "evidence": "Domestic Company-owned Restaurants The Domestic Company-owned restaurant segment consists of the operations of all Domestic Company-owned restaurants and derives its revenues principally from retail sales of pizza and other food and beverage products."
+  "text": "Restaurant customers, franchisees and franchised restaurants pay Papa Johns for food, royalties, franchise rights and commissary supplies.",
+  "evidence": "each Domestic franchisee is required to purchase dough and pizza sauce from our QC Centers"
  },
  "changes": [],
  "dropped": [],

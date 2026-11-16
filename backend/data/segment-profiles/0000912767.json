@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000912767",
+ "issuerName": "UFP INDUSTRIES, INC.",
+ "builtAt": "2026-11-16T04:38:26.195Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019567",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/912767/000110465926019567/ufpi-20251227x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "UFP Retail Solutions",
+   "products": [],
+   "description": "Sells retail building products.",
+   "evidence": "Our business segments consist of UFP Retail Solutions (\"Retail\"), UFP Packaging (\"Packaging\") and UFP Construction (\"Construction\"), a"
+  },
+  {
+   "name": "UFP Packaging",
+   "products": [
+    "packaging products"
+   ],
+   "description": "Makes packaging products.",
+   "evidence": "Our business segments consist of UFP Retail Solutions (\"Retail\"), UFP Packaging (\"Packaging\") and UFP Construction (\"Construction\"), a"
+  },
+  {
+   "name": "UFP Construction",
+   "products": [],
+   "description": "Supplies construction products.",
+   "evidence": "Our business segments consist of UFP Retail Solutions (\"Retail\"), UFP Packaging (\"Packaging\") and UFP Construction (\"Construction\"), a"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers, builders and industrial customers buy its wood products.",
+  "evidence": "Our business segments consist of UFP Retail Solutions (\"Retail\"), UFP Packaging (\"Packaging\") and UFP Construction (\"Construction\"), a"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (UFP Retail Solutions): retail building products",
+  "product not in text (UFP Construction): construction products"
+ ],
+ "reader": "agent"
+}

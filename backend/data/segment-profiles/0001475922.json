@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001475922",
  "issuerName": "Primerica, Inc.",
- "builtAt": "2026-11-16T04:33:01.395Z",
+ "builtAt": "2026-11-16T04:37:23.319Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-082233",
@@ -14,36 +14,47 @@
  "segments": [
   {
    "name": "Term Life Insurance",
-   "products": [],
-   "description": "Sells term life policies through its agents.",
-   "evidence": "Fee-Based and Complementary Nature of Primary Business Segments We use three operating segments to organize, evaluate and manage our business: Term Life Insurance; Investment and Savings Products; and Corporate and Other Distributed Products."
+   "products": [
+    "Primerica Life",
+    "NBLIC",
+    "Primerica Life Canada"
+   ],
+   "description": "Underwrites and sells term life insurance to middle-income clients through its life insurance subsidiaries Primerica Life, NBLIC and Primerica Life Canada.",
+   "evidence": "The financial results of our Term Life Insurance segment benefit from the stability of a large in-force block of life insurance policies, with a substantial portion of revenues generated from recurring premiums."
   },
   {
    "name": "Investment and Savings Products",
    "products": [
-    "mutual funds",
-    "annuities"
+    "Mutual Funds and Certain Retirement Plans",
+    "Managed Investments",
+    "Variable Annuities",
+    "Fixed Indexed Annuities",
+    "Fixed Annuities",
+    "Segregated Funds"
    ],
-   "description": "Distributes investment and savings products.",
-   "evidence": "Fee-Based and Complementary Nature of Primary Business Segments We use three operating segments to organize, evaluate and manage our business: Term Life Insurance; Investment and Savings Products; and Corporate and Other Distributed Products."
+   "description": "Distributes mutual funds, annuities, managed investments and retirement plans to clients, earning sales commissions and advisory and administrative service fees.",
+   "evidence": "The financial results of our Investment and Savings Products segment benefit from clients' long-term investment focus and the expected intergenerational transfer of wealth, which should continue to favorably impact demand for the mutual funds, annuity products and management investments we distribute."
   },
   {
    "name": "Corporate and Other Distributed Products",
    "products": [
-    "insurance products"
+    "Mortgage Loans",
+    "Prepaid Legal Services",
+    "ID Theft Defense",
+    "Supplemental Health and Accidental Death & Disability Insurance",
+    "Auto and Homeowners' Insurance",
+    "Home Automation Solutions"
    ],
-   "description": "Distributes other insurance products.",
-   "evidence": "Fee-Based and Complementary Nature of Primary Business Segments We use three operating segments to organize, evaluate and manage our business: Term Life Insurance; Investment and Savings Products; and Corporate and Other Distributed Products."
+   "description": "Distributes mortgage loans, prepaid legal services, identity theft defense, insurance and home automation products from third-party providers, and carries unallocated corporate costs.",
+   "evidence": "Costs that are not directly charged or allocated to our two primary operating segments are included in the Corporate and Other Distributed Products segment."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Policyholders pay premiums and product holders pay sales and asset fees.",
-  "evidence": "Fee-Based and Complementary Nature of Primary Business Segments We use three operating segments to organize, evaluate and manage our business: Term Life Insurance; Investment and Savings Products; and Corporate and Other Distributed Products."
+  "text": "Clients and policyholders pay premiums, sales commissions and fee-based advisory and administrative charges for the insurance and investment products they buy.",
+  "evidence": "Revenues in this segment are entirely fee-based, which include sales commissions and investment advisory and administrative service fees."
  },
  "changes": [],
- "dropped": [
-  "product not in text (Term Life Insurance): term life insurance"
- ],
+ "dropped": [],
  "reader": "agent"
 }

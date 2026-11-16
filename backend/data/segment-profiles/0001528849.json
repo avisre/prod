@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001528849",
  "issuerName": "RH",
- "builtAt": "2026-11-16T04:33:03.036Z",
+ "builtAt": "2026-11-16T04:37:24.115Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-037992",
@@ -10,10 +10,47 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1528849/000110465926037992/rh-20260131x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RH Segment",
+   "products": [
+    "furniture",
+    "lighting",
+    "textiles",
+    "bathware",
+    "outdoor and garden",
+    "baby, child and teen furnishings",
+    "RH Interiors",
+    "RH Modern"
+   ],
+   "description": "Sells luxury home furnishings across furniture, lighting, textiles and decor through galleries, websites and Sourcebooks in North America and Europe.",
+   "evidence": "We offer merchandise assortments across a number of categories, including furniture, lighting, textiles, bathware, décor, outdoor and garden, and baby, child and teen furnishings."
+  },
+  {
+   "name": "Waterworks",
+   "products": [
+    "Waterworks Showrooms",
+    "bathware"
+   ],
+   "description": "Sells premium bath and kitchen products through Waterworks showrooms and other channels.",
+   "evidence": "Our customers know our brand concepts as RH Interiors, RH Modern, RH Outdoor, RH Beach House, RH Ski House, RH Baby & Child, RH Teen and Waterworks."
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "equity method investments",
+    "consolidated VIEs"
+   ],
+   "description": "Holds equity method investments and consolidated VIEs with operations not directly related to the retail segments.",
+   "evidence": "The Real Estate segment represents operations associated with certain of our equity method investments and consolidated VIEs that have operations not directly related to the activities of the retail operating segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay RH for home furnishings bought through its galleries, websites, Sourcebooks and trade channels.",
+  "evidence": "We distribute our products through a fully integrated sales platform comprising our retail locations"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

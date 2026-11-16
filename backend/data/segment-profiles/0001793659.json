@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001793659",
  "issuerName": "Rush Street Interactive, Inc.",
- "builtAt": "2026-11-16T04:33:04.108Z",
+ "builtAt": "2026-11-16T04:37:24.526Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001793659-26-000009",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1793659/000179365926000009/rsi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "online gaming",
+   "products": [
+    "real-money online casino",
+    "online sports betting",
+    "retail sports betting",
+    "social gaming",
+    "BetRivers",
+    "RushBet",
+    "PlaySugarHouse"
+   ],
+   "description": "Operates online casino and sports betting platforms for players in U.S., Canadian and Latin American markets.",
+   "evidence": "We are a leading online gaming and entertainment company that focuses primarily on online casino and online sports betting in the U.S., Canadian and Latin American markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Players pay Rush Street Interactive for real-money online casino, sports betting and social gaming through its platforms.",
+  "evidence": "We provide our customers with an array of leading gaming offerings such as real-money online casino, online sports betting and retail sports betting"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

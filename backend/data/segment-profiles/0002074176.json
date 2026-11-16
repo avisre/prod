@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0002074176",
+ "issuerName": "Viper Energy, Inc.",
+ "builtAt": "2026-11-16T04:38:35.512Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002074176-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2074176/000207417626000010/vnom-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Acquires and develops oil and gas properties.",
+   "evidence": "We operate in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "We operate in one reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

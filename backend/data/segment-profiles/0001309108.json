@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001309108",
+ "issuerName": "WEX Inc.",
+ "builtAt": "2026-11-16T04:38:28.823Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001309108-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1309108/000130910826000010/wex-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobility",
+   "products": [],
+   "description": "Provides fuel and vehicle payment solutions.",
+   "evidence": "BUSINESS Company Overview WEX is a global commerce platform that provides seamlessly embedded, personalized payments solutions across three business segments: Mobility, Benefits, and Corporate Payments."
+  },
+  {
+   "name": "Benefits",
+   "products": [],
+   "description": "Provides benefits and health savings accounts.",
+   "evidence": "BUSINESS Company Overview WEX is a global commerce platform that provides seamlessly embedded, personalized payments solutions across three business segments: Mobility, Benefits, and Corporate Payments."
+  },
+  {
+   "name": "Corporate Payments",
+   "products": [],
+   "description": "Provides corporate payment solutions.",
+   "evidence": "BUSINESS Company Overview WEX is a global commerce platform that provides seamlessly embedded, personalized payments solutions across three business segments: Mobility, Benefits, and Corporate Payments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fleets, employers and businesses pay transaction and account fees.",
+  "evidence": "BUSINESS Company Overview WEX is a global commerce platform that provides seamlessly embedded, personalized payments solutions across three business segments: Mobility, Benefits, and Corporate Payments."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mobility): fleet fuel cards",
+  "product not in text (Mobility): vehicle payments",
+  "product not in text (Benefits): benefits payment solutions",
+  "product not in text (Corporate Payments): corporate payments"
+ ],
+ "reader": "agent"
+}

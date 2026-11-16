@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001318605",
+ "issuerName": "Tesla, Inc.",
+ "builtAt": "2026-11-16T04:38:25.489Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-003952",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "automotive",
+   "products": [
+    "electric vehicles"
+   ],
+   "description": "Designs, builds and leases electric vehicles.",
+   "evidence": "Segment Information We operate as two reportable segments: (i) automotive and (ii) energy generation and storage."
+  },
+  {
+   "name": "energy generation and storage",
+   "products": [
+    "energy generation and storage systems"
+   ],
+   "description": "Sells solar and battery storage systems.",
+   "evidence": "Segment Information We operate as two reportable segments: (i) automotive and (ii) energy generation and storage."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy vehicles and energy products.",
+  "evidence": "We intend to leverage our current operations, in which we design, develop, manufacture, sell and lease high-performance fully electric vehicles and energy generation and storage systems that increasingly deliver AI-related and enhanced software and services to our customers, to achieve that objective."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

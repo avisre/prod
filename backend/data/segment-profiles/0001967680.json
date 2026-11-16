@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001967680",
+ "issuerName": "VERALTO CORPORATION",
+ "builtAt": "2026-11-16T04:38:27.282Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001967680-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1967680/000196768026000011/vlto-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Quality",
+   "products": [
+    "water analytics",
+    "water treatment solutions",
+    "Hach",
+    "Trojan Technologies",
+    "ChemTreat"
+   ],
+   "description": "Sells water quality analytics and treatment.",
+   "evidence": "Our two segments are described below: Water Quality Our Water Quality segment provides one of the most comprehensive portfolios of water analytics, and differentiated water treatment solutions that enable the reliable delivery of safe drinking water by"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Municipal and industrial customers buy water treatment products and services.",
+  "evidence": "Our two segments are described below: Water Quality Our Water Quality segment provides one of the most comprehensive portfolios of water analytics, and differentiated water treatment solutions that enable the reliable delivery of safe drinking water by"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

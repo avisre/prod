@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001117297",
  "issuerName": "QuinStreet, Inc.",
- "builtAt": "2026-11-16T04:33:02.212Z",
+ "builtAt": "2026-11-16T04:37:23.790Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-367160",
@@ -10,10 +10,27 @@
   "filingDate": "2026-08-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1117297/000119312526367160/qnst-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "performance marketing",
+   "products": [
+    "clicks",
+    "leads",
+    "calls",
+    "applications",
+    "customers",
+    "performance marketplaces"
+   ],
+   "description": "Runs performance marketplaces and marketing technologies that deliver clicks, leads, calls and applications to financial services and home services clients.",
+   "evidence": "We are a leader in performance marketplaces and technologies for the financial services and home services industries."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay QuinStreet for measurable online marketing results, such as clicks, leads, calls and applications from high-intent consumers.",
+  "evidence": "We generate revenue by delivering measurable online marketing results to our clients."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

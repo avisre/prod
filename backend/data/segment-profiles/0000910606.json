@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000910606",
  "issuerName": "REGENCY CENTERS CORPORATION",
- "builtAt": "2026-11-16T04:33:02.578Z",
+ "builtAt": "2026-11-16T04:37:23.965Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-051668",
@@ -10,10 +10,24 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/910606/000119312526051668/reg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "shopping centers",
+   "products": [
+    "base rent",
+    "percentage rent",
+    "tenant recoveries"
+   ],
+   "description": "Owns, operates and develops grocery-anchored shopping centers and leases retail space to tenants under long-term leases.",
+   "evidence": "The individual properties have been aggregated into one reportable segment based upon their similarities with regard to both the nature and economics of the centers, tenants and operational processes, as well as long-term average financial performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Tenants pay base rent, percentage rent and expense recoveries for retail space leased in the company's shopping centers.",
+  "evidence": "The Company derives revenue primarily by leasing retail spaces to tenants under long-term leases"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

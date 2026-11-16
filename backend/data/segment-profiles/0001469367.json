@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001469367",
  "issuerName": "Sunrun Inc.",
- "builtAt": "2026-11-16T04:33:04.248Z",
+ "builtAt": "2026-11-16T04:37:24.562Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012289",
@@ -10,10 +10,26 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1469367/000162828026012289/run-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "solar energy services",
+   "products": [
+    "residential solar",
+    "battery storage",
+    "solar energy systems",
+    "energy services",
+    "multi-family and new homes offerings"
+   ],
+   "description": "Designs, installs, owns and maintains residential solar and battery storage systems, selling the clean energy to homeowners by subscription.",
+   "evidence": "The Company has one operating segment with one business activity, providing solar energy services and products to customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Residential homeowners and some commercial developers pay Sunrun for solar energy, battery storage and related services.",
+  "evidence": "Our primary customers are residential homeowners."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

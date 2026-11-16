@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001967649",
+ "issuerName": "Vestis Corp",
+ "builtAt": "2026-11-16T04:38:28.067Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-054597",
+  "periodEnd": "2025-10-03",
+  "filingDate": "2025-12-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1967649/000162828025054597/vsts-20251003.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

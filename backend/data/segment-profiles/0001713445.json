@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001713445",
  "issuerName": "Reddit, Inc.",
- "builtAt": "2026-11-16T04:33:02.495Z",
+ "builtAt": "2026-11-16T04:37:23.950Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001713445-26-000022",
@@ -10,10 +10,24 @@
   "filingDate": "2026-02-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1713445/000171344526000022/rddt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "social media",
+   "products": [
+    "advertising",
+    "Reddit Premium",
+    "content licensing"
+   ],
+   "description": "Operates a global online community platform where users post and vote on content, selling advertising, subscriptions and content licensing.",
+   "evidence": "We have one reportable segment as our chief operating decision maker, our Chief Executive Officer, reviews consolidated profitability measures in managing the business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Advertisers pay Reddit for access to its engaged audience, with other revenue from content licensing and Reddit Premium subscriptions.",
+  "evidence": "For advertisers, we provide access to a unique and highly engaged audience where our trusted, passionate communities drive recommendations on brands and buying decisions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001929561",
  "issuerName": "RXO, INC.",
- "builtAt": "2026-11-16T04:33:04.414Z",
+ "builtAt": "2026-11-16T04:37:24.571Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001929561-26-000013",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1929561/000192956126000013/rxo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "brokered transportation",
+   "products": [
+    "truck brokerage",
+    "managed transportation",
+    "last mile services",
+    "RXO Connect"
+   ],
+   "description": "Operates an asset-light brokered transportation platform, placing shippers' freight with independent carriers and providing managed transportation and last mile services.",
+   "evidence": "Our operations also include asset-light managed transportation and last mile services, which complement our truck brokerage business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Shippers pay RXO for brokered truckload capacity and related managed transportation and last mile services.",
+  "evidence": "Shippers create demand for our service, and we place their freight with qualified independent carriers using our technology."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

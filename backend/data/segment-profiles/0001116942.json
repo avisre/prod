@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001116942",
+ "issuerName": "TTM TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-16T04:38:25.638Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-051976",
+  "periodEnd": "2025-12-29",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1116942/000119312526051976/ttmi-20251229.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

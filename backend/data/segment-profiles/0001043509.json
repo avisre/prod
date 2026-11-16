@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001043509",
  "issuerName": "SONIC AUTOMOTIVE, INC.",
- "builtAt": "2026-11-16T04:33:04.764Z",
+ "builtAt": "2026-11-16T04:37:24.708Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-010570",
@@ -15,34 +15,44 @@
   {
    "name": "Franchised Dealerships Segment",
    "products": [
-    "new vehicles",
-    "used vehicles",
-    "parts and service"
+    "new and used cars and light trucks",
+    "replacement parts",
+    "vehicle maintenance",
+    "manufacturer warranty repairs",
+    "paint and collision repair services",
+    "third-party financing",
+    "extended warranties",
+    "insurance"
    ],
-   "description": "Runs franchised car dealerships.",
-   "evidence": "As a result of the way we manage our business, we had three reportable segments as of December 31, 2025: (1) the Franchised Dealerships Segment; (2) the EchoPark Segment; and (3) the Powersports Segment."
+   "description": "Operates franchised dealerships selling new and used cars and light trucks, providing parts, service and collision repair and arranging financing and insurance.",
+   "evidence": "The Franchised Dealerships Segment provides comprehensive sales and services, including: (1) sales of both new and used cars and light trucks"
   },
   {
    "name": "EchoPark Segment",
    "products": [
-    "used vehicles"
+    "used cars and light trucks",
+    "third-party F&I product sales"
    ],
-   "description": "Runs its EchoPark used-vehicle stores.",
-   "evidence": "As a result of the way we manage our business, we had three reportable segments as of December 31, 2025: (1) the Franchised Dealerships Segment; (2) the EchoPark Segment; and (3) the Powersports Segment."
+   "description": "Sells used cars and light trucks and arranges third-party finance and insurance products in pre-owned vehicle specialty retail locations.",
+   "evidence": "The EchoPark Segment sells used cars and light trucks and arranges third-party F&I product sales for our guests in pre-owned vehicle specialty retail locations"
   },
   {
    "name": "Powersports Segment",
    "products": [
-    "powersports vehicles"
+    "new and used powersports vehicles",
+    "motorcycles",
+    "personal watercraft",
+    "all-terrain vehicles",
+    "third party F&I services"
    ],
-   "description": "Runs powersports dealerships.",
-   "evidence": "As a result of the way we manage our business, we had three reportable segments as of December 31, 2025: (1) the Franchised Dealerships Segment; (2) the EchoPark Segment; and (3) the Powersports Segment."
+   "description": "Sells new and used powersports vehicles such as motorcycles, watercraft and all-terrain vehicles, with parts, service and finance and insurance.",
+   "evidence": "The Powersports Segment offers guests: (1) sales of both new and used powersports vehicles (such as motorcycles, personal watercraft and all-terrain vehicles)"
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers buy vehicles and parts and pay for service.",
-  "evidence": "As a result of the way we manage our business, we had three reportable segments as of December 31, 2025: (1) the Franchised Dealerships Segment; (2) the EchoPark Segment; and (3) the Powersports Segment."
+  "text": "Vehicle buyers pay Sonic Automotive for new and used vehicles, parts, service and repair, financing and insurance products.",
+  "evidence": "The majority of our revenue is related to our Franchised Dealerships Segment."
  },
  "changes": [],
  "dropped": [],

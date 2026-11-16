@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001046102",
  "issuerName": "RB Global, Inc",
- "builtAt": "2026-11-16T04:33:02.285Z",
+ "builtAt": "2026-11-16T04:37:23.915Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011682",
@@ -10,10 +10,26 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1046102/000162828026011682/rba-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "omnichannel marketplace",
+   "products": [
+    "Ritchie Bros.",
+    "IAA",
+    "Rouse Services",
+    "SmartEquip",
+    "VeriTread"
+   ],
+   "description": "Runs an omnichannel marketplace and auction sites for buyers and sellers of commercial assets and vehicles, with related services and data.",
+   "evidence": "Established in 1958, the Company is a leading, omnichannel marketplace and trusted provider of value-added insights, services and transaction solutions for buyers and sellers of commercial assets and vehicles worldwide."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consignors and buyers pay RB Global commissions, fees and registration charges to sell and buy assets through its auctions and marketplaces.",
+  "evidence": "Transactional seller revenues, which includes commissions and other fees earned from consignors to facilitate the sale of an asset"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001653653",
  "issuerName": "RED ROCK RESORTS, INC.",
- "builtAt": "2026-11-16T04:33:03.840Z",
+ "builtAt": "2026-11-16T04:37:24.407Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001653653-26-000004",
@@ -10,10 +10,34 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1653653/000165365326000004/rrr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Las Vegas operations",
+   "products": [
+    "casino",
+    "Room revenues",
+    "Food and beverage revenues",
+    "entertainment"
+   ],
+   "description": "Owns and operates Las Vegas casino and entertainment properties, earning casino, room, food and beverage revenue from guests.",
+   "evidence": "We have two reportable segments, the Las Vegas operations segment includes all of our Las Vegas area casino properties and the Native American segment includes our Native American arrangements."
+  },
+  {
+   "name": "Native American",
+   "products": [
+    "Development fees",
+    "development and management"
+   ],
+   "description": "Manages and develops Native American gaming properties, earning development and management fees.",
+   "evidence": "We also aggregate our Native American arrangements into one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Guests pay for casino gaming, hotel rooms, food and beverage and entertainment at the company's casino and entertainment properties.",
+  "evidence": "Station LLC is a gaming, development and management company established in 1976 that develops and operates strategically-located casino and entertainment properties."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

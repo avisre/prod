@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001275014",
+ "issuerName": "Ultra Clean Holdings, Inc.",
+ "builtAt": "2026-11-16T04:38:26.067Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010744",
+  "periodEnd": "2025-12-26",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1275014/000162828026010744/uctt-20251226.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Products",
+   "products": [
+    "chemical delivery modules",
+    "frame assemblies",
+    "gas delivery systems",
+    "fluid delivery systems",
+    "precision robotics",
+    "process modules"
+   ],
+   "description": "Makes equipment for semiconductor capital equipment.",
+   "evidence": "Products include chemical delivery modules, frame assemblies, gas delivery systems, fluid delivery systems, precision robotics, process modules as well as other high-level assemblies."
+  },
+  {
+   "name": "Services",
+   "products": [
+    "ultra-high purity parts cleaning",
+    "process tool part recoating",
+    "surface encapsulation",
+    "micro contamination analysis"
+   ],
+   "description": "Cleans and recoats semiconductor parts.",
+   "evidence": "Our Services segment provides ultra-high purity parts cleaning, process tool part recoating, surface encapsulation and high sensitivity micro contamination analysis primarily for the semiconductor device makers and wafer fabrication equipment (\"W"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Semiconductor equipment makers buy its modules and cleaning services.",
+  "evidence": "Our Services segment provides ultra-high purity parts cleaning, process tool part recoating, surface encapsulation and high sensitivity micro contamination analysis primarily for the semiconductor device makers and wafer fabrication equipment (\"W"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

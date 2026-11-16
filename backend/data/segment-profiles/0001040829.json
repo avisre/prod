@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001040829",
  "issuerName": "RYMAN HOSPITALITY PROPERTIES, INC.",
- "builtAt": "2026-11-16T04:33:03.193Z",
+ "builtAt": "2026-11-16T04:37:24.134Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-019035",
@@ -15,31 +15,41 @@
   {
    "name": "Hospitality",
    "products": [
+    "Gaylord Hotels",
+    "JW Marriott",
+    "Inn at Opryland",
+    "AC Hotel",
     "hotel rooms",
     "food and beverage"
    ],
-   "description": "Owns and operates hotels and resorts.",
-   "evidence": "Our operations are organized into three principal business segments: (i) Hospitality, which includes our Gaylord Hotels properties, our JW Marriott properties, the Inn at Opryland and the AC Hotel; (ii) Entertainment, which includes the entertainment and media assets comprising OEG; and (iii) Corporate and Other, which includes corporate expenses."
+   "description": "Owns and operates hotel properties, including Gaylord Hotels and JW Marriott hotels, renting rooms and selling food and beverage to guests.",
+   "evidence": "Hospitality , which includes the Gaylord Hotels properties, the JW Marriott properties (including, effective June 10, 2025, JW Marriott Desert Ridge and effective June 30, 2023, JW Marriott Hill Country), the Inn at Opryland and the AC Hotel"
   },
   {
    "name": "Entertainment",
    "products": [
-    "entertainment and media assets"
+    "Grand Ole Opry",
+    "Ryman Auditorium",
+    "WSM-AM",
+    "Ole Red",
+    "Category 10",
+    "Block 21",
+    "Southern Entertainment"
    ],
-   "description": "Runs entertainment and media assets through OEG.",
-   "evidence": "Our operations are organized into three principal business segments: (i) Hospitality, which includes our Gaylord Hotels properties, our JW Marriott properties, the Inn at Opryland and the AC Hotel; (ii) Entertainment, which includes the entertainment and media assets comprising OEG; and (iii) Corporate and Other, which includes corporate expenses."
+   "description": "Operates country music entertainment venues, attractions and media properties, selling tickets, food and beverage and sponsorship to guests.",
+   "evidence": "Entertainment , which includes the OEG business, specifically, the Grand Ole Opry, the Ryman Auditorium, WSM-AM, Ole Red, Category 10, Block 21, and Southern Entertainment"
   },
   {
    "name": "Corporate and Other",
    "products": [],
-   "description": "Holds corporate expenses.",
-   "evidence": "Our operations are organized into three principal business segments: (i) Hospitality, which includes our Gaylord Hotels properties, our JW Marriott properties, the Inn at Opryland and the AC Hotel; (ii) Entertainment, which includes the entertainment and media assets comprising OEG; and (iii) Corporate and Other, which includes corporate expenses."
+   "description": "Holds unallocated corporate operating and administrative expenses for the overall management of the company.",
+   "evidence": "The Corporate and Other segment includes operating and general and administrative expenses related to the overall management of the Company which are not allocated to the other reportable segments"
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Guests pay room rates and event tickets.",
-  "evidence": "Our operations are organized into three principal business segments: (i) Hospitality, which includes our Gaylord Hotels properties, our JW Marriott properties, the Inn at Opryland and the AC Hotel; (ii) Entertainment, which includes the entertainment and media assets comprising OEG; and (iii) Corporate and Other, which includes corporate expenses."
+  "text": "Hotel guests and entertainment visitors pay Ryman Hospitality for rooms, tickets, food and beverage, and related hospitality services.",
+  "evidence": "The Company's operations are organized into the following principal business segments"
  },
  "changes": [],
  "dropped": [],

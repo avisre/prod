@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001603923",
+ "issuerName": "Weatherford International plc",
+ "builtAt": "2026-11-16T04:38:28.862Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001603923-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1603923/000160392326000014/wfrd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drilling and Evaluation",
+   "products": [
+    "drilling services"
+   ],
+   "description": "Provides drilling and evaluation services.",
+   "evidence": "Reportable Segments We offer our services and technologies in relation to the well life cycle and have three reportable segments: (1) Drilling and Evaluation (2) Well Construction and Completions, and (3) Production and Intervention."
+  },
+  {
+   "name": "Well Construction and Completions",
+   "products": [
+    "well construction",
+    "completions"
+   ],
+   "description": "Provides well construction and completion services.",
+   "evidence": "Reportable Segments We offer our services and technologies in relation to the well life cycle and have three reportable segments: (1) Drilling and Evaluation (2) Well Construction and Completions, and (3) Production and Intervention."
+  },
+  {
+   "name": "Production and Intervention",
+   "products": [
+    "intervention services"
+   ],
+   "description": "Provides production and intervention services.",
+   "evidence": "Reportable Segments We offer our services and technologies in relation to the well life cycle and have three reportable segments: (1) Drilling and Evaluation (2) Well Construction and Completions, and (3) Production and Intervention."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas operators pay for its services.",
+  "evidence": "Reportable Segments We offer our services and technologies in relation to the well life cycle and have three reportable segments: (1) Drilling and Evaluation (2) Well Construction and Completions, and (3) Production and Intervention."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Drilling and Evaluation): evaluation services",
+  "product not in text (Production and Intervention): production services"
+ ],
+ "reader": "agent"
+}

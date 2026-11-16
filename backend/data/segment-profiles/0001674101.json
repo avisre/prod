@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001674101",
+ "issuerName": "Vertiv Holdings Co",
+ "builtAt": "2026-11-16T04:38:27.741Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001674101-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000008/vrt-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

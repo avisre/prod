@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001070081",
  "issuerName": "PTC Therapeutics, Inc.",
- "builtAt": "2026-11-16T04:33:01.618Z",
+ "builtAt": "2026-11-16T04:37:23.538Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-017575",
@@ -15,16 +15,22 @@
   {
    "name": "life science",
    "products": [
-    "net product sales"
+    "Sephience",
+    "Translarna",
+    "Emflaza",
+    "Upstaza",
+    "Kebilidi",
+    "Tegsedi",
+    "Waylivra"
    ],
-   "description": "Develops and sells therapies for rare diseases.",
-   "evidence": "Revenue recognition Net product sales The Company views its operations and manages its business in one operating segment: life science."
+   "description": "Discovers, develops and commercializes medicines for rare disorders, including phenylketonuria and Duchenne muscular dystrophy, and sells them globally.",
+   "evidence": "The Company views its operations and manages its business in one operating segment: life science."
   }
  ],
- "productRevenueBrokenOut": false,
+ "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Pharmacies and patients' insurers pay for its medicines.",
-  "evidence": "Revenue recognition Net product sales The Company views its operations and manages its business in one operating segment: life science."
+  "text": "Distributors and payers pay PTC Therapeutics for its medicines, with revenue mostly from net product sales plus collaboration and license payments.",
+  "evidence": "For the year ended December 31, 2025, four of the Company's distributors each accounted for over 10 % of the Company's net product sales."
  },
  "changes": [],
  "dropped": [],

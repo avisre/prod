@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001849253",
  "issuerName": "RYAN SPECIALTY HOLDINGS, INC.",
- "builtAt": "2026-11-16T04:33:04.522Z",
+ "builtAt": "2026-11-16T04:37:24.580Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001849253-26-000006",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1849253/000184925326000006/ryan-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ryan Specialty",
+   "products": [
+    "wholesale brokerage",
+    "delegated underwriting authority",
+    "binding authority",
+    "national program operations",
+    "product development",
+    "risk management services"
+   ],
+   "description": "Acts as a specialty insurance intermediary, placing complex risks for retail brokers and providing underwriting and distribution services for carriers.",
+   "evidence": "The Company's offerings cover a wide variety of sectors including commercial, industrial, institutional, governmental, and personal through one operating segment, Ryan Specialty."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Insurance brokers and carriers pay Ryan Specialty commissions and fees for placing specialty risks and for delegated underwriting services.",
+  "evidence": "For retail insurance brokers, we assist in the placement of complex or otherwise hard-to-place risks."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

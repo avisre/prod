@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001906324",
  "issuerName": "QUIDELORTHO CORP",
- "builtAt": "2026-11-16T04:33:02.180Z",
+ "builtAt": "2026-11-16T04:37:23.773Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001906324-26-000008",
@@ -14,47 +14,75 @@
  "segments": [
   {
    "name": "North America",
-   "products": [],
-   "description": "Sells diagnostics in North America.",
+   "products": [
+    "Labs",
+    "Transfusion Medicine",
+    "Point of Care",
+    "Molecular Diagnostics"
+   ],
+   "description": "Markets, distributes and sells diagnostic instruments and assays for hospitals, laboratories and other testing sites in North America.",
    "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
   },
   {
    "name": "EMEA",
-   "products": [],
-   "description": "Sells diagnostics in Europe, the Middle East and Africa.",
-   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+   "products": [
+    "Labs",
+    "Transfusion Medicine",
+    "Point of Care",
+    "Molecular Diagnostics"
+   ],
+   "description": "Markets, distributes and sells diagnostic instruments and assays for hospitals, laboratories and other testing sites in Europe, the Middle East and Africa.",
+   "evidence": "The CODM reviews the Company's performance and allocates resources based on five operating segments: North America, EMEA, China, JPAC and Latin America, all of which are reportable segments."
   },
   {
    "name": "China",
-   "products": [],
-   "description": "Sells diagnostics in China.",
-   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+   "products": [
+    "Labs",
+    "Transfusion Medicine",
+    "Point of Care",
+    "Molecular Diagnostics"
+   ],
+   "description": "Markets, distributes and sells diagnostic instruments and assays for hospitals, laboratories and other testing sites in China.",
+   "evidence": "We operate under five geographically-based reportable segments: North America, EMEA, China, JPAC and Latin America."
   },
   {
    "name": "JPAC",
-   "products": [],
-   "description": "Sells diagnostics in Japan and Asia-Pacific.",
-   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+   "products": [
+    "Labs",
+    "Transfusion Medicine",
+    "Point of Care",
+    "Molecular Diagnostics"
+   ],
+   "description": "Markets, distributes and sells diagnostic instruments and assays for hospitals and laboratories in the Japan and Asia Pacific region.",
+   "evidence": "Beginning in the fourth quarter of 2025, we determined that the JPAC segment, previously included in \"Other,\" meets the quantitative thresholds for separate reporting under ASC 280."
   },
   {
    "name": "Latin America",
-   "products": [],
-   "description": "Sells diagnostics in Latin America.",
-   "evidence": "We manage our business geographically to better align with the market dynamics of the specific geographic regions in which we operate, with our reportable segments being North America, EMEA, China, JPAC and Latin America."
+   "products": [
+    "Labs",
+    "Transfusion Medicine",
+    "Point of Care",
+    "Molecular Diagnostics"
+   ],
+   "description": "Markets, distributes and sells diagnostic instruments and assays for hospitals and laboratories in Latin America.",
+   "evidence": "Although all five segments are engaged in the marketing, distribution and sale of diagnostic instruments and assays"
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Hospitals and labs buy its diagnostic tests and instruments.",
-  "evidence": "We operate globally with manufacturing facilities in the U."
+  "text": "Hospitals, clinical laboratories, physician offices and other testing sites pay QuidelOrtho for diagnostic instruments and assays.",
+  "evidence": "We currently sell our products directly to end users through a direct sales force and through a network of distributors"
  },
- "changes": [],
- "dropped": [
-  "product not in text (North America): diagnostic testing products",
-  "product not in text (EMEA): diagnostic testing products",
-  "product not in text (China): diagnostic testing products",
-  "product not in text (JPAC): diagnostic testing products",
-  "product not in text (Latin America): diagnostic testing products"
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025 JPAC became a separately reported segment, having previously been included in Other.",
+   "evidence": "Beginning in the fourth quarter of 2025, we determined that the JPAC segment, previously included in \"Other,\" meets the quantitative thresholds for separate reporting under ASC 280."
+  },
+  {
+   "text": "In 2024 QuidelOrtho began winding down its U.S. donor screening portfolio.",
+   "evidence": "In February 2024, we initiated a wind-down plan to transition out of the U.S. donor screening portfolio."
+  }
  ],
+ "dropped": [],
  "reader": "agent"
 }

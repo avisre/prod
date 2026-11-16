@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001604778",
  "issuerName": "Qorvo, Inc.",
- "builtAt": "2026-11-16T04:33:02.240Z",
+ "builtAt": "2026-11-16T04:37:23.801Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-032873",
@@ -15,40 +15,41 @@
   {
    "name": "High Performance Analog",
    "products": [
-    "switches",
-    "filters",
-    "LNA modules",
-    "discrete LNAs",
-    "variable gain amplifiers",
-    "control circuits"
+    "radio frequency",
+    "analog mixed signal",
+    "power management solutions"
    ],
-   "description": "Sells analog and RF semiconductor products.",
-   "evidence": "We are organized into three operating and reportable segments that align our technologies and applications with customers and end markets: High Performance Analog (\"HPA\"), Connectivity and Sensors Group (\"CSG\") and Advanced Cellular Group (\"ACG\")."
+   "description": "Supplies radio frequency, analog mixed signal and power management semiconductor solutions to customers worldwide.",
+   "evidence": "HPA is a leading global supplier of radio frequency (\"RF\"), analog mixed signal and power management solutions."
   },
   {
    "name": "Connectivity and Sensors Group",
    "products": [
-    "sensors"
+    "ultra-wideband",
+    "Bluetooth",
+    "Zigbee",
+    "Thread",
+    "Wi-Fi",
+    "cellular solutions"
    ],
-   "description": "Sells connectivity and sensor products.",
-   "evidence": "We are organized into three operating and reportable segments that align our technologies and applications with customers and end markets: High Performance Analog (\"HPA\"), Connectivity and Sensors Group (\"CSG\") and Advanced Cellular Group (\"ACG\")."
+   "description": "Supplies connectivity solutions spanning ultra-wideband, Bluetooth Low Energy, Zigbee, Thread, Wi-Fi and cellular for the Internet of Things.",
+   "evidence": "CSG is a leading global supplier of connectivity solutions"
   },
   {
    "name": "Advanced Cellular Group",
-   "products": [],
-   "description": "Sells cellular RF components.",
-   "evidence": "We are organized into three operating and reportable segments that align our technologies and applications with customers and end markets: High Performance Analog (\"HPA\"), Connectivity and Sensors Group (\"CSG\") and Advanced Cellular Group (\"ACG\")."
+   "products": [
+    "advanced cellular solutions"
+   ],
+   "description": "Supplies advanced cellular solutions for smartphones, wearables, laptops, tablets and other devices.",
+   "evidence": "ACG is a leading global supplier of advanced cellular solutions for smartphones, wearables, laptops, tablets and other devices."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Phone, network and defense customers buy its RF chips.",
-  "evidence": "Qorvo's cellular infrastructure products include switches, filters, LNA modules, discrete LNAs, variable gain amplifiers and control circuits."
+  "text": "Device makers and distributors pay Qorvo for radio frequency, power management, connectivity and cellular semiconductor solutions.",
+  "evidence": "We sell our products worldwide both directly to customers and through a network of U.S. and foreign sales representative firms and distributors."
  },
  "changes": [],
- "dropped": [
-  "product not in text (Connectivity and Sensors Group): connectivity products",
-  "product not in text (Advanced Cellular Group): cellular components"
- ],
+ "dropped": [],
  "reader": "agent"
 }

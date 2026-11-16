@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0002020795",
+ "issuerName": "Uniti Group Inc.",
+ "builtAt": "2026-11-16T04:38:26.333Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013196",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/2020795/000162828026013196/unit-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Kinetic",
+   "products": [
+    "residential, business and wholesale operations"
+   ],
+   "description": "Runs its residential and business telecom operations.",
+   "evidence": "Following the Merger, our operations are organized into three business segments: Kinetic, Uniti Solutions and Fiber Infrastructure, which are described in more detail below and in Note 15 to our consolidated financial statements contained in Part II, Item 8."
+  },
+  {
+   "name": "Uniti Solutions",
+   "products": [],
+   "description": "Provides wholesale infrastructure services.",
+   "evidence": "Following the Merger, our operations are organized into three business segments: Kinetic, Uniti Solutions and Fiber Infrastructure, which are described in more detail below and in Note 15 to our consolidated financial statements contained in Part II, Item 8."
+  },
+  {
+   "name": "Fiber Infrastructure",
+   "products": [],
+   "description": "Owns fiber infrastructure.",
+   "evidence": "Following the Merger, our operations are organized into three business segments: Kinetic, Uniti Solutions and Fiber Infrastructure, which are described in more detail below and in Note 15 to our consolidated financial statements contained in Part II, Item 8."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residential, business and wholesale customers pay for connectivity.",
+  "evidence": "Following the Merger, our operations are organized into three business segments: Kinetic, Uniti Solutions and Fiber Infrastructure, which are described in more detail below and in Note 15 to our consolidated financial statements contained in Part II, Item 8."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Uniti Solutions): fiber and wireless infrastructure",
+  "product not in text (Fiber Infrastructure): fiber infrastructure"
+ ],
+ "reader": "agent"
+}

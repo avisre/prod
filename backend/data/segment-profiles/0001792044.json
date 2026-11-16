@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001792044",
+ "issuerName": "VIATRIS INC.",
+ "builtAt": "2026-11-16T04:38:28.223Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001792044-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1792044/000179204426000013/vtrs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Developed Markets",
+   "products": [],
+   "description": "Sells medicines in developed markets.",
+   "evidence": "Business Segments Viatris has four reportable segments: Developed Markets, Greater China, JANZ, and Emerging Markets."
+  },
+  {
+   "name": "Greater China",
+   "products": [
+    "medicines"
+   ],
+   "description": "Sells medicines in Greater China.",
+   "evidence": "Business Segments Viatris has four reportable segments: Developed Markets, Greater China, JANZ, and Emerging Markets."
+  },
+  {
+   "name": "JANZ",
+   "products": [
+    "medicines"
+   ],
+   "description": "Sells medicines in Japan, Australia and New Zealand.",
+   "evidence": "Business Segments Viatris has four reportable segments: Developed Markets, Greater China, JANZ, and Emerging Markets."
+  },
+  {
+   "name": "Emerging Markets",
+   "products": [
+    "medicines"
+   ],
+   "description": "Sells medicines in emerging markets.",
+   "evidence": "Business Segments Viatris has four reportable segments: Developed Markets, Greater China, JANZ, and Emerging Markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies, wholesalers and governments buy its medicines.",
+  "evidence": "Viatris provides unique reach through four segments – Developed Markets, Emerging Markets, JANZ, and Greater China – across more than 165 countries and territories."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Developed Markets): generic and branded medicines"
+ ],
+ "reader": "agent"
+}

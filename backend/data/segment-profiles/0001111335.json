@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001111335",
+ "issuerName": "VISTEON CORP",
+ "builtAt": "2026-11-16T04:38:27.031Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001111335-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1111335/000111133526000006/vc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronics",
+   "products": [
+    "digital instrument clusters",
+    "information displays",
+    "infotainment",
+    "cockpit domain controllers",
+    "battery management systems",
+    "high voltage power electronics"
+   ],
+   "description": "Makes automotive cockpit electronics.",
+   "evidence": "The Electronics segment provides products and services to customers, including digital instrument clusters, information displays, infotainment, cockpit domain controllers, CognitoAI TM , battery management systems, high voltage power electronics, and engineering services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Car makers buy its cockpit electronics and displays.",
+  "evidence": "As the Company has one reportable segment, net sales, total assets, depreciation, amortization and capital expenditures are equal to consolidated results."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002025410",
  "issuerName": "StandardAero, Inc.",
- "builtAt": "2026-11-16T04:33:04.819Z",
+ "builtAt": "2026-11-16T04:37:24.735Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-072618",
@@ -10,10 +10,35 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/2025410/000119312526072618/saro-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engine Services",
+   "products": [
+    "maintenance, repair and overhaul",
+    "on-wing and field service support",
+    "asset management",
+    "engineering and related solutions"
+   ],
+   "description": "Provides aftermarket maintenance, repair and overhaul of gas turbine engines and airframes for commercial aerospace, military, helicopter and business aviation customers.",
+   "evidence": "Our Engine Services segment provides a full suite of aftermarket services, including maintenance, repair and overhaul, on-wing and field service support, asset management, and engineering and related solutions to customers in the commercial aerospace, military and helicopter, and business aviation end markets."
+  },
+  {
+   "name": "Component Repair Services",
+   "products": [
+    "engine component and accessory repairs",
+    "repair development engineering",
+    "engine new part manufacturing"
+   ],
+   "description": "Repairs engine components and accessories and provides repair development engineering for commercial aerospace, military and other customers.",
+   "evidence": "Our Component Repair Services segment provides engine component and accessory repairs to commercial aerospace, military and other end markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Aircraft operators, lessors and manufacturers pay StandardAero for engine overhaul, component repair, field support and related engineering services.",
+  "evidence": "Revenue in the Engine Services segment is primarily derived from the repair and overhaul of a wide variety of gas turbine engines and auxiliary power units that power fixed and rotary wing aircraft."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

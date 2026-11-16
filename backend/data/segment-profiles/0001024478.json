@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001024478",
  "issuerName": "Rockwell Automation, Inc.",
- "builtAt": "2026-11-16T04:33:03.809Z",
+ "builtAt": "2026-11-16T04:37:24.384Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001024478-25-000116",
@@ -23,34 +23,41 @@
     "industrial components",
     "configured-to-order products"
    ],
-   "description": "Sells automation hardware.",
-   "evidence": "Operating Segments We have three operating segments: Intelligent Devices, Software & Control, and Lifecycle Services."
+   "description": "Builds drives, motion, safety, sensing and other industrial components and configured-to-order products for automation customers.",
+   "evidence": "The Intelligent Devices segment includes drives, motion, advanced material handling, safety, sensing, industrial components, and configured-to-order products."
   },
   {
    "name": "Software & Control",
    "products": [
-    "software"
+    "control and visualization software and hardware",
+    "digital twin",
+    "simulation and information software",
+    "network and security infrastructure"
    ],
-   "description": "Sells control and software products.",
-   "evidence": "Operating Segments We have three operating segments: Intelligent Devices, Software & Control, and Lifecycle Services."
+   "description": "Supplies control and visualization software and hardware, digital twin and simulation software, and network and security infrastructure.",
+   "evidence": "The Software & Control segment includes control and visualization software and hardware, digital twin, simulation and information software, and network and security infrastructure."
   },
   {
    "name": "Lifecycle Services",
    "products": [
-    "services"
+    "digital consulting",
+    "professional services",
+    "recurring services",
+    "cybersecurity",
+    "remote monitoring",
+    "asset management",
+    "Sensia"
    ],
-   "description": "Provides maintenance and lifecycle services.",
-   "evidence": "Operating Segments We have three operating segments: Intelligent Devices, Software & Control, and Lifecycle Services."
+   "description": "Provides consulting, engineered-to-order and recurring services such as cybersecurity, remote monitoring and asset management for industrial customers.",
+   "evidence": "The Lifecycle Services segment includes digital consulting, professional services including engineered-to-order solutions, recurring services including cybersecurity, safety, remote monitoring, and asset management, and the Sensia joint venture."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Manufacturers buy its automation hardware, software and services.",
-  "evidence": "The Intelligent Devices segment includes drives, motion, advanced material handling, safety, sensing, industrial components, and configured-to-order products."
+  "text": "Industrial manufacturers and process companies pay Rockwell Automation for automation hardware, software and lifecycle services.",
+  "evidence": "Major markets served by all segments consist of discrete end markets (e.g., Automotive including Electric Vehicle and Battery, Semiconductor, and e-Commerce & Warehouse Automation)"
  },
  "changes": [],
- "dropped": [
-  "product not in text (Software & Control): control products"
- ],
+ "dropped": [],
  "reader": "agent"
 }

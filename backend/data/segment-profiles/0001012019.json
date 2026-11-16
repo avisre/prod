@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001012019",
  "issuerName": "RUSH ENTERPRISES, INC",
- "builtAt": "2026-11-16T04:33:04.216Z",
+ "builtAt": "2026-11-16T04:37:24.543Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005424",
@@ -15,16 +15,22 @@
   {
    "name": "Truck Segment",
    "products": [
-    "commercial vehicle dealerships"
+    "new and used commercial vehicles",
+    "aftermarket parts",
+    "service and repair",
+    "financing",
+    "leasing and rental",
+    "insurance products",
+    "Rush Truck Centers"
    ],
-   "description": "Runs commercial truck dealerships through Rush Truck Centers.",
-   "evidence": "consists of one reportable segment, the Truck Segment, and conducts business through its subsidiaries."
+   "description": "Operates commercial vehicle dealerships selling new and used trucks, parts, service, financing, leasing, rental and insurance to fleet customers.",
+   "evidence": "The Truck Segment includes our operation of a network of commercial vehicle dealerships under the name \"Rush Truck Centers.\""
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Fleets and owners buy and service trucks and parts.",
-  "evidence": "The Truck Segment includes our operation of a network of commercial vehicle dealerships under the name \"Rush Truck Centers."
+  "text": "Commercial vehicle customers pay Rush Enterprises for new and used trucks, aftermarket parts, service, financing, leasing and insurance.",
+  "evidence": "we provide one-stop service for the needs of our commercial vehicle customers, including retail sales of new and used commercial vehicles, aftermarket parts sales, service and repair facilities, financing, leasing and rental, and insurance products"
  },
  "changes": [],
  "dropped": [],

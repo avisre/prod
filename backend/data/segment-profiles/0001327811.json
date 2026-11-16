@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001327811",
+ "issuerName": "Workday, Inc.",
+ "builtAt": "2026-11-16T04:38:28.793Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001327811-26-000014",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1327811/000132781126000014/wday-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cloud applications",
+   "products": [],
+   "description": "Sells cloud applications for finance and HR.",
+   "evidence": "Segment Information We operate as a single operating and reportable segment: cloud applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay subscription fees for its cloud applications.",
+  "evidence": "We sell our solutions worldwide through direct sales by our field sales teams; through referrals and our co-selling partners; by reselling through partners; and over Workday Marketplace."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (cloud applications): cloud applications"
+ ],
+ "reader": "agent"
+}

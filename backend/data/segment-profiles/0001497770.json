@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001497770",
+ "issuerName": "Walker & Dunlop, Inc.",
+ "builtAt": "2026-11-16T04:38:28.677Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020249",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1497770/000110465926020249/wd-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

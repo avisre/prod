@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000917273",
  "issuerName": "RAMBUS INC",
- "builtAt": "2026-11-16T04:33:03.326Z",
+ "builtAt": "2026-11-16T04:37:24.321Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-057101",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/917273/000119312526057101/rmbs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "semiconductor",
+   "products": [
+    "Memory Interface Chips",
+    "Silicon IP",
+    "security IP",
+    "DDR5",
+    "HBM",
+    "PCIe",
+    "CXL"
+   ],
+   "description": "Provides memory interface chips and silicon IP for data-intensive computing systems, focused on data center and artificial intelligence infrastructure.",
+   "evidence": "On this basis, the Company is organized and operates as a single segment within the semiconductor space."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Semiconductor and electronic system companies pay Rambus for memory interface chips, silicon IP and patent licences and royalties.",
+  "evidence": "License agreements are structured with fixed or variable, or a hybrid of fixed and variable royalty payments over certain periods"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

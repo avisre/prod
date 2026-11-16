@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001281761",
  "issuerName": "Regions Financial Corporation",
- "builtAt": "2026-11-16T04:33:02.995Z",
+ "builtAt": "2026-11-16T04:37:24.096Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001281761-26-000019",
@@ -15,36 +15,42 @@
   {
    "name": "Corporate Bank",
    "products": [
-    "commercial loans",
-    "deposits"
+    "commercial banking services",
+    "capital markets solutions",
+    "equipment financing",
+    "merger and acquisition advisory services"
    ],
-   "description": "Banks commercial and corporate clients.",
-   "evidence": "Business Segments Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
+   "description": "Provides commercial banking, capital markets, equipment financing and advisory services to businesses and commercial clients.",
+   "evidence": "Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
   },
   {
    "name": "Consumer Bank",
    "products": [
-    "consumer loans",
-    "deposits"
+    "retail and mortgage banking services",
+    "home improvement lending",
+    "investment and insurance products"
    ],
-   "description": "Banks consumers.",
-   "evidence": "Business Segments Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
+   "description": "Provides retail and mortgage banking, home improvement lending and deposit products to individual consumers and small businesses.",
+   "evidence": "Regions carries out its strategies and derives its profitability from three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
   },
   {
    "name": "Wealth Management",
-   "products": [],
-   "description": "Provides wealth and investment services.",
-   "evidence": "Business Segments Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
+   "products": [
+    "wealth and investment services",
+    "investment advisory services",
+    "asset management",
+    "broker-dealer services"
+   ],
+   "description": "Provides wealth and investment services, investment advisory, asset management and broker-dealer services to individuals and institutions.",
+   "evidence": "Regions provides financial solutions for a wide range of clients including retail and mortgage banking services, commercial banking services and wealth and investment services."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Borrowers pay interest and fees, and depositors are paid on balances.",
-  "evidence": "Business Segments Regions operates under three reportable segments: Corporate Bank, Consumer Bank, and Wealth Management, with the remainder in Other."
+  "text": "Clients pay Regions interest and fees on loans and deposits and fees for banking, wealth and investment advisory services.",
+  "evidence": "Regions provides financial solutions for a wide range of clients including retail and mortgage banking services, commercial banking services and wealth and investment services."
  },
  "changes": [],
- "dropped": [
-  "product not in text (Wealth Management): wealth management services"
- ],
+ "dropped": [],
  "reader": "agent"
 }

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001665918",
+ "issuerName": "US FOODS HOLDING CORP.",
+ "builtAt": "2026-11-16T04:38:35.632Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001665918-26-000008",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1665918/000166591826000008/usfd-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "food products",
+   "products": [
+    "fresh, frozen, and dry food products",
+    "non-food items"
+   ],
+   "description": "Distributes food and supplies to foodservice operators.",
+   "evidence": "We operate as one business with standardized business processes, shared systems infrastructure, and an organizational model that optimizes national scale with local execution, allowing us to manage our business as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Restaurants and foodservice operators buy food and supplies.",
+  "evidence": "We operate as one business with standardized business processes, shared systems infrastructure, and an organizational model that optimizes national scale with local execution, allowing us to manage our business as a single operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001724521",
  "issuerName": "Arcus Biosciences, Inc.",
- "builtAt": "2026-11-16T04:33:02.470Z",
+ "builtAt": "2026-11-16T04:37:23.942Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001724521-26-000009",
@@ -13,18 +13,21 @@
  "status": "ok",
  "segments": [
   {
-   "name": "oncology",
+   "name": "biopharmaceutical",
    "products": [
-    "casdatifan"
+    "Casdatifan",
+    "Domvanalimab",
+    "Quemliclustat",
+    "Zimberelimab"
    ],
-   "description": "Develops immunotherapies for kidney and other cancers.",
-   "evidence": "We operate and manage our business as one reportable and operating segment."
+   "description": "Develops small-molecule and antibody therapies for cancer and inflammatory and autoimmune diseases, with partners, and has no approved products.",
+   "evidence": "We operate and manage our business as one reportable and operating segment, which is the business of developing and commercializing highly differentiated therapies that have a meaningful impact on patients."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Partners pay milestones and royalties under collaborations.",
-  "evidence": "and cabozantinib in ccRCC patients that have received prior immunotherapy, which we believe has a potential global peak sales opport"
+  "text": "Strategic partners pay Arcus upfront and milestone payments, research and development support and clinical materials reimbursement rather than paying for products.",
+  "evidence": "Our revenues to date have been primarily from upfront and milestone payments, R&D support and clinical materials reimbursement from our strategic partners."
  },
  "changes": [],
  "dropped": [],

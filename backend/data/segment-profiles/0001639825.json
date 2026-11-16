@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001639825",
  "issuerName": "Peloton Interactive, Inc.",
- "builtAt": "2026-11-16T04:33:01.708Z",
+ "builtAt": "2026-11-16T04:37:23.570Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001639825-26-000038",
@@ -10,10 +10,40 @@
   "filingDate": "2026-08-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1639825/000163982526000038/pton-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Connected Fitness Products",
+   "products": [
+    "Peloton Original Series",
+    "Peloton Cross Training Series",
+    "Peloton Pro Series",
+    "Precor Products",
+    "related accessories",
+    "branded apparel"
+   ],
+   "description": "Sells connected fitness hardware such as bikes, treads and rowers, plus accessories, delivery and installation, warranties and apparel.",
+   "evidence": "The Connected Fitness Products segment primarily derives revenue from the sale of the Company's portfolio of Connected Fitness Products and related accessories, including Precor-branded fitness products, delivery and installation services"
+  },
+  {
+   "name": "Subscription",
+   "products": [
+    "Paid Connected Fitness Subscription",
+    "Paid App Subscriptions",
+    "Peloton App+",
+    "App One",
+    "Strength+",
+    "Breathwrk"
+   ],
+   "description": "Sells monthly and prepaid subscriptions giving Members access to Instructor-led classes through Peloton equipment and apps.",
+   "evidence": "The Company has two reportable segments: Connected Fitness Products and Subscription."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Members pay for connected fitness hardware and for recurring subscriptions to Peloton equipment and app content.",
+  "evidence": "include all subscriptions to our Peloton Apps for which we currently receive payment"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

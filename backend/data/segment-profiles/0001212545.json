@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001212545",
+ "issuerName": "WESTERN ALLIANCE BANCORPORATION",
+ "builtAt": "2026-11-16T04:38:28.374Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010336",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1212545/000162828026010336/wal-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial",
+   "products": [
+    "commercial banking",
+    "treasury management",
+    "specialized banking services"
+   ],
+   "description": "Banks commercial and niche-industry clients.",
+   "evidence": "The Company's operating segments are aggregated with a focus on products and services offered and consist of three reportable segments: • Commercial: provides commercial banking and treasury management products and services to small and middle-market businesses, specialized banking services to sophisticated commercial institutions and investors within niche industries, as well as financial services to the real"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay interest and fees on loans and treasury services.",
+  "evidence": "The Company's operating segments are aggregated with a focus on products and services offered and consist of three reportable segments: • Commercial: provides commercial banking and treasury management products and services to small and middle-market businesses, specialized banking services to sophisticated commercial institutions and investors within niche industries, as well as financial services to the real"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

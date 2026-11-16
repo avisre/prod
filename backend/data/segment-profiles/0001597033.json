@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001597033",
  "issuerName": "Sabre Corporation",
- "builtAt": "2026-11-16T04:33:04.731Z",
+ "builtAt": "2026-11-16T04:37:24.691Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-008800",
@@ -13,24 +13,26 @@
  "status": "ok",
  "segments": [
   {
-   "name": "travel technology",
+   "name": "travel marketplace",
    "products": [
-    "software technology products",
-    "software-as-a-service (\"SaaS\")"
+    "Sabre Mosaic Marketplace",
+    "global distribution network",
+    "software technology products and solutions for airlines",
+    "distribution platform"
    ],
-   "description": "Sells travel software to airlines and travel suppliers.",
-   "evidence": "Business Segments and Products We manage and report our business in one reportable segment following the disposition of our Hospitality Solutions business during 2025."
+   "description": "Runs a business-to-business travel marketplace connecting airlines, hotels and other travel suppliers with travel buyers, plus airline software solutions.",
+   "evidence": "We manage and report our business in one reportable segment following the disposition of our Hospitality Solutions business during 2025."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Airlines and travel suppliers pay for software and hosted services.",
-  "evidence": "Business Segments and Products We manage and report our business in one reportable segment following the disposition of our Hospitality Solutions business during 2025."
+  "text": "Travel suppliers and travel buyers pay Sabre transaction-based fees for bookings and for software technology solutions.",
+  "evidence": "A significant portion of our revenue is generated through transaction-based fees that we charge to our customers."
  },
  "changes": [
   {
-   "text": "Reports one segment after disposing of its Hospitality Solutions business in 2025.",
-   "evidence": "Business Segments and Products We manage and report our business in one reportable segment following the disposition of our Hospitality Solutions business during 2025."
+   "text": "In 2025 Sabre sold its Hospitality Solutions business to an affiliate of TPG and now reports one segment.",
+   "evidence": "On July 3, 2025, we closed the transaction (the \"Hospitality Solutions Sale\"), resulting in cash proceeds of $965 million"
   }
  ],
  "dropped": [],

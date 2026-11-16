@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000933036",
+ "issuerName": "Upbound Group, Inc.",
+ "builtAt": "2026-11-16T04:38:26.373Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000933036-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/933036/000093303626000008/upbd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Acima",
+   "products": [
+    "lease-to-own solutions"
+   ],
+   "description": "Offers lease-to-own through retailers online and in stores.",
+   "evidence": "Our Acima segment offers lease-to-own solutions through retailers in stores and online enabling such retailers to grow sales by expanding their customer base utilizing our diffe"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay lease payments; retailers gain sales.",
+  "evidence": "We provide a critical service for underserved consumers by providing them with access to, and the opportunity to obtain ownership of, high-quality, name brand durable products under a flexible lease-purchase agreement with no long-term debt obligation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

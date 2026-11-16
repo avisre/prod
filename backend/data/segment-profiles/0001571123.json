@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001571123",
  "issuerName": "Science Applications International Corporation",
- "builtAt": "2026-11-16T04:33:04.795Z",
+ "builtAt": "2026-11-16T04:37:24.728Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001571123-26-000029",
@@ -15,24 +15,33 @@
   {
    "name": "Defense and Intelligence",
    "products": [
-    "engineering and technical services"
+    "national security solutions",
+    "IT modernization",
+    "digital engineering",
+    "mission systems support and advisory",
+    "training and simulation",
+    "ground vehicles support"
    ],
-   "description": "Serves defense and intelligence agencies.",
-   "evidence": "Our two reportable segments are the Defense and Intelligence segment and the Civilian segment."
+   "description": "Provides national security solutions, including IT modernization, digital engineering and mission systems support, to the Defense Department and Intelligence Community.",
+   "evidence": "The Defense and Intelligence segment provides a diverse portfolio of national security solutions to the DoW and the Intelligence Community of the United States Government."
   },
   {
    "name": "Civilian",
    "products": [
-    "engineering and technical services"
+    "border security",
+    "IT modernization",
+    "digital engineering",
+    "training and simulation",
+    "ground vehicles support"
    ],
-   "description": "Serves civilian agencies.",
-   "evidence": "Our two reportable segments are the Defense and Intelligence segment and the Civilian segment."
+   "description": "Provides technology and mission support solutions to federal, state and local civilian agencies for citizen services, border security and public safety.",
+   "evidence": "The Civilian segment provides solutions to the civilian markets, encompassing federal, state, and local governments, in order to deliver services for citizen well-being, border security, and protecting lives."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Government agencies pay for services and IT work.",
-  "evidence": "The five business groups, which are also our operating segments, are aggregated into two reportable segments for financial reporting purposes given the similarity in economic and qualitative characteristics, and based on the nature of the customers they serve."
+  "text": "U.S. government defense, intelligence and civilian agencies pay SAIC for technology integration, engineering, training and mission support services.",
+  "evidence": "The offerings of both reportable segments entail the integration of emerging technologies into mission critical operations"
  },
  "changes": [],
  "dropped": [],

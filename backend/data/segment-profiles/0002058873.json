@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002058873",
  "issuerName": "QNITY ELECTRONICS, INC.",
- "builtAt": "2026-11-16T04:33:02.160Z",
+ "builtAt": "2026-11-16T04:37:23.760Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002058873-26-000010",
@@ -15,26 +15,34 @@
   {
    "name": "Semiconductor Technologies",
    "products": [
-    "materials and solutions"
+    "CMP Pads",
+    "Lithographic Materials",
+    "Advanced Cleans and CMP Slurries",
+    "Kalrez",
+    "IC1000"
    ],
-   "description": "Supplies materials for semiconductor manufacturing.",
-   "evidence": "We have aligned our businesses, and report our financial results, across two operating segments: • Semiconductor Technologies: Our Semiconductor Technologies segment provides a portfolio of innovative materials and solutions utilized across multiple stages of the semiconductor manufacturing process."
+   "description": "Supplies consumable materials such as CMP pads, slurries, cleaning chemistries and lithographic materials used at multiple stages of semiconductor manufacturing.",
+   "evidence": "Our Semiconductor Technologies segment provides a portfolio of innovative materials and solutions utilized across multiple stages of the semiconductor manufacturing process."
   },
   {
    "name": "Interconnect Solutions",
-   "products": [],
-   "description": "Sells interconnect products.",
-   "evidence": "• Interconnect Solutions: Our Interconnect Solutions segment offers what we believe to be a comprehensive range of best-in-class"
+   "products": [
+    "Kapton",
+    "Pyralux",
+    "Riston",
+    "Laird Technologies",
+    "Tputty"
+   ],
+   "description": "Supplies materials for signal integrity, thermal and power management and advanced packaging used in circuit boards and semiconductor packaging.",
+   "evidence": "Our Interconnect Solutions segment offers what we believe to be a comprehensive range of best-in-class material solutions that address the evolving complexities of signal integrity, thermal and power management and advanced packaging."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Chip makers buy its materials and interconnect products.",
-  "evidence": "We have aligned our businesses, and report our financial results, across two operating segments: • Semiconductor Technologies: Our Semiconductor Technologies segment provides a portfolio of innovative materials and solutions utilized across multiple stages of the semiconductor manufacturing process."
+  "text": "Chipmakers, foundries, equipment providers and OEMs pay Qnity for consumable materials specified into their manufacturing processes.",
+  "evidence": "we partner with original equipment manufacturers (\"OEMs\") who specify our products into their manufacturing process"
  },
  "changes": [],
- "dropped": [
-  "product not in text (Interconnect Solutions): interconnect products"
- ],
+ "dropped": [],
  "reader": "agent"
 }

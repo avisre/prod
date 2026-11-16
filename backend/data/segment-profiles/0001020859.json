@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001020859",
+ "issuerName": "United Natural Foods, Inc.",
+ "builtAt": "2026-11-16T04:38:26.308Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001020859-26-000025",
+  "periodEnd": "2026-08-01",
+  "filingDate": "2026-09-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1020859/000102085926000025/unfi-20260801.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural",
+   "products": [],
+   "description": "Distributes natural and organic products.",
+   "evidence": "Our business is classified into three reportable segments: Natural, Conventional and Retail."
+  },
+  {
+   "name": "Conventional",
+   "products": [
+    "conventional products"
+   ],
+   "description": "Distributes conventional groceries.",
+   "evidence": "Our business is classified into three reportable segments: Natural, Conventional and Retail."
+  },
+  {
+   "name": "Retail",
+   "products": [],
+   "description": "Runs retail grocery stores.",
+   "evidence": "Our business is classified into three reportable segments: Natural, Conventional and Retail."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Grocery retailers buy its products wholesale; shoppers buy in its stores.",
+  "evidence": "We offer over 200,000 products consisting of national, regional and private label brands grouped into the following main product categories: center store and general merchandise; fresh and perishables; frozen; wellness and personal care; and bulk and foodservice."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Natural): natural products",
+  "product not in text (Retail): retail groceries"
+ ],
+ "reader": "agent"
+}

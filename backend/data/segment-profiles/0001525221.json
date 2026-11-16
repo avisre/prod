@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001525221",
+ "issuerName": "Bristow Group Inc.",
+ "builtAt": "2026-11-16T04:38:28.198Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001525221-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1525221/000152522126000013/vtol-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Offshore Energy Services",
+   "products": [],
+   "description": "Flies crews to offshore energy installations.",
+   "evidence": "Segments and Markets Our business is comprised of three operating segments: Offshore Energy Services, Government Services and Other Services."
+  },
+  {
+   "name": "Government Services",
+   "products": [
+    "search and rescue"
+   ],
+   "description": "Provides government aviation and search and rescue.",
+   "evidence": "Segments and Markets Our business is comprised of three operating segments: Offshore Energy Services, Government Services and Other Services."
+  },
+  {
+   "name": "Other Services",
+   "products": [
+    "aviation services"
+   ],
+   "description": "Provides other aviation services.",
+   "evidence": "Segments and Markets Our business is comprised of three operating segments: Offshore Energy Services, Government Services and Other Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Energy companies and governments pay for helicopter flights.",
+  "evidence": "Our government customers primarily outsource SAR activities whereby we operate specialized helicopters and provide highly trained personnel."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Offshore Energy Services): helicopter transportation",
+  "product not in text (Government Services): government aviation"
+ ],
+ "reader": "agent"
+}

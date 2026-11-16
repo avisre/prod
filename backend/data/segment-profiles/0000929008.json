@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000929008",
+ "issuerName": "WESCO International, Inc.",
+ "builtAt": "2026-11-16T04:38:28.644Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000929008-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/929008/000092900826000008/wcc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electrical & Electronic Solutions",
+   "products": [],
+   "description": "Distributes electrical and electronic products.",
+   "evidence": "Business Segments and Industry Overview Wesco has operating segments comprising three strategic business units consisting of Electrical & Electronic Solutions (\"EES\"), Communications & Security Solutions (\"CSS\") and Utility & Broadband Solutions (\"UBS\")."
+  },
+  {
+   "name": "Communications & Security Solutions",
+   "products": [],
+   "description": "Distributes communications and security products.",
+   "evidence": "Business Segments and Industry Overview Wesco has operating segments comprising three strategic business units consisting of Electrical & Electronic Solutions (\"EES\"), Communications & Security Solutions (\"CSS\") and Utility & Broadband Solutions (\"UBS\")."
+  },
+  {
+   "name": "Utility & Broadband Solutions",
+   "products": [],
+   "description": "Distributes utility and broadband products.",
+   "evidence": "Business Segments and Industry Overview Wesco has operating segments comprising three strategic business units consisting of Electrical & Electronic Solutions (\"EES\"), Communications & Security Solutions (\"CSS\") and Utility & Broadband Solutions (\"UBS\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Contractors and industrial customers buy its products and services.",
+  "evidence": "Business Segments and Industry Overview Wesco has operating segments comprising three strategic business units consisting of Electrical & Electronic Solutions (\"EES\"), Communications & Security Solutions (\"CSS\") and Utility & Broadband Solutions (\"UBS\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electrical & Electronic Solutions): electrical products",
+  "product not in text (Electrical & Electronic Solutions): electronic products",
+  "product not in text (Communications & Security Solutions): communications products",
+  "product not in text (Communications & Security Solutions): security products",
+  "product not in text (Utility & Broadband Solutions): utility products",
+  "product not in text (Utility & Broadband Solutions): broadband products"
+ ],
+ "reader": "agent"
+}

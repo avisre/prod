@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001524358",
+ "issuerName": "Marriott Vacations Worldwide Corp",
+ "builtAt": "2026-11-16T04:38:26.994Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001524358-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1524358/000152435826000010/vac-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vacation Ownership",
+   "products": [
+    "timeshare interests"
+   ],
+   "description": "Sells and finances vacation ownership interests.",
+   "evidence": "Our business operates in two reportable segments: Vacation Ownership and Exchange & Third-Party Management."
+  },
+  {
+   "name": "Exchange & Third-Party Management",
+   "products": [
+    "exchange services",
+    "management services"
+   ],
+   "description": "Runs exchange networks and manages resorts for others.",
+   "evidence": "Our business operates in two reportable segments: Vacation Ownership and Exchange & Third-Party Management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Owners buy timeshares and pay dues and exchange fees.",
+  "evidence": "In the United States, most vacation ownership products are sold as timeshare estates, which can be structured in a variety of ways, including a deeded real estate interest in a specified accommodation unit, an undivided interest in a building or an entire resort, or a beneficial interest in a trust that owns one or more"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

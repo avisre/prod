@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001740332",
  "issuerName": "Resideo Technologies, Inc.",
- "builtAt": "2026-11-16T04:33:02.681Z",
+ "builtAt": "2026-11-16T04:37:24.064Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001740332-26-000005",
@@ -10,11 +10,44 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1740332/000174033226000005/rezi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Products and Solutions",
+   "products": [
+    "Braukmann",
+    "BRK",
+    "First Alert",
+    "Honeywell Home",
+    "Resideo",
+    "temperature and humidity control",
+    "smoke and carbon monoxide detection home safety products"
+   ],
+   "description": "Makes and sells branded comfort, energy management, safety and security products such as thermostats, smoke alarms, cameras and water solutions.",
+   "evidence": "Our products and solutions for comfort, energy management, safety, and security benefit from trusted, well-established branded offerings such as Braukmann, BRK, First Alert, Honeywell Home, Resideo, and others."
+  },
+  {
+   "name": "ADI Global Distribution",
+   "products": [
+    "low-voltage products",
+    "security and audio-visual",
+    "exclusive brands"
+   ],
+   "description": "Distributes professionally installed low-voltage products, including security and audio-visual solutions, to licensed installers, dealers and integrators.",
+   "evidence": "Our ADI Global Distribution segment is a leading, global specialty distributor of professionally installed low-voltage products, including security and audio-visual (\"AV\") solutions, serving commercial and residential markets through an omnichannel go-to-market platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Homeowners, businesses, professional installers and dealers pay Resideo for comfort, safety and security products and for distributed low-voltage products.",
+  "evidence": "ADI Global Distribution sells primarily to licensed professional installers, dealers, and integrators."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Resideo announced its intention to separate the ADI Global Distribution segment through a tax-free spin-off.",
+   "evidence": "On July 30, 2025, we announced our intention to separate the ADI Global Distribution segment through a tax-free spin-off to our shareholders"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

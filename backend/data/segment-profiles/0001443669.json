@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001443669",
  "issuerName": "Proto Labs, Inc.",
- "builtAt": "2026-11-16T04:33:01.438Z",
+ "builtAt": "2026-11-16T04:37:23.363Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001443669-26-000010",
@@ -10,10 +10,36 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1443669/000144366926000010/prlb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "Injection Molding",
+    "CNC Machining",
+    "3D Printing",
+    "Sheet Metal"
+   ],
+   "description": "Provides custom injection molds, machined parts and fabricated sheet metal parts to product developers and engineers in the United States.",
+   "evidence": "Our operations are comprised of two geographic operating segments in the United States and Europe."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Injection Molding",
+    "CNC Machining",
+    "3D Printing",
+    "Sheet Metal"
+   ],
+   "description": "Provides custom injection molds, machined parts and fabricated sheet metal parts to product developers and engineers in Europe.",
+   "evidence": "Loss from operations for Europe increased $1.6 million for 2025 compared with 2024"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Proto Labs for custom parts and molds made through injection molding, CNC machining and sheet metal fabrication.",
+  "evidence": "CNC Machining revenue consists of sales of CNC-machined custom parts."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

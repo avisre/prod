@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001324948",
  "issuerName": "RBC BEARINGS INCORPORATED",
- "builtAt": "2026-11-16T04:33:02.374Z",
+ "builtAt": "2026-11-16T04:37:23.932Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-057626",
@@ -10,10 +10,37 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1324948/000121390026057626/ea0288814-10k_rbcbear.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace & Defense",
+   "products": [
+    "Plain Bearings",
+    "Roller Bearings",
+    "Ball Bearings",
+    "high precision aerospace"
+   ],
+   "description": "Manufactures precision bearings, components and systems for commercial and military aircraft and defense applications.",
+   "evidence": "We report our financial results under two operating segments: Aerospace & Defense and Industrial."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "Plain Bearings",
+    "Roller Bearings",
+    "Ball Bearings",
+    "industrial ball bearings",
+    "gearing and engineered components"
+   ],
+   "description": "Manufactures precision bearings, gearing and engineered components for industrial machinery, mining, construction and other markets.",
+   "evidence": "is an international manufacturer and marketer of highly engineered precision bearings, components and essential systems for the Industrial and Aerospace & Defense markets"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Original equipment manufacturers and distributors pay RBC Bearings for highly engineered precision bearings, components and essential systems.",
+  "evidence": "The Company sells to a wide variety of original equipment manufacturers"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

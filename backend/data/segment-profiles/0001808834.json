@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001808834",
  "issuerName": "PROG HOLDINGS, INC.",
- "builtAt": "2026-11-16T04:33:01.264Z",
+ "builtAt": "2026-11-16T04:37:23.183Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001808834-26-000012",
@@ -15,26 +15,39 @@
   {
    "name": "Progressive Leasing",
    "products": [
-    "point-of-sale lease-to-own solutions"
+    "point-of-sale lease-to-own solutions",
+    "lease-purchase solutions"
    ],
-   "description": "Offers lease-to-own financing at point of sale.",
-   "evidence": "PROG Holdings' operating segments include Progressive Leasing, an in-store, app-based, and e-commerce point-of-sale lease-to-own solutions provider, and Four Technologies, Inc."
+   "description": "Offers in-store, app-based and e-commerce lease-to-own solutions, buying merchandise from retail POS partners and leasing it to consumers who may lack traditional credit.",
+   "evidence": "Progressive Leasing provides in-store, app-based, and e-commerce point-of-sale lease-to-own solutions through approximately 24,000 third-party POS partner locations and e-commerce websites in 45 states, the District of Columbia and Puerto Rico."
   },
   {
-   "name": "Four Technologies",
+   "name": "Four",
    "products": [
-    "lease-to-own solutions"
+    "Buy Now, Pay Later",
+    "BNPL",
+    "Four platform",
+    "mobile app"
    ],
-   "description": "Runs an additional lease-to-own platform.",
-   "evidence": "PROG Holdings' operating segments include Progressive Leasing, an in-store, app-based, and e-commerce point-of-sale lease-to-own solutions provider, and Four Technologies, Inc."
+   "description": "Offers buy now, pay later installment plans through its mobile app, letting consumers split purchases into interest-free payments at retailers.",
+   "evidence": "Four enables consumers of various credit backgrounds to pay for purchases over time through short-term, interest-free installment BNPL plans."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Retailers and consumers pay for lease-to-own financing.",
-  "evidence": "The Progressive Leasing segment comprised approximately 96% of our consolidated revenues for the year ended December 31, 2025."
+  "text": "Consumers pay lease and installment amounts to PROG Holdings, which buys merchandise from retail partners and finances customer purchases.",
+  "evidence": "It does so by purchasing merchandise from the POS partners desired by customers and, in turn, leasing that merchandise to the customers through a cancellable lease-to-own transaction."
  },
- "changes": [],
+ "changes": [
+  {
+   "text": "PROG Holdings sold substantially all of Vive's loan receivables in 2025 and now reports Vive as discontinued operations.",
+   "evidence": "Vive is presented as discontinued operations in the Company's consolidated financial statements."
+  },
+  {
+   "text": "Four became a reportable segment in 2025 as its financial results became significant.",
+   "evidence": "As of December 31, 2025, Four is a reportable segment, as its financial results are considered significant to the Company's consolidated financial results."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001627475",
+ "issuerName": "UPWORK INC.",
+ "builtAt": "2026-11-16T04:38:26.402Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001627475-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1627475/000162747526000012/upwk-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

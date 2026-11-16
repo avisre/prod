@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000912562",
  "issuerName": "GIBRALTAR INDUSTRIES, INC.",
- "builtAt": "2026-11-16T04:33:03.605Z",
+ "builtAt": "2026-11-16T04:37:24.359Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000912562-26-000025",
@@ -10,11 +10,55 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/912562/000091256226000025/rock-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential",
+   "products": [
+    "Trim, coil and flashings",
+    "Gutters",
+    "Roof/siding panels",
+    "Roof and foundation ventilation products",
+    "mail systems and package solutions",
+    "Retractable awnings"
+   ],
+   "description": "Makes residential roofing accessories, rain-carrying products, ventilation and mail systems sold to home improvement retailers, wholesalers and contractors.",
+   "evidence": "Residential Segment Trim, coil and flashings, sofit, fascia, other accessories Roof integrity"
+  },
+  {
+   "name": "Agtech",
+   "products": [
+    "Controlled environmental agriculture",
+    "custom greenhouse solutions",
+    "structures"
+   ],
+   "description": "Designs, engineers and builds greenhouses and controlled environment agriculture structures for growers, retailers and institutions.",
+   "evidence": "Agtech Segment Controlled environmental agriculture, and custom greenhouse solutions including the designing, engineering, manufacturing, full scope construction of structures and integration of subsystems"
+  },
+  {
+   "name": "Infrastructure",
+   "products": [
+    "structural bearings",
+    "expansion joints",
+    "pavement seals",
+    "elastomeric concrete",
+    "bridge cable protection systems"
+   ],
+   "description": "Provides engineered solutions for bridges, highways and airfields, including bearings, expansion joints and pavement seals, to contractors.",
+   "evidence": "Infrastructure Segment Engineered solutions for bridges, highways and airfields, including structural bearings, expansion joints, pavement seals, elastomeric concrete, bridge cable protection systems"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Contractors, home improvement retailers, wholesalers and growers pay Gibraltar for building products, greenhouse structures and engineered infrastructure solutions.",
+  "evidence": "The Company serves customers primarily in the U.S. and Canada including home improvement retailers, wholesalers, distributors, contractors"
+ },
+ "changes": [
+  {
+   "text": "In 2026 Gibraltar acquired OmniMax, which will be reported in the Residential segment.",
+   "evidence": "OmniMax will be reported as part of the Company's Residential segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

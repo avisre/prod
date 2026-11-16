@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001037038",
  "issuerName": "Ralph Lauren Corporation",
- "builtAt": "2026-11-16T04:33:03.295Z",
+ "builtAt": "2026-11-16T04:37:24.303Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-037074",
@@ -16,34 +16,43 @@
    "name": "North America",
    "products": [
     "apparel",
-    "accessories"
+    "handbags",
+    "footwear & accessories",
+    "home",
+    "Ralph Lauren branded"
    ],
-   "description": "Sells its brands in North America.",
-   "evidence": "We organize our business into the following three reportable segments: North America, Europe, and Asia."
+   "description": "Sells Ralph Lauren branded apparel, handbags, footwear, accessories and home products through retail and wholesale in the U.S. and Canada.",
+   "evidence": "Our North America segment, representing approximately 41% of our Fiscal 2026 net revenues, primarily consists of sales of our Ralph Lauren branded apparel, handbags, footwear & accessories, home, and related products made through our retail and wholesale businesses primarily in the U.S. and Canada."
   },
   {
    "name": "Europe",
    "products": [
     "apparel",
-    "accessories"
+    "handbags",
+    "footwear & accessories",
+    "home",
+    "Ralph Lauren branded"
    ],
-   "description": "Sells its brands in Europe.",
-   "evidence": "We organize our business into the following three reportable segments: North America, Europe, and Asia."
+   "description": "Sells Ralph Lauren branded apparel, handbags, footwear, accessories and home products through retail and wholesale in Europe and emerging markets.",
+   "evidence": "Our Europe segment, representing approximately 31% of our Fiscal 2026 net revenues, primarily consists of sales of our Ralph Lauren branded apparel, handbags, footwear & accessories, home, and related products made through our retail and wholesale businesses in Europe and emerging markets."
   },
   {
    "name": "Asia",
    "products": [
     "apparel",
-    "accessories"
+    "handbags",
+    "footwear & accessories",
+    "home",
+    "Ralph Lauren branded"
    ],
-   "description": "Sells its brands in Asia.",
-   "evidence": "We organize our business into the following three reportable segments: North America, Europe, and Asia."
+   "description": "Sells Ralph Lauren branded apparel, handbags, footwear, accessories and home products through retail and wholesale in Asia, Australia and New Zealand.",
+   "evidence": "Our Asia segment, representing approximately 26% of our Fiscal 2026 net revenues, primarily consists of sales of our Ralph Lauren branded apparel, handbags, footwear & accessories, home, and related products made through our retail and wholesale businesses in Asia, Australia, and New Zealand."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Consumers buy apparel through stores, concessions and digital commerce.",
-  "evidence": "We sell directly to consumers through our integrated retail channel, which includes our retail stores, concession-based shop-within-shops, and digital commerce operations around the world."
+  "text": "Consumers and wholesale customers pay Ralph Lauren for branded apparel, handbags, footwear, accessories and home products, and licensees pay royalties.",
+  "evidence": "Our wholesale business in North America is comprised primarily of sales to department stores and, to a lesser extent, specialty stores."
  },
  "changes": [],
  "dropped": [],

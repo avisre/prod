@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001759655",
  "issuerName": "Privia Health Group, Inc.",
- "builtAt": "2026-11-16T04:33:01.449Z",
+ "builtAt": "2026-11-16T04:37:23.373Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001759655-26-000010",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1759655/000175965526000010/prva-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Privia Health Group, Inc.",
+   "products": [
+    "Privia Platform",
+    "Privia Technology Solution",
+    "Medical Groups",
+    "care management fees",
+    "shared savings",
+    "revenue cycle management",
+    "data analytics"
+   ],
+   "description": "Organizes physicians into regional medical groups and supports them with technology, practice management, population health and value-based care services.",
+   "evidence": "Management determined in accordance with ASC Topic 280, Segment Reporting (\"ASC 280\"), that the Company operates in and reports as a single operating segment, which is to care for its patients' needs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Patients, payers and employers pay Privia care management fees, administrative fees and shared savings for managing physician practices and patient care.",
+  "evidence": "FFS-patient care revenue generated from providing healthcare services to patients through Privia Providers of Owned Medical Groups and Friendly Medical Groups"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

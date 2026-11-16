@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001261654",
+ "issuerName": "UNIVERSAL TECHNICAL INSTITUTE, INC",
+ "builtAt": "2026-11-16T04:38:26.866Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001261654-25-000025",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1261654/000126165425000025/uti-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Universal Technical Institute",
+   "products": [
+    "training programs"
+   ],
+   "description": "Runs technical training schools.",
+   "evidence": "The company offers high-quality training programs and support services for in-demand careers through its two reportable segments (also referred to as \"divisions\"): Universal Technical Institute and Concorde Career Colleges."
+  },
+  {
+   "name": "Concorde Career Colleges",
+   "products": [
+    "training programs"
+   ],
+   "description": "Runs healthcare career colleges.",
+   "evidence": "The company offers high-quality training programs and support services for in-demand careers through its two reportable segments (also referred to as \"divisions\"): Universal Technical Institute and Concorde Career Colleges."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students pay tuition for its programmes.",
+  "evidence": "The company offers high-quality training programs and support services for in-demand careers through its two reportable segments (also referred to as \"divisions\"): Universal Technical Institute and Concorde Career Colleges."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

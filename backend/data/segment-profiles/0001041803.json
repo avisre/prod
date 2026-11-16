@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001041803",
  "issuerName": "PriceSmart, Inc.",
- "builtAt": "2026-11-16T04:33:01.596Z",
+ "builtAt": "2026-11-16T04:37:23.513Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001041803-26-000039",
@@ -10,10 +10,58 @@
   "filingDate": "2026-10-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1041803/000104180326000039/psmt-20260831.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Central America",
+   "products": [
+    "basic consumable merchandise",
+    "Member's Selection",
+    "private label merchandise",
+    "Click & Go"
+   ],
+   "description": "Operates warehouse clubs that sell consumable and non-consumable merchandise and services to members in Central America.",
+   "evidence": "As of August 31, 2026 , we had 58 warehouse clubs in operation in Central America, the Caribbean and Colombia."
+  },
+  {
+   "name": "Caribbean",
+   "products": [
+    "basic consumable merchandise",
+    "Member's Selection",
+    "private label merchandise",
+    "Click & Go"
+   ],
+   "description": "Operates warehouse clubs that sell consumable and non-consumable merchandise and services to members in the Caribbean.",
+   "evidence": "PriceSmart sources approximately half of its merchandise from suppliers within Latin America and the Caribbean, with the balance of merchandise sourced from the United States and globally."
+  },
+  {
+   "name": "Colombia",
+   "products": [
+    "basic consumable merchandise",
+    "Member's Selection",
+    "private label merchandise",
+    "Click & Go"
+   ],
+   "description": "Operates warehouse clubs that sell consumable and non-consumable merchandise and services to members in Colombia.",
+   "evidence": "Our operations currently consist of four reportable segments: Central America, the Caribbean, Colombia and the United States."
+  },
+  {
+   "name": "United States",
+   "products": [
+    "basic consumable merchandise",
+    "Member's Selection",
+    "private label merchandise",
+    "Click & Go"
+   ],
+   "description": "Operates warehouse clubs that sell consumable and non-consumable merchandise and services to members in the United States.",
+   "evidence": "Our operating segments currently are the United States, Central America, the Caribbean and Colombia."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Members pay membership fees and buy merchandise and services at PriceSmart warehouse clubs.",
+  "evidence": "PriceSmart's mission is to provide all Members an outstanding shopping experience with high quality, exciting merchandise and services at the lowest possible prices."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

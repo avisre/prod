@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000912093",
+ "issuerName": "Viavi Solutions Inc.",
+ "builtAt": "2026-11-16T04:38:27.145Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-056765",
+  "periodEnd": "2026-06-27",
+  "filingDate": "2026-08-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/912093/000162828026056765/viav-20260627.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Network and Service Enablement",
+   "products": [],
+   "description": "Sells network test and service assurance products.",
+   "evidence": "To serve our markets, we operate the following business segments: • Network and Service Enablement (NSE); and • Optical Security and Performance Products (OSP)."
+  },
+  {
+   "name": "Optical Security and Performance Products",
+   "products": [
+    "optical products"
+   ],
+   "description": "Makes optical security and performance products.",
+   "evidence": "To serve our markets, we operate the following business segments: • Network and Service Enablement (NSE); and • Optical Security and Performance Products (OSP)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Carriers and OEMs buy its test, measurement and optical products.",
+  "evidence": "In addition, we develop and advance technologies used in high-volume optical applications across anti-counterfeiting, consumer electronics, aerospace, industrial and automotive end markets."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Network and Service Enablement): network test and assurance"
+ ],
+ "reader": "agent"
+}

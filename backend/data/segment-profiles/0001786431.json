@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001786431",
  "issuerName": "REYNOLDS CONSUMER PRODUCTS INC.",
- "builtAt": "2026-11-16T04:33:02.882Z",
+ "builtAt": "2026-11-16T04:37:24.077Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-005284",
@@ -10,10 +10,65 @@
   "filingDate": "2026-02-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1786431/000162828026005284/reyn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Reynolds Cooking & Baking",
+   "products": [
+    "aluminum foil",
+    "disposable aluminum pans",
+    "parchment paper",
+    "freezer paper",
+    "wax paper",
+    "plastic wrap",
+    "oven bags",
+    "slow cooker liners"
+   ],
+   "description": "Sells branded and store brand aluminum foil, pans, parchment and wax paper, plastic wrap and oven bags to retailers in the United States and internationally.",
+   "evidence": "Through our Reynolds Cooking & Baking segment, we sell both branded and store brand aluminum foil, disposable aluminum pans, parchment paper, freezer paper, wax paper, butcher paper, plastic wrap, baking cups, oven bags and slow cooker liners."
+  },
+  {
+   "name": "Hefty Waste & Storage",
+   "products": [
+    "trash bags",
+    "food storage bags",
+    "Hefty Ultra Strong",
+    "Hefty Strong"
+   ],
+   "description": "Produces branded and store brand trash bags and food storage bags for retail and private label customers.",
+   "evidence": "Through our Hefty Waste & Storage segment, we produce both branded and store brand trash and food storage bags."
+  },
+  {
+   "name": "Hefty Tableware",
+   "products": [
+    "plates",
+    "bowls",
+    "platters",
+    "containers",
+    "cups",
+    "cutlery"
+   ],
+   "description": "Sells branded and store brand disposable and compostable plates, bowls, platters, containers, cups and cutlery.",
+   "evidence": "Through our Hefty Tableware segment, we sell both branded and store brand disposable and compostable plates, bowls, platters, containers, cups and cutlery."
+  },
+  {
+   "name": "Presto Products",
+   "products": [
+    "food storage bags",
+    "trash bags",
+    "plastic wrap",
+    "Fresh-Lock",
+    "Slide-Rite"
+   ],
+   "description": "Sells store brand food storage bags, trash bags and plastic wrap, and supplies resealable closure systems to other consumer products companies.",
+   "evidence": "Through our Presto Products segment, we primarily sell store brand products in three main consumer categories: food storage bags, trash bags, and plastic wrap."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retailers buy branded and store brand household products from Reynolds for resale to consumers.",
+  "evidence": "our private label products offer value to our retail partners"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

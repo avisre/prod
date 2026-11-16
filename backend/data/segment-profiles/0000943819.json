@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000943819",
  "issuerName": "ResMed Inc.",
- "builtAt": "2026-11-16T04:33:03.507Z",
+ "builtAt": "2026-11-16T04:37:24.340Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000943819-26-000047",
@@ -10,10 +10,36 @@
   "filingDate": "2026-08-13",
   "url": "https://www.sec.gov/Archives/edgar/data/943819/000094381926000047/rmd-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sleep and Breathing Health",
+   "products": [
+    "CPAP",
+    "mask systems",
+    "ventilation devices",
+    "diagnostic products",
+    "headgear and other accessories",
+    "dental devices"
+   ],
+   "description": "Designs and sells cloud-connected devices, masks and accessories for sleep apnea, ventilation and other sleep and breathing disorders.",
+   "evidence": "CPAP systems deliver pressurized air, typically through a mask, to prevent collapse of the upper airway during sleep."
+  },
+  {
+   "name": "Residential Care Software",
+   "products": [
+    "Brightree",
+    "business management software and service solutions"
+   ],
+   "description": "Provides business management software and service solutions, including Brightree, to healthcare providers in residential care settings.",
+   "evidence": "Our Residential Care Software solutions are sold to providers of healthcare in various residential care settings."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Patients, home healthcare providers and residential care providers pay ResMed for devices, masks, software and related services.",
+  "evidence": "In Germany, Australia, New Zealand, and South Korea, we also operate home healthcare businesses, providing products and services directly to patients through a vertically integrated network."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001564902",
  "issuerName": "United Parks & Resorts Inc.",
- "builtAt": "2026-11-16T04:33:01.413Z",
+ "builtAt": "2026-11-16T04:37:23.335Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-088288",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1564902/000119312526088288/prks-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Theme Parks",
+   "products": [
+    "SeaWorld",
+    "Busch Gardens",
+    "Aquatica",
+    "Discovery Cove",
+    "Sesame Place",
+    "admission",
+    "food",
+    "merchandise"
+   ],
+   "description": "Owns or licenses theme parks that sell admission, food, merchandise and special events to guests, with animal exhibits, rides and shows.",
+   "evidence": "Each theme park has been identified as an operating segment and meets the criteria for aggregation due to similar economic characteristics."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Guests pay for admission to the theme parks and for food, merchandise and other items they buy inside the parks.",
+  "evidence": "The Company generates revenue primarily from selling admission to its theme parks and from purchases of food, merchandise and other items, primarily within its theme parks."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

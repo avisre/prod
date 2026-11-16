@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001534701",
  "issuerName": "Phillips 66",
- "builtAt": "2026-11-16T04:33:01.577Z",
+ "builtAt": "2026-11-16T04:37:23.493Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001534701-26-000006",
@@ -15,20 +15,65 @@
   {
    "name": "Midstream",
    "products": [
-    "crude oil and refined petroleum product transportation",
+    "transportation",
     "terminaling and storage services",
-    "natural gas and natural gas liquids (NGL) gathering"
+    "natural gas and natural gas liquids (NGL) gathering",
+    "marketing services"
    ],
-   "description": "Transports, stores and processes crude, products and gas.",
-   "evidence": "Operating Segments Our businesses are organized into five operating segments: 1) Midstream— Provides crude oil and refined petroleum product transportation, terminaling and storage services, as well as natural gas and natural gas liquids (NGL) gathering, processing, transportation, fractionation, storage and marketing services in the United States."
+   "description": "Transports, terminals and stores crude oil, refined products and natural gas liquids, and gathers and processes natural gas in the United States.",
+   "evidence": "1) Midstream— Provides crude oil and refined petroleum product transportation, terminaling and storage services, as well as natural gas and NGL gathering, processing, transportation, fractionation, storage and marketing services in the United States."
+  },
+  {
+   "name": "Chemicals",
+   "products": [
+    "petrochemicals",
+    "plastics"
+   ],
+   "description": "Holds the company's equity investment in Chevron Phillips Chemical, which manufactures and markets petrochemicals and plastics worldwide.",
+   "evidence": "2) Chemicals— Consists of our 50% equity investment in Chevron Phillips Chemical Company LLC (CPChem), which manufactures and markets petrochemicals and plastics on a worldwide basis."
+  },
+  {
+   "name": "Refining",
+   "products": [
+    "gasoline",
+    "distillates",
+    "aviation fuels"
+   ],
+   "description": "Refines crude oil and other feedstocks into petroleum products such as gasoline, distillates and aviation fuels for sale.",
+   "evidence": "3) Refining— Refines crude oil and other feedstocks into petroleum products, such as gasoline and distillates, including aviation fuels."
+  },
+  {
+   "name": "Marketing and Specialties",
+   "products": [
+    "refined products",
+    "base oils",
+    "lubricants"
+   ],
+   "description": "Buys and resells refined products and manufactures and markets base oils and lubricants, mainly in the United States and Europe.",
+   "evidence": "4) Marketing and Specialties (M&S)— Purchases for resale and markets refined products, mainly in the United States and Europe."
+  },
+  {
+   "name": "Renewable Fuels",
+   "products": [
+    "renewable products",
+    "renewable feedstocks",
+    "regulatory credits"
+   ],
+   "description": "Processes renewable feedstocks into renewable fuels and markets them, procuring feedstocks and managing regulatory credits.",
+   "evidence": "5) Renewable Fuels— Processes renewable feedstocks into renewable products at the Rodeo Renewable Energy Complex (Rodeo Complex) and at our Humber Refinery."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Shippers pay tariffs and processing fees.",
-  "evidence": "Operating Segments Our businesses are organized into five operating segments: 1) Midstream— Provides crude oil and refined petroleum product transportation, terminaling and storage services, as well as natural gas and natural gas liquids (NGL) gathering, processing, transportation, fractionation, storage and marketing services in the United States."
+  "text": "Customers pay for transportation, terminaling and storage of crude oil, refined products and NGL, and buy refined products, petrochemicals and renewable fuels.",
+  "evidence": "Provides crude oil and refined petroleum product transportation, terminaling and storage services, as well as natural gas and natural gas liquids (NGL) gathering"
  },
- "changes": [],
+ "changes": [
+  {
+   "text": "From the first quarter of 2026, decommissioning and redeveloping the idled Los Angeles Refinery moved into Corporate and Other.",
+   "evidence": "Effective in the first quarter of 2026, activities associated with decommissioning and redeveloping at our idled Los Angeles Refinery will be included in Corporate and Other."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002041385",
  "issuerName": "Ralliant Corporation",
- "builtAt": "2026-11-16T04:33:02.257Z",
+ "builtAt": "2026-11-16T04:37:23.898Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002041385-26-000023",
@@ -15,20 +15,41 @@
   {
    "name": "Test and Measurement",
    "products": [
-    "test and measurement instruments"
+    "oscilloscopes",
+    "probes",
+    "source measuring units",
+    "semiconductor test systems",
+    "high-power bi-directional power supplies",
+    "measurement analysis software packages"
    ],
-   "description": "Sells test and measurement equipment.",
-   "evidence": "Reportable Segments The Company operates and reports its results in two segments, Test and Measurement an"
+   "description": "Provides precision test and measurement instruments, systems, software and services to semiconductor, networking, defense and space technology customers.",
+   "evidence": "The Test and Measurement segment provides precision test and measurement instruments, systems, software, and services."
+  },
+  {
+   "name": "Sensors and Safety Systems",
+   "products": [
+    "power grid monitoring solutions",
+    "safety systems",
+    "ignition safety systems",
+    "precision pyrotechnic devices",
+    "liquid level, flow, and pressure sensors",
+    "hygienic sensors"
+   ],
+   "description": "Provides power grid monitoring and protection, defense and space safety systems, and sensing products such as liquid level, flow and pressure sensors.",
+   "evidence": "The Sensors and Safety Systems segment provides leading power grid monitoring solutions, safety systems for mission critical defense and space applications, and sensing solutions for critical environments where uptime, precision, and reliability are essential."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Industrial customers buy its test and measurement instruments.",
-  "evidence": "Reportable Segments The Company operates and reports its results in two segments, Test and Measurement an"
+  "text": "Utilities, defense and space agencies, industrial manufacturers and data center providers pay Ralliant for precision instruments, sensors, software and services.",
+  "evidence": "Customers for these products and services include, among others, semiconductor design companies, foundries, integrated device manufacturers, hyperscalers, manufacturers of networking components and systems, defense technology and space program providers"
  },
- "changes": [],
- "dropped": [
-  "change not grounded: Became a separate public company when Fortive separated its Precision Technologi"
+ "changes": [
+  {
+   "text": "Ralliant was separated from Fortive in 2025, when Fortive distributed its Precision Technologies segment shares to Fortive stockholders.",
+   "evidence": "On May 27, 2025, the Board of Directors of Fortive Corporation (\"Fortive\" or the \"Former Parent\") approved the separation of Fortive's Precision Technologies (\"PT\") operating segment through the pro rata distribution of all of the issued and outstanding common stock of Ralliant to Fortive's stockholders (the \"Separation\")."
+  }
  ],
+ "dropped": [],
  "reader": "agent"
 }

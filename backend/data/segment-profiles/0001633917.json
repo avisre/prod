@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001633917",
  "issuerName": "PayPal Holdings, Inc.",
- "builtAt": "2026-11-16T04:33:02.103Z",
+ "builtAt": "2026-11-16T04:37:23.733Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001633917-26-000024",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1633917/000163391726000024/pypl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "digital payments",
+   "products": [
+    "PayPal",
+    "Venmo",
+    "PayPal buy now, pay later",
+    "online branded checkout solutions",
+    "in-person point of sale solutions",
+    "business financing",
+    "payouts capabilities"
+   ],
+   "description": "Operates a two-sided digital payments network, giving consumers wallets and credit and merchants checkout, payment processing and payout solutions.",
+   "evidence": "Our products are designed to enable digital payments and simplify commerce experiences for consumers and merchants to make selling, shopping, and sending and receiving money simple, personalized, and secure, whether online or in-person."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay PayPal fees for completing payment transactions and other payment-related services, typically based on processed volume.",
+  "evidence": "We earn revenues primarily by charging fees for completing payment transactions for our customers and other payment-related services"
+ },
+ "changes": [
+  {
+   "text": "PayPal sold Happy Returns in 2023.",
+   "evidence": "In the fourth quarter of 2023, we completed the sale of Happy Returns and recorded a pre-tax gain of $ 339 million, net of transaction costs, in restructuring and other"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

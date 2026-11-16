@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001585364",
  "issuerName": "Perrigo Company plc",
- "builtAt": "2026-11-16T04:33:01.377Z",
+ "builtAt": "2026-11-16T04:37:23.300Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001585364-26-000009",
@@ -14,19 +14,40 @@
  "segments": [
   {
    "name": "Consumer Self-Care Americas",
-   "products": [],
-   "description": "Sells consumer self-care products in the Americas.",
-   "evidence": "Our reporting and operating segments are: • Consumer Self-Care Americas (\"CSCA\") comprises our consumer self-care business in the U."
+   "products": [
+    "store brands",
+    "Opill",
+    "Mederma",
+    "infant formula",
+    "Upper Respiratory"
+   ],
+   "description": "Makes and markets store-brand and branded self-care products such as infant formula and upper respiratory remedies for U.S. and Canadian retailers and consumers.",
+   "evidence": "The CSCA segment develops, manufactures and markets our leading self-care consumer solutions in the U.S. and Canada."
+  },
+  {
+   "name": "Consumer Self-Care International",
+   "products": [
+    "Compeed",
+    "Solpadeine",
+    "Jungle Formula",
+    "ACO",
+    "store brand products"
+   ],
+   "description": "Sells branded and store-brand self-care products, including Compeed and Solpadeine, mainly through pharmacies in Europe, Australia and Asia.",
+   "evidence": "The CSCI segment comprises our consumer self-care product categories outside the U.S. and Canada, primarily our branded products in Europe and Australia and our store brand products in the United Kingdom and parts of Europe and Asia."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Retailers buy its consumer self-care brands.",
-  "evidence": "Our reporting and operating segments are: • Consumer Self-Care Americas (\"CSCA\") comprises our consumer self-care business in the U."
+  "text": "Retailers, wholesalers, pharmacies and e-commerce customers pay Perrigo for self-care products sold under their own store brands or Perrigo brands.",
+  "evidence": "We primarily provide our customers self-care products that are sold and marketed under the customer's own brands and/or exclusive brands"
  },
- "changes": [],
- "dropped": [
-  "product not in text (Consumer Self-Care Americas): consumer self-care products"
+ "changes": [
+  {
+   "text": "Perrigo divested its Rare Diseases business from the CSCI segment in 2024.",
+   "evidence": "Historically, the Other product category included products from our Rare Diseases business which was divested from our CSCI segment in 2024."
+  }
  ],
+ "dropped": [],
  "reader": "agent"
 }

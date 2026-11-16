@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001050915",
  "issuerName": "Quanta Services, Inc.",
- "builtAt": "2026-11-16T04:33:02.061Z",
+ "builtAt": "2026-11-16T04:37:23.598Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001050915-26-000006",
@@ -10,11 +10,41 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1050915/000105091526000006/pwr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric Infrastructure Solutions",
+   "products": [
+    "electric power transmission and distribution networks",
+    "substation facilities",
+    "battery storage facilities",
+    "wind, solar and gas power generation"
+   ],
+   "description": "Provides design, engineering, procurement, construction, upgrade, repair and maintenance services for electric power transmission, distribution, generation and large load center infrastructure.",
+   "evidence": "Our Electric segment provides comprehensive services primarily for the electric power grid, power generation and large load center markets."
+  },
+  {
+   "name": "Underground Utility and Infrastructure Solutions",
+   "products": [
+    "gas utility systems",
+    "pipeline transmission systems and facilities",
+    "downstream industrial facilities"
+   ],
+   "description": "Provides design, construction, repair and maintenance services for gas utility systems, pipelines and downstream industrial facilities.",
+   "evidence": "(1) Electric Infrastructure Solutions (Electric) and (2) Underground Utility and Infrastructure Solutions (Underground and Infrastructure)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Utility, power generation, communications and industrial customers pay Quanta for design, engineering, procurement, construction, upgrade and maintenance services.",
+  "evidence": "We provide design, engineering, procurement, construction, upgrade and repair and maintenance services for infrastructure within each of these industries"
+ },
+ "changes": [
+  {
+   "text": "In 2025 Quanta combined its historical Electric Power and Renewable Energy Infrastructure Solutions segments into the Electric segment.",
+   "evidence": "The Electric segment consists of the historical Electric Power Infrastructure Solutions and the Renewable Energy Infrastructure Solutions segments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

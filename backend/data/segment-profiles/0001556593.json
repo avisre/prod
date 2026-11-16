@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001556593",
  "issuerName": "Rithm Capital Corp.",
- "builtAt": "2026-11-16T04:33:03.227Z",
+ "builtAt": "2026-11-16T04:37:24.156Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001556593-26-000012",
@@ -10,11 +10,61 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1556593/000155659326000012/nrz-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Origination and Servicing",
+   "products": [
+    "residential mortgage origination and servicing platforms",
+    "MSRs",
+    "servicer advance assets",
+    "Newrez",
+    "New Residential Mortgage LLC"
+   ],
+   "description": "Originates and services residential mortgages, including through Newrez, and holds mortgage servicing rights and related assets.",
+   "evidence": "The Origination and Servicing segment includes our residential mortgage origination and servicing platforms and related investments, including MSRs and servicer advance assets."
+  },
+  {
+   "name": "Residential Transitional Lending",
+   "products": [
+    "bridge financing",
+    "renovations",
+    "new construction"
+   ],
+   "description": "Provides business-purpose bridge and construction financing to residential real estate investors, developers and sponsors.",
+   "evidence": "Residential transition lending refers to business-purpose financing typically provided to residential real estate investors, developers and other sponsors for transitional use cases"
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "Sculptor",
+    "Crestline",
+    "private credit",
+    "fund liquidity and insurance strategies"
+   ],
+   "description": "Manages private credit, fund liquidity and insurance strategies for institutional investors through its asset managers.",
+   "evidence": "expanding our asset management capabilities across private credit, fund liquidity and insurance strategies"
+  },
+  {
+   "name": "Investment Portfolio",
+   "products": [
+    "balance sheet investments"
+   ],
+   "description": "Acquires, finances and manages balance sheet investments across asset classes as an institutional investor.",
+   "evidence": "In acquiring, financing and managing investments within our Investment Portfolio segment, we compete with a range of institutional investors and asset owners"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Borrowers, fund investors and counterparties pay Rithm interest and fees on mortgages, loans, asset management and balance sheet investments.",
+  "evidence": "These segments reflect how we deploy capital, manage risk and generate earnings across our operating businesses, fee-based activities and balance sheet investments."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Rithm acquired Crestline, expanding its asset management capabilities across private credit, fund liquidity and insurance strategies.",
+   "evidence": "On December 1, 2025, we completed the acquisition of Crestline for a purchase price of approximately $324.7 million"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
