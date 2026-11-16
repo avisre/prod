@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000912958",
  "issuerName": "MILLICOM INTERNATIONAL CELLULAR SA",
- "builtAt": "2026-11-16T04:49:58.044Z",
+ "builtAt": "2026-11-16T09:29:16.151Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-020831",
@@ -10,11 +10,126 @@
   "filingDate": "2026-03-24",
   "url": "https://www.sec.gov/Archives/edgar/data/912958/000162828026020831/tigo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Guatemala",
+   "products": [
+    "mobile data",
+    "mobile voice",
+    "SMS",
+    "MFS",
+    "pay-TV",
+    "fixed broadband",
+    "fixed telephony"
+   ],
+   "description": "Provides mobile and fixed connectivity, mobile financial services and equipment to consumers, businesses and government customers in Guatemala.",
+   "evidence": "Our reportable segments consist of Guatemala, Colombia, Panama, Honduras, Paraguay, Bolivia and Other, which includes El Salvador, Nicaragua, Costa Rica, Uruguay and Ecuador (these two latest in 2025)."
+  },
+  {
+   "name": "Colombia",
+   "products": [
+    "mobile data",
+    "mobile voice",
+    "SMS",
+    "MFS",
+    "pay-TV",
+    "fixed broadband",
+    "fixed telephony"
+   ],
+   "description": "Offers mobile data, voice, SMS, mobile financial services, broadband, pay-TV and fixed telephony to Colombian consumers and businesses.",
+   "evidence": "Our reportable segments consist of Guatemala, Colombia, Panama, Honduras, Paraguay, Bolivia and Other, which includes El Salvador, Nicaragua, Costa Rica, Uruguay and Ecuador (these two latest in 2025)."
+  },
+  {
+   "name": "Panama",
+   "products": [
+    "mobile data",
+    "mobile voice",
+    "SMS",
+    "MFS",
+    "pay-TV",
+    "fixed broadband",
+    "fixed telephony"
+   ],
+   "description": "Serves Panamanian consumers, businesses and government customers with mobile and fixed connectivity and mobile financial services.",
+   "evidence": "Our reportable segments consist of Guatemala, Colombia, Panama, Honduras, Paraguay, Bolivia and Other, which includes El Salvador, Nicaragua, Costa Rica, Uruguay and Ecuador (these two latest in 2025)."
+  },
+  {
+   "name": "Honduras",
+   "products": [
+    "mobile data",
+    "mobile voice",
+    "SMS",
+    "MFS",
+    "pay-TV",
+    "fixed broadband",
+    "fixed telephony"
+   ],
+   "description": "Operates the Honduran mobile and fixed business, reviewed as if fully consolidated, selling connectivity and mobile financial services.",
+   "evidence": "The Honduras segment presents the results of our Honduras joint venture as if it were fully consolidated, as this reflects the way management reviews and uses internally reported information to make decisions."
+  },
+  {
+   "name": "Paraguay",
+   "products": [
+    "mobile data",
+    "mobile voice",
+    "SMS",
+    "MFS",
+    "pay-TV",
+    "fixed broadband",
+    "fixed telephony"
+   ],
+   "description": "Delivers mobile and fixed services, including Tigo Money mobile financial services, to consumers and businesses in Paraguay.",
+   "evidence": "Our reportable segments consist of Guatemala, Colombia, Panama, Honduras, Paraguay, Bolivia and Other, which includes El Salvador, Nicaragua, Costa Rica, Uruguay and Ecuador (these two latest in 2025)."
+  },
+  {
+   "name": "Bolivia",
+   "products": [
+    "mobile data",
+    "mobile voice",
+    "SMS",
+    "MFS",
+    "pay-TV",
+    "fixed broadband",
+    "fixed telephony"
+   ],
+   "description": "Provides mobile and fixed connectivity and mobile financial services to consumers, businesses and government customers in Bolivia.",
+   "evidence": "Our reportable segments consist of Guatemala, Colombia, Panama, Honduras, Paraguay, Bolivia and Other, which includes El Salvador, Nicaragua, Costa Rica, Uruguay and Ecuador (these two latest in 2025)."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "mobile data",
+    "mobile voice",
+    "SMS",
+    "MFS",
+    "pay-TV",
+    "fixed broadband",
+    "fixed telephony"
+   ],
+   "description": "Groups the smaller country operations in El Salvador, Nicaragua, Costa Rica, Uruguay and Ecuador serving consumers and businesses.",
+   "evidence": "Our reportable segments consist of Guatemala, Colombia, Panama, Honduras, Paraguay, Bolivia and Other, which includes El Salvador, Nicaragua, Costa Rica, Uruguay and Ecuador (these two latest in 2025)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers, businesses and government customers pay prepaid or monthly recurring fees for mobile data, voice, SMS, mobile financial services, broadband, pay-TV and fixed telephony.",
+  "evidence": "In postpaid, customers pay recurring monthly fees for the right to consume up to a predetermined maximum amount of monthly data, voice usage and SMS."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Other segment was expanded to include Uruguay and Ecuador.",
+   "evidence": "Our reportable segments consist of Guatemala, Colombia, Panama, Honduras, Paraguay, Bolivia and Other, which includes El Salvador, Nicaragua, Costa Rica, Uruguay and Ecuador (these two latest in 2025)."
+  },
+  {
+   "text": "In 2025 the company completed the sale of its tower infrastructure business.",
+   "evidence": "During the year, we completed the monetization of our tower infrastructure business, concluding a multi-year effort to unlock value from non-core assets while sharpening our focus on connectivity and digital services."
+  },
+  {
+   "text": "After organizational changes in 2023 and 2024, operating segments were redefined to align with countries of operation.",
+   "evidence": "Following these organizational changes, and considering the information being reviewed by the CODM to assess performance and allocate resources, Millicom's operating segments were redefined to align with its countries of operation."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

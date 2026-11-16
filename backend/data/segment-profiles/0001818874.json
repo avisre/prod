@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001818874",
  "issuerName": "SoFi Technologies, Inc.",
- "builtAt": "2026-11-16T04:49:55.255Z",
+ "builtAt": "2026-11-16T09:26:52.433Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001818874-26-000013",
@@ -10,10 +10,47 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1818874/000181887426000013/sofi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lending",
+   "products": [
+    "personal loans",
+    "student loans",
+    "home loans",
+    "servicing"
+   ],
+   "description": "Offers personal loans, student loans, home loans and related servicing to help members with a variety of financial needs.",
+   "evidence": "We offer personal loans, student loans, home loans and related servicing to help our members with a variety of financial needs."
+  },
+  {
+   "name": "Technology Platform",
+   "products": [
+    "enterprise services"
+   ],
+   "description": "Supports innovation for a broad range of enterprises, giving clients the ability to create, launch and run financial products.",
+   "evidence": "Our Technology Platform supports innovation for a broad range of enterprises, with offerings that give clients the ability to create, launch and run financial products."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "SoFi Money",
+    "SoFi Credit Card",
+    "SoFi Crypto",
+    "SoFi Invest",
+    "SoFi Relay",
+    "SoFi At Work",
+    "SoFi Plus"
+   ],
+   "description": "Offers banking and investing products such as SoFi Money, SoFi Credit Card, SoFi Crypto, SoFi Invest, SoFi Relay, SoFi At Work and SoFi Plus benefits.",
+   "evidence": "We offer personal loans, student loans, home loans and related servicing and offer a variety of financial services products, such as SoFi Money, SoFi Credit Card, SoFi Crypto, SoFi Invest and SoFi Relay, that provide more daily interactions with our members, as well as products and capabilities, such as SoFi At Work, that are designed to appeal to enterprises."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Members pay interest and fees on loans and banking products; enterprises and third-party partners pay for technology platform and lending services.",
+  "evidence": "financial services institutions that subscribe to our enterprise services, third-party partners in our Loan Platform Business, and clients who utilize our technology platform services"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

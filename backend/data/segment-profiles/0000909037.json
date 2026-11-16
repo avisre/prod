@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000909037",
  "issuerName": "CHEMICAL & MINING CO OF CHILE INC",
- "builtAt": "2026-11-16T04:49:54.557Z",
+ "builtAt": "2026-11-16T09:24:51.257Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0000909037-26-000023",
@@ -10,10 +10,56 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/909037/000090903726000023/sqm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty plant nutrients",
+   "products": [
+    "potassium nitrate"
+   ],
+   "description": "Strategic business unit selling specialty plant nutrients, managed separately because the business requires different technology and marketing strategies.",
+   "evidence": "The operating segments are as follows: (i) Specialty plant nutrients (ii) Iodine and its derivatives (iii) Lithium and its derivatives (iv) Industrial chemicals (v) Potassium (vi) Other products and services"
+  },
+  {
+   "name": "Iodine and its derivatives",
+   "products": [
+    "iodine"
+   ],
+   "description": "Strategic business unit selling iodine and its derivatives, managed separately because the business requires different technology and marketing strategies.",
+   "evidence": "The operating segments are as follows: (i) Specialty plant nutrients (ii) Iodine and its derivatives (iii) Lithium and its derivatives (iv) Industrial chemicals (v) Potassium (vi) Other products and services"
+  },
+  {
+   "name": "Lithium and its derivatives",
+   "products": [
+    "lithium products"
+   ],
+   "description": "Strategic business unit selling lithium and its derivatives, managed separately because the business requires different technology and marketing strategies.",
+   "evidence": "The operating segments are as follows: (i) Specialty plant nutrients (ii) Iodine and its derivatives (iii) Lithium and its derivatives (iv) Industrial chemicals (v) Potassium (vi) Other products and services"
+  },
+  {
+   "name": "Industrial chemicals",
+   "products": [],
+   "description": "Strategic business unit selling industrial chemicals, managed separately because the business requires different technology and marketing strategies.",
+   "evidence": "The operating segments are as follows: (i) Specialty plant nutrients (ii) Iodine and its derivatives (iii) Lithium and its derivatives (iv) Industrial chemicals (v) Potassium (vi) Other products and services"
+  },
+  {
+   "name": "Potassium",
+   "products": [],
+   "description": "Strategic business unit selling potassium, managed separately because the business requires different technology and marketing strategies.",
+   "evidence": "The operating segments are as follows: (i) Specialty plant nutrients (ii) Iodine and its derivatives (iii) Lithium and its derivatives (iv) Industrial chemicals (v) Potassium (vi) Other products and services"
+  },
+  {
+   "name": "Other products and services",
+   "products": [],
+   "description": "Strategic business unit reporting other products and services, managed separately because the business requires different technology and marketing strategies.",
+   "evidence": "The operating segments are as follows: (i) Specialty plant nutrients (ii) Iodine and its derivatives (iii) Lithium and its derivatives (iv) Industrial chemicals (v) Potassium (vi) Other products and services"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "External customers worldwide pay the company for lithium and its derivatives, iodine and its derivatives, specialty plant nutrients, industrial chemicals, potassium and other products and services.",
+  "evidence": "Revenues from external customers and transactions with other operating segments of the same entity"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

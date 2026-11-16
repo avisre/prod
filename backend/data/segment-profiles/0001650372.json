@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001650372",
  "issuerName": "Atlassian Corporation",
- "builtAt": "2026-11-16T04:49:54.997Z",
+ "builtAt": "2026-11-16T09:25:00.776Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001650372-26-000036",
@@ -10,11 +10,33 @@
   "filingDate": "2026-08-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1650372/000165037226000036/team-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "team collaboration software",
+   "products": [
+    "Jira",
+    "Confluence",
+    "Bitbucket",
+    "Jira Service Management",
+    "Loom",
+    "Rovo"
+   ],
+   "description": "Atlassian sells team collaboration software, cloud apps, AI agents and Collections, to organizations of all sizes from small companies to large enterprises.",
+   "evidence": "Accordingly, the Company has determined it operates as a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay subscription fees to use Atlassian's cloud software, on-premises Data Center term licenses, premier support, and Marketplace third-party apps.",
+  "evidence": "Subscription revenues consist primarily of fees earned from subscription-based arrangements for providing customers the right to use our software in a cloud-based-infrastructure that we provide."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company announced plans to end-of-life its Data Center offering, no longer selling new term licenses.",
+   "evidence": "In September 2025, the Company announced plans to end-of-life its Data Center offering."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

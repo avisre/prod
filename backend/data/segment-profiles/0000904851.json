@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000904851",
  "issuerName": "YPF Sociedad Anonima",
- "builtAt": "2026-11-16T04:49:55.139Z",
+ "builtAt": "2026-11-16T09:27:57.475Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-126363",
@@ -10,11 +10,78 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/904851/000119312526126363/d95578d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Upstream",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "natural gas retained in plant"
+   ],
+   "description": "Explores and exploits hydrocarbon fields and produces crude oil and natural gas, selling to third parties and to the company's other segments.",
+   "evidence": "The Upstream business segment performs all activities related to the exploration and exploitation of hydrocarbon fields and production of crude oil and natural gas."
+  },
+  {
+   "name": "Midstream and Downstream",
+   "products": [
+    "refined products",
+    "petrochemical products",
+    "crude oil",
+    "specialties for the agribusiness industry",
+    "grains and their by-products",
+    "LNG regasification services",
+    "Gasolines",
+    "Diesel"
+   ],
+   "description": "Refines, transports and commercializes refined and petrochemical products, crude oil, agribusiness specialties and grains for retail, industrial and export customers.",
+   "evidence": "The Midstream and Downstream business segment performs activities related to: (i) the refining, transportation and commercialization of refined products;"
+  },
+  {
+   "name": "LNG and Integrated Gas",
+   "products": [
+    "natural gas",
+    "NGLs",
+    "ethane",
+    "propane",
+    "butane",
+    "gasoline",
+    "LNG liquefaction capacity"
+   ],
+   "description": "Transports and commercializes natural gas, fractionates NGLs into ethane, propane, butane and gasoline, and develops LNG liquefaction capacity for export markets.",
+   "evidence": "The LNG and Integrated Gas business segment performs activities related to: (i) natural gas transportation and commercialization to third parties and to the Midstream and Downstream business segment;"
+  },
+  {
+   "name": "New Energies",
+   "products": [
+    "distribution of natural gas",
+    "conventional thermal electric power",
+    "renewable energy",
+    "research and development services of technology applied to the hydrocarbon indus"
+   ],
+   "description": "Distributes natural gas through Metrogas, generates thermal electric power and renewable energy with partners, and provides technology research services.",
+   "evidence": "Furthermore, the assets related to the distribution of natural gas through our subsidiary Metrogas and the generation of conventional thermal electric power and renewable energy through our joint ventures YPF EE and CT Barragán S.A."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for fuels, natural gas, crude oil, petrochemicals and electricity, while the business segments also sell to each other at internal transfer prices.",
+  "evidence": "Sales between business segments were made at internal transfer prices established by the Company, which approximately reflect domestic market prices."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company created the New Energies business segment and readjusted the composition and definition of its remaining business segments after reorganizing management vice presidencies.",
+   "evidence": "On January 1, 2025, these organizational changes resulted in a modification of the composition of our business segments according to how the chief decision maker allocates resources and assesses the performance of these business segments, creating the New Energies business segment and readjusting the composition and definition of the businesses of the remaining business segments."
+  },
+  {
+   "text": "In 2025 YPF sold its entire interest in YPF Brasil.",
+   "evidence": "On January 31, 2025, YPF sold its 100% interest in YPF Brasil."
+  },
+  {
+   "text": "The company sold assets related to the Mature Fields Project, reducing hydrocarbon production in 2025.",
+   "evidence": "These decreases were the result of the sale of assets related to the Mature Fields Project"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

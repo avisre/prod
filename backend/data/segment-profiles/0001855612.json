@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001855612",
  "issuerName": "GRAB HOLDINGS LIMITED",
- "builtAt": "2026-11-16T04:49:56.916Z",
+ "builtAt": "2026-11-16T09:30:16.271Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001855612-26-000020",
@@ -10,10 +10,47 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1855612/000185561226000020/ck0001855612-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Deliveries",
+   "products": [
+    "ready-to-eat meals",
+    "groceries",
+    "point-to-point parcel delivery",
+    "GrabAds",
+    "GrabRentals",
+    "Jaya Grocer"
+   ],
+   "description": "Connects consumers with driver- and merchant-partners to deliver meals, groceries and parcels across Southeast Asia.",
+   "evidence": "We generate revenue from commissions and other fees from driver- and merchant-partners and consumers for connecting driver- and merchant-partners with consumers to facilitate delivery of a variety of daily necessities, including ready-to-eat meals and groceries, as well as point-to-point parcel delivery."
+  },
+  {
+   "name": "Mobility",
+   "products": [
+    "ride-hailing",
+    "GrabRentals",
+    "GrabAds"
+   ],
+   "description": "Connects consumers with driver-partners for ride-hailing and vehicle rental trips across Southeast Asian cities.",
+   "evidence": "In the mobility space, there are laws for ride-hailing which require ride-hailing platforms and driver-partners to apply for licenses and comply with license requirements."
+  },
+  {
+   "name": "Financial services",
+   "products": [
+    "lending",
+    "receivables factoring",
+    "digital banks"
+   ],
+   "description": "Offers lending, receivables factoring and digital banking to consumers, driver- and merchant-partners and small businesses.",
+   "evidence": "In addition, because we operate regionally across Southeast Asia and various segments, including deliveries, mobility and financial services, an adverse impact on our brand or reputation in one market or segment can adversely affect other parts of our business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Driver- and merchant-partners and consumers pay commissions and other fees for rides, deliveries, groceries and financial services arranged through the platform.",
+  "evidence": "We generate revenue from commissions and other fees from driver- and merchant-partners and consumers for connecting driver- and merchant-partners with consumers"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

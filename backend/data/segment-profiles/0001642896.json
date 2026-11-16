@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001642896",
  "issuerName": "SAMSARA INC.",
- "builtAt": "2026-11-16T04:49:55.470Z",
+ "builtAt": "2026-11-16T09:26:01.707Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-018167",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1642896/000162828026018167/iot-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Connected Operations",
+   "products": [
+    "AI Video-Based Safety",
+    "Telematics",
+    "Asset Tracking",
+    "Routing",
+    "Commercial Navigation",
+    "Maintenance",
+    "Connected Training",
+    "Connected Forms"
+   ],
+   "description": "Provides an open Connected Operations Platform connecting people, assets and systems, plus IoT devices and applications, to organizations with physical operations.",
+   "evidence": "Our Data Platform powers our Applications, which include AI Video-Based Safety, Telematics, Asset Tracking, Routing, Commercial Navigation, Maintenance, Connected Training, Connected Forms, and Site Visibility."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for access to the Connected Operations Platform, generally priced per asset and per application.",
+  "evidence": "We offer access to our Connected Operations Platform on a subscription basis and generally price each subscription on a per asset, per application basis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

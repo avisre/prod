@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001047716",
  "issuerName": "LATAM Airlines Group S.A.",
- "builtAt": "2026-11-16T04:49:56.204Z",
+ "builtAt": "2026-11-16T09:27:21.585Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001047716-26-000046",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1047716/000104771626000046/ltm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Air Transport",
+   "products": [
+    "passenger",
+    "cargo"
+   ],
+   "description": "Runs a single route network for air transport, carrying passengers and cargo within Latin America and to international destinations.",
+   "evidence": "As of December 31, 2025, the Company considers that it has a single operating segment, Air Transport."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Passengers and shippers pay for airline tickets and cargo transportation on the company's route network.",
+  "evidence": "The Company allocates revenues by geographic area based on the point of sale of the passenger ticket or cargo."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

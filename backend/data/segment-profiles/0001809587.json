@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001809587",
  "issuerName": "KE Holdings Inc.",
- "builtAt": "2026-11-16T04:49:55.361Z",
+ "builtAt": "2026-11-16T09:26:31.935Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-048109",
@@ -10,11 +10,70 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1809587/000110465926048109/beke-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Existing home transaction services",
+   "products": [
+    "Lianjia",
+    "Beike platform",
+    "Deyou",
+    "transaction closing services",
+    "agent recruiting and training services"
+   ],
+   "description": "Matches home buyers, sellers, landlords and tenants through Lianjia stores and the Beike platform, charging commissions and platform fees.",
+   "evidence": "Existing home transaction services. We generate revenue (i) from our own Lianjia brand where we charge commissions for existing home sales and home rentals, and split of commissions from other brokerage firms that operate brokerage stores on Beike platform in collaboration with Lianjia agents to complete transactions, (ii) from brokerage firms which own and operate brokerage stores on our Beike platform where we receive platform service fees, and those under our franchise brands such as Deyou to"
+  },
+  {
+   "name": "New home transaction services",
+   "products": [
+    "new home transaction agency services"
+   ],
+   "description": "Sells new homes for real estate developers, earning sales commissions on transactions completed through its agents and platform.",
+   "evidence": "New home transaction services. We generate revenue from new home transaction services from sales commissions charged to real estate developers."
+  },
+  {
+   "name": "Home renovation and furnishing",
+   "products": [
+    "renovation and furnishing services",
+    "customized furniture",
+    "soft furnishings"
+   ],
+   "description": "Renovates and furnishes homes for individual customers, delivering design, construction and furnishing work.",
+   "evidence": "Home renovation and furnishing services. We generate revenue by providing renovation and furnishing services to customers."
+  },
+  {
+   "name": "Home rental services",
+   "products": [
+    "rental property management",
+    "leasing agency services",
+    "Carefree Rent business",
+    "online management services"
+   ],
+   "description": "Manages rental properties for landlords and provides leasing and rental services to tenants.",
+   "evidence": "Home rental services. We generate revenue from home rental services by providing rental property management, leasing agency services and operation services as well as other rental-related services, including monetization of platform traffic and online management services."
+  },
+  {
+   "name": "Emerging and other services",
+   "products": [
+    "financial services",
+    "newly developed businesses"
+   ],
+   "description": "Offers other housing-related services, including financial services and newly developed businesses, to platform participants.",
+   "evidence": "Emerging and other services. We generate revenue from a variety of other housing related services, including financial services and other newly developed businesses."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Home buyers, sellers, landlords and tenants pay commissions and platform fees, while real estate developers pay sales commissions on new home transactions.",
+  "evidence": "We generate revenue from new home transaction services from sales commissions charged to real estate developers."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company split home rental services into a separate reportable segment, apart from the emerging and other services segment.",
+   "evidence": "effective from the first quarter of 2024, we split out the home rental services into a separate segment, apart from the emerging and other services segment"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

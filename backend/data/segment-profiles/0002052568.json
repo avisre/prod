@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002052568",
  "issuerName": "Legence Corp.",
- "builtAt": "2026-11-16T04:49:57.566Z",
+ "builtAt": "2026-11-16T09:28:19.200Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002052568-26-000008",
@@ -10,10 +10,32 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2052568/000205256826000008/lgn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineering & Consulting",
+   "products": [
+    "Engineering & Design",
+    "Program & Project Management"
+   ],
+   "description": "Designs HVAC and other MEP systems for buildings, advises on energy use and sustainability, and manages clients' installation and retrofit projects.",
+   "evidence": "Our Engineering & Consulting segment designs HVAC and other MEP systems for buildings, develops strategies to help reduce energy usage and make buildings more sustainable and provides program and project management services for clients' installation and retrofit projects."
+  },
+  {
+   "name": "Installation & Maintenance",
+   "products": [
+    "Installation & Fabrication",
+    "Maintenance & Service"
+   ],
+   "description": "Fabricates and installs HVAC, process piping and other MEP systems in new and existing industrial, commercial and institutional buildings, and maintains them.",
+   "evidence": "Our Installation & Maintenance segment fabricates and installs HVAC systems, process piping and other MEP systems in new and existing industrial, commercial and institutional buildings and provides ongoing preventative and corrective maintenance services for those systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Building owners and operators, plus architects and general contractors who subcontract MEP work, pay for engineering, installation and maintenance of building systems.",
+  "evidence": "Our clients include large technology and industrial companies and public sector institutions who contract with us directly to provide services, as well as intermediaries such as architects and general contractors who subcontract MEP services to us as part of a larger project."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

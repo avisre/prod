@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001834584",
  "issuerName": "COUPANG, INC.",
- "builtAt": "2026-11-16T04:49:54.063Z",
+ "builtAt": "2026-11-16T09:23:39.184Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001834584-26-000024",
@@ -10,10 +10,39 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1834584/000183458426000024/cpng-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Product Commerce",
+   "products": [
+    "core Korean retail (owned inventory)",
+    "marketplace offerings",
+    "Rocket Fresh",
+    "advertising products",
+    "WOW membership program"
+   ],
+   "description": "Core Korean retail and third-party marketplace, Rocket Fresh groceries, and advertising sold to customers and merchants in Korea.",
+   "evidence": "Product Commerce primarily includes our core Korean retail (owned inventory) and marketplace offerings (third-party merchants, including SMEs) and Rocket Fresh, our fresh grocery offering, as well as advertising products associated with these offerings."
+  },
+  {
+   "name": "Developing Offerings",
+   "products": [
+    "Eats",
+    "Play",
+    "fintech",
+    "retail operations in Taiwan",
+    "advertising products",
+    "Farfetch"
+   ],
+   "description": "Nascent services spanning restaurant delivery, streaming entertainment, fintech, Taiwan retail and the global Farfetch luxury marketplace.",
+   "evidence": "Developing Offerings includes more nascent offerings and services, including Eats (our restaurant ordering and delivery service), Play (our online content streaming service), fintech, our retail operations in Taiwan, as well as advertising products associated with these offerings."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for products and WOW membership; merchants pay commissions, logistics and fulfillment fees, and for advertising.",
+  "evidence": "Revenues from Product Commerce are derived primarily from online product sales of owned inventory to customers in Korea, commissions and logistics and fulfillment fees from merchants that sell products through our mobile application and website, and from our Korean retail WOW membership program."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

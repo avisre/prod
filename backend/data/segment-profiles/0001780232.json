@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001780232",
  "issuerName": "GFL Environmental Inc.",
- "builtAt": "2026-11-16T04:49:58.758Z",
+ "builtAt": "2026-11-16T09:31:57.839Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001104659-26-016748",
@@ -11,11 +11,42 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1780232/000110465926016748/gfl-20251231xex99d3.htm",
   "exhibit": "gfl-20251231xex99d3.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Canada",
+   "products": [
+    "hauling",
+    "landfill",
+    "transfer",
+    "MRFs"
+   ],
+   "description": "Provides solid waste hauling, landfill, transfer and material recovery services to residential, commercial, industrial and municipal customers in Canada.",
+   "evidence": "GFL's operating segments are based on geography between Canada and the U.S., each of which includes hauling, landfill, transfer and MRFs."
+  },
+  {
+   "name": "USA",
+   "products": [
+    "hauling",
+    "landfill",
+    "transfer",
+    "MRFs"
+   ],
+   "description": "Provides solid waste hauling, landfill, transfer and material recovery services to residential, commercial, industrial and municipal customers in the United States.",
+   "evidence": "GFL's operating segments are based on geography between Canada and the U.S., each of which includes hauling, landfill, transfer and MRFs."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Municipal, residential, commercial and industrial customers pay collection, tipping and processing fees for waste collection, disposal and recycling.",
+  "evidence": "GFL generates revenue through fees charged for the collection of solid waste including recyclables, from its municipal, residential and commercial and industrial customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company divested its Environmental Services line of business, which is presented as discontinued operations.",
+   "evidence": "Effective March 1, 2025, GFL completed the divestiture of its Environmental Services line of business (\"GFL Environmental Services\"), for an enterprise value of $ 8.0 billion."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001533232",
  "issuerName": "BROOKFIELD RENEWABLE PARTNERS L.P.",
- "builtAt": "2026-11-16T04:49:54.089Z",
+ "builtAt": "2026-11-16T09:24:02.202Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001533232-26-000011",
@@ -10,10 +10,60 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1533232/000153323226000011/bep-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hydroelectric",
+   "products": [],
+   "description": "Owns and operates hydroelectric generating stations, selling power under long-term contracts and into wholesale markets in North America, Colombia and Brazil.",
+   "evidence": "Our operations are segmented by – 1) hydroelectric, 2) wind, 3) utility-scale solar, 4) distributed energy & storage (distributed generation, pumped storage and battery energy storage systems), 5) sustainable solutions (agricultural renewable natural gas, carbon capture and storage, recycling, cogeneration, biomass, nuclear services, eFuels, and power transformation), and 6) corporate - with hydroelectric further segmented by geography (i.e., North America, Colombia, and Brazil)."
+  },
+  {
+   "name": "Wind",
+   "products": [
+    "onshore wind",
+    "offshore wind"
+   ],
+   "description": "Operates onshore and offshore wind farms that supply renewable electricity to utilities, corporate buyers and wholesale power markets.",
+   "evidence": "Our operations are segmented by – 1) hydroelectric, 2) wind, 3) utility-scale solar, 4) distributed energy & storage (distributed generation, pumped storage and battery energy storage systems), 5) sustainable solutions (agricultural renewable natural gas, carbon capture and storage, recycling, cogeneration, biomass, nuclear services, eFuels, and power transformation), and 6) corporate - with hydroelectric further segmented by geography (i.e., North America, Colombia, and Brazil)."
+  },
+  {
+   "name": "Utility-scale solar",
+   "products": [],
+   "description": "Develops and operates utility-scale solar generating facilities that sell renewable electricity under contracts and into wholesale markets.",
+   "evidence": "Our operations are segmented by – 1) hydroelectric, 2) wind, 3) utility-scale solar, 4) distributed energy & storage (distributed generation, pumped storage and battery energy storage systems), 5) sustainable solutions (agricultural renewable natural gas, carbon capture and storage, recycling, cogeneration, biomass, nuclear services, eFuels, and power transformation), and 6) corporate - with hydroelectric further segmented by geography (i.e., North America, Colombia, and Brazil)."
+  },
+  {
+   "name": "Distributed energy & storage",
+   "products": [
+    "distributed generation",
+    "pumped storage",
+    "battery energy storage systems"
+   ],
+   "description": "Provides distributed generation, pumped storage and battery energy storage capacity to customers, utilities and grid operators.",
+   "evidence": "Our operations are segmented by – 1) hydroelectric, 2) wind, 3) utility-scale solar, 4) distributed energy & storage (distributed generation, pumped storage and battery energy storage systems), 5) sustainable solutions (agricultural renewable natural gas, carbon capture and storage, recycling, cogeneration, biomass, nuclear services, eFuels, and power transformation), and 6) corporate - with hydroelectric further segmented by geography (i.e., North America, Colombia, and Brazil)."
+  },
+  {
+   "name": "Sustainable solutions",
+   "products": [
+    "agricultural renewable natural gas",
+    "carbon capture and storage",
+    "recycling",
+    "cogeneration",
+    "biomass",
+    "nuclear services",
+    "eFuels",
+    "power transformation"
+   ],
+   "description": "Holds emerging decarbonization businesses and assets, from nuclear services to carbon capture and renewable fuels, for partners and customers.",
+   "evidence": "Our operations are segmented by – 1) hydroelectric, 2) wind, 3) utility-scale solar, 4) distributed energy & storage (distributed generation, pumped storage and battery energy storage systems), 5) sustainable solutions (agricultural renewable natural gas, carbon capture and storage, recycling, cogeneration, biomass, nuclear services, eFuels, and power transformation), and 6) corporate - with hydroelectric further segmented by geography (i.e., North America, Colombia, and Brazil)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Creditworthy counterparties and wholesale power markets pay for generation from our renewable portfolio under long-term power purchase agreements.",
+  "evidence": "Approximately 90% of our 2026 proportionate generation is contracted with a weighted-average remaining duration of 13 years (on a proportionate basis) with creditworthy counterparties."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

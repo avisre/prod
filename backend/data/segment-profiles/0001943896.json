@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001943896",
  "issuerName": "RUBRIK, INC.",
- "builtAt": "2026-11-16T04:49:57.775Z",
+ "builtAt": "2026-11-16T09:28:03.889Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001943896-26-000013",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1943896/000194389626000013/rbrk-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "software and services",
+   "products": [
+    "Rubrik Security Cloud",
+    "Rubrik Agent Cloud",
+    "Data Protection",
+    "Data Threat Analytics and Data Security",
+    "Identity Security",
+    "Cyber Recovery"
+   ],
+   "description": "Provides unified data security solutions, including the Rubrik Security Cloud and Rubrik Agent Cloud suites, to customers primarily under SaaS subscriptions.",
+   "evidence": "The Company has one reportable segment which is software and services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for unified data security solutions delivered primarily as cloud native SaaS on a single software platform.",
+  "evidence": "The software and services segment provides unified data security solutions to customers primarily under SaaS arrangements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

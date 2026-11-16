@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001964789",
  "issuerName": "Hut 8 Corp.",
- "builtAt": "2026-11-16T04:49:58.807Z",
+ "builtAt": "2026-11-16T09:29:50.465Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-019392",
@@ -10,11 +10,60 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926019392/hut-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power",
+   "products": [
+    "Power Generation",
+    "Managed Services"
+   ],
+   "description": "Originates, develops and manages powered land and energy infrastructure, including interconnects, substations, switchyards and generation assets, supporting downstream data center deployment.",
+   "evidence": "The Power business segment consists of revenue streams related to Power Generation and Managed Services."
+  },
+  {
+   "name": "Digital Infrastructure",
+   "products": [
+    "CPU Colocation",
+    "ASIC Colocation"
+   ],
+   "description": "Develops, owns and operates data center facilities for energy-intensive technology applications, leasing capacity to hosting, colocation and AI computing customers.",
+   "evidence": "The Digital Infrastructure business segment consist of revenue streams related to CPU Colocation and ASIC Colocation services."
+  },
+  {
+   "name": "Compute",
+   "products": [
+    "ASIC Compute",
+    "Traditional Cloud",
+    "AI Cloud"
+   ],
+   "description": "Operates businesses that deploy and monetize compute assets across energy-intensive technology end markets, including bitcoin mining and cloud services.",
+   "evidence": "The Compute business segment consists of revenue streams related to ASIC Compute, AI Cloud, and Traditional Cloud operations."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Equipment Sales and Repairs"
+   ],
+   "description": "Captures activities outside the Power, Digital Infrastructure and Compute layers, currently equipment sales and repairs.",
+   "evidence": "The Other business segments consists of revenue related to Equipment Sales and Repairs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for data center hosting, leasing and colocation, compute and cloud services, and equipment, while grid operators pay for power capacity and electricity.",
+  "evidence": "We seek to monetize our Digital Infrastructure assets through a range of commercial structures, including long-term hosting, leasing, or colocation agreements."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company changed its reportable segments, recasting prior results to the new Power, Digital Infrastructure, Compute and Other segments.",
+   "evidence": "The Company changed its reportable segments during the year ended December 31, 2024 to better align with the Company's objectives; accordingly, the results from the six months ended December 31, 2023 were recast to align with the new reportable segments."
+  },
+  {
+   "text": "In 2025 the company agreed to sell all of its equity interests in the Far North power generation joint venture.",
+   "evidence": "During the twelve months ended December 31, 2025, the Company entered into an agreement to sell all of its equity interests in the Far North JV."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

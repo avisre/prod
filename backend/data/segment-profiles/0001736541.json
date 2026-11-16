@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001736541",
  "issuerName": "NIO Inc.",
- "builtAt": "2026-11-16T04:49:58.461Z",
+ "builtAt": "2026-11-16T09:29:13.515Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-041765",
@@ -10,8 +10,22 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1736541/000110465926041765/nio-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "smart electric vehicles",
+   "products": [
+    "charging piles",
+    "parts",
+    "accessories",
+    "lifestyle merchandises",
+    "vehicles",
+    "battery swap equipment"
+   ],
+   "description": "Designs, develops and sells smart electric vehicles and related products to customers, managed on a consolidated basis.",
+   "evidence": "This segment is engaged in smart electric vehicles related business."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

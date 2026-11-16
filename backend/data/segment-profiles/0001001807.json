@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001001807",
  "issuerName": "PERUSAHAAN PERSEROAN PERSERO PT TELEKOMUNIKASI INDONESIA TBK",
- "builtAt": "2026-11-16T04:49:55.650Z",
+ "builtAt": "2026-11-16T09:27:10.527Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-062051",
@@ -10,11 +10,84 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1001807/000110465926062051/tmb-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B2C",
+   "products": [
+    "mobile and fixed broadband services",
+    "IndiHome",
+    "cellular",
+    "SMS"
+   ],
+   "description": "Provides mobile and fixed broadband telecommunications services to individual and residential customers in Indonesia.",
+   "evidence": "The B2C segment includes telecommunications services provided to individual and residential customers, including mobile and fixed broadband services;"
+  },
+  {
+   "name": "B2B Infra",
+   "products": [
+    "towers",
+    "fiber optic networks",
+    "backbone infrastructure",
+    "data centers",
+    "satellites",
+    "Telkom Metro Ethernet services",
+    "IP transit services"
+   ],
+   "description": "Provides, manages and maintains telecommunications infrastructure such as towers, fiber optic networks, backbone, data centers and satellites.",
+   "evidence": "the B2B Infra segment includes the provision, management, and maintenance of telecommunications infrastructure such as towers, fiber optic networks, backbone infrastructure, data centers, and satellites;"
+  },
+  {
+   "name": "B2B ICT",
+   "products": [
+    "system integration services",
+    "information technology services",
+    "digital solutions",
+    "IndiBiz product packages",
+    "ASTINet dedicated services",
+    "TelkomNet VPN Intranet",
+    "managed network and platform services"
+   ],
+   "description": "Provides system integration, information technology services and digital solutions to corporate and institutional customers.",
+   "evidence": "the B2B ICT segment includes system integration services, information technology services, and digital solutions for corporate and institutional customers;"
+  },
+  {
+   "name": "International",
+   "products": [
+    "international connectivity",
+    "wholesale services"
+   ],
+   "description": "Provides international connectivity and wholesale services to telecommunications operators and overseas customers.",
+   "evidence": "the International segment includes international connectivity and wholesale services for telecommunications operators and overseas customers;"
+  },
+  {
+   "name": "Others",
+   "products": [
+    "media and content services",
+    "business consulting and management services",
+    "trading and distribution",
+    "certain information technology services",
+    "investment and other business development activities"
+   ],
+   "description": "Runs supporting businesses such as media and content, consulting and management services, trading and distribution, and investments.",
+   "evidence": "the Others segment includes supporting business activities such as media and content services, business consulting and management services, trading and distribution, certain information technology services, as well as investment and other business development activities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for fixed and mobile telecommunications services, solutions and ancillary services.",
+  "evidence": "We provide fixed and mobile telecommunications services and solutions and ancillary services."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company regrouped its operating segments from a customer facing unit basis to a business pillar basis, identifying five reportable segments.",
+   "evidence": "We identified five reportable segments without aggregation of operating segments, namely B2C, B2B Infra, B2B ICT, International, and Others."
+  },
+  {
+   "text": "In 2023 the IndiHome business was combined with Telkomsel by transferring IndiHome assets and liabilities.",
+   "evidence": "we entered into an agreement with Telkomsel to combine our fixed broadband and mobile broadband services into a single business entity, by transferring a portion of our assets and liabilities allocated to the IndiHome business segment to Telkomsel."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

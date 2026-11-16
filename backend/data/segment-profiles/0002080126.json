@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002080126",
  "issuerName": "Forgent Power Solutions, Inc.",
- "builtAt": "2026-11-16T04:49:56.269Z",
+ "builtAt": "2026-11-16T09:27:31.314Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002080126-26-000035",
@@ -10,10 +10,29 @@
   "filingDate": "2026-09-15",
   "url": "https://www.sec.gov/Archives/edgar/data/2080126/000208012626000035/fps-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electrical distribution equipment",
+   "products": [
+    "automatic transfer switches",
+    "dry type transformers",
+    "electrical houses",
+    "generator connection cabinets",
+    "liquid filled transformers",
+    "panelboards",
+    "power distribution units",
+    "power skids"
+   ],
+   "description": "Designs and manufactures electrical distribution equipment, including custom and standard products plus powertrain solutions, for data center, grid and industrial customers.",
+   "evidence": "The Company manages its business on the basis of one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Data center, utility, industrial and technology customers, contractors, OEMs and distributors pay for engineered electrical distribution equipment and related commissioning and maintenance services.",
+  "evidence": "We also provide on-site commissioning and maintenance services for our products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

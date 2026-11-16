@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001123799",
  "issuerName": "WIPRO LIMITED",
- "builtAt": "2026-11-16T04:49:54.935Z",
+ "builtAt": "2026-11-16T09:25:11.939Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-253514",
@@ -10,10 +10,36 @@
   "filingDate": "2026-06-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1123799/000119312526253514/wit-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IT Services",
+   "products": [
+    "Technology Services",
+    "Business Process Services",
+    "Consulting Services",
+    "Engineering"
+   ],
+   "description": "Provides AI-powered technology services and consulting to clients worldwide, organized by strategic market units and global business lines.",
+   "evidence": "The IT Services segment primarily consists of IT services offerings to customers organized by four Strategic Market Units (\" SMUs \") - Americas 1, Americas 2, Europe and Asia Pacific Middle East and Africa (\" APMEA \")."
+  },
+  {
+   "name": "IT Products",
+   "products": [
+    "computing platforms and storage",
+    "networking solutions",
+    "enterprise information security",
+    "software products such as databases and operating systems"
+   ],
+   "description": "Resells third-party hardware and software products to clients, complementing the company's IT services offerings.",
+   "evidence": "Our IT Products segment provides a range of third-party IT products including computing platforms and storage, networking solutions, enterprise information security, and software products such as databases and operating systems."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay for IT services and consulting engagements, and for third-party hardware and software products resold through the IT Products segment.",
+  "evidence": "The Company is a value-added reseller of security, packaged and SaaS software for leading international brands."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

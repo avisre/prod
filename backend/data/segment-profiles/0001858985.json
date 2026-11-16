@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001858985",
  "issuerName": "On Holding AG",
- "builtAt": "2026-11-16T04:49:58.191Z",
+ "builtAt": "2026-11-16T09:28:53.062Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001858985-26-000008",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1858985/000185898526000008/onholdingag-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "single-brand consumer products business",
+   "products": [
+    "Shoes",
+    "Apparel",
+    "Accessories"
+   ],
+   "description": "Engineers and sells premium performance footwear, apparel and accessories for athletes and active consumers worldwide through wholesale and DTC channels.",
+   "evidence": "On operates as a single-brand consumer products business and therefore has a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Wholesale retail partners and direct-to-consumer channels pay for premium footwear, apparel and accessories.",
+  "evidence": "We connect with our global communities through our wholesale and direct-to-consumer (\"DTC\") channels."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

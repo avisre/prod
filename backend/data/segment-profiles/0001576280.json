@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001576280",
  "issuerName": "GUARDANT HEALTH, INC.",
- "builtAt": "2026-11-16T04:49:55.924Z",
+ "builtAt": "2026-11-16T09:27:02.427Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001576280-26-000013",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1576280/000157628026000013/gh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision Oncology",
+   "products": [
+    "Guardant360 CDx test",
+    "Guardant360 Liquid test",
+    "Guardant360 Tissue test",
+    "Guardant Reveal test",
+    "Shield blood test",
+    "GuardantINFINITY blood test",
+    "GuardantOMNI blood test",
+    "GuardantINFORM platform"
+   ],
+   "description": "Provides blood and tissue tests, real-world data and AI analytics to clinicians, patients and biopharmaceutical companies across cancer screening, monitoring and therapy selection.",
+   "evidence": "We also offer the Guardant360 Tissue test for advanced-stage cancer and the Guardant Reveal test to detect residual and recurring disease in early-stage colorectal, breast and lung cancer patients."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Commercial and government payers reimburse the company's blood and tissue tests, which are also provided to biopharmaceutical companies for clinical studies and drug development.",
+  "evidence": "demonstrating improved clinical utility and health economics from use of our tests to patients, physicians and payers"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
