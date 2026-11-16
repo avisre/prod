@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001716770",
+ "issuerName": "Wah Fu Education Group Ltd.",
+ "builtAt": "2026-11-16T05:48:43.739Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-083286",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1716770/000121390026083286/ea0298971-20f_wahfu.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

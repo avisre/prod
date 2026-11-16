@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001712762",
+ "issuerName": "bioAffinity Technologies, Inc.",
+ "builtAt": "2026-11-16T05:48:42.611Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010143",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1712762/000149315226010143/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diagnostic Research and Development",
+   "products": [
+    "diagnostic laboratory tests"
+   ],
+   "description": "Develops noninvasive diagnostic tests for lung cancer.",
+   "evidence": "F- 10 Segment Information The Company is organized in two operating segments, Diagnostic Research and Development (\"R&D\") a"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clinics and patients' insurers pay for its tests.",
+  "evidence": "Business Business Overview We develop noninvasive diagnostic laboratory tests to detect early-stage lung cancer and other diseases of the lung using flow cytometry and automated analysis informed by machine learning, a form of artificial intelligence (AI)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

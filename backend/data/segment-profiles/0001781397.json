@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001781397",
+ "issuerName": "EpicQuest Education Group International Limited",
+ "builtAt": "2026-11-16T05:49:46.247Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-008859",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1781397/000121390026008859/ea0273853-20f_epicquest.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

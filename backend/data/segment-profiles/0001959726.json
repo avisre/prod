@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001959726",
+ "issuerName": "Autozi Internet Technology (Global) Ltd.",
+ "builtAt": "2026-11-16T05:48:44.974Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-006271",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1959726/000149315226006271/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "auto parts and auto accessories sales",
+   "products": [
+    "auto parts",
+    "auto accessories"
+   ],
+   "description": "Sells automotive parts and accessories online and offline.",
+   "evidence": "Furthermore, for our business segment of auto parts and auto accessories sales, we primarily rely on our customer service hotlines and third-party sellers to provide certain shipping and after-sale services to our cus"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vehicle owners and repair shops buy its parts and services.",
+  "evidence": "Founded in 2010, we provide high-quality, affordable and professional one-stop automotive products and services through online and offline channels nationwide."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

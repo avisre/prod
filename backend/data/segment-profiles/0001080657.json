@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001080657",
+ "issuerName": "PRESIDIO PROPERTY TRUST, INC.",
+ "builtAt": "2026-11-16T05:49:45.313Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010114",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1080657/000143774926010114/sqft20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

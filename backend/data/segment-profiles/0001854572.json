@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001854572",
+ "issuerName": "ICZOOM GROUP INC.",
+ "builtAt": "2026-11-16T05:49:46.198Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-102243",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-10-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1854572/000121390025102243/ea0262215-20f_iczoom.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electronic components",
+   "products": [],
+   "description": "Distributes electronic components.",
+   "evidence": "Within this business segment, for the fiscal years ended June 30, 2025, 2024 and 2023, approximately 92."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Manufacturers and distributors buy its components.",
+  "evidence": "ng of the year $ 3,037,609 $ 1,671,353 Cash received in advance 368,582,387 321,360,209 Revenue recognized from opening balance of contract liabilities ( 2,957,143 ) ( 1,662,907 ) Revenue recognized from contract liabilities arising during the period ( 366,444,758 ) ( 318,33"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (electronic components): electronic components"
+ ],
+ "reader": "agent"
+}

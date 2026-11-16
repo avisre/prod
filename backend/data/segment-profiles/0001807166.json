@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001807166",
+ "issuerName": "Amesite Inc.",
+ "builtAt": "2026-11-16T05:48:38.724Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-102676",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1807166/000121390026102676/ea0303992-10k_amesite.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Amesite",
+   "products": [
+    "NurseMagic™",
+    "LynkMagic™"
+   ],
+   "description": "Sells AI learning products for nurses and businesses.",
+   "evidence": "We operate through two product lines: NurseMagic™ and LynkMagic™."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual nurses and enterprises pay for its products.",
+  "evidence": "1 B2C Sales and Marketing For individual nurses and caregivers, we offer a free version of NurseMagic™."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

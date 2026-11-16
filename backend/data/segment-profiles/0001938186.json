@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001938186",
+ "issuerName": "Jayud Global Logistics Limited",
+ "builtAt": "2026-11-16T05:49:39.899Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-045588",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1938186/000121390026045588/ea0286038-20f_jayud.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

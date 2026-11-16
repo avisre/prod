@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001926293",
+ "issuerName": "Green Circle Decarbonize Technology Ltd",
+ "builtAt": "2026-11-16T05:48:37.695Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-038530",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1926293/000149315226038530/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

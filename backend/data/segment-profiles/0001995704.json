@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001995704",
+ "issuerName": "Cuprina Holdings (Cayman) Limited",
+ "builtAt": "2026-11-16T05:49:42.612Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-019085",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1995704/000149315226019085/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

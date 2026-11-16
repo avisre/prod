@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001969863",
+ "issuerName": "SU Group Holdings Limited",
+ "builtAt": "2026-11-16T05:48:44.655Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001753926-26-000125",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1969863/000175392626000125/g085037_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

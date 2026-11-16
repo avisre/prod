@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001742341",
+ "issuerName": "HITEK GLOBAL INC.",
+ "builtAt": "2026-11-16T05:49:39.676Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-047560",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1742341/000121390026047560/ea0286182-20f_hitek.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HiTek",
+   "products": [],
+   "description": "Provides IT and e-commerce solutions.",
+   "evidence": "The Company determined it operates in one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay for its IT solutions.",
+  "evidence": "The Company identifies operating segments as components of the consolidated operations for which discrete financial information is available and is regularly reviewed by the chief operating decision maker (\"CODM\"), in making decisions regarding resource allocation and evaluating financial performance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (HiTek): IT solutions"
+ ],
+ "reader": "agent"
+}

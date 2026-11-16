@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001450704",
+ "issuerName": "VIVAKOR, INC.",
+ "builtAt": "2026-11-16T05:49:41.491Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-003530",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1450704/000182912626003530/vivakor_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

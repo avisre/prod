@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001631487",
+ "issuerName": "CollPlant Biotechnologies Ltd",
+ "builtAt": "2026-11-16T05:49:41.119Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-034393",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1631487/000121390026034393/ea0282912-20f_collplant.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CollPlant",
+   "products": [
+    "recombinant collagen"
+   ],
+   "description": "Makes recombinant human collagen products.",
+   "evidence": "Segments The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners and medical customers pay for its collagen products.",
+  "evidence": "● Our products are based on novel technology, which makes it difficult to predict the time and cost of product development and potential regulatory approval."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

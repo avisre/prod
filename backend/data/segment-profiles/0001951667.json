@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001951667",
+ "issuerName": "Cheetah Net Supply Chain Service Inc.",
+ "builtAt": "2026-11-16T05:49:43.747Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-032699",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1951667/000110465926032699/ctnt-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Logistics and warehousing services",
+   "products": [
+    "logistics",
+    "warehousing services"
+   ],
+   "description": "Provides logistics and warehousing services.",
+   "evidence": "Logistics and warehousing services business now represents our sole operating segment reported under continuing operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay for logistics and warehousing.",
+  "evidence": "Through TWEW, we provide general labor services including loading, unloading, and other labor-related activities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

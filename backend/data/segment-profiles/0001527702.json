@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001527702",
+ "issuerName": "IQSTEL Inc.",
+ "builtAt": "2026-11-16T05:48:42.423Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001663577-26-000094",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1527702/000166357726000094/iqst10k_123125.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

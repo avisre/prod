@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001756180",
+ "issuerName": "NOCERA, INC.",
+ "builtAt": "2026-11-16T05:49:43.265Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-003002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1756180/000168316826003002/nocera_i10k-123125.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

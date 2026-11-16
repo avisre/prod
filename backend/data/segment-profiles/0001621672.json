@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001621672",
+ "issuerName": "Super League Enterprise, Inc.",
+ "builtAt": "2026-11-16T05:49:40.519Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010734",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1621672/000143774926010734/slgg20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Super League",
+   "products": [
+    "branded experiences",
+    "advertising"
+   ],
+   "description": "Creates branded experiences in gaming platforms.",
+   "evidence": "The Company operates as a single reportable segment consistent with how management evaluates performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Brands and agencies pay for its programmes.",
+  "evidence": "The Company generates revenue from brands and agencies by executing programs targeting U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001839285",
+ "issuerName": "HEALTHCARE TRIANGLE, INC.",
+ "builtAt": "2026-11-16T05:49:43.948Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-044078",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1839285/000121390026044078/ea0284191-10k_healthcare.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

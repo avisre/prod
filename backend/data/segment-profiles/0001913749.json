@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001913749",
+ "issuerName": "GLOBAL MOFY AI LIMITED",
+ "builtAt": "2026-11-16T05:48:38.004Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-002984",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1913749/000121390026002984/ea0271653-20f_global.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

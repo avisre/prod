@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001061069",
+ "issuerName": "AVALON HOLDINGS CORPORATION",
+ "builtAt": "2026-11-16T05:48:36.522Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009091",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1061069/000143774926009091/awx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "waste management services",
+   "products": [
+    "waste disposal brokerage",
+    "captive landfill management",
+    "salt water injection well operations"
+   ],
+   "description": "Provides waste management and disposal services.",
+   "evidence": "Business Segments Information Avalon's business segments are waste management services and golf and related operations."
+  },
+  {
+   "name": "golf and related operations",
+   "products": [
+    "golf operations"
+   ],
+   "description": "Runs golf and related operations.",
+   "evidence": "Business Segments Information Avalon's business segments are waste management services and golf and related operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers pay for waste services; golfers pay for rounds.",
+  "evidence": "The waste management services segment includes waste disposal brokerage and management services, captive landfill management operations and salt water injection well operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

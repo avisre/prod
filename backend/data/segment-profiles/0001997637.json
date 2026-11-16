@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001997637",
+ "issuerName": "iOThree Limited",
+ "builtAt": "2026-11-16T05:49:43.227Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-075976",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1997637/000121390026075976/ea0296944-20f_iothree.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "satellite connectivity solution",
+   "products": [
+    "satellite connectivity"
+   ],
+   "description": "Provides maritime satellite connectivity.",
+   "evidence": "We have two operating segments: (i) satellite connectivity solution, and (ii) digitalization and other solutions."
+  },
+  {
+   "name": "digitalization and other solutions",
+   "products": [
+    "digitalization solutions"
+   ],
+   "description": "Provides digitalisation and other solutions.",
+   "evidence": "We have two operating segments: (i) satellite connectivity solution, and (ii) digitalization and other solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Ship operators pay for connectivity and digital services.",
+  "evidence": "Based on the Frost & Sullivan Report, as of March 31, 2024, we ranked fifth in the Singaporean market based on revenue from the provision of maritime connectivity and digital solutions with a market share of approximately 6."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

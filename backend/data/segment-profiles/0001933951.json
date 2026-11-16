@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001933951",
+ "issuerName": "INNEOVA Holdings Limited",
+ "builtAt": "2026-11-16T05:48:35.878Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-023663",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1933951/000149315226023663/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "On-Highway",
+   "products": [
+    "genuine and aftermarket spare parts"
+   ],
+   "description": "Supplies vehicle spare parts through Autozone outlets.",
+   "evidence": "On-Highway Business Segment We supply genuine and aftermarket spare parts to customers through our Autozone retail outlets located in Singapore, as well as Malaysia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vehicle owners and workshops buy its spare parts.",
+  "evidence": "Our products are sourced from genuine OEM and global premium brands to suit the diverse needs of our customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

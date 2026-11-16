@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001905920",
+ "issuerName": "Galaxy Payroll Group Limited",
+ "builtAt": "2026-11-16T05:49:41.157Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-113297",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1905920/000121390026113297/ea0308886-20f_galaxy.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "employment services and payroll outsourcing",
+   "products": [
+    "employment services",
+    "payroll outsourcing"
+   ],
+   "description": "Provides employment and payroll outsourcing services.",
+   "evidence": "F- 15 Segment reporting The Group operates and manages its business as a single reportable segment, in accordance with ASC 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers pay for payroll and employment services.",
+  "evidence": "The reportable segment derives its revenues from the provision of employment services and payroll outsourcing services to customers through the subsidiaries in Taiwan, Macau, Hong Kong and the PRC."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

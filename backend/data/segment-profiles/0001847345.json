@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001847345",
  "issuerName": "ASPIRE     BIOPHARMA HOLDINGS, INC.",
- "builtAt": "2026-11-15T02:50:48.006Z",
+ "builtAt": "2026-11-16T05:49:39.691Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013682",
@@ -10,16 +10,23 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1847345/000149315226013682/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aspire",
+   "products": [],
+   "description": "Develops biopharma products.",
+   "evidence": "Accordingly, management has determined that there is only one repo"
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Revenue from direct pharmaceutical product sales to customers at fixed prices with prepayment, plus potential licensing and collaboration agreements with upfront and milestone payments and royalties.",
-  "evidence": "We expect to generate revenue through developing and marketing drugs and nutraceuticals using the technology for the novel sublingual delivery. Further, from time to time, we may enter into license or collaboration agreements with other companies that include development funding and significant upfront and milestone payments and/or royalties, which may become an important source of our revenue."
+  "text": "Partners and clinics pay for its products.",
+  "evidence": "62 Segment Information ASC 280, Segment Reporting (\"ASC 280\"), defines operating segments as components of an enterprise where discrete financial information is available that is evaluated regularly by the chief operating decision-maker (\"CODM\") in deciding how to allocate resources and in assessing performance."
  },
  "changes": [],
  "dropped": [
-  "segment name not in text: Biopharmaceutical Development"
+  "product not in text (Aspire): biopharma products"
  ],
- "escalated": "no segments"
+ "reader": "agent"
 }

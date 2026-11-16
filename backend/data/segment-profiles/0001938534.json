@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001938534",
+ "issuerName": "FBS Global Limited",
+ "builtAt": "2026-11-16T05:48:42.022Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-020758",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1938534/000149315226020758/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

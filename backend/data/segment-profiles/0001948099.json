@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001948099",
+ "issuerName": "Mingteng International Corporation Inc.",
+ "builtAt": "2026-11-16T05:49:39.893Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050226",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1948099/000121390026050226/ea0287175-20f_mingteng.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

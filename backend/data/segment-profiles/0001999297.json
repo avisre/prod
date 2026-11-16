@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001999297",
+ "issuerName": "BIG TREE CLOUD HOLDINGS LIMITED",
+ "builtAt": "2026-11-16T05:48:37.591Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-112509",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1999297/000121390026112509/ea0307949-20f_bigtree.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

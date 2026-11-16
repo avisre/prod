@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002036307",
+ "issuerName": "OFA Group",
+ "builtAt": "2026-11-16T05:48:45.578Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-033093",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/2036307/000149315226033093/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "OFA Group",
+   "products": [],
+   "description": "Provides architecture, design and project services.",
+   "evidence": "SEGMENT INFORMATION In accordance with ASC 280-10, Segment Reporting: Overall , the CODM reviews the consolidated results of operations when making decisions about allocating resources and assessing performance of the Company as a whole; hence, the Company has only one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Developers pay fees for design and project work.",
+  "evidence": "Accordingly, the Company does not have separately reportable segments."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (OFA Group): architecture and design services"
+ ],
+ "reader": "agent"
+}
