@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000932781",
  "issuerName": "FIRST COMMUNITY CORPORATION",
- "builtAt": "2026-11-16T05:28:42.599Z",
+ "builtAt": "2026-11-16T10:43:01.961Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001552781-26-000126",
@@ -10,11 +10,63 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/932781/000155278126000126/e26095_fcco-10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial and retail banking",
+   "products": [
+    "deposit and lending products and services",
+    "checking accounts",
+    "savings accounts",
+    "commercial and personal loans",
+    "mortgage loans",
+    "cash management services",
+    "internet banking",
+    "safe deposit boxes"
+   ],
+   "description": "Provides deposit and lending products and services to commercial and retail customers, primarily small-to-medium sized businesses, professionals and individuals.",
+   "evidence": "The Company's primary business is to provide deposit and lending products and services to its commercial and retail customers."
+  },
+  {
+   "name": "Mortgage Banking",
+   "products": [
+    "mortgage origination services",
+    "loans held-for-sale",
+    "loans held-for-investment",
+    "consumer mortgage loans that will be held-for-investment"
+   ],
+   "description": "Originates mortgage loans for sale to investors in the secondary market and consumer mortgage loans held for investment.",
+   "evidence": "This segment provides mortgage origination services for loans that will be sold to investors in the secondary market and consumer mortgage loans that will be held-for-investment."
+  },
+  {
+   "name": "Investment advisory and non-deposit",
+   "products": [
+    "investment advisory services",
+    "non-deposit products",
+    "investment brokerage services",
+    "non-deposit investment products"
+   ],
+   "description": "Provides investment advisory services and sells non-deposit investment and brokerage products to bank customers.",
+   "evidence": "This segment provides investment advisory services and non-deposit products."
+  },
+  {
+   "name": "Corporate",
+   "products": [],
+   "description": "Holds parent company financial information, including interest on parent company debt and dividends received from First Community Bank.",
+   "evidence": "This segment includes the parent company financial information, including interest on parent company debt and dividend income received from First Community Bank"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Commercial and retail customers and small-to-medium sized businesses pay interest and fees on deposits, loans, mortgage origination and investment advisory services.",
+  "evidence": "The Bank is engaged in a general commercial and retail banking business, emphasizing the needs of small-to-medium sized businesses, professionals and individuals."
+ },
+ "changes": [
+  {
+   "text": "In 2023, consumer mortgage held-for-investment loans were moved into the Mortgage Banking segment from Commercial and Retail Banking.",
+   "evidence": "In the second quarter of 2023, management made the decision to include consumer mortgage held-for-investment loans in this segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

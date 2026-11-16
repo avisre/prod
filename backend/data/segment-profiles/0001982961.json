@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001982961",
  "issuerName": "ENIGMATIG LTD",
- "builtAt": "2026-11-16T05:28:43.220Z",
+ "builtAt": "2026-11-16T10:42:18.160Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-006963",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1982961/000149315226006963/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sale of power equipment with engineering design and technical specification",
+   "products": [
+    "licensing services",
+    "corporate secretarial services",
+    "regulatory maintenance services",
+    "regulatory consultancy services",
+    "outsourcing services",
+    "back-office services"
+   ],
+   "description": "Single reportable segment covering consultancy services that help small and medium corporations set up and comply with licensed brokerage businesses overseas.",
+   "evidence": "The CODM manages the Company's operations as a single operating and reportable segment, referred to as the sale of power equipment with engineering design and technical specification."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay fees for assistance obtaining, renewing and complying with business licenses, plus corporate secretarial, regulatory consultancy and outsourcing work.",
+  "evidence": "Our corporate services income is mainly generated from fees we receive assisting our clients obtain, renew and comply with a range of business licenses (primarily including brokerage licenses and other financial licenses) in a variety of jurisdictions (primarily in London, Cyprus and Belize)."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

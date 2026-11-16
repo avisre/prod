@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001843586",
  "issuerName": "Oatly Group AB",
- "builtAt": "2026-11-16T05:28:39.626Z",
+ "builtAt": "2026-11-16T10:39:31.673Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001843586-26-000004",
@@ -10,10 +10,38 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1843586/000184358626000004/otly-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe & International",
+   "products": [
+    "Oatmilk"
+   ],
+   "description": "Sells oatmilk and other plant-based dairy goods to retail and foodservice customers in Europe and other international markets.",
+   "evidence": "The goodwill is allocated to the Europe & International segment."
+  },
+  {
+   "name": "North America",
+   "products": [
+    "Oatmilk"
+   ],
+   "description": "Sells oatmilk to retail, foodservice and e-commerce customers across the North American market.",
+   "evidence": "The Chief Executive Officer assesses the operating performance based on the Group's three operating segments: Europe & International, North America and Greater China."
+  },
+  {
+   "name": "Greater China",
+   "products": [
+    "Oatmilk"
+   ],
+   "description": "Sells oatmilk to retail, foodservice and e-commerce customers in the Greater China market.",
+   "evidence": "Relates to costs for the strategic review of the Greater China segment, mainly consisting of cost for external consultants."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retailers, foodservice operators and e-commerce customers pay for oatmilk and other plant-based dairy goods delivered to them.",
+  "evidence": "Revenue from contracts with customers consists of sales of goods."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

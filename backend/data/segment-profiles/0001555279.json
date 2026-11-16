@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001555279",
  "issuerName": "908 DEVICES INC.",
- "builtAt": "2026-11-16T05:28:40.944Z",
+ "builtAt": "2026-11-16T10:42:38.993Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-024877",
@@ -10,11 +10,32 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1555279/000110465926024877/mass-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chemical Analysis",
+   "products": [
+    "MX908",
+    "ThreatID",
+    "ProtectIR",
+    "XplorIR",
+    "VipIR"
+   ],
+   "description": "Makes handheld mass spectrometry and optical spectroscopy devices for point-of-need chemical analysis, used by government agencies and front-line workers.",
+   "evidence": "The term \"products\" or \"devices\" used in this \"Business\" section each refer to the MX908, ThreatID, ProtectIR, XplorIR, and VipIR."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including government agencies, pay for handheld devices and for related consumables, accessories and support services.",
+  "evidence": "The Company derives product and service revenue primarily from the sale of devices and related consumables and services."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its Desktop Portfolio of bioprocessing desktop devices to Repligen and reported it as a discontinued operation.",
+   "evidence": "On March 4, 2025, the Company completed the sale of its Desktop Portfolio to Repligen."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

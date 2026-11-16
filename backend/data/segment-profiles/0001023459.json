@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001023459",
  "issuerName": "Simulations Plus, Inc.",
- "builtAt": "2026-11-16T05:28:39.685Z",
+ "builtAt": "2026-11-16T10:39:30.572Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001023459-25-000060",
@@ -10,11 +10,45 @@
   "filingDate": "2025-12-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1023459/000102345925000060/simu-20250831.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software",
+   "products": [
+    "GastroPlus®",
+    "ADMET Predictor®",
+    "MonolixSuite™",
+    "DDDPlus™",
+    "MembranePlus™",
+    "Thales™",
+    "Pro-ficiency®"
+   ],
+   "description": "Supplies simulation, modeling and AI-driven prediction software to biopharmaceutical clients for drug discovery, development, clinical trials and commercialization.",
+   "evidence": "Software: Supports pharmaceutical research, development, and commercialization through simulation, modeling, and AI-driven prediction."
+  },
+  {
+   "name": "Services",
+   "products": [
+    "PKPD Services",
+    "Medical Communications",
+    "QSP/QST Services",
+    "PBPK Services"
+   ],
+   "description": "Provides scientific consulting in pharmacokinetics, pharmacodynamics, drug modeling and regulatory strategy to biopharma clients from discovery through clinical development.",
+   "evidence": "Its scientists and engineers specialize in pharmacokinetics, pharmacodynamics, drug modeling, and regulatory strategy, supporting clients from discovery through clinical development."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pharmaceutical, biotechnology, agrochemical, cosmetics and food companies, plus academic and regulatory agencies, pay for software licenses and scientific consulting services.",
+  "evidence": "Our software and consulting services are provided to major pharmaceutical, biotechnology, agrochemical, cosmetics, and food industry companies and academic and regulatory agencies worldwide for use in conducting industry-based research."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the company reorganized its internal structure, replacing its former reporting units with Software and Services reporting units.",
+   "evidence": "At the beginning of the fourth quarter of fiscal year 2025, the Company reorganized its internal structure to create a more integrated and cohesive operating platform based on product and service solutions."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001297107",
  "issuerName": "COASTALSOUTH BANCSHARES, INC.",
- "builtAt": "2026-11-16T05:28:39.236Z",
+ "builtAt": "2026-11-16T10:39:29.458Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-104114",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1297107/000119312526104114/coso-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail and Commercial Banking",
+   "products": [
+    "retail and commercial banking products",
+    "residential mortgage warehouse lending",
+    "SBA 7(a) loans",
+    "USDA loans",
+    "single-family mortgages"
+   ],
+   "description": "A bank segment serving retail and commercial customers with loans, deposits, government-guaranteed lending and mortgage warehouse funding.",
+   "evidence": "The segment's revenues are primarily derived from retail and commercial banking products, and investment income."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The bank earns interest and fees from loans to retail and commercial customers, government-guaranteed lending and short term funding to non-bank mortgage loan originators.",
+  "evidence": "The Company has a nationwide residential mortgage warehouse division, MBF, which provides short term funding to non-bank mortgage loan originators."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

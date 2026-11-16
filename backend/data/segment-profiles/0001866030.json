@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001866030",
  "issuerName": "A2Z CUST2MATE SOLUTIONS CORP.",
- "builtAt": "2026-11-16T05:28:42.277Z",
+ "builtAt": "2026-11-16T10:41:40.484Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-014416",
@@ -10,11 +10,38 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1866030/000149315226014416/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Smart Carts",
+   "products": [
+    "Cust2Mate Carts",
+    "Cust2Mate Products",
+    "retail \"smart cart\" solutions"
+   ],
+   "description": "Develops and commercializes smart cart retail automation solutions, mainly for large grocery stores and supermarkets.",
+   "evidence": "a. Retail automation solutions – Smart Carts (\"Smart Carts\")"
+  },
+  {
+   "name": "Precision Metal Parts",
+   "products": [
+    "manufacture of precision metal parts"
+   ],
+   "description": "Manufactures and sells precision metal parts, supplying dozens of customers from the company's Israeli operations.",
+   "evidence": "b. Manufacturing and selling of precision metal parts – \"Precision Metal Parts\""
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Supermarket chains, retailers and industrial customers pay for smart carts and precision metal parts, all sold in Israel.",
+  "evidence": "Revenues from the smart cart segment are generated from one customer, and account for 41%, 10%, and 67% of the Company's revenues for the years ended December 31, 2025, 2024, and 2023."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its subsidiary Advanced Military Solutions, whose business is reported as discontinued operations.",
+   "evidence": "Effective June 30, 2025, we entered into a share purchase agreement pursuant to which we sold A2ZMS to a purchaser residing in Irael for a purchase price of 500,000 ILS."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

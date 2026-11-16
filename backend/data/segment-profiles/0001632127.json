@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001632127",
  "issuerName": "Cable One, Inc.",
- "builtAt": "2026-11-16T05:28:41.743Z",
+ "builtAt": "2026-11-16T10:41:09.519Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001632127-26-000005",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1632127/000163212726000005/cabo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Broadband communications",
+   "products": [
+    "residential data",
+    "business data",
+    "residential video",
+    "voice services",
+    "Sparklight TV",
+    "intelligent Wi-Fi",
+    "technology support",
+    "network security solutions"
+   ],
+   "description": "Provides data, video and voice services to residential and business subscribers in non-metropolitan and secondary markets across Western, Midwestern and Southern states.",
+   "evidence": "Accordingly, management has identified one operating segment, which is its reportable segment, under this organizational and reporting structure."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Residential and business subscribers pay monthly subscription or contract fees for data, video and voice services.",
+  "evidence": "Residential revenues are generated through individual and bundled subscriptions for data, video and voice services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

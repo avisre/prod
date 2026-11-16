@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001681206",
  "issuerName": "NI HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:28:42.350Z",
+ "builtAt": "2026-11-16T10:41:36.440Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001174947-26-000305",
@@ -10,11 +10,72 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1681206/000117494726000305/nodk-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private Passenger Auto",
+   "products": [
+    "private passenger auto insurance"
+   ],
+   "description": "Writes private passenger auto insurance covering liability for bodily injury and property damage, and damage to insured automobiles.",
+   "evidence": "Nodak Insurance, American West, and Battle Creek each write private passenger auto insurance to provide protection against liability for bodily injury and property damage arising from automobile accidents as well as protection against loss from damage to automobiles owned by the insured."
+  },
+  {
+   "name": "Non-Standard Auto",
+   "products": [
+    "non-standard auto insurance",
+    "minimum-limit auto liability coverage"
+   ],
+   "description": "Primero and Direct Auto write non-standard auto insurance focused on minimum-limit auto liability coverage, now being non-renewed.",
+   "evidence": "Primero and Direct Auto write non-standard auto insurance with a focus on minimum-limit auto liability coverage."
+  },
+  {
+   "name": "Home and Farm",
+   "products": [
+    "homeowners and farmowners policies"
+   ],
+   "description": "Writes homeowners and farmowners policies covering buildings, equipment and contents for perils such as fire, wind and hail.",
+   "evidence": "Nodak Insurance, American West, and Battle Creek each write homeowners and farmowners policies to provide coverage for damage to buildings, equipment, and contents for a variety of perils, including fire, lightning, wind, hail, and theft."
+  },
+  {
+   "name": "Crop",
+   "products": [
+    "crop hail and multi-peril crop insurance policies",
+    "crop-yield insurance",
+    "crop-revenue insurance"
+   ],
+   "description": "Offers crop hail and Federal multi-peril crop insurance protecting agricultural producers against crop yield losses and revenue declines.",
+   "evidence": "Nodak Insurance, American West, and Battle Creek offer crop hail and multi-peril crop insurance policies."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "commercial and excess liability coverages",
+    "assumed reinsurance book of business"
+   ],
+   "description": "Writes commercial and excess liability coverages and holds run-off assumed reinsurance, alongside other continuing operations.",
+   "evidence": "In addition to the products described above, Nodak Insurance, American West, and Battle Creek write commercial and excess liability coverages."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Policyholders pay premiums to the insurance subsidiaries for property and casualty coverage, while agents earn commissions as a percentage of those premiums.",
+  "evidence": "Agents receive commission as a percentage of premiums as their primary compensation from us."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold Westminster, which had formed the Commercial segment, and Westminster is now reported in discontinued operations.",
+   "evidence": "Prior to the sale of Westminster on June 30, 2024, we also reported a Commercial segment that consisted primarily of Westminster's balances and results."
+  },
+  {
+   "text": "In 2024 and 2025 the Company stopped writing non-standard auto business in Nevada, Arizona, Illinois and South Dakota, and existing policies are being non-renewed.",
+   "evidence": "We made the strategic decision to stop writing non-standard auto business for Primero in Nevada during 2024 and in Arizona, Illinois, and South Dakota during 2025, and existing policies will be non-renewed."
+  },
+  {
+   "text": "The commercial business remaining in continuing operations was moved into the All Other segment in 2024.",
+   "evidence": "The commercial business that remains a part of our continuing operations has been included in the All Other segment for the current and prior periods presented."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

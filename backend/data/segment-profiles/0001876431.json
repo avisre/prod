@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001876431",
  "issuerName": "Prenetics Global Limited",
- "builtAt": "2026-11-16T05:28:40.462Z",
+ "builtAt": "2026-11-16T10:40:20.236Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-028623",
@@ -10,11 +10,45 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1876431/000162828026028623/pre-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prevention",
+   "products": [
+    "genetic testing",
+    "genetic testing services"
+   ],
+   "description": "Designs and sells genetic testing to individuals and corporates, delivering test results and reports to those customers.",
+   "evidence": "Prevention being the design and sale of genetic testing"
+  },
+  {
+   "name": "Consumer Health",
+   "products": [
+    "consumer health products",
+    "health and wellness products",
+    "fulfillment and distribution services of sports nutrition products",
+    "sports nutrition products",
+    "IM8 products"
+   ],
+   "description": "Sells consumer health and wellness products and provides fulfillment and distribution services for sports nutrition products to customers.",
+   "evidence": "Consumer Health being provision of consumer health products, including health and wellness products, and fulfillment and distribution services of sports nutrition products"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers and individuals pay for genetic testing services, consumer health and wellness products, and fulfillment and distribution of sports nutrition products.",
+  "evidence": "Revenue in our Consumer Health segment is derived from (i) the sale of consumer health and wellness products and (ii) the provision of fulfillment and distribution services for sports nutrition products."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company disposed of its Diagnostics business and now operates through two reportable segments, Prevention and Consumer Health.",
+   "evidence": "As a result of this disposal, we currently operate through two reportable segments: (i) the Prevention segment and (ii) the Consumer Health segment."
+  },
+  {
+   "text": "In 2023 the Group discontinued its COVID related diagnostic services and other DNA testing operations in the EMEA region.",
+   "evidence": "In 2023, the Group discontinued its 2019 novel coronavirus (\"COVID-19\") related diagnostic services globally and other DNA testing operations in the EMEA region."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

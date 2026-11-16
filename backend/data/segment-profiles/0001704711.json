@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001704711",
  "issuerName": "FUNKO, INC.",
- "builtAt": "2026-11-16T05:28:41.608Z",
+ "builtAt": "2026-11-16T10:41:02.408Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001704711-26-000020",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pop culture consumer products",
+   "products": [
+    "Core Collectible",
+    "Loungefly",
+    "Pop! Vinyl",
+    "Bitty Pop!",
+    "Pop! Yourself",
+    "Mondo",
+    "figures",
+    "plush"
+   ],
+   "description": "Designs, licenses and sells pop culture consumer products, including figures, bags and apparel, to retailers and directly to fans.",
+   "evidence": "The segment derives revenue from customers by providing a wide variety of branded categories, including Core Collectible (predominately figures), Loungefly (predominately softlines including bags, wallets, backpacks and accessories) and Other (predominately Mondo and other emerging brands)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail customers and fans pay for licensed pop culture products such as figures, bags and apparel, bought through specialty, mass-market and e-commerce channels or directly.",
+  "evidence": "We sell our products through a diverse network of retail customers across multiple retail channels, including specialty retailers, mass-market retailers, and e-commerce sites, as well as directly to consumers primarily through our owned websites and three flagship retail stores."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

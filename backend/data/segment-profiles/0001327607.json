@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001327607",
  "issuerName": "FIRST WESTERN FINANCIAL, INC.",
- "builtAt": "2026-11-16T05:28:43.964Z",
+ "builtAt": "2026-11-16T10:43:36.444Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012825",
@@ -10,10 +10,34 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1327607/000162828026012825/myfw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wealth Management",
+   "products": [
+    "deposit",
+    "loan",
+    "insurance",
+    "trust and investment management advisory products and services"
+   ],
+   "description": "Provides deposit, loan, insurance, trust and investment management advisory products and services to wealthy clients through a private trust bank platform.",
+   "evidence": "The Wealth Management segment consists of operations relative to the Company's fully integrated wealth management products and services."
+  },
+  {
+   "name": "Mortgage",
+   "products": [
+    "residential mortgage service offerings",
+    "mortgage loans"
+   ],
+   "description": "Originates and sells residential mortgage loans to third parties, recognizing premiums net of expenses on those loan sales.",
+   "evidence": "The Mortgage segment consists of operations relative to the Company's residential mortgage service offerings."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay for trust, investment management, advisory and banking services, and mortgage loans are originated and sold to investors for premiums.",
+  "evidence": "We generate a significant portion of our revenues from non-interest income, which we produce from our trust, investment management, and other advisory services as well as through the origination and sale of mortgage loans."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

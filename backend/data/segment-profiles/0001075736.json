@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001075736",
  "issuerName": "Crexendo, Inc.",
- "builtAt": "2026-11-16T05:28:39.174Z",
+ "builtAt": "2026-11-16T10:38:58.472Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001654954-26-001848",
@@ -10,10 +10,41 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1075736/000165495426001848/cxdo_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud Telecommunications Services",
+   "products": [
+    "CrexMo",
+    "VIP Mobile",
+    "Snap Mobile",
+    "Cloud Fax (cFax)",
+    "Desktop devices",
+    "managed IT services",
+    "broadband Internet services"
+   ],
+   "description": "Sells cloud voice, video, contact center, managed IT and broadband services to businesses of all sizes through direct and partner channels.",
+   "evidence": "The cloud telecommunications services segment generates revenue from selling cloud telecommunication services, products, and other internet services."
+  },
+  {
+   "name": "Software Solutions",
+   "products": [
+    "SNAPsolution",
+    "SNAPaccel",
+    "Subscription Maintenance and Support",
+    "Professional Services and Other",
+    "Infrastructure as a Service",
+    "Contact Center as a Service (CCaaS)"
+   ],
+   "description": "Licenses unified communications and contact center platform software, maintenance and professional services to service providers who resell it.",
+   "evidence": "Our software solutions offering provides a comprehensive suite of unified communications (UC), video conferencing, collaboration & contact center solutions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay recurring monthly subscription fees for cloud telecommunications services and pay separately for software licenses, maintenance support and professional services.",
+  "evidence": "We generate recurring revenue from our cloud telecommunications services, broadband Internet services, managed IT services, software license sales, and infrastructure as a service."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

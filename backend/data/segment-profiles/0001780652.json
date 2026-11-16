@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001780652",
  "issuerName": "Canaan Inc.",
- "builtAt": "2026-11-16T05:28:40.632Z",
+ "builtAt": "2026-11-16T10:40:19.614Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-043786",
@@ -10,11 +10,31 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1780652/000110465926043786/can-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "crypto mining solutions",
+   "products": [
+    "Bitcoin mining machines",
+    "ASICs",
+    "AvalonMiner",
+    "Avalon Home series"
+   ],
+   "description": "Designs and sells ASIC-based Bitcoin mining machines and chips, including Avalon Home devices, to industrial and home miners.",
+   "evidence": "We primarily dedicated technology and expertise in ASIC applications to industrial Bitcoin mining machines and are a leading producer of Bitcoin mining machines in the global market."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers worldwide pay for Bitcoin mining machines and ASIC products, and the company also earns revenue from its own Bitcoin mining business.",
+  "evidence": "For the years ended December 31, 2023, 2024 and 2025, we generated revenue of US$34.0 million, US$44.0 million and US$113.2 million from the Bitcoin mining business, respectively."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company decided to dispose of property and equipment related to its edge computing application business.",
+   "evidence": "In 2025, the Company determined to dispose property and equipment related to edge computing application."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

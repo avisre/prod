@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001710482",
  "issuerName": "John Marshall Bancorp, Inc.",
- "builtAt": "2026-11-16T05:28:40.726Z",
+ "builtAt": "2026-11-16T10:40:03.960Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-027378",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1710482/000110465926027378/jmsb-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bank",
+   "products": [
+    "commercial checking",
+    "savings and money market accounts",
+    "certificates of deposit",
+    "treasury and cash management services",
+    "commercial and industrial loans",
+    "commercial real estate loans",
+    "U.S. Small Business Administration (\"SBA\") 7(a) loans",
+    "consumer mortgages"
+   ],
+   "description": "Virginia-chartered commercial bank serving small to medium-sized businesses, professionals, non-profits and individuals with loans, deposits and cash management services in the Washington, D.C. area.",
+   "evidence": "The Company has one operating segment, the Bank, and has determined that it meets the aggregation criteria of ASC 280 Segment Reporting"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Small and medium-sized businesses, their owners and employees, professional corporations, non-profits and individuals pay the Bank for deposits, loans and cash management services.",
+  "evidence": "We primarily serve small to medium-sized businesses, their owners and employees, professional corporations, non-profits and individuals with a broad range of banking products and financial services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

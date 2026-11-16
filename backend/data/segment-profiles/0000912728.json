@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000912728",
  "issuerName": "FORWARD AIR CORPORATION",
- "builtAt": "2026-11-16T05:28:40.241Z",
+ "builtAt": "2026-11-16T10:40:09.930Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-016793",
@@ -10,11 +10,62 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/912728/000162828026016793/fwrd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Expedited Freight",
+   "products": [
+    "LTL services",
+    "truckload",
+    "local pick-up and delivery",
+    "shipment consolidation and deconsolidation",
+    "warehousing",
+    "customs brokerage",
+    "other handling services",
+    "expedited truckload brokerage"
+   ],
+   "description": "Provides expedited regional, inter-regional and national LTL and truckload services to freight forwarders, third-party logistics companies, airlines and shippers.",
+   "evidence": "Our Expedited Freight segment provides expedited regional, inter-regional and national LTL services."
+  },
+  {
+   "name": "Omni Logistics",
+   "products": [
+    "air and ocean freight consolidation and forwarding",
+    "customs brokerage",
+    "time-definite transportation services",
+    "contract logistics",
+    "warehousing",
+    "value-added services",
+    "fulfillment services",
+    "distribution"
+   ],
+   "description": "Provides asset-light global freight forwarding, contract logistics and value-added warehousing to United States-based customers in high-growth end markets.",
+   "evidence": "Our Omni Logistics segment provides a full suite of global logistics services."
+  },
+  {
+   "name": "Intermodal",
+   "products": [
+    "intermodal container drayage services",
+    "dedicated contract",
+    "Container Freight Station",
+    "warehouse and handling services",
+    "linehaul and LTL services"
+   ],
+   "description": "Provides first- and last-mile container drayage, dedicated contract and warehouse handling services at seaports and railheads.",
+   "evidence": "Our Intermodal segment provides first- and last-mile high value intermodal container drayage services both to and from seaports and railheads."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Freight forwarders, third-party logistics companies, airlines and shippers pay us for LTL, truckload, forwarding and drayage services.",
+  "evidence": "We market our Expedited Freight services primarily to freight and logistics intermediaries (such as freight forwarders and third-party logistics companies), and airlines (such as integrated air cargo carriers, and passenger and cargo airlines)."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company added the Omni Logistics reportable segment through the Omni Acquisition.",
+   "evidence": "On January 25, 2024, we completed the Omni Acquisition, which has allowed us to expand our operations both domestically and internationally."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001125345",
  "issuerName": "MACROGENICS, INC.",
- "builtAt": "2026-11-16T05:28:42.744Z",
+ "builtAt": "2026-11-16T10:41:53.978Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001125345-26-000017",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1125345/000112534526000017/mgnx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Antibody-based therapeutics",
+   "products": [
+    "lorigerlimab",
+    "MGC026",
+    "MGC028",
+    "MGC030",
+    "MGD024",
+    "ZYNYZ",
+    "MARGENZA",
+    "TZIELD"
+   ],
+   "description": "Clinical-stage biopharmaceutical company discovering, developing, manufacturing and commercializing innovative antibody-based therapeutics, including antibody-drug conjugates and multi-specific antibodies, for the…",
+   "evidence": "The Company operates as one operating and reportable segment, which is discovering, developing, manufacturing and commercializing innovative antibody-based therapeutics for the treatment of cancer."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Collaborators and partners pay upfront payments, option and milestone fees and royalties, while the company also earns product sales and contract manufacturing fees.",
+  "evidence": "Total revenue includes collaborative and other agreements, product sales, net, contract manufacturing, and government agreements."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company recast prior period segment information, moving discontinued projects previously presented separately in 2024 and 2023 into Other programs.",
+   "evidence": "These changes include moving discontinued projects separately presented in 2024 and 2023 into Other programs and presenting programs separately in 2025 for molecules no longer in a preclinical phase."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

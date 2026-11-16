@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001484769",
  "issuerName": "FuboTV Inc.",
- "builtAt": "2026-11-16T05:28:43.718Z",
+ "builtAt": "2026-11-16T10:43:12.355Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-25-009420",
@@ -10,11 +10,33 @@
   "filingDate": "2025-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1484769/000162828025009420/fubo-20241231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "streaming business",
+   "products": [
+    "Fubo Essential",
+    "Pro",
+    "Elite",
+    "Cloud DVR Plus",
+    "Family Share",
+    "MultiView"
+   ],
+   "description": "Live TV streaming platform offering sports-first subscription packages with news and entertainment content, plus digital advertising, to subscribers in the United States and abroad.",
+   "evidence": "The Company has one operating segment as of December 31, 2024, the streaming business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Subscribers pay subscription fees for live TV streaming packages and incremental Attachments, and advertisers pay for digital advertising inventory on the platform.",
+  "evidence": "We then monetize our audience through subscription fees and our digital advertising offering."
+ },
+ "changes": [
+  {
+   "text": "In 2022 the company dissolved Fubo Gaming and ceased Fubo Sportsbook, reporting its former wagering reportable segment as discontinued operations.",
+   "evidence": "In connection with the dissolution of Fubo Gaming and the termination of Fubo Sportsbook, assets and liabilities and the operations of our former wagering reportable segment have been reported in discontinued operations for all periods presented."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

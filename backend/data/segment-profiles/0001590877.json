@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001590877",
  "issuerName": "REGENXBIO Inc.",
- "builtAt": "2026-11-16T05:28:38.851Z",
+ "builtAt": "2026-11-16T10:38:45.216Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-094013",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1590877/000119312526094013/rgnx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gene therapies",
+   "products": [
+    "Surabgene lomparvovec",
+    "ABBV-RGX-314",
+    "RGX-202",
+    "RGX-121",
+    "RGX-111",
+    "NAV Technology Platform",
+    "NAV Vectors"
+   ],
+   "description": "Develops and commercializes AAV gene therapies using its NAV Technology Platform to treat retinal, neuromuscular and neurodegenerative diseases.",
+   "evidence": "The Company's CODM , its Chief Executive Officer, views the Company's operations and manages the business as one operating segment focused on the development and commercialization of gene therapies to treat an array of diseases."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Licensees and collaborators pay license fees and royalties on the underlying net sales of licensed products.",
+  "evidence": "The country of origin for royalty revenue is determined based on the location of the underlying net sales of licensed products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

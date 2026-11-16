@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001754170",
  "issuerName": "AerSale Corporation",
- "builtAt": "2026-11-16T05:28:40.800Z",
+ "builtAt": "2026-11-16T10:40:34.212Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-025574",
@@ -10,10 +10,43 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1754170/000110465926025574/asle-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset Management Solutions",
+   "products": [
+    "aircraft",
+    "engines",
+    "used serviceable material",
+    "component parts",
+    "Flight Equipment",
+    "engine leasing",
+    "aircraft leases"
+   ],
+   "description": "Acquires, leases and disassembles mid-life commercial aircraft and engines, selling whole assets and used serviceable material parts to operators.",
+   "evidence": "Our Asset Management Solutions segment, which represented approximately 63% and 62% of our revenue during the fiscal years ended December 31, 2025 and 2024, respectively, acquires Flight Equipment from airlines and leasing companies as feedstock to support our business activities."
+  },
+  {
+   "name": "TechOps",
+   "products": [
+    "MRO services",
+    "airframe MRO services",
+    "component MRO capabilities",
+    "Engineered Solutions",
+    "AerSafe®",
+    "AerAware™",
+    "Product sales",
+    "Whole asset sales"
+   ],
+   "description": "Provides nose-to-tail maintenance, repair and overhaul of aircraft, engines and components, plus Engineered Solutions products, for passenger, cargo and government operators.",
+   "evidence": "Our TechOps segment, which represented approximately 37% and 38% of our revenue during the fiscal years ended December 31, 2025 and 2024, respectively, provides nose-to-tail MRO services on the most popular commercial aircraft, engines, and components that serve the passenger, cargo, and government sectors."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Airlines, cargo operators, government agencies and aftermarket providers pay for Flight Equipment sales and leases, MRO services and USM parts.",
+  "evidence": "Our principal customers are comprised of domestic and foreign passenger airlines, cargo operators and governmental agencies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

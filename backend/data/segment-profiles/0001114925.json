@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001114925",
  "issuerName": "LANTRONIX, INC.",
- "builtAt": "2026-11-16T05:28:41.857Z",
+ "builtAt": "2026-11-16T10:41:09.535Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-006754",
@@ -10,11 +10,35 @@
   "filingDate": "2026-08-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1114925/000168316826006754/lantronix_i10k-063026.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial and enterprise IoT",
+   "products": [
+    "Embedded IoT Solutions",
+    "IoT System Solutions",
+    "Software and Services",
+    "Compute SoM",
+    "Open-Q 8550 micro SoM",
+    "Drone Reference Platform",
+    "Percepxion",
+    "Nero Global Tracking"
+   ],
+   "description": "Develops and sells industrial and enterprise IoT hardware, software and services, including embedded modules, gateways and SaaS management, to OEMs and enterprises.",
+   "evidence": "As a result, we have determined that our business operates in a single operating segment: the development, marketing, and sale of industrial and enterprise IoT products and services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers, distributors and OEMs pay for embedded IoT modules, IoT systems, software subscriptions and engineering services.",
+  "evidence": "Revenue is recognized upon the transfer of control of promised products or services to customers in an amount that reflects the consideration we expect to receive in exchange for those products or services."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company acquired the industrial IoT business of Vecima Networks, adding GPS-based asset tracking to its software and services.",
+   "evidence": "Following our August 2026 acquisition of the Nero Global Tracking software-as-a-service platform, our Software and Services portfolio also includes GPS-based vehicle and asset tracking capabilities for fleet, municipal, and industrial asset tracking customers, further broadening our recurring revenue base."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

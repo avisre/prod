@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001943289",
  "issuerName": "Silvaco Group, Inc.",
- "builtAt": "2026-11-16T05:28:38.735Z",
+ "builtAt": "2026-11-16T10:38:38.653Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-017378",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1943289/000162828026017378/svco-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TCAD, EDA, and SIP",
+   "products": [
+    "TCAD",
+    "EDA",
+    "SIP",
+    "FTCO AI/ML solution",
+    "SPICE modelling and simulation",
+    "parasitic extraction and reduction",
+    "standard cell generation and optical proximity correction",
+    "memory compilers"
+   ],
+   "description": "Supplies TCAD and EDA software and semiconductor intellectual property to foundries, integrated device manufacturers and fabless semiconductor companies worldwide.",
+   "evidence": "As such, the Company's operations constitute a single operating segment and one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Foundries, integrated device manufacturers and fabless semiconductor companies license its TCAD and EDA software and SIP, plus support and training.",
+  "evidence": "Our customers include foundries, integrated device manufacturers (\"IDMs\") and fabless semiconductor companies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001725160",
  "issuerName": "Zentalis Pharmaceuticals, Inc.",
- "builtAt": "2026-11-16T05:28:43.363Z",
+ "builtAt": "2026-11-16T10:43:10.452Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001725160-26-000014",
@@ -10,11 +10,32 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1725160/000172516026000014/zntl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "azenosertib (ZN-c3)"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing azenosertib, a kinase inhibitor, for patients with ovarian cancer and other tumor types.",
+   "evidence": "The Company manages its operations as a single segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Partners such as Immunome pay for transferred intellectual property and milestone payments; the company currently sells no approved product.",
+  "evidence": "Immunome has contracted to obtain goods and services that are an output of ordinary activities and is a customer"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company said it no longer plans further development of azenosertib in uterine serous carcinoma.",
+   "evidence": "We do not plan further development of azenosertib in USC."
+  },
+  {
+   "text": "In 2024 the company transferred ownership of functional intellectual property to Immunome under asset purchase agreements.",
+   "evidence": "the Immunome Asset Purchase Agreements represent the transfer of ownership of functional intellectual property"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

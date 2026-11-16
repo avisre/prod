@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001675644",
  "issuerName": "FVCBankcorp, Inc.",
- "builtAt": "2026-11-16T05:28:42.386Z",
+ "builtAt": "2026-11-16T10:41:33.856Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001675644-26-000017",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1675644/000167564426000017/fvcb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial real estate loans",
+    "commercial construction loans",
+    "commercial loans for a variety of business purposes",
+    "Small Business Administration (\"SBA\") lending",
+    "asset based lending and accounts receivable financing",
+    "home equity loans",
+    "digital banking",
+    "treasury management products"
+   ],
+   "description": "Community-oriented commercial bank serving small and medium-sized businesses, nonprofits, professional service entities and their owners in the Washington, D.C. and Baltimore areas.",
+   "evidence": "All of the Company's financial results are similar and considered by the Company to be aggregated into one reportable operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Commercial businesses, nonprofits, professional service entities and their owners pay the bank for loans, deposits and related banking services.",
+  "evidence": "The Company's revenue is primarily derived from the business of banking."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

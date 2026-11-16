@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001479615",
  "issuerName": "Silence Therapeutics plc",
- "builtAt": "2026-11-16T05:28:39.425Z",
+ "builtAt": "2026-11-16T10:39:03.988Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-092591",
@@ -10,11 +10,30 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312526092591/sln-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RNA therapeutics",
+   "products": [
+    "RNAi-based medicines",
+    "royalty income",
+    "research collaboration agreements"
+   ],
+   "description": "Discovers and develops siRNA molecules and RNAi-based medicines, earning revenue from research collaborations and royalties with pharmaceutical partners.",
+   "evidence": "The Group operates as one reportable segment in the specific technology field of RNA therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pharmaceutical collaboration partners AstraZeneca and Hansoh pay upfront payments, development and regulatory milestones, FTE cost recharges and royalties on net product sales.",
+  "evidence": "The Group is eligible to receive development, regulatory and commercial milestones as well as royalties on Hansoh net product sales."
+ },
+ "changes": [
+  {
+   "text": "In 2024 Hansoh notified the Group that it would not pursue further development under the Hansoh Collaboration, ending that collaboration.",
+   "evidence": "In December 2024, Hansoh notified the Group that it will not pursue further development under the Hansoh Collaboration."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001802883",
  "issuerName": "Agora, Inc.",
- "builtAt": "2026-11-16T05:28:38.872Z",
+ "builtAt": "2026-11-16T10:38:42.781Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-155920",
@@ -10,11 +10,23 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1802883/000119312526155920/api-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "real-time engagement",
+   "products": [],
+   "description": "The group's only reportable segment, engaged in the real-time engagement business and serving customers in the PRC, the United States and other markets.",
+   "evidence": "This segment is engaged in real-time engagement business."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [],
+ "changes": [
+  {
+   "text": "In 2023 the company disposed of its customer engagement cloud business.",
+   "evidence": "During the year ended December 31, 2023, the Company disposed goodwill of US$ 12.3 million in connection with its disposal of customer engagement cloud business and recognized full impairment for the remaining goodwill of US$ 31.9 million."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

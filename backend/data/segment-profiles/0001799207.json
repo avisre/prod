@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001799207",
  "issuerName": "Auna S.A.",
- "builtAt": "2026-11-16T05:28:39.491Z",
+ "builtAt": "2026-11-16T10:39:19.300Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-168210",
@@ -10,10 +10,50 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1799207/000119312526168210/d108315d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncosalud Peru",
+   "products": [
+    "prepaid healthcare plans",
+    "oncology services"
+   ],
+   "description": "Provides prepaid healthcare plans and oncology services to plan members and patients at its own facilities in Peru.",
+   "evidence": "Our Oncosalud Peru segment consists of our prepaid healthcare plans and oncology services provided at our Oncosalud Peru segment facilities, including services provided under our prepaid plans and third-party healthcare plans and paid for out-of-pocket by our patients."
+  },
+  {
+   "name": "Healthcare Services in Peru",
+   "products": [
+    "healthcare services",
+    "oncology and general healthcare services"
+   ],
+   "description": "Delivers hospital and clinic healthcare services to patients and third-party payers at its facilities in Peru outside Oncosalud.",
+   "evidence": "Our Healthcare Services in Peru segment consists of healthcare services provided at any of our facilities in Peru other than those in the Oncosalud network."
+  },
+  {
+   "name": "Healthcare Services in Colombia",
+   "products": [
+    "healthcare services"
+   ],
+   "description": "Provides healthcare services to patients at its hospital and clinic facilities in Colombia.",
+   "evidence": "Our Healthcare Services in Colombia segment consists of healthcare services provided at any of our facilities in Colombia."
+  },
+  {
+   "name": "Healthcare Services in Mexico",
+   "products": [
+    "healthcare services",
+    "dental, vision insurance plans",
+    "oncology plans"
+   ],
+   "description": "Provides hospital healthcare services, dental and vision insurance plans, and oncology plans to patients and members in Mexico.",
+   "evidence": "Our Healthcare Services in Mexico segment consists of healthcare services provided at any of our facilities in Mexico and dental, vision insurance plans and oncology plans."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Plan members, patients and third-party payers pay for prepaid healthcare plans and healthcare services at the company's hospitals and clinics.",
+  "evidence": "We operate hospitals and clinics in Mexico, Peru and Colombia and provide prepaid healthcare plans in Peru and Mexico."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

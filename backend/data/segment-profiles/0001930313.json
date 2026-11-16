@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001930313",
  "issuerName": "SBC Medical Group Holdings Incorporated",
- "builtAt": "2026-11-16T05:28:38.910Z",
+ "builtAt": "2026-11-16T10:38:36.710Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-127557",
@@ -10,11 +10,32 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1930313/000119312526127557/sbc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Management services",
+   "products": [
+    "advertising",
+    "staffing",
+    "procurement",
+    "IT solutions",
+    "licensing of medical technologies and trademarks"
+   ],
+   "description": "Provides comprehensive management services, including advertising, staffing, procurement, IT solutions and technology licensing, to franchisee cosmetic treatment centers and alliance clinics.",
+   "evidence": "Our revenues are primarily derived from providing comprehensive management services to franchisee cosmetic treatment centers, including advertising, staffing, procurement, IT solutions, and the licensing of medical technologies and trademarks."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Franchisee and alliance clinics pay the company for comprehensive management services, including advertising, staffing, procurement and technology licensing.",
+  "evidence": "since we receive substantial revenue from the MCs as part of our compensation for management services"
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold its subsidiaries Kijima and Skynet to concentrate resources on its main medical business.",
+   "evidence": "On December 17, 2024, the Company entered into definitive agreements to sell and transfer all of the shares in its subsidiaries, Kijima and Skynet, to entities owned by Yoshiyuki Aikawa, CEO of the Company, for cash."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

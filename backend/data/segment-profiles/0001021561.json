@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001021561",
  "issuerName": "NU SKIN ENTERPRISES, INC.",
- "builtAt": "2026-11-16T05:28:42.468Z",
+ "builtAt": "2026-11-16T10:43:01.128Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001140361-26-005130",
@@ -10,11 +10,149 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1021561/000114036126005130/ef20060638_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "beauty products",
+    "wellness products",
+    "ageLOC",
+    "Pharmanex",
+    "ageLOC TruFace",
+    "ageLOC LumiSpa",
+    "ageLOC TRME",
+    "LifePak"
+   ],
+   "description": "Sells Nu Skin beauty and wellness products through direct selling in Canada, Latin America and the United States.",
+   "evidence": "The results in our Americas segment reflect a continued decline in our North America markets, while our Latin America markets grew year-over-year."
+  },
+  {
+   "name": "Southeast Asia/Pacific",
+   "products": [
+    "beauty products",
+    "wellness products",
+    "ageLOC",
+    "Pharmanex",
+    "ageLOC TruFace",
+    "ageLOC LumiSpa",
+    "ageLOC TRME",
+    "LifePak"
+   ],
+   "description": "Sells Nu Skin beauty and wellness products through direct selling in Southeast Asia, Australia, New Zealand and other markets.",
+   "evidence": "Our financial results and key performance indicators for this market, which are included in our Southeast Asia/Pacific segment in this report, were insignificant for 2025."
+  },
+  {
+   "name": "Mainland China",
+   "products": [
+    "beauty products",
+    "wellness products",
+    "ageLOC",
+    "Pharmanex",
+    "ageLOC TruFace",
+    "ageLOC LumiSpa",
+    "ageLOC TRME",
+    "LifePak"
+   ],
+   "description": "Sells Nu Skin beauty and wellness products in Mainland China through sales employees and independent marketers.",
+   "evidence": "Long-lived assets in Mainland China consist primarily of property, plant and equipment related to manufacturing, distribution facilities and the Mainland China headquarters."
+  },
+  {
+   "name": "Japan",
+   "products": [
+    "beauty products",
+    "wellness products",
+    "ageLOC",
+    "Pharmanex",
+    "ageLOC TruFace",
+    "ageLOC LumiSpa",
+    "ageLOC TRME",
+    "LifePak"
+   ],
+   "description": "Sells Nu Skin beauty and wellness products to consumers in Japan through its Brand Affiliates and direct selling network.",
+   "evidence": "These segments consist of our seven geographic Nu Skin segments—Americas, Southeast Asia/Pacific, Mainland China, Japan, Europe & Africa, South Korea, and Hong Kong/Taiwan—and our two Rhyz segments—Manufacturing and Rhyz Other."
+  },
+  {
+   "name": "Europe & Africa",
+   "products": [
+    "beauty products",
+    "wellness products",
+    "ageLOC",
+    "Pharmanex",
+    "ageLOC TruFace",
+    "ageLOC LumiSpa",
+    "ageLOC TRME",
+    "LifePak"
+   ],
+   "description": "Sells Nu Skin beauty and wellness products through direct selling in European markets and South Africa.",
+   "evidence": "We introduced enhancements to the sales performance plan in Europe & Africa starting in March 2025."
+  },
+  {
+   "name": "South Korea",
+   "products": [
+    "beauty products",
+    "wellness products",
+    "ageLOC",
+    "Pharmanex",
+    "ageLOC TruFace",
+    "ageLOC LumiSpa",
+    "ageLOC TRME",
+    "LifePak"
+   ],
+   "description": "Sells Nu Skin beauty and wellness products to South Korean consumers through its direct selling sales force.",
+   "evidence": "These segments consist of our seven geographic Nu Skin segments—Americas, Southeast Asia/Pacific, Mainland China, Japan, Europe & Africa, South Korea, and Hong Kong/Taiwan—and our two Rhyz segments—Manufacturing and Rhyz Other."
+  },
+  {
+   "name": "Hong Kong/Taiwan",
+   "products": [
+    "beauty products",
+    "wellness products",
+    "ageLOC",
+    "Pharmanex",
+    "ageLOC TruFace",
+    "ageLOC LumiSpa",
+    "ageLOC TRME",
+    "LifePak"
+   ],
+   "description": "Sells Nu Skin beauty and wellness products through direct selling in Hong Kong, Taiwan and Macau.",
+   "evidence": "The decline in our Hong Kong/Taiwan segment for 2025 is attributable to macroeconomic issues, which are resulting in less purchasing power for our consumers."
+  },
+  {
+   "name": "Manufacturing",
+   "products": [
+    "Elevate Health Sciences",
+    "3i Solutions",
+    "CasePak",
+    "Wasatch Product Development, LLC"
+   ],
+   "description": "Manufactures dietary supplements, ingredients and packaging and develops personal care products for Nu Skin and other customers.",
+   "evidence": "Our Rhyz strategic investment arm also includes two additional segments: Manufacturing and Rhyz Other."
+  },
+  {
+   "name": "Rhyz Other",
+   "products": [
+    "Beauty Biosciences LLC",
+    "LifeDNA"
+   ],
+   "description": "Holds Rhyz other investments, including a beauty company selling through digital and retail channels and a DNA assessment company.",
+   "evidence": "The Rhyz Other segment includes other investments by our Rhyz strategic investment arm."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Independent Brand Affiliates and sales employees sell beauty and wellness products directly to consumers, who pay the company for the products they buy.",
+  "evidence": "We operate in the direct selling channel, primarily utilizing person-to-person marketing to promote and sell our products, including through the use of social and digital platforms."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold Mavely, a social commerce platform that had been part of the Rhyz Other segment.",
+   "evidence": "Until January 2025, the Rhyz Other segment additionally included MyFavoriteThings, Inc., dba Mavely, a social commerce platform."
+  },
+  {
+   "text": "In 2023 the company closed its Israel market and renamed the Europe, Middle East and Africa segment Europe & Africa.",
+   "evidence": "As a result the Europe, Middle East and Africa (\"EMEA\") segment has been renamed Europe & Africa."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

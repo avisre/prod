@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001084869",
  "issuerName": "1 800 FLOWERS COM INC",
- "builtAt": "2026-11-16T05:28:43.496Z",
+ "builtAt": "2026-11-16T10:43:50.368Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001084869-26-000029",
@@ -10,11 +10,64 @@
   "filingDate": "2026-09-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1084869/000108486926000029/flws-20260628.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Floral & Gifts",
+   "products": [
+    "1-800-Flowers.com",
+    "Personalization Mall",
+    "Things Remembered",
+    "FruitBouquets.com",
+    "Flowerama"
+   ],
+   "description": "Sells fresh flowers, plants, fruit arrangements and personalized gifts directly to consumers through its flagship floral and gifting brands.",
+   "evidence": "The Consumer Floral & Gifts segment includes the operations of the Company's flagship brand, 1-800-Flowers.com, Personalization Mall, Things Remembered, FruitBouquets.com, and Flowerama, while the Gourmet Foods & Gift Baskets segment includes the operations of Harry & David, Wolferman's Bakery, Vital Choice, Moose Munch, Cheryl's Cookies, Mrs. Beasley's, The Popcorn Factory, DesignPac, 1-800-Baskets.com, Simply Chocolate, Shari's Berries, and Scharffen Berger."
+  },
+  {
+   "name": "BloomNet",
+   "products": [
+    "Napco",
+    "Card Isle",
+    "settlement processing",
+    "access services",
+    "wholesale products",
+    "web hosting"
+   ],
+   "description": "Provides products, services and wholesale floral supplies that help professional florists and retail flower shops grow their businesses.",
+   "evidence": "The BloomNet segment includes the operations of BloomNet, Napco, and Card Isle."
+  },
+  {
+   "name": "Gourmet Foods & Gift Baskets",
+   "products": [
+    "Harry & David",
+    "Wolferman's Bakery",
+    "Vital Choice",
+    "Moose Munch",
+    "Cheryl's Cookies",
+    "The Popcorn Factory",
+    "Shari's Berries",
+    "Scharffen Berger"
+   ],
+   "description": "Sells premium fruit, gourmet foods, cookies, popcorn, chocolate and gift baskets to consumers and wholesale customers.",
+   "evidence": "The Company operates in the following three business segments: Consumer Floral & Gifts, Gourmet Foods & Gift Baskets, and BloomNet."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for merchandise, services and outbound shipping charges, with revenue reduced by discounts, returns and credits.",
+  "evidence": "Net revenues consist primarily of the selling price of the merchandise, service and outbound shipping charges, less discounts, returns and credits."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company acquired Card Isle, adding greeting cards and its operations to the BloomNet segment.",
+   "evidence": "On April 3, 2024, the Company completed its acquisition of Card Isle, an e-commerce greeting card company, expanding the Company's presence in the greeting card category across its brands."
+  },
+  {
+   "text": "The 2024 Scharffen Berger acquisition expanded the product offerings of the Gourmet Foods & Gift Baskets segment.",
+   "evidence": "On July 1, 2024, the Company completed its acquisition of certain assets of Scharffen Berger®, a manufacturer of giftable premium chocolate and specialty treats, expanding the Company's product offerings in the Gourmet Foods & Gift Baskets segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
