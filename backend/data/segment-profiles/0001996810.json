@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001996810",
  "issuerName": "GE Vernova Inc.",
- "builtAt": "2026-11-16T03:47:29.970Z",
+ "builtAt": "2026-11-16T08:06:41.501Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001996810-26-000015",
@@ -10,11 +10,61 @@
   "filingDate": "2026-01-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/gev-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power",
+   "products": [
+    "Gas Power",
+    "Nuclear Power",
+    "Hydro Power",
+    "Steam Power",
+    "heavy-duty and aeroderivative gas turbines",
+    "gas and steam turbines",
+    "small modular reactors",
+    "full balance of plant, upgrade, and service solutions"
+   ],
+   "description": "Designs, manufactures and services gas, nuclear, hydro and steam power equipment and services for utilities, industry and governments.",
+   "evidence": "Our Power segment serves power generation, industrial, government, and other customers worldwide with products and services related to energy production."
+  },
+  {
+   "name": "Wind",
+   "products": [
+    "Onshore Wind",
+    "Offshore Wind",
+    "LM Wind Power",
+    "Haliade-X 220m offshore unit",
+    "wind turbine blades",
+    "onshore and offshore wind turbines and blades"
+   ],
+   "description": "Engineers, manufactures and commercializes onshore and offshore wind turbines and blades, and services wind fleets for wind power customers.",
+   "evidence": "Our Wind segment includes our wind generation technologies, inclusive of onshore and offshore wind turbines and blades."
+  },
+  {
+   "name": "Electrification",
+   "products": [
+    "Grid Solutions",
+    "Power Conversion & Storage",
+    "Electrification Software",
+    "switchgear",
+    "transformers",
+    "solar and storage solutions"
+   ],
+   "description": "Provides grid, power conversion, software and solar and storage technologies that carry electricity from generation to the point of use.",
+   "evidence": "Effective January 1, 2025 , our Power Conversion and Solar & Storage Solutions business units within our Electrification segment were combined to form a new business unit, Power Conversion & Storage."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Utilities, independent power producers, industrial and government customers pay for equipment, plant upgrades and long-term service agreements across the life of installed assets.",
+  "evidence": "Gas Power - offers a wide spectrum of heavy-duty and aeroderivative gas turbines for utilities, independent power producers, and numerous industrial applications, ranging from small, mobile power to utility scale power plants."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Electrification segment combined its Power Conversion and Solar & Storage Solutions business units into Power Conversion & Storage.",
+   "evidence": "Effective January 1, 2025 , our Power Conversion and Solar & Storage Solutions business units within our Electrification segment were combined to form a new business unit, Power Conversion & Storage."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

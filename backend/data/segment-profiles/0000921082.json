@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000921082",
  "issuerName": "HIGHWOODS PROPERTIES, INC.",
- "builtAt": "2026-11-16T03:47:31.283Z",
+ "builtAt": "2026-11-16T08:10:37.458Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000921082-26-000005",
@@ -10,10 +10,91 @@
   "filingDate": "2026-02-10",
   "url": "https://www.sec.gov/Archives/edgar/data/921082/000092108226000005/hiw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Atlanta",
+   "products": [
+    "office properties",
+    "build-to-suit construction",
+    "space modification",
+    "tenant improvements"
+   ],
+   "description": "Owns, leases and manages office properties in Atlanta's best business districts for customers seeking workplace space.",
+   "evidence": "Our core portfolio consists primarily of office properties in Atlanta, Charlotte, Dallas, Nashville, Orlando, Raleigh, Richmond and Tampa."
+  },
+  {
+   "name": "Charlotte",
+   "products": [
+    "office properties",
+    "build-to-suit construction",
+    "space modification",
+    "tenant improvements"
+   ],
+   "description": "Owns, leases and manages office properties in Charlotte's best business districts for customers seeking workplace space.",
+   "evidence": "Our core portfolio consists primarily of office properties in Atlanta, Charlotte, Dallas, Nashville, Orlando, Raleigh, Richmond and Tampa."
+  },
+  {
+   "name": "Nashville",
+   "products": [
+    "office properties",
+    "build-to-suit construction",
+    "space modification",
+    "tenant improvements"
+   ],
+   "description": "Owns, leases and manages office properties in Nashville's best business districts for customers seeking workplace space.",
+   "evidence": "Our core portfolio consists primarily of office properties in Atlanta, Charlotte, Dallas, Nashville, Orlando, Raleigh, Richmond and Tampa."
+  },
+  {
+   "name": "Orlando",
+   "products": [
+    "office properties",
+    "build-to-suit construction",
+    "space modification",
+    "tenant improvements"
+   ],
+   "description": "Owns, leases and manages office properties in Orlando's best business districts for customers seeking workplace space.",
+   "evidence": "Our core portfolio consists primarily of office properties in Atlanta, Charlotte, Dallas, Nashville, Orlando, Raleigh, Richmond and Tampa."
+  },
+  {
+   "name": "Raleigh",
+   "products": [
+    "office properties",
+    "build-to-suit construction",
+    "space modification",
+    "tenant improvements"
+   ],
+   "description": "Owns, leases and manages office properties in Raleigh's best business districts for customers seeking workplace space.",
+   "evidence": "Our core portfolio consists primarily of office properties in Atlanta, Charlotte, Dallas, Nashville, Orlando, Raleigh, Richmond and Tampa."
+  },
+  {
+   "name": "Richmond",
+   "products": [
+    "office properties",
+    "build-to-suit construction",
+    "space modification",
+    "tenant improvements"
+   ],
+   "description": "Owns, leases and manages office properties in Richmond's best business districts for customers seeking workplace space.",
+   "evidence": "Our core portfolio consists primarily of office properties in Atlanta, Charlotte, Dallas, Nashville, Orlando, Raleigh, Richmond and Tampa."
+  },
+  {
+   "name": "Tampa",
+   "products": [
+    "office properties",
+    "build-to-suit construction",
+    "space modification",
+    "tenant improvements"
+   ],
+   "description": "Owns, leases and manages office properties in Tampa's best business districts for customers seeking workplace space.",
+   "evidence": "Our core portfolio consists primarily of office properties in Atlanta, Charlotte, Dallas, Nashville, Orlando, Raleigh, Richmond and Tampa."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Office customers pay rent for leased space and related property services.",
+  "evidence": "Our properties compete for customers with similar properties located in our markets primarily on the basis of location, rent, services provided and the design, quality and condition of the facilities."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

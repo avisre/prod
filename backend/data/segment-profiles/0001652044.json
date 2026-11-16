@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001652044",
  "issuerName": "Alphabet Inc.",
- "builtAt": "2026-11-16T03:47:30.383Z",
+ "builtAt": "2026-11-16T08:07:38.964Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001652044-26-000018",
@@ -10,10 +10,51 @@
   "filingDate": "2026-02-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Google Services",
+   "products": [
+    "ads",
+    "Android",
+    "Chrome",
+    "Search",
+    "YouTube",
+    "Google Play",
+    "Google Maps",
+    "Gmail"
+   ],
+   "description": "Sells advertising, consumer subscriptions, app platforms and devices to users, advertisers, agencies and publishers worldwide.",
+   "evidence": "Google Services' core products and platforms include ads, Android, Chrome, devices, Gmail, Google Drive, Google Gemini, Google Maps, Google Photos, Google Play, Search, and YouTube, with broad and growing adoption by users around the world."
+  },
+  {
+   "name": "Google Cloud",
+   "products": [
+    "Google Cloud Platform",
+    "Google Workspace",
+    "AI-optimized Infrastructure",
+    "Vertex AI",
+    "Cybersecurity"
+   ],
+   "description": "Provides cloud infrastructure, developer platforms, cybersecurity and collaboration tools to enterprise customers.",
+   "evidence": "Google Cloud generates revenues primarily from consumption-based fees and subscriptions received for Google Cloud Platform services, Google Workspace communication and collaboration tools, and other enterprise services."
+  },
+  {
+   "name": "Other Bets",
+   "products": [
+    "Waymo",
+    "autonomous transportation services",
+    "internet services"
+   ],
+   "description": "Combines Alphabet's smaller non-Google businesses, selling autonomous transportation services and internet services.",
+   "evidence": "Revenues from Other Bets are generated primarily from the sale of autonomous transportation services and internet services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Advertisers, agencies, publishers and cloud customers pay Alphabet for advertising, subscriptions, app purchases, devices and cloud infrastructure and platform services.",
+  "evidence": "We have built world-class advertising technologies for advertisers, agencies, and publishers to power their digital marketing businesses."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

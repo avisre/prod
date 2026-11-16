@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001128928",
  "issuerName": "FLOWERS FOODS INC",
- "builtAt": "2026-11-16T03:00:54.019Z",
+ "builtAt": "2026-11-16T07:47:10.896Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-071441",
@@ -10,11 +10,39 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1128928/000119312526071441/flo-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaged bakery foods",
+   "products": [
+    "breads",
+    "buns",
+    "rolls",
+    "snack items (bars, cakes, cookies, and crackers)",
+    "bagels",
+    "English muffins",
+    "tortillas",
+    "baking mixes"
+   ],
+   "description": "Produces and markets packaged bakery foods such as breads, buns, rolls, snacks, bagels, tortillas and baking mixes for U.S. retail and foodservice customers.",
+   "evidence": "Our principal products include breads, buns, rolls, snack items (bars, cakes, cookies, and crackers), bagels, English muffins, tortillas, and baking mixes and are sold under a variety of brand names, including Nature's Own, Dave's Killer Bread (\"DKB\"), Canyon Bakehouse, Simple Mills, Wonder, and Tastykake."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Sells branded retail and other bakery products to mass merchandisers, supermarkets, retailers, restaurants, foodservice distributors and institutions, and operates thrift outlets.",
+  "evidence": "Fresh baked foods' customers include mass merchandisers, supermarkets and other retailers, restaurants, quick-serve chains, food wholesalers, institutions, dollar stores, and vending companies."
+ },
+ "changes": [
+  {
+   "text": "In Fiscal 2025 the company moved from one operating segment to two operating segments, legacy Flowers Foods and Simple Mills, which it aggregates as one reportable segment.",
+   "evidence": "Concurrent with the acquisition of Simple Mills, the company has identified two operating segments based on how business activities are managed and evaluated, legacy Flowers Foods and Simple Mills."
+  },
+  {
+   "text": "In February 2025 the company acquired Simple Mills, adding its crackers, cookies, snack bars and baking mixes to the portfolio.",
+   "evidence": "On February 21, 2025, the company completed the acquisition of 100% of the equity interests of Purposeful Foods Holdings, Inc., the parent company of Simple Mills, Inc."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

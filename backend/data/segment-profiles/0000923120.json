@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000923120",
  "issuerName": "THE GREENBRIER COMPANIES, INC.",
- "builtAt": "2026-11-16T03:00:55.029Z",
+ "builtAt": "2026-11-16T07:49:44.053Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-431954",
@@ -10,11 +10,50 @@
   "filingDate": "2026-10-26",
   "url": "https://www.sec.gov/Archives/edgar/data/923120/000119312526431954/gbx-20260831.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacturing",
+   "products": [
+    "Freight Railcars",
+    "Tank Cars",
+    "Intermodal Railcars",
+    "Automotive",
+    "Sustainable Conversions",
+    "Component Parts",
+    "Wheel Services",
+    "Railcar Maintenance"
+   ],
+   "description": "Builds freight railcars, tank cars, intermodal and automotive railcars plus components, wheels, conversions and maintenance for railroads, shippers and leasing companies.",
+   "evidence": "The Manufacturing segment, which currently operates from facilities in the U.S., Mexico, Poland and Romania, produces double-stack intermodal railcars, tank cars, freight railcars, and automotive railcar products."
+  },
+  {
+   "name": "Leasing & Fleet Management",
+   "products": [
+    "Leasing",
+    "Fleet Management",
+    "railcar maintenance management",
+    "railcar accounting services",
+    "total fleet management",
+    "fleet logistics",
+    "railcar remarketing",
+    "Regulatory Services Group"
+   ],
+   "description": "Owns and leases railcars and manages fleets for railroads, shippers, carriers, investors and other railcar owners in North America.",
+   "evidence": "We offer railcar management, regulatory compliance services and leasing services to railroads and other railcar owners in North America."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Railroads, shippers, leasing companies and financial institutions pay Greenbrier for new railcars, leasing, maintenance, component parts and fleet management services.",
+  "evidence": "Our relationships with financial institutions and operating lessors combined with our ownership of a lease fleet of approximately 20,900 railcars enable us to offer flexible leases to our customers"
+ },
+ "changes": [
+  {
+   "text": "In 2025 Greenbrier changed the measurement basis for allocating revenue and expenses related to syndication activity between its two reportable segments.",
+   "evidence": "Effective September 1, 2025, we changed our measurement basis for allocating revenue and expenses associated with syndication activity between the Manufacturing and Leasing & Fleet Management reportable segments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

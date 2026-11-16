@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001262039",
  "issuerName": "FORTINET, INC.",
- "builtAt": "2026-11-16T03:00:54.920Z",
+ "builtAt": "2026-11-16T07:48:53.684Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001262039-26-000007",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1262039/000126203926000007/ftnt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cybersecurity",
+   "products": [
+    "FortiGate",
+    "FortiSwitch",
+    "FortiAP",
+    "FortiExtender",
+    "FortiSASE",
+    "FortiAnalyzer",
+    "FortiGuard",
+    "FortiCare"
+   ],
+   "description": "Sells integrated cybersecurity and networking products, subscriptions and technical support to enterprises, service providers and government organizations worldwide.",
+   "evidence": "We have one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers and channel partners pay for security and networking products, plus FortiGuard security subscriptions and FortiCare technical support services.",
+  "evidence": "Often, our customers also purchase our FortiGuard and other security subscription services and FortiCare technical support services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

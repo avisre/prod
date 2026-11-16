@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001048695",
  "issuerName": "F5, INC.",
- "builtAt": "2026-11-16T03:00:53.824Z",
+ "builtAt": "2026-11-16T07:44:58.055Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001048695-25-000157",
@@ -10,10 +10,29 @@
   "filingDate": "2025-11-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1048695/000104869525000157/ffiv-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Application delivery and security",
+   "products": [
+    "F5 Distributed Cloud Services",
+    "F5 NGINX",
+    "F5 BIG-IP",
+    "F5 Distributed Cloud WAAP",
+    "F5 Distributed Cloud Network Connect",
+    "F5 Distributed Cloud App Connect",
+    "F5 Distributed Cloud DNS",
+    "F5 Distributed Cloud CDN"
+   ],
+   "description": null,
+   "evidence": "Our product portfolio includes solutions across the following product families: F5 Distributed Cloud Services, F5 NGINX, F5 BIG-IP."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for packaged software, SaaS and managed services, and high-performance systems under perpetual, subscription and usage-based models.",
+  "evidence": "We sell packaged software in perpetual, subscription, and usage-based consumption models."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

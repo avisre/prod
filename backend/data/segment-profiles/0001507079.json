@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001507079",
  "issuerName": "Floor & Decor Holdings, Inc.",
- "builtAt": "2026-11-16T03:00:54.165Z",
+ "builtAt": "2026-11-16T07:48:17.970Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-009770",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1507079/000162828026009770/fnd-20251225.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Laminate and vinyl",
+    "Tile",
+    "Installation materials and tools",
+    "Decorative accessories and wall tile",
+    "Wood",
+    "Natural stone",
+    "Adjacent categories"
+   ],
+   "description": "Sells hard surface flooring, installation materials, tools and decorative accessories to homeowners and professionals through warehouse-format stores and its website.",
+   "evidence": "The Company concluded that the economic and operating characteristics of its one reportable segment, Retail, are similar across its retail operations"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Homeowners, professional installers and commercial businesses pay for flooring, installation materials, tools and accessories bought in stores or online.",
+  "evidence": "We estimate that retail sales during both fiscal 2025 and fiscal 2024 were approximately 50% from homeowners and 50% from Pros."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

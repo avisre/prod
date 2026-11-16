@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000923796",
  "issuerName": "The GEO Group, Inc.",
- "builtAt": "2026-11-16T03:00:55.143Z",
+ "builtAt": "2026-11-16T08:10:43.519Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-071747",
@@ -10,10 +10,52 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/923796/000119312526071747/geo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Secure Services",
+   "products": [
+    "secure facility management services",
+    "public-private partnership secure services business"
+   ],
+   "description": "Owns, leases and manages U.S. secure facilities under public-private partnerships with government agencies, providing security, administrative, rehabilitation, education and food services.",
+   "evidence": "Our U.S. Secure Services segment primarily encompasses our U.S.-based public-private partnership secure services business."
+  },
+  {
+   "name": "Electronic Monitoring and Supervision Services",
+   "products": [
+    "case management and supervision services",
+    "radio frequency, GPS, and alcohol monitoring devices",
+    "evidence-based supervision and treatment programs"
+   ],
+   "description": "Provides electronic monitoring, case management and supervision services in the U.S., including monitoring devices, on behalf of government agency partners.",
+   "evidence": "Our Electronic Monitoring and Supervision Services segment, which conducts its services in the U.S., consists of our electronic monitoring and supervision services."
+  },
+  {
+   "name": "Reentry Services",
+   "products": [
+    "community-based services",
+    "reentry centers",
+    "temporary housing, programming, employment assistance and other services"
+   ],
+   "description": "Runs community-based and reentry programs and centers, offering supervision, temporary housing, programming and employment assistance so residents can reintegrate into the community.",
+   "evidence": "Our Reentry Services segment consists of various community-based and reentry services."
+  },
+  {
+   "name": "International Services",
+   "products": [
+    "public-private partnership secure services",
+    "health services"
+   ],
+   "description": "Runs public-private partnership secure facilities and related services in Australia and South Africa for government agency partners.",
+   "evidence": "Our International Services segment primarily consists of our public-private partnership secure services operations in Australia and South Africa."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Government agencies pay the company for managing secure facilities, reentry services and electronic monitoring and supervision programs under public-private partnership contracts.",
+  "evidence": "The Company derives most of its revenue from the management of secure facilities through public-private partnerships."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

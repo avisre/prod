@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001609711",
  "issuerName": "GoDaddy Inc.",
- "builtAt": "2026-11-16T03:00:55.089Z",
+ "builtAt": "2026-11-16T07:50:21.434Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001609711-26-000010",
@@ -10,11 +10,41 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1609711/000160971126000010/gddy-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Applications and Commerce (A&C)",
+   "products": [
+    "website building products",
+    "proprietary commerce solutions",
+    "third-party email and productivity solutions"
+   ],
+   "description": "Sells proprietary software-based website building, commerce and bundled email and productivity solutions to small businesses, individuals and developers.",
+   "evidence": "Applications and Commerce (A&C) , which primarily consists of sales of products containing our proprietary software, notably our website building products, our proprietary commerce solutions and third-party email and productivity solutions, as well as sales of certain products when they are included in bundled offerings of our proprietary software products."
+  },
+  {
+   "name": "Core Platform (Core)",
+   "products": [
+    "domain registrations and renewals",
+    "aftermarket domain sales",
+    "website hosting products",
+    "website security products"
+   ],
+   "description": "Provides domain registrations and renewals, aftermarket domain sales, and website hosting and security products sold outside bundled software offerings.",
+   "evidence": "Other segment items in Core are primarily composed of domain registration fees, payment processing fees, costs associated with sales of aftermarket domains, hosting and security license fees, personnel costs excluding equity-based compensation, data center and systems infrastructure costs excluding depreciation, customer care and marketing costs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Businesses and individuals pay subscription and transaction fees for domains, websites, commerce, email and hosting solutions.",
+  "evidence": "Our primary source of cash from operating activities has been cash collections from our customers."
+ },
+ "changes": [
+  {
+   "text": "In 2024, we disposed of certain assets and liabilities of our hosting business.",
+   "evidence": "Net cash used in investing activities increased $46.6 million due to maturities of short-term investments of $40.0 million as well as proceeds from dispositions of certain assets and liabilities of our hosting business in the year ended December 31, 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

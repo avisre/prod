@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001934850",
  "issuerName": "F&G Annuities & Life, Inc.",
- "builtAt": "2026-11-16T03:00:53.934Z",
+ "builtAt": "2026-11-16T07:46:32.927Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001934850-26-000026",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1934850/000193485026000026/fg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance solutions",
+   "products": [
+    "fixed indexed annuities",
+    "registered index-linked annuities",
+    "fixed rate annuities",
+    "multi-year guarantee annuities",
+    "Immediate annuities",
+    "Indexed universal life",
+    "Pension risk transfer",
+    "Funding agreements"
+   ],
+   "description": "Sells fixed and indexed annuities, life insurance and pension risk transfer solutions to retail retirement customers and institutional pension clients.",
+   "evidence": "We provide insurance solutions and market a broad portfolio of annuity and life insurance products through retail channels and institutional markets and earn commissions on the sale of insurance products through our owned distribution channels."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "F&G is paid premiums, policyholder fees and surrender charges by annuity and life insurance policyholders, and premiums and fees by institutional pension plan clients.",
+  "evidence": "Life insurance premiums and other fees primarily reflect premiums on life-contingent PRTs and traditional life insurance products, which are recognized as revenue when due from the policyholder, as well as policy rider fees primarily on indexed annuity policies, the cost of insurance on IUL policies and surrender charges assessed against policy withdrawals in excess of the policyholder's allowable penalty-free amounts (up to 10% of the prior year's value, subject to certain limitations)."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

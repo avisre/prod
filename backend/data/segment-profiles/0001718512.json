@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001718512",
  "issuerName": "Gates Industrial Corporation Ltd.",
- "builtAt": "2026-11-16T03:47:30.621Z",
+ "builtAt": "2026-11-16T08:08:46.280Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-007719",
@@ -10,11 +10,46 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1718512/000162828026007719/gtes-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power Transmission",
+   "products": [
+    "elastomer drive belts",
+    "V-belts",
+    "synchronous belts",
+    "CVT belts",
+    "Micro-V® belt",
+    "tensioners",
+    "idlers",
+    "kits"
+   ],
+   "description": "Makes elastomer drive belts and related components for industrial, automotive aftermarket and personal mobility applications.",
+   "evidence": "Our Power Transmission segment includes elastomer drive belts and related components used to efficiently transfer power in a broad range of applications."
+  },
+  {
+   "name": "Fluid Power",
+   "products": [
+    "hoses",
+    "tubing",
+    "fittings",
+    "high-pressure and fluid transfer hoses"
+   ],
+   "description": "Makes hoses, tubing and fittings that convey hydraulic fluid at high pressures for mobile and stationary applications.",
+   "evidence": "Our Fluid Power segment includes hoses, tubing and fittings designed to convey hydraulic fluid at high pressures in both mobile and stationary applications, and other high-pressure and fluid transfer hoses."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Aftermarket channel customers and original equipment manufacturers pay for power transmission and fluid power components, with most revenue from aftermarket channels.",
+  "evidence": "We offer a broad portfolio of products to diverse aftermarket channel customers, and to original equipment manufacturers (\"OEM\") as specified components, with the majority of our revenue coming from aftermarket channels."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company deconsolidated its Russian subsidiary, ending that business.",
+   "evidence": "As of September 28, 2024, we deconsolidated the Russian subsidiary upon loss of control and recognized a deconsolidation loss."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001031203",
  "issuerName": "Group 1 Automotive, Inc",
- "builtAt": "2026-11-16T03:47:30.495Z",
+ "builtAt": "2026-11-16T08:08:08.059Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001031203-26-000064",
@@ -10,10 +10,42 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1031203/000103120326000064/gpi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "new and used cars and light trucks",
+    "vehicle financing",
+    "service and insurance contracts",
+    "automotive maintenance and repair services",
+    "vehicle parts",
+    "replacement parts",
+    "collision repair services"
+   ],
+   "description": "Operates retail automotive franchises in the United States, selling vehicles, parts, service and financing to retail and wholesale customers.",
+   "evidence": "As of December 31, 2025, the Company had two operating and reportable segments: the U.S. and the U.K."
+  },
+  {
+   "name": "U.K.",
+   "products": [
+    "new and used cars and light trucks",
+    "vehicle financing",
+    "service and insurance contracts",
+    "automotive maintenance and repair services",
+    "vehicle parts",
+    "replacement parts",
+    "collision repair services"
+   ],
+   "description": "Operates retail automotive franchises in the United Kingdom, selling vehicles, parts and service and arranging related financing for customers.",
+   "evidence": "Each segment is comprised of retail automotive franchises that sell new and used cars and light trucks; arrange related vehicle financing; sell service and insurance contracts; provide automotive maintenance and repair services; and sell vehicle parts."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retail customers and wholesale buyers pay the dealerships for vehicles, parts and repair services, and fees for arranging financing and selling insurance contracts.",
+  "evidence": "We sell and/or lease new and used cars and light trucks; arrange related vehicle financing; sell service and insurance contracts; provide automotive maintenance and repair services; and sell vehicle parts retail and wholesale."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

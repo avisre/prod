@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001794669",
  "issuerName": "SHIFT4 PAYMENTS, INC.",
- "builtAt": "2026-11-16T03:00:54.279Z",
+ "builtAt": "2026-11-16T07:48:43.735Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001794669-26-000010",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1794669/000179466926000010/four-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payments",
+   "products": [
+    "SkyTab POS",
+    "SkyTab Mobile",
+    "SkyTab Venue",
+    "Lighthouse",
+    "The Giving Block",
+    "Shift4Shop",
+    "Marketplace",
+    "TFS Services"
+   ],
+   "description": "Provides software and payment processing solutions, point of sale and business intelligence tools to merchants from small businesses to large enterprises worldwide.",
+   "evidence": "The Company's CODM is the chief executive officer, who reviews financial information on a consolidated level for purposes of allocating resources and evaluating financial performance, and as such, the Company's operations constitute one operating segment and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Merchants pay processing fees based on volume or per transaction, and subscription fees for software, business intelligence tools and payment device management.",
+  "evidence": "The majority of our revenue is derived from processing fees, which are charged either as a percentage of volume and/or as a fee per transaction."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired Global Blue, adding tax-free shopping, dynamic currency conversion and payments solutions to its single reportable segment.",
+   "evidence": "As a result of the acquisition of Global Blue Group Holding AG (\"Global Blue\") in the third quarter of 2025 (\"Global Blue Merger\") we are also a leader in tax-free shopping (\"TFS\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

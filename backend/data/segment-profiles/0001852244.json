@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001852244",
  "issuerName": "GXO Logistics, Inc.",
- "builtAt": "2026-11-16T03:47:30.706Z",
+ "builtAt": "2026-11-16T08:09:33.852Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001852244-26-000007",
@@ -10,11 +10,32 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1852244/000185224426000007/gxo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract logistics",
+   "products": [
+    "warehousing and distribution",
+    "order fulfillment",
+    "e-commerce",
+    "reverse logistics",
+    "supply chain services"
+   ],
+   "description": "Operates contract logistics warehouses worldwide, providing distribution, fulfillment, e-commerce and reverse logistics services to large corporations that outsource their supply chains.",
+   "evidence": "The Company presents its operations in the Consolidated Financial Statements as one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers, largely large corporations that outsource warehousing and distribution, pay the company for technology-enabled contract logistics services such as warehousing, order fulfillment, e-commerce and reverse logistics.",
+  "evidence": "We provide our customers with high-value-added warehousing and distribution, order fulfillment, e-commerce, reverse logistics and other supply chain services."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company met held-for-sale criteria for the anticipated Wincanton Divestment of certain U.K. grocery contracts, expected to complete in 2026.",
+   "evidence": "On June 19, 2025, the CMA approved the Wincanton Acquisition, subject to the divestment of certain grocery contracts in the U.K."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

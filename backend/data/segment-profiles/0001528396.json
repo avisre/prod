@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001528396",
  "issuerName": "GUIDEWIRE SOFTWARE, INC.",
- "builtAt": "2026-11-16T03:47:30.651Z",
+ "builtAt": "2026-11-16T08:09:13.082Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001528396-26-000046",
@@ -10,10 +10,29 @@
   "filingDate": "2026-09-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1528396/000152839626000046/gwre-20260731.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "P&C insurance software",
+   "products": [
+    "InsuranceSuite",
+    "InsuranceNow",
+    "Guidewire Cloud Platform",
+    "PolicyCenter",
+    "ClaimCenter",
+    "BillingCenter",
+    "PricingCenter",
+    "UnderwritingCenter"
+   ],
+   "description": "Provides cloud-based core insurance software and digital, analytics, and AI capabilities to property and casualty insurers of all sizes worldwide.",
+   "evidence": "The Company has one reportable segment that conducts business globally and is managed, operated, and organized on a consolidated basis."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Property and casualty insurers pay subscription fees for the core platform, priced by premium managed on it, plus term licenses, support and professional services.",
+  "evidence": "We generally price our subscription services for core products based on the amount of Direct Written Premium (\"DWP\") managed on our platform, with certain cloud-delivered products priced based on usage and associated resource consumption."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
