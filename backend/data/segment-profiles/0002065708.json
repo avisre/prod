@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002065708",
  "issuerName": "Andersen Group Inc.",
- "builtAt": "2026-11-16T04:55:11.062Z",
+ "builtAt": "2026-11-16T09:46:38.543Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-128949",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/2065708/000119312526128949/d63874d10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tax, valuation and financial advisory",
+   "products": [
+    "Private Client Services",
+    "Business Tax Services",
+    "Alternative Investment Funds",
+    "Valuation Services"
+   ],
+   "description": "Provides tax, valuation, financial advisory and related consulting services to individuals, family offices, businesses and institutional clients across the United States.",
+   "evidence": "The Company conducts business as a single operating segment for its range of tax, valuation, financial advisory, and related consulting services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Clients pay the firm fees for tax, valuation and financial advisory services, including private client, business tax, fund and valuation work.",
+  "evidence": "We provide comprehensive tax and financial services for individuals and families, addressing complex client matters involving multigenerational wealth, charitable giving and trust and estate planning."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

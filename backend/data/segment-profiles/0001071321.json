@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001071321",
  "issuerName": "TURKCELL ILETISIM HIZMETLERI A S",
- "builtAt": "2026-11-16T04:54:59.666Z",
+ "builtAt": "2026-11-16T09:45:09.220Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-044740",
@@ -10,11 +10,71 @@
   "filingDate": "2026-04-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1071321/000110465926044740/tkc-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Turkcell Türkiye",
+   "products": [
+    "mobile",
+    "fixed telecom",
+    "digital services",
+    "data center",
+    "cloud",
+    "Superbox",
+    "fiber",
+    "IPTV"
+   ],
+   "description": "Mobile, fixed telecom and digital services businesses in Türkiye, serving individual and corporate customers with connectivity and digital offerings.",
+   "evidence": "Turkcell Türkiye comprises mobile, fixed telecom and digital services related businesses (including data center and cloud) in Türkiye."
+  },
+  {
+   "name": "Techfin",
+   "products": [
+    "Turkcell Finansman",
+    "Financell",
+    "Paycell",
+    "Turkcell Ödeme",
+    "Turkcell Sigorta",
+    "Sofra",
+    "Turkcell Dijital Sigorta"
+   ],
+   "description": "Financial services businesses inside and outside Türkiye, providing consumer financing, payments and insurance to customers.",
+   "evidence": "Techfin comprises all our financial services businesses inside and outside of Türkiye."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "telecommunications",
+    "digital services",
+    "energy-related activities",
+    "BeST",
+    "Kıbrıs Telekom",
+    "Yaani",
+    "BiP"
+   ],
+   "description": "Telecommunications, digital services and energy-related activities outside Türkiye, plus intersegment eliminations.",
+   "evidence": "Other segment mainly comprises telecommunications, digital services, and energy-related activities outside Türkiye, and intersegment eliminations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Subscribers and corporate clients pay Turkcell for mobile, fixed telecom, digital and financial services.",
+  "evidence": "In Türkiye, we had 43.9 million total subscribers (39.1 million mobile, 3.3 million fixed and 1.4 million IPTV subscribers) as of the same date."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Group eliminated the Turkcell International segment following the sale of the Ukrainian operations.",
+   "evidence": "a) elimination of the Turkcell International segment following the sale of the Ukrainian operations, which constituted that majority of such segment and, b) reclassification of certain Turkcell Satış operations from Other segment to the Turkcell Türkiye segment."
+  },
+  {
+   "text": "In 2025, Turkcell Satış operations, including consumer electronics sold through digital channels, were reclassified from the Other segment to the Turkcell Türkiye segment.",
+   "evidence": "Similarly, Turkcell Satış's operations - comprising consumer electronics sold through digital channels, smart device management operations previously presented within the Other segment are now reported within the Turkcell Türkiye segment."
+  },
+  {
+   "text": "In 2025, telecom and digital services operations of BeST, Kıbrıs Telekom and other international businesses were reclassified from the Turkcell International segment to the Other segment.",
+   "evidence": "As a consequence of these changes, telecom and digital services-related operations of BeST, Kıbrıs Telekom, Eastasian, Lifecell Ventures, Lifetech, Beltower, Lifecell Digital, Yaani and BiP B.V. were reclassified from the Turkcell International segment to the Other segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

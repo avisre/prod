@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001784570",
  "issuerName": "BETA Technologies, Inc.",
- "builtAt": "2026-11-16T04:55:13.655Z",
+ "builtAt": "2026-11-16T09:48:24.277Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-015838",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1784570/000162828026015838/bta-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development and Manufacturing of Electric Aircraft",
+   "products": [
+    "ALIA CTOL (CX300)",
+    "ALIA VTOL (A250)",
+    "MV250",
+    "Batteries",
+    "Motors",
+    "Flight Control Systems",
+    "Charge Cubes",
+    "Mini Cubes"
+   ],
+   "description": "It designs, manufactures and sells electric aircraft, propulsion systems, batteries and charging equipment for cargo, medical, defense, passenger and aftermarket customers.",
+   "evidence": "The Company has one operating and reportable segment - Development and Manufacturing of Electric Aircraft."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Military and commercial operators, aftermarket operators, other eVTOL manufacturers and state governments pay for aircraft, replacement batteries, propulsion systems and chargers.",
+  "evidence": "Our business model contemplates four key revenue streams: (1) selling aircraft to military and commercial customers such as UPS, Air New Zealand and United Therapeutics; (2) selling replacement batteries to operators in the aftermarket; (3) selling propulsion systems as a merchant supplier to other eVTOL manufacturers such as Embraer-backed EVE Air Mobility (\"EVE\"), Textron eAviation and defense technologies; and (4) selling GSE, primarily chargers, to state governments, operators, Fixed Base Op"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

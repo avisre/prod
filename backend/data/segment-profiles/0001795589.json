@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001795589",
  "issuerName": "Kingsoft Cloud Holdings Ltd",
- "builtAt": "2026-11-16T04:55:14.443Z",
+ "builtAt": "2026-11-16T09:49:08.290Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-047100",
@@ -10,10 +10,28 @@
   "filingDate": "2026-04-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1795589/000110465926047100/kc-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud service and solutions",
+   "products": [
+    "Public cloud services",
+    "Enterprise cloud services",
+    "cloud computing",
+    "storage and delivery",
+    "enterprise digital solutions",
+    "enterprise digital services",
+    "maintenance and upgrades"
+   ],
+   "description": "Provides integrated public cloud services and customized enterprise cloud and digital solutions to enterprises, public service organizations and healthcare institutions in China.",
+   "evidence": "The Group provides integrated cloud-based services including cloud computing, storage and delivery."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for cloud computing, storage and delivery usage monthly, for customized enterprise digital solutions, and for post-delivery maintenance and upgrades.",
+  "evidence": "Substantially all of the Group's public cloud service revenue is recognized on a monthly basis based on utilization and duration."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001811935",
  "issuerName": "Pattern Group Inc.",
- "builtAt": "2026-11-16T04:55:14.737Z",
+ "builtAt": "2026-11-16T09:48:59.572Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001811935-26-000013",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1811935/000181193526000013/ptrn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ecommerce acceleration",
+   "products": [
+    "Traffic Engine",
+    "Conversion Engine",
+    "Price Engine",
+    "Availability Engine",
+    "Insights Engine"
+   ],
+   "description": "Operates an ecommerce acceleration platform and uses on-demand experts to sell brand partners' products to consumers on global marketplaces.",
+   "evidence": "The Company manages its business on a consolidated basis and operates as a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Brand partners supply products that the company buys and resells to consumers on global ecommerce marketplaces, earning revenue from those consumer product sales.",
+  "evidence": "We generate the substantial majority of our revenue from consumer product sales on global ecommerce marketplaces."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

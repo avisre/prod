@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002070849",
  "issuerName": "BillionToOne, Inc.",
- "builtAt": "2026-11-16T04:55:14.222Z",
+ "builtAt": "2026-11-16T09:48:40.984Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002070849-26-000017",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/2070849/000207084926000017/blln-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Molecular diagnostics",
+   "products": [
+    "UNITY",
+    "Northstar Select",
+    "Northstar Response"
+   ],
+   "description": "Provides prenatal and oncology molecular diagnostic testing services to patients, primarily in the United States, using its proprietary single-molecule next-generation sequencing platform.",
+   "evidence": "As such, the Company has determined that it is managed as one operating segment and one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Patients, the company's primary customers, pay for prenatal and oncology testing services performed on its proprietary molecular diagnostic technology platform.",
+  "evidence": "Segment revenues are derived from prenatal and oncology testing services delivered to patients, the Company's primary customers; both the prenatal and oncology testing products utilize the Company's proprietary molecular diagnostic technology platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

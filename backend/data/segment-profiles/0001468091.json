@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001468091",
  "issuerName": "VEON Ltd.",
- "builtAt": "2026-11-16T04:55:14.266Z",
+ "builtAt": "2026-11-16T09:49:42.578Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001468091-26-000010",
@@ -10,11 +10,98 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1468091/000146809126000010/vip-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pakistan",
+   "products": [
+    "mobile telecommunication services",
+    "fixed-line telecommunications services",
+    "Wireless Internet access",
+    "Value added and call completion services",
+    "National and international roaming services",
+    "Mobile financial services",
+    "Mobile bundles",
+    "OTT (over-the-top) services"
+   ],
+   "description": "Provides mobile and fixed-line telecommunications, wireless internet access and mobile financial services to consumer and business customers in Pakistan.",
+   "evidence": "VEON provides mobile telecommunication services to its customers in Pakistan, Ukraine, Kazakhstan, Bangladesh and Uzbekistan."
+  },
+  {
+   "name": "Ukraine",
+   "products": [
+    "mobile telecommunication services",
+    "fixed-line telecommunications services",
+    "Wireless Internet access",
+    "Value added and call completion services",
+    "National and international roaming services",
+    "Mobile bundles",
+    "digital services",
+    "ride-hailing platforms"
+   ],
+   "description": "Provides mobile and fixed-line telecommunications, wireless internet access, mobile bundles and digital services to customers in Ukraine.",
+   "evidence": "We also provide fixed-line telecommunications services in Pakistan, Ukraine, Kazakhstan and Uzbekistan as well as business-to-consumer and business-to-business OTT (over-the-top) services on mobile and fixed networks in each of our markets."
+  },
+  {
+   "name": "Kazakhstan",
+   "products": [
+    "mobile telecommunication services",
+    "fixed-line telecommunications services",
+    "Wireless Internet access",
+    "Value added and call completion services",
+    "National and international roaming services",
+    "Mobile financial services",
+    "Mobile bundles"
+   ],
+   "description": "Provides mobile and fixed-line telecommunications, wireless internet access and mobile financial services to consumer and business customers in Kazakhstan.",
+   "evidence": "Our reportable segments currently consist of the following five geographic segments: Pakistan; Ukraine; Kazakhstan; Uzbekistan; and Bangladesh."
+  },
+  {
+   "name": "Uzbekistan",
+   "products": [
+    "mobile telecommunication services",
+    "fixed-line telecommunications services",
+    "Wireless Internet access",
+    "Value added and call completion services",
+    "National and international roaming services",
+    "Mobile financial services",
+    "Mobile bundles"
+   ],
+   "description": "Provides mobile and fixed-line telecommunications, wireless internet access and mobile financial services to consumer and business customers in Uzbekistan.",
+   "evidence": "VEON's reportable segments currently consist of the following five segments: Pakistan, Ukraine, Kazakhstan, Bangladesh and Uzbekistan."
+  },
+  {
+   "name": "Bangladesh",
+   "products": [
+    "mobile telecommunication services",
+    "Wireless Internet access",
+    "Value added and call completion services",
+    "National and international roaming services",
+    "Mobile bundles"
+   ],
+   "description": "Provides mobile telecommunications, wireless internet access, roaming and mobile bundles to consumer and business customers in Bangladesh.",
+   "evidence": "As per regulation, mobile network operators are not allowed to provide mobile financial services in Bangladesh."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Mobile subscribers pay VEON for prepaid and postpaid connectivity, data, value-added services and mobile bundles across its operating markets.",
+  "evidence": "Our primary source of revenue comes from prepaid mobile customers, who are not required to enter into long-term fixed contracts, and we cannot be certain that these customers will continue to use our services and at the usage levels we expect."
+ },
+ "changes": [
+  {
+   "text": "In 2025 VEON sold its operations in Kyrgyzstan, which are no longer a reportable segment.",
+   "evidence": "VEON's operations in Kyrgyzstan were sold during the year ended December 31, 2025"
+  },
+  {
+   "text": "In 2025 VEON acquired Uklon, which is part of the Ukraine operating segment.",
+   "evidence": "In March 2025, we acquired Uklon, which improved our digital revenue performance during the year ended December 31, 2025."
+  },
+  {
+   "text": "In 2024 VEON sold its stake in TNS Plus LLP, which was included within the Kazakhstan operating segment.",
+   "evidence": "in 2024, we sold our 49% stake in Kazakh wholesale telecommunications infrastructure services provider"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

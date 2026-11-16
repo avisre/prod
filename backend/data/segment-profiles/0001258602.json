@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001258602",
  "issuerName": "NELNET, INC.",
- "builtAt": "2026-11-16T04:55:10.644Z",
+ "builtAt": "2026-11-16T09:46:58.699Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001258602-26-000014",
@@ -10,11 +10,72 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1258602/000125860226000014/nni-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Loan Servicing and Systems",
+   "products": [
+    "Servicing federally owned student loans for the Department",
+    "Servicing FFELP loans",
+    "Servicing private education and consumer loans",
+    "Providing backup servicing for private education and consumer loans",
+    "student loan servicing software",
+    "outsourced services including contact center",
+    "Nelnet Diversified Solutions",
+    "Firstmark Services"
+   ],
+   "description": "Services federal, FFELP and private education loans for the government, banks and schools, and supplies servicing software and outsourced contact center services.",
+   "evidence": "Includes the brands Nelnet Diversified Solutions, Nelnet Loan Servicing, Nelnet Servicing, Firstmark Services, Sloan Servicing, and Nelnet Government Services"
+  },
+  {
+   "name": "Education Technology Services and Payments",
+   "products": [
+    "Tuition payment plan services",
+    "Payment processing",
+    "Education technology services",
+    "FACTS",
+    "Nelnet Campus Commerce",
+    "Nelnet Payment Services",
+    "Nelnet International"
+   ],
+   "description": "Provides education and payment technology and services to schools, higher education institutions, and businesses in the United States and internationally.",
+   "evidence": "NBS provides education and payment technology and services for K-12 schools, higher education institutions, and businesses in the United States and internationally"
+  },
+  {
+   "name": "Asset Generation and Management",
+   "products": [
+    "student and other loan assets, including residual interests therein",
+    "loan administration services",
+    "federally insured loans"
+   ],
+   "description": "Manages a portfolio of student and other loan assets for its own account and administers loans for third-party portfolio owners.",
+   "evidence": "AGM also derives revenue by providing loan administration services to third-party loan portfolio owners."
+  },
+  {
+   "name": "Nelnet Bank",
+   "products": [
+    "Private education loans",
+    "consumer loans"
+   ],
+   "description": "Internet Utah-chartered industrial bank lending in the private education and unsecured consumer loan markets to borrowers.",
+   "evidence": "Internet Utah-chartered industrial bank focused on the private education and unsecured consumer loan markets"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The government, schools, businesses and borrowers pay monthly servicing, software and payment fees, and borrowers pay interest on the loans the company holds.",
+  "evidence": "Nelnet Servicing earns a monthly fee from the Department based on borrower volume it services on behalf of the Department."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company sold its ownership interests in Nelnet Renewable Energy, whose solar construction results had been reported outside the reportable segments.",
+   "evidence": "The Company sold its ownership interests in Nelnet Renewable Energy during the fourth quarter of 2025."
+  },
+  {
+   "text": "In 2024 the Company discontinued its residential solar operations to focus exclusively on the commercial solar market.",
+   "evidence": "In April 2024, the Company announced a change in its solar EPC operations to focus exclusively on the commercial solar market and discontinued its residential solar operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

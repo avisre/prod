@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001849853",
  "issuerName": "Stevanato Group S.p.A.",
- "builtAt": "2026-11-16T04:54:59.695Z",
+ "builtAt": "2026-11-16T09:45:36.310Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-091540",
@@ -10,10 +10,41 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1849853/000119312526091540/stvn-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical and Diagnostic Solutions",
+   "products": [
+    "pre-fillable syringes",
+    "ready-to-use vials and cartridges",
+    "ampoules",
+    "drug delivery systems",
+    "diagnostic consumables",
+    "medical devices",
+    "analytical services"
+   ],
+   "description": "Supplies drug containment and delivery solutions, diagnostic consumables and medical devices to pharmaceutical, biotechnology and diagnostic customers.",
+   "evidence": "The Biopharmaceutical and Diagnostic Solutions Segment, which includes all the products, processes and services developed and provided for the containment and delivery of pharmaceutical and biotechnology drugs and reagents, as well as the production of diagnostic consumables, medical devices and drug delivery systems"
+  },
+  {
+   "name": "Engineering",
+   "products": [
+    "pharmaceutical visual inspection",
+    "device assembly and packaging",
+    "glass converting",
+    "after sales",
+    "spare parts",
+    "machinery and equipment"
+   ],
+   "description": "Builds and services manufacturing equipment and technologies for pharmaceutical, biotechnology and diagnostic production processes.",
+   "evidence": "The Engineering Segment, which includes all of the manufacturing equipment and technologies developed and provided to support the end-to-end pharmaceutical, biotechnology and diagnostic manufacturing processes (pharmaceutical visual inspection, device assembly and packaging, glass converting, and after sales)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pharmaceutical, biotechnology, diagnostic and medical device companies buy containment and delivery solutions, diagnostic consumables and engineering equipment and services.",
+  "evidence": "Our customer base includes leading pharmaceutical, biologic, diagnostic and medical device companies worldwide."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

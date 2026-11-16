@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001438472",
  "issuerName": "Miami International Holdings, Inc.",
- "builtAt": "2026-11-16T04:55:10.584Z",
+ "builtAt": "2026-11-16T09:46:47.519Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001438472-26-000023",
@@ -10,11 +10,68 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1438472/000143847226000023/miax-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Options",
+   "products": [
+    "equity options",
+    "options on exchange-traded products",
+    "ETPs",
+    "ETFs",
+    "multi-listed options"
+   ],
+   "description": "Operates the U.S. options exchanges MIAX Options, MIAX Pearl, MIAX Emerald and MIAX Sapphire, trading equity options and exchange-traded product options for member firms.",
+   "evidence": "Options – The Options segment includes listed options on the stocks of individual corporations (\"equity options\") and options on exchange-traded products (\"ETPs\")"
+  },
+  {
+   "name": "Equities",
+   "products": [
+    "U.S. equities",
+    "cash equities",
+    "listed equities",
+    "MIAX Pearl Equities"
+   ],
+   "description": "Runs MIAX Pearl Equities, its U.S. cash equities exchange, offering trading to exchange member firms, non-member firms and order flow providers.",
+   "evidence": "In our Equities segment, we have at times offered liquidity payments higher than transaction fees to attract order flow that might otherwise trade on other exchanges."
+  },
+  {
+   "name": "Futures",
+   "products": [
+    "U.S. futures and options on futures",
+    "index futures",
+    "options on futures",
+    "cash index options"
+   ],
+   "description": "Operates MIAX Futures Exchange and Dorman Trading, listing and clearing U.S. futures and options on futures for clearing members and professional traders.",
+   "evidence": "Clearing fees are recognized in the Futures segment for MIAX Futures and Dorman Trading and in the International segment for BSX, and are recorded as transactions are cleared."
+  },
+  {
+   "name": "International",
+   "products": [
+    "international listings",
+    "debt issues",
+    "funds",
+    "hedge funds",
+    "derivative warrants",
+    "insurance linked securities",
+    "high yield bonds"
+   ],
+   "description": "Owns the Bermuda Stock Exchange and TISE, listing and trading securities such as equities, debt, funds and insurance linked securities for international issuers.",
+   "evidence": "BSX is a fully electronic, vertically integrated international securities market, headquartered in Bermuda that specializes in the listing and trading of capital market instruments such as equities, debt issues, funds, hedge funds, derivative warrants and insurance linked securities (\"ILS\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Exchange member firms, non-member firms and other customers pay transaction and clearing fees for trade execution, plus access, market data and listing fees.",
+  "evidence": "Transaction fees represent fees we charge to our exchange member firms, as customers, for the performance obligation of executing a trade on our exchanges and comprise the majority of our revenues."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company sold its MIAXdx derivatives exchange, now Rothera, to a joint venture of Robinhood and Susquehanna, keeping a minority stake.",
+   "evidence": "Effective as of January 20, 2026, we sold 90% of the issued and outstanding equity of MIAXdx to a joint venture established by Robinhood Markets, Inc. (\"Robinhood\") in partnership with Susquehanna International Group (\"SIG\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

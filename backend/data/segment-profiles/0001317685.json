@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001317685",
  "issuerName": "Alliance Laundry Holdings Inc.",
- "builtAt": "2026-11-16T04:54:59.659Z",
+ "builtAt": "2026-11-16T09:45:08.409Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001317685-26-000011",
@@ -10,10 +10,42 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1317685/000131768526000011/all-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Speed Queen",
+    "Huebsch",
+    "UniMac",
+    "IPSO",
+    "Primus",
+    "stand-alone commercial laundry systems",
+    "service parts"
+   ],
+   "description": "Sells commercial laundry systems, service parts and aftermarket services to distributors, institutional end users and communal laundry operators in the United States and Canada.",
+   "evidence": "Our North America segment consists of the United States and Canada."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Speed Queen",
+    "Huebsch",
+    "UniMac",
+    "IPSO",
+    "Primus",
+    "stand-alone commercial laundry systems",
+    "service parts"
+   ],
+   "description": "Sells commercial laundry systems and service parts through independent distributors and direct sales offices across Europe, Brazil, Latin America and Asia Pacific.",
+   "evidence": "Our International segment comprises all countries outside of the United States and Canada."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Distributors and end customers, including laundromat owners and institutions, pay for commercial laundry systems, service parts and equipment financing.",
+  "evidence": "Revenue is primarily generated through the sale of our commercial-grade laundry systems and service parts across our two geographic segments and into the three end markets of OPL, Vended and Commercial In-Home."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

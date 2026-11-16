@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002019410",
  "issuerName": "CARIS LIFE SCIENCES, INC.",
- "builtAt": "2026-11-16T04:55:11.355Z",
+ "builtAt": "2026-11-16T09:46:49.410Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002019410-26-000016",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/2019410/000201941026000016/cai-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Molecular profiling services",
+   "products": [
+    "MI Profile Platform",
+    "Caris Assure Platform",
+    "Precision Whole Genome Platform",
+    "MI Cancer Seek",
+    "Caris Detect"
+   ],
+   "description": "Provides tissue- and blood-based molecular profiling and clinico-genomic data services to oncologists, clinical customers and biopharma partners.",
+   "evidence": "The Company has identified that its business operates as a single operating segment which is also a single reporting unit for purposes of testing goodwill for impairment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Biopharmaceutical and clinical customers pay for molecular profiling, strategic data and research services delivered using the company's proprietary technologies and clinico-genomic database.",
+  "evidence": "Segment revenues are derived from molecular profiling, strategic data, and research services that are delivered to the Company's biopharmaceutical and clinical customers, who are predominantly located in the United States."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

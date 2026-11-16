@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001581280",
  "issuerName": "Twist Bioscience Corporation",
- "builtAt": "2026-11-16T04:55:13.512Z",
+ "builtAt": "2026-11-16T09:48:21.342Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001581280-25-000025",
@@ -10,11 +10,33 @@
   "filingDate": "2025-11-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1581280/000158128025000025/twst-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Synthetic DNA products",
+   "products": [
+    "Synthetic genes",
+    "Oligo pools",
+    "DNA libraries",
+    "Antibody discovery",
+    "NGS tools",
+    "synthetic biology tools"
+   ],
+   "description": "Manufactures synthetic DNA products, NGS tools and biopharma antibody discovery services for researchers, biotech, pharma, chemical and agricultural customers.",
+   "evidence": "We have one reportable segment from the manufacturing of synthetic DNA products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in healthcare, chemicals/materials, academic research and food/agriculture pay for synthetic genes, oligo pools, DNA libraries, NGS tools and antibody discovery services.",
+  "evidence": "We sell our products and services to a global customer base of more than 3,800, customers across a broad range of industries."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the company sold its DNA digital data storage business, reducing research and development costs.",
+   "evidence": "This reduction is primarily attributed to lower personnel costs of $4.9 million and a decrease in stock-based compensation expense of $2.2 million, both driven by the sale of DNA digital data storage business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

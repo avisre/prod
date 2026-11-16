@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001868941",
  "issuerName": "Fluence Energy, Inc.",
- "builtAt": "2026-11-16T04:55:13.971Z",
+ "builtAt": "2026-11-16T09:48:36.165Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001868941-25-000081",
@@ -10,10 +10,28 @@
   "filingDate": "2025-11-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1868941/000186894125000081/flnc-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy Storage",
+   "products": [
+    "Gridstack Pro®",
+    "Gridstack®",
+    "Ultrastack®",
+    "Smartstack™",
+    "Fluence-designed Battery Packs",
+    "O&M services",
+    "digital applications"
+   ],
+   "description": "Sells configurable energy storage systems plus recurring operations and maintenance services and digital applications to utilities, developers and independent power producers.",
+   "evidence": "As such, the Company has determined that it operates in one operating segment, which corresponds to one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Utilities, developers and independent power producers pay for energy storage products and solutions, recurring O&M services and digital applications.",
+  "evidence": "Our revenue is primarily derived from sales of our energy storage products and solutions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

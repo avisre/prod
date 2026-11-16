@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001070235",
  "issuerName": "BlackBerry Limited",
- "builtAt": "2026-11-16T04:54:59.690Z",
+ "builtAt": "2026-11-16T09:45:25.693Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001070235-26-000039",
@@ -10,11 +10,56 @@
   "filingDate": "2026-04-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1070235/000107023526000039/bbry-20260228.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "QNX",
+   "products": [
+    "BlackBerry® QNX®",
+    "BlackBerry Radar®",
+    "BlackBerry® Certicom®",
+    "other QNX applications"
+   ],
+   "description": "Supplies safety-certified operating systems, hypervisors, middleware and development tools, Radar telematics and Certicom cryptography to automakers and industrial customers.",
+   "evidence": "QNX consists of BlackBerry® QNX®, BlackBerry Radar®, BlackBerry® Certicom®, and other QNX applications."
+  },
+  {
+   "name": "Secure Communications",
+   "products": [
+    "BlackBerry® UEM",
+    "BlackBerry® AtHoc®",
+    "BlackBerry® SecuSUITE®",
+    "BlackBerry® Dynamics™",
+    "BlackBerry® Workspaces"
+   ],
+   "description": "Sells certified encrypted voice, messaging and file-sharing, critical event management and endpoint management software to governments, militaries and enterprises.",
+   "evidence": "Secure Communications consists of BlackBerry® UEM, BlackBerry® AtHoc® and BlackBerry® SecuSUITE®."
+  },
+  {
+   "name": "Licensing",
+   "products": [
+    "intellectual property arrangements",
+    "settlement awards"
+   ],
+   "description": "Monetizes the company's patent portfolio through intellectual property arrangements and settlement awards.",
+   "evidence": "Licensing consists of the Company's intellectual property arrangements and settlement awards."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay software licence, royalty, support and maintenance fees for QNX and secure communications software, and pay for intellectual property licensing.",
+  "evidence": "QNX revenue is generated predominantly through volume-based royalties and through software licenses, commonly bundled with support, maintenance and professional services."
+ },
+ "changes": [
+  {
+   "text": "The Cylance business was sold and its results are reported as discontinued operations, so it is no longer part of a reportable segment.",
+   "evidence": "As a result of the Cylance sale, it is no longer reported alongside UEM, SecuSUITE and AtHoc as the Cybersecurity segment."
+  },
+  {
+   "text": "From fiscal 2025, UEM, SecuSUITE and AtHoc are reported as the Secure Communications segment.",
+   "evidence": "Effective from the fiscal year ended February 28, 2025, those three businesses are reported separately from Cylance as the Secure Communications segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

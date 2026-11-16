@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001657573",
  "issuerName": "XOMETRY, INC.",
- "builtAt": "2026-11-16T04:54:59.995Z",
+ "builtAt": "2026-11-16T09:45:42.282Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-066959",
@@ -10,10 +10,31 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1657573/000119312526066959/xmtr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "parts and assemblies",
+    "advertising and marketing services"
+   ],
+   "description": "Sells parts and assemblies manufactured through the marketplace, plus advertising and marketing services, to buyers in the United States.",
+   "evidence": "The Company's U.S. revenues primarily result from the sales of parts and assemblies and the sale of advertising and marketing services."
+  },
+  {
+   "name": "International",
+   "products": [
+    "parts and assemblies"
+   ],
+   "description": "Sells parts and assemblies manufactured through the marketplace to buyers outside the United States, mainly in Germany.",
+   "evidence": "Xometry is organized in two segments referred to as: (1) the U.S. and (2) International."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Buyers pay for parts and assemblies sourced on the marketplace, and advertisers pay for digital advertising and marketing services.",
+  "evidence": "Revenue from our marketplace primarily reflects the sales of parts and assemblies on our platform."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

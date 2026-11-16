@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001124796",
  "issuerName": "NLIGHT, INC.",
- "builtAt": "2026-11-16T04:55:10.840Z",
+ "builtAt": "2026-11-16T09:46:27.654Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001124796-26-000012",
@@ -10,10 +10,34 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1124796/000112479626000012/lasr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Laser Products",
+   "products": [
+    "high-power semiconductor lasers",
+    "fiber lasers",
+    "fiber amplifiers",
+    "beam combination and control systems"
+   ],
+   "description": "Designs, manufactures and sells high-power semiconductor and fiber lasers, fiber amplifiers and beam combination systems for defense, industrial and microfabrication customers.",
+   "evidence": "This segment includes high-power semiconductor lasers and fiber lasers that are typically integrated into laser systems or manufacturing tools built by our customers."
+  },
+  {
+   "name": "Advanced Development",
+   "products": [
+    "custom high-power fiber lasers",
+    "advanced beam combining technologies"
+   ],
+   "description": "Runs research, design and prototyping programs that give governmental agencies next-generation directed energy and laser sensing technologies.",
+   "evidence": "Centered around providing governmental agencies with next-generation laser technologies and solutions, our capabilities include the development of custom high-power fiber lasers and advanced beam combining technologies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Original equipment manufacturers and other customers buy lasers, amplifiers and beam control systems for their own systems and tools, and governmental agencies fund development programs.",
+  "evidence": "We design, manufacture, and sell a range of high-power semiconductor lasers and fiber lasers that are typically integrated into laser systems or manufacturing tools built by our customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001997350",
  "issuerName": "Accelerant Holdings",
- "builtAt": "2026-11-16T04:55:15.498Z",
+ "builtAt": "2026-11-16T09:49:20.338Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001997350-26-000003",
@@ -10,10 +10,42 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1997350/000199735026000003/arx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exchange Services",
+   "products": [
+    "Risk Exchange",
+    "Risk Exchange Insurers"
+   ],
+   "description": "Operates the Risk Exchange platform, providing technology, data ingestion and agency operations that serve Members and Risk Capital Partners.",
+   "evidence": "Exchange Services – Our Exchange Services segment includes the fees paid by Risk Exchange Insurers and Accelerant Underwriting for sourcing, managing and monitoring the portfolio of business written by Members reduced by the expenses associated with providing these services."
+  },
+  {
+   "name": "MGA Operations",
+   "products": [
+    "Mission Underwriters",
+    "Mission Members",
+    "Owned Members"
+   ],
+   "description": "Reports fees from Mission Members and Owned Members for originating and underwriting insurance policies, including the MGA incubator Mission Underwriters.",
+   "evidence": "This segment reports all revenue and expenses from Mission Members and Owned Members in which we have majority ownership positions."
+  },
+  {
+   "name": "Underwriting",
+   "products": [
+    "Accelerant Underwriting",
+    "Flywheel Re"
+   ],
+   "description": "Holds Accelerant Underwriting companies and reinsurance companies that write and retain risk, earning premium and ceding commission.",
+   "evidence": "Our Underwriting segment includes all revenue and expenses associated with our Accelerant Underwriting companies (each of which solely operates through the Risk Exchange) and reinsurance companies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Risk Capital Partners writing premiums directly through the Risk Exchange pay a fixed-percentage, volume-based fee for sourcing, managing and monitoring the business they write.",
+  "evidence": "Risk Capital Partners writing premiums directly through the Risk Exchange pay us a fixed-percentage, volume-based fee for sourcing, managing and monitoring the business they write, which is netted by the amount the Risk Exchange pays in performance-based commissions to Members."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

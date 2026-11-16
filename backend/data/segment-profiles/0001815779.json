@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001815779",
  "issuerName": "Hafnia Limited",
- "builtAt": "2026-11-16T04:55:11.729Z",
+ "builtAt": "2026-11-16T09:48:02.502Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001140361-26-015278",
@@ -10,11 +10,86 @@
   "filingDate": "2026-04-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1815779/000114036126015278/ef20060668.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LR2",
+   "products": [
+    "clean petroleum oil products",
+    "gasoline",
+    "diesel",
+    "naphtha",
+    "kerosene",
+    "fuel oil",
+    "crude oil"
+   ],
+   "description": "Operates Long Range II product tankers carrying clean petroleum oil products for charterers and pool participants worldwide.",
+   "evidence": "The LR2 segment consists of vessels between 85,000 DWT and 124,999 DWT in size and provides transportation of clean petroleum oil products."
+  },
+  {
+   "name": "LR1",
+   "products": [
+    "clean and dirty petroleum products",
+    "gasoline",
+    "diesel",
+    "naphtha",
+    "kerosene",
+    "fuel oil",
+    "crude oil"
+   ],
+   "description": "Operates Long Range I tankers transporting clean and dirty petroleum products for charterers and pool participants worldwide.",
+   "evidence": "The LR1 segment consists of vessels between 55,000 DWT and 84,999 DWT in size and provides transportation of clean and dirty petroleum products."
+  },
+  {
+   "name": "MR",
+   "products": [
+    "clean and dirty oil products",
+    "vegetable oil",
+    "easy chemicals",
+    "gasoline",
+    "diesel",
+    "naphtha",
+    "kerosene",
+    "crude oil"
+   ],
+   "description": "Operates Medium Range tankers carrying oil products, vegetable oil and easy chemicals for charterers and pool participants worldwide.",
+   "evidence": "The MR segment consists of vessels between 40,000 DWT and 54,999 DWT in size and provides transportation of clean and dirty oil products, vegetable oil and easy chemicals; inclusive of IMO II vessels."
+  },
+  {
+   "name": "Handy",
+   "products": [
+    "clean and dirty oil products",
+    "vegetable oil",
+    "easy chemicals",
+    "gasoline",
+    "diesel",
+    "naphtha",
+    "kerosene",
+    "crude oil"
+   ],
+   "description": "Operates Handy size tankers carrying oil products, vegetable oil and easy chemicals for charterers and pool participants worldwide.",
+   "evidence": "The Handy segment consists of vessels between 25,000 DWT and 39,999 DWT in size and provides transportation of clean and dirty oil products, vegetable oil and easy chemicals; inclusive of IMO II vessels."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Charterers and pool participants pay us time charter and voyage charter hire for transporting oil products, vegetable oil and easy chemicals.",
+  "evidence": "The vessels in our Hafnia Fleet primarily trade through our Pools; however, we charter certain Hafnia Vessels, JV Vessels and TC Vessels directly to customers on time charters or voyage charters."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Group exited the Chemical-Stainless segment after disposing of the vessels acquired through the acquisition of Chemical Tankers Inc.",
+   "evidence": "During the financial year ended 31 December 2023, the group exited the Chemical-Stainless segment after disposing of its Chemical-Stainless vessels that were previously acquired through the acquisition of Chemical Tankers Inc."
+  },
+  {
+   "text": "In 2023 the Group also exited the Specialised segment after redelivering its only Specialised vessel.",
+   "evidence": "the Group exited the Specialised segment after redelivering its only Specialised vessel."
+  },
+  {
+   "text": "The previously separate Chemical-MR and Chemical-Handy segments were combined into the MR and Handy segments.",
+   "evidence": "Previously, we reported on \"Chemical-MR\" vessels and \"Chemical-Handy\" vessels as separate segments, however we have now grouped \"Chemical-MR\" and \"Chemical-Handy\" vessels under the MR segment and the Handy segment, respectively."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

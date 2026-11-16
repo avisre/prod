@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001639723",
  "issuerName": "NAVAN, INC.",
- "builtAt": "2026-11-16T04:55:10.279Z",
+ "builtAt": "2026-11-16T09:45:45.052Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-023250",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1639723/000162828026023250/navn-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Travel and Expense",
+   "products": [
+    "Navan Cognition",
+    "Navan Cloud",
+    "Ava",
+    "expense management",
+    "payments",
+    "meetings and events",
+    "bleisure travel",
+    "Travel offering"
+   ],
+   "description": "Provides an AI-powered business travel and expense platform covering booking, expense management and payments for corporate customers and their traveling employees.",
+   "evidence": "The Company operates its business in one operating segment and, therefore, has one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Platform customers and travel supply and payment partners pay fees per booking or transaction, while customers also pay subscriptions to the expense management platform.",
+  "evidence": "Usage-based revenue primarily represents fees from our platform customers earned on a per-booking transaction basis and fees from our travel supply and payment partners, which are generally earned on a per-transaction basis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

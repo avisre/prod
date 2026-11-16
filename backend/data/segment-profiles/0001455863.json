@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001455863",
  "issuerName": "AMERICOLD REALTY TRUST, INC.",
- "builtAt": "2026-11-16T04:55:11.564Z",
+ "builtAt": "2026-11-16T09:47:39.554Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012274",
@@ -10,10 +10,44 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1455863/000162828026012274/art-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Warehouse",
+   "products": [
+    "temperature-controlled warehouse storage",
+    "handling services",
+    "placement",
+    "case-picking",
+    "blast freezing",
+    "e-commerce fulfillment"
+   ],
+   "description": "Provides temperature-controlled warehouse storage and related handling services to food producers, processors, distributors and retailers.",
+   "evidence": "Our core business is our Warehouse segment, where we provide temperature-controlled warehouse storage and related handling and other warehouse services."
+  },
+  {
+   "name": "Transportation",
+   "products": [
+    "transportation services"
+   ],
+   "description": "Carries customers' temperature-sensitive products between points in the cold chain through transportation services.",
+   "evidence": "We view and manage our business through three primary business segments—Warehouse, Transportation and Third-Party Managed."
+  },
+  {
+   "name": "Third-party managed",
+   "products": [
+    "third-party managed services",
+    "management and incentive fees"
+   ],
+   "description": "Operates temperature-controlled warehouses and related functions for manufacturers and retailers in facilities they own.",
+   "evidence": "Our operating segments are aggregated into three reportable segments: Warehouse, Transportation, and Third-party managed."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay rent and storage fees to keep frozen and perishable food in the warehouses, plus handling and other warehouse service fees.",
+  "evidence": "We collect rent and storage fees to store customers' frozen and perishable food and other products within our real estate portfolio."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

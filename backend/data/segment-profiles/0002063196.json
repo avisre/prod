@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002063196",
  "issuerName": "Netskope, Inc.",
- "builtAt": "2026-11-16T04:55:10.160Z",
+ "builtAt": "2026-11-16T09:45:59.273Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-135011",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2063196/000119312526135011/ck0002063196-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security and networking",
+   "products": [
+    "Netskope One platform",
+    "NewEdge network"
+   ],
+   "description": "Unified cloud-native platform delivering security and networking capabilities that secure and accelerate enterprises' digital interactions across users, applications, data and AI.",
+   "evidence": "The Company has a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Enterprises pay for the Netskope One platform, which secures their data and digital interactions and runs on the NewEdge network.",
+  "evidence": "Organizations rely on our Netskope One platform to provide profound contextual intelligence into their data and digital interactions, securing them with precision, without sacrificing the digital experience."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

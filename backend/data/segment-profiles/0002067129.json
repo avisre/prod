@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002067129",
  "issuerName": "Neptune Insurance Holdings Inc.",
- "builtAt": "2026-11-16T04:55:13.935Z",
+ "builtAt": "2026-11-16T09:48:21.239Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002067129-26-000007",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/2067129/000206712926000007/nyse-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MGA",
+   "products": [
+    "residential and commercial insurance products",
+    "primary flood insurance",
+    "excess flood insurance",
+    "parametric earthquake insurance"
+   ],
+   "description": "Underwrites and administers flood and earthquake insurance policies for homeowners and businesses, distributing them through a nationwide agency network.",
+   "evidence": "The Company has one operating segment and therefore one reportable segment relating to its business as an MGA that offers residential and commercial insurance products, including primary and excess flood insurance,, and parametric earthquake insurance, primarily through a nationwide agency network in the United States."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Capacity providers pay negotiated commissions on premium and policyholders pay fees for the flood and earthquake policies the company underwrites and administers.",
+  "evidence": "We operate as an MGA, with a highly profitable, recurring, fee-based revenue model derived from two primary sources: commissions paid by capacity providers, and fees paid by policyholders."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

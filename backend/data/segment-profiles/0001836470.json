@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001836470",
  "issuerName": "Sportradar Group AG",
- "builtAt": "2026-11-16T04:55:14.590Z",
+ "builtAt": "2026-11-16T09:48:54.184Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-035485",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1836470/000110465926035485/srad-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sportradar",
+   "products": [
+    "pre-match data and odds",
+    "live data and odds",
+    "sports audiovisual content",
+    "Managed Betting Services",
+    "iGaming",
+    "Marketing and advertising solutions",
+    "Integrity services",
+    "data feeds and APIs"
+   ],
+   "description": "Provides sports data, content and technology products to sports leagues and federations, betting operators and media companies worldwide as a single operating segment.",
+   "evidence": "Effective January 1, 2024, our company is one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Sports leagues and federations, betting operators and media companies pay for mission-critical products, data and content used in betting, media and integrity solutions.",
+  "evidence": "We provide mission-critical products, data and content to sports leagues and federations, betting operators and media companies."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company completed strategic actions that resulted in changes to its operating segments, leaving it with one operating and reportable segment.",
+   "evidence": "In January 2024 the Company completed a series of strategic actions to streamline its organizational structure, which resulted in certain changes to its operating segments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

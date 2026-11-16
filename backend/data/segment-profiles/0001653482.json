@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001653482",
  "issuerName": "GITLAB INC.",
- "builtAt": "2026-11-16T04:55:10.920Z",
+ "builtAt": "2026-11-16T09:46:11.897Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-018731",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1653482/000162828026018731/gtlb-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DevSecOps platform",
+   "products": [
+    "GitLab Duo Agent Platform",
+    "GitLab Duo Pro",
+    "GitLab Duo Enterprise",
+    "Enterprise Agile Planning",
+    "GitLab.com",
+    "Self-Managed",
+    "Dedicated",
+    "GitLab Orbit"
+   ],
+   "description": "Provides an intelligent orchestration platform for DevSecOps, delivered as a single application to software, security, IT and business teams worldwide.",
+   "evidence": "The Company operates its business as one operating and reportable segment as the Company's chief operating decision maker (\"CODM\"), the Company's CEO, reviews financial information on a consolidated basis for purposes of allocating resources and evaluating financial performance."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription, license and professional services fees for the DevSecOps platform, priced by seats for platform tiers and by usage credits for AI agent capabilities.",
+  "evidence": "We offer both seat-based and usage-based pricing to align costs with customer value realization and deployment patterns."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

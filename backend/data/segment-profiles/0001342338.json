@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001342338",
  "issuerName": "Himax Technologies, Inc.",
- "builtAt": "2026-11-16T04:55:14.871Z",
+ "builtAt": "2026-11-16T09:49:14.593Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-035507",
@@ -10,10 +10,40 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1342338/000110465926035507/himx-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Driver IC",
+   "products": [
+    "displays driver for large-sized TFT-LCD panels",
+    "displays driver for small and medium-sized TFT-LCD panels",
+    "traditional driver ICs",
+    "in-cell Touch and Display Driver Integration (TDDI)",
+    "local dimming timing controllers (Local Dimming TCON)",
+    "Large Touch and Display Driver Integration (LTDI)",
+    "OLED technologies"
+   ],
+   "description": "Designs and sells display drivers for large-sized and small and medium-sized TFT-LCD panels used in televisions, monitors, handsets and consumer electronics.",
+   "evidence": "The Driver IC segment generally is engaged in the design, research, development and sale of displays driver for large-sized TFT-LCD panels, which are used in televisions and desktop monitors, and displays driver for small and medium-sized TFT-LCD panels, which are used in mobile handsets and consumer electronics products."
+  },
+  {
+   "name": "Non-Driver Products",
+   "products": [
+    "timing controllers",
+    "3D Sensing Solution",
+    "LCoS",
+    "CMOS Image Sensors",
+    "WLO"
+   ],
+   "description": null,
+   "evidence": "The Non-driver segment primarily is engaged in the design, research, manufacturing and sale of non-driver products, such as timing controllers, 3D Sensing Solution, LCoS, CMOS Image Sensors and WLO."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Panel manufacturers and electronics customers pay for display driver ICs and non-driver semiconductor products built to their specific designs.",
+  "evidence": "Display driver companies must work closely with their customers to develop semiconductors that meet their customers' specific needs in order to optimize the performance of their products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

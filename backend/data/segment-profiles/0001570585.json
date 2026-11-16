@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001570585",
  "issuerName": "Liberty Global Ltd.",
- "builtAt": "2026-11-16T04:55:12.164Z",
+ "builtAt": "2026-11-16T09:48:11.225Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001570585-26-000014",
@@ -10,11 +10,75 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1570585/000157058526000014/lbtya-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telenet",
+   "products": [
+    "intelligent WiFi and broadband internet services",
+    "video services",
+    "fixed-line telephony services",
+    "mobile services",
+    "B2B services",
+    "mobile handsets"
+   ],
+   "description": "Provides residential and business broadband internet, video, fixed-line telephony and mobile services in Belgium under the Telenet brand.",
+   "evidence": "Liberty Telecom provides residential and business telecommunication services in Belgium through Telenet, in Ireland through VM Ireland and in Slovakia through UPC Slovakia, and we are a leading fixed network provider in each of these countries."
+  },
+  {
+   "name": "VM Ireland",
+   "products": [
+    "intelligent WiFi and broadband internet services",
+    "video services",
+    "fixed-line telephony services",
+    "mobile services",
+    "B2B services"
+   ],
+   "description": "Provides residential and business telecommunication services in Ireland, delivering mobile services as an MVNO over a third-party network.",
+   "evidence": "As part of this strategy, Telenet, the VMO2 JV and our 50:50 joint venture with Vodafone Group plc ( Vodafone ) (the VodafoneZiggo JV ) deliver mobile services as mobile network operators ( MNOs ) and Virgin Media Ireland ( VM Ireland ) delivers mobile services as an MVNO through Three's network."
+  },
+  {
+   "name": "VMO2 JV",
+   "products": [
+    "residential and B2B communications services",
+    "B2B services",
+    "mobile services",
+    "broadband internet",
+    "video",
+    "fixed-line telephony"
+   ],
+   "description": "Provides residential and business communications services in the U.K. as a nonconsolidated joint venture.",
+   "evidence": "we own 50% noncontrolling interests in (a) the VMO2 JV, which provides residential and B2B communications services in the U.K., and (b) the VodafoneZiggo JV, which provides residential and B2B communications services in the Netherlands."
+  },
+  {
+   "name": "VodafoneZiggo JV",
+   "products": [
+    "residential and B2B communications services",
+    "B2B services",
+    "mobile services",
+    "broadband internet",
+    "video",
+    "fixed-line telephony"
+   ],
+   "description": "Provides residential and business communications services in the Netherlands as a nonconsolidated joint venture.",
+   "evidence": "We also own 50% of both the VMO2 JV and the VodafoneZiggo JV, each of which is a fixed network leader in their respective countries."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Residential and business customers pay subscription and non-subscription fees for broadband internet, video, telephony and mobile services.",
+  "evidence": "Residential fixed subscription revenue includes amounts received from subscribers for ongoing services and the recognition of deferred installation revenue over the associated contract period."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company agreed to sell its operations in Slovakia, with closing subject to regulatory approval.",
+   "evidence": "On December 18, 2025, we entered into an agreement to sell our operations in Slovakia to O2 Slovakia s.r.o., an affiliate of e& PPF Telecom Group B.V., for a total transaction value of approximately €95 million ($110 million), subject to customary debt and working capital adjustments at completion."
+  },
+  {
+   "text": "In 2024 the company completed the spin-off of Sunrise, transferring its Swiss telecommunications operations and reflecting them as discontinued operations.",
+   "evidence": "On November 8, 2024, we completed the spin-off of our former wholly-owned subsidiary, Sunrise Communications AG ( Sunrise ), following a series of transactions that resulted in the transfer to Sunrise of our Swiss telecommunications operations (the Spin-off )."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
