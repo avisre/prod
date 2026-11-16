@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001823239",
+ "issuerName": "Maravai LifeSciences Holdings, Inc.",
+ "builtAt": "2026-11-16T05:07:07.731Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001823239-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823239/000182323926000011/mrvi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TriLink",
+   "products": [
+    "nucleic acid production"
+   ],
+   "description": "Makes nucleic acid products for research and therapy.",
+   "evidence": "Business Segments and Products We operate and report our business in two segments – TriLink, formerly referred to as Nucleic Acid Production, and Cygnus, formerly referred to as Biologics Safety Testing."
+  },
+  {
+   "name": "Cygnus",
+   "products": [
+    "biologics safety testing"
+   ],
+   "description": "Provides biologics safety testing.",
+   "evidence": "Business Segments and Products We operate and report our business in two segments – TriLink, formerly referred to as Nucleic Acid Production, and Cygnus, formerly referred to as Biologics Safety Testing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Biotech and pharma customers buy its products and testing.",
+  "evidence": "Business Segments and Products We operate and report our business in two segments – TriLink, formerly referred to as Nucleic Acid Production, and Cygnus, formerly referred to as Biologics Safety Testing."
+ },
+ "changes": [
+  {
+   "text": "Renamed its two reportable segments to TriLink and Cygnus in fiscal 2025.",
+   "evidence": "During fiscal year 2025, we renamed our reportable segments from Nucleic Acid Production and Biologics Safety Testing to TriLink and Cygnus, respectively."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

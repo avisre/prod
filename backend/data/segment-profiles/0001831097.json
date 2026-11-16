@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001831097",
+ "issuerName": "agilon health, inc.",
+ "builtAt": "2026-11-16T05:07:11.211Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011655",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1831097/000162828026011655/agl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "agilon health",
+   "products": [],
+   "description": "Supports primary care doctors in Medicare Advantage.",
+   "evidence": "Segment Reporting The Company operates a Medicare-centric, capitated line of business and is organized as a single operating and reportable segment based on the manner in which the Company's Chief Operating Decision Maker (\"CODM\") evaluates performance and makes decisions about how to allocate resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Health plans pay capitated rates for members' care.",
+  "evidence": "Segment Reporting The Company operates a Medicare-centric, capitated line of business and is organized as a single operating and reportable segment based on the manner in which the Company's Chief Operating Decision Maker (\"CODM\") evaluates performance and makes decisions about how to allocate resources."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (agilon health): value-based care enablement"
+ ],
+ "reader": "agent"
+}

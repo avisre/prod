@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001565687",
+ "issuerName": "Intapp, Inc.",
+ "builtAt": "2026-11-16T05:07:09.332Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001565687-26-000073",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1565687/000156568726000073/inta-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intapp",
+   "products": [],
+   "description": "Sells deal and compliance software to professional firms.",
+   "evidence": "As such, the Company has determined that it operates in one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Professional services firms pay subscriptions for its software.",
+  "evidence": "Segment Information The Company's Chief Executive Officer is the Company's Chief Operating Decision Maker (\"CODM\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Intapp): industry cloud software"
+ ],
+ "reader": "agent"
+}

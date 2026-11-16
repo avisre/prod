@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001356090",
+ "issuerName": "PRECIGEN, INC.",
+ "builtAt": "2026-11-16T05:07:09.741Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001356090-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1356090/000135609026000009/pgen-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precigen",
+   "products": [
+    "biopharmaceuticals",
+    "Exemplar"
+   ],
+   "description": "Develops gene and cell therapies.",
+   "evidence": "Segment Information In the first quarter of 2025, the Company realigned its former two operating segments, Biopharmaceuticals and Exemplar, into one operating segment, although both components (Biopharmaceuticals and Exemplar) remain as separate reporting units."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay collaboration revenue and product sales.",
+  "evidence": "Segment Information In the first quarter of 2025, the Company realigned its former two operating segments, Biopharmaceuticals and Exemplar, into one operating segment, although both components (Biopharmaceuticals and Exemplar) remain as separate reporting units."
+ },
+ "changes": [
+  {
+   "text": "Combined its Biopharmaceuticals and Exemplar segments into one operating segment in the first quarter of 2025.",
+   "evidence": "Segment Information In the first quarter of 2025, the Company realigned its former two operating segments, Biopharmaceuticals and Exemplar, into one operating segment, although both components (Biopharmaceuticals and Exemplar) remain as separate reporting units."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

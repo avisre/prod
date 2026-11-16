@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001816007",
+ "issuerName": "Lufax Holding Ltd",
+ "builtAt": "2026-11-16T05:07:27.306Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-194102",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1816007/000119312526194102/d88899d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lufax",
+   "products": [
+    "financial services"
+   ],
+   "description": "Runs its online lending and wealth platform.",
+   "evidence": "Based on the assessment of reportable segments under IFRS 8, the Group determined that only one operating segment needs to be reported as none of the ope"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay fees on loans arranged through its platform.",
+  "evidence": "Based on the assessment of reportable segments under IFRS 8, the Group determined that only one operating segment needs to be reported as none of the ope"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

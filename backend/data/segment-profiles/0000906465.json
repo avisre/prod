@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000906465",
+ "issuerName": "QCR HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:07:09.372Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021531",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/906465/000110465926021531/qcrh-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "QCBT",
+   "products": [
+    "banking services"
+   ],
+   "description": "Runs Quad City Bank & Trust.",
+   "evidence": "The Company's Commercial Banking business is geographically divided by markets into the operating segments corresponding to the four subsidiary banks wholly-owned by the Company: QCBT, CRBT, CSB and GB."
+  },
+  {
+   "name": "CRBT",
+   "products": [
+    "banking services"
+   ],
+   "description": "Runs Cedar Rapids Bank & Trust.",
+   "evidence": "The Company's Commercial Banking business is geographically divided by markets into the operating segments corresponding to the four subsidiary banks wholly-owned by the Company: QCBT, CRBT, CSB and GB."
+  },
+  {
+   "name": "CSB",
+   "products": [
+    "banking services"
+   ],
+   "description": "Runs Community State Bank.",
+   "evidence": "The Company's Commercial Banking business is geographically divided by markets into the operating segments corresponding to the four subsidiary banks wholly-owned by the Company: QCBT, CRBT, CSB and GB."
+  },
+  {
+   "name": "GB",
+   "products": [
+    "banking services"
+   ],
+   "description": "Runs Guaranty Bank.",
+   "evidence": "The Company's Commercial Banking business is geographically divided by markets into the operating segments corresponding to the four subsidiary banks wholly-owned by the Company: QCBT, CRBT, CSB and GB."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "The Company's Commercial Banking business is geographically divided by markets into the operating segments corresponding to the four subsidiary banks wholly-owned by the Company: QCBT, CRBT, CSB and GB."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

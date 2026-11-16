@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001822492",
+ "issuerName": "Hillman Solutions Corp.",
+ "builtAt": "2026-11-16T05:07:10.555Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001822492-26-000019",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1822492/000182249226000019/hlmn-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hardware and Protective Solutions",
+   "products": [
+    "fasteners",
+    "threaded rod",
+    "keys and key duplication systems",
+    "builder's hardware",
+    "rope and chain",
+    "protective solutions"
+   ],
+   "description": "Sells hardware and protective products.",
+   "evidence": "Hillman Group We are comprised of three separate operating business segments: (1) Hardware and Protective Solutions, (2) Robotics and Digital Solutions, and (3) Canada."
+  },
+  {
+   "name": "Robotics and Digital Solutions",
+   "products": [
+    "robotics",
+    "digital solutions"
+   ],
+   "description": "Sells robotics and digital solutions.",
+   "evidence": "Hillman Group We are comprised of three separate operating business segments: (1) Hardware and Protective Solutions, (2) Robotics and Digital Solutions, and (3) Canada."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "hardware products"
+   ],
+   "description": "Sells hardware products in Canada.",
+   "evidence": "Hillman Group We are comprised of three separate operating business segments: (1) Hardware and Protective Solutions, (2) Robotics and Digital Solutions, and (3) Canada."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and industrial customers buy its products.",
+  "evidence": "We provide products such as fasteners and related hardware items; threaded rod and metal shapes; keys and key duplication systems; builder's hardware; rope and chain; protective solutions, such as gloves, eye-wear, and cleaning rags; and identification items, s"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

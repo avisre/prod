@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001702318",
+ "issuerName": "Akso Health Group",
+ "builtAt": "2026-11-16T05:07:11.958Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-080868",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1702318/000121390026080868/ea0294288-20f_akso.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

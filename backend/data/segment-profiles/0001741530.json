@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001741530",
+ "issuerName": "Qfin Holdings, Inc.",
+ "builtAt": "2026-11-16T05:07:09.257Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-049501",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1741530/000110465926049501/qfin-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Qfin",
+   "products": [
+    "credit technology services"
+   ],
+   "description": "Connects borrowers and financial partners.",
+   "evidence": "The Group's CODM manages the Company's business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Financial partners pay fees for borrower referrals.",
+  "evidence": "The Group's CODM manages the Company's business activities as a single operating and reportable segment at the consolidated level."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

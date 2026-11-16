@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000910612",
+ "issuerName": "CBL & ASSOCIATES PROPERTIES, INC.",
+ "builtAt": "2026-11-16T05:07:10.581Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-087049",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/910612/000119312526087049/cbl-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

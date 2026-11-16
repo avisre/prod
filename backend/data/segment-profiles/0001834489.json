@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001834489",
+ "issuerName": "Genius Sports Limited",
+ "builtAt": "2026-11-16T05:07:11.241Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-110749",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1834489/000119312526110749/geni-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Genius Sports",
+   "products": [
+    "Betting Content Technology",
+    "Media Technology Content and Services",
+    "Sports Technology and Services"
+   ],
+   "description": "Sells sports data, betting technology and media services.",
+   "evidence": "Genius has a single operating segment that derives revenues from customers by providing access to Betting Content Technology, Content and Services, Media Technology Content and Services and Sports Technology and Services, and therefore has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Leagues, bookmakers and media companies pay for data and technology.",
+  "evidence": "All of Genius' products are powered by proprietary technology and robust data infrastructure."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

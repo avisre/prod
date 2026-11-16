@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001712184",
+ "issuerName": "Liberty Latin America Ltd.",
+ "builtAt": "2026-11-16T05:07:07.923Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001712184-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1712184/000171218426000023/lila-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Liberty Caribbean",
+   "products": [
+    "telecom services"
+   ],
+   "description": "Provides telecom services in the Caribbean.",
+   "evidence": "over 20 countries across Latin America and the Caribbean through two of our reportable segments, Liberty Caribbean and C&W Panama; ii."
+  },
+  {
+   "name": "C&W Panama",
+   "products": [
+    "telecom services"
+   ],
+   "description": "Provides telecom services in Panama.",
+   "evidence": "over 20 countries across Latin America and the Caribbean through two of our reportable segments, Liberty Caribbean and C&W Panama; ii."
+  },
+  {
+   "name": "Liberty Puerto Rico",
+   "products": [
+    "telecom services"
+   ],
+   "description": "Provides telecom services in Puerto Rico and the USVI.",
+   "evidence": "Puerto Rico and USVI, through our reportable segment Liberty Puerto Rico; and iii."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residential and business subscribers pay for broadband and mobile.",
+  "evidence": "over 20 countries across Latin America and the Caribbean through two of our reportable segments, Liberty Caribbean and C&W Panama; ii."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

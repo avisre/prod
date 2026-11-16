@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001590560",
+ "issuerName": "uniQure N.V.",
+ "builtAt": "2026-11-16T05:07:08.680Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021898",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1590560/000110465926021898/qure-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "uniQure",
+   "products": [
+    "gene therapies"
+   ],
+   "description": "Develops gene therapies.",
+   "evidence": "The Company views its operations and manages its business as one operating segment, which comprises the discovery a"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay collaboration revenue and milestones.",
+  "evidence": "The Company views its operations and manages its business as one operating segment, which comprises the discovery a"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

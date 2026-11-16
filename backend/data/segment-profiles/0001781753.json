@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001781753",
+ "issuerName": "Youdao, Inc.",
+ "builtAt": "2026-11-16T05:07:12.412Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-155933",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1781753/000119312526155933/dao-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "learning services",
+   "products": [
+    "online courses"
+   ],
+   "description": "Sells online learning services.",
+   "evidence": "106 Table of Contents Key Components of Results of Operations Net revenues We have three reportable segments: (i) learning services, (ii) smart devices, and (iii) online marketing services."
+  },
+  {
+   "name": "smart devices",
+   "products": [],
+   "description": "Sells smart learning devices.",
+   "evidence": "106 Table of Contents Key Components of Results of Operations Net revenues We have three reportable segments: (i) learning services, (ii) smart devices, and (iii) online marketing services."
+  },
+  {
+   "name": "online marketing services",
+   "products": [
+    "online advertising"
+   ],
+   "description": "Sells online marketing services.",
+   "evidence": "106 Table of Contents Key Components of Results of Operations Net revenues We have three reportable segments: (i) learning services, (ii) smart devices, and (iii) online marketing services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Learners buy courses and devices; advertisers pay for marketing.",
+  "evidence": "We identify our reportable segments based on the organizational units used by management to monitor performance and make operating decisions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (smart devices): smart devices"
+ ],
+ "reader": "agent"
+}

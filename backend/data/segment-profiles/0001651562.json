@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001651562",
+ "issuerName": "COURSERA, INC.",
+ "builtAt": "2026-11-16T05:07:09.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001651562-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1651562/000165156226000015/cour-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer",
+   "products": [
+    "online courses",
+    "certificates"
+   ],
+   "description": "Sells courses and certificates to individual learners.",
+   "evidence": "63 Table of Contents Coursera serves individual learners and institutional customers through two operating segments: Consumer and Enterprise."
+  },
+  {
+   "name": "Enterprise",
+   "products": [
+    "enterprise learning"
+   ],
+   "description": "Sells learning to institutions and employers.",
+   "evidence": "63 Table of Contents Coursera serves individual learners and institutional customers through two operating segments: Consumer and Enterprise."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Learners pay for courses and institutions pay for licences.",
+  "evidence": "63 Table of Contents Coursera serves individual learners and institutional customers through two operating segments: Consumer and Enterprise."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

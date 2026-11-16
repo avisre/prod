@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002064947",
+ "issuerName": "WaterBridge Infrastructure LLC",
+ "builtAt": "2026-11-16T05:07:10.512Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-106541",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2064947/000119312526106541/wbi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "WaterBridge",
+   "products": [
+    "water handling infrastructure"
+   ],
+   "description": "Owns and operates produced water infrastructure.",
+   "evidence": "Segment Information The Company operates in a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Producers pay fees to gather, treat and dispose of water.",
+  "evidence": "Segment Information The Company operates in a single operating and reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

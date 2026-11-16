@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001512499",
+ "issuerName": "LINDBLAD EXPEDITIONS HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:07:11.296Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005873",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1512499/000143774926005873/lindb20251231c_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lindblad",
+   "products": [
+    "ship-based expeditions"
+   ],
+   "description": "Runs expedition cruises on its vessels.",
+   "evidence": "Segments Lindblad Segment The Lindblad segment consists primarily of ship-based expeditions aboard customized, nimble and intimately-scaled vessels that are designed for discovery, enabling us to venture where larger cruise ships cannot, thereby allowing Lindblad to offer up-close experiences in the planet's wild and remote places and capitals of culture."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay cruise fares for expedition voyages.",
+  "evidence": "Segments Lindblad Segment The Lindblad segment consists primarily of ship-based expeditions aboard customized, nimble and intimately-scaled vessels that are designed for discovery, enabling us to venture where larger cruise ships cannot, thereby allowing Lindblad to offer up-close experiences in the planet's wild and remote places and capitals of culture."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
