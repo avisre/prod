@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001901440",
  "issuerName": "UL Solutions Inc.",
- "builtAt": "2026-11-16T04:38:26.215Z",
+ "builtAt": "2026-11-16T08:59:51.823Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001901440-26-000005",
@@ -10,11 +10,56 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1901440/000190144026000005/uls-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial",
+   "products": [
+    "Certification Testing",
+    "Ongoing Certification Services",
+    "Non-certification Testing and Other Services"
+   ],
+   "description": "Provides testing, inspection and certification services that help industrial manufacturers, asset owners and regulators meet safety, performance and sustainability standards.",
+   "evidence": "The Industrial segment provides services that address needs across a number of end markets, including energy, industrial automation, engineered materials (plastics and wire and cable) and built environment"
+  },
+  {
+   "name": "Consumer",
+   "products": [
+    "safety certification testing",
+    "ongoing certification",
+    "global market access",
+    "testing for connectivity",
+    "critical systems advisory and training"
+   ],
+   "description": "Tests and certifies consumer electronics, medical devices, appliances and other consumer products for global market acceptance and risk mitigation.",
+   "evidence": "The Consumer segment provides a variety of global product market acceptance and risk mitigation services for customers in the consumer products end market, including consumer electronics, medical devices, information technologies, appliances, HVAC, lighting, retail (softlines and hardlines) and emerging consumer applications"
+  },
+  {
+   "name": "Software and Advisory",
+   "products": [
+    "software and advisory solutions",
+    "software and technical advisory offerings",
+    "supply chain software"
+   ],
+   "description": "Sells software and technical advisory solutions that help customers manage regulatory requirements, supply chain transparency and sustainability.",
+   "evidence": "The Software and Advisory segment provides complementary software and advisory solutions that extend the value proposition of TIC services the Company offers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay UL Solutions for testing, inspection and certification services, ongoing certification and label use, and software and advisory solutions.",
+  "evidence": "We generate revenue in these segments and the following service categories: Certification Testing; Ongoing Certification Services; Non-certification Testing and Other Services; and Software."
+ },
+ "changes": [
+  {
+   "text": "Beginning in 2026 the Company reorganized its segments, moving its Advisory business into Industrial and renaming Software and Advisory.",
+   "evidence": "Effective beginning in the first quarter of 2026, the Company reorganized its segments to be consistent with how the Chief Executive Officer will evaluate business performance and allocate resources."
+  },
+  {
+   "text": "In 2026 the Company signed an agreement to sell its Employee Health and Safety software business.",
+   "evidence": "In February 2026, the Company signed a definitive agreement to sell its Employee Health and Safety software business in the Company's Risk & Compliance Software segment to an affiliate of Peak Rock Capital"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001466258",
  "issuerName": "TRANE TECHNOLOGIES PLC",
- "builtAt": "2026-11-16T04:38:25.619Z",
+ "builtAt": "2026-11-16T08:58:33.339Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-005731",
@@ -10,10 +10,45 @@
   "filingDate": "2026-02-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1466258/000162828026005731/tt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "commercial heating, cooling and ventilation systems",
+    "building controls and solutions",
+    "energy services and solutions",
+    "residential heating and cooling",
+    "transport refrigeration systems and solutions"
+   ],
+   "description": "Innovates for customers in North America and Latin America, supplying commercial and residential HVAC, building controls, energy services and transport refrigeration.",
+   "evidence": "Our Americas segment innovates for customers in North America and Latin America."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "heating, cooling and ventilation systems and services",
+    "energy services and solutions",
+    "transport refrigeration systems and solutions"
+   ],
+   "description": "Innovates for customers in Europe, the Middle East and Africa, providing HVAC systems and services, energy services and transport refrigeration.",
+   "evidence": "Our EMEA segment innovates for customers in the Europe, Middle East and Africa region."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "heating, cooling and ventilation systems, services and solutions for commercial ",
+    "transport refrigeration systems and solutions"
+   ],
+   "description": "Innovates for customers throughout Asia Pacific, serving commercial buildings with HVAC systems and services plus transport refrigeration.",
+   "evidence": "Our Asia Pacific segment innovates for customers throughout the Asia Pacific region."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for the design, manufacture, sales and service of HVAC, transport refrigeration and custom refrigeration solutions.",
+  "evidence": "We generate revenue and cash primarily through the design, manufacture, sales and service of solutions for Heating, Ventilation and Air Conditioning (HVAC), transport refrigeration, and custom refrigeration solutions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

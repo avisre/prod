@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001067701",
  "issuerName": "United Rentals, Inc.",
- "builtAt": "2026-11-16T04:38:26.569Z",
+ "builtAt": "2026-11-16T09:00:48.346Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001067701-26-000007",
@@ -10,10 +10,36 @@
   "filingDate": "2026-01-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1067701/000106770126000007/uri-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "general rentals",
+   "products": [
+    "General construction and industrial equipment",
+    "Aerial work platforms",
+    "General tools and light equipment"
+   ],
+   "description": "Rents construction, aerial and industrial equipment and general tools to construction and industrial companies, manufacturers, utilities, municipalities and homeowners.",
+   "evidence": "The general rentals segment includes the rental of construction, aerial and industrial equipment, general tools and light equipment, and related services and activities."
+  },
+  {
+   "name": "specialty",
+   "products": [
+    "Trench safety equipment",
+    "Power and HVAC equipment",
+    "Fluid solutions equipment",
+    "Mobile storage equipment and modular office space",
+    "Surface protection mats"
+   ],
+   "description": "Rents trench safety, power and HVAC, fluid solutions, mobile storage and surface protection equipment, with setup services, mainly to infrastructure contractors, municipalities and industrial companies.",
+   "evidence": "The specialty segment, which, as noted above, is a single division that is both an operating segment and a reportable segment, rents products (and provides setup and other services on such rented equipment) including (i) trench safety equipment, such as trench shields, aluminum hydraulic shoring systems, slide rails, crossing plates, construction lasers and line testing equipment for underground work, (ii) power and HVAC equipment, such as portable diesel generators, electrical distribution equi"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Construction and industrial companies, manufacturers, utilities, municipalities and homeowners pay to rent equipment and to buy equipment and contractor supplies.",
+  "evidence": "The general rentals segment's customers include construction and industrial companies, manufacturers, utilities, municipalities and homeowners."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

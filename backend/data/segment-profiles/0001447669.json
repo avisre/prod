@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001447669",
  "issuerName": "TWILIO INC.",
- "builtAt": "2026-11-16T04:38:25.681Z",
+ "builtAt": "2026-11-16T08:58:46.244Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001447669-26-000021",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1447669/000144766926000021/twlo-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications",
+   "products": [
+    "Messaging",
+    "Voice",
+    "Email",
+    "User Authentication and Identity",
+    "Segment",
+    "Verify",
+    "Lookup",
+    "Marketing Campaigns"
+   ],
+   "description": "One consolidated segment selling customizable communications APIs and software products to businesses of all sizes for customer engagement.",
+   "evidence": "These changes required us to re-evaluate our operating segment structure and resulted in the conclusion that starting with the third quarter of 2025 and as of December 31, 2025, we had one operating and reportable segment, which comprised all of the consolidated Company."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Businesses pay usage-based fees for messaging, voice and authentication usage, and subscription-based fees for Email and Segment.",
+  "evidence": "Revenue generated from Messaging, Voice, and User Authentication and Identity is primarily recognized on a usage basis."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company realigned its business unit structure into a functional support model under one organization, leading to one operating and reportable segment.",
+   "evidence": "On January 1, 2025, we realigned our business unit structure into a functional support model under one organization."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

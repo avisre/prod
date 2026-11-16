@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002067876",
  "issuerName": "Versant Media Group, Inc.",
- "builtAt": "2026-11-16T04:38:27.876Z",
+ "builtAt": "2026-11-16T09:02:16.301Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002067876-26-000010",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/2067876/000206787626000010/vsnt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Media and entertainment",
+   "products": [
+    "MS NOW",
+    "CNBC",
+    "USA Network",
+    "Golf Channel",
+    "GolfNow",
+    "E!",
+    "SYFY",
+    "Oxygen True Crime"
+   ],
+   "description": "Operates television networks and digital platforms delivering news, sports and entertainment content to viewers, subscribers, advertisers, distributors and licensing counterparties.",
+   "evidence": "We serve these markets primarily through a strong portfolio of brands comprised of television networks operating primarily in the United States, including MS NOW, CNBC, USA Network, Golf Channel, E!, SYFY and Oxygen, and our complementary digital platforms GolfNow, Fandango and Rotten Tomatoes."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Distributors and multichannel video programming distributors pay per-subscriber fees to carry the networks; advertisers pay for advertising; digital platform users and licensing counterparties pay for services and content.",
+  "evidence": "We generate revenue primarily through distributing our networks, selling advertising across our brands, providing services through our digital platforms and content licensing."
+ },
+ "changes": [
+  {
+   "text": "In 2026 Versant separated from Comcast, where its operations had been reported within Comcast's Media Segment, and became a standalone publicly traded company.",
+   "evidence": "On January 2, 2026, we separated (the \"Separation\") from Comcast and became a standalone publicly traded company"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

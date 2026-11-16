@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000946581",
  "issuerName": "TAKE-TWO INTERACTIVE SOFTWARE, INC.",
- "builtAt": "2026-11-16T04:38:25.658Z",
+ "builtAt": "2026-11-16T08:58:54.414Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-037434",
@@ -10,10 +10,29 @@
   "filingDate": "2026-05-22",
   "url": "https://www.sec.gov/Archives/edgar/data/946581/000162828026037434/ttwo-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Interactive Entertainment",
+   "products": [
+    "Rockstar Games",
+    "2K",
+    "Zynga",
+    "Grand Theft Auto",
+    "Red Dead Redemption",
+    "NBA 2K",
+    "BioShock",
+    "Borderlands"
+   ],
+   "description": "Develops, publishes and markets interactive entertainment content for console, mobile and PC players worldwide through its publishing labels.",
+   "evidence": "We develop, operate, and publish products principally through Rockstar Games, 2K, and Zynga."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Players and consumers pay for interactive entertainment content, including software titles, in-game virtual items, add-on content, live services and advertising.",
+  "evidence": "We derive substantially all of our revenue from the sale of our interactive entertainment content, which includes internally developed software titles and software titles developed by third parties, in-game virtual items and advertising, and live services on console, mobile, and PC."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

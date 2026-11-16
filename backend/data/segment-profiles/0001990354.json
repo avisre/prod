@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001990354",
  "issuerName": "Waystar Holding Corp.",
- "builtAt": "2026-11-16T04:38:28.494Z",
+ "builtAt": "2026-11-16T09:02:45.887Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001990354-26-000011",
@@ -10,10 +10,25 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1990354/000199035426000011/way-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare Payments",
+   "products": [
+    "Waystar AltitudeAI",
+    "clinical integrity and revenue capture suite",
+    "claims management suite",
+    "denial recovery solution"
+   ],
+   "description": "Cloud-based AI-powered software that streamlines healthcare providers' payment workflows, from eligibility and prior authorization through claims submission and denial recovery.",
+   "evidence": "to mid- and post-encounter solutions such as our clinical integrity and revenue capture suite which identifies and resolves missing documentation, codes and charges and errors in claims submissions by providers, our claims management suite which helps ensure submissions are in accordance with payer contracts, and our denial recovery solution, which offers a root-cause reporting tool for denied claims to help reduce preventable denials in the future."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Healthcare providers pay subscription fees and volume-based transaction fees for cloud-based access to the company's software solutions.",
+  "evidence": "We derive revenue primarily from providing access to our solutions for use in the healthcare industry and in doing so generate two types of revenue: (i) subscription revenue and (ii) volume-based revenue"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

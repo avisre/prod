@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001967649",
  "issuerName": "Vestis Corp",
- "builtAt": "2026-11-16T04:38:28.067Z",
+ "builtAt": "2026-11-16T09:02:33.617Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-25-054597",
@@ -10,11 +10,48 @@
   "filingDate": "2025-12-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1967649/000162828025054597/vsts-20251003.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "uniforms",
+    "workplace supplies",
+    "uniform programs",
+    "restroom supply services",
+    "first-aid and safety products",
+    "floor mats",
+    "towels and linens"
+   ],
+   "description": "Rents, services and delivers uniforms and workplace supplies such as mats, towels, linens and restroom items to business customers in the United States.",
+   "evidence": "The following table presents an overview of the results for our United States reportable segment for fiscal 2025 and fiscal 2024, with the amount of and percentage change between periods (dollars in thousands)."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "uniforms",
+    "workplace supplies",
+    "uniform programs",
+    "restroom supply services",
+    "first-aid and safety products",
+    "floor mats",
+    "towels and linens"
+   ],
+   "description": "Rents, services and delivers uniforms and workplace supplies to business customers within its Canadian territory.",
+   "evidence": "The following table presents an overview of our results for the Canada reportable segment for fiscal 2025 and fiscal 2024 with the amount of and percentage change between periods (dollars in thousands)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay recurring rental fees under multi-year contracts for uniforms and workplace supplies, and some buy uniforms through direct sale agreements.",
+  "evidence": "We service our customers on a recurring basis, typically weekly, delivering clean uniforms and, in the same visit, picking up worn uniforms for inspection, cleaning and repair or replacement."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company separated from Aramark through a spin-off distribution of its common stock.",
+   "evidence": "On September 30, 2023 (the \"Distribution Date\"), Vestis Corporation completed its spin-off from Aramark (the \"Spin-Off,\" or the \"Separation\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

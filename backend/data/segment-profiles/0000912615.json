@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000912615",
  "issuerName": "Urban Outfitters, Inc.",
- "builtAt": "2026-11-16T04:38:26.490Z",
+ "builtAt": "2026-11-16T08:59:50.086Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-137916",
@@ -10,10 +10,48 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/912615/000119312526137916/urbn-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Anthropologie",
+    "Terrain",
+    "Maeve",
+    "Free People",
+    "FP Movement",
+    "Urban Outfitters",
+    "Menus & Venues"
+   ],
+   "description": "Operates store and digital channels selling fashion apparel, accessories and home goods to consumers under its consumer brands.",
+   "evidence": "Our Retail segment includes our store and digital channels and primarily includes our Anthropologie, Free People, FP Movement and Urban Outfitters brands."
+  },
+  {
+   "name": "Subscription",
+   "products": [
+    "Nuuly"
+   ],
+   "description": "Runs the Nuuly brand, a monthly women's apparel subscription rental service for customers.",
+   "evidence": "Our Subscription segment includes the Nuuly brand, which offers customers a more sustainable way to explore fashion primarily through a monthly women's apparel subscription rental service."
+  },
+  {
+   "name": "Wholesale",
+   "products": [
+    "Free People",
+    "FP Movement",
+    "BDG",
+    "iets frans",
+    "Urban Outfitters"
+   ],
+   "description": "Designs and markets women's apparel, intimates, activewear and shoes sold to department and specialty stores worldwide.",
+   "evidence": "We operate a Wholesale segment under the Free People, FP Movement and Urban Outfitters brands."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Retail customers pay for merchandise in stores and online, subscribers pay for monthly apparel rental, and department and specialty stores pay wholesale.",
+  "evidence": "In addition to retail stores, we offer our products and services directly to our customers through our websites, mobile applications, social media and third-party digital platforms and customer contact centers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

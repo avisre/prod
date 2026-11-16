@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001674101",
  "issuerName": "Vertiv Holdings Co",
- "builtAt": "2026-11-16T04:38:27.741Z",
+ "builtAt": "2026-11-16T09:02:17.737Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001674101-26-000008",
@@ -10,10 +10,59 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000008/vrt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "AC and DC power management",
+    "thermal management",
+    "low/medium voltage switchgear",
+    "busbar",
+    "air cooled and liquid cooled thermal management products",
+    "integrated modular solutions",
+    "racks",
+    "single phase UPS"
+   ],
+   "description": "Sells power, thermal and integrated infrastructure products plus services and spares for data center, communication network and commercial customers in North and Latin America.",
+   "evidence": "Americas includes products and services sold for applications within the data center, communication networks and commercial and industrial markets in North America and Latin America."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "AC and DC power management",
+    "thermal management",
+    "low/medium voltage switchgear",
+    "busbar",
+    "air cooled and liquid cooled thermal management products",
+    "integrated modular solutions",
+    "racks",
+    "single phase UPS"
+   ],
+   "description": "Sells similar critical digital infrastructure products and services to data center, communication and industrial customers throughout Greater China, Asia and India.",
+   "evidence": "Due to the similarities of economic characteristics and other qualitative factors, we aggregate Greater China, India and Asia operating segments and we report this as our Asia Pacific reportable segment."
+  },
+  {
+   "name": "Europe, Middle East & Africa",
+   "products": [
+    "AC and DC power management",
+    "thermal management",
+    "low/medium voltage switchgear",
+    "busbar",
+    "air cooled and liquid cooled thermal management products",
+    "integrated modular solutions",
+    "racks",
+    "single phase UPS"
+   ],
+   "description": "Sells power, thermal and infrastructure products and services to data center, communication and industrial customers across Europe, the Middle East and Africa.",
+   "evidence": "Europe, Middle East & Africa includes products and services sold for applications within the data center, communication networks and commercial and industrial markets in Europe, Middle East & Africa."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers in data centers, communication networks and commercial and industrial markets pay for critical digital infrastructure products, software and lifecycle services and spares.",
+  "evidence": "We design, manufacture, sell, install, maintain, and service critical digital infrastructure technologies and rapidly deployable customized solutions to meet the specific business requirements and needs of a diverse group of customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

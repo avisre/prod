@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000914156",
  "issuerName": "UFP Technologies, Inc.",
- "builtAt": "2026-11-16T04:38:26.131Z",
+ "builtAt": "2026-11-16T08:59:21.254Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012816",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/914156/000162828026012816/ufpt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Devices",
+   "products": [
+    "protective drapes for robotic surgery",
+    "patient handling and comfort",
+    "advanced wound care",
+    "infection prevention",
+    "disposables for surgical and endoscopic procedures",
+    "packaging for medical devices and orthopedic implants",
+    "components for cardiac implants",
+    "dispenser coils for catheters"
+   ],
+   "description": "Contract development and manufacturing organization making custom single-use and single-patient medical devices and components for medical device manufacturers.",
+   "evidence": "The Company consists of a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Medical device manufacturers and other customers pay for custom-engineered single-use devices, components, tooling and machinery, and engineering services.",
+  "evidence": "The Company recognizes revenue when a customer obtains control of a promised good or service."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

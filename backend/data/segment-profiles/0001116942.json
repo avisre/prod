@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001116942",
  "issuerName": "TTM TECHNOLOGIES, INC.",
- "builtAt": "2026-11-16T04:38:25.638Z",
+ "builtAt": "2026-11-16T09:00:10.066Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-051976",
@@ -10,11 +10,48 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1116942/000119312526051976/ttmi-20251229.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "A&D",
+   "products": [
+    "PCBs",
+    "value-added assemblies",
+    "microelectronics",
+    "RF/microwave components and assemblies",
+    "integrated mission systems"
+   ],
+   "description": "Supplies highly engineered PCBs, assemblies, microelectronics, RF/microwave components and integrated mission systems for aerospace and defense customers' surveillance, communications and other critical missions.",
+   "evidence": "The A&D reportable segment consists of PCBs, value-added assemblies, microelectronics, RF/microwave components and assemblies, and integrated mission systems."
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "PCBs"
+   ],
+   "description": "Manufactures high-layer-count PCBs from customer-supplied designs for commercial markets such as data center computing, automotive, medical, industrial and networking.",
+   "evidence": "In our A&D and Commercial reportable segments, we regularly manufacture PCBs with more than 30 layers on a quick-turn and volume basis, producing complex high layer PCBs with over 70 layers."
+  },
+  {
+   "name": "RF&S Components",
+   "products": [
+    "RF components"
+   ],
+   "description": "Produces high-volume RF components used by customers for signal conditioning in transceiver applications across communication systems.",
+   "evidence": "TTM's high-volume commercial RF components product lines are utilized by TTM's customers to achieve advance signal conditioning in transceiver applications for 5G and other communication systems."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "OEMs, EMS providers, ODMs, distributors and government agencies pay for customized interconnect, RF and mission-system products built to their designs and specifications.",
+  "evidence": "Our customers include OEMs, EMS providers, ODMs, distributors, and government agencies (both domestic and allied foreign governments)."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company changed from two reportable segments, PCB and RF&S Components, to three reportable segments: A&D, Commercial, and RF&S Components.",
+   "evidence": "During the quarter ended June 30, 2025, in connection with our change in organizational structure to enhance clarity in sector performance, accountability, and operating costs, we concluded that we have three reportable segments: A&D, Commercial, and RF&S Components."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

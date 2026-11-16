@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001336917",
  "issuerName": "UNDER ARMOUR, INC.",
- "builtAt": "2026-11-16T04:38:25.809Z",
+ "builtAt": "2026-11-16T08:59:15.614Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001336917-26-000073",
@@ -10,11 +10,66 @@
   "filingDate": "2026-05-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1336917/000133691726000073/ua-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories",
+    "collegiate apparel and accessories"
+   ],
+   "description": "Sells branded performance apparel, footwear and accessories to wholesale customers, licensees and consumers through Brand and Factory House stores and e-commerce in the United States and Canada.",
+   "evidence": "We sell our apparel, footwear and accessories in North America through wholesale and direct-to-consumer channels."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories"
+   ],
+   "description": "Sells branded performance apparel, footwear and accessories to wholesale customers and independent distributors and to consumers through e-commerce and Brand and Factory House stores.",
+   "evidence": "We sell our apparel, footwear and accessories in EMEA primarily through wholesale customers and independent distributors, as well as through e-commerce platforms and Brand and Factory House stores we operate within Europe."
+  },
+  {
+   "name": "Asia-Pacific",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories",
+    "custom branded teamwear"
+   ],
+   "description": "Sells branded performance apparel, footwear and accessories through partner-operated stores, owned stores, e-commerce platforms and distributors across Asia-Pacific markets.",
+   "evidence": "We sell our apparel, footwear and accessories products in China, South Korea, Australia, Singapore, Malaysia and Thailand through stores operated by our distribution and wholesale partners, as well as through e-commerce platforms and Brand and Factory House stores that we own and operate."
+  },
+  {
+   "name": "Latin America",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories"
+   ],
+   "description": "Sells branded performance apparel, footwear and accessories in Mexico through wholesale and direct-to-consumer channels and elsewhere through independent distributors.",
+   "evidence": "We sell our apparel, footwear and accessories in Mexico through wholesale and direct-to-consumer channels."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retailers, distributors, licensees and consumers pay the company for branded performance apparel, footwear and accessories sold through wholesale and direct-to-consumer channels.",
+  "evidence": "We generate net revenues from the sale of our products to national, regional, independent and specialty retailers and distributors worldwide."
+ },
+ "changes": [
+  {
+   "text": "In Fiscal 2025, the company's MapMyFitness digital platform was sold, removing its results from Corporate Other.",
+   "evidence": "operating results related to our MapMyFitness digital platform, which was sold during the second quarter of Fiscal 2025"
+  },
+  {
+   "text": "In Fiscal 2026, restructuring costs included non-cash contract termination charges primarily relating to the separation of the Curry Brand.",
+   "evidence": "Other restructuring costs for Fiscal 2026 include $69.7 million of non-cash contract termination costs, primarily relating to the separation of the Curry Brand."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

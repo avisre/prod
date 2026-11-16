@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001497770",
  "issuerName": "Walker & Dunlop, Inc.",
- "builtAt": "2026-11-16T04:38:28.677Z",
+ "builtAt": "2026-11-16T09:03:45.890Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-020249",
@@ -10,10 +10,47 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1497770/000110465926020249/wd-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capital Markets",
+   "products": [
+    "Agency lending",
+    "debt brokerage",
+    "property sales",
+    "appraisal and valuation services",
+    "real estate-related investment banking and advisory services",
+    "housing market research"
+   ],
+   "description": "Originates, brokers and sells commercial real estate loans and provides property sales, appraisal and investment banking services to property owners and investors.",
+   "evidence": "CM provides a comprehensive range of commercial real estate finance products to our customers, including Agency lending, debt brokerage, property sales, appraisal and valuation services, and real estate-related investment banking and advisory services, including housing market research."
+  },
+  {
+   "name": "Servicing & Asset Management",
+   "products": [
+    "servicing and asset-managing the portfolio of loans",
+    "managing third-party capital",
+    "senior secured debt",
+    "preferred equity",
+    "mezzanine debt"
+   ],
+   "description": "Services and asset-manages loans originated for the Agencies and brokers, and manages third-party capital invested in commercial real estate for investors.",
+   "evidence": "SAM earns revenue mainly through fees for servicing and asset-managing the loans in the Company's servicing portfolio and asset management fees for managing third-party capital."
+  },
+  {
+   "name": "Corporate",
+   "products": [
+    "treasury operations"
+   ],
+   "description": "Holds the company's treasury operations and other corporate-level activities, including support functions, rather than client-facing lending or servicing work.",
+   "evidence": "The Corporate segment consists primarily of the Company's treasury operations and other corporate-level activities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients and investors pay origination, debt brokerage, property sales, appraisal and servicing fees, plus asset management fees and research subscription fees.",
+  "evidence": "SAM earns revenue mainly through fees for servicing and asset-managing the loans in the Company's servicing portfolio and asset management fees for managing third-party capital."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

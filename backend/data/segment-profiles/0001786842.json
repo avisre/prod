@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001786842",
  "issuerName": "Vontier Corporation",
- "builtAt": "2026-11-16T04:38:27.446Z",
+ "builtAt": "2026-11-16T09:00:50.809Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-007648",
@@ -10,11 +10,59 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1786842/000162828026007648/vnt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobility Technologies",
+   "products": [
+    "Invenco",
+    "DRB",
+    "Teletrac Navman",
+    "ANGI",
+    "Driivz",
+    "point-of-sale and payment solutions",
+    "workflow automation solutions",
+    "operating software platform for electric vehicle charging networks"
+   ],
+   "description": "Supplies digitally enabled equipment, payment and operating software to convenience retail, car wash, fleet and electric vehicle charging operators worldwide.",
+   "evidence": "Mobility Technologies provides digitally enabled equipment and operating software solutions to drive automation, productivity and compliance across the mobility ecosystem."
+  },
+  {
+   "name": "Repair Solutions",
+   "products": [
+    "Matco Tools",
+    "aftermarket vehicle repair tools",
+    "toolboxes",
+    "automotive diagnostic equipment and software"
+   ],
+   "description": "Manufactures and distributes aftermarket vehicle repair tools, toolboxes and diagnostic equipment and software to professional mechanics through mobile franchisees.",
+   "evidence": "Repair Solutions comprises the Matco Tools business, a leading manufacturer and distributor of aftermarket vehicle repair tools, toolboxes, automotive diagnostic equipment and software through a robust network of mobile franchisees, who purchase vehicle repair tools, equipment and services from us and resell primarily to professional mechanics directly."
+  },
+  {
+   "name": "Environmental & Fueling Solutions",
+   "products": [
+    "Gilbarco Veeder-Root",
+    "Veeder-Root",
+    "environmental monitoring and leak detection systems",
+    "forecourt controllers",
+    "vapor recovery equipment",
+    "fuel dispenser systems"
+   ],
+   "description": "Makes environmental monitoring, leak detection and fuel dispensing equipment and aftermarket parts and service for retail and commercial fueling operators.",
+   "evidence": "Environmental & Fueling Solutions is a leading manufacturer and provider of solutions to improve safety, environmental compliance and fueling efficiency globally."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Independent distributors and our direct sales personnel pay for equipment, software and services, while Repair Solutions franchisees pay fees and buy tools for resale.",
+  "evidence": "Sales are generally made to independent distributors or through our direct sales personnel."
+ },
+ "changes": [
+  {
+   "text": "The Coats business was divested in January 2024 and is reported in Other for prior periods.",
+   "evidence": "Our Coats business, which was divested during January 2024, is presented in Other for periods prior to the divestiture."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

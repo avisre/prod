@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001611547",
  "issuerName": "URBAN EDGE PROPERTIES",
- "builtAt": "2026-11-16T04:38:26.093Z",
+ "builtAt": "2026-11-16T08:59:05.298Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001611547-26-000022",
@@ -10,10 +10,24 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1611547/000161154726000022/ue-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail real estate",
+   "products": [
+    "shopping centers",
+    "outlet centers",
+    "malls"
+   ],
+   "description": "Owns, manages, acquires, develops and redevelops retail shopping centers and malls, leasing space to a diverse group of retail tenants.",
+   "evidence": "Our properties are aggregated into a single reportable segment due to the similarities with regard to the nature and economics of the properties, tenants and operations, as well as long-term average financial performance and the fact that they are operated using consistent business strategies."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Tenants pay contractual rents and tenant expense reimbursements under individual lease agreements for retail space.",
+  "evidence": "Substantially all of our revenues are derived from contractual rents and tenant expense reimbursements as outlined within individual lease agreements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

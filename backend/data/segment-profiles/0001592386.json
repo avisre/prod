@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001592386",
  "issuerName": "Virtu Financial, Inc.",
- "builtAt": "2026-11-16T04:38:27.203Z",
+ "builtAt": "2026-11-16T09:01:35.571Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001592386-26-000009",
@@ -10,11 +10,47 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1592386/000159238626000009/virt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Market Making",
+   "products": [
+    "Global Equities",
+    "Fixed Income",
+    "Currencies",
+    "Cryptocurrencies",
+    "Commodities",
+    "Options",
+    "ETFs"
+   ],
+   "description": "Makes markets in cash, futures and options across equities, fixed income, currencies, cryptocurrencies and commodities, providing liquidity to broker dealers, banks and institutional clients.",
+   "evidence": "Our Market Making segment principally consists of market making in the cash, futures, and options markets across global equities, fixed income, currencies, cryptocurrencies, and commodities."
+  },
+  {
+   "name": "Execution Services",
+   "products": [
+    "trading analytics suite",
+    "transaction cost analysis",
+    "risk models",
+    "FX TCA",
+    "FI TCA",
+    "multi-asset request-for-quote communication platform"
+   ],
+   "description": "Provides trading, clearing and related services, plus trading analytics, to customers and clients.",
+   "evidence": "Our execution services and client solutions products are designed to be transparent, because we believe transparency makes markets more efficient and helps investors make better, more informed decisions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Broker dealers, banks and institutional clients pay through the bid/ask spread as Virtu buys and sells large volumes of securities on a principal basis.",
+  "evidence": "we generate revenue by buying and selling large volumes of securities and other financial instruments while earning small bid/ask spreads."
+ },
+ "changes": [
+  {
+   "text": "Virtu sold its interest in the RFQ-hub request-for-quote joint venture to MarketAxess in 2025 and deconsolidated the platform.",
+   "evidence": "The sale was completed on May 9, 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

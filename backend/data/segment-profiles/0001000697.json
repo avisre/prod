@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001000697",
  "issuerName": "Waters Corporation",
- "builtAt": "2026-11-16T04:38:28.419Z",
+ "builtAt": "2026-11-16T09:03:23.174Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-062604",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1000697/000119312526062604/d778470d10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "analytical instruments",
+   "products": [
+    "high-performance liquid chromatography",
+    "ultra-performance liquid chromatography",
+    "mass spectrometry",
+    "chromatography columns",
+    "thermal analysis, rheometry and calorimetry instruments",
+    "Empower Software",
+    "HPLC CONNECT software",
+    "Wyatt Technology"
+   ],
+   "description": "Designs, manufactures and services liquid chromatography, mass spectrometry and thermal analysis instruments, consumables and software for pharmaceutical, industrial, academic and government laboratories.",
+   "evidence": "Because of these similarities, the two segments have been aggregated into one reporting segment for financial statement purposes."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Pharmaceutical, industrial, academic and government customers pay for instrument systems, chromatography columns and consumables, and post-warranty service plans.",
+  "evidence": "The Company typically has a broad and diversified customer base that includes pharmaceutical accounts, other industrial accounts, universities and governmental agencies."
+ },
+ "changes": [
+  {
+   "text": "In 2026, after the BDS Business Acquisition, the Company reorganized its existing and new business units into four segments: Waters Analytical Sciences, Waters Biosciences, Waters Advanced Diagnostics and Waters Materials Sciences.",
+   "evidence": "Following the closing of the BDS Business Acquisition in February 2026, the Company has reorganized the existing and new business units into the following four segments: Waters Analytical Sciences, Waters Biosciences, Waters Advanced Diagnostics and Waters Materials Sciences."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

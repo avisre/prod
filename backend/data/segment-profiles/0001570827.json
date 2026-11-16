@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001570827",
  "issuerName": "Victory Capital Holdings, Inc.",
- "builtAt": "2026-11-16T04:38:27.056Z",
+ "builtAt": "2026-11-16T09:00:13.038Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-077057",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1570827/000119312526077057/vctr-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Management",
+   "products": [
+    "actively and passively managed mutual funds",
+    "rules-based and active exchange traded funds",
+    "institutional separate accounts",
+    "variable insurance products",
+    "alternative investments",
+    "529 Education Savings Plan",
+    "Collective Investment Trusts",
+    "VictoryShares"
+   ],
+   "description": "Provides investment management services and products to institutional, intermediary, retirement platforms and individual investors through Investment Franchises and a Solutions Platform.",
+   "evidence": "The Company operates in one operating and reportable segment that provides investment management services and products to institutional, intermediary, retirement platforms and individual investors."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay asset-based management and advisory fees for specialized investment strategies managed on their behalf.",
+  "evidence": "Victory Capital provides specialized investment strategies to institutions, intermediaries, retirement platforms and individual investors."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company combined Amundi's U.S. operations into Victory Capital, rebranding that business back to Pioneer Investments.",
+   "evidence": "The addition of Amundi US, which was rebranded back to Pioneer Investments, as our largest Investment Franchise meaningfully enhanced our scale, expanded our global client base, and further diversified our investment and product capabilities."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

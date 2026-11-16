@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001674910",
  "issuerName": "VALVOLINE INC.",
- "builtAt": "2026-11-16T04:38:28.258Z",
+ "builtAt": "2026-11-16T09:03:07.549Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001674910-25-000135",
@@ -10,11 +10,35 @@
   "filingDate": "2025-11-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1674910/000167491025000135/vvv-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail services",
+   "products": [
+    "stay-in-your-car oil changes",
+    "battery, bulb and wiper replacements",
+    "tire rotations",
+    "manufacturer recommended maintenance services",
+    "free 18-point maintenance check",
+    "SuperPro",
+    "Express Care",
+    "VIOC"
+   ],
+   "description": "Operates and franchises retail service centers in the U.S. and Canada, selling quick oil changes and preventive maintenance to consumers and fleet customers.",
+   "evidence": "Valvoline operates and franchises approximately 2,200 service center locations through its VIOC and GCOC retail locations and supports over 240 locations through its Express Care platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers and commercial fleet customers pay for oil changes and other preventive maintenance at company-operated stores, while franchisees pay royalties and other fees.",
+  "evidence": "Net revenues are limited to sales at company-operated stores, in addition to royalties and other fees from independent franchised and Express Care stores."
+ },
+ "changes": [
+  {
+   "text": "In 2023 Valvoline sold its former Global Products reportable segment, now doing business as Valvoline Global Operations.",
+   "evidence": "On March 1, 2023, Valvoline completed the sale of its former Global Products reportable segment (\"Global Products\"), now doing business as Valvoline Global Operations (\"VGO\") to Aramco Overseas Company B.V."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

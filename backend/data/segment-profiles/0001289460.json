@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001289460",
  "issuerName": "Texas Roadhouse, Inc.",
- "builtAt": "2026-11-16T04:38:25.700Z",
+ "builtAt": "2026-11-16T08:59:12.736Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-021292",
@@ -10,10 +10,44 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1289460/000110465926021292/txrh-20251230x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Texas Roadhouse",
+   "products": [
+    "specially seasoned and aged steaks",
+    "ribs",
+    "seafood",
+    "chicken",
+    "pork chops",
+    "pulled pork",
+    "hamburgers",
+    "sandwiches"
+   ],
+   "description": "Operates company and franchise Texas Roadhouse casual dining restaurants serving hand-cut steaks and made-from-scratch sides to local guests.",
+   "evidence": "The Texas Roadhouse reportable segment includes the results of our company and franchise Texas Roadhouse restaurants."
+  },
+  {
+   "name": "Bubba's 33",
+   "products": [
+    "burgers",
+    "pizza",
+    "wings",
+    "appetizers",
+    "sandwiches",
+    "dinner entrées",
+    "ice-cold beer",
+    "signature cocktails"
+   ],
+   "description": "Operates company restaurants of this moderately priced full-service casual dining concept serving scratch-made food, beer and cocktails.",
+   "evidence": "The Bubba's 33 reportable segment includes the results of our company Bubba's 33 restaurants."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Guests pay company restaurants for food and beverage, while franchisees pay royalties and fees for branded restaurant operations.",
+  "evidence": "Restaurant and other sales for all operating segments are derived primarily from food and beverage sales."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
