@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001517375",
  "issuerName": "SPROUT SOCIAL, INC.",
- "builtAt": "2026-11-16T05:23:47.353Z",
+ "builtAt": "2026-11-16T10:32:52.711Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001517375-26-000015",
@@ -10,10 +10,24 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1517375/000151737526000015/spt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Social media management",
+   "products": [
+    "social media management platform",
+    "Trellis",
+    "professional services"
+   ],
+   "description": "Provides a web-based social media management platform on a subscription basis to businesses of all sizes, plus professional services.",
+   "evidence": "The Company generates revenues from subscriptions to the Company's web-based social media management platform under a software-as-a-service model."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscription fees, generally licensed per user, for access to the web-based social media management platform.",
+  "evidence": "Our platform is licensed on a per-user basis with numerous upsell opportunities through additional users and product modules."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

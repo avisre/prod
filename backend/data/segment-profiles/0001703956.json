@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001703956",
  "issuerName": "CONCRETE PUMPING HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:23:50.320Z",
+ "builtAt": "2026-11-16T10:34:20.716Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-001203",
@@ -10,10 +10,54 @@
   "filingDate": "2026-01-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1703956/000143774926001203/bbpp20251031_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Concrete Pumping",
+   "products": [
+    "Brundage-Bone",
+    "Capital",
+    "operated concrete pumping services",
+    "boom pumps",
+    "placing booms",
+    "telebelts",
+    "stationary pumps",
+    "replacement parts"
+   ],
+   "description": "Provides operated concrete pumping services with skilled operators and specialized boom pump fleets to general and concrete contractors across U.S. construction projects.",
+   "evidence": "We provide operated concrete pumping services, for which customers are billed on a negotiated time and volume basis based on the duration of the job and yards of concrete pumped."
+  },
+  {
+   "name": "U.S. Concrete Waste Management Services",
+   "products": [
+    "Eco-Pan",
+    "concrete waste management services",
+    "custom metal pans or containers",
+    "watertight pans / containers"
+   ],
+   "description": "Collects, delivers and disposes of concrete washout using route-based pans and containers for U.S. construction sites and contractors.",
+   "evidence": "We charge a fixed fee that includes (1) the round-trip delivery and pickup of watertight pans / containers, (2) environmental disposal of concrete washout and (3) a specified number of days the pans / containers can be used for."
+  },
+  {
+   "name": "U.K. Operations",
+   "products": [
+    "Camfaud",
+    "Premier Concrete Pumping",
+    "Eco-Pan",
+    "operated pumping services",
+    "rental of pumping equipment without an operator",
+    "concrete pumping",
+    "concrete waste management services"
+   ],
+   "description": "Provides operated concrete pumping and equipment rental without an operator, plus concrete waste management, to U.K. customers.",
+   "evidence": "Our concrete pumping services are primarily provided through either our Camfaud brand (operated pumping services) or our Premier Concrete Pumping brand (rental of pumping equipment without an operator)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, mainly general contractors and concrete contractors, pay for operated concrete pumping billed on time and volume, and fixed fees for concrete washout pans.",
+  "evidence": "Our customer base consists of general contractors or concrete contractors that span across the commercial, infrastructure and residential end markets."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

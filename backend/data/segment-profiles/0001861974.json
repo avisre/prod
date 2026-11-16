@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001861974",
  "issuerName": "ECARX Holdings Inc.",
- "builtAt": "2026-11-16T05:23:51.014Z",
+ "builtAt": "2026-11-16T10:34:43.942Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-021865",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1861974/000162828026021865/exc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive technology and connectivity services",
+   "products": [
+    "turnkey solutions for next-generation smart vehicles",
+    "system on a chip",
+    "central computing platforms",
+    "software",
+    "technology products and services"
+   ],
+   "description": "Supplies automotive technology and connectivity offerings, including turnkey solutions, chips, central computing platforms and software, for next-generation smart vehicles and their makers.",
+   "evidence": "The Group is comprised of a single reportable segment organized around automotive technology and connectivity services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, primarily in the PRC, pay for technology products and services that deliver turnkey solutions for next-generation smart vehicles.",
+  "evidence": "The Group generates revenues from its technology products and services using its capabilities in delivering turnkey solutions for next-generation smart vehicles, system on a chip, central computing platforms and software."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

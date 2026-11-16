@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000945983",
  "issuerName": "Climb Global Solutions, Inc.",
- "builtAt": "2026-11-16T05:23:49.013Z",
+ "builtAt": "2026-11-16T10:33:31.876Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-006072",
@@ -10,10 +10,39 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/945983/000143774926006072/clmb20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Distribution",
+   "products": [
+    "software",
+    "maintenance/service agreements",
+    "networking/storage/security equipment",
+    "complementary products",
+    "software subscriptions",
+    "hardware"
+   ],
+   "description": "Distributes technology products from software vendors and OEMs to resellers, VARs, consultants and system integrators worldwide under Climb Channel Solutions.",
+   "evidence": "We purchase software, maintenance/service agreements, networking/storage/security equipment and complementary products from our vendors and sell them to our reseller customers."
+  },
+  {
+   "name": "Solutions",
+   "products": [
+    "software",
+    "hardware",
+    "services",
+    "cloud solutions",
+    "software as a service products"
+   ],
+   "description": "Acts as a cloud solutions provider and value-added reseller selling software, hardware and technical services directly to end users worldwide under Grey Matter.",
+   "evidence": "Products in this segment are acquired directly from OEMs, software developers or distributors and sold to end users."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Resellers, VARs and end users pay the company for third-party software licenses, maintenance and service agreements and related hardware.",
+  "evidence": "We derive most of our net sales through the sale of third-party software licenses, maintenance and service agreements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

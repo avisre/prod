@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001108109",
  "issuerName": "COMMUNITY HEALTH SYSTEMS, INC.",
- "builtAt": "2026-11-16T05:23:48.518Z",
+ "builtAt": "2026-11-16T10:33:16.368Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-059509",
@@ -10,11 +10,35 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1108109/000119312526059509/cyh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hospital operations",
+   "products": [
+    "general acute care",
+    "emergency room",
+    "general and specialty surgery",
+    "critical care",
+    "internal medicine",
+    "obstetrics",
+    "diagnostic, psychiatric and rehabilitation services",
+    "outpatient services"
+   ],
+   "description": "Operates acute care hospitals and related healthcare entities providing inpatient and outpatient healthcare services to patients in its local communities.",
+   "evidence": "The Company operates a single operating segment represented by hospital operations (which includes the Company's acute care hospitals and related healthcare entities that provide inpatient and outpatient healthcare services)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Governmental agencies, private insurers and patients themselves pay for hospital and outpatient healthcare services provided in the communities served.",
+  "evidence": "For the hospitals and other sites of care that we own and operate, we are paid for our services by governmental agencies, private insurers and directly by the patients we serve."
+ },
+ "changes": [
+  {
+   "text": "In 2025 and 2024 the company divested hospitals and reclassified entities between held-and-used and held-for-sale.",
+   "evidence": "Goodwill allocated to hospitals divested or held-for-sale reflects the net activity of changing the classification of entities as held-and-used or held-for-sale during the years ended December 31, 2025 and 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

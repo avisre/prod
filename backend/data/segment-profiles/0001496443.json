@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001496443",
  "issuerName": "PAYSIGN, INC.",
- "builtAt": "2026-11-16T05:23:50.631Z",
+ "builtAt": "2026-11-16T10:34:29.080Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-002180",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1496443/000168316826002180/paysign_i10k-123125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prepaid Card Products",
+   "products": [
+    "corporate rewards",
+    "prepaid gift cards",
+    "general purpose reloadable debit cards",
+    "employee incentives",
+    "consumer rebates",
+    "donor compensation",
+    "clinical trials",
+    "pharmaceutical payment assistance"
+   ],
+   "description": "Provides prepaid card programs and processing, plus life science software, to corporate, consumer and government customers across the prepaid card lifecycle.",
+   "evidence": "The Company operates as one business, a vertically integrated provider of prepaid card products and processing services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Corporate, consumer and government customers pay fees across the prepaid card lifecycle, including cardholder fees, interchange, card program management, transaction claims processing, breakage and settlement income.",
+  "evidence": "Our revenues include fees generated from cardholder fees, interchange, card program management fees, transaction claims processing fees, breakage, and settlement income."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

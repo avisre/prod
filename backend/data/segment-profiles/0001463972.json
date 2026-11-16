@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001463972",
  "issuerName": "Vuzix Corp",
- "builtAt": "2026-11-16T05:23:48.379Z",
+ "builtAt": "2026-11-16T10:33:17.842Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-027163",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1463972/000110465926027163/vuzi-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vuzix Corporation",
+   "products": [
+    "M400 and M4000 Smart Glasses (M Series)",
+    "Vuzix Blade® Smart Glasses",
+    "near-eye displays",
+    "heads-up displays",
+    "wearable computing devices",
+    "waveguide optics",
+    "display engines"
+   ],
+   "description": "Designs, manufactures and sells AI-enabled smart glasses, waveguide optics and display engines for enterprise, medical, defense, security and select consumer applications.",
+   "evidence": "The Company does not operate any material separate lines of business or separate business entities and therefore manages its operations as a single operating segment and therefore a single reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, including enterprises, ODMs and OEMs, pay for Vuzix-branded smart glasses, custom optical display solutions and engineering services.",
+  "evidence": "In addition to selling Vuzix-branded smart glasses, we provide custom optical display solutions and engineering services for ODMs and OEMs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

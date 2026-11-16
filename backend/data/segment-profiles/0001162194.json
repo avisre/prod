@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001162194",
  "issuerName": "STANDARD BIOTOOLS INC.",
- "builtAt": "2026-11-16T05:23:46.114Z",
+ "builtAt": "2026-11-16T10:32:16.823Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-108326",
@@ -10,11 +10,37 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1162194/000119312526108326/lab-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "consolidated company",
+   "products": [
+    "CyTOF",
+    "Hyperion",
+    "Biomark",
+    "Biomark X9 system",
+    "Imaging Mass Cytometry",
+    "instrumentation, consumables, and services"
+   ],
+   "description": "Supplies life science tools in proteomics and genomics, including mass cytometry, spatial biology and microfluidics platforms, to biomedical researchers.",
+   "evidence": "The CyTOF platform includes state-of-the-art instrumentation, optimized reagents, and powerful data analysis tools to accelerate discoveries in immunology, oncology, and beyond."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Researchers and clinical customers pay for instruments and consumables, and for field services including instrument service and support contracts.",
+  "evidence": "The Company generates product revenue from the sale of instruments and consumables."
+ },
+ "changes": [
+  {
+   "text": "During the first quarter of 2025 the Company combined its two reportable segments, proteomics and genomics, into one operating and reportable segment.",
+   "evidence": "During the first quarter of 2025, after the full integration of SomaLogic and assessment of 2024 results, the CODM evaluated how the fully integrated, combined company should be managed."
+  },
+  {
+   "text": "The Company divested its SomaScan Business to Illumina, with the transaction closing in 2026 and the business reported as a discontinued operation.",
+   "evidence": "On January 30, 2026, the Company completed the divestiture of the SomaScan Business to Illumina."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

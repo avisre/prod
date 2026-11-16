@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001762301",
  "issuerName": "Fiverr International Ltd.",
- "builtAt": "2026-11-16T05:23:49.417Z",
+ "builtAt": "2026-11-16T10:33:57.355Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-000858",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1762301/000117891326000858/zk2634486.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketplace",
+   "products": [
+    "Gigs",
+    "digital services",
+    "Fiverr marketplace",
+    "dropshipping automation platform"
+   ],
+   "description": "Runs an online marketplace where freelancers sell digital services to buyers, alongside dropshipping automation and talent platforms.",
+   "evidence": "\"Gig\" or \"Gigs\" means the services offered on the Fiverr marketplace."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Buyers pay for digital services ordered as Gigs on the marketplace, and the company earns marketplace revenue plus fees for additional services.",
+  "evidence": "\"Buyers\" means users who purchase digital services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

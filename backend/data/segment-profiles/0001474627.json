@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001474627",
  "issuerName": "Newegg Commerce, Inc.",
- "builtAt": "2026-11-16T05:23:47.484Z",
+ "builtAt": "2026-11-16T10:33:02.184Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048633",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1474627/000121390026048633/ea0286017-20f_newegg.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronics-focused e-retailer",
+   "products": [
+    "Components & Storage",
+    "Computer System",
+    "Software & Services",
+    "Office Solutions",
+    "Networking & Smart Home",
+    "Newegg.com",
+    "Newegg Marketplace",
+    "Direct offering"
+   ],
+   "description": "Sells consumer electronics and technology products online to consumers and businesses, and provides marketplace and e-commerce services to brands and sellers.",
+   "evidence": "The Company considers itself to be operating within one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for technology products bought directly; Marketplace sellers pay commissions on their sales; customers and sellers pay for services such as third-party logistics and advertising.",
+  "evidence": "On our Newegg Marketplace, third-party sellers offer their products to our customers through our platforms and pay us commissions on their sales."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001041514",
  "issuerName": "LESAKA TECHNOLOGIES, INC.",
- "builtAt": "2026-11-16T05:23:44.802Z",
+ "builtAt": "2026-11-16T10:31:33.812Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001562762-26-000104",
@@ -10,11 +10,63 @@
   "filingDate": "2026-09-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1041514/000156276226000104/form10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Merchant",
+   "products": [
+    "Merchant Acquiring",
+    "Software",
+    "Cash Management",
+    "Lending",
+    "Alternative Digital Products"
+   ],
+   "description": "Accepts card and cash payments, and provides point-of-sale software, cash management and lending to community and corporate merchants across Southern Africa.",
+   "evidence": "Our merchant solutions serve merchants of all sizes, helping them accept payments, manage and digitize cash, run their operations and access working capital."
+  },
+  {
+   "name": "Consumer",
+   "products": [
+    "Transactional Fees",
+    "Lending",
+    "Insurance",
+    "transactional accounts"
+   ],
+   "description": "Provides transactional accounts, lending and insurance to underserviced consumers, principally social welfare grant recipients in South Africa.",
+   "evidence": "Consumer, which provides banking, lending and insurance solutions to consumers, principally recipients of social welfare grants in South Africa"
+  },
+  {
+   "name": "Enterprise",
+   "products": [
+    "payment processing",
+    "prepaid solutions",
+    "bill payment infrastructure",
+    "ADP",
+    "Utilities"
+   ],
+   "description": "Connects enterprises to consumers and businesses through payment processing, prepaid solutions and bill payment infrastructure.",
+   "evidence": "Enterprise, which provides payment processing, prepaid solutions and bill payment infrastructure connecting enterprises to consumers and businesses."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Merchants, consumers and enterprises pay transaction-based fees, ad valorem charges, account and lending interest, insurance premiums and software and hardware fees.",
+  "evidence": "Merchant Revenues in Merchant are derived from a combination of transaction-based fees and an ad valorem pricing model."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 the group decided to exit its ATM business, concluding it was structurally loss-making and immaterial in scale.",
+   "evidence": "In the third quarter, we made the decision to exit our ATM business, which we had concluded was structurally loss-making and immaterial in scale, recognizing an impairment and once-off costs of approximately ZAR 27 million in connection with the wind-down."
+  },
+  {
+   "text": "In fiscal 2026 the group sunset SwitchPay, a legacy buy-now-pay-later product.",
+   "evidence": "In the same quarter, we sunset SwitchPay Proprietary Limited (\"SwitchPay\"), a legacy buy-now-pay-later product, recognizing an impairment of $0.4 million (ZAR 6.5 million)."
+  },
+  {
+   "text": "In fiscal 2026 the group disposed of its remaining stake in Cell-C as part of simplifying the group.",
+   "evidence": "Earlier in fiscal 2026, we finalized the liquidation of CPS, releasing provisions of ZAR 65 million, and disposed of our remaining stake in Cell-C for proceeds of $3.9 million (ZAR 50 million)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

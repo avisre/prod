@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001403475",
  "issuerName": "Bank of Marin Bancorp",
- "builtAt": "2026-11-16T05:23:45.944Z",
+ "builtAt": "2026-11-16T10:31:54.897Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001403475-26-000018",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1403475/000140347526000018/bmrc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "commercial real estate loans",
+    "commercial and industrial loans (including small business loans)",
+    "construction financing",
+    "consumer loans",
+    "home equity lines of credit",
+    "merchant and payroll services",
+    "treasury management services",
+    "personal and business checking and savings accounts"
+   ],
+   "description": "Community bank providing loans, deposits, treasury and payment services to small to medium-sized businesses, not-for-profits, commercial real estate investors and personal customers in Northern California.",
+   "evidence": "We have one operating and reportable segment, community banking, and our other operating segment, wealth management services, does not meet the quantitative threshold for separate reporting."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Business, not-for-profit and personal customers pay interest and fees on loans and fees for deposit, treasury, merchant and payroll services.",
+  "evidence": "Our customer base is primarily made up of business, not-for-profit and personal banking relationships within these market areas."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

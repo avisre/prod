@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001602658",
  "issuerName": "Investar Holding Corporation",
- "builtAt": "2026-11-16T05:23:49.291Z",
+ "builtAt": "2026-11-16T10:33:30.670Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-008446",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1602658/000143774926008446/istr20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking operations",
+   "products": [
+    "owner-occupied commercial real estate loans",
+    "construction loans",
+    "commercial and industrial loans",
+    "term loans",
+    "equipment financing",
+    "lines of credit",
+    "first and second mortgage loans",
+    "installment loans"
+   ],
+   "description": "Community bank lending to individuals, professionals and small to medium-sized businesses and accepting their deposits across Louisiana, Texas and Alabama markets.",
+   "evidence": "Management considers all of our operations to be aggregated in one reportable operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Individuals and small to medium-sized businesses pay interest on loans and fees for loan and deposit services, with securities investments adding income.",
+  "evidence": "Our principal business is lending to and accepting deposits from individuals and small to medium-sized businesses in our areas of operation."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company exited the consumer mortgage origination business.",
+   "evidence": "In the third quarter of 2023, we exited the consumer mortgage origination business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

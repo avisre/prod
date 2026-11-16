@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001770450",
  "issuerName": "XEROX HOLDINGS CORPORATION",
- "builtAt": "2026-11-16T05:23:49.480Z",
+ "builtAt": "2026-11-16T10:33:48.775Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001770450-26-000009",
@@ -10,11 +10,46 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1770450/000177045026000009/xrx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Print and Other",
+   "products": [
+    "Workplace Solutions",
+    "Production Solutions",
+    "Xerox Services",
+    "XFS"
+   ],
+   "description": "Designs, sells and finances document management systems, supplies, services and print-related software for enterprises, governments and production print customers.",
+   "evidence": "This segment includes revenues from the following primary offerings: Workplace Solutions, Production Solutions, Xerox Services, and XFS."
+  },
+  {
+   "name": "IT Solutions",
+   "products": [
+    "Device Lifecycle Solutions",
+    "Managed IT Services",
+    "Network and Security Solutions",
+    "Infrastructure and Cloud Solutions"
+   ],
+   "description": "Provides integrated IT infrastructure solutions, device lifecycle and managed IT services to clients of all sizes through partners and its own engineers.",
+   "evidence": "The IT Solutions business leverages its professional services and engineering capabilities, along with an extensive partner ecosystem to design, develop and deliver comprehensive Network and Security Solutions, and Infrastructure and Cloud Solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers of all sizes pay for workplace, print and IT equipment, supplies, services and financing, with most revenue recurring after the initial equipment sale.",
+  "evidence": "We have a broad and diverse base of customers by both geography and industry, ranging from small and mid-sized clients to printing production companies, governmental entities, educational institutions and Fortune 1000 corporations."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Xerox replaced Xerox Financial Solutions with IT Solutions as one of its two reportable segments.",
+   "evidence": "Prior to this change, the Company had two reportable segments - Print and Other, and Xerox Financial Services (XFS)."
+  },
+  {
+   "text": "In 2025 the acquired Lexmark business was added to the Print and Other segment.",
+   "evidence": "The results of Lexmark are included in the Print and Other segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

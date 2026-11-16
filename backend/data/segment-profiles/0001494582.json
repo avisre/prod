@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001494582",
  "issuerName": "BOSTON OMAHA Corp",
- "builtAt": "2026-11-16T05:23:50.038Z",
+ "builtAt": "2026-11-16T10:34:46.934Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-010341",
@@ -10,11 +10,66 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1494582/000143774926010341/bomn20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LMH",
+   "products": [
+    "billboards",
+    "advertising faces",
+    "digital billboard conversions",
+    "static billboards",
+    "perpetual easements"
+   ],
+   "description": "Owns and operates outdoor billboard advertising displays in the Midwest and Southeast United States, selling advertising space to advertisers in the markets it serves.",
+   "evidence": "As of December 31, 2025, we operate approximately 3,900 billboards with approximately 7,500 advertising faces."
+  },
+  {
+   "name": "GIG",
+   "products": [
+    "surety insurance",
+    "surety bonds",
+    "BOSS Bonds",
+    "commercial lines of property and casualty insurance"
+   ],
+   "description": "Writes surety bonds and related commercial property and casualty insurance, and offers surety insurance to independent agents through a national internet-based brokerage.",
+   "evidence": "In September 2015, we established an insurance subsidiary, General Indemnity Group, LLC, which we refer to as \"GIG,\" designed to own and operate insurance businesses generally handling high volume, lower policy limit commercial lines of property and casualty insurance."
+  },
+  {
+   "name": "BOB",
+   "products": [
+    "high-speed fixed wireless internet service",
+    "fiber internet service",
+    "fiber-to-the-home infrastructure",
+    "high-speed internet",
+    "fiber-to-the-home network"
+   ],
+   "description": "Provides fiber and fixed wireless broadband internet service to residential customers and build-for-rent communities across Arizona, Utah, Nevada and other markets.",
+   "evidence": "In April 2019, we established a broadband subsidiary, Fiber is Fast, LLC, which has changed its name to Boston Omaha Broadband, LLC, which we refer to as \"BOB.\""
+  },
+  {
+   "name": "BOAM",
+   "products": [
+    "asset management",
+    "24th Street Funds",
+    "BFR Fund",
+    "build-for-rent"
+   ],
+   "description": "Raises third-party capital and manages real estate funds while investing alongside Boston Omaha in assets expected to earn long-term returns.",
+   "evidence": "In September 2017, we established an asset management subsidiary, Boston Omaha Asset Management, LLC, which we refer to as \"BOAM,\" designed to raise third-party capital and invest alongside Boston Omaha Corporation in specific assets and businesses that may offer attractive long-term returns on invested capital."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Independent insurance agents and policyholders pay for surety bonds, advertisers pay for billboard space, and customers pay for broadband internet service.",
+  "evidence": "We offer independent insurance agents the opportunity to purchase surety insurance through our computerized portal which offers speed and ease in application processing for the independent agent."
+ },
+ "changes": [
+  {
+   "text": "By 2025 the company was winding down its asset management operations, which now only manage real estate funds.",
+   "evidence": "As a result, we are winding down BOAM's operations and over the past 18 months have implemented significant cost cutting measures as BOAM now only manages real estate funds."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

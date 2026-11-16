@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001308208",
  "issuerName": "UNIVERSAL LOGISTICS HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:23:47.970Z",
+ "builtAt": "2026-11-16T10:33:04.130Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-108365",
@@ -10,11 +10,57 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1308208/000119312526108365/ulh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract Logistics",
+   "products": [
+    "value-added services",
+    "dedicated transportation services",
+    "material handling",
+    "consolidation",
+    "sequencing",
+    "sub-assembly",
+    "cross-dock operations",
+    "kitting"
+   ],
+   "description": "Provides value-added and dedicated transportation services supporting inbound and internal logistics for industrial manufacturers and major retailers under multi-year contracts.",
+   "evidence": "We provide value-added and dedicated transportation services to support inbound and internal logistics requirements of industrial manufacturers and major retailers, generally under contractual arrangements of one year or longer."
+  },
+  {
+   "name": "Intermodal",
+   "products": [
+    "local and regional drayage services",
+    "steamship-truck",
+    "rail-truck",
+    "related support services"
+   ],
+   "description": "Moves international and domestic containers between ports or railheads and customer facilities through company-managed terminals using owner-operators and third-party capacity.",
+   "evidence": "Intermodal services include steamship-truck, rail-truck, and related support services, primarily moving international and domestic containers between ports or railheads and customer facilities."
+  },
+  {
+   "name": "Trucking",
+   "products": [
+    "dry van",
+    "flatbed",
+    "heavy-haul",
+    "refrigerated operations"
+   ],
+   "description": "Hauls a broad range of commodities for shippers through agents and company-managed terminals using owner-operators, company equipment and brokered capacity.",
+   "evidence": "Our trucking segment includes dry van, flatbed, heavy-haul, and refrigerated operations, transporting a broad range of commodities including automotive parts, machinery, building materials, food products, steel, and other industrial and consumer goods."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay fees for transporting freight and for customized logistics services, with additional revenue from fuel surcharges and accessorial services.",
+  "evidence": "We generate substantially all of our revenues from fees charged to customers for transporting freight and providing customized logistics services."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the former company-managed brokerage reporting segment was closed and its operations discontinued.",
+   "evidence": "During the third quarter of 2024, the Company recorded aggregate impairment charges totaling $3.7 million within our former company-managed brokerage reporting segment in connection with the closure of those operations."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

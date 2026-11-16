@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001768259",
  "issuerName": "Gaotu Techedu Inc.",
- "builtAt": "2026-11-16T05:23:46.909Z",
+ "builtAt": "2026-11-16T10:32:37.012Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-168211",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1768259/000119312526168211/gotu-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Learning services",
+   "products": [
+    "Educational content & digitalized learning products",
+    "digitalized auxiliary learning tools",
+    "online tutoring services",
+    "offline tutoring services",
+    "content playback service",
+    "books",
+    "smart devices",
+    "translation pens"
+   ],
+   "description": "Provides online and offline tutoring services plus educational content and digitalized learning products to students of broad age groups in mainland China.",
+   "evidence": "As such, the Group concluded that it has one operating segment and one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Students and customers pay upfront tutoring fees for online and offline classes, and pay for educational content and digitalized learning products.",
+  "evidence": "For online and offline tutoring services, tutoring fees are collected in advance."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

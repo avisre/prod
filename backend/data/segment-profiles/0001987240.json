@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001987240",
  "issuerName": "SCHMID Group N.V.",
- "builtAt": "2026-11-16T05:23:44.452Z",
+ "builtAt": "2026-11-16T10:31:19.526Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-062643",
@@ -10,10 +10,36 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1987240/000110465926062643/shmd-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technical equipment and processes",
+   "products": [
+    "machines",
+    "installation",
+    "extended warranties",
+    "long-term development"
+   ],
+   "description": "Sells machines including installation, long-term development and extended warranties to industrial customers.",
+   "evidence": "Technical equipment and processes includes mainly the sale of machines including installation and extended warranties."
+  },
+  {
+   "name": "Spare parts and services",
+   "products": [
+    "spare parts",
+    "repairs",
+    "modifications of machines",
+    "inspections"
+   ],
+   "description": "Sells spare parts and provides repair, modification and inspection services for machines.",
+   "evidence": "Spare parts and services includes the sale of spare parts as well as services including repairs, modifications of machines and inspections."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for machines, spare parts and services including repairs and inspections.",
+  "evidence": "We principally finance our operations through cash generated from the sale of machines, spare parts and services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

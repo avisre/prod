@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002007846",
  "issuerName": "Julong Holding Ltd",
- "builtAt": "2026-11-16T05:23:47.435Z",
+ "builtAt": "2026-11-16T10:33:01.245Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-006699",
@@ -10,8 +10,15 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/2007846/000149315226006699/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction",
+   "products": [],
+   "description": "One operating and reportable segment; the Group conducts its business operations only in the PRC and earns revenue from customers located in China.",
+   "evidence": "The Group operates as one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

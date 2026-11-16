@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002024218",
  "issuerName": "Summit Midstream Corporation",
- "builtAt": "2026-11-16T05:23:45.271Z",
+ "builtAt": "2026-11-16T10:31:43.624Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002024218-26-000017",
@@ -10,11 +10,55 @@
   "filingDate": "2026-03-16",
   "url": "https://www.sec.gov/Archives/edgar/data/2024218/000202421826000017/smlp-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rockies",
+   "products": [
+    "Polar and Divide system",
+    "Niobrara G&P system"
+   ],
+   "description": "Gathers crude oil and produced water and gathers and processes natural gas for producers in the Williston and DJ basins.",
+   "evidence": "Our Rockies reportable segment is comprised of our Polar and Divide system and the Niobrara G&P system."
+  },
+  {
+   "name": "Permian",
+   "products": [
+    "Double E",
+    "Double E Pipeline"
+   ],
+   "description": "Owns and operates an interstate natural gas transmission pipeline carrying residue gas for shippers in the Delaware Basin.",
+   "evidence": "The Double E Pipeline is a 135 mile FERC-regulated interstate natural gas transmission pipeline that commenced operations in November 2021 and provides transportation service from receipt points in the Delaware Basin to various delivery points in and around the Waha hub in Texas."
+  },
+  {
+   "name": "Mid-Con",
+   "products": [
+    "DFW Midstream",
+    "Tall Oak systems"
+   ],
+   "description": "Gathers and processes natural gas and sells retained gas and condensate for producers in the Barnett Shale and Arkoma Basin.",
+   "evidence": "Our Mid-Con reportable segment is comprised of the DFW Midstream and the Tall Oak systems."
+  },
+  {
+   "name": "Piceance",
+   "products": [
+    "Grand River gathering system"
+   ],
+   "description": "Provides natural gas gathering and processing services to producers in the Piceance Basin under long-term fee-based agreements.",
+   "evidence": "Our Piceance reportable segment is comprised of our Grand River gathering system."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Producers pay long-term, primarily fee-based gathering, compression, treating and processing fees, and we also earn revenue selling natural gas, NGLs and condensate.",
+  "evidence": "We earn revenue by providing gathering, compression, treating and/or processing services pursuant to primarily long-term and fee-based gathering and processing agreements with some of the largest and most active producers in North America."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold Summit Utica, which held its Ohio Gathering equity method investment and Utica Shale midstream assets.",
+   "evidence": "On March 22, 2024, we completed the disposition of Summit Utica to a subsidiary of MPLX LP for a cash sale price of $625.0 million, subject to customary post-closing adjustments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

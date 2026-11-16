@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001313310",
  "issuerName": "GRAVITY CO., LTD.",
- "builtAt": "2026-11-16T05:23:44.439Z",
+ "builtAt": "2026-11-16T10:31:01.251Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-026985",
@@ -10,10 +10,52 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1313310/000162828026026985/grvy-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "online game",
+   "products": [
+    "Ragnarok Online",
+    "Dragonica (Dragon Saga)",
+    "Ragnarok Online II",
+    "Requiem Online",
+    "R.O.S.E. Online",
+    "Ragnarok Landverse",
+    "Dragonica Origin"
+   ],
+   "description": "Develops and publishes online games such as Ragnarok Online for players, earning micro-transactions, subscriptions, royalties and license fees.",
+   "evidence": "The online game segment consists of Micro-transaction and subscription revenue, which is operated by us, and Royalties and license fee."
+  },
+  {
+   "name": "mobile game",
+   "products": [
+    "Ragnarok M: Classic",
+    "Ragnarok X: Next Generation",
+    "Ragnarok Origin",
+    "Ragnarok M: Eternal Love",
+    "Ragnarok Idle Adventure Plus",
+    "RO: Idle Poring",
+    "Ragnarok R",
+    "Ragnarok H5"
+   ],
+   "description": "Publishes mobile games, including Ragnarok titles, for players in Asia, the Americas and Europe, earning micro-transactions and royalties.",
+   "evidence": "The mobile game segment consists of Micro-transaction, which is operated by us, and Royalties and license fee."
+  },
+  {
+   "name": "others",
+   "products": [
+    "character based merchandise",
+    "animation"
+   ],
+   "description": "Remaining operations outside the two game segments, including character based merchandise, animation and website development and operation services for third parties.",
+   "evidence": "The remainder of our operation is categorized as \"others.\""
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Players pay micro-transactions inside games we operate; third-party licensees pay royalties and license fees where they operate the games.",
+  "evidence": "In markets where we or our subsidiary operate Ragnarok Online, our revenues are generated through micro-transaction revenue, and in markets where a third-party licensee operates the game, our revenues are generated through royalties or licensing fees."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001862044",
  "issuerName": "ZKH Group Limited",
- "builtAt": "2026-11-16T05:23:44.401Z",
+ "builtAt": "2026-11-16T10:30:57.050Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-048107",
@@ -10,10 +10,27 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1862044/000110465926048107/zkh-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial products",
+   "products": [
+    "Equipment parts",
+    "Chemicals",
+    "Manufacturing parts",
+    "General consumables",
+    "Office supplies",
+    "NorthSky Supply platform"
+   ],
+   "description": "The company sells industrial products to business customers through its platform, product sales and marketplace models, in China and overseas.",
+   "evidence": "The Group engages primarily in the business-to-business trading and services of industrial products through its platform."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Business customers pay the company for industrial products and for fulfillment and after-sale services provided under its product sales and marketplace models.",
+  "evidence": "Customers under our marketplace model still have the same access to our fulfillment services and after-sale services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

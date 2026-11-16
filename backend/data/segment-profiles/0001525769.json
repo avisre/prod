@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001525769",
  "issuerName": "Dave & Buster’s Entertainment, Inc.",
- "builtAt": "2026-11-16T05:23:45.081Z",
+ "builtAt": "2026-11-16T10:31:17.422Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001525769-26-000008",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1525769/000152576926000008/play-20260203.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Entertainment and dining",
+   "products": [
+    "arcade games",
+    "bowling",
+    "laser tag",
+    "virtual reality",
+    "billiards",
+    "gravity ropes",
+    "Redemption games",
+    "full bar service"
+   ],
+   "description": "Operates high-volume entertainment and dining venues in North America for adults and families, combining arcade games, sports viewing, food and beverage.",
+   "evidence": "The Company operates its business as one reportable operating segment with two reporting units based on its major brands, Dave & Buster's and Main Event."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Guests pay for entertainment and game play credits, food, and beverages at the company's stores.",
+  "evidence": "Each store offers a full menu of entrées and appetizers, a complete selection of alcoholic and non-alcoholic beverages, and an extensive assortment of entertainment attractions centered around playing games and watching live sports and other televised events."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001570562",
  "issuerName": "EVOLUS, INC.",
- "builtAt": "2026-11-16T05:23:47.039Z",
+ "builtAt": "2026-11-16T10:32:33.733Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-014001",
@@ -10,10 +10,27 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1570562/000162828026014001/eols-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Aesthetics",
+   "products": [
+    "Jeuveau ®",
+    "Evolysse™",
+    "Evolysse™ Form",
+    "Evolysse™ Smooth",
+    "Evolysse™ Sculpt",
+    "Evolysse™ Lips"
+   ],
+   "description": "Sells injectable neurotoxins and injectable hyaluronic acid gels to licensed aesthetic practitioners serving cash-pay consumers in the United States, Europe and other markets.",
+   "evidence": "We currently operate one reportable segment, and our net product revenues are derived from the sale of Jeuveau ® and, beginning in April 2025, from the sale of Evolysse™."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Licensed aesthetic practitioners pay the company for injectable aesthetic products, including neurotoxins and hyaluronic acid gels, which consumers pay for directly out of pocket.",
+  "evidence": "Our customers are aesthetic practitioners who are properly licensed to deliver our products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

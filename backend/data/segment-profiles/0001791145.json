@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001791145",
  "issuerName": "GBANK FINANCIAL HOLDINGS INC.",
- "builtAt": "2026-11-16T05:23:45.505Z",
+ "builtAt": "2026-11-16T10:31:39.219Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-129567",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1791145/000119312526129567/gbfh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial banking",
+   "products": [
+    "government guaranteed lending",
+    "Gaming FinTech",
+    "consumer deposit products",
+    "remote deposit capture",
+    "online banking",
+    "commercial real estate loans",
+    "commercial lines of credit",
+    "government guaranteed loans"
+   ],
+   "description": "Nevada state-chartered bank serving small and medium-sized businesses, high net worth individuals, professionals and investors through branches and nationwide specialized lending.",
+   "evidence": "Accordingly, all of the Company's operations are considered by management to be aggregated in one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Borrowers and depositors pay the Bank interest on loans, fees and service charges, loan servicing income and gains on loan sales.",
+  "evidence": "We derive our revenue from interest on loans, interest on investments, various fees and service charges, loan servicing, and gains on loan sales at the Bank level."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

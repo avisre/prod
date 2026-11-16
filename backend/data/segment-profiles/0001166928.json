@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001166928",
  "issuerName": "WEST BANCORPORATION, INC.",
- "builtAt": "2026-11-16T05:23:47.624Z",
+ "builtAt": "2026-11-16T10:32:56.520Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001166928-26-000010",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1166928/000116692826000010/wtba-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "commercial, real estate and consumer loans",
+    "trust services",
+    "checking, savings and money market accounts",
+    "time certificates of deposit",
+    "online banking",
+    "mobile banking",
+    "treasury management services",
+    "merchant card processing and corporate credit cards"
+   ],
+   "description": "West Bank delivers commercial and consumer banking, deposit and trust services to individuals and small- to medium-sized businesses in Iowa and Minnesota.",
+   "evidence": "The chief operating decision maker makes operating decisions and assesses performance based on an ongoing review of the community banking activities, which constitutes the Company's only operating segment for financial reporting purposes."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "West Bank earns interest and fees from customers who borrow commercial, real estate and consumer loans and who hold deposit, trust and treasury management accounts.",
+  "evidence": "West Bank provides full-service community banking and trust services to customers located primarily in the following metropolitan areas: Des Moines, Coralville and Iowa City, Iowa, and Rochester, Owatonna, Mankato and St. Cloud, Minnesota."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

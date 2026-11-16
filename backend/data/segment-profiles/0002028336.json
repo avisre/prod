@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002028336",
  "issuerName": "NEW ERA ENERGY & DIGITAL, INC.",
- "builtAt": "2026-11-16T05:23:44.447Z",
+ "builtAt": "2026-11-16T10:31:04.600Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-026501",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/2028336/000121390026026501/ea0276741-10k_newera.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and natural gas development, exploration and production",
+   "products": [
+    "oil",
+    "natural gas",
+    "natural gas liquids",
+    "helium"
+   ],
+   "description": "Develops and produces oil and natural gas, with associated liquids and helium, from properties in the United States for processors and purchasers.",
+   "evidence": "The Company only has one reportable operating segment, which is oil and natural gas development, exploration and production in the United States."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The Company sells oil, natural gas and natural gas liquids to processors and other third parties under index-priced contracts.",
+  "evidence": "The oil and natural gas were typically sold in an unprocessed state to processors and other third parties for processing and sale to customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company rebranded and realigned its primary business focus onto digital infrastructure and data center development.",
+   "evidence": "In July 2025, we rebranded as New Era Energy & Digital, Inc. and subsequently realigned our primary business focus on digital infrastructure and data center development."
+  },
+  {
+   "text": "The Company disposed of its oil properties in 2024, and had no oil sales during 2025.",
+   "evidence": "During 2025, the Company did not have any oil sales as it disposed of its oil properties in 2024."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

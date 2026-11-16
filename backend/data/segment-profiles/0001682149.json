@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001682149",
  "issuerName": "Datavault AI Inc.",
- "builtAt": "2026-11-16T05:23:45.984Z",
+ "builtAt": "2026-11-16T10:32:11.373Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-031280",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1682149/000110465926031280/dvlt-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology Licensing",
+   "products": [
+    "Data Vault",
+    "DataScore",
+    "DataValue",
+    "Data Vault Bank",
+    "Information Data Exchange",
+    "Sumerian",
+    "ADIO",
+    "WiSA E"
+   ],
+   "description": "Licenses patented data-management and data-monetization software plus wireless audio technology to businesses and electronics manufacturers.",
+   "evidence": "The Company operates in one business segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Licensees and SaaS customers pay for use of the patented data and audio platforms, and the company also licenses its intellectual property.",
+  "evidence": "The Company also generates revenue through the licensing of its proprietary intellectual property and through the provision of live event and media-related services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

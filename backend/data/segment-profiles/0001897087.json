@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001897087",
  "issuerName": "SUPERX AI TECHNOLOGY LIMITED",
- "builtAt": "2026-11-16T05:23:46.414Z",
+ "builtAt": "2026-11-16T10:32:21.006Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-113814",
@@ -10,11 +10,43 @@
   "filingDate": "2026-10-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1897087/000121390026113814/ea0308507-20f_superx.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI infrastructure solutions",
+   "products": [
+    "AI servers",
+    "related IT equipment",
+    "related warranties and maintenance services",
+    "cloud computing and AI model API services",
+    "GPUaaS",
+    "AI Token Platform",
+    "deployment and maintenance services",
+    "NVIDIA GB300 NVL72 rack-scale platform"
+   ],
+   "description": "Sells AI servers, related IT equipment and maintenance, plus cloud computing and AI model API services to enterprise and data center customers.",
+   "evidence": "During the year ended June 30, 2026, the Company renamed its \"sales of AI server and related IT equipment\" segment as the \"AI infrastructure solutions\" segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for AI servers and related IT equipment, related warranties and maintenance services, and cloud computing and AI model API services.",
+  "evidence": "Server Sales represents our primary revenue-generating business."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the Company renamed its sales of AI server and related IT equipment segment as the AI infrastructure solutions segment.",
+   "evidence": "During the year ended June 30, 2026, the Company renamed its \"sales of AI server and related IT equipment\" segment as the \"AI infrastructure solutions\" segment."
+  },
+  {
+   "text": "In 2026 the Company sold its legacy interior design business, OPS HK, which is presented as discontinued operations.",
+   "evidence": "This disposition represented a strategic shift with a major effect on the Company's operations and financial results, and as a result, the legacy interior design business carried by OPS HK has been presented as discontinued operations and excluded from both continuing operations and segment results for all periods presented."
+  },
+  {
+   "text": "In 2026 the Company restructured its business units into ISG and AI Data Center Solutions groups, having previously managed its business as a single operating segment.",
+   "evidence": "Prior to the internal restructuring, we managed our business as a single operating segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

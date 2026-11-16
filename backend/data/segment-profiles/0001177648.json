@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001177648",
  "issuerName": "ENANTA PHARMACEUTICALS, INC",
- "builtAt": "2026-11-16T05:23:49.729Z",
+ "builtAt": "2026-11-16T10:34:29.766Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-25-288121",
@@ -10,10 +10,28 @@
   "filingDate": "2025-11-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1177648/000119312525288121/enta-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "MAVYRET/MAVIRET",
+    "glecaprevir",
+    "RSV",
+    "COVID-19",
+    "HBV",
+    "KIT",
+    "STAT6"
+   ],
+   "description": "Discovers and develops antiviral and immunology product candidates and earns royalties from AbbVie's MAVYRET/MAVIRET regimen for HCV.",
+   "evidence": "The following table presents selected financial information with respect to the Company's single operating segment for the years ended September 30, 2025, 2024 and 2023"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "AbbVie pays royalties on its net sales of the MAVYRET/MAVIRET HCV regimen containing glecaprevir, and the company also earns license revenue from partners.",
+  "evidence": "Our revenues are dependent upon royalty revenues derived from AbbVie's net sales of its MAVYRET/MAVIRET regimen for HCV, which includes our protease inhibitor, glecaprevir."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

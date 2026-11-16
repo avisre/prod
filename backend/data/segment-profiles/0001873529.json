@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001873529",
  "issuerName": "KinderCare Learning Companies, Inc.",
- "builtAt": "2026-11-16T05:23:44.296Z",
+ "builtAt": "2026-11-16T10:30:58.668Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-106342",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1873529/000119312526106342/klc-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Early childhood education",
+   "products": [
+    "KinderCare Learning Centers",
+    "Crème School",
+    "Champions",
+    "before- and after-school programs",
+    "summer camp programs",
+    "employer-sponsored centers",
+    "tuition benefits",
+    "backup care"
+   ],
+   "description": "Provides early education and child care for children and families through community-based centers, employer-sponsored programs and before- and after-school sites.",
+   "evidence": "We are a leader in early childhood education and care across our three consumer-facing brands designed to address key parent demographics:"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Families pay tuition for center-based early education and before- and after-school programs; employers and government agencies also fund subsidized tuition, benefits and onsite care.",
+  "evidence": "We receive various forms of federal, state, and local governmental funding to support our operations and serve more families including reimbursements for food costs through the federal Child and Adult Food Care Program as well as grants for capital purchases, teacher compensation, and other center operating costs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

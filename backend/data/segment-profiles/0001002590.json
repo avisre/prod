@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001002590",
  "issuerName": "STAR GROUP, L.P.",
- "builtAt": "2026-11-16T05:23:46.616Z",
+ "builtAt": "2026-11-16T10:32:36.269Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-25-311490",
@@ -10,10 +10,29 @@
   "filingDate": "2025-12-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1002590/000119312525311490/sgu-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home heating oil and propane",
+   "products": [
+    "home heating oil",
+    "propane",
+    "gasoline and diesel fuel",
+    "heating and air conditioning equipment",
+    "service contracts",
+    "Petro Home Services",
+    "Meenan",
+    "Griffith Energy Services"
+   ],
+   "description": "The company's single reportable operating segment distributes home heating oil and propane and provides heating, air conditioning and related services to residential and commercial customers.",
+   "evidence": "Star Group, L.P. (\"Star\" the \"Company,\" \"we,\" \"us,\" or \"our\") is a home heating oil and propane distributor and services provider with one reportable operating segment that principally provides heating related services to residential and commercial customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Residential and commercial customers pay for home heating oil, propane, motor fuel, and heating equipment installations, repairs, maintenance and service contracts.",
+  "evidence": "We are a home heating oil and propane distributor and service provider to residential and commercial customers whose primary use is to heat their homes and buildings in the Northeast and Mid-Atlantic U.S. regions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001833835",
  "issuerName": "Paysafe Ltd",
- "builtAt": "2026-11-16T05:23:49.932Z",
+ "builtAt": "2026-11-16T10:33:56.550Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-088095",
@@ -10,11 +10,50 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1833835/000119312526088095/psfe-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Merchant Solutions",
+   "products": [
+    "merchant acquiring",
+    "transaction processing",
+    "gateway solutions",
+    "fraud and risk management tools",
+    "data and analytics",
+    "point of sale systems",
+    "merchant financing solutions",
+    "Petroleum Card Services"
+   ],
+   "description": "Provides payment acceptance, transaction processing and gateway solutions to small and medium sized merchants and integrated service providers, mainly in North America and Europe.",
+   "evidence": "The Merchant Solutions segment services markets primarily in North America, Canada and Europe."
+  },
+  {
+   "name": "Digital Wallets",
+   "products": [
+    "Neteller",
+    "Skrill",
+    "PaysafeCard",
+    "PaysafeCash",
+    "Rapid Transfer",
+    "pay-by-bank solution",
+    "Safetypay",
+    "PagoEfectivo"
+   ],
+   "description": "Offers digital wallets, pay-by-bank and prepaid cash voucher solutions so merchants and consumers can send, spend, store and accept funds online.",
+   "evidence": "Our proprietary digital wallet solutions are marketed under the Neteller, Skrill and PagoEfectivo brand names, as well as proprietary pay-by-bank solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Merchants and consumers pay the company for payment acceptance and processing, digital wallet and online cash solutions.",
+  "evidence": "The Company earns revenue from the sale of Merchant Solutions and Digital Wallets services."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold substantially all assets of its direct marketing payment processing business line, Paysafe Direct, within Merchant Solutions.",
+   "evidence": "On February 11, 2025, the Company announced a definitive agreement to sell substantially all assets related to its direct marketing payment processing business line (Paysafe Direct, LLC) to KORT payments."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

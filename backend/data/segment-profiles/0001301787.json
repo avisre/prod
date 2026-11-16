@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001301787",
  "issuerName": "BlueLinx Holdings Inc.",
- "builtAt": "2026-11-16T05:23:48.843Z",
+ "builtAt": "2026-11-16T10:33:19.233Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011136",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1301787/000162828026011136/bxc-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "building products",
+   "products": [
+    "specialty products",
+    "structural products",
+    "engineered wood products",
+    "siding",
+    "millwork",
+    "outdoor living products",
+    "specialty lumber and panels",
+    "industrial products"
+   ],
+   "description": "Distributes residential and commercial building products, grouped into specialty and structural categories, to dealers, home centers and industrial manufacturers across the United States.",
+   "evidence": "The Company has one reportable segment: building products. The segment sells building products that are grouped into two primary categories: specialty products and structural products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers such as national home centers, pro dealers, cooperatives and industrial manufacturers pay for building products purchased from manufacturers and distributed through warehouse, reload and direct channels.",
+  "evidence": "The Company is a two-step distributor and purchases products from manufacturers and distributes those products to dealers and other suppliers in local markets, who then sell those products to end users."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

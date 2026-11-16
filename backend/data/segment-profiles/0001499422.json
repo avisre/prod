@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001499422",
  "issuerName": "RBB BANCORP",
- "builtAt": "2026-11-16T05:23:48.110Z",
+ "builtAt": "2026-11-16T10:33:10.583Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-007387",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1499422/000143774926007387/rbb20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking Segment",
+   "products": [
+    "commercial and investor real estate loans",
+    "business loans and lines of credit",
+    "Small Business Administration (\"SBA\") 7A and 504 loans",
+    "mortgage loans",
+    "trade finance",
+    "depository accounts",
+    "E-banking",
+    "treasury management services"
+   ],
+   "description": "Bank provides business-banking and consumer products and services, including lending and depository accounts, mainly to Asian-centric communities through its branch network.",
+   "evidence": "it is appropriate to aggregate the Bank branches and report them as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay interest on loans and fees for lending, deposit and wealth management services; the Bank also earns interest on investment securities.",
+  "evidence": "Our primary source of revenue is providing loans to customers, who are predominantly small and middle-market businesses and individuals."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

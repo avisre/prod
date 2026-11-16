@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001579733",
  "issuerName": "Vital Farms, Inc.",
- "builtAt": "2026-11-16T05:23:46.153Z",
+ "builtAt": "2026-11-16T10:31:56.759Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-073423",
@@ -10,10 +10,24 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1579733/000119312526073423/vitl-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Eggs and Butter",
+   "products": [
+    "eggs",
+    "butter",
+    "shell eggs"
+   ],
+   "description": "Supplies pasture-raised eggs and butter sourced from small farms to natural and mainstream retailers, distributors and foodservice customers.",
+   "evidence": "The Company has only one reportable segment for which discrete financial information is available: Eggs and Butter."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Natural retailers, mainstream retailers, distributors and foodservice customers pay for pasture-raised eggs and butter.",
+  "evidence": "The Eggs and Butter segment derives revenues primarily from sales of its products, including eggs and butter, to customers, which include natural retailers, mainstream retailers, distributors, and foodservice customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
