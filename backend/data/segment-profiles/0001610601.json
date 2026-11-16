@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001610601",
+ "issuerName": "Hello Group Inc.",
+ "builtAt": "2026-11-16T05:18:00.856Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-183444",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1610601/000119312526183444/d13143d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hello Group",
+   "products": [
+    "social networking services",
+    "live streaming"
+   ],
+   "description": "Runs its social and live streaming apps.",
+   "evidence": "Effective from January 1, 2025, following the cessation of QOOL's operations and given the diminished scale of Tantan's operations relative to the Group's overall business, the Company's chief operating decision maker began reviewing the Group's financial performance on a consolidated basis as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Users pay for virtual items and subscriptions.",
+  "evidence": "Effective from January 1, 2025, following the cessation of QOOL's operations and given the diminished scale of Tantan's operations relative to the Group's overall business, the Company's chief operating decision maker began reviewing the Group's financial performance on a consolidated basis as a single operating segment."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Began reporting as a single operating segment from January 1, 2025 after QOOL ce"
+ ],
+ "reader": "agent"
+}

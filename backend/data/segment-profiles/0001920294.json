@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001920294",
  "issuerName": "Rezolve AI plc",
- "builtAt": "2026-11-15T08:04:54.048Z",
+ "builtAt": "2026-11-16T05:17:55.645Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-132456",
@@ -10,44 +10,11 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1920294/000119312526132456/rzlv-20251231.htm"
  },
- "status": "one-segment-mismatch",
- "segments": [
-  {
-   "name": "Agentic commerce",
-   "products": [
-    "Brain Commerce",
-    "Brain Checkout",
-    "Conversational AI",
-    "Discovery AI",
-    "Data Intelligence & Enablement",
-    "Purchase Suite",
-    "Click & Collect",
-    "brainpowa"
-   ],
-   "description": "Provides an AI-led commerce platform enabling discovery, conversation, checkout, fulfillment and payments for retail and enterprise brands.",
-   "evidence": "We operate as a single operating segment."
-  },
-  {
-   "name": "Enterprise Services",
-   "products": [
-    "IT services",
-    "intelligent business solutions",
-    "analytics"
-   ],
-   "description": "Provides information technology services, intelligent business solutions and analytics to help businesses leverage insights and meet IT needs.",
-   "evidence": "Our Enterprise Services line of business provides information technology services (primarily on a cost-plus basis), intelligent business solutions and analytics to assist businesses in leveraging insights for strategic decision-making and to fulfill both their local and global information technology needs."
-  }
- ],
+ "status": "no-segments",
+ "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Merchants pay primarily subscription or consumption fees for SaaS commerce products, billed monthly, plus cost-plus professional IT services.",
-  "evidence": "Merchants are billed on a monthly basis for the services rendered."
- },
- "changes": [
-  {
-   "text": "In 2024 the Company completed the Business Combination with Armada and a Pre-Closing Demerger of Rezolve Limited transferring its business and assets.",
-   "evidence": "On August 15, 2024 (the \"Closing Date\") Armada Acquisition Corp. I, a Delaware corporation (\"Armada\"), the Company and Rezolve Merger Sub, Inc., a Delaware corporation (\"Rezolve Merger Sub\"), consummated the business combination (the \"Business"
-  }
- ],
- "dropped": []
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

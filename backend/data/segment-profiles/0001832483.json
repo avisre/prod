@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001832483",
+ "issuerName": "SERVE ROBOTICS INC.",
+ "builtAt": "2026-11-16T05:18:04.050Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001832483-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1832483/000183248326000010/patr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Serve Robotics",
+   "products": [
+    "delivery robots"
+   ],
+   "description": "Makes and operates autonomous delivery robots.",
+   "evidence": "As such, the Company has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Delivery platforms and merchants pay for robot deliveries.",
+  "evidence": "As such, the Company has one operating and reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

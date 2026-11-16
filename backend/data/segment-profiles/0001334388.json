@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001334388",
+ "issuerName": "OBSIDIAN ENERGY LTD.",
+ "builtAt": "2026-11-16T05:18:03.965Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-058652",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1334388/000119312526058652/obe-ex99_3.htm",
+  "exhibit": "obe-ex99_3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Obsidian Energy",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Explores for and produces oil and gas in Canada.",
+   "evidence": "Obsidian Energy's portfolio of assets is managed at an enterprise level, rather than by separate operating segments or business units."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "Obsidian Energy's portfolio of assets is managed at an enterprise level, rather than by separate operating segments or business units."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

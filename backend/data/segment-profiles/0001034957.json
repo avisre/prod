@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001034957",
+ "issuerName": "Cresud Inc.",
+ "builtAt": "2026-11-16T05:18:02.830Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001654954-26-009074",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1034957/000165495426009074/cresud_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agricultural production",
+   "products": [
+    "wheat",
+    "corn",
+    "soybeans",
+    "cotton",
+    "sunflowers"
+   ],
+   "description": "Plants, harvests and sells crops.",
+   "evidence": "Agricultural Business Our Agricultural business is further comprised of four reportable segments: · The \"Agricultural production\" segment consists of planting, harvesting and sale of crops as wheat, corn, soybeans, cotton and sunflowers; breeding, purchasing and/or fattening of free-rang"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Grain buyers and exporters purchase its crops.",
+  "evidence": "Agricultural Business Our Agricultural business is further comprised of four reportable segments: · The \"Agricultural production\" segment consists of planting, harvesting and sale of crops as wheat, corn, soybeans, cotton and sunflowers; breeding, purchasing and/or fattening of free-rang"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

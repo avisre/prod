@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001824814",
+ "issuerName": "Cognyte Software Ltd.",
+ "builtAt": "2026-11-16T05:18:04.124Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001824814-26-000021",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1824814/000182481426000021/cgnt-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cognyte",
+   "products": [
+    "investigative analytics software"
+   ],
+   "description": "Sells investigative analytics software.",
+   "evidence": "We operate as one reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Governments and agencies pay for software and licences.",
+  "evidence": "SEGMENT INFORMATION Operating segments are defined as components of an enterprise about which separate financial information is available that is evaluated regularly by the enterprise's chief operating decision maker (\"CODM\"), or decision-making group, in deciding how to allocate resources and in assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

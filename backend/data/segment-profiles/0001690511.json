@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001690511",
+ "issuerName": "CANADA GOOSE HOLDINGS INC.",
+ "builtAt": "2026-11-16T05:17:57.413Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001690511-26-000012",
+  "periodEnd": "2026-03-29",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1690511/000169051126000012/goos-20260329.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

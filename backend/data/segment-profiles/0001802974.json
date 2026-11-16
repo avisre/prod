@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001802974",
+ "issuerName": "MISSION PRODUCE, INC.",
+ "builtAt": "2026-11-16T05:18:01.987Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001802974-25-000048",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1802974/000180297425000048/avo-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketing & Distribution",
+   "products": [
+    "fruit"
+   ],
+   "description": "Sources and distributes fruit worldwide.",
+   "evidence": "We report our results of operations in three operating segments which are also reportable segments: • Marketing & Distribution sources fruit from growers and then distributes the fruit through our global distribution network; • International Farming owns and operates orchards from which the vast majority of fruit produced is sold to our Marketing & Distribution segment."
+  },
+  {
+   "name": "International Farming",
+   "products": [],
+   "description": "Owns and operates orchards.",
+   "evidence": "We report our results of operations in three operating segments which are also reportable segments: • Marketing & Distribution sources fruit from growers and then distributes the fruit through our global distribution network; • International Farming owns and operates orchards from which the vast majority of fruit produced is sold to our Marketing & Distribution segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and foodservice buyers purchase its fruit.",
+  "evidence": "We report our results of operations in three operating segments which are also reportable segments: • Marketing & Distribution sources fruit from growers and then distributes the fruit through our global distribution network; • International Farming owns and operates orchards from which the vast majority of fruit produced is sold to our Marketing & Distribution segment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (International Farming): orchard fruit"
+ ],
+ "reader": "agent"
+}

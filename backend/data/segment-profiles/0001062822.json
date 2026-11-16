@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001062822",
+ "issuerName": "Lexicon Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-16T05:17:58.077Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001062822-26-000050",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1062822/000106282226000050/lxrx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceutical products",
+   "products": [],
+   "description": "Discovers and develops medicines for human disease.",
+   "evidence": "Lexicon operates as one business segment, which primarily focuses on the discovery, development and commercialization of pharmaceutical products for the treatment of human disease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and partners pay for its medicines.",
+  "evidence": "Goodwill is not amortized, but is tested at least annually for impairment at the reporting unit level which the Company has determined is the single operating segment disclosed in its current financi"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (pharmaceutical products): pharmaceutical products"
+ ],
+ "reader": "agent"
+}

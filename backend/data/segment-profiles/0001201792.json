@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001201792",
+ "issuerName": "AMERICAN PUBLIC EDUCATION, INC.",
+ "builtAt": "2026-11-16T05:17:56.525Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001201792-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1201792/000120179226000004/apei-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "APUS Segment",
+   "products": [],
+   "description": "Runs American Public University System.",
+   "evidence": "Our Segments For the periods covered by this Annual Report, we had three reportable segments: the APUS Segment; the RU Segment; and the HCN Segment."
+  },
+  {
+   "name": "RU Segment",
+   "products": [],
+   "description": "Runs its RU segment.",
+   "evidence": "Our Segments For the periods covered by this Annual Report, we had three reportable segments: the APUS Segment; the RU Segment; and the HCN Segment."
+  },
+  {
+   "name": "HCN Segment",
+   "products": [
+    "nursing education"
+   ],
+   "description": "Runs Hondros College of Nursing.",
+   "evidence": "Our Segments For the periods covered by this Annual Report, we had three reportable segments: the APUS Segment; the RU Segment; and the HCN Segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students pay tuition, much of it funded by federal aid.",
+  "evidence": "Our Segments For the periods covered by this Annual Report, we had three reportable segments: the APUS Segment; the RU Segment; and the HCN Segment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (APUS Segment): online higher education",
+  "product not in text (RU Segment): online higher education"
+ ],
+ "reader": "agent"
+}

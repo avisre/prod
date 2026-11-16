@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001490281",
+ "issuerName": "Groupon, Inc.",
+ "builtAt": "2026-11-16T05:18:03.815Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016429",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1490281/000162828026016429/grpn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "goods",
+    "travel"
+   ],
+   "description": "Runs its North American marketplace.",
+   "evidence": "We operate in two segments, North America and International, and in three categories, Local, Goods and Travel."
+  },
+  {
+   "name": "International",
+   "products": [
+    "goods",
+    "travel"
+   ],
+   "description": "Runs its international marketplaces.",
+   "evidence": "We operate in two segments, North America and International, and in three categories, Local, Goods and Travel."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants pay commissions on goods and services sold.",
+  "evidence": "Revenue is earned through transactions during which we generate commissions by selling goods or services on behalf of third-party merchants."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (North America): local deals",
+  "product not in text (International): local deals"
+ ],
+ "reader": "agent"
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001257640",
  "issuerName": "KRONOS WORLDWIDE, INC.",
- "builtAt": "2026-11-15T13:57:07.537Z",
+ "builtAt": "2026-11-16T05:18:03.237Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-025219",
@@ -14,16 +14,7 @@
  "segments": [],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [
-  {
-   "text": "In 2025, merged Louisiana Pigment Company into wholly-owned subsidiary Kronos Louisiana, Inc.",
-   "evidence": "In 2025, we merged LPC into our wholly-owned subsidiary Kronos Louisiana, Inc. (the combined company is referred to as \"Kronos Louisiana\")."
-  }
- ],
- "dropped": [
-  "segment name not in text: TiO2",
-  "revenue model not grounded",
-  "change not grounded: In 2024, acquired the 50% joint venture interest in Louisiana Pigment Company he"
- ],
- "escalated": "no segments"
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

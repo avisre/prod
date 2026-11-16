@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001001614",
+ "issuerName": "Riley Exploration Permian, Inc.",
+ "builtAt": "2026-11-16T05:18:03.855Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001001614-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1001614/000100161426000011/rep-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Riley Exploration",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Explores for and produces oil and gas.",
+   "evidence": "For financial reporting purposes, the Company aggregates our operating segments into on"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "Recent Accounting Pronouncements In November 2023, the FASB issued ASU 2023-07, Segment Reporting (Topic 280): Improvements to Reportable Segment Disclosures, which enhances the disclosures required for operating segments in the Company's annual and interim consolidated financial statements."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

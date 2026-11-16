@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001944558",
+ "issuerName": "Vitesse Energy, Inc.",
+ "builtAt": "2026-11-16T05:18:05.445Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001944558-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1944558/000194455826000009/vitesse-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vitesse",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Owns non-operated oil and gas interests.",
+   "evidence": "Segment and Geographic Information The chief operating decision maker (CODM) of the Company is the Chief Executive Officer (CEO)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns revenue from oil and gas sold by operators.",
+  "evidence": "The Company operates in a single reportable segment, which is a single operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

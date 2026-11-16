@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001735438",
+ "issuerName": "MeiraGTx Holdings plc",
+ "builtAt": "2026-11-16T05:18:00.820Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036494",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1735438/000110465926036494/mgtx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "gene therapy",
+   "products": [
+    "gene therapies"
+   ],
+   "description": "Develops and manufactures gene therapies.",
+   "evidence": "The Company has one reportable and operating segment, which is the development and manufacturing of"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "The Company has one reportable and operating segment, which is the development and manufacturing of"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

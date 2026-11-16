@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001137091",
+ "issuerName": "POWER SOLUTIONS INTERNATIONAL, INC.",
+ "builtAt": "2026-11-16T05:17:56.137Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013207",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1137091/000162828026013207/psix-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "engines",
+   "products": [
+    "power generation equipment"
+   ],
+   "description": "Makes engines and power generation equipment for OEMs.",
+   "evidence": "The Company manages the business as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs and end users buy its engines and power equipment.",
+  "evidence": "The Company's products are primarily used by global original equipment manufacturers (\"OEMs\") and end-user customers across a wide range of applications and equipment that includes standby and prime power generation, demand response, microgrid, combined heat and power, arbor equipment, material handling (including"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (engines): engines"
+ ],
+ "reader": "agent"
+}

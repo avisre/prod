@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001806347",
+ "issuerName": "WESTROCK COFFEE COMPANY",
+ "builtAt": "2026-11-16T05:18:03.896Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-025932",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1806347/000110465926025932/west-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beverage Solutions",
+   "products": [
+    "coffee",
+    "tea",
+    "extracts"
+   ],
+   "description": "Makes coffee and beverage products.",
+   "evidence": "As of December 31, 2025, our operating structure consists of two reportable segments: Beverage Solutions and Sustainable Sourcing & Traceability (\"SS&T\")."
+  },
+  {
+   "name": "Sustainable Sourcing & Traceability",
+   "products": [
+    "coffee sourcing"
+   ],
+   "description": "Sources coffee and provides traceability services.",
+   "evidence": "As of December 31, 2025, our operating structure consists of two reportable segments: Beverage Solutions and Sustainable Sourcing & Traceability (\"SS&T\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and foodservice customers buy its coffee products.",
+  "evidence": "We provide products in a variety of packaging, including branded and private label coffee in bags, fractional packs, single serve cups, multi-serve bottles and ready-to-drink (\"RTD\") bottles and cans, as well as extract solut"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Sustainable Sourcing & Traceability): traceability services"
+ ],
+ "reader": "agent"
+}

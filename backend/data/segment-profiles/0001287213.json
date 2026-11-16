@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001287213",
+ "issuerName": "DOUGLAS DYNAMICS, INC",
+ "builtAt": "2026-11-16T05:17:55.554Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005316",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1287213/000143774926005316/plow20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Work Truck Attachments",
+   "products": [
+    "snowplows",
+    "sand and salt spreaders"
+   ],
+   "description": "Makes snow and ice control equipment for light trucks.",
+   "evidence": "Within the Commercial Snow & Ice reporting unit in our Work Truck Attachments segment, we offer a broad product line of snowplows and sand and salt spreaders for light trucks that we believe to be the most complete line o"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Truck owners and municipalities buy its snow and ice equipment.",
+  "evidence": "For additional financial information regarding our reportable business segments, see Note 16 of the Notes to Consolidated Financial Statements of this report."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

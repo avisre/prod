@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001479681",
+ "issuerName": "NUTEX HEALTH INC.",
+ "builtAt": "2026-11-16T05:18:01.767Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015168",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1479681/000162828026015168/nutx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hospital division",
+   "products": [
+    "emergency room care",
+    "inpatient care",
+    "behavioral health"
+   ],
+   "description": "Runs its hospitals.",
+   "evidence": "Operating Segments We report the results of our operations as three segments: (i) the hospital division, (ii) the PHM division, and (iii) the real estate division."
+  },
+  {
+   "name": "PHM division",
+   "products": [
+    "population health management"
+   ],
+   "description": "Provides population health management services.",
+   "evidence": "Operating Segments We report the results of our operations as three segments: (i) the hospital division, (ii) the PHM division, and (iii) the real estate division."
+  },
+  {
+   "name": "real estate division",
+   "products": [
+    "real estate"
+   ],
+   "description": "Holds its real estate.",
+   "evidence": "Operating Segments We report the results of our operations as three segments: (i) the hospital division, (ii) the PHM division, and (iii) the real estate division."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients' insurers pay for care provided at its facilities.",
+  "evidence": "We provide a full spectrum of healthcare services, including emergency room care, inpatient care, and behavioral health, and offer a complementary suite of ancillary services, including onsite imaging (CT scan, X-ray"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

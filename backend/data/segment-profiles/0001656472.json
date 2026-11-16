@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001656472",
+ "issuerName": "CRONOS GROUP INC.",
+ "builtAt": "2026-11-16T05:17:55.717Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001656472-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1656472/000165647226000016/cron-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cannabis",
+   "products": [
+    "cannabis products"
+   ],
+   "description": "Produces and sells cannabis in Canada and Israel.",
+   "evidence": "Business Segment Cronos reports through one consolidated segment, which includes operations in both Canada and Israel."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and patients buy its cannabis products.",
+  "evidence": "Business Segment Cronos reports through one consolidated segment, which includes operations in both Canada and Israel."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

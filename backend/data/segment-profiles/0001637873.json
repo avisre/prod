@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001637873",
+ "issuerName": "COPART INC",
+ "builtAt": "2026-11-16T05:17:55.581Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001637873-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1637873/000163787326000011/acva-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

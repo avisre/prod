@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001221029",
+ "issuerName": "Holcim Ltd",
+ "builtAt": "2026-11-16T05:17:58.102Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048232",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1221029/000121390026048232/ea0285559-20f_cementos.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cement, concrete, mortar, pavement and precast",
+   "products": [
+    "cement",
+    "concrete",
+    "mortar",
+    "pavement",
+    "precast"
+   ],
+   "description": "Makes and sells cement and concrete products.",
+   "evidence": "Operating Segments We have three operating segments: (i) cement, concrete, mortar, pavement and precast, (ii) quicklime and (iii) sales of construction supplies."
+  },
+  {
+   "name": "quicklime",
+   "products": [],
+   "description": "Makes and sells quicklime.",
+   "evidence": "Operating Segments We have three operating segments: (i) cement, concrete, mortar, pavement and precast, (ii) quicklime and (iii) sales of construction supplies."
+  },
+  {
+   "name": "sales of construction supplies",
+   "products": [
+    "construction supplies"
+   ],
+   "description": "Sells construction supplies through its distribution network.",
+   "evidence": "Operating Segments We have three operating segments: (i) cement, concrete, mortar, pavement and precast, (ii) quicklime and (iii) sales of construction supplies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Builders and retailers buy its cement, concrete and supplies.",
+  "evidence": "We sell these products primarily as a service to retailers in our distribution network in an effort to support the sale of our cement products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (quicklime): quicklime"
+ ],
+ "reader": "agent"
+}

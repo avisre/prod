@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001671858",
+ "issuerName": "ARS Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-16T05:18:02.167Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-097478",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1671858/000119312526097478/spry-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ARS Pharma",
+   "products": [
+    "neffy"
+   ],
+   "description": "Develops emergency treatments for severe allergic reactions.",
+   "evidence": "The Company views its operations and manages its business as one operating segmen"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its product.",
+  "evidence": "The Company views its operations and manages its business as one operating segmen"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

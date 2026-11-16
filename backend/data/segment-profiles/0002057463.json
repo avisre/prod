@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002057463",
+ "issuerName": "Liberty Capital Corp/NV",
+ "builtAt": "2026-11-16T05:17:57.351Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-013442",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/2057463/000110465926013442/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Liberty Capital",
+   "products": [
+    "network services"
+   ],
+   "description": "Runs its converged network business.",
+   "evidence": "(14) Segment Information GCI Liberty's chief operating decision maker (\"CODM\"), the Chief Executive Officer, assesses performance and allocates resources based on the Company's consolidated statements of operations, as the converged network requires the CODM to manage and evaluate the results of the business in a consolidated manner to drive efficiencies and develop uniform str"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscribers pay for network services.",
+  "evidence": "(14) Segment Information GCI Liberty's chief operating decision maker (\"CODM\"), the Chief Executive Officer, assesses performance and allocates resources based on the Company's consolidated statements of operations, as the converged network requires the CODM to manage and evaluate the results of the business in a consolidated manner to drive efficiencies and develop uniform str"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

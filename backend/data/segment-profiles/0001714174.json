@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001714174",
+ "issuerName": "BURFORD CAPITAL LIMITED",
+ "builtAt": "2026-11-16T05:17:55.761Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001714174-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1714174/000171417426000007/bur-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Principal Finance",
+   "products": [
+    "legal finance"
+   ],
+   "description": "Provides litigation finance from its own capital.",
+   "evidence": "Segments We provide a variety of legal finance services to our clients through our two segments: (i) Principal Finance and (ii) Asset Management and Other Services."
+  },
+  {
+   "name": "Asset Management and Other Services",
+   "products": [],
+   "description": "Manages third-party capital and provides services.",
+   "evidence": "Segments We provide a variety of legal finance services to our clients through our two segments: (i) Principal Finance and (ii) Asset Management and Other Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay returns and fees on litigation finance.",
+  "evidence": "Asset Management and Other Services segment One of our two reportable segments."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Asset Management and Other Services): asset management services"
+ ],
+ "reader": "agent"
+}

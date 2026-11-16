@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001792849",
+ "issuerName": "HighPeak Energy, Inc.",
+ "builtAt": "2026-11-16T05:18:00.708Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007770",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1792849/000143774926007770/hpe20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "crude oil and natural gas",
+   "products": [
+    "crude oil",
+    "natural gas"
+   ],
+   "description": "Develops and produces crude oil and gas.",
+   "evidence": "24 NOTE 17 – Supplemental Crude Oil and Natural Gas Disclosures (Unaudited) The Company only has one reportable operating segment, which is crude oil and natural gas development, exploration and production in the U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells crude oil and natural gas at market prices.",
+  "evidence": "24 NOTE 17 – Supplemental Crude Oil and Natural Gas Disclosures (Unaudited) The Company only has one reportable operating segment, which is crude oil and natural gas development, exploration and production in the U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

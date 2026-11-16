@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0002026478",
+ "issuerName": "NEWSMAX INC.",
+ "builtAt": "2026-11-16T05:17:56.020Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002026478-26-000026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2026478/000202647826000026/nmax-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Broadcasting",
+   "products": [
+    "news content"
+   ],
+   "description": "Produces and licenses news content to distributors.",
+   "evidence": "These business lines are grouped into two separate reportable segments that consist of Broadcasting and Digital: Broadcasting - The broadcasting segment produces and licenses news, business news and lifestyle content for distribution primarily through MVPDs including cable television systems, direct broadcast satellite operators and telecommunication companies, primarily in the"
+  },
+  {
+   "name": "Digital",
+   "products": [
+    "digital media"
+   ],
+   "description": "Runs its digital media properties.",
+   "evidence": "These business lines are grouped into two separate reportable segments that consist of Broadcasting and Digital: Broadcasting - The broadcasting segment produces and licenses news, business news and lifestyle content for distribution primarily through MVPDs including cable television systems, direct broadcast satellite operators and telecommunication companies, primarily in the"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cable operators pay carriage fees and advertisers pay for airtime.",
+  "evidence": "These business lines are grouped into two separate reportable segments that consist of Broadcasting and Digital: Broadcasting - The broadcasting segment produces and licenses news, business news and lifestyle content for distribution primarily through MVPDs including cable television systems, direct broadcast satellite operators and telecommunication companies, primarily in the"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

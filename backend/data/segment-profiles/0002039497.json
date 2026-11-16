@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0002039497",
+ "issuerName": "Resolute Holdings Management, Inc.",
+ "builtAt": "2026-11-16T05:17:56.432Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027050",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/2039497/000110465926027050/rhld-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Resolute",
+   "products": [],
+   "description": "Provides investment management services.",
+   "evidence": "Segments The following table presents the Company's results of operations by reportable segment for the years ended December 31, 2025, and December 31, 2024:"
+  },
+  {
+   "name": "GPGI",
+   "products": [],
+   "description": "Provides investment management services.",
+   "evidence": "Segments The following table presents the Company's results of operations by reportable segment for the years ended December 31, 2025, and December 31, 2024:"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Resolute): investment management services",
+  "product not in text (GPGI): investment management services",
+  "revenue model not grounded"
+ ],
+ "reader": "agent"
+}

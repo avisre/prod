@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001514705",
+ "issuerName": "SUNCOKE ENERGY, INC.",
+ "builtAt": "2026-11-16T05:18:04.325Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001514705-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1514705/000151470526000010/sxc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Domestic Coke",
+   "products": [
+    "coke"
+   ],
+   "description": "Makes coke for steel production in the United States.",
+   "evidence": "We report our business results through two reportable segments: Domestic Coke and Industrial Services."
+  },
+  {
+   "name": "Industrial Services",
+   "products": [
+    "licensing and operating agreements"
+   ],
+   "description": "Provides industrial and cokemaking services.",
+   "evidence": "We report our business results through two reportable segments: Domestic Coke and Industrial Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Steelmakers buy its coke; partners pay for operating services.",
+  "evidence": "Additionally, we designed and currently operate one cokemaking facility in Brazil under licensing and operating agreements on behalf of ArcelorMittal Brasil S."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Industrial Services): industrial services"
+ ],
+ "reader": "agent"
+}

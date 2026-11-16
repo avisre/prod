@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001756699",
+ "issuerName": "UP FINTECH HOLDING LIMITED",
+ "builtAt": "2026-11-16T05:17:58.577Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-174855",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1756699/000119312526174855/tigr-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

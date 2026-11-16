@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001639877",
+ "issuerName": "Ferroglobe PLC",
+ "builtAt": "2026-11-16T05:18:03.472Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-034859",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1639877/000110465926034859/gsm-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

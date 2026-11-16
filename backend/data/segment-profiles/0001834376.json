@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001834376",
+ "issuerName": "InnovAge Holding Corp.",
+ "builtAt": "2026-11-16T05:17:56.047Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001834376-26-000049",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1834376/000183437626000049/innv-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PACE",
+   "products": [
+    "PACE services"
+   ],
+   "description": "Runs Program of All-Inclusive Care for the Elderly centres.",
+   "evidence": "InnovAge is headquartered in Denver, Colorado and manages its business as one reportable segment, PACE."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Medicare and Medicaid pay capitated rates for participants' care.",
+  "evidence": "The Company manages its business as one reportable segment, PACE."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

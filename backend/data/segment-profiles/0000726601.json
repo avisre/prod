@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000726601",
  "issuerName": "Capital City Bank Group, Inc.",
- "builtAt": "2026-11-14T13:49:33.980Z",
+ "builtAt": "2026-11-16T05:18:03.000Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000726601-26-000007",
@@ -13,21 +13,8 @@
  "status": "no-segments",
  "segments": [],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Customers pay the bank interest and fees on loans and deposits, and pay for trust, investment, mortgage banking, and other financial services.",
-  "evidence": "We provide a full range of banking services, including traditional deposit and credit services, mortgage banking, asset management, trust, merchant services, bankcards, securities brokerage services and financial advisory services, including the sale of life insurance, risk management and asset protection services."
- },
- "changes": [
-  {
-   "text": "In 2025, the company sold its insurance subsidiary Capital City Strategic Wealth, LLC.",
-   "evidence": "CCBG previously maintained an insurance subsidiary, Capital City Strategic Wealth, LLC, which was sold in August 2025."
-  },
-  {
-   "text": "In 2025, Capital City Home Loans, LLC became a wholly owned subsidiary.",
-   "evidence": "CCHL which became wholly owned effective January 1, 2025."
-  }
- ],
- "dropped": [
-  "segment name not in text: Banking and Wealth Management"
- ]
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

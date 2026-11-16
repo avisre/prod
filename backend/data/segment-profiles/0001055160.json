@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001055160",
+ "issuerName": "MFA FINANCIAL, INC.",
+ "builtAt": "2026-11-16T05:17:56.335Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001055160-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1055160/000105516026000004/mfa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mortgage-related assets",
+   "products": [
+    "residential mortgage loans",
+    "mortgage-backed securities"
+   ],
+   "description": "Invests in residential mortgage assets.",
+   "evidence": "Segment Reporting At December 31, 2025, the Company's reportable segments include (i) mortgage-related assets and (ii) Lima One."
+  },
+  {
+   "name": "Lima One",
+   "products": [],
+   "description": "Originates business-purpose loans through Lima One.",
+   "evidence": "Segment Reporting At December 31, 2025, the Company's reportable segments include (i) mortgage-related assets and (ii) Lima One."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns interest on mortgage assets and loans it originates.",
+  "evidence": "The Company's segments are managed by its \"chief operating decision maker\" or \"CODM\" as defined under GAAP; the Company's CODM is its Chief Executive Officer."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Lima One): business-purpose loans"
+ ],
+ "reader": "agent"
+}

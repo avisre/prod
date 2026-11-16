@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001345126",
+ "issuerName": "COMPASS DIVERSIFIED HOLDINGS",
+ "builtAt": "2026-11-16T05:18:01.177Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001345126-26-000026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1345126/000134512626000026/codi-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

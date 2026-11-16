@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001720424",
+ "issuerName": "HIVE DIGITAL TECHNOLOGIES LTD.",
+ "builtAt": "2026-11-16T05:17:55.607Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001062993-26-002973",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1720424/000106299326002973/form10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

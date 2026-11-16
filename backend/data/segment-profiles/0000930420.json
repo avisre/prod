@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000930420",
+ "issuerName": "Kforce Inc",
+ "builtAt": "2026-11-16T05:18:05.145Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000930420-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/930420/000093042026000007/kfrc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology",
+   "products": [],
+   "description": "Places technology consultants with clients.",
+   "evidence": "Our Technology and Finance and Accounting (\"FA\") businesses represent our two reportable segments."
+  },
+  {
+   "name": "Finance and Accounting",
+   "products": [],
+   "description": "Places finance and accounting consultants.",
+   "evidence": "Our Technology and Finance and Accounting (\"FA\") businesses represent our two reportable segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay hourly fees for consultants.",
+  "evidence": "For our Flex services, we provide our clients with qualified individuals (\"consultants\"), or teams of consultants, on a finite basis when the skills and experience of the consultants are the right match for our clients."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Technology): consulting services",
+  "product not in text (Finance and Accounting): consulting services"
+ ],
+ "reader": "agent"
+}

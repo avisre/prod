@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001951222",
+ "issuerName": "SEALSQ Corp",
+ "builtAt": "2026-11-16T05:18:03.373Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-037706",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1951222/000110465926037706/laes-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

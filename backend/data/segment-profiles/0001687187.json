@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001687187",
+ "issuerName": "Ramaco Resources, Inc.",
+ "builtAt": "2026-11-16T05:17:56.465Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020479",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1687187/000110465926020479/metc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metallurgical Coal",
+   "products": [],
+   "description": "Mines and sells metallurgical coal.",
+   "evidence": "The Company's operations are organized into two reportable segments: Metallurgical Coal and Rare Earths and Critical Minerals."
+  },
+  {
+   "name": "Rare Earths and Critical Minerals",
+   "products": [
+    "rare earths",
+    "critical minerals"
+   ],
+   "description": "Develops rare earth and critical mineral deposits.",
+   "evidence": "The Company's operations are organized into two reportable segments: Metallurgical Coal and Rare Earths and Critical Minerals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Steelmakers buy its coal; it develops mineral deposits.",
+  "evidence": "Our reportable segments, which are primarily based on the Company's internal organizational structure and types of controlled mineral deposits, are its two operating segments—Metallurgical Coal and Rare Earths and Critical Minerals."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Metallurgical Coal): metallurgical coal"
+ ],
+ "reader": "agent"
+}

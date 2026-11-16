@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001772016",
+ "issuerName": "BellRing Brands, Inc.",
+ "builtAt": "2026-11-16T05:17:55.847Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001772016-25-000153",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1772016/000177201625000153/brbr-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

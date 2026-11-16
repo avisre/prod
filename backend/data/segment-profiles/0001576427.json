@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001576427",
+ "issuerName": "CRITEO S.A.",
+ "builtAt": "2026-11-16T05:18:01.208Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001576427-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1576427/000157642726000014/crto-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Performance Media",
+   "products": [
+    "first-party data activation"
+   ],
+   "description": "Runs performance advertising for marketers.",
+   "evidence": "Our Segments We report results across two operating and reportable segments: Performance Media and Retail Media ."
+  },
+  {
+   "name": "Retail Media",
+   "products": [],
+   "description": "Runs retail media advertising for retailers.",
+   "evidence": "Our Segments We report results across two operating and reportable segments: Performance Media and Retail Media ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers and retailers pay for ad placements and data.",
+  "evidence": "We offer marketers, agencies, retailers and media owners a unified platform for first-party data activation and monetization."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Retail Media): retail media"
+ ],
+ "reader": "agent"
+}

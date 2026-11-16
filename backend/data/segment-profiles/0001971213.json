@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001971213",
+ "issuerName": "Sinclair, Inc.",
+ "builtAt": "2026-11-16T05:17:56.080Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001971213-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1971213/000197121326000012/sbgi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "local media",
+   "products": [
+    "broadcast television",
+    "digital media"
+   ],
+   "description": "Runs local television stations and digital properties.",
+   "evidence": "SEGMENTS As of December 31, 2025, Sinclair had two reportable segments, local media and tennis, and SBG had one reportable segment, local media."
+  },
+  {
+   "name": "tennis",
+   "products": [
+    "tennis programming"
+   ],
+   "description": "Runs its tennis business.",
+   "evidence": "SEGMENTS As of December 31, 2025, Sinclair had two reportable segments, local media and tennis, and SBG had one reportable segment, local media."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers and distributors pay for programming and carriage.",
+  "evidence": "Sinclair also earns revenue from non-broadcast digital and internet solutions, technical services, and non-media investments, included within \"other\"."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

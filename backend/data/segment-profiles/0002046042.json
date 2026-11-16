@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0002046042",
+ "issuerName": "Jefferson Capital, Inc. / DE",
+ "builtAt": "2026-11-16T05:17:56.787Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027199",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/2046042/000110465926027199/jcap-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "debt recovery services"
+   ],
+   "description": "Recovers consumer receivables in the United States.",
+   "evidence": "We operate and manage our business through four reportable segments that are based on geography: United States, United Kingdom, Canada, and Latin America."
+  },
+  {
+   "name": "United Kingdom",
+   "products": [
+    "debt recovery services"
+   ],
+   "description": "Recovers consumer receivables in the UK.",
+   "evidence": "We operate and manage our business through four reportable segments that are based on geography: United States, United Kingdom, Canada, and Latin America."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "debt recovery services"
+   ],
+   "description": "Recovers consumer receivables in Canada.",
+   "evidence": "We operate and manage our business through four reportable segments that are based on geography: United States, United Kingdom, Canada, and Latin America."
+  },
+  {
+   "name": "Latin America",
+   "products": [
+    "debt recovery services"
+   ],
+   "description": "Recovers consumer receivables in Latin America.",
+   "evidence": "We operate and manage our business through four reportable segments that are based on geography: United States, United Kingdom, Canada, and Latin America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It buys receivables and collects payments from consumers.",
+  "evidence": "Overview We provide debt recovery solutions and other related services across a broad range of consumer receivables, including credit card, secured and unsecured automotive, telecom and utilities, and other receivables."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

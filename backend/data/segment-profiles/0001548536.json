@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001548536",
+ "issuerName": "Santacruz Silver Mining Ltd.",
+ "builtAt": "2026-11-16T05:18:04.924Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001493152-26-020908",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1548536/000149315226020908/ex99-3.htm",
+  "exhibit": "ex99-3.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

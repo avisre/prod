@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001879248",
+ "issuerName": "ADS-Tec Energy Public Limited Company",
+ "builtAt": "2026-11-16T05:18:02.777Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-057891",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1879248/000121390026057891/ea0290629-20f_adstec.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe",
+   "products": [
+    "battery storage and charging solutions"
+   ],
+   "description": "Sells battery storage and charging systems in Europe.",
+   "evidence": "ADSE operates its business based on its two operating segments (Europe and North America) which also form the basis for segment reporting (see note 5)."
+  },
+  {
+   "name": "North America",
+   "products": [
+    "battery storage and charging solutions"
+   ],
+   "description": "Sells battery storage and charging systems in North America.",
+   "evidence": "ADSE operates its business based on its two operating segments (Europe and North America) which also form the basis for segment reporting (see note 5)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses and utilities buy its charging and storage systems.",
+  "evidence": "1 Revenue from contracts with customers ADSE develops, produces, and distributes battery storage and charging solutions for different areas of applications."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

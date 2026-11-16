@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000902791",
+ "issuerName": "BARRETT BUSINESS SERVICES, INC.",
+ "builtAt": "2026-11-16T05:18:04.179Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-072255",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/902791/000119312526072255/bbsi-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

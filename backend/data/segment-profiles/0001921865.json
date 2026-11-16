@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001921865",
+ "issuerName": "ASP Isotopes Inc.",
+ "builtAt": "2026-11-16T05:18:00.872Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-151294",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1921865/000119312526151294/aspi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "nuclear fuels",
+   "products": [],
+   "description": "Produces nuclear fuel materials.",
+   "evidence": "Our Segments Beginning in 2024, primarily as a result of the increased business activities of our subsidiary, QLE, we had two operating segments: (i) nuclear fuels, and (ii) specialist isotopes and related services."
+  },
+  {
+   "name": "specialist isotopes and related services",
+   "products": [
+    "specialist isotopes",
+    "related services"
+   ],
+   "description": "Produces specialist isotopes and services.",
+   "evidence": "Our Segments Beginning in 2024, primarily as a result of the increased business activities of our subsidiary, QLE, we had two operating segments: (i) nuclear fuels, and (ii) specialist isotopes and related services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Nuclear and medical customers buy its isotopes and fuels.",
+  "evidence": "Our Segments Beginning in 2024, primarily as a result of the increased business activities of our subsidiary, QLE, we had two operating segments: (i) nuclear fuels, and (ii) specialist isotopes and related services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (nuclear fuels): nuclear fuels"
+ ],
+ "reader": "agent"
+}

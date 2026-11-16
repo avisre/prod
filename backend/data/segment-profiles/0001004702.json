@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001004702",
+ "issuerName": "OceanFirst Financial Corp",
+ "builtAt": "2026-11-16T05:17:54.693Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001004702-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1004702/000100470226000015/ocfc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Therefore, management concluded the Company has a single operating segment, and therefore one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and depositors are paid on balances.",
+  "evidence": "Operating segments are defined as components of an entity for which separate financial information is available and is regularly reviewed by the CODM."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

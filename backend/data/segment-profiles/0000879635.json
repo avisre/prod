@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000879635",
+ "issuerName": "MID PENN BANCORP, INC.",
+ "builtAt": "2026-11-16T05:18:01.947Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000879635-26-000026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/879635/000087963526000026/mpb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "As a result, Mid Penn has only one reportable segment for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and depositors are paid on balances.",
+  "evidence": "Mid Penn's consolidated financial condition and results of operations consist almost entirely of that of the Bank, which is managed as a single business segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001227500",
+ "issuerName": "EQUITY BANCSHARES, INC.",
+ "builtAt": "2026-11-16T05:17:57.060Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-096665",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1227500/000119312526096665/eqbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Management makes operating decisions and assesses performance based on an ongoing review of these banking operations, which constitute the Company's only operating segment for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "The Company's chief operating decision maker is comprised of the executive leadership team ."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001922446",
+ "issuerName": "Diversified Energy Company",
+ "builtAt": "2026-11-16T05:17:54.811Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001922446-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1922446/000192244626000020/dec-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and gas",
+   "products": [
+    "natural gas",
+    "oil"
+   ],
+   "description": "Owns and operates producing gas and oil wells.",
+   "evidence": "Segment Reporting In accordance with ASC 280, Segment Reporting , the Company establishes operating segments based on the components of the business that are regularly reviewed by the chief executive officer, who serves as the chief operating decision maker (\"CODM\"), for the purposes of allocating resources and assessing performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells natural gas and oil at market prices.",
+  "evidence": "Segment Reporting In accordance with ASC 280, Segment Reporting , the Company establishes operating segments based on the components of the business that are regularly reviewed by the chief executive officer, who serves as the chief operating decision maker (\"CODM\"), for the purposes of allocating resources and assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

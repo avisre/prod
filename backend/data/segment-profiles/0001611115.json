@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001611115",
+ "issuerName": "Omada Health, Inc.",
+ "builtAt": "2026-11-16T05:17:56.817Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015637",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1611115/000162828026015637/omda-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
