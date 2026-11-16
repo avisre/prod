@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001334978",
+ "issuerName": "CLEAR CHANNEL OUTDOOR HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:11:26.276Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001334978-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1334978/000133497826000010/cco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "America",
+   "products": [
+    "outdoor advertising"
+   ],
+   "description": "Sells outdoor advertising in the Americas.",
+   "evidence": "Our Business Segments We operate two reportable business segments: America, which includes our U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay for billboard and display space.",
+  "evidence": "Our Business Segments We operate two reportable business segments: America, which includes our U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

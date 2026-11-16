@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001591588",
+ "issuerName": "GOLD.COM, INC.",
+ "builtAt": "2026-11-16T05:11:25.509Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-386799",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1591588/000119312526386799/gold-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale Sales & Ancillary Services",
+   "products": [],
+   "description": "Sells precious metals wholesale with ancillary services.",
+   "evidence": "Business Segments The Company conducts its operations in three reportable segments: (i) Wholesale Sales & Ancillary Services, (ii) Direct-to-Consumer, and (iii) Secured Lending."
+  },
+  {
+   "name": "Direct-to-Consumer",
+   "products": [
+    "precious metals"
+   ],
+   "description": "Sells precious metals directly to consumers.",
+   "evidence": "Business Segments The Company conducts its operations in three reportable segments: (i) Wholesale Sales & Ancillary Services, (ii) Direct-to-Consumer, and (iii) Secured Lending."
+  },
+  {
+   "name": "Secured Lending",
+   "products": [
+    "secured loans"
+   ],
+   "description": "Lends against precious metals.",
+   "evidence": "Business Segments The Company conducts its operations in three reportable segments: (i) Wholesale Sales & Ancillary Services, (ii) Direct-to-Consumer, and (iii) Secured Lending."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dealers and consumers buy metals and borrowers pay loan interest.",
+  "evidence": "Business Segments The Company conducts its operations in three reportable segments: (i) Wholesale Sales & Ancillary Services, (ii) Direct-to-Consumer, and (iii) Secured Lending."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wholesale Sales & Ancillary Services): wholesale precious metals"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0002042022",
+ "issuerName": "WHITEFIBER,     INC.",
+ "builtAt": "2026-11-16T05:11:26.444Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034341",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2042022/000121390026034341/ea0278305-10k_white.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Colocation/Data center services",
+   "products": [
+    "hosting and colocation services"
+   ],
+   "description": "Provides data centre colocation and hosting.",
+   "evidence": "Colocation/Data center services We design, develop, and operate data centers, through which we offer our hosting and colocation services."
+  },
+  {
+   "name": "Cloud Services",
+   "products": [],
+   "description": "Provides cloud services for AI workloads.",
+   "evidence": "3 Cloud Services We provide specialized cloud services to support generative AI workstreams, especially training and inference, emphasizing cost-effective utility and tailor-made solutions for each client."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and AI developers pay for colocation and cloud capacity.",
+  "evidence": "Colocation/Data center services We design, develop, and operate data centers, through which we offer our hosting and colocation services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cloud Services): cloud services"
+ ],
+ "reader": "agent"
+}

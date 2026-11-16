@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001981535",
+ "issuerName": "SHARPLINK, INC.",
+ "builtAt": "2026-11-16T05:11:26.302Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-009214",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1981535/000149315226009214/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ETH Treasury Management",
+   "products": [
+    "ether"
+   ],
+   "description": "Holds and manages ether for its treasury.",
+   "evidence": "With this strategic shift, Sharplink streamlined its business-building operations around two distinct reportable segments: 1) ETH Treasury Management ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns staking revenue on its ether holdings.",
+  "evidence": "The Company is entitled to receive monthly non-cash revenue from Ether."
+ },
+ "changes": [
+  {
+   "text": "Streamlined its operations around two reportable segments, led by ETH Treasury Management.",
+   "evidence": "With this strategic shift, Sharplink streamlined its business-building operations around two distinct reportable segments: 1) ETH Treasury Management ."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

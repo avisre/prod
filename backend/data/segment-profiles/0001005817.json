@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001005817",
+ "issuerName": "Tompkins Financial Corp",
+ "builtAt": "2026-11-16T05:11:25.456Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001005817-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1005817/000100581726000027/tmp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Narrative Description of Business The Company has identified two business segments, consisting of banking and wealth management."
+  },
+  {
+   "name": "wealth management",
+   "products": [
+    "wealth management services"
+   ],
+   "description": "Provides wealth and trust services.",
+   "evidence": "Narrative Description of Business The Company has identified two business segments, consisting of banking and wealth management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and clients pay wealth management fees.",
+  "evidence": "A description of the markets served by Tompkins Community Bank is included below: Tompkins Central New York (\"CNY\") We operate 12 branches in our CNY market, with the largest market area being Tompkins County, which has a population of approximately 104,000."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

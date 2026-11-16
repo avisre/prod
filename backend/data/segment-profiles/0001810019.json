@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001810019",
+ "issuerName": "RACKSPACE TECHNOLOGY, INC.",
+ "builtAt": "2026-11-16T05:11:25.556Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001810019-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1810019/000181001926000015/rxt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Public Cloud",
+   "products": [
+    "cloud infrastructure"
+   ],
+   "description": "Provides public cloud infrastructure and managed services.",
+   "evidence": "We operate our business and report our results through two reportable segments: Public Cloud and Private Cloud."
+  },
+  {
+   "name": "Private Cloud",
+   "products": [
+    "private cloud infrastructure"
+   ],
+   "description": "Provides private cloud and hosting.",
+   "evidence": "We operate our business and report our results through two reportable segments: Public Cloud and Private Cloud."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay for cloud hosting and managed services.",
+  "evidence": "From edge to core to cloud, we design, integrate and operate the infrastructure, data foundations and software platforms required to deliver business outcomes with predictable cost, resilience, security and compliance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

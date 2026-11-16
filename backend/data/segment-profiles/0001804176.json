@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001804176",
+ "issuerName": "Butterfly Network, Inc.",
+ "builtAt": "2026-11-16T05:11:26.618Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001804176-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1804176/000180417626000009/bfly-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ultrasound",
+   "products": [
+    "ultrasound devices",
+    "software"
+   ],
+   "description": "Sells handheld ultrasound devices and software.",
+   "evidence": "Results of Operations We operate as a single reportable segment to reflect the way our chief operating decision maker reviews and assesses the performance of the business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clinicians and health systems buy its ultrasound devices.",
+  "evidence": "Results of Operations We operate as a single reportable segment to reflect the way our chief operating decision maker reviews and assesses the performance of the business."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

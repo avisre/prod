@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001005731",
+ "issuerName": "IDT Corporation",
+ "builtAt": "2026-11-16T05:11:23.167Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-031469",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1005731/000143774926031469/idt20260731_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NRS",
+   "products": [
+    "payment processing"
+   ],
+   "description": "Runs national retail solutions for small merchants.",
+   "evidence": "SEGMENT REPORTING We have four reportable business segments: (1) NRS; (2) Fintech; (3) net2phone; and (4) Traditional Communications."
+  },
+  {
+   "name": "Fintech",
+   "products": [
+    "money transfer",
+    "payments",
+    "loyalty"
+   ],
+   "description": "Provides fintech services including money transfer.",
+   "evidence": "SEGMENT REPORTING We have four reportable business segments: (1) NRS; (2) Fintech; (3) net2phone; and (4) Traditional Communications."
+  },
+  {
+   "name": "net2phone",
+   "products": [],
+   "description": "Sells cloud communications services.",
+   "evidence": "SEGMENT REPORTING We have four reportable business segments: (1) NRS; (2) Fintech; (3) net2phone; and (4) Traditional Communications."
+  },
+  {
+   "name": "Traditional Communications",
+   "products": [
+    "telecom services"
+   ],
+   "description": "Provides traditional telecom services.",
+   "evidence": "SEGMENT REPORTING We have four reportable business segments: (1) NRS; (2) Fintech; (3) net2phone; and (4) Traditional Communications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants and consumers pay for payments and communications services.",
+  "evidence": "The CIO/CISO oversees our global information security team, whose members hold relevant industry certifications and have experience in security operations, threat intelligence, incident response, penetration testing, cloud and network security, and governance, risk"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (NRS): point-of-sale services",
+  "product not in text (net2phone): cloud communications",
+  "product not in text (Traditional Communications): international long distance"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001013605",
+ "issuerName": "PRECISION DRILLING CORPORATION",
+ "builtAt": "2026-11-16T05:11:26.559Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001013605-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1013605/000101360526000014/pds-ex99_3.htm",
+  "exhibit": "pds-ex99_3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract Drilling Services",
+   "products": [
+    "contract drilling"
+   ],
+   "description": "Provides land drilling services.",
+   "evidence": "REVENUE The following table includes a reconciliation of disaggregated revenue by reportable segment (Note 5)."
+  },
+  {
+   "name": "Completion and Production Services",
+   "products": [],
+   "description": "Provides well completion and production services.",
+   "evidence": "REVENUE The following table includes a reconciliation of disaggregated revenue by reportable segment (Note 5)."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [],
+   "description": "Holds corporate costs.",
+   "evidence": "REVENUE The following table includes a reconciliation of disaggregated revenue by reportable segment (Note 5)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Oil and gas operators pay dayrates and service fees.",
+  "evidence": "Year ended December 31, 2025 Contract Drilling Services Completion and Production Services Corporate and Other Inter- Segment Eliminations Total Revenue $ 1,576,036 $ 278,818 $ — $ ( 11,150 ) $ 1,843,704"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Completion and Production Services): completion and production services"
+ ],
+ "reader": "agent"
+}

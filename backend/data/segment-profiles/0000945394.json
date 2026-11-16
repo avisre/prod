@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000945394",
+ "issuerName": "SERVICE PROPERTIES TRUST",
+ "builtAt": "2026-11-16T05:11:28.092Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000945394-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/945394/000094539426000012/svc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "net lease investments",
+   "products": [],
+   "description": "Invests in net leased properties.",
+   "evidence": "As of December 31, 2025, we had two operating segments, net lease investments and hotel investments."
+  },
+  {
+   "name": "hotel investments",
+   "products": [],
+   "description": "Invests in hotels.",
+   "evidence": "As of December 31, 2025, we had two operating segments, net lease investments and hotel investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants and hotel operators pay rent.",
+  "evidence": "Generally, we provide capital to owners and operators who wish to expand their businesses or divest their properties while continuing to operate their business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (net lease investments): net lease investments",
+  "product not in text (hotel investments): hotel investments"
+ ],
+ "reader": "agent"
+}

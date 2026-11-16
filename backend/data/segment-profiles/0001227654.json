@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001227654",
+ "issuerName": "Compass Minerals International, Inc.",
+ "builtAt": "2026-11-16T05:11:22.859Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001227654-25-000199",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1227654/000122765425000199/cmp-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Salt",
+   "products": [
+    "salt-based products"
+   ],
+   "description": "Mines and sells salt products.",
+   "evidence": "Our business is operated in two reportable segments, Salt and Plant Nutrition."
+  },
+  {
+   "name": "Plant Nutrition",
+   "products": [
+    "plant nutrients",
+    "fertilizer"
+   ],
+   "description": "Mines and sells plant nutrition products.",
+   "evidence": "Our business is operated in two reportable segments, Salt and Plant Nutrition."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Distributors and growers buy its salt and plant nutrients.",
+  "evidence": "As of September 30, 2025, we operate 12 production and packaging facilities with more than 1,800 employees throughout the U."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Salt): salt"
+ ],
+ "reader": "agent"
+}

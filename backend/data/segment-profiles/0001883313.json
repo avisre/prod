@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001883313",
+ "issuerName": "Savers Value Village, Inc.",
+ "builtAt": "2026-11-16T05:11:25.224Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001883313-26-000014",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1883313/000188331326000014/svv-20260103.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

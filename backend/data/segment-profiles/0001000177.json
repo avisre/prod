@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001000177",
+ "issuerName": "NORDIC AMERICAN TANKERS Ltd",
+ "builtAt": "2026-11-16T05:11:28.054Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-017809",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1000177/000114036126017809/ef20071320_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ocean transportation of crude oil",
+   "products": [],
+   "description": "Operates Suezmax tankers carrying crude oil.",
+   "evidence": "Segment Information: The Company has identified only one operating segment for which it derives all of its revenues, the ocean transportation of crude oil in international markets by its fleet of Suezmax tankers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil majors and traders pay charter rates.",
+  "evidence": "Segment Information: The Company has identified only one operating segment for which it derives all of its revenues, the ocean transportation of crude oil in international markets by its fleet of Suezmax tankers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (ocean transportation of crude oil): ocean transportation of crude oil"
+ ],
+ "reader": "agent"
+}

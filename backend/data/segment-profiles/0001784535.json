@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001784535",
+ "issuerName": "Porch Group, Inc.",
+ "builtAt": "2026-11-16T05:11:28.141Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001784535-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1784535/000178453526000008/prch-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

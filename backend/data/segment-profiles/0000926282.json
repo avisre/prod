@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000926282",
+ "issuerName": "ADTRAN Holdings, Inc.",
+ "builtAt": "2026-11-16T05:11:22.922Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073878",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/926282/000119312526073878/adtn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Network Solutions",
+   "products": [
+    "network infrastructure solutions",
+    "customer premises equipment",
+    "software applications"
+   ],
+   "description": "Sells broadband network infrastructure and software.",
+   "evidence": "We operate in two business segments: (1) Network Solutions, which includes hardware and software products, and (2) Services & Support, which includes a portfoli"
+  },
+  {
+   "name": "Services & Support",
+   "products": [
+    "services and support"
+   ],
+   "description": "Provides deployment and support services.",
+   "evidence": "We operate in two business segments: (1) Network Solutions, which includes hardware and software products, and (2) Services & Support, which includes a portfoli"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Broadband providers buy its network gear and support.",
+  "evidence": "We offer a broad portfolio of flexible network infrastructure solutions, customer premises equipment, software applications, and global services and support that enable Service Providers to meet their service demands now and in the future."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

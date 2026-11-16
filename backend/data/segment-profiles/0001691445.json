@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001691445",
+ "issuerName": "FinVolution Group",
+ "builtAt": "2026-11-16T05:11:27.276Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-019597",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1691445/000149315226019597/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FinVolution",
+   "products": [
+    "online lending services"
+   ],
+   "description": "Runs its online consumer finance platform.",
+   "evidence": "(ae) Segment reporting The Group's chief operating decision maker (CODM), the Chief Executive Officer, reviews the consolidated results when making decisions about allocating resources and assessing performance of the Group as a whole and therefore, the Group only has one reportable segment at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers and institutional partners pay service fees.",
+  "evidence": "(ae) Segment reporting The Group's chief operating decision maker (CODM), the Chief Executive Officer, reviews the consolidated results when making decisions about allocating resources and assessing performance of the Group as a whole and therefore, the Group only has one reportable segment at the consolidated level."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001005210",
+ "issuerName": "SUBURBAN PROPANE PARTNERS LP",
+ "builtAt": "2026-11-16T05:11:22.876Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-298630",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1005210/000119312525298630/sph-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Propane",
+   "products": [],
+   "description": "Sells propane to residential and commercial customers.",
+   "evidence": "Business Segments As described below, we manage and evaluate our operations in four operating segments, three of which are reportable segments: Propane, Fuel Oil and Refined Fuels"
+  },
+  {
+   "name": "Fuel Oil and Refined Fuels",
+   "products": [
+    "fuel oil",
+    "refined fuels"
+   ],
+   "description": "Sells fuel oil and refined fuels.",
+   "evidence": "Business Segments As described below, we manage and evaluate our operations in four operating segments, three of which are reportable segments: Propane, Fuel Oil and Refined Fuels"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Households and businesses buy propane and fuel oil.",
+  "evidence": "Business Segments As described below, we manage and evaluate our operations in four operating segments, three of which are reportable segments: Propane, Fuel Oil and Refined Fuels"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Propane): propane"
+ ],
+ "reader": "agent"
+}

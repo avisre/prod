@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001840572",
+ "issuerName": "LUCKY STRIKE ENTERTAINMENT CORPORATION",
+ "builtAt": "2026-11-16T05:11:24.790Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-059179",
+  "periodEnd": "2026-06-28",
+  "filingDate": "2026-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840572/000162828026059179/bowl-20260628.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

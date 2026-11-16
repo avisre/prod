@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001094324",
+ "issuerName": "SIFY TECHNOLOGIES LTD",
+ "builtAt": "2026-11-16T05:11:26.563Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001554855-26-001437",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1094324/000155485526001437/sify-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Network Services",
+   "products": [],
+   "description": "Provides managed network services to enterprises.",
+   "evidence": "Our revenue is derived from providing services to enterprise customers, comprising (a) Network services, (b) Data Center services, and (c) Digital Services which represent our operating segments."
+  },
+  {
+   "name": "Data Center Services",
+   "products": [],
+   "description": "Provides data centre services.",
+   "evidence": "Our revenue is derived from providing services to enterprise customers, comprising (a) Network services, (b) Data Center services, and (c) Digital Services which represent our operating segments."
+  },
+  {
+   "name": "Digital Services",
+   "products": [],
+   "description": "Provides digital transformation services.",
+   "evidence": "Our revenue is derived from providing services to enterprise customers, comprising (a) Network services, (b) Data Center services, and (c) Digital Services which represent our operating segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprise customers pay for network, data centre and digital services.",
+  "evidence": "1) Network Services We offer a range of managed services to our clients through"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Network Services): managed network services",
+  "product not in text (Data Center Services): data center services",
+  "product not in text (Digital Services): digital services"
+ ],
+ "reader": "agent"
+}

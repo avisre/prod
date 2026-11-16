@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001094366",
+ "issuerName": "RADWARE LTD.",
+ "builtAt": "2026-11-16T05:11:25.345Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001923",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1094366/000117891326001923/zk2634899.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Products",
+   "products": [
+    "cloud-based security-as-a-service subscriptions",
+    "on-premises hardware and software products"
+   ],
+   "description": "Sells security products and subscriptions.",
+   "evidence": "40 Our solutions are offered in two main categories: • Products – We offer a range of cloud-based security-as-a-service subscriptions, on-premises hardware and software products, and product subscriptions (or a combination of these) to our customers."
+  },
+  {
+   "name": "Services",
+   "products": [
+    "managed services",
+    "professional services",
+    "technical support",
+    "training and certification"
+   ],
+   "description": "Provides services, support and training.",
+   "evidence": "40 Our solutions are offered in two main categories: • Products – We offer a range of cloud-based security-as-a-service subscriptions, on-premises hardware and software products, and product subscriptions (or a combination of these) to our customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and resellers buy its security products and services.",
+  "evidence": "• Services – We offer managed services, professional services, technical support and training and certification to our customers and partners."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

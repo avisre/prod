@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001217234",
+ "issuerName": "CAREDX, INC.",
+ "builtAt": "2026-11-16T05:11:28.482Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001217234-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1217234/000121723426000018/cdna-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CareDx",
+   "products": [
+    "transplant testing services"
+   ],
+   "description": "Sells transplant diagnostic tests and services.",
+   "evidence": "We are organized and operate as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Transplant centres pay for its tests and digital services.",
+  "evidence": "Additionally, through our digital business, we generate multiple terabytes of data on how transplant centers operate, which we expect will drive the next wave of innovation for the company by enabling us to build new products and solutions to help transplant centers operate more efficiently, do more transplants, and grow profitably."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

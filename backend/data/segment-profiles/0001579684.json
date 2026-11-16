@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001579684",
+ "issuerName": "USA TODAY CO., INC.",
+ "builtAt": "2026-11-16T05:11:27.930Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001579684-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1579684/000157968426000010/tday-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "USA TODAY Media",
+   "products": [
+    "digital content"
+   ],
+   "description": "Runs its national and local news media brands.",
+   "evidence": "and we revised the names of two of our reportable segments: Domestic Gannett Media is now referred to as USA TODAY Media and Digital Marketing Solutions is now referred to as LocaliQ ."
+  },
+  {
+   "name": "LocaliQ",
+   "products": [
+    "digital marketing services"
+   ],
+   "description": "Provides digital marketing solutions to local businesses.",
+   "evidence": "and we revised the names of two of our reportable segments: Domestic Gannett Media is now referred to as USA TODAY Media and Digital Marketing Solutions is now referred to as LocaliQ ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers and subscribers pay for content and marketing.",
+  "evidence": "and we revised the names of two of our reportable segments: Domestic Gannett Media is now referred to as USA TODAY Media and Digital Marketing Solutions is now referred to as LocaliQ ."
+ },
+ "changes": [
+  {
+   "text": "Renamed two reportable segments: Domestic Gannett Media became USA TODAY Media and Digital Marketing Solutions became LocaliQ.",
+   "evidence": "and we revised the names of two of our reportable segments: Domestic Gannett Media is now referred to as USA TODAY Media and Digital Marketing Solutions is now referred to as LocaliQ ."
+  }
+ ],
+ "dropped": [
+  "product not in text (USA TODAY Media): news and journalism"
+ ],
+ "reader": "agent"
+}
