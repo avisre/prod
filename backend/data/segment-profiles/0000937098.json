@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000937098",
+ "issuerName": "TRINET GROUP, INC.",
+ "builtAt": "2026-11-16T05:05:51.685Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000937098-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/937098/000093709826000010/tnet-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TriNet",
+   "products": [
+    "payroll services",
+    "HCM services",
+    "benefits"
+   ],
+   "description": "Provides HR and payroll services to small businesses.",
+   "evidence": "We operate in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Small businesses pay fees for payroll and benefits administration.",
+  "evidence": "Through our ASO services model, we provide cloud-based HCM services to SMBs that allows them to manage hiring, onboarding, employee information, payroll processing, payroll tax administration, health insurance, and other benefits, from a single cloud-based software platform."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

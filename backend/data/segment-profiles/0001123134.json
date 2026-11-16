@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001123134",
+ "issuerName": "ChipMOS TECHNOLOGIES INC.",
+ "builtAt": "2026-11-16T05:05:51.968Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-153743",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1123134/000119312526153743/imos-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "testing services",
+   "products": [
+    "testing services for memory and logic/mixed-signal semiconductors"
+   ],
+   "description": "Tests memory and logic semiconductors.",
+   "evidence": "43 Revenue We conduct our business according to the following main business segments: (1) testing services for memory and logic/mixed-signal semiconductors; (2) assembly services for memory and logic/mixed-signal semiconductors; (3) LCD, OLED, automotive panel and other display panel driver semiconductor assembly and testing services; and (4) bumping services for memory, logic/mixed-signal and LCD, OLED, automotive panel and o"
+  },
+  {
+   "name": "assembly services",
+   "products": [
+    "assembly services for memory and logic/mixed-signal semiconductors"
+   ],
+   "description": "Assembles memory and logic semiconductors.",
+   "evidence": "43 Revenue We conduct our business according to the following main business segments: (1) testing services for memory and logic/mixed-signal semiconductors; (2) assembly services for memory and logic/mixed-signal semiconductors; (3) LCD, OLED, automotive panel and other display panel driver semiconductor assembly and testing services; and (4) bumping services for memory, logic/mixed-signal and LCD, OLED, automotive panel and o"
+  },
+  {
+   "name": "display panel driver semiconductor assembly and testing services",
+   "products": [
+    "LCD, OLED, automotive panel and other display panel driver semiconductor assembl"
+   ],
+   "description": "Assembles and tests display driver chips.",
+   "evidence": "43 Revenue We conduct our business according to the following main business segments: (1) testing services for memory and logic/mixed-signal semiconductors; (2) assembly services for memory and logic/mixed-signal semiconductors; (3) LCD, OLED, automotive panel and other display panel driver semiconductor assembly and testing services; and (4) bumping services for memory, logic/mixed-signal and LCD, OLED, automotive panel and o"
+  },
+  {
+   "name": "bumping services",
+   "products": [
+    "bumping services for memory, logic/mixed-signal and LCD, OLED, automotive panel"
+   ],
+   "description": "Provides wafer bumping services.",
+   "evidence": "43 Revenue We conduct our business according to the following main business segments: (1) testing services for memory and logic/mixed-signal semiconductors; (2) assembly services for memory and logic/mixed-signal semiconductors; (3) LCD, OLED, automotive panel and other display panel driver semiconductor assembly and testing services; and (4) bumping services for memory, logic/mixed-signal and LCD, OLED, automotive panel and o"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Chip makers pay for assembly and test services.",
+  "evidence": "43 Revenue We conduct our business according to the following main business segments: (1) testing services for memory and logic/mixed-signal semiconductors; (2) assembly services for memory and logic/mixed-signal semiconductors; (3) LCD, OLED, automotive panel and other display panel driver semiconductor assembly and testing services; and (4) bumping services for memory, logic/mixed-signal and LCD, OLED, automotive panel and o"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

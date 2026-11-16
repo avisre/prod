@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001709442",
+ "issuerName": "FIRSTSUN CAPITAL BANCORP",
+ "builtAt": "2026-11-16T05:05:57.145Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001709442-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1709442/000170944226000017/fcb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Our operations are managed along two reportable operating segments consisting of Banking and Mortgage Operati"
+  },
+  {
+   "name": "Mortgage Operations",
+   "products": [
+    "mortgage loans"
+   ],
+   "description": "Originates and services mortgages.",
+   "evidence": "Our operations are managed along two reportable operating segments consisting of Banking and Mortgage Operati"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans and mortgages.",
+  "evidence": "From our modest beginning in 1892, our founders understood that our success would be closely tied to that of the communities in which we operate, and that long-term value creation would require an uncompromising commitment to service and the establishment of enduring relationships with our clients."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

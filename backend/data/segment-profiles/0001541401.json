@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001541401",
+ "issuerName": "EMPIRE STATE REALTY TRUST, INC.",
+ "builtAt": "2026-11-16T05:05:56.991Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001541401-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1541401/000154140126000008/esrt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "real estate segment",
+   "products": [
+    "office and retail properties"
+   ],
+   "description": "Owns and operates Manhattan and metro-area real estate.",
+   "evidence": "Business Segments Our reportable segments consist of a real estate segment and an Observatory segment."
+  },
+  {
+   "name": "Observatory segment",
+   "products": [],
+   "description": "Runs the Empire State Building Observatory.",
+   "evidence": "Business Segments Our reportable segments consist of a real estate segment and an Observatory segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent and visitors buy Observatory tickets.",
+  "evidence": "Business Segments Our reportable segments consist of a real estate segment and an Observatory segment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Observatory segment): observation deck tickets"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001293135",
+ "issuerName": "VERMILION ENERGY INC.",
+ "builtAt": "2026-11-16T05:05:55.534Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-023553",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1293135/000110465926023553/vet-20251231xex99d1.htm",
+  "exhibit": "vet-20251231xex99d1.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

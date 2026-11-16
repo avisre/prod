@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001043000",
+ "issuerName": "Sonida Senior Living, Inc.",
+ "builtAt": "2026-11-16T05:05:56.551Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001043000-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1043000/000104300026000009/snda-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sonida",
+   "products": [
+    "senior living communities"
+   ],
+   "description": "Owns and operates senior living communities.",
+   "evidence": "Segment Information Each of our owned communities are identified as individual operating segments and we combine them into a single reportable segment for reporting purposes under ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay rent and care fees.",
+  "evidence": "As such, the Company has one reportable segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

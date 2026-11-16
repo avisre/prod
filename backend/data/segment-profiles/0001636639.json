@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001636639",
+ "issuerName": "PELAGOS INSURANCE CAPITAL LIMITED",
+ "builtAt": "2026-11-16T05:05:51.693Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-015356",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1636639/000162828026015356/fihl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "specialty insurance"
+   ],
+   "description": "Writes specialty insurance.",
+   "evidence": "Business Segments We classify our business into two segments: Insurance and Reinsurance."
+  },
+  {
+   "name": "Reinsurance",
+   "products": [],
+   "description": "Provides reinsurance.",
+   "evidence": "Business Segments We classify our business into two segments: Insurance and Reinsurance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cedents and policyholders pay premiums.",
+  "evidence": "In addition to major specialty lines of business, this segment includes highly tailored products, where the buying motivation is often driven by regulatory capital relief, capital efficiency or transaction facilitation."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Reinsurance): reinsurance"
+ ],
+ "reader": "agent"
+}

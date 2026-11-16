@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001323468",
+ "issuerName": "Global Partners LP",
+ "builtAt": "2026-11-16T05:05:57.491Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021381",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1323468/000110465926021381/glp-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale",
+   "products": [
+    "home heating oil",
+    "gasoline",
+    "diesel",
+    "kerosene",
+    "residual oil"
+   ],
+   "description": "Distributes fuel to wholesale and retail distributors.",
+   "evidence": "Operating Segments We operate our businesses under three segments: (i) Wholesale, (ii) GDSO and (iii) Commercial."
+  },
+  {
+   "name": "GDSO",
+   "products": [
+    "gasoline stations",
+    "convenience stores"
+   ],
+   "description": "Runs company-operated gas stations and stores.",
+   "evidence": "Operating Segments We operate our businesses under three segments: (i) Wholesale, (ii) GDSO and (iii) Commercial."
+  },
+  {
+   "name": "Commercial",
+   "products": [],
+   "description": "Delivers fuel to commercial customers.",
+   "evidence": "Operating Segments We operate our businesses under three segments: (i) Wholesale, (ii) GDSO and (iii) Commercial."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Distributors and drivers buy fuel at wholesale and retail.",
+  "evidence": "We sell home heating oil, branded and unbranded gasoline and gasoline blendstocks, diesel, kerosene and residual oil to retail and wholesale distributors."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Commercial): fuel delivery"
+ ],
+ "reader": "agent"
+}

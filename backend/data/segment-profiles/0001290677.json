@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001290677",
+ "issuerName": "Turning Point Brands, Inc.",
+ "builtAt": "2026-11-16T05:05:56.792Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006405",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1290677/000143774926006405/tpb20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zig-Zag products",
+   "products": [
+    "Zig-Zag®"
+   ],
+   "description": "Sells Zig-Zag rolling papers.",
+   "evidence": "Our segments are led by our core proprietary and iconic brands: Zig-Zag® in the Zig-Zag products segment, and Stoker's® along with FRE®, Beech-Nut® and Trophy® in the Stoker's products segment."
+  },
+  {
+   "name": "Stoker's products",
+   "products": [
+    "Stoker's®",
+    "FRE®",
+    "Beech-Nut®",
+    "Trophy®"
+   ],
+   "description": "Sells Stoker's and other tobacco products.",
+   "evidence": "Our segments are led by our core proprietary and iconic brands: Zig-Zag® in the Zig-Zag products segment, and Stoker's® along with FRE®, Beech-Nut® and Trophy® in the Stoker's products segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors buy its branded products.",
+  "evidence": "We sell a wide range of products to adult consumers consisting of staple products with our iconic brands Zig-Zag® and Stoker's®."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

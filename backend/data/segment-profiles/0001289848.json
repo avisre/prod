@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001289848",
+ "issuerName": "HURON CONSULTING GROUP INC.",
+ "builtAt": "2026-11-16T05:05:57.115Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011093",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1289848/000162828026011093/hurn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare",
+   "products": [
+    "consulting services"
+   ],
+   "description": "Consults to healthcare organisations.",
+   "evidence": "OUR SERVICES AND PRODUCTS We provide our services and products and manage our business under three operating segments - Healthcare, Education, and Commercial - which aligns our business by industry."
+  },
+  {
+   "name": "Education",
+   "products": [
+    "consulting services"
+   ],
+   "description": "Consults to education institutions.",
+   "evidence": "OUR SERVICES AND PRODUCTS We provide our services and products and manage our business under three operating segments - Healthcare, Education, and Commercial - which aligns our business by industry."
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "consulting services"
+   ],
+   "description": "Consults to commercial industries.",
+   "evidence": "OUR SERVICES AND PRODUCTS We provide our services and products and manage our business under three operating segments - Healthcare, Education, and Commercial - which aligns our business by industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay fees for consulting services.",
+  "evidence": "The Commercial segment includes all industries outside of healthcare and education, including, but not limited to, financial services, industrials and manufacturing, energy and utilities, and the public sector."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
