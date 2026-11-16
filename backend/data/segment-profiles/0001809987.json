@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001809987",
  "issuerName": "Mirion Technologies, Inc.",
- "builtAt": "2026-11-16T03:53:17.206Z",
+ "builtAt": "2026-11-16T08:37:42.550Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-009869",
@@ -10,11 +10,49 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1809987/000162828026009869/mir-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nuclear & Safety",
+   "products": [
+    "radiation monitoring systems",
+    "reactor instrumentation and control detectors",
+    "radiation protection, measurement and monitoring solutions",
+    "imaging systems and cameras",
+    "waste management systems",
+    "gamma/alpha spectroscopy",
+    "spectroscopy software",
+    "Military CBRNE"
+   ],
+   "description": "Supplies radiation detection, measurement, monitoring and analysis products, software and services to nuclear power plants, laboratories, research facilities, defense and industrial customers.",
+   "evidence": "Our Nuclear & Safety segment powers advancements in nuclear energy and critical radiation safety, measurement and analysis applications across nuclear power facilities, laboratories, research and other industrial markets such as defense."
+  },
+  {
+   "name": "Medical",
+   "products": [
+    "radiation oncology quality assurance",
+    "radiation therapy quality assurance solutions",
+    "dosimetry solutions",
+    "occupational dosimetry services",
+    "radionuclide therapy products",
+    "medical imaging furniture",
+    "InstadoseVUE"
+   ],
+   "description": "Provides radiation oncology quality assurance, dosimetry and radionuclide therapy products and services to hospitals, cancer centers, diagnostic imaging and radiation therapy facilities.",
+   "evidence": "Our Medical segment improves the quality and safety of cancer care delivery and supports applications across medical diagnostics and practitioner safety."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers including nuclear power plants, government agencies, laboratories, hospitals and cancer centers pay for radiation detection, measurement, monitoring and medical quality assurance products, software and services.",
+  "evidence": "Our products, software and services are sold directly and indirectly to a variety of end-use customers."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company renamed its Technologies segment as Nuclear & Safety.",
+   "evidence": "During the year ended December 31, 2024, the Company renamed its Technologies segment as \"Nuclear & Safety."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001103982",
  "issuerName": "Mondelez International, Inc.",
- "builtAt": "2026-11-16T03:53:16.953Z",
+ "builtAt": "2026-11-16T08:36:23.111Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-005345",
@@ -10,11 +10,66 @@
   "filingDate": "2026-02-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1103982/000162828026005345/mdlz-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Latin America",
+   "products": [
+    "Biscuits & Baked Snacks",
+    "Chocolate",
+    "Gum & Candy",
+    "Beverages",
+    "Cheese & Grocery"
+   ],
+   "description": "Makes and sells biscuits and baked snacks, chocolate, gum and candy, beverages and cheese and grocery to retailers and distributors across Latin America.",
+   "evidence": "Overall, unfavorable volume/mix was driven by declines in refreshment beverages, biscuits & baked snacks, candy and cheese & grocery, partially offset by gains in chocolate and gum."
+  },
+  {
+   "name": "AMEA",
+   "products": [
+    "Biscuits & Baked Snacks",
+    "Chocolate",
+    "Gum & Candy",
+    "Beverages",
+    "Cheese & Grocery"
+   ],
+   "description": "Makes and sells biscuits and baked snacks, chocolate, gum and candy, beverages and cheese and grocery to retailers and distributors across Asia, the Middle East and Africa.",
+   "evidence": "Unfavorable volume/mix reflected pricing elasticity impacts, driven by declines in chocolate and refreshment beverages, partially offset by gains in cheese & grocery, candy, biscuits & baked snacks and gum."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Biscuits & Baked Snacks",
+    "Chocolate",
+    "Gum & Candy",
+    "Beverages",
+    "Cheese & Grocery"
+   ],
+   "description": "Makes and sells biscuits and baked snacks, chocolate, gum and candy, beverages and cheese and grocery to retailers and distributors across Europe.",
+   "evidence": "Overall, unfavorable volume/mix was driven by declines in chocolate, candy and gum, partially offset by gains in biscuits & baked snacks, cheese & grocery and refreshment beverages."
+  },
+  {
+   "name": "North America",
+   "products": [
+    "Biscuits & Baked Snacks",
+    "Chocolate",
+    "Gum & Candy"
+   ],
+   "description": "Makes and sells biscuits and baked snacks, chocolate and gum and candy to retailers and distributors in the United States and Canada.",
+   "evidence": "Unfavorable volume/mix was driven by declines in biscuits & baked snacks and candy, primarily due to soft consumption in the U.S., partially offset by a gain in chocolate."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Supermarket chains, wholesalers, distributors, club stores, convenience stores and other retail outlets pay for snacks, chocolate, gum and candy, beverages and cheese.",
+  "evidence": "We generally sell our products to supermarket chains, wholesalers, supercenters, club stores, mass merchandisers, distributors, convenience stores, gasoline stations, drug stores, value stores and other retail food outlets."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company sold its developed market gum business in the United States, Canada and Europe to Perfetti Van Melle Group.",
+   "evidence": "On October 1, 2023, we completed the sale of our developed market gum business in the United States, Canada and Europe to Perfetti Van Melle Group, excluding the Portugal business which we retained pending regulatory approval."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

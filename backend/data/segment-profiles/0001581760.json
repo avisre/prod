@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001581760",
  "issuerName": "Life360, Inc.",
- "builtAt": "2026-11-16T03:52:52.777Z",
+ "builtAt": "2026-11-16T08:25:13.523Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001581760-26-000016",
@@ -10,11 +10,34 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1581760/000158176026000016/lifx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life360 Platform",
+   "products": [
+    "Life360 mobile application",
+    "Tile",
+    "Tile mobile application",
+    "Life360 Pet GPS devices",
+    "Tile Bluetooth",
+    "Premium",
+    "Premium Protect"
+   ],
+   "description": "Runs a freemium family safety platform for members, combining location sharing, driving safety and emergency features with paid subscriptions and hardware tracking devices.",
+   "evidence": "We currently offer four key product features that make up the Life360 Platform: (i) location coordination and safety, (ii) driving safety, (iii) digital safety, and (iv) emergency assistance."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Members pay for subscriptions and hardware tracking devices, while partners pay for advertising placements and aggregated, non-personally identifiable data insights.",
+  "evidence": "Our revenue is generated from the sale of subscriptions, hardware tracking devices used to access our services, and from partnerships, including through the placement of ads within our platform, and the sale of aggregated, non-personally identifiable data for data insight purposes."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company discontinued a product line in its product roadmap and wrote off the related raw materials inventory.",
+   "evidence": "The write-off resulted from a discontinuation of a product line in the Company's product roadmap where the raw materials had no alternative use."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

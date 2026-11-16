@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000912766",
  "issuerName": "Laureate Education, Inc.",
- "builtAt": "2026-11-16T03:52:52.116Z",
+ "builtAt": "2026-11-16T08:23:12.877Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-009479",
@@ -10,11 +10,39 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/912766/000162828026009479/laur-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mexico",
+   "products": [
+    "Universidad del Valle de México (UVM)",
+    "Universidad Tecnológica de México (UNITEC)"
+   ],
+   "description": "Operates two nationally licensed universities in Mexico, serving traditional and non-traditional students with campus-based, online and hybrid undergraduate and graduate degrees.",
+   "evidence": "In Mexico, the private sector plays a meaningful role in higher education, bridging supply and demand imbalances created by a lack of capacity at public universities."
+  },
+  {
+   "name": "Peru",
+   "products": [
+    "Universidad Peruana de Ciencias Aplicadas (UPC)",
+    "CIBERTEC",
+    "Universidad Privada del Norte (UPN)"
+   ],
+   "description": "Operates three institutions in Peru offering undergraduate and graduate degrees through campus-based, online and hybrid programs to students.",
+   "evidence": "Laureate owns three institutions in Peru, with a footprint of 20 campuses."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Students and their families pay tuition and fees directly; essentially all revenue comes from private pay sources since there are no material government-sponsored loan programs.",
+  "evidence": "Essentially all of our revenues were generated from private pay sources as there are no material government-sponsored loan programs in Mexico or Peru."
+ },
+ "changes": [
+  {
+   "text": "The sale of the Walden Group is reported in discontinued operations, with a 2023 adjustment to its sale price.",
+   "evidence": "Accordingly, as of December 31, 2023, the Company recorded a liability for this amount through loss on sale of discontinued operations, as it represented an adjustment to the sale price of the Walden Group."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

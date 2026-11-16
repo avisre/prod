@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001065696",
  "issuerName": "LKQ CORPORATION",
- "builtAt": "2026-11-16T03:52:52.928Z",
+ "builtAt": "2026-11-16T08:25:38.289Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001065696-26-000012",
@@ -10,11 +10,57 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1065696/000106569626000012/lkq-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "aftermarket, salvage and reconditioned collision parts",
+    "aftermarket and salvage hard parts",
+    "salvage and reconditioned major mechanical parts",
+    "bumper covers, fenders, paint and paint related body repair products, and lights",
+    "Platinum Plus line",
+    "\"Value Line\" product category"
+   ],
+   "description": "Distributes alternative vehicle collision, paint, body repair and mechanical replacement products to collision and mechanical repair shops and dealerships in the U.S., Canada and Mexico.",
+   "evidence": "Our North America segment is a leading provider of alternative vehicle collision replacement products, paint and related body repair products, and alternative vehicle mechanical replacement and maintenance products"
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "alternative vehicle replacement and maintenance products"
+   ],
+   "description": "Supplies alternative vehicle replacement and maintenance products to repair shops and other customers across Germany, the U.K., the Benelux region and other European countries.",
+   "evidence": "Our Europe segment is a leading provider of alternative vehicle replacement and maintenance products in Germany, the United Kingdom (\"U.K.\"), the Benelux region (Belgium, Netherlands, and Luxembourg), Italy, Czech Republic, Austria, Slovakia, France and various other European countries."
+  },
+  {
+   "name": "Specialty",
+   "products": [
+    "specialty vehicle aftermarket products and accessories"
+   ],
+   "description": "Distributes specialty vehicle aftermarket products and accessories to customers in most major markets in the U.S. and Canada.",
+   "evidence": "Our Specialty segment is a leading distributor of specialty vehicle aftermarket products and accessories reaching most major markets in the U.S. and Canada."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Wholesale customers such as collision and mechanical repair shops and new and used car dealerships, plus retail customers, pay for alternative vehicle parts and accessories.",
+  "evidence": "We sell our products to wholesale customers, including collision and mechanical repair shops and new and used car dealerships, as well as to retail customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its Self Service segment.",
+   "evidence": "On September 30, 2025, we completed the sale of our Self Service segment to an affiliate of Pacific Avenue Capital Partners, LLC."
+  },
+  {
+   "text": "In 2025 the company began exploring a potential sale of its Specialty segment.",
+   "evidence": "Additionally, in 2025, aligning with our ongoing strategy to simplify our portfolio and concentrate on our core segments, we commenced a process to explore the potential sale of our Specialty segment."
+  },
+  {
+   "text": "In 2024 the company divested certain operations in Poland, Slovenia and Bosnia.",
+   "evidence": "as demonstrated by our divestments of certain operations in Poland, Slovenia, and Bosnia in 2024 and our Self Service segment in 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

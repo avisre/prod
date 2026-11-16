@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001335258",
  "issuerName": "LIVE NATION ENTERTAINMENT, INC.",
- "builtAt": "2026-11-16T03:53:16.111Z",
+ "builtAt": "2026-11-16T08:27:55.398Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001335258-26-000009",
@@ -10,10 +10,51 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1335258/000133525826000009/lyv-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Concerts",
+   "products": [
+    "live music events",
+    "music venues",
+    "music festivals",
+    "associated content",
+    "management and other services to artists"
+   ],
+   "description": "Promotes live music events worldwide, operates and manages music venues, produces music festivals and provides management and other services to artists.",
+   "evidence": "Our Concerts segment principally involves the global promotion of live music events in our owned or operated venues and in rented third-party venues, the operation and management of music venues, the production of music festivals across the world, the creation of associated content and the provision of management and other services to artists."
+  },
+  {
+   "name": "Ticketing",
+   "products": [
+    "tickets",
+    "ticketing services",
+    "mobile apps",
+    "websites",
+    "ticket outlets"
+   ],
+   "description": "Sells tickets for events on behalf of venues, promoters, sports teams and other clients, retaining a portion of the service charge as its fee.",
+   "evidence": "Our Ticketing segment is primarily an agency business that sells tickets for events on behalf of its clients and retains a portion of the service charge as its fee."
+  },
+  {
+   "name": "Sponsorship & Advertising",
+   "products": [
+    "venue and festival naming rights",
+    "onsite venue signage",
+    "online and in-app advertisements",
+    "exclusive partner rights",
+    "venue and festival event pre-sales",
+    "onsite product activation"
+   ],
+   "description": "Sells sponsorship and advertising programs to corporate brands seeking to reach fans through venues, festivals and digital platforms.",
+   "evidence": "These sponsorships typically include venue and festival naming rights, onsite venue signage, online and in-app advertisements and exclusive partner rights in various categories such as credit card, beverage, travel and telecommunications, and may include venue and festival event pre-sales and onsite product activation."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Fans and venues pay for tickets and ticketing services, while sponsors and advertisers pay for programs connecting their brands with fans.",
+  "evidence": "Lastly, we are paid by sponsors and advertisers that want to connect their brands with a passionate fan base."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

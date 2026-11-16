@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001049502",
  "issuerName": "MKS INC.",
- "builtAt": "2026-11-16T03:53:17.241Z",
+ "builtAt": "2026-11-16T08:41:41.188Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-066820",
@@ -10,10 +10,46 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1049502/000119312526066820/mksi-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vacuum Solutions Division",
+   "products": [
+    "Pressure and Vacuum Control Solutions Products",
+    "Materials Delivery Solutions Products",
+    "Power Solutions Products",
+    "Plasma and Reactive Gas Products"
+   ],
+   "description": "Supplies vacuum, gas and power delivery technologies and subsystems to semiconductor, electronics and packaging and specialty industrial customers.",
+   "evidence": "VSD delivers foundational technology solutions for semiconductor manufacturing, electronics and packaging and specialty industrial applications."
+  },
+  {
+   "name": "Photonics Solutions Division",
+   "products": [
+    "Laser Products",
+    "Photonics Products",
+    "Laser-based systems for PCB manufacturing"
+   ],
+   "description": "Provides lasers, optics, precision motion and vibration control instruments, components and subsystems to semiconductor and electronics manufacturers.",
+   "evidence": "PSD provides a broad range of instruments, components and subsystems to leading edge semiconductor manufacturing, electronics and packaging and specialty industrial applications."
+  },
+  {
+   "name": "Materials Solutions Division",
+   "products": [
+    "Advanced chemical processes and production equipment",
+    "decorative, corrosion-protective, and wear-resistant coatings",
+    "Advanced chemical processes for paint support applications",
+    "chemistry, equipment and services"
+   ],
+   "description": "Sells chemistry, equipment and services for plating, surface modification and finishing to electronics and specialty industrial manufacturers.",
+   "evidence": "MSD develops leading process and manufacturing technologies for advanced surface modification, electroless and electrolytic plating, and surface finishing."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers worldwide, including semiconductor capital equipment and device makers and specialty industrial users, pay for products, services and support sold directly and through distributors.",
+  "evidence": "We market and sell our products and services through our global direct sales organization, an international network of independent distributors and sales representatives, our websites and product catalogs."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

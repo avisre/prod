@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001580670",
  "issuerName": "LGI HOMES, INC.",
- "builtAt": "2026-11-16T03:52:52.255Z",
+ "builtAt": "2026-11-16T08:24:01.608Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001580670-26-000019",
@@ -10,10 +10,84 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1580670/000158067026000019/lgih-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Central",
+   "products": [
+    "LGI Homes",
+    "Terrata Homes",
+    "attached and detached entry-level homes",
+    "active adult offerings",
+    "attached town home product",
+    "CompleteHome",
+    "CompleteHome Plus"
+   ],
+   "description": "Builds and sells entry-level and move-up homes under the LGI Homes and Terrata Homes brands to buyers in Texas, Oklahoma and Minnesota.",
+   "evidence": "The Midwest division is included in our Central reportable segment and the Mid-Atlantic division is included in our Southeast reportable segment."
+  },
+  {
+   "name": "Southeast",
+   "products": [
+    "LGI Homes",
+    "Terrata Homes",
+    "attached and detached entry-level homes",
+    "active adult offerings",
+    "attached town home product",
+    "CompleteHome",
+    "CompleteHome Plus"
+   ],
+   "description": "Builds and sells new homes to entry-level and active adult buyers in Georgia, Alabama, Tennessee, the Carolinas, Maryland, Pennsylvania, Virginia and West Virginia.",
+   "evidence": "The Midwest division is included in our Central reportable segment and the Mid-Atlantic division is included in our Southeast reportable segment."
+  },
+  {
+   "name": "Northwest",
+   "products": [
+    "LGI Homes",
+    "Terrata Homes",
+    "attached and detached entry-level homes",
+    "active adult offerings",
+    "attached town home product",
+    "CompleteHome",
+    "CompleteHome Plus"
+   ],
+   "description": "Builds and sells entry-level and move-up homes to buyers in Colorado, Washington and Oregon.",
+   "evidence": "We have seven operating segments (our Central, Midwest, Southeast, Mid-Atlantic, Northwest, West and Florida divisions) that we aggregate into five qualifying reportable segments at December 31, 2025: our Central, Southeast, Northwest, West, and Florida divisions."
+  },
+  {
+   "name": "West",
+   "products": [
+    "LGI Homes",
+    "Terrata Homes",
+    "attached and detached entry-level homes",
+    "active adult offerings",
+    "attached town home product",
+    "CompleteHome",
+    "CompleteHome Plus"
+   ],
+   "description": "Builds and sells entry-level and luxury homes to buyers in Arizona, New Mexico, Nevada, California and Utah.",
+   "evidence": "We have seven operating segments (our Central, Midwest, Southeast, Mid-Atlantic, Northwest, West and Florida divisions) that we aggregate into five qualifying reportable segments at December 31, 2025: our Central, Southeast, Northwest, West, and Florida divisions."
+  },
+  {
+   "name": "Florida",
+   "products": [
+    "LGI Homes",
+    "Terrata Homes",
+    "attached and detached entry-level homes",
+    "active adult offerings",
+    "attached town home product",
+    "CompleteHome",
+    "CompleteHome Plus"
+   ],
+   "description": "Builds and sells entry-level and active adult homes to buyers across Florida communities.",
+   "evidence": "We have seven operating segments (our Central, Midwest, Southeast, Mid-Atlantic, Northwest, West and Florida divisions) that we aggregate into five qualifying reportable segments at December 31, 2025: our Central, Southeast, Northwest, West, and Florida divisions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Homebuyers and institutional investors pay the company for the new homes it builds and sells, retail and wholesale.",
+  "evidence": "We generate revenues primarily by delivering move-in ready entry-level and move-up spec homes sold under our LGI Homes brand and our luxury series spec homes sold under our Terrata Homes brand."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

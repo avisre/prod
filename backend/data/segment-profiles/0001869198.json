@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001869198",
  "issuerName": "Life Time Group Holdings, Inc.",
- "builtAt": "2026-11-16T03:52:53.285Z",
+ "builtAt": "2026-11-16T08:26:45.332Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001869198-26-000010",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1869198/000186919826000010/lth-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Athletic Country Club",
+   "products": [
+    "Dynamic Personal Training",
+    "Dynamic Stretch",
+    "Small Group Training",
+    "ARORA",
+    "MIORA",
+    "LifeSpa",
+    "LifeCafe",
+    "Kids Academy"
+   ],
+   "description": "Operates resort-like athletic country clubs offering premium health, fitness and wellness experiences, services and programs to individual members and families.",
+   "evidence": "We design, build and operate our athletic country club destinations that are distinctive and large, multi-use sports and athletic, professional fitness, family recreation and spa centers in a resort-like environment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Members pay monthly dues and enrollment fees for access to centers, plus in-center fees for personal training, kids programming, spas and cafés.",
+  "evidence": "Center revenue consists of center membership and on-hold membership dues, enrollment fees and revenue generated within a center, which we refer to as in-center revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001668397",
  "issuerName": "Medpace Holdings, Inc.",
- "builtAt": "2026-11-16T03:53:17.023Z",
+ "builtAt": "2026-11-16T08:36:45.425Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001668397-26-000006",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1668397/000166839726000006/medp-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical Development Services",
+   "products": [
+    "Clinical Trial Management",
+    "Patient Recruitment and Retention",
+    "Clinical Monitoring",
+    "Regulatory Affairs",
+    "Medical Writing",
+    "Biometrics and Data Sciences",
+    "Pharmacovigilance",
+    "Central Laboratory"
+   ],
+   "description": "Provides full-service Phase I to Phase IV outsourced clinical development services to biotechnology, pharmaceutical and medical device companies.",
+   "evidence": "management has determined that the Company's operations consist of one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Biotechnology, pharmaceutical and medical device customers pay fixed fees or unit-of-service rates for outsourced clinical trial services.",
+  "evidence": "The contract terms generally provide for payments based on a fixed fee or unit-of-service arrangement."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

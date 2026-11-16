@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001048286",
  "issuerName": "MARRIOTT INTERNATIONAL INC /MD/",
- "builtAt": "2026-11-16T03:53:16.298Z",
+ "builtAt": "2026-11-16T08:32:58.706Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001048286-26-000007",
@@ -10,11 +10,80 @@
   "filingDate": "2026-02-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1048286/000104828626000007/mar-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. & Canada",
+   "products": [
+    "Courtyard by Marriott",
+    "Fairfield by Marriott",
+    "Residence Inn by Marriott",
+    "SpringHill Suites by Marriott",
+    "TownePlace Suites by Marriott",
+    "Marriott Hotels",
+    "Sheraton",
+    "Westin"
+   ],
+   "description": "Franchises, operates, and licenses hotels under its brands for hotel owners and guests across the United States and Canada.",
+   "evidence": "We discuss our operations in the following four reportable business segments: (1) U.S. & Canada, (2) Europe, Middle East & Africa (\"EMEA\"), (3) Greater China, and (4) Asia Pacific excluding China (\"APEC\")."
+  },
+  {
+   "name": "Europe, Middle East & Africa (EMEA)",
+   "products": [
+    "Design Hotels",
+    "Moxy Hotels",
+    "Autograph Collection",
+    "AC Hotels by Marriott",
+    "Courtyard by Marriott",
+    "Marriott Hotels",
+    "Sheraton",
+    "citizenM"
+   ],
+   "description": "Franchises, operates, and licenses hotels under its brands for hotel owners and guests across Europe, the Middle East, and Africa.",
+   "evidence": "We discuss our operations in the following four reportable business segments: (1) U.S. & Canada, (2) Europe, Middle East & Africa (\"EMEA\"), (3) Greater China, and (4) Asia Pacific excluding China (\"APEC\")."
+  },
+  {
+   "name": "Greater China",
+   "products": [
+    "Sheraton",
+    "Four Points by Sheraton",
+    "Fairfield by Marriott",
+    "Marriott Hotels",
+    "Courtyard by Marriott",
+    "Westin",
+    "Renaissance Hotels",
+    "Le Méridien"
+   ],
+   "description": "Franchises, operates, and licenses hotels under its brands for hotel owners and guests in Greater China.",
+   "evidence": "We discuss our operations in the following four reportable business segments: (1) U.S. & Canada, (2) Europe, Middle East & Africa (\"EMEA\"), (3) Greater China, and (4) Asia Pacific excluding China (\"APEC\")."
+  },
+  {
+   "name": "Asia Pacific excluding China (APEC)",
+   "products": [
+    "Four Points by Sheraton",
+    "Sheraton",
+    "Courtyard by Marriott",
+    "Fairfield by Marriott",
+    "Westin",
+    "Le Méridien",
+    "Marriott Hotels",
+    "Aloft Hotels"
+   ],
+   "description": "Franchises, operates, and licenses hotels under its brands for hotel owners and guests across Asia Pacific excluding China.",
+   "evidence": "We discuss our operations in the following four reportable business segments: (1) U.S. & Canada, (2) Europe, Middle East & Africa (\"EMEA\"), (3) Greater China, and (4) Asia Pacific excluding China (\"APEC\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Hotel owners and other third parties pay application, royalty, and management fees for use of the company's brands, systems, and centralized services.",
+  "evidence": "Under our hotel franchising arrangements, we generally receive an initial application fee and continuing royalty fees"
+ },
+ "changes": [
+  {
+   "text": "In 2025, Marriott terminated its licensing agreement with Sonder Holdings Inc., removing those properties from its portfolio.",
+   "evidence": "During 2025, we terminated our licensing agreement with Sonder Holdings Inc."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

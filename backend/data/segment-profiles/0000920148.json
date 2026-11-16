@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000920148",
  "issuerName": "LABCORP HOLDINGS INC.",
- "builtAt": "2026-11-16T03:52:52.449Z",
+ "builtAt": "2026-11-16T08:24:46.666Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000920148-26-000111",
@@ -10,11 +10,42 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/920148/000092014826000111/lh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dx",
+   "products": [
+    "Standard Testing Services",
+    "Specialty Testing Services",
+    "Health and Wellness Services",
+    "Labcorp OnDemand™",
+    "clinical, anatomic pathology, genetic, and genomic tests",
+    "routine testing and specialty/esoteric testing"
+   ],
+   "description": "Provides routine and specialty/esoteric clinical laboratory testing, including anatomic pathology and genomic tests, to physicians, hospitals, health plans, and patients.",
+   "evidence": "Dx offers a comprehensive menu of frequently requested core testing and specialty testing through an integrated network of primary and specialty laboratories across the U.S. and Canada."
+  },
+  {
+   "name": "BLS",
+   "products": [
+    "Central Laboratory",
+    "ED"
+   ],
+   "description": "Central Laboratory and ED businesses serving pharmaceutical, biotechnology, medical device and diagnostic companies and CROs in the U.S. and other countries.",
+   "evidence": "The Company is organized under two segments: Dx, which includes routine testing and specialty/esoteric testing; and BLS, consisting of Central Laboratory and ED businesses."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Physicians and other providers, health plans, Medicare and Medicaid, patients, and pharmaceutical and biotech companies pay for laboratory testing and drug development services.",
+  "evidence": "Clients. Physicians and other healthcare providers who are authorized to order clinical laboratory testing for their patients are a primary source of requests for Dx's testing services."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company separated its Fortrea business, formerly CDCS, into a separate publicly traded company and recast segment results to exclude it.",
+   "evidence": "In addition, as a result of the Spin-off, the Company recast segment results to exclude the historical results of the CDCS business for all periods presented."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

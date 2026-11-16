@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001278021",
  "issuerName": "MARKETAXESS HOLDINGS INC.",
- "builtAt": "2026-11-16T03:53:17.273Z",
+ "builtAt": "2026-11-16T08:40:49.854Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-067009",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1278021/000119312526067009/mktx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "end-to-end trading solutions",
+   "products": [
+    "electronic platforms for the trading of fixed-income and other securities",
+    "related data",
+    "analytics",
+    "compliance tools",
+    "post-trade services",
+    "technology services"
+   ],
+   "description": "Operates electronic platforms for trading fixed-income and other securities and provides related data, analytics, compliance tools, post-trade and technology services to clients.",
+   "evidence": "The Company's end-to-end trading solutions comprise one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay commissions on trades executed on the electronic platforms and fees for information, post-trade and technology services.",
+  "evidence": "We provide end-to-end trading solutions, including the operation of electronic platforms for the trading of fixed-income and other securities and related data, analytics, compliance tools, post-trade services, automated trading services and technology services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

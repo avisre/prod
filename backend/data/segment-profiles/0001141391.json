@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001141391",
  "issuerName": "Mastercard Incorporated",
- "builtAt": "2026-11-16T03:53:16.135Z",
+ "builtAt": "2026-11-16T08:28:06.089Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001141391-26-000013",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1141391/000114139126000013/ma-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payment Solutions",
+   "products": [
+    "security solutions",
+    "consumer acquisition and engagement services",
+    "business and market insights",
+    "digital and authentication",
+    "processing and gateway",
+    "Mastercard Move",
+    "real-time account-based payments"
+   ],
+   "description": "Operates Mastercard's global payments network and provides payment-related services and solutions to financial institutions, merchants, governments, businesses and consumers.",
+   "evidence": "Mastercard has concluded it has one reportable operating segment, \"Payment Solutions.\""
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers such as financial institutions, merchants and governments pay for continuous access to Mastercard's global payments network and for value-added services and solutions.",
+  "evidence": "Revenue is generated from providing customers continuous access to Mastercard's global payments network, as well as by providing value-added services and solutions, whether integrated and sold with the payment network or on a stand-alone basis."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

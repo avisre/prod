@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001941365",
  "issuerName": "MasterBrand, Inc.",
- "builtAt": "2026-11-16T03:53:16.335Z",
+ "builtAt": "2026-11-16T08:33:52.661Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001941365-26-000006",
@@ -10,11 +10,37 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1941365/000194136526000006/mbc-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential Cabinets",
+   "products": [
+    "cabinetry",
+    "framed and frameless cabinetry",
+    "premium cabinetry",
+    "cabinets and vanities",
+    "Dura Supreme",
+    "Bertch cabinetry"
+   ],
+   "description": "Manufactures residential cabinetry, sold in the United States and Canada to remodeling and new construction customers through dealers, retailers and builders.",
+   "evidence": "We are the largest manufacturer of residential cabinets in North America, based on 2024 reported net sales."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Dealers, retailers and builders pay for residential cabinets and cabinetry that the company manufactures and sells for remodeling and new construction.",
+  "evidence": "Our products are sold primarily throughout the United States and Canada to the remodeling and new construction markets through three primary channels: Dealers, Retailers and Builders."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company acquired Supreme, a domestic maker of residential cabinetry with brands focused on premium products.",
+   "evidence": "On July 10, 2024, we acquired all of the issued and outstanding limited liability interests of Dura Investment Holdings LLC, the parent company of Supreme Cabinetry Brands, Inc. (\"Supreme\"), a cabinetry company."
+  },
+  {
+   "text": "In 2025 the company announced an agreement to combine with American Woodmark, a transaction expected to close in early 2026.",
+   "evidence": "On August 6, 2025, we announced the execution of a definitive agreement whereby the Company will combine with American Woodmark Corporation (\"American Woodmark\"), a Virginia corporation, in an all-stock transaction."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

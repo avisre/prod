@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001300514",
  "issuerName": "LAS VEGAS SANDS CORP",
- "builtAt": "2026-11-16T03:53:16.074Z",
+ "builtAt": "2026-11-16T08:27:31.957Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001300514-26-000013",
@@ -10,11 +10,92 @@
   "filingDate": "2026-02-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1300514/000130051426000013/lvs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "The Venetian Macao",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Mall",
+    "Convention, retail and other"
+   ],
+   "description": "A Macao themed Integrated Resort providing casino gaming, hotel rooms, mall retail, dining and convention space to leisure and business visitors.",
+   "evidence": "Through a combination of its diversity of amenities, scale of facilities and its distinctive design, The Venetian Macao has remained the foremost example of a themed Integrated Resort in Macao."
+  },
+  {
+   "name": "The Londoner Macao",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Mall",
+    "Convention, retail and other"
+   ],
+   "description": "A large themed Macao Integrated Resort offering casino gaming, hotel rooms, retail, dining and convention facilities to leisure and business tourists.",
+   "evidence": "The Londoner Macao, our largest themed property on the Cotai Strip, with replicas of the Houses of Parliament and the Elizabeth Tower, along with The Parisian Macao, our themed property with an iconic replica of the Eiffel Tower and other attractions, has established an interconnected critical mass of Europe an-themed Integrated Resorts that attract multiple segments of leisure and business tourism and drive broad brand awareness both regionally and globally."
+  },
+  {
+   "name": "The Parisian Macao",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Mall",
+    "Convention, retail and other"
+   ],
+   "description": "A themed Macao Integrated Resort with casino gaming, hotel rooms, retail, dining and convention offerings for leisure and business travelers.",
+   "evidence": "The Londoner Macao, our largest themed property on the Cotai Strip, with replicas of the Houses of Parliament and the Elizabeth Tower, along with The Parisian Macao, our themed property with an iconic replica of the Eiffel Tower and other attractions, has established an interconnected critical mass of Europe an-themed Integrated Resorts that attract multiple segments of leisure and business tourism and drive broad brand awareness both regionally and globally."
+  },
+  {
+   "name": "The Plaza Macao and Four Seasons Macao",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Mall",
+    "Convention, retail and other"
+   ],
+   "description": "A Macao Integrated Resort combining casino gaming, hotel rooms, mall retail and dining for its guests and patrons.",
+   "evidence": "In Macao, our operating segments are: The Venetian Macao; The Londoner Macao; The Parisian Macao; The Plaza Macao and Four Seasons Macao; and Sands Macao."
+  },
+  {
+   "name": "Sands Macao",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Mall",
+    "Convention, retail and other"
+   ],
+   "description": "A Macao casino and hotel property serving gaming, dining, room and retail customers.",
+   "evidence": "In Macao, our operating segments are: The Venetian Macao; The Londoner Macao; The Parisian Macao; The Plaza Macao and Four Seasons Macao; and Sands Macao."
+  },
+  {
+   "name": "Marina Bay Sands",
+   "products": [
+    "Casino",
+    "Rooms",
+    "Food and beverage",
+    "Mall",
+    "Convention, retail and other"
+   ],
+   "description": "A Singapore Integrated Resort providing casino gaming, hotel rooms, retail, dining, convention and entertainment offerings to visitors.",
+   "evidence": "Marina Bay Sands is an iconic, architecturally significant Integrated Resort with meaningful scale and visitation."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patrons and guests pay us for casino wagers, room sales, food and beverage, retail transactions, rental income from mall tenants, convention sales, entertainment and ferry tickets.",
+  "evidence": "The Company ' s reportable segments generate revenue from casino wagers, room sales, food and beverage and retail transactions, rental income from mall tenants, convention sales and entertainment and ferry ticket sales."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company recorded impairments after deciding not to pursue a New York casino license, not continuing certain digital gaming activities and ending certain Texas initiatives.",
+   "evidence": "The impairments were due to: (i) our decision to not pursue a casino license from the State of New York and the state's subsequent granting of all available licenses in December 2025; (ii) not continuing the development of certain digital gaming activities; and (iii) certain activities associated with initiatives in Texas."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

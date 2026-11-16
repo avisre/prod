@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001157408",
  "issuerName": "STRIDE, INC.",
- "builtAt": "2026-11-16T03:52:53.100Z",
+ "builtAt": "2026-11-16T08:25:59.681Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-090515",
@@ -10,10 +10,29 @@
   "filingDate": "2026-08-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1157408/000110465926090515/lrn-20260630x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Educational platform",
+   "products": [
+    "Curriculum and Content",
+    "Systems",
+    "Instructional Services",
+    "comprehensive school-as-a-service offering",
+    "learning management system",
+    "offline learning kits",
+    "career pathways",
+    "stand-alone products and services"
+   ],
+   "description": "Provides an educational platform of curriculum, software systems and instructional services to public and private schools, districts, employers and consumers.",
+   "evidence": "We operate in one operating and reportable business segment as a technology company providing an educational platform to deliver proprietary and third-party curriculum, software systems and educational services designed to facilitate individualized learning."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Schools, districts, employers, government agencies and consumers pay for school-as-a-service programs, curriculum licensing, online training and standalone products and services.",
+  "evidence": "The majority of our revenue is derived from these school-as-a-service service agreements with the governing authorities of our public school partners."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

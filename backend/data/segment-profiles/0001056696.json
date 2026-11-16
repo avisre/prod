@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001056696",
  "issuerName": "MANHATTAN ASSOCIATES, INC.",
- "builtAt": "2026-11-16T03:53:16.283Z",
+ "builtAt": "2026-11-16T08:28:31.735Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-037138",
@@ -10,10 +10,53 @@
   "filingDate": "2026-02-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1056696/000119312526037138/manh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Manhattan Active Warehouse Management",
+    "Manhattan Active Transportation Management",
+    "Manhattan Active® Omni",
+    "SCALE",
+    "Manhattan Carrier",
+    "Manhattan Active® Maven"
+   ],
+   "description": "Sells supply chain commerce software, cloud subscriptions and implementation services to customers across North, Latin and South America.",
+   "evidence": "We have three reportable segments based on geographic location: North and Latin America (\"the Americas\"); Europe, Middle East and Africa (\"EMEA\"); and Asia Pacific (\"APAC\")."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Manhattan Active Warehouse Management",
+    "Manhattan Active Transportation Management",
+    "Manhattan Active® Omni",
+    "SCALE",
+    "Manhattan Carrier",
+    "Manhattan Active® Maven"
+   ],
+   "description": "Sells supply chain commerce software, cloud subscriptions and implementation services to customers across Europe, the Middle East and Africa.",
+   "evidence": "We have three reportable segments: the Americas, EMEA, and APAC."
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "Manhattan Active Warehouse Management",
+    "Manhattan Active Transportation Management",
+    "Manhattan Active® Omni",
+    "SCALE",
+    "Manhattan Carrier",
+    "Manhattan Active® Maven"
+   ],
+   "description": "Sells supply chain commerce software, cloud subscriptions and implementation services to customers in the Asia Pacific region.",
+   "evidence": "We manage our business by geographic segment and have three geographic reportable segments: the Americas (North, Latin and South America); Europe, the Middle East and Africa (EMEA); and Asia Pacific (APAC)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for cloud-based supply chain and omnichannel software, and also pay for licenses, support, services and hardware.",
+  "evidence": "We run our Manhattan Active® applications in the cloud and deliver them as subscription-based software as a service (\"SaaS\")."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

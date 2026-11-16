@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001760965",
  "issuerName": "KONTOOR BRANDS, INC.",
- "builtAt": "2026-11-16T03:52:51.928Z",
+ "builtAt": "2026-11-16T08:21:40.178Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001760965-26-000014",
@@ -10,11 +10,62 @@
   "filingDate": "2026-03-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1760965/000176096526000014/ktb-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wrangler",
+   "products": [
+    "20X ®",
+    "Aura from the Women at Wrangler ®",
+    "Cowboy Cut ®",
+    "Premium Patch ®",
+    "Riggs Workwear ®",
+    "Rock 47 ®",
+    "Rustler ®",
+    "Wrangler Retro ®"
+   ],
+   "description": "Designs and sells Wrangler-branded denim, apparel, footwear and accessories for western-lifestyle consumers through wholesale, direct-to-consumer and licensing channels worldwide.",
+   "evidence": "Wrangler ® is an iconic American heritage brand rooted in the western lifestyle, with 79 years of history offering denim, apparel, footwear and accessories."
+  },
+  {
+   "name": "Lee",
+   "products": [
+    "Lee101 ®",
+    "Riders ®",
+    "Storm Rider ®",
+    "Lee MVP TM",
+    "Lee X TM"
+   ],
+   "description": "Offers Lee-branded denim, apparel, footwear and accessories with trend-forward styles, innovative fabric solutions and advanced design technology to a broad consumer base.",
+   "evidence": "Lee ® is an iconic American brand offering denim, apparel, footwear and accessories, with 137 years of heritage and authenticity."
+  },
+  {
+   "name": "Helly Hansen",
+   "products": [
+    "technical performance apparel",
+    "workwear",
+    "footwear",
+    "accessories",
+    "base layer",
+    "sailing",
+    "skiing",
+    "mountain"
+   ],
+   "description": "Sells technical outdoor and workwear apparel, footwear and accessories to professionals and outdoor consumers through global wholesale and direct-to-consumer channels.",
+   "evidence": "Helly Hansen ® is a global technical outdoor and workwear brand headquartered in Oslo, Norway with 149 years of history, which operates a global wholesale and direct-to-consumer business across outdoor and workwear apparel, footwear, and accessories."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Wholesale retailers, direct-to-consumer shoppers and licensees pay for branded apparel, footwear and accessories, and for the use of the brands.",
+  "evidence": "The Company designs, manufactures, procures, sells and licenses apparel, footwear and accessories, primarily under the brand names Wrangler ® , Lee ® and Helly Hansen ® ."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company added the Helly Hansen reportable segment through its acquisition of the Helly Hansen and Musto brands.",
+   "evidence": "On May 31, 2025, we completed the acquisition of a group of companies that own and operate the Helly Hansen ® and Musto ® brands"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001944048",
  "issuerName": "Kenvue Inc.",
- "builtAt": "2026-11-16T03:52:51.958Z",
+ "builtAt": "2026-11-16T08:22:03.536Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001944048-26-000030",
@@ -10,10 +10,57 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1944048/000194404826000030/kvue-20251228.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Self Care",
+   "products": [
+    "Benadryl ®",
+    "Calpol ®",
+    "Motrin ®",
+    "Nicorette ®",
+    "Rhinocort ®",
+    "Tylenol ®",
+    "Zarbee's ®",
+    "Zyrtec ®"
+   ],
+   "description": "Sells over-the-counter medicines and naturally inspired remedies for cough, cold, allergy, pain and digestive needs to consumers.",
+   "evidence": "Our Self Care product categories include: Cough, Cold, and Allergy; Pain Care; and Other Self Care (Digestive Health, Smoking Cessation, Eye Care, and Other)."
+  },
+  {
+   "name": "Skin Health and Beauty",
+   "products": [
+    "Aveeno ®",
+    "Dr.Ci:Labo ®",
+    "Le Petit Marseillais ®",
+    "Lubriderm ®",
+    "Neutrogena ®",
+    "OGX ®",
+    "Rogaine ®"
+   ],
+   "description": "Offers face, body, hair and sun care brands built on dermatological, science-backed formulations for consumers and healthcare professionals.",
+   "evidence": "Our Skin Health and Beauty product categories include: Face and Body Care; and Hair, Sun, and Other."
+  },
+  {
+   "name": "Essential Health",
+   "products": [
+    "BAND-AID ® Brand",
+    "Carefree ®",
+    "Desitin ®",
+    "Johnson's ®",
+    "Listerine ®",
+    "o.b. ® tampons",
+    "Stayfree ®"
+   ],
+   "description": "Provides oral care, baby care, wound care and women's health brands that raise personal care standards for consumers and families.",
+   "evidence": "Our Essential Health product categories include: Oral Care; Baby Care; and Other Essential Health (Women's Health, Wound Care, and Other)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers and retailers pay for Kenvue's consumer health brands, which reach them through the company's distribution network and sales organization.",
+  "evidence": "Our extensive distribution network and sales organization enable us to establish strategic partnerships with key suppliers and retailers across multiple markets and channels, where we further leverage our scale to drive flexible manufacturing capacity and supply chain optimization."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

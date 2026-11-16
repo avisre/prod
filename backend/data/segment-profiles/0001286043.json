@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001286043",
  "issuerName": "KITE REALTY GROUP TRUST",
- "builtAt": "2026-11-16T03:52:51.807Z",
+ "builtAt": "2026-11-16T08:21:06.405Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001286043-26-000009",
@@ -10,10 +10,23 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1286043/000128604326000009/krg-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shopping Centers",
+   "products": [
+    "open-air, grocery-anchored shopping centers",
+    "vibrant mixed-use assets"
+   ],
+   "description": "Owns and operates grocery-anchored shopping centers and mixed-use assets leased to retail tenants in Sun Belt and gateway markets.",
+   "evidence": "The Company's primary business is the ownership and operation of high-quality, open-air shopping centers and mixed-use assets that are primarily grocery-anchored and located in high-growth Sun Belt markets and select strategic gateway markets in the United States."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Tenants pay contractual rents and reimbursement payments under existing lease agreements at the company's shopping centers and mixed-use asset properties.",
+  "evidence": "We derive our revenue primarily from the collection of contractual rents and reimbursement payments from tenants under existing lease agreements at each of our properties."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
