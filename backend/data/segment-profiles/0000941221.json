@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000941221",
  "issuerName": "ICL GROUP LTD.",
- "builtAt": "2026-11-16T04:51:07.985Z",
+ "builtAt": "2026-11-16T09:37:29.333Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-000817",
@@ -10,10 +10,62 @@
   "filingDate": "2026-03-11",
   "url": "https://www.sec.gov/Archives/edgar/data/941221/000117891326000817/zk2634483.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial Products",
+   "products": [
+    "Bromine, phosphorus and magnesium-Based Flame Retardants",
+    "Elemental Bromine",
+    "Brominated and Phosphorus compounds",
+    "Clear Brines",
+    "Brominated electrolytes",
+    "Magnesia Products",
+    "Calcium Carbonate",
+    "Solid MgCl2, KCl"
+   ],
+   "description": "Produces bromine and bromine-based compounds, flame retardants, industrial solutions and specialty minerals such as magnesia, calcium carbonate and salt for industrial customers.",
+   "evidence": "Our Industrial Products segment primarily operates our bromine value chain, which includes elemental bromine and bromine compounds used in a wide range of industrial applications, including bromine-based flame retardants for electronics components."
+  },
+  {
+   "name": "Potash",
+   "products": [
+    "potash fertilizers",
+    "pure magnesium and magnesium alloys",
+    "chlorine and sylvinite",
+    "Polysulphate®"
+   ],
+   "description": "Operates the potash value chain, selling potash fertilizers, magnesium and magnesium alloys, chlorine and sylvinite to agricultural and industrial customers.",
+   "evidence": "Our Potash segment operates our potash value chain and includes primarily potash fertilizers and our magnesium business (a byproduct of potash production), which produces and sells pure magnesium and magnesium alloys, as well as chlorine and sylvinite."
+  },
+  {
+   "name": "Phosphate Solutions",
+   "products": [
+    "specialty phosphate salts and acids",
+    "commodity phosphates",
+    "raw materials for LFP batteries"
+   ],
+   "description": "Produces specialty phosphate salts and acids, commodity phosphates for fertilizers, and raw materials for LFP batteries for industrial and agricultural customers.",
+   "evidence": "Our Phosphate Solutions segment is based on our phosphate value chain."
+  },
+  {
+   "name": "Growing Solutions",
+   "products": [
+    "specialty fertilizers",
+    "soluble fertilizers",
+    "controlled-release fertilizers",
+    "fertigation-grades products",
+    "Polysulphate®"
+   ],
+   "description": "Sells specialty fertilizers and crop nutrition solutions, including water-soluble and controlled-release fertilizers, to growers and agronomists worldwide.",
+   "evidence": "Our fourth segment, Growing Solutions, includes our specialty fertilizers business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay ICL for goods delivered, mainly fertilizers and specialty minerals and chemicals sold through its segments worldwide.",
+  "evidence": "Revenue is recognized at the point in time, when the Company transfers control over promised goods to the customer."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

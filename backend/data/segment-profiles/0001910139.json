@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001910139",
  "issuerName": "Mobileye Global Inc.",
- "builtAt": "2026-11-16T04:51:08.430Z",
+ "builtAt": "2026-11-16T09:39:14.315Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-014300",
@@ -10,10 +10,36 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1910139/000110465926014300/mbly-20251227x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobileye",
+   "products": [
+    "EyeQ™ SoC",
+    "SuperVision™",
+    "Mobileye Surround ADAS™",
+    "Mobileye Chauffeur™",
+    "Mobileye Drive™",
+    "Mobileye Roadbook™",
+    "Cloud-Enhanced ADAS™"
+   ],
+   "description": "Develops and sells EyeQ™ SoCs and SuperVision™ systems for driver assistance and autonomous driving to automotive suppliers and carmakers worldwide.",
+   "evidence": "The Company's organizational structure and management reporting supports two operating segments: Mobileye and Moovit."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Moovit platform"
+   ],
+   "description": "Moovit, a mobility-as-a-service company, provides urban mobility applications and navigation data to consumers and is reported within Other.",
+   "evidence": "Mobileye is presented as a reportable operating segment and Moovit, which is a mobility-as-a-service company, is presented within \"Other\" as per ASC 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Automotive suppliers pay Mobileye for EyeQ™ SoCs and SuperVision™ systems, which they integrate into vehicles for carmakers.",
+  "evidence": "We generate the majority of our revenue from the sale of our EyeQ™ SoCs to OEMs primarily through sales to Tier 1 automotive suppliers that implement our product into vehicles, in which case our direct customer is the Tier 1 automotive supplier that is responsible for paying us for our products."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

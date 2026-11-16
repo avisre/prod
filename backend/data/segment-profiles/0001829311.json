@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001829311",
  "issuerName": "BITMINE IMMERSION TECHNOLOGIES, INC.",
- "builtAt": "2026-11-16T04:51:04.648Z",
+ "builtAt": "2026-11-16T09:31:55.190Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-25-024679",
@@ -10,11 +10,35 @@
   "filingDate": "2025-11-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1829311/000149315225024679/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Asset Technology",
+   "products": [
+    "ETH treasury",
+    "BTC mining",
+    "immersion cooling",
+    "self-mining",
+    "hosting/mining-as-a-service",
+    "consulting, equipment sales and leasing",
+    "digital asset treasury management",
+    "consulting/advisory"
+   ],
+   "description": "Digital asset technology company acquiring and holding ETH as a treasury asset while operating BTC mining, hosting and advisory services.",
+   "evidence": "In accordance with ASC 280-10, Segment Reporting, management has determined that the Company operates as one operating segment and one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Institutional customers pay for mining equipment and energized space, hosting, management services, consulting, advisory and equipment leasing.",
+  "evidence": "Hosting services include the provision of mining equipment and energized space, as well as monitoring, troubleshooting, repair, and maintenance of customer mining equipment."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the Company decided to dispose of its Trinidad operation and sold all property and equipment located there.",
+   "evidence": "The Company previously had operation in Trinidad which is decided to dispose of during fiscal year 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

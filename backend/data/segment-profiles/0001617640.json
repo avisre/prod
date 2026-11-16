@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001617640",
  "issuerName": "ZILLOW GROUP, INC.",
- "builtAt": "2026-11-16T04:51:09.497Z",
+ "builtAt": "2026-11-16T09:38:46.257Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001617640-26-000015",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1617640/000161764026000015/z-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential real estate",
+   "products": [
+    "Zillow Premier Agent",
+    "Zillow Home Loans",
+    "Zillow Rentals",
+    "Zillow New Construction",
+    "Trulia",
+    "StreetEasy",
+    "Follow Up Boss",
+    "ShowingTime"
+   ],
+   "description": "Operates Zillow's residential real estate marketplace and brands, connecting consumers with agents, loan officers and rentals, and selling advertising and software to real estate professionals.",
+   "evidence": "Our portfolio of affiliates, subsidiaries and brands includes Zillow, Zillow Premier Agent, Zillow Home Loans, our mortgage origination operations and affiliate lender, Zillow Rentals, Zillow New Construction, Trulia, StreetEasy, Out East, HotPads, Follow Up Boss, ShowingTime, dotloop and Zillow Closing."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Real estate professionals pay for advertising and software, Zillow Home Loans earns mortgage fees from borrowers, and landlords pay for listing and leasing tools.",
+  "evidence": "We are focused on providing real estate professionals multiple ways to power their businesses and differentiate themselves and their listings on Zillow through a variety of advertising and software solutions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

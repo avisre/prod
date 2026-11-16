@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001322422",
  "issuerName": "Hudbay Minerals Inc.",
- "builtAt": "2026-11-16T04:51:04.889Z",
+ "builtAt": "2026-11-16T09:31:58.680Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001062993-26-001648",
@@ -11,10 +11,48 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1322422/000106299326001648/exhibit99-2.htm",
   "exhibit": "exhibit99-2.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manitoba",
+   "products": [
+    "copper concentrate (containing copper, gold and silver)",
+    "silver/gold doré",
+    "zinc concentrate (containing zinc and gold)",
+    "other products"
+   ],
+   "description": "Manitoba segment sells copper concentrate, silver/gold doré, zinc concentrate and other products from Hudbay's Manitoba mining operations.",
+   "evidence": "The Manitoba segment sells copper concentrate (containing copper, gold and silver), silver/gold doré, zinc concentrate (containing zinc and gold) and other products."
+  },
+  {
+   "name": "British Columbia",
+   "products": [
+    "copper concentrate"
+   ],
+   "description": "British Columbia segment consists of the Copper Mountain operation and sells copper concentrate.",
+   "evidence": "The British Columbia segment consists of the Copper Mountain operation and sells copper concentrate."
+  },
+  {
+   "name": "Peru",
+   "products": [
+    "copper concentrate",
+    "molybdenum concentrate"
+   ],
+   "description": "Peru segment is Hudbay's Constancia operation, which sells copper concentrate and molybdenum concentrate.",
+   "evidence": "The Peru segment consists of Hudbay's Constancia operation and sells copper concentrate and molybdenum concentrate."
+  },
+  {
+   "name": "Arizona",
+   "products": [],
+   "description": "Arizona segment holds the Copper World project located in Arizona, a project rather than a producing mine.",
+   "evidence": "Hudbay's Arizona segment consists of the Copper World project located in Arizona."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers buy copper concentrate, silver/gold doré and zinc concentrate, with revenue measured as consideration received for goods sold.",
+  "evidence": "Revenue from the sale of goods is measured at the fair value of the consideration received or receivable, net of treatment and refining charges."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

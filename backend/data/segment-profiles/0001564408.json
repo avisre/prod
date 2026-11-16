@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001564408",
  "issuerName": "SNAP INC",
- "builtAt": "2026-11-16T04:51:05.654Z",
+ "builtAt": "2026-11-16T09:34:13.561Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001564408-26-000013",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1564408/000156440826000013/snap-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Snapchat",
+   "products": [
+    "Snap Ads",
+    "AR Ads",
+    "Spectacles",
+    "Snapchat+",
+    "Lens+",
+    "Snapchat Platinum",
+    "Memories Storage Plans"
+   ],
+   "description": "Snapchat is a visual messaging application with camera, messaging, map and content features, and it also sells advertising, subscriptions and AR glasses.",
+   "evidence": "Because our CODM evaluates financial performance on a consolidated basis, we have determined that we have a single reportable segment composed of the consolidated financial results of Snap Inc."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Advertisers pay for ads on Snapchat and subscribers pay for subscription services such as Snapchat+, Lens+ and Snapchat Platinum.",
+  "evidence": "We generate the substantial majority of our revenue through the sale of our advertising products on Snapchat, which include Snap Ads and AR Ads, referred to as advertising revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Snap wound down its AR Enterprise business and reduced global employee headcount.",
+   "evidence": "In the third quarter of 2023, we initiated the wind down of our AR Enterprise business, which included a reduction of our global employee headcount by approximately 3 % ."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

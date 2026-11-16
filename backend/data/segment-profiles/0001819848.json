@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819848",
  "issuerName": "Joby Aviation, Inc.",
- "builtAt": "2026-11-16T04:51:04.374Z",
+ "builtAt": "2026-11-16T09:31:15.663Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001819848-26-000160",
@@ -10,10 +10,26 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1819848/000181984826000160/joby-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "air transportation and related services",
+   "products": [
+    "eVTOL aircraft",
+    "Elevate OS",
+    "air taxi service",
+    "air charter broker service",
+    "direct sales & defense"
+   ],
+   "description": "Develops, tests and manufactures its eVTOL aircraft and supporting systems while providing air transportation services, including air charter brokerage, to passengers and partners.",
+   "evidence": "The Company has one operating and reportable segment, air transportation and related services (\"Services\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Passengers and partners pay for facilitated passenger transportation by helicopter or fixed wing aircraft, customer-directed flights and related air transportation services.",
+  "evidence": "The Services revenue primarily includes consideration received for (i) facilitation of passenger transportation via helicopter or fixed wing aircraft primarily in the Northeast United States and Southern Europe"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

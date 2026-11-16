@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001717115",
  "issuerName": "Tempus AI, Inc.",
- "builtAt": "2026-11-16T04:51:08.906Z",
+ "builtAt": "2026-11-16T09:39:01.797Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-066961",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1717115/000119312526066961/tem-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "healthcare technology",
+   "products": [
+    "Diagnostics",
+    "Data and applications",
+    "Oncology and Hereditary testing",
+    "Insights",
+    "Next",
+    "Trials",
+    "Algos",
+    "Lens"
+   ],
+   "description": "Sells diagnostic testing and data and applications products, including Insights, Next, Trials and Algos, to physicians, researchers and life sciences companies.",
+   "evidence": "The Company operates as one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Physicians, academic institutions, payers and pharmaceutical companies pay for genetic testing, data licensing, clinical trial matching and related services.",
+  "evidence": "The Company primarily derives revenue from selling comprehensive genetic testing to physicians and large academic research institutions, licensing data to third parties, matching patients to clinical trials, and related services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

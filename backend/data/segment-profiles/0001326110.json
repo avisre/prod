@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001326110",
  "issuerName": "IMMUNITYBIO, INC.",
- "builtAt": "2026-11-16T04:51:09.145Z",
+ "builtAt": "2026-11-16T09:38:32.020Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001326110-26-000030",
@@ -10,8 +10,24 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000030/ibrx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunotherapies",
+   "products": [
+    "ANKTIVA",
+    "N-803",
+    "Cancer BioShield platform",
+    "Nant Cancer Vaccine",
+    "NK-CAR",
+    "M-ceNK",
+    "hAd5 constructs",
+    "MSC"
+   ],
+   "description": "One operating segment that develops, manufactures and commercializes next-generation immunotherapies for cancer and infectious diseases.",
+   "evidence": "We operate in one operating segment, and therefore have one reportable segment, focused on innovating, developing, and commercializing next-generation immunotherapies designed to activate the patient's immune system and deliver durable protection against cancer and infectious diseases."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

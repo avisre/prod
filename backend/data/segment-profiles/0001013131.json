@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001013131",
  "issuerName": "BUENAVENTURA MINING CO INC",
- "builtAt": "2026-11-16T04:51:06.814Z",
+ "builtAt": "2026-11-16T09:37:35.370Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-053101",
@@ -10,11 +10,89 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1013131/000110465926053101/tmb-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Colquijirca",
+   "products": [
+    "copper",
+    "silver",
+    "gold"
+   ],
+   "description": "Copper and silver mine at Colquijirca and Marcapunta in Cerro de Pasco, selling copper, silver and gold to metal and concentrate buyers.",
+   "evidence": "(a) Colquijirca . Sales of goods increased by 13% in 2025 compared to 2024 primarily due to an increase of 11% and 51% in the realized copper and silver prices in this mining unit, which was partially offset by a 21% and 11% decrease in the volumes of copper and silver sold, respectively, related to the lower ore grade and its impact in production."
+  },
+  {
+   "name": "Uchucchacua/Yumpag",
+   "products": [
+    "silver",
+    "lead",
+    "zinc"
+   ],
+   "description": "Silver mine at Uchucchacua and Yumpag in Pasco whose ore is processed at the nearby Uchucchacua plant and sold as silver, lead and zinc.",
+   "evidence": "(b) Uchucchacua/Yumpag . Sales of goods increased by 60% in 2025 compared to 2024 primarily due to a 10%, 21% and 25% increase in the volumes of silver, lead and zinc sold, respectively, related to the full year operation of Yumaq in 2025 compared to eight months in 2024."
+  },
+  {
+   "name": "Orcopampa",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Gold and silver mine in Peru producing precious metals sold to metal and concentrate buyers.",
+   "evidence": "We also conducted exploration leading to the discovery of gold mineralization and subsequent production of gold at our Orcopampa, La Zanja and Tambomayo mines."
+  },
+  {
+   "name": "Tambomayo",
+   "products": [
+    "gold",
+    "silver",
+    "lead",
+    "zinc",
+    "copper"
+   ],
+   "description": "Gold, silver, lead, zinc and copper mine in Peru whose output is sold as metal and concentrates to customers.",
+   "evidence": "(d) Tambomayo. Sales of goods decreased by 14 % in 2025 compared to 2024 primarily due to a 20%, 49% and 40% decrease in the volumes of silver, zinc and lead sold, respectively."
+  },
+  {
+   "name": "Julcani",
+   "products": [
+    "silver",
+    "gold",
+    "lead",
+    "copper"
+   ],
+   "description": "Silver and gold mine in Peru selling silver, gold, lead and copper to metal and concentrate customers.",
+   "evidence": "During the first several decades of our operations, we focused on the exploration and development of silver mines in Peru, including our Julcani, Orcopampa and Uchucchacua mines."
+  },
+  {
+   "name": "La Zanja",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Gold and silver mine in Peru selling precious metals to metal buyers and to other units of the Group.",
+   "evidence": "We currently operate El Brocal (Colquijirca-Marcapunta), Uchucchacua/Yumpag, Orcopampa, Tambomayo, Julcani, and La Zanja mines and have a non-controlling interest in the Coimolache mine."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in Peru and abroad buy the gold, silver, copper, lead and zinc sold as metal and concentrates from the company's mines.",
+  "evidence": "As a result of these initiatives, the majority of our revenues are now derived from the production of gold, silver and copper."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company classified the Poracota and Shila-Paula mining units as discontinued operations.",
+   "evidence": "As of December 31, 2025, we have classified two mining units as units with discontinued operations: Poracota and Shila-Paula."
+  },
+  {
+   "text": "In 2024 the company sold its holdings in Chaupiloma, the collector of royalties from the Yanacocha mine.",
+   "evidence": "Buenaventura, together with its subsidiary Compañía Minera Condesa S.A. (Condesa), sold their holdings in their jointly-wholly owned subsidiary S.M.R.L. Chaupiloma Dos de Cajamarca (Chaupiloma), the collector of royalties from the Yanacocha mine"
+  },
+  {
+   "text": "Rental of mining concessions stopped being a segment in July 2024.",
+   "evidence": "Rental of mining concessions (until July 2024)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002030781",
  "issuerName": "SailPoint, Inc.",
- "builtAt": "2026-11-16T04:51:06.737Z",
+ "builtAt": "2026-11-16T09:35:03.002Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0002030781-26-000003",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/2030781/000203078126000003/sail-20260131.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "one reportable segment",
+   "products": [
+    "Identity Security Cloud",
+    "IdentityIQ",
+    "SailPoint Platform",
+    "SailPoint Atlas",
+    "Lifecycle Management",
+    "Compliance Management",
+    "Access Modeling"
+   ],
+   "description": "Provides cloud-based and customer-hosted identity security solutions to enterprises and governments to discover, manage, and secure all identity types.",
+   "evidence": "Accordingly, the Company determined that it operates in one reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Enterprises and governments pay for identity security solutions, and most new customers purchase one of our SaaS suites, with IdentityIQ offered for customer-hosted deployment.",
+  "evidence": "Most new customers purchase one of our SaaS suites."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

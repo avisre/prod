@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001907982",
  "issuerName": "D-Wave Quantum Inc.",
- "builtAt": "2026-11-16T04:51:05.051Z",
+ "builtAt": "2026-11-16T09:33:12.001Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001907982-26-000026",
@@ -10,11 +10,34 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1907982/000190798226000026/qbts-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Quantum Computing",
+   "products": [
+    "annealing quantum computing systems",
+    "gate-model systems",
+    "Leap TM quantum cloud service",
+    "Stride TM nonlinear hybrid solver",
+    "QCaaS",
+    "professional services",
+    "quantum computers"
+   ],
+   "description": "Builds and sells annealing and gate-model quantum computing systems, cloud access and professional services to enterprises and research customers.",
+   "evidence": "As such, the Company views its operations and manages its business in one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for cloud access to quantum systems, professional services and purchases of quantum computer systems.",
+  "evidence": "Our business model is focused on generating revenue from (i) providing customers with access to our quantum computing systems via the cloud in the form of quantum computing as a service (\" QCaaS \") products, (ii) providing professional services wherein we assist our customers in identifying and implementing quantum computing applications, and (iii) selling our quantum computer systems to customers."
+ },
+ "changes": [
+  {
+   "text": "In 2026 D-Wave completed its acquisition of Quantum Circuits, Inc., adding error-corrected superconducting gate-model quantum computing systems.",
+   "evidence": "On January 20, 2026, D-Wave announced the completion of its acquisition of Quantum Circuits, Inc., a leading developer of error-corrected superconducting gate-model quantum computing systems."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

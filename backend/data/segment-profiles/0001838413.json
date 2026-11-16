@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001838413",
  "issuerName": "Full Truck Alliance Co. Ltd.",
- "builtAt": "2026-11-16T04:51:06.645Z",
+ "builtAt": "2026-11-16T09:35:51.723Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-153778",
@@ -10,8 +10,20 @@
   "filingDate": "2026-04-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1838413/000119312526153778/d20504d20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FTA platform",
+   "products": [
+    "Yunmanman apps",
+    "Huochebang apps",
+    "auxiliary functions",
+    "value-added services"
+   ],
+   "description": "Runs the FTA platform, serving shippers, truckers and other ecosystem participants with apps, auxiliary functions and value-added services.",
+   "evidence": "The Group's CODM manages the Company's business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

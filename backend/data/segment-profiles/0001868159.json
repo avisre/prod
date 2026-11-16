@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001868159",
  "issuerName": "Lineage, Inc.",
- "builtAt": "2026-11-16T04:51:04.950Z",
+ "builtAt": "2026-11-16T09:32:50.076Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001868159-26-000012",
@@ -10,10 +10,42 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1868159/000186815926000012/line-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Warehousing",
+   "products": [
+    "Distribution centers",
+    "Public warehouses",
+    "Production advantaged warehouses",
+    "Managed warehouses",
+    "temperature-controlled warehousing storage and services",
+    "warehouse services fees"
+   ],
+   "description": "Owns and operates temperature-controlled warehouses, storing frozen and perishable food and other products and handling pallets for food retailers, manufacturers, processors and distributors.",
+   "evidence": "Global warehousing, which utilizes our high-quality industrial real estate properties to provide temperature-controlled warehousing storage and services to our customers"
+  },
+  {
+   "name": "Global Integrated Solutions",
+   "products": [
+    "transportation",
+    "refrigerated rail car leasing",
+    "multi-vendor less-than-full-truckload consolidation",
+    "drayage services",
+    "over-the-road trucking",
+    "freight forwarding",
+    "foodservice distribution",
+    "e-commerce fulfillment services"
+   ],
+   "description": "Runs temperature-controlled supply chain business lines that move customers' products through the food chain, adding cost savings and extra revenue.",
+   "evidence": "We operate several critical and value-added temperature-controlled business lines within our global integrated solutions segment, including, among others, transportation and refrigerated rail car leasing."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Food retailers, manufacturers, processors and food service distributors pay for temperature-controlled storage, related warehouse handling services and supply chain services.",
+  "evidence": "Our global warehousing segment revenues are generated from storing frozen and perishable food and other products and providing related warehouse services for our customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

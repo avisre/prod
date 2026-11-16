@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001333141",
  "issuerName": "FRESENIUS MEDICAL CARE AG",
- "builtAt": "2026-11-16T04:51:04.156Z",
+ "builtAt": "2026-11-16T09:31:50.388Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-019005",
@@ -10,11 +10,66 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1333141/000110465926019005/fms-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Care Delivery",
+   "products": [
+    "healthcare services",
+    "dialysis",
+    "HVHDF",
+    "5008X CAREsystem",
+    "pharmaceutical products",
+    "renal pharmaceuticals"
+   ],
+   "description": "Operates the global network of dialysis clinics, delivering healthcare services and pharmaceutical products for people living with kidney disease.",
+   "evidence": "Care Delivery Our Care Delivery business segment encompasses our global network of dialysis clinics and includes services that address the complex healthcare needs and treatment choices for people living with kidney disease."
+  },
+  {
+   "name": "Value-Based Care",
+   "products": [
+    "value-based kidney care",
+    "clinical care models",
+    "tech-enabled platforms",
+    "StageSmart™",
+    "patient engagement platforms",
+    "Interwell Health"
+   ],
+   "description": "Runs value-based kidney care contracts with payors and governments, using clinical care models and tech-enabled platforms for kidney patients.",
+   "evidence": "The Value-Based Care operating segment is primarily focused on value-based kidney care, including contracting and performance management, clinical care models supported by a national network of nephrologists, and tech-enabled platforms that leverage proprietary informatics and patient engagement tools."
+  },
+  {
+   "name": "Care Enablement",
+   "products": [
+    "healthcare products and equipment",
+    "medical devices",
+    "systems",
+    "pharmaceuticals",
+    "products for kidney care"
+   ],
+   "description": "Develops, manufactures and distributes healthcare products and equipment, medical devices, systems and pharmaceuticals for kidney care customers worldwide.",
+   "evidence": "The Care Enablement segment is primarily engaged in the distribution of healthcare products and equipment, including research and development (R&D), manufacturing, supply chain, and commercial operations, as well as supporting functions such as regulatory and quality management."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Patients and payors such as Medicare, private insurers, governments and hospitals pay for dialysis treatments, kidney care services, medical devices and pharmaceuticals.",
+  "evidence": "We receive a substantial portion of our Care Delivery revenue from the U.S. Medicare program and other government sources."
+ },
+ "changes": [
+  {
+   "text": "In 2025, a new reportable segment, Value-Based Care, was created, previously part of Care Delivery in the U.S.",
+   "evidence": "In 2025, Fresenius Medical Care introduced a new operating segment, Value-Based Care, which was previously part of Care Delivery in the U.S., as a key component of our FME Reignite strategy."
+  },
+  {
+   "text": "In 2023, the company divested National Cardiovascular Partners, which had been part of the Care Delivery segment.",
+   "evidence": "In December 2023, we completed the divestiture of National Cardiovascular Partners (NCP), comprising 21 facilities providing outpatient cardiac catheterization and vascular laboratory services, which were previously included in the Care Delivery segment of our U.S. healthcare service business."
+  },
+  {
+   "text": "In 2025, the company divested renal dialysis clinic facilities in Brazil, Kazakhstan and Malaysia.",
+   "evidence": "Additionally during 2025, we divested our renal dialysis clinic facilities in Brazil, Kazakhstan, and Malaysia and select assets of our wholly owned Spectra Laboratories while in 2024 we divested our service businesses in Chile, Ecuador, Sub-Saharan Africa, Türkiye, Guatemala, Curacao, Peru, Colombia, and the Cura Day Hospitals Group in Australia, all in connection with the Legacy Portfolio Optimization plan."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

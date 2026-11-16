@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001913510",
  "issuerName": "VinFast Auto Ltd.",
- "builtAt": "2026-11-16T04:51:08.844Z",
+ "builtAt": "2026-11-16T09:39:04.308Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-052266",
@@ -10,11 +10,54 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1913510/000110465926052266/vfs-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Car",
+   "products": [
+    "cars",
+    "e-cars",
+    "battery lease",
+    "battery charging services"
+   ],
+   "description": "Designs, develops, manufactures and sells cars, with related battery lease and battery charging services for car customers.",
+   "evidence": "The Car segment includes the design, development, manufacturing and sales of cars and related battery lease, and battery charging services for cars."
+  },
+  {
+   "name": "E-scooter",
+   "products": [
+    "e-scooters",
+    "Klara",
+    "battery lease",
+    "battery charging service"
+   ],
+   "description": "Designs, develops, manufactures and sells e-scooters with related battery lease and battery charging service for riders.",
+   "evidence": "The E-scooter segment includes the design, development, manufacturing and sales of e-scooters and related battery lease, and battery charging service for e-scooters."
+  },
+  {
+   "name": "Ebus",
+   "products": [
+    "e-buses"
+   ],
+   "description": "Designs, develops, manufactures and sells e-buses, the company's third reportable segment.",
+   "evidence": "Our Chief Executive Officer, Chief Finance Officer and Deputy Chief Executive Officer of Investment, as the CODM, organises the Company, manages resource allocations and measures performance among three operating and reportable segments: Car, E-scooter and Ebus."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers and dealers pay VinFast for electric cars, e-scooters and e-buses, plus battery subscription, charging, spare parts and aftermarket services.",
+  "evidence": "Under our battery subscription program, we receive either a fixed monthly subscription fee for unlimited mileages or a variable monthly subscription fee based on the number of miles that the customer drives."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company spun off Novatech to hold completed research and development assets, then transferred its Novatech shares to Mr. Pham.",
+   "evidence": "In August 2025, we announced the spin-off of a new company from VinFast Vietnam (\"Novatech\"), thereafter existing as a new direct subsidiary of the Company to hold certain assets related to investment costs of completed research and development projects."
+  },
+  {
+   "text": "In 2024 the company began reorganising its internal group companies under VinFast Vietnam, spinning off VFDI as a direct subsidiary.",
+   "evidence": "In November 2024, we announced our plan to reorganize our internal group companies under VinFast Vietnam."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

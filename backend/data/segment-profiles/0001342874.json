@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001342874",
  "issuerName": "TERNIUM S.A.",
- "builtAt": "2026-11-16T04:51:05.556Z",
+ "builtAt": "2026-11-16T09:33:27.146Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001342874-26-000020",
@@ -10,11 +10,44 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1342874/000134287426000020/tx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steel",
+   "products": [
+    "slabs",
+    "hot and cold rolled products",
+    "coated products",
+    "roll-formed and tubular products",
+    "billets",
+    "bars",
+    "other products"
+   ],
+   "description": "Produces and sells steel products, from slabs to coated and tubular goods, to industrial, construction and distribution customers in the Americas.",
+   "evidence": "The Steel segment includes the sales of steel products by Ternium S.A.'s subsidiaries, which comprises mainly slabs, hot and cold rolled products, coated products, roll-formed and tubular products, billets, bars and other products."
+  },
+  {
+   "name": "Mining",
+   "products": [
+    "iron ore lumps",
+    "concentrates (sinter feed and pellet feed fines)",
+    "pellets"
+   ],
+   "description": "Mines and sells iron ore products to third parties and to the company's own steelmaking operations in Brazil and Mexico.",
+   "evidence": "The Mining segment includes the sales of mining products by Ternium S.A.'s subsidiaries, which comprises iron ore lumps, concentrates (sinter feed and pellet feed fines) and pellets, and encompasses the mining activities of Mineração Usiminas, Las Encinas and 50% of Peña Colorada."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Steel and mining customers in Latin America and the southern United States pay for steel products, related delivery services and iron ore products.",
+  "evidence": "Ternium primarily sells its steel products in Latin American countries and the southern United States, where it can leverage its strategically located manufacturing facilities to provide specialized products, delivery services to its customers and reduced freight costs."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company reorganized from three operating segments, Steel, Mining and Usiminas, into two operating segments, Steel and Mining.",
+   "evidence": "As of March 31, 2024, following the acquisition of an additional participation in Usiminas on July 3, 2023, the Chief Operating Decision Maker performed a review of the new business structure to decide on the allocation of resources and the assessment of performance, and decided to organize the Company in two operating segments: Steel and Mining."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

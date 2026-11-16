@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001883685",
  "issuerName": "DRAFTKINGS INC.",
- "builtAt": "2026-11-16T04:51:04.126Z",
+ "builtAt": "2026-11-16T09:31:07.169Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001883685-26-000013",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1883685/000188368526000013/dkng-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sportsbook and iGaming",
+   "products": [
+    "Sportsbook",
+    "iGaming",
+    "DFS",
+    "digital lottery courier",
+    "prediction markets",
+    "other online product offerings",
+    "Pick6",
+    "DraftKings Predictions"
+   ],
+   "description": "Operates Sportsbook, iGaming, DFS, digital lottery courier and prediction markets for users in North America, with software licensing.",
+   "evidence": "This segment provides users with Sportsbook, iGaming, DFS, digital lottery courier, prediction markets product offerings, and other online product offerings as well as the design, development and licensing of sports betting and casino gaming software for its Sportsbook and iGaming product offerings."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Users pay entry fees, stakes and service fees for Sportsbook, iGaming, DFS, lottery courier and prediction markets; the company keeps the difference between what it collects and payouts.",
+  "evidence": "Our revenue from DFS consists of the difference between the entry fees collected and the amounts paid out to contestants as prizes in a period."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002071668",
  "issuerName": "Magnum Ice Cream Co N.V.",
- "builtAt": "2026-11-16T04:51:05.719Z",
+ "builtAt": "2026-11-16T09:35:36.811Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-029805",
@@ -10,10 +10,32 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/2071668/000110465926029805/micc-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe and ANZ",
+   "products": [],
+   "description": "Ice cream business serving customers in Europe, Australia and New Zealand through distributors and retailers.",
+   "evidence": "Europe and ANZ: representing Europe, Australia and New Zealand."
+  },
+  {
+   "name": "Americas",
+   "products": [],
+   "description": "Ice cream business serving customers in North America and South America through distributors and retailers.",
+   "evidence": "Americas: representing North America and South America."
+  },
+  {
+   "name": "AMEA",
+   "products": [],
+   "description": "Ice cream business serving customers in Africa, Asia and the Middle East, including Türkiye, through distributors and retailers.",
+   "evidence": "AMEA: representing Africa, Asia and the Middle East (which includes Türkiye)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, mostly distributors, pay the Group for ice cream goods on delivery, net of discounts, sales taxes and estimated returns.",
+  "evidence": "The Group's customers are distributors who may be able to return unsold goods in consignment arrangements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

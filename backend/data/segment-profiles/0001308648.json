@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001308648",
  "issuerName": "FIRST MAJESTIC SILVER CORP.",
- "builtAt": "2026-11-16T04:51:05.194Z",
+ "builtAt": "2026-11-16T09:33:11.369Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001062993-26-001765",
@@ -11,11 +11,97 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1308648/000106299326001765/exhibit99-2.htm",
   "exhibit": "exhibit99-2.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Santa Elena",
+   "products": [
+    "doré",
+    "concentrate",
+    "silver",
+    "gold"
+   ],
+   "description": "Mexican silver-gold mine whose doré and concentrate are refined or smelted and sold to global metal brokers.",
+   "evidence": "Santa Elena and Jerritt Canyon have incurred mine holding costs related to care and maintenance and temporary suspension activities"
+  },
+  {
+   "name": "Los Gatos",
+   "products": [
+    "silver",
+    "gold",
+    "lead",
+    "zinc",
+    "copper"
+   ],
+   "description": "Newly acquired silver mine in Chihuahua, Mexico, producing payable metals sold to metal brokers.",
+   "evidence": "including its newly acquired Los Gatos Silver mine in Chihuahua"
+  },
+  {
+   "name": "San Dimas",
+   "products": [
+    "doré",
+    "concentrate",
+    "gold"
+   ],
+   "description": "Mexican silver-gold mine whose production includes gold sold under a streaming agreement.",
+   "evidence": "In 2018, the San Dimas mine entered into a purchase agreement with Wheaton Precious Metals International"
+  },
+  {
+   "name": "La Encantada",
+   "products": [
+    "doré",
+    "silver"
+   ],
+   "description": "Mexican silver mine producing metals that are refined and sold to global metal brokers.",
+   "evidence": "Other costs in 2025 include elevated waste costs from ore below cut-off grade at La Encantada, as poor ground conditions impacted mine development activities."
+  },
+  {
+   "name": "Non-producing Properties",
+   "products": [
+    "Del Toro",
+    "San Martin"
+   ],
+   "description": "Mexican properties including the suspended Del Toro and San Martin mines, held without production.",
+   "evidence": "its \"non-producing properties\" in Mexico which include the Del Toro and San Martin mines, which have been placed on suspension"
+  },
+  {
+   "name": "Jerritt Canyon",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Nevada, United States, on temporary suspension while exploration and mine planning continue.",
+   "evidence": "The Jerritt Canyon Gold mine was placed on temporary suspension as of March 20, 2023 to focus on exploration, definition, and expansion of the mineral resources and optimization of mine planning and plant operations."
+  },
+  {
+   "name": "First Mint",
+   "products": [
+    "coins and bullion"
+   ],
+   "description": "Minting facility in Nevada and bullion store in Canada selling coins and bullion.",
+   "evidence": "The First Mint segment is inclusive of operations from the Company's bullion store and its minting facility located in Nevada."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Corporate assets, exploration properties, debt facilities and unallocated corporate expenses.",
+   "evidence": "\"Others\" consists primarily of the Company's corporate assets including cash and cash equivalents"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Global metal brokers pay the company for precious metals doré and concentrate refined or smelted into pure silver and gold, plus coins and bullion.",
+  "evidence": "its major products are precious metals doré and concentrate which are refined or smelted into pure silver and gold and sold to global metal brokers"
+ },
+ "changes": [
+  {
+   "text": "The Los Gatos Silver mine was newly acquired in 2025 and is reported as an operating segment.",
+   "evidence": "For the year ended December 31, 2025, the Company's significant operating segments include its four operating mines in Mexico, including its newly acquired Los Gatos Silver mine in Chihuahua"
+  },
+  {
+   "text": "In 2025 the company agreed to sell its Del Toro Silver Mine.",
+   "evidence": "On December 17, 2025, the Company announced that it had entered into a definitive agreement to sell its 100 % owned Del Toro Silver Mine"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

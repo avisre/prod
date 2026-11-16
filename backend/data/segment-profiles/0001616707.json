@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001616707",
  "issuerName": "Wayfair Inc.",
- "builtAt": "2026-11-16T04:51:05.770Z",
+ "builtAt": "2026-11-16T09:34:05.746Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001616707-26-000027",
@@ -10,11 +10,42 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1616707/000161670726000027/w-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "furniture",
+    "décor",
+    "housewares",
+    "home improvement products"
+   ],
+   "description": "Sells home furnishings, décor and housewares to U.S. consumers and businesses through Wayfair's family of sites and physical retail stores.",
+   "evidence": "The U.S. segment primarily consists of amounts earned through product sales through Wayfair's family of sites in the U.S, together with product sales from Wayfair's U.S. physical retail stores."
+  },
+  {
+   "name": "International",
+   "products": [
+    "furniture",
+    "décor",
+    "housewares",
+    "home improvement products"
+   ],
+   "description": "Sells home furnishings, décor and housewares to customers outside the U.S. through Wayfair's international sites.",
+   "evidence": "The International segment primarily consists of amounts earned through product sales through Wayfair's international sites."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay Wayfair for home goods products purchased through its family of websites and its physical retail stores.",
+  "evidence": "The U.S. segment primarily consists of amounts earned through product sales through Wayfair's family of sites in the U.S, together with product sales from Wayfair's U.S. physical retail stores."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Wayfair exited the German market, which it refers to as the Germany Restructuring.",
+   "evidence": "As described further below, our financial results for the year ended December 31, 2025, reflect our decision to exit the German market, which we announced on January 10, 2025 (the \"Germany Restructuring\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

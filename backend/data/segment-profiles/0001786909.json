@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001786909",
  "issuerName": "Sibanye Stillwater Limited",
- "builtAt": "2026-11-16T04:51:07.143Z",
+ "builtAt": "2026-11-16T09:37:32.410Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-026991",
@@ -10,11 +10,74 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1786909/000162828026026991/sbsw-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SA PGM",
+   "products": [
+    "PGMs",
+    "Platinum",
+    "Palladium",
+    "Rhodium",
+    "Iridium",
+    "Ruthenium",
+    "Chrome"
+   ],
+   "description": "South African platinum group metal mines and processing operations that produce PGMs and chrome for refining and industrial buyers.",
+   "evidence": "Mining taxable income (SA PGM and SA gold) is determined after the deduction of all mining capital expenditure, with the provision that this cannot result in an assessed loss."
+  },
+  {
+   "name": "SA gold",
+   "products": [
+    "Gold",
+    "Silver"
+   ],
+   "description": "South African gold mines and surface operations producing gold doré and by-products for refiners and bullion markets.",
+   "evidence": "Gold mining tax is determined according to a formula which takes into account the profit and revenue attributable to gold mining operations."
+  },
+  {
+   "name": "US operations",
+   "products": [
+    "PGMs",
+    "Platinum",
+    "Palladium",
+    "Rhodium"
+   ],
+   "description": "United States platinum group metal mine and recycling sites converting mined and spent catalytic material into finished PGMs.",
+   "evidence": "Due to the fact that the US PGM operations outsources the purification of platinum, palladium and rhodium to an unrelated third party refinery, it is required that the US PGM operations must enter into an agreement with the third party that identifies the US PGM operations as the sole party that may claim the credit and both the third party and the US PGM operations signs a certification statement reflecting this agreement."
+  },
+  {
+   "name": "EU operations",
+   "products": [
+    "Nickel"
+   ],
+   "description": "European nickel refining operations, including the Sandouville refinery, producing refined nickel for metals and industrial customers.",
+   "evidence": "Nickel refining (Europe) Zinc retreatment (Australia) Pennsylvania site and North Carolina site recycling (US)"
+  },
+  {
+   "name": "AUS operations",
+   "products": [
+    "Zinc"
+   ],
+   "description": "Australian zinc retreatment operation at the Century mine recovering zinc from tailings for metal markets.",
+   "evidence": "The Group is also exposed to a royalty tax in Queensland, Australia on sales of Zinc from the Century mine depending on average metal prices."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in South Africa, the United States, Europe and Australia buy the gold, PGMs, chrome, nickel and zinc the Group mines, refines and recycles.",
+  "evidence": "The ta ble below illustrates the Group's major customers for the year ended"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Group moved its segment performance measure to adjusted EBITDA and restated segment reporting comparatives.",
+   "evidence": "The Group therefore updated the structure of the segment reporting, including representation of all comparative information, to reflect this change in internal reporting."
+  },
+  {
+   "text": "In 2025 DRDGOLD sold its share in Stellar, a renewable energy company, to focus on core operating activities.",
+   "evidence": "During H1 2025, DRDGOLD decided to sell its 50.25 % share in Stellar, a renewable energy company developing a solar plant in Limpopo, South Africa."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

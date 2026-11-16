@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001061894",
  "issuerName": "GILDAN ACTIVEWEAR INC.",
- "builtAt": "2026-11-16T04:51:04.448Z",
+ "builtAt": "2026-11-16T09:32:46.592Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001061894-26-000006",
@@ -11,11 +11,49 @@
   "url": "https://www.sec.gov/Archives/edgar/data/1061894/000106189426000006/exhibit991-mdax2025.htm",
   "exhibit": "exhibit991-mdax2025.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Activewear",
+   "products": [
+    "activewear tops and bottoms (activewear)",
+    "Gildan®",
+    "Comfort Colors®",
+    "American Apparel®",
+    "ALLPRO™",
+    "Comfort Wash®",
+    "Champion®"
+   ],
+   "description": "Makes and sells blank activewear tops and bottoms to wholesale distributors, screenprinters and embellishers, who decorate and resell them through diversified end-use markets.",
+   "evidence": "The majority of our Activewear sales are currently derived from activewear sold to wholesale distributors in the imprintables channels in North America and internationally."
+  },
+  {
+   "name": "Innerwear",
+   "products": [
+    "underwear tops and bottoms (underwear)",
+    "socks (hosiery)",
+    "intimates products (intimates)",
+    "bras",
+    "panties",
+    "shapewear",
+    "Hanes®",
+    "GOLDTOE®"
+   ],
+   "description": "Makes and sells branded underwear, socks, bras, panties and shapewear to large retailers in North America and internationally, and directly to consumers.",
+   "evidence": "The majority of our Innerwear sales are derived from a widely recognized brand portfolio of underwear and socks for men, ladies and kids, complemented by bras, panties and shapewear which are sold to large retailers both in North America and internationally, through national accounts servicing retailers, or directly to consumers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Wholesale distributors, screenprinters, embellishers, retailers and consumers pay Gildan for everyday basic apparel, including activewear and innerwear.",
+  "evidence": "Our products are sold to wholesale distributors, screenprinters, embellishers and directly to consumers in North America, Europe, Asia-Pacific, and Latin America, as well as to retailers in North America, including mass merchants, department stores, national chains, specialty retailers, craft stores, and online retailers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Gildan acquired HanesBrands, adding its brands and expanding the innerwear business.",
+   "evidence": "the anticipated benefits of the acquisition of HanesBrands Inc. (\"HanesBrands\" or \"Hanes\")"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

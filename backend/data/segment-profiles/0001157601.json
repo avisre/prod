@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001157601",
  "issuerName": "MADRIGAL PHARMACEUTICALS, INC.",
- "builtAt": "2026-11-16T04:51:03.858Z",
+ "builtAt": "2026-11-16T09:29:53.360Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-009514",
@@ -10,10 +10,23 @@
   "filingDate": "2026-02-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1157601/000162828026009514/mdgl-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MASH",
+   "products": [
+    "Rezdiffra",
+    "resmetirom"
+   ],
+   "description": "Develops and commercializes Rezdiffra, an oral liver-directed therapy for adults with noncirrhotic MASH and moderate to advanced liver fibrosis.",
+   "evidence": "The Company operates as one reportable segment focused on delivering novel therapeutics for MASH."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patients and payers in the United States and Germany pay for Rezdiffra prescriptions, which the company sells as its only approved product.",
+  "evidence": "Rezdiffra is our first and only approved product."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

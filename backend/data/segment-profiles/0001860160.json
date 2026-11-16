@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001860160",
  "issuerName": "Firefly Aerospace Inc.",
- "builtAt": "2026-11-16T04:51:05.810Z",
+ "builtAt": "2026-11-16T09:34:43.435Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-116309",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1860160/000119312526116309/fly-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Launch and Spacecraft Solutions",
+   "products": [
+    "Alpha",
+    "Eclipse",
+    "Blue Ghost",
+    "Elytra"
+   ],
+   "description": "Provides launch vehicles and spacecraft platforms, including lunar landers and maneuverable orbital vehicles, to national security, government and commercial customers.",
+   "evidence": "We operate as a single reportable segment and serve this critical domain through our differentiated and scalable platforms of Launch and Spacecraft Solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "National security, government and commercial customers pay for dedicated responsive launch services, lunar payload delivery and on-orbit spacecraft missions.",
+  "evidence": "Firefly is a market-leading space and defense technology company with an established track record of success providing comprehensive mission solutions to national security, government, and commercial customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002042694",
  "issuerName": "Primo Brands Corp",
- "builtAt": "2026-11-16T04:51:07.586Z",
+ "builtAt": "2026-11-16T09:36:47.751Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012779",
@@ -10,11 +10,39 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/2042694/000162828026012779/prmb-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water and Beverages",
+   "products": [
+    "Poland Spring",
+    "Pure Life",
+    "Saratoga",
+    "The Mountain Valley",
+    "Arrowhead",
+    "Deer Park",
+    "Ice Mountain",
+    "Sparkletts"
+   ],
+   "description": "Sources, bottles and delivers branded water and beverages to retail, away-from-home and direct-delivery customers across North America.",
+   "evidence": "Primo Brands operates through one operating segment, which is also its sole reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Consumers and businesses pay for bottled water, dispensers and filtration through retail purchases, exchanges, refills and subscription deliveries.",
+  "evidence": "Through Direct Delivery, Primo Brands delivers responsibly sourced hydration solutions direct to home and business customers."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold its Decantae Mineral Water Limited and Fonthill Waters Limited businesses, leaving operations outside North America.",
+   "evidence": "On November 25, 2024, we sold our interests in the Decantae Mineral Water Limited and Fonthill Waters Limited businesses."
+  },
+  {
+   "text": "In 2025 the company sold the remainder of its United Kingdom and Israel Eden Springs Netherlands B.V. businesses.",
+   "evidence": "On April 11, 2025, we sold our interests in the Eden Springs Netherlands B.V. business located in the United Kingdom and, on October 23, 2025, we sold our interests in the Eden Springs Netherlands B.V. business located in Israel."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001833756",
  "issuerName": "Leonardo DRS, Inc.",
- "builtAt": "2026-11-16T04:51:03.876Z",
+ "builtAt": "2026-11-16T09:30:44.382Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001833756-26-000013",
@@ -10,10 +10,44 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1833756/000183375626000013/drs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced Sensing and Computing",
+   "products": [
+    "electro-optical sensors",
+    "electronic warfare systems",
+    "network edge computing products",
+    "active electronically scanned array tactical radars",
+    "signals intelligence",
+    "dismounted soldier sensing",
+    "space sensing",
+    "SAGEcore™"
+   ],
+   "description": "Designs and manufactures sensing and network edge computing technology for U.S. and allied forces needing real-time situational awareness.",
+   "evidence": "Our ASC segment designs, develops and manufactures sensing and network computing technology that enables real-time situational awareness required for enhanced operational decision making and execution by our customers across increasingly complex and contested operating environments."
+  },
+  {
+   "name": "Integrated Mission Systems",
+   "products": [
+    "power conversion, control and distribution systems",
+    "ship propulsion systems",
+    "motors and variable frequency drives",
+    "force protection systems",
+    "transportation and logistics systems",
+    "permanent magnet motors",
+    "energy storage systems",
+    "thermal management systems"
+   ],
+   "description": "Designs, manufactures and integrates power conversion, propulsion, force protection and logistics systems for the U.S. military and allied defense customers.",
+   "evidence": "Our IMS segment designs, develops, manufactures and integrates power conversion, control and distribution systems, ship propulsion systems, motors and variable frequency drives, force protection systems, and transportation and logistics systems for the U.S. military and allied defense customers."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The U.S. government pays the company, directly as prime contractor or indirectly as subcontractor, for defense sensing, computing and power systems.",
+  "evidence": "We serve as either prime contractor or a subcontractor on key contracts based on the competitive dynamics of each opportunity."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
