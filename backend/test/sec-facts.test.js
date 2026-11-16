@@ -538,6 +538,25 @@ test('a figure a guard turned down is not put back by the same-filing last-good 
  const {d:omitted}=run({});assert.equal(cash(preserveSameFiling(omitted,structuredClone(previous),evidence)),40);
 });
 
+// Zoetis and Lumentum, 2026-11-14: their Q3 10-Qs carried the year-end under another concept and value, and the guard in
+// refresh-sec-coverage refused the whole update, so the new quarter never arrived.
+test('a later report\'s comparative column does not replace the annual report\'s own validated figure',()=>{
+ const {preserveSameFiling}=require('../sec-last-good');
+ const F='cashAndCashEquivalentsAtCarryingValue';
+ const {doc,evidence}=fixture();doc.facts['us-gaap'].CashAndCashEquivalentsAtCarryingValue={units:{USD:[{accn:ACC,form:'10-K',filed:'2026-02-01',end:'2025-12-31',val:40}]}};
+ const previous=extract(doc,evidence,{asOf:'2026-11-16'});assert.equal(previous.balance.annualReports[0][F],40);
+ // What the 11-14 extraction produced: the row's figure sourced from the 10-Q's comparative column instead.
+ const fromLater=val=>{const d=structuredClone(previous),row=d.balance.annualReports[0],id=row._sources[F][0];
+  d.sources.later={...d.sources[id],accessionNumber:'0000000123-26-000007',form:'10-Q',filingDate:'2026-11-05',value:val};row[F]=val;row._sources[F]=['later'];return d;};
+ const incoming=fromLater(45);assert.equal(p.verifiedField(incoming,incoming.balance.annualReports[0],F,new Set([ACC])),false);
+ const row=preserveSameFiling(incoming,structuredClone(previous),evidence).balance.annualReports[0];
+ assert.equal(row[F],40);assert.ok(p.verifiedField(incoming,row,F,new Set([ACC])));
+ assert.match(row._retained[F].reason,/comparative/);
+ // the same figure arriving under the later filing is left as extracted
+ const kept=preserveSameFiling(fromLater(40),structuredClone(previous),evidence).balance.annualReports[0];
+ assert.deepEqual(kept._sources[F],['later']);assert.equal(kept._retained?.[F],undefined);
+});
+
 // 2026-10-18: the industry stage reads the annual report alone, which often lacks the line that showed a figure to be
 // a part (cash equivalents beside cash, a discontinued flow beside a continuing one), and put back 140 turned-down cells.
 test('the industry stage does not put back a figure the full extraction turned down',()=>{
