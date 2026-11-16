@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001517413",
  "issuerName": "FASTLY, INC.",
- "builtAt": "2026-11-16T05:03:50.372Z",
+ "builtAt": "2026-11-16T09:54:02.826Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001517413-26-000053",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1517413/000151741326000053/fsly-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Edge cloud platform",
+   "products": [
+    "Network Services",
+    "Security",
+    "Other",
+    "Content Delivery Network",
+    "Dynamic Site Acceleration",
+    "Origin Shield",
+    "DDoS Protection",
+    "Compute"
+   ],
+   "description": "Provides an integrated edge cloud platform for organizations of all sizes, delivering content, security and compute solutions at the edge of the internet.",
+   "evidence": "The Company has one reportable and operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay subscription and committed usage fees for security subscription services and committed edge cloud platform usage.",
+  "evidence": "Deferred revenue primarily consists of the unearned portions of billings for the Company's security subscription services and the unearned portion of committed edge cloud platform usage."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

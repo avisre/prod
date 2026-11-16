@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001544522",
  "issuerName": "Freshworks Inc.",
- "builtAt": "2026-11-16T05:03:51.169Z",
+ "builtAt": "2026-11-16T09:54:30.980Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001544522-26-000036",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1544522/000154452226000036/frsh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI service software",
+   "products": [
+    "Freshservice",
+    "Freshservice for Business Teams",
+    "Device42",
+    "FireHydrant",
+    "Freshdesk Omni",
+    "Freshdesk",
+    "Freshchat",
+    "Freshcaller"
+   ],
+   "description": "Provides AI-powered employee experience and customer experience service software to organizations of all sizes worldwide, sold as subscriptions.",
+   "evidence": "We operate in a single operating segment composed of the consolidated financial results of Freshworks."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Businesses of all sizes pay subscription fees for employee experience and customer experience software, after trying products under free trial plans.",
+  "evidence": "We offer our products under both free trial and paid subscription plans, further reducing friction to adoption and accelerating our go-to-market motion."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

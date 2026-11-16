@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001307954",
  "issuerName": "Huntsman Corporation",
- "builtAt": "2026-11-16T05:03:51.096Z",
+ "builtAt": "2026-11-16T09:55:14.615Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-004524",
@@ -10,11 +10,53 @@
   "filingDate": "2026-02-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1307954/000143774926004524/hun20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Polyurethanes",
+   "products": [
+    "MDI",
+    "polyols",
+    "TPU",
+    "other polyurethane-related products"
+   ],
+   "description": "Manufactures and markets MDI, polyols and TPU polyurethane chemicals used in foams, coatings, adhesives, sealants and elastomers for industrial and building product manufacturers.",
+   "evidence": "We are a leading global manufacturer and marketer of a broad range of polyurethane chemicals, including MDI products, polyols and TPU"
+  },
+  {
+   "name": "Performance Products",
+   "products": [
+    "Amines",
+    "Maleic anhydride"
+   ],
+   "description": "Makes amines and maleic anhydride intermediate chemicals for foam, fuel and lubricant additives, coatings, composites and construction materials sold to industrial manufacturers.",
+   "evidence": "Amines are a family of intermediate chemicals that are valued for their properties as a reactive agent, emulsifier, dispersant, detergent, solvent or corrosion inhibitor."
+  },
+  {
+   "name": "Advanced Materials",
+   "products": [
+    "High performance chemical building blocks",
+    "thermoset resins",
+    "curing agents",
+    "toughening agents",
+    "carbon nanomaterials",
+    "carbon nanotubes"
+   ],
+   "description": "Supplies epoxy, acrylic and polyurethane polymer formulations, thermoset resins and additives to formulators serving aerospace, automotive, electronics and construction applications.",
+   "evidence": "Technologically- advanced epoxy, phenoxy, acrylic, polyurethane and acrylonitrile-butadiene-based polymer formulations"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Industrial and building product manufacturers worldwide pay for diversified organic chemical products used in adhesives, aerospace, automotive, coatings, construction, electronics and insulation applications.",
+  "evidence": "Our products comprise many different chemicals and chemical formulations, which we market globally to a wide range of consumers that consist primarily of industrial and building product manufacturers."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company completed the sale of its textile chemicals and dyes business to Archroma.",
+   "evidence": "On February 28, 2023, we completed the sale of our textile chemicals and dyes business (\"Textile Effects Business\") to Archroma, a portfolio company of SK Capital Partners (\"Archroma\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

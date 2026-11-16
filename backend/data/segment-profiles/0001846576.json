@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001846576",
  "issuerName": "FIGS, Inc.",
- "builtAt": "2026-11-16T05:03:53.614Z",
+ "builtAt": "2026-11-16T09:56:55.591Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012333",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1846576/000162828026012333/figs-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare apparel",
+   "products": [
+    "scrubwear",
+    "non-scrubwear",
+    "outerwear",
+    "underscrubs",
+    "footwear",
+    "compression socks",
+    "lab coats",
+    "loungewear"
+   ],
+   "description": "Sells healthcare apparel and lifestyle products, including scrubwear and non-scrubwear, to healthcare professionals through its digital platform and Community Hubs.",
+   "evidence": "The CODM manages the Company's operations as a single segment based on financial data presented on a consolidated basis for the purposes of assessing performance and making operating and resource allocation decisions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Healthcare professionals buy their own uniforms, while institutions and TEAMS business customers buy apparel for staff, purchased through the company's digital platform and Community Hubs.",
+  "evidence": "In addition, hospitals, medical offices, clinics and laboratories routinely require healthcare professionals such as doctors, nurses and medical technicians to wear scrubs, lab coats and other medical apparel during every shift, and the vast majority of medical professionals purchase their own uniforms."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001262976",
  "issuerName": "Cimpress plc",
- "builtAt": "2026-11-16T05:03:51.407Z",
+ "builtAt": "2026-11-16T09:55:39.511Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001262976-26-000027",
@@ -10,11 +10,61 @@
   "filingDate": "2026-08-07",
   "url": "https://www.sec.gov/Archives/edgar/data/1262976/000126297626000027/cmpr-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "VistaPrint",
+   "products": [
+    "99designs by Vista",
+    "VistaCreate",
+    "Vista x Wix",
+    "VistaPrint Corporate Solutions"
+   ],
+   "description": "Sells customized printed marketing products and design, website and graphic design services to small businesses and corporations through branded websites.",
+   "evidence": "This business also includes several smaller revenue and profit streams: our 99designs by Vista business, which provides graphic design services, VistaCreate for do-it-yourself (DIY) design, our Vista x Wix partnership for small business websites, and our VistaPrint Corporate Solutions business, which serves medium-sized businesses and large corporations."
+  },
+  {
+   "name": "PrintBrothers",
+   "products": [],
+   "description": "Serves graphic professionals such as local printers, resellers and agencies with a wide variety of mass-customized print products at wholesale-like pricing.",
+   "evidence": "Our Upload & Print businesses are organized in two reportable segments: PrintBrothers and The Print Group, both of which focus on serving graphic professionals such as local printers, print resellers, graphic artists, advertising agencies, and other customers with professional desktop publishing skill sets."
+  },
+  {
+   "name": "The Print Group",
+   "products": [],
+   "description": "Upload and print business serving graphic professionals and resellers with mass-customized printed products produced in owned and partner facilities.",
+   "evidence": "Our Upload & Print businesses are organized in two reportable segments: PrintBrothers and The Print Group, both of which focus on serving graphic professionals such as local printers, print resellers, graphic artists, advertising agencies, and other customers with professional desktop publishing skill sets."
+  },
+  {
+   "name": "National Pen",
+   "products": [],
+   "description": "Reportable segment within the company's management reporting structure; it carries higher marketing and selling costs as a percentage of revenue.",
+   "evidence": "As of June 30, 2026, we have numerous operating segments under our management reporting structure that are reported in the following five reportable segments: VistaPrint, PrintBrothers, The Print Group, National Pen, and All Other Businesses."
+  },
+  {
+   "name": "All Other Businesses",
+   "products": [
+    "BuildASign",
+    "Printi",
+    "canvas-print wall décor",
+    "signage",
+    "other large-format printed products"
+   ],
+   "description": "Collection of smaller businesses, including BuildASign and Printi, combined into one reportable segment based on materiality.",
+   "evidence": "5. All Other Businesses : A collection of businesses combined into one reportable segment based on materiality, including BuildASign, a larger business with strong profitability and cash flow, and Printi, a smaller business operating at a relatively modest operating loss."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Businesses and consumers pay Cimpress for customized printed and promotional products, plus some design, website and marketing services, ordered online and shipped to them.",
+  "evidence": "Our businesses generate revenue primarily from the sale and shipment of customized products."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2026 the company updated its internal organizational structure, moving two teams from the VistaPrint segment into central functions.",
+   "evidence": "We also updated our internal organizational structure, which included the transfer of two teams from our VistaPrint reportable segment into our central functions."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001806837",
  "issuerName": "Vertex, Inc.",
- "builtAt": "2026-11-16T05:03:53.785Z",
+ "builtAt": "2026-11-16T09:56:56.708Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-019165",
@@ -10,10 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1806837/000110465926019165/verx-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Compliance Technology",
+   "products": [
+    "Tax Calculation",
+    "Vertex AI",
+    "Smart Categorization",
+    "Document Management",
+    "Returns and Filings",
+    "E-invoicing",
+    "Tax Data Management",
+    "Pre-Built Integrations"
+   ],
+   "description": "Provides enterprise compliance technology that automates indirect tax determination, compliance and reporting, document management and e-invoicing for global businesses.",
+   "evidence": "The Company operates its business as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Enterprise and midmarket businesses license the software and solutions, paying Vertex through its direct and indirect sales organization.",
+  "evidence": "We license our software and solutions primarily through our direct and indirect sales organization, with a focus on enterprise and midmarket businesses that have complex tax operations."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

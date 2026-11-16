@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001816581",
  "issuerName": "Ouster, Inc.",
- "builtAt": "2026-11-16T05:03:50.527Z",
+ "builtAt": "2026-11-16T09:54:26.583Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-013313",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1816581/000162828026013313/oust-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lidar sensor kits",
+   "products": [
+    "OS product line",
+    "OSDome",
+    "OS0",
+    "OS1",
+    "OS2",
+    "DF series",
+    "Velodyne scanning sensors",
+    "REV7"
+   ],
+   "description": "Ouster sells and produces digital lidar sensor kits and related sensing and perception hardware to industrial, smart infrastructure, robotics and automotive customers.",
+   "evidence": "The Company operates as one reportable and operating segment, which relates to the sale and production of lidar sensor kits."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers and distributors pay for lidar sensor product sales, with additional revenue from software development services and IP royalties.",
+  "evidence": "The majority of the Company's revenue comes from product sales of lidar sensors to direct customers and distributors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

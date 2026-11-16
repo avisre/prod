@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001867729",
  "issuerName": "WeRide Inc.",
- "builtAt": "2026-11-16T05:03:51.515Z",
+ "builtAt": "2026-11-16T09:54:58.422Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-047323",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1867729/000110465926047323/wrd-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autonomous driving",
+   "products": [
+    "robobuses",
+    "robotaxis",
+    "robosweepers",
+    "robovans",
+    "related sensor suites",
+    "autonomous driving related operational and technical support services",
+    "ADAS R&D services",
+    "intelligent data services"
+   ],
+   "description": "Develops and sells autonomous driving vehicles and provides related operational, technical support and other technology services to customers.",
+   "evidence": "For the purpose of resources allocation and performance assessment, the chief operating decision maker (\"CODM\") reviews the overall results and financial position of the Group as a whole."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for autonomous driving vehicles and for accompanying autonomous driving related operational and technical support services, plus other technology services.",
+  "evidence": "The Group generally sells autonomous driving vehicles to customers with provision of accompanying operational and technical support services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001879016",
  "issuerName": "Ivanhoe Electric Inc.",
- "builtAt": "2026-11-16T05:03:53.904Z",
+ "builtAt": "2026-11-16T09:57:10.018Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001879016-26-000005",
@@ -10,11 +10,62 @@
   "filingDate": "2026-02-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1879016/000187901626000005/ie-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Santa Cruz Copper Project",
+   "products": [
+    "copper cathode"
+   ],
+   "description": "Advances an underground copper mine and heap leach processing facility in Arizona designed to produce copper cathode for the copper market.",
+   "evidence": "The Santa Cruz Copper Project is at a more advanced stage relative to most of the Company's other mineral exploration projects and its discrete financial information and operating results are regularly reviewed by the CODM in order to make decisions about resource allocation and assess performance."
+  },
+  {
+   "name": "Critical Metals",
+   "products": [
+    "copper",
+    "gold",
+    "silver"
+   ],
+   "description": "Explores and develops mineral projects and ultimately mines for metals necessary for electrification, in the United States and abroad.",
+   "evidence": "The Santa Cruz Copper Project and critical metals segments are focused on mineral project exploration and development with a focus on identifying and developing mineral projects, and ultimately mines, associated with the metals necessary for electrification."
+  },
+  {
+   "name": "Data Processing",
+   "products": [
+    "data analytics",
+    "geophysical modeling",
+    "artificial intelligence services",
+    "Typhoon™"
+   ],
+   "description": "Supplies data analytics, geophysical modeling and artificial intelligence services to mineral, oil and gas and water exploration customers.",
+   "evidence": "The data processing segment provides data analytics, geophysical modeling and artificial intelligence services for the mineral, oil & gas and water exploration industries."
+  },
+  {
+   "name": "Energy Storage",
+   "products": [
+    "vanadium flow batteries",
+    "vanadium redox flow energy storage systems"
+   ],
+   "description": "Develops, manufactures and installs vanadium flow batteries for grid-scale energy storage customers.",
+   "evidence": "The energy storage segment develops, manufactures and installs vanadium flow batteries for grid-scale energy storage."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Mining, oil and gas customers pay for data processing services, while energy storage customers buy vanadium flow batteries for grid-scale storage.",
+  "evidence": "CGI generates revenue from the sale of data processing services to the mining and oil and gas industries."
+ },
+ "changes": [
+  {
+   "text": "In 2024, VRB Energy reduced its ownership interest in VRB China and commenced equity accounting for that investment.",
+   "evidence": "In October 2024, VRB Energy reduced its ownership interest in VRB China to 49% and commenced equity accounting for this investment."
+  },
+  {
+   "text": "In 2025, Cordoba agreed to sell its remaining interest in the Alacrán Copper Project to a consortium of investors.",
+   "evidence": "On May 8, 2025, Cordoba announced that it had entered into an agreement for the sale of the remaining 50% of the Alacrán Copper Project to a consortium of investors including JCHX Mining Management Co., Ltd."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

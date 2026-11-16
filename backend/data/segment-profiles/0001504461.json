@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001504461",
  "issuerName": "NGL Energy Partners LP",
- "builtAt": "2026-11-16T05:03:53.068Z",
+ "builtAt": "2026-11-16T09:56:54.459Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001504461-26-000012",
@@ -10,11 +10,64 @@
   "filingDate": "2026-05-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1504461/000150446126000012/ngl-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Solutions",
+   "products": [
+    "produced water",
+    "flowback water",
+    "recovered crude oil",
+    "skim oil",
+    "tank bottoms",
+    "drilling fluids",
+    "drilling muds",
+    "truck washouts"
+   ],
+   "description": "Transports, treats, recycles and disposes of produced and flowback water for crude oil and natural gas producers, selling recovered skim oil.",
+   "evidence": "Our Water Solutions segment transports, treats, recycles and disposes of produced and flowback water generated from crude oil and natural gas production."
+  },
+  {
+   "name": "Crude Oil Logistics",
+   "products": [
+    "crude oil",
+    "storage",
+    "terminaling",
+    "transportation services"
+   ],
+   "description": "Buys crude oil from producers and marketers and moves it to refineries, resale hubs and terminals for refiners and marketers.",
+   "evidence": "Our Crude Oil Logistics segment purchases crude oil from producers and marketers and transports it to refineries or for resale at pipeline injection stations, storage terminals, barge loading facilities, rail facilities and other trade hubs, and provides storage, terminaling and transportation services through its owned assets."
+  },
+  {
+   "name": "Liquids Logistics",
+   "products": [
+    "natural gas liquids",
+    "butane",
+    "propane"
+   ],
+   "description": "Supplies natural gas liquids to commercial, retail and industrial customers across the United States and Canada using terminals, pipelines and railcars.",
+   "evidence": "Our Liquids Logistics segment conducts supply operations for natural gas liquids to commercial, retail and industrial customers across the United States and Canada."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Producers and other customers pay us fixed fees, and we earn margins, for water handling, crude oil transportation and storage, and natural gas liquids supply.",
+  "evidence": "We intend to focus on generating revenues under long-term, fixed fee contracts in addition to back-to-back contracts which minimize commodity price exposure."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Partnership sold its refined products business, which was part of the Liquids Logistics segment.",
+   "evidence": "On April 30, 2025, we sold our refined products business, which was part of our Liquids Logistics segment, including certain working capital items"
+  },
+  {
+   "text": "In 2025 the Partnership sold most of its wholesale propane business and a number of its natural gas liquids terminals, part of the Liquids Logistics segment.",
+   "evidence": "On April 30, 2025, we sold most of our wholesale propane business, 17 of our natural gas liquids terminals, our interest in an unconsolidated entity and working capital (\"Wholesale Propane Disposition\"), which was part of our Liquids Logistics segment."
+  },
+  {
+   "text": "In 2025 the Partnership sold investments, property, plant and equipment and intangible assets in the Water Solutions segment.",
+   "evidence": "On April 14, 2025, we sold certain investments in unconsolidated entities, property, plant and equipment and intangible assets in our Water Solutions segment"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

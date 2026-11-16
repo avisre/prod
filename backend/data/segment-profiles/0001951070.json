@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001951070",
  "issuerName": "MCGRAW HILL, INC.",
- "builtAt": "2026-11-16T05:03:51.789Z",
+ "builtAt": "2026-11-16T09:56:08.283Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001951070-26-000022",
@@ -10,10 +10,58 @@
   "filingDate": "2026-06-11",
   "url": "https://www.sec.gov/Archives/edgar/data/1951070/000195107026000022/mh-20260331.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "K-12",
+   "products": [
+    "Core Solutions",
+    "Supplemental Solutions",
+    "Intervention Solutions",
+    "AP and Electives",
+    "ConnectEd",
+    "ALEKS",
+    "Open Learning"
+   ],
+   "description": "Provides U.S. schools with core, supplemental and intervention curricula in blended digital and print form, sold directly to districts.",
+   "evidence": "We are a top two provider in the K-12 market in the United States, serving approximately 91% of public K-12 districts."
+  },
+  {
+   "name": "Higher Education",
+   "products": [
+    "Connect",
+    "Smartbook",
+    "SIMnet",
+    "Sharpen Advantage",
+    "SIMskills Badges"
+   ],
+   "description": "Sells adaptive digital learning solutions, content and instructional materials to students, instructors and institutions at colleges and universities.",
+   "evidence": "We are a top two provider of digital and print learning solutions in the U.S. higher education market based on market share, serving approximately 81% of U.S. higher education institutions."
+  },
+  {
+   "name": "Global Professional",
+   "products": [
+    "Access",
+    "AccessMedicine"
+   ],
+   "description": "Provides medical and engineering learning solutions to students, institutions and professionals, largely through subscription-based access to trusted content.",
+   "evidence": "We are a global content provider of trusted, high-stakes medical and engineering learning solutions and support learners and educational institutions with technologies developed to maximize learning outcomes."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Connect",
+    "ALEKS"
+   ],
+   "description": "Sells digital and print solutions adapted from U.S. offerings to learners and educators outside the United States.",
+   "evidence": "We are a provider of comprehensive digital and print solutions in more than 100 countries and 80 languages outside the United States."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "School districts, colleges and universities, medical and engineering institutions and professionals pay for digital and print learning solutions and subscriptions.",
+  "evidence": "We sell our learning solutions directly to school districts across the United States through multi-year contracts, providing strong visibility and predictability of forward revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

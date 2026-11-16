@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001576789",
  "issuerName": "Wix.com Ltd.",
- "builtAt": "2026-11-16T05:03:52.007Z",
+ "builtAt": "2026-11-16T09:55:58.852Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001628280-26-015222",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1576789/000162828026015222/wix-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "web development platform",
+   "products": [
+    "Wix Harmony",
+    "Wix Editor",
+    "Wix Studio",
+    "Velo by Wix",
+    "Payments by Wix",
+    "Paid Ad Campaigns",
+    "Google Workspace",
+    "App Market"
+   ],
+   "description": "Global cloud-based web development platform selling website creation, commerce and business tools through freemium subscriptions to self-creators, agencies and enterprises.",
+   "evidence": "As such, the Company has determined that it operates in one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Users pay subscription fees, free and premium, for web creation and business solutions on the platform, and partners also promote its services.",
+  "evidence": "We offer our solutions through a freemium SaaS business model (free and premium services), and as of December 31, 2025, we had approximately 6.1 million premium subscriptions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

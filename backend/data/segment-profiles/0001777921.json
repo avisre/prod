@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001777921",
  "issuerName": "AvePoint, Inc.",
- "builtAt": "2026-11-16T05:03:53.119Z",
+ "builtAt": "2026-11-16T09:56:25.691Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-005907",
@@ -10,10 +10,27 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1777921/000143774926005907/avpt20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data protection",
+   "products": [
+    "AvePoint Confidence Platform",
+    "Control Suite",
+    "Resilience Suite",
+    "Modernization Suite",
+    "Backup-as-a-Service",
+    "Elements edition"
+   ],
+   "description": "Provides cloud data protection, governance and resilience software through platform suites to organizations of all sizes worldwide.",
+   "evidence": "The Company manages its business activities on a consolidated basis and operates in a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay subscriptions for cloud data protection and governance software, sold mostly through channel partners rather than directly.",
+  "evidence": "We sell subscriptions to customers through our channel partners primarily using a two-tier, indirect fulfillment model."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

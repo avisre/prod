@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000932695",
  "issuerName": "China Yuchai International Limited",
- "builtAt": "2026-11-16T05:03:52.817Z",
+ "builtAt": "2026-11-16T09:56:43.380Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-191559",
@@ -10,10 +10,37 @@
   "filingDate": "2026-04-29",
   "url": "https://www.sec.gov/Archives/edgar/data/932695/000119312526191559/ck0000932695-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Yuchai",
+   "products": [
+    "diesel",
+    "natural gas",
+    "alternate fuels combustion engines",
+    "new energy powertrain systems",
+    "environmentally friendly hybrid engines",
+    "high horsepower engines",
+    "MTU Yuchai Power"
+   ],
+   "description": "Manufactures on- and off-road powertrain solutions and applications, principally diesel, natural gas and alternate fuels engines, for customers mainly in China.",
+   "evidence": "Yuchai offers a portfolio of diesel, natural gas and alternate fuels combustion engines, along with the development of new energy powertrain systems and environmentally friendly hybrid engines."
+  },
+  {
+   "name": "HLGE",
+   "products": [
+    "hospitality",
+    "property development"
+   ],
+   "description": "Engages in hospitality and property development activities, serving customers in Malaysia, and is listed on the Singapore Exchange.",
+   "evidence": "HLGE is engaged in hospitality and property development activities conducted mainly in Malaysia."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers, including original equipment manufacturers, pay for engines and powertrain products, with revenue recognized when the engines are delivered.",
+  "evidence": "Revenue from sale of engines is recognized at the point in time when control of the engine is transferred to the customer and all criteria for acceptance have been satisfied, generally on delivery of the engines, or, in some cases, when the engines are installed by the customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

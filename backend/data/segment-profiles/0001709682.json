@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001709682",
  "issuerName": "CUSTOM TRUCK ONE SOURCE, INC.",
- "builtAt": "2026-11-16T05:03:52.705Z",
+ "builtAt": "2026-11-16T09:56:24.764Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001709682-26-000008",
@@ -10,11 +10,56 @@
   "filingDate": "2026-03-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1709682/000170968226000008/ctos-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Equipment Rental Solutions",
+   "products": [
+    "truck-mounted aerial lifts",
+    "cranes",
+    "service trucks",
+    "dump trucks",
+    "trailers",
+    "digger derricks"
+   ],
+   "description": "Rents and sells new and used specialty equipment from its rental fleet to utilities, contractors and infrastructure service providers.",
+   "evidence": "We own a broad range of new and used specialty equipment, including truck-mounted aerial lifts, cranes, service trucks, dump trucks, trailers, digger derricks and other machinery and equipment."
+  },
+  {
+   "name": "Truck and Equipment Sales",
+   "products": [
+    "new and used specialty equipment",
+    "vocational trucks",
+    "Load King"
+   ],
+   "description": "Produces and sells new and used specialty equipment and vocational trucks, including its own brand, to customers across its end-markets.",
+   "evidence": "Activities in our TES segment consist of the production and sale of new and used specialty equipment and vocational trucks"
+  },
+  {
+   "name": "Aftermarket Parts and Services",
+   "products": [
+    "specialized aftermarket parts",
+    "stringing blocks",
+    "insulated hot stick",
+    "rigging equipment",
+    "packaged specialty kits",
+    "truck and equipment maintenance and repair services"
+   ],
+   "description": "Sells specialized aftermarket parts and tools and performs maintenance and repair services through its branch network and mobile technicians.",
+   "evidence": "The APS segment includes the sale of specialized aftermarket parts, including captive parts related to our Load King TM brand, used in the maintenance and repair of the equipment we sell and rent."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for equipment rentals, new and used equipment purchases, and aftermarket parts and service.",
+  "evidence": "We rent, produce, sell, and service a broad range of new and used equipment, including bucket trucks, digger derricks, dump trucks, cranes, service trucks, and heavy-haul trailers."
+ },
+ "changes": [
+  {
+   "text": "Beginning in 2026, the company will report two reportable segments, Specialty Equipment Rentals and Specialty Truck Equipment and Manufacturing, replacing its three historical segments.",
+   "evidence": "As a result, beginning in the three months ending March 31, 2026, we will report our results under two reportable segments: (1) Specialty Equipment Rentals (\"SER\") and (2) Specialty Truck Equipment and Manufacturing (\"STEM\")."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

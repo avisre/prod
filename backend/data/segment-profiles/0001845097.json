@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001845097",
  "issuerName": "ARDAGH METAL PACKAGING S.A.",
- "builtAt": "2026-11-16T05:03:51.582Z",
+ "builtAt": "2026-11-16T09:55:46.352Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-024068",
@@ -10,10 +10,38 @@
   "filingDate": "2026-03-05",
   "url": "https://www.sec.gov/Archives/edgar/data/1845097/000110465926024068/ambp-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe",
+   "products": [
+    "metal beverage cans",
+    "specialty cans",
+    "slim cans",
+    "sleek cans",
+    "beverage cans"
+   ],
+   "description": "Makes metal beverage cans, including specialty, slim and sleek cans, for beverage brand owners across Europe.",
+   "evidence": "The Group's two operating and reportable segments, Europe and Americas, reflect the basis on which the Group's performance is reviewed by management and presented to the CODM."
+  },
+  {
+   "name": "Americas",
+   "products": [
+    "metal beverage cans",
+    "specialty cans",
+    "slim cans",
+    "sleek cans",
+    "beverage cans"
+   ],
+   "description": "Supplies metal beverage cans, including specialty cans, to beverage producers in North America and Brazil.",
+   "evidence": "In 2025, specialty cans represented 51% of our total can shipments, with strong representation in both the Europe and Americas segments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Beverage brand owners and producers pay for metal beverage packaging supplied under multi-year and annual supply contracts.",
+  "evidence": "Over 80% of our revenue for the year ended December 31, 2025 is backed by multi-year supply agreements ranging from two to seven years in duration, with the remainder largely pursuant to annual arrangements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

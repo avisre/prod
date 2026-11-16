@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001811210",
  "issuerName": "Lucid Group, Inc.",
- "builtAt": "2026-11-16T05:03:51.736Z",
+ "builtAt": "2026-11-16T09:55:44.104Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-011053",
@@ -10,10 +10,28 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1811210/000162828026011053/lcid-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric vehicles",
+   "products": [
+    "Lucid Air",
+    "Lucid Gravity",
+    "Midsize platform",
+    "EV powertrains",
+    "battery systems",
+    "Lucid Financial Services",
+    "robotaxi"
+   ],
+   "description": "Designs, manufactures and sells electric vehicles, powertrains and battery systems to consumers through its own retail network and online channels.",
+   "evidence": "Lucid designed, developed, manufactures and sells two groundbreaking EVs: The Lucid Air sedan, for which customer deliveries began in late 2021, and the Lucid Gravity SUV, which arrived on the road in late 2024."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Consumers and third parties pay the company for vehicles and related services, and for licensing of EV platforms, powertrains, battery technology and software.",
+  "evidence": "We sell vehicles directly to consumers through our retail sales network and online channels, including Lucid Financial Services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

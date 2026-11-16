@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001832511",
  "issuerName": "P3 Health Partners Inc.",
- "builtAt": "2026-11-16T05:03:50.761Z",
+ "builtAt": "2026-11-16T09:54:13.963Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001832511-26-000011",
@@ -10,11 +10,31 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1832511/000183251126000011/piii-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Population Health Management",
+   "products": [
+    "population health management services",
+    "value-based care coordination and health management",
+    "capitated care services",
+    "care management, quality management and utilization management"
+   ],
+   "description": "Provides value-based population health management and capitated care to Medicare Advantage insurance plans and their members on an at-risk basis.",
+   "evidence": "The Company's single segment generates revenue by providing population health management services on an at-risk basis to insurance plans offering medical coverage to Medicare beneficiaries under Medicare Advantage programs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Health plans and payors pay the company per-member-per-month capitated fees to manage the care of their Medicare Advantage members on an at-risk basis.",
+  "evidence": "Our platform focuses on Medicare Advantage and manages the needs of our members through subscription-like per-member-per-month (\"PMPM\") arrangements with health plans or payors."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold its Florida assets to buyers affiliated with its principal stockholder.",
+   "evidence": "On November 30, 2024, the Company sold its Florida Assets to Buyers which are affiliated with the Company's principal stockholder."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

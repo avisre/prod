@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001369241",
  "issuerName": "DANAOS CORPORATION",
- "builtAt": "2026-11-16T05:03:51.629Z",
+ "builtAt": "2026-11-16T09:56:06.825Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-021574",
@@ -10,11 +10,43 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1369241/000110465926021574/dac-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "container vessels segment",
+   "products": [
+    "container vessels",
+    "containerships",
+    "time charter",
+    "bareboat charter"
+   ],
+   "description": "Owns and operates container vessels chartered to liner companies on multi-year, fixed-rate time charter and bareboat charter agreements.",
+   "evidence": "The container vessels segment owns and operates container vessels which are primarily chartered on multi-year, fixed-rate time charter and bareboat charter agreements."
+  },
+  {
+   "name": "drybulk vessels segment",
+   "products": [
+    "drybulk vessels",
+    "Capesize bulk carriers",
+    "drybulk commodity transportation services",
+    "voyage charter",
+    "time charter"
+   ],
+   "description": "Owns and operates drybulk vessels providing drybulk commodity transportation services to charterers under time charter and voyage charter arrangements.",
+   "evidence": "The drybulk vessels segment owns and operates drybulk vessels to provide drybulk commodities transportation services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Charterers, mainly liner companies and other cargo owners, pay charter hire for the use of the company's container and drybulk vessels under time, bareboat and voyage charters.",
+  "evidence": "a container vessels segment, as a provider of worldwide marine transportation services through time charter and bareboat charter arrangements"
+ },
+ "changes": [
+  {
+   "text": "The company added a drybulk vessels segment in 2023 after acquiring drybulk vessels.",
+   "evidence": "Following the acquisition of the drybulk vessels in 2023, the Company operates in two separate segments in accordance with ASC 280"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

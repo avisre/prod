@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002054696",
  "issuerName": "NIQ Global Intelligence plc",
- "builtAt": "2026-11-16T05:03:51.476Z",
+ "builtAt": "2026-11-16T09:54:52.340Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-012572",
@@ -10,11 +10,65 @@
   "filingDate": "2026-02-27",
   "url": "https://www.sec.gov/Archives/edgar/data/2054696/000162828026012572/niq-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Intelligence",
+    "Activation",
+    "omnichannel measurement",
+    "consumer behavior and insights",
+    "retailer solutions",
+    "innovation",
+    "brand and media",
+    "analytics products"
+   ],
+   "description": "Sells consumer intelligence, measurement and analytics solutions to brands and retailers across North America and Latin America.",
+   "evidence": "We operate our business through three reportable segments: (1) Americas, which includes North America and Latin America; (2) EMEA, which includes Europe, the Middle East and Africa; and (3) APAC, which includes Asia and the western Pacific region."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Intelligence",
+    "Activation",
+    "omnichannel measurement",
+    "consumer behavior and insights",
+    "retailer solutions",
+    "innovation",
+    "brand and media",
+    "analytics products"
+   ],
+   "description": "Sells consumer intelligence, measurement and analytics solutions to brands and retailers across Europe, the Middle East and Africa.",
+   "evidence": "We operate our business through three reportable segments: (1) Americas, which includes North America and Latin America; (2) EMEA, which includes Europe, the Middle East and Africa; and (3) APAC, which includes Asia and the western Pacific region."
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "Intelligence",
+    "Activation",
+    "omnichannel measurement",
+    "consumer behavior and insights",
+    "retailer solutions",
+    "innovation",
+    "brand and media",
+    "analytics products"
+   ],
+   "description": "Sells consumer intelligence, measurement and analytics solutions to brands and retailers across Asia and the western Pacific region.",
+   "evidence": "We operate our business through three reportable segments: (1) Americas, which includes North America and Latin America; (2) EMEA, which includes Europe, the Middle East and Africa; and (3) APAC, which includes Asia and the western Pacific region."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Brands, retailers and other clients pay subscription and on-demand fees for consumer intelligence data, software applications, analytics and insights.",
+  "evidence": "We typically initiate client relationships through one of our core Intelligence solutions which we typically sell under multi-year or annual subscription contracts granting clients access to our core software and data solutions."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company identified new operating segments, changing the composition of its reporting units and the operating segments within each reportable segment.",
+   "evidence": "We identified new operating segments during the third quarter of 2024, which changed the composition of its reporting units."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
