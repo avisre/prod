@@ -441,6 +441,14 @@ function targets() {
 module.exports = { validate, windows, latestAnnual, pickDocument, businessExhibit, widestExhibit, ONE_SEGMENT, oneSegmentMismatch, statedSegments, THIN, SYSTEM,
     promptFor, recordFromReply, filingFields, readable };
 if (require.main === module) (async () => {
+    // An unknown option (an agent once ran it with --help) used to fall through to the default mode, which
+    // reads every filing with a model. Refuse instead.
+    const KNOWN = ['--claude', '--dump', '--from-replies', '--jobs', '--limit', '--rebuild', '--cik'];
+    const unknown = args.filter(a => a.startsWith('-') && !KNOWN.includes(a));
+    if (unknown.length) {
+        console.error(`unknown option ${unknown.join(' ')}. Options: ${KNOWN.join(' ')}. Without --dump or --from-replies it reads filings with a model.`);
+        process.exit(2);
+    }
     // Two-stage modes never load a provider and never touch a model.
     if (DUMP || FROM_REPLIES) {
         const dir = path.resolve(DUMP || FROM_REPLIES), mode = DUMP ? 'dump' : 'from-replies';
