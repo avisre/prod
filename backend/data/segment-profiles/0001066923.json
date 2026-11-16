@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001066923",
  "issuerName": "Future FinTech Group Inc.",
- "builtAt": "2026-11-16T05:48:44.468Z",
+ "builtAt": "2026-11-16T12:21:41.858Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-030833",
@@ -10,11 +10,55 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/1066923/000121390026030833/ea0277943-10k_future.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Supply Chain Financing and Trading",
+   "products": [
+    "coals",
+    "aluminum ingots",
+    "sand",
+    "steel"
+   ],
+   "description": "Supply-chain financing and commodity trading in China for coal, aluminum ingots, sand and steel; scaled down since late 2025.",
+   "evidence": "However, due to the continuous decline in coal prices and weakening market demand in China, we have significantly scaled down our supply chain financing and trading business segment since late 2025."
+  },
+  {
+   "name": "Fast-Moving Consumer Goods (FMCG)",
+   "products": [],
+   "description": "Fast-moving consumer goods operations, started in the last quarter of 2024.",
+   "evidence": "During the last quarter of fiscal year 2024, the Company commenced operations in the Fast-Moving Consumer Goods (FMCG) sector."
+  },
+  {
+   "name": "Trading Commission and Consulting services",
+   "products": [
+    "online brokerage services",
+    "debt recovery consulting service",
+    "listing and financing consulting service"
+   ],
+   "description": "Hong Kong brokerage, IPO underwriting and bond issuance, plus business and financial consulting for customers.",
+   "evidence": "FTFT International Securities and Futures Limited, a company we acquired in November 2023, provides brokerage and investment banking services in Hong Kong."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for brokerage, consulting and trading services; the company earns agent fees or sales margin on coal, aluminum ingots, sand and steel.",
+  "evidence": "We also provide trading service as we don't take control over the ownership of the goods but receive an agent service fee for the transaction."
+ },
+ "changes": [
+  {
+   "text": "Supply chain financing and trading was significantly scaled down in 2025.",
+   "evidence": "However, due to the continuous decline in coal prices and weakening market demand in China, we have significantly scaled down our supply chain financing and trading business segment since late 2025."
+  },
+  {
+   "text": "The Hong Kong asset management business was sold in 2024.",
+   "evidence": "In November 2024, the Company closed the sale of its remaining 42.86% ownership of NTAM to a third party for HK$2.4 million and is no longer in asset management business in Hong Kong."
+  },
+  {
+   "text": "Fast-Moving Consumer Goods operations began in the last quarter of 2024.",
+   "evidence": "During the last quarter of fiscal year 2024, the Company commenced operations in the Fast-Moving Consumer Goods (FMCG) sector."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

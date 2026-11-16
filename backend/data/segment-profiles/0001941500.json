@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001941500",
  "issuerName": "Multi Ways Holdings Limited",
- "builtAt": "2026-11-16T05:48:45.029Z",
+ "builtAt": "2026-11-16T12:22:03.879Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-021982",
@@ -10,10 +10,24 @@
   "filingDate": "2026-05-08",
   "url": "https://www.sec.gov/Archives/edgar/data/1941500/000149315226021982/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Heavy construction equipment",
+   "products": [
+    "Equipment Sales",
+    "Rental",
+    "Services"
+   ],
+   "description": "Sells and rents heavy construction equipment to customers, mainly in Singapore and the region.",
+   "evidence": "In accordance with ASC 280, Segment Reporting (\"ASC 280\"), the Company has determined that it operates in one reportable operating segment, consistent with how management evaluates performance and allocates resources."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company to buy or rent heavy construction equipment, and for related services.",
+  "evidence": "We operate in the heavy construction equipment sales and rental business, which is highly competitive."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

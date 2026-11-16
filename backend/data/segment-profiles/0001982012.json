@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001982012",
  "issuerName": "Ten-League International Holdings Limited",
- "builtAt": "2026-11-16T05:48:35.882Z",
+ "builtAt": "2026-11-16T12:16:06.870Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-020406",
@@ -10,10 +10,43 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1982012/000149315226020406/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sale of heavy equipment and parts",
+   "products": [
+    "foundation equipment",
+    "hoist equipment",
+    "excavation equipment",
+    "port machinery",
+    "reach stacker",
+    "empty container handler"
+   ],
+   "description": "Sells heavy equipment and parts, such as port machinery, foundation equipment, hoist equipment and excavators, to port and construction firms in Singapore.",
+   "evidence": "The equipment we provide is categorized into (i) foundation equipment; (ii) hoist equipment; (iii) excavation equipment; and (iv) port machinery."
+  },
+  {
+   "name": "Engineering consultancy service income",
+   "products": [
+    "engineering consultancy services"
+   ],
+   "description": "Provides value-added engineering consultancy services for port, construction, civil engineering and underground foundation industries, aimed at safety and productivity.",
+   "evidence": "The Company also provides value-added engineering solutions under engineering consultancy services with the aim to address potential safety issues, enhance reliability and productivity and allow for customers to evaluate the performance of the equipment, the quality of the work completed and the progress of their projects."
+  },
+  {
+   "name": "Rental income",
+   "products": [
+    "heavy equipment rental"
+   ],
+   "description": "Rents heavy equipment to port, construction, civil engineering and underground foundation customers on flexible terms.",
+   "evidence": "We offer both sale and rental arrangement for our fleet of equipment on flexible terms so that our customers can choose the mode of operation that best suits their need and budget."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for purchases of heavy equipment and parts, for equipment rental, and for engineering consultancy services.",
+  "evidence": "Our business primarily consists of sales of heavy equipment and parts, heavy equipment rental and provision of engineering consultancy services to port, construction, civil engineering and underground foundation industries."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

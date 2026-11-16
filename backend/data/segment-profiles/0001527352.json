@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001527352",
  "issuerName": "Nexalin Technology, Inc.",
- "builtAt": "2026-11-16T05:48:35.857Z",
+ "builtAt": "2026-11-16T12:15:45.018Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001829126-26-002673",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/1527352/000182912626002673/nexalintech_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Neurostimulation products",
+   "products": [
+    "Gen-1",
+    "Gen-2 SYNC",
+    "Gen-3 HALO"
+   ],
+   "description": "Designs and develops non-invasive neurostimulation devices for treating mental health conditions without drugs or psychotherapy.",
+   "evidence": "The Company operates as a single operating and reportable segment, focused on the design and development of innovative neurostimulation products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay monthly licensing fees and payments for the sale of electrodes and patient cables.",
+  "evidence": "This revenue consists of monthly licensing fees and payments for the sale of electrodes and patient cables."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

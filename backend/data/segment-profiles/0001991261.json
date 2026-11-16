@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001991261",
  "issuerName": "Rantizo",
- "builtAt": "2026-11-16T05:48:37.185Z",
+ "builtAt": "2026-11-16T12:16:42.851Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-016229",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1991261/000149315226016229/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Civil engineering services",
+   "products": [
+    "Cable or pipe laying works",
+    "Pipeline and sewerage repair and maintenance",
+    "Other services"
+   ],
+   "description": "Provides civil engineering services for public utility subsurface works in Singapore, such as cable laying, pipelines and sewer rehabilitation.",
+   "evidence": "We are a civil engineering service provider that specializes in subsurface utility works in Singapore."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Public utility customers, mainly the Public Utilities Board and Singapore Telecommunications, pay progress payments for subsurface utility works.",
+  "evidence": "Our projects are primarily the subsurface work related to projects undertaken by the Public Utilities Board (PUB) and Singapore Telecommunications Limited, which are our major customers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

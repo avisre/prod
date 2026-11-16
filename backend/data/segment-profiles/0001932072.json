@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001932072",
  "issuerName": "LOBO TECHNOLOGIES LTD.",
- "builtAt": "2026-11-16T05:48:36.087Z",
+ "builtAt": "2026-11-16T12:16:25.590Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019360",
@@ -10,11 +10,33 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1932072/000149315226019360/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric vehicles and accessories sales",
+   "products": [
+    "Two-wheeled E-bicycles",
+    "Two-wheeled E-Mopeds",
+    "Three-wheeled Electric Vehicles",
+    "Four-Wheeled Electric off-highway Shuttles",
+    "Batteries",
+    "Parts and Accessories"
+   ],
+   "description": "Sells electric vehicles and accessories for short-distance commuting, including e-bicycles, three-wheeled vehicles, batteries and parts.",
+   "evidence": "The Company operates and manages its business as a single segment and has one single reportable segment, which is electric vehicles and accessories sales."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for electric vehicles and related accessories, sold as e-bicycles, three-wheeled vehicles, off-highway shuttles, batteries and parts.",
+  "evidence": "The revenue of this segment is primarily derived from sales of electric vehicles and related accessories."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company disposed of Guangzhou LOBO, its software royalties and development and design services segment, leaving one reportable segment.",
+   "evidence": "On December 11, 2024, the Company completed the disposal of Guangzhou LOBO, which was its software royalties and development and design services segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

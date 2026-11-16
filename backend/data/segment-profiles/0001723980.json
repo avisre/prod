@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001723980",
  "issuerName": "China SXT Pharmaceuticals, Inc.",
- "builtAt": "2026-11-16T05:48:42.638Z",
+ "builtAt": "2026-11-16T12:20:26.114Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-074310",
@@ -10,10 +10,24 @@
   "filingDate": "2026-07-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1723980/000121390026074310/ea0295524-20f_chinasxt.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "manufacture and distribution of TCMP",
+   "products": [
+    "Advanced TCMP",
+    "Fine TCMP",
+    "Regular TCMP"
+   ],
+   "description": "Manufactures and distributes Chinese traditional medicine products (TCMP) sold mainly to hospitals and pharmaceutical distributors in China.",
+   "evidence": "In the respective periods presented, the Company had one single operating and reportable segment, namely the manufacture and distribution of TCMP."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitals, mainly TCM hospitals in Jiangsu province, pay the company for TCMP products.",
+  "evidence": "Our major customers are hospitals, especially TCM hospitals, primarily in the Jiangsu province in China."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

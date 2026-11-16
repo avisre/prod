@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001913749",
  "issuerName": "GLOBAL MOFY AI LIMITED",
- "builtAt": "2026-11-16T05:48:38.004Z",
+ "builtAt": "2026-11-16T12:17:56.683Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-002984",
@@ -10,10 +10,23 @@
   "filingDate": "2026-01-09",
   "url": "https://www.sec.gov/Archives/edgar/data/1913749/000121390026002984/ea0271653-20f_global.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Virtual technology services",
+   "products": [
+    "Virtual technology service",
+    "digital asset development and others"
+   ],
+   "description": "Provides virtual technology services and digital asset development to entertainment production enterprises.",
+   "evidence": "The Company operates in a single operating segment and has one reportable segment, which includes all activities related to activities consist of virtual technology services, digital asset development and others."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Entertainment production enterprises pay for virtual technology services and for copyright-licensed digital assets.",
+  "evidence": "Through the establishment of copyright licensing agreements, we confer production rights, adaptation rights, and sublicense rights of both licensed copyrights and digital assets upon entertainment production enterprises."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

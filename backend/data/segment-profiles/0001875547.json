@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001875547",
  "issuerName": "Locafy Ltd",
- "builtAt": "2026-11-16T05:48:44.499Z",
+ "builtAt": "2026-11-16T12:21:54.361Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-25-021910",
@@ -10,11 +10,32 @@
   "filingDate": "2025-11-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1875547/000149315225021910/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online marketing technology",
+   "products": [
+    "Business Listing syndication",
+    "Landing Pages",
+    "Map Boosting",
+    "AI Concierge",
+    "Hotfrog",
+    "AussieWeb",
+    "PinkPages",
+    "SuperPages"
+   ],
+   "description": "Sells SaaS online marketing technology, including business listings, landing pages and map boosting, to small businesses.",
+   "evidence": "The Group has identified a single CGU, being the provision of search engine optimization and online marketing technology solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Business customers pay service, subscription and advertising fees for these marketing solutions, priced fixed or volume-based.",
+  "evidence": "We monetize these solutions through a combination of service, subscription and advertising fees which are charged on both a fixed and variable (e.g. volume-based pricing) basis."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "change not grounded: In the year ended 30 June 2025 the Group began operating as a single business un"
+ ],
  "reader": "agent"
 }

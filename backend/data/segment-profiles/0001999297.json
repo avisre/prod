@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001999297",
  "issuerName": "BIG TREE CLOUD HOLDINGS LIMITED",
- "builtAt": "2026-11-16T05:48:37.591Z",
+ "builtAt": "2026-11-16T12:17:11.035Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-112509",
@@ -10,8 +10,15 @@
   "filingDate": "2026-10-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1999297/000121390026112509/ea0307949-20f_bigtree.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Big Tree Cloud",
+   "products": [],
+   "description": "The Group operates as one operating segment, with its chief executive officer reviewing consolidated financial information for resource allocation.",
+   "evidence": "The Group manages its operations and allocates resources as a single operating segment"
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

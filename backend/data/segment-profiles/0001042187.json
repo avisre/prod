@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001042187",
  "issuerName": "YUNHONG GREEN CTI LTD.",
- "builtAt": "2026-11-16T05:48:39.547Z",
+ "builtAt": "2026-11-16T12:38:25.544Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-012156",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1042187/000149315226012156/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Balloon products",
+   "products": [
+    "Foil Balloons",
+    "Film Products"
+   ],
+   "description": "Designs, manufactures and distributes balloon products worldwide, plus laminated and converted films for packaging.",
+   "evidence": "We manage our business activities as a single segment as our business contains similar products and services managed by the Company, and are economically similar, and share similar types of customers, production and distribution."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for balloon products and converted films, reported as product net sales.",
+  "evidence": "The following table provides a breakdown of product net sales in each of the years indicated (in thousands):"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

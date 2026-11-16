@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001849820",
  "issuerName": "NAUTICUS ROBOTICS, INC.",
- "builtAt": "2026-11-16T05:48:40.077Z",
+ "builtAt": "2026-11-16T12:18:54.349Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001849820-26-000051",
@@ -10,10 +10,26 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1849820/000184982026000051/kitt-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Subsea robotics",
+   "products": [
+    "Aquanaut ®",
+    "Nauticus ToolKITT Software Suite",
+    "Olympic Arm ™ Electric Manipulator",
+    "Defense Solutions",
+    "SeaTrepid ROV Services"
+   ],
+   "description": "Designs and sells fully electric autonomous subsea robots, software and engineering services to offshore energy and defense customers.",
+   "evidence": "The Company operates as a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Offshore energy producers and governmental entities pay for engineering services and subsea robot design, development and software under contracts.",
+  "evidence": "Our primary sources of revenue are from providing technology engineering services and products to the offshore industry and governmental entities."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

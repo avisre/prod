@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001026662",
  "issuerName": "EURO TECH HOLDINGS COMPANY LIMITED",
- "builtAt": "2026-11-16T05:48:38.420Z",
+ "builtAt": "2026-11-16T12:18:09.548Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001654954-26-004167",
@@ -10,10 +10,37 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1026662/000165495426004167/clwt_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Trading and manufacturing",
+   "products": [
+    "advanced water treatment equipment",
+    "Laboratory instruments, analyzers and test kits",
+    "Laboratory and portable analytical instruments",
+    "Continuous-reading process analyzers and related products",
+    "power generation equipment"
+   ],
+   "description": "Distributes water treatment equipment, laboratory instruments, analyzers, test kits and supplies, mainly to commercial customers and governmental agencies in Hong Kong and mainland China.",
+   "evidence": "The Company is primarily a distributor of a wide range of advanced water treatment equipment, laboratory instruments, analyzers, test kits and related supplies, and power generation equipment (including recorders and power quality analyzers)."
+  },
+  {
+   "name": "Engineering",
+   "products": [
+    "water and wastewater treatment engineering",
+    "air pollution control",
+    "ballast water treatment system",
+    "engineering solutions for industrial water and wastewater treatment projects"
+   ],
+   "description": "Provides water and wastewater treatment engineering, air pollution control and ballast water treatment systems to industrial clients, mainly in mainland China.",
+   "evidence": "Pact-Yixing, in which Far East holds a 58% equity interest, provides customers with engineering solutions for industrial water and wastewater treatment projects and develops ballast water treatment technology."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Commercial customers and governmental agencies pay for distributed water treatment equipment, laboratory instruments and supplies, plus industrial water treatment engineering projects.",
+  "evidence": "The Company acts as an exclusive or non-exclusive distributor for well-known manufacturers of such equipment, primarily to commercial customers and governmental agencies in Hong Kong and mainland China, as well as to commercial customers in certain other regions, including Macau."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

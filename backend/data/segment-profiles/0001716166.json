@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001716166",
  "issuerName": "VIVOS THERAPEUTICS, INC.",
- "builtAt": "2026-11-16T05:48:38.739Z",
+ "builtAt": "2026-11-16T12:18:17.203Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016854",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1716166/000149315226016854/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical technology",
+   "products": [
+    "C.A.R.E. oral appliances",
+    "DNA",
+    "mRNA",
+    "mmRNA",
+    "Vivos Guide",
+    "PE x",
+    "Versa",
+    "Vida Sleep"
+   ],
+   "description": "Sells proprietary oral appliances and therapeutic treatments for obstructive sleep apnea to healthcare providers.",
+   "evidence": "We are a revenue stage medical technology and healthcare services company that features a comprehensive suite of proprietary oral appliances and therapeutic treatments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Providers pay for oral appliances, training and practice support, and the company earns MSO service and support fees.",
+  "evidence": "Such VIPs also have the option of purchasing practice support services and clinical support services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

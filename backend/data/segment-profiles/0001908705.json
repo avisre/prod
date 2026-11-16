@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001908705",
  "issuerName": "GLOBAL ENGINE GROUP HOLDING LIMITED",
- "builtAt": "2026-11-16T05:48:41.992Z",
+ "builtAt": "2026-11-16T12:20:02.607Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-113795",
@@ -10,10 +10,27 @@
   "filingDate": "2026-10-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1908705/000121390026113795/ea0308286-20f_global.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ICT solutions",
+   "products": [
+    "IT consultancy services",
+    "professional and managed service solutions",
+    "cybersecurity management",
+    "incident response and remediation",
+    "software-defined wide area network (SD-Wan)",
+    "private, hybrid and public datacenter implementations"
+   ],
+   "description": "Provides ICT consulting, system integration, professional, managed and security services to enterprises and telecom providers in Hong Kong.",
+   "evidence": "We possess certain attributes that differentiate us as a provider of ICT solutions from Hong Kong."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for ICT assessment, design, procurement, implementation, professional and managed services and security; many services are paid over time.",
+  "evidence": "In addition, many of the services create recurring revenue streams paid over time, rather than upfront revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

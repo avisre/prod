@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001546296",
  "issuerName": "Professional Diversity Network, Inc.",
- "builtAt": "2026-11-16T05:48:44.124Z",
+ "builtAt": "2026-11-16T12:21:20.045Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-010515",
@@ -10,11 +10,48 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1546296/000143774926010515/ipdn20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TalentAlly Network",
+   "products": [
+    "Recruitment services",
+    "Consumer advertising and marketing solutions",
+    "Career Fairs",
+    "PDNRecruits",
+    "TalentAlly Placement"
+   ],
+   "description": "Job seeker communities and job board software serving diverse professionals and employers, plus recruitment advertising and career fairs.",
+   "evidence": "TalentAlly Network, our primary business segment, includes online professional job seeking communities with career resources tailored to the needs of various diverse cultural groups and employers looking to hire members of such groups."
+  },
+  {
+   "name": "NAPW Network",
+   "products": [
+    "Membership fees and related services"
+   ],
+   "description": "Professional networking organization for women offering paid memberships with personal and professional development resources.",
+   "evidence": "Our secondary business segment consists of the NAPW Network, a women-only professional networking organization."
+  },
+  {
+   "name": "RemoteMore",
+   "products": [
+    "Contracted software development"
+   ],
+   "description": "Connects companies with reliable, cost-efficient developers for their software needs.",
+   "evidence": "Our third business segment consists of RemoteMore, which connects companies with reliable, cost-efficient developers with less effort and friction, and empowers software developers to get meaningful jobs regardless of their location."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Employers and third-party recruiters pay for recruitment solutions, NAPW members pay membership fees, and companies pay for contracted software development.",
+  "evidence": "We currently provide access to our TalentAlly Network websites to registered users at no cost."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Professional Diversity Network business was rebranded to TalentAlly.",
+   "evidence": "In 2024, we rebranded our Professional Diversity Network business to TalentAlly."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001970544",
  "issuerName": "iTonic Holdings Ltd",
- "builtAt": "2026-11-16T05:48:43.126Z",
+ "builtAt": "2026-11-16T12:38:25.668Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-036395",
@@ -10,10 +10,22 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1970544/000121390026036395/ea0283543-20f_itonic.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "FTTPS"
+   ],
+   "description": "Makes and sells medical devices and FTTPS products; all revenue comes from customers in China.",
+   "evidence": "The Company operates as one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for sales of FTTPS.",
+  "evidence": "All accounts receivables are mainly from sales of FTTPS."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

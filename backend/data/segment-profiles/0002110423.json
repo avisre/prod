@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002110423",
  "issuerName": "Datasea     Intelligent Technology Ltd.",
- "builtAt": "2026-11-16T05:48:38.841Z",
+ "builtAt": "2026-11-16T12:18:37.236Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-106369",
@@ -10,11 +10,31 @@
   "filingDate": "2026-10-02",
   "url": "https://www.sec.gov/Archives/edgar/data/2110423/000121390026106369/ea0306773-20f_datasea.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI Multimodal Communication",
+   "products": [
+    "AI Multimodal Communication Services",
+    "AI Multimodal Digital Solutions",
+    "AI Digital Technical Services",
+    "AI Agent Services"
+   ],
+   "description": "Provides AI multimodal communication, digital solutions, technical services and AI-agent services to customers in China.",
+   "evidence": "These services are aggregated as AI Multimodal Communication segment because they contain similar products and services managed within the same division, are economically similar, and share similar types of customers, production, and distribution."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for AI multimodal communication, digital solutions, technical services and AI-agent services, shifting from project delivery to platform and usage-based revenue.",
+  "evidence": "Our business model also continued to evolve from a model more dependent on project-based, one-time delivery toward productized and platform-based continuing services and usage-based revenue models."
+ },
+ "changes": [
+  {
+   "text": "In FY2026, revenue categories previously reported separately were included within the broader AI Multimodal Digitalization and AI-Agent Business and no longer constitute a separate reportable segment.",
+   "evidence": "The revenue categories historically described in our financial statements as \"5G AI multimodal communication,\" \"AI Multimodal Digital Solutions\" and \"5G AI digital technical service\" are therefore included within our broader AI Multimodal Digitalization and AI-Agent Business and do not constitute a separate reportable business segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

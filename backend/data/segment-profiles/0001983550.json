@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001983550",
  "issuerName": "Trident Digital Tech Holdings Ltd",
- "builtAt": "2026-11-16T05:48:37.491Z",
+ "builtAt": "2026-11-16T12:16:57.985Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048646",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1983550/000121390026048646/ea0286241-20f_trident.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business consulting",
+   "products": [
+    "business consulting service",
+    "IT customization",
+    "selling event tickets"
+   ],
+   "description": "Provides business consulting, IT customization and event ticket sales to its customers.",
+   "evidence": "The single reportable segment contains revenues derived from business consulting service, IT customization and selling event tickets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the Group for business consulting services, IT customization and selling event tickets.",
+  "evidence": "The single reportable segment contains revenues derived from business consulting service, IT customization and selling event tickets."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

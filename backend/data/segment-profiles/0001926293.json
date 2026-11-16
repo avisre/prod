@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001926293",
  "issuerName": "Green Circle Decarbonize Technology Ltd",
- "builtAt": "2026-11-16T05:48:37.695Z",
+ "builtAt": "2026-11-16T12:17:14.420Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-038530",
@@ -10,10 +10,25 @@
   "filingDate": "2026-08-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1926293/000149315226038530/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy saving solutions",
+   "products": [
+    "BocaPCM-TES Panel",
+    "Ultra-High Efficiency Boca Hybrid Power Chiller Plant",
+    "BocaPCM-TES System",
+    "BocaPCM-TES Technology"
+   ],
+   "description": "Provides advanced energy saving solutions, consultancy and construction services using phase change thermal energy storage, mainly for customers in Hong Kong.",
+   "evidence": "For management purpose, the Group operates in one business unit based on their services, and only has one operating segment, provider of advanced energy saving solutions, consultancy services and construction service supported by proprietary phase change thermal energy storage materials and thermal engineering services operation."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for energy saving solutions, often through performance-based contracts funded by a share of the energy cost savings.",
+  "evidence": "Instead, the customers pay a portion of any subsequent energy cost savings during the term of the energy performance contracts."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

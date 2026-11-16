@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001056358",
  "issuerName": "MANNATECH INC",
- "builtAt": "2026-11-16T05:48:35.740Z",
+ "builtAt": "2026-11-16T12:15:19.485Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-012430",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1056358/000143774926012430/mtex20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nutritional supplements",
+   "products": [
+    "Ambrotose®",
+    "Manapol®",
+    "MannaBoom®",
+    "Uth®",
+    "EMPACT+®",
+    "Cognitate™",
+    "Catalyst™",
+    "OsoLean®"
+   ],
+   "description": "Sells proprietary nutritional supplements, skin care and anti-aging products, and weight-management products through network marketing.",
+   "evidence": "The Company's sole reporting segment is one where we sell proprietary nutritional supplements, skin care and anti-aging products, and weight-management and fitness products operating in twenty-five markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers buy products and associates pay associate fees to join and build the network.",
+  "evidence": "New associate fees in connection with new positions in our network are leading indicators for the long-term success of our business."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

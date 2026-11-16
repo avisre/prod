@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002024114",
  "issuerName": "THE GROWHUB LIMITED",
- "builtAt": "2026-11-16T05:48:41.377Z",
+ "builtAt": "2026-11-16T12:19:52.437Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-023959",
@@ -10,10 +10,26 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/2024114/000149315226023959/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Traceability",
+   "products": [
+    "Traceability Solution",
+    "Anti-Counterfeit Solution",
+    "Carbon Management Solution",
+    "Nature-Based Solutions",
+    "Technology-Enabled Verification"
+   ],
+   "description": "Provides technology-enabled food and consumer product traceability, anti-counterfeit tools and carbon emissions management for organisations, plus carbon project development.",
+   "evidence": "As a result of the assessment made by the CODM, the Company has only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay for traceability through service fees, technology enhancements, data analytics and IT consultancy; carbon project development earns fees, credit sales and government partnership arrangements.",
+  "evidence": "We generate revenue from traceability solutions through service-based fees, technology enhancements, data analytics, and IT consultancy services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

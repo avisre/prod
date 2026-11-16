@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001836242",
  "issuerName": "Tokyo Lifestyle Co., Ltd.",
- "builtAt": "2026-11-16T05:48:40.460Z",
+ "builtAt": "2026-11-16T12:19:10.614Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-077137",
@@ -10,10 +10,37 @@
   "filingDate": "2026-07-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1836242/000121390026077137/ea0297015-20f_tokyo.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Directly-operated physical stores",
+   "products": [],
+   "description": "Company-run physical retail stores in Japan, Hong Kong, the United States, Canada and Australia.",
+   "evidence": "Directly-operated physical stores segment includes physical stores in Japan, Hong Kong, the United States, Canada and Australia."
+  },
+  {
+   "name": "Online stores and services",
+   "products": [
+    "the Company's websites",
+    "various e-commerce marketplaces in Japan",
+    "advertising business through KOLs",
+    "supporting services to online celebrities"
+   ],
+   "description": "Online sales through the Company's websites and e-commerce marketplaces in Japan, plus KOL advertising and support services for online celebrities.",
+   "evidence": "Online stores and services segment includes sales through the Company's websites and various e-commerce marketplaces in Japan, as well as services from advertising business through KOLs and supporting services to online celebrities."
+  },
+  {
+   "name": "Franchise stores and wholesale customers",
+   "products": [],
+   "description": "Franchise stores in several countries and wholesale sales to customers in Japan and other countries.",
+   "evidence": "Franchise stores and wholesale customers segments include franchise stores in Japan, Hong Kong, the United States, Canada, Thailand, and the United Kingdom, and wholesale customers in Japan and other countries including Hong Kong, mainland China, the United States, and Canada."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for retail and wholesale sales of Japanese beauty and health products, sundry products, and related services.",
+  "evidence": "The Company is engaged in the operation of retail and wholesale of Japanese beauty and health products, as well as sundry products and other products and services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

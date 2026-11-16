@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001980210",
  "issuerName": "WF Holding Ltd",
- "builtAt": "2026-11-16T05:48:40.050Z",
+ "builtAt": "2026-11-16T12:18:50.837Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050362",
@@ -10,11 +10,33 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1980210/000121390026050362/ea0287906-20f_wfhold.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FRP products",
+   "products": [
+    "filament wound and molded tanks",
+    "thermoplastic tanks",
+    "lining products",
+    "ducting and fitting products",
+    "air pollution control equipment",
+    "custom-made products"
+   ],
+   "description": "Manufactures fiberglass reinforced plastic tanks, pipes, ducts and custom products for chemical processing, water treatment and power generation industries.",
+   "evidence": "Accordingly, the Company has determined that it operates as a single operating and reportable segment in accordance with ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for FRP products and related installation and maintenance services, plus warranties, technical services and transportation.",
+  "evidence": "We generate revenue from the sale of our FRP products and related installation and maintenance services."
+ },
+ "changes": [
+  {
+   "text": "The majority-owned subsidiary RBSB ceased its business operations in 2026.",
+   "evidence": "Subsequent to December 31, 2025, we became aware that RBSB, a majority-owned subsidiary, ceased its business operations effective from January 15, 2026."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001978527",
  "issuerName": "Globavend Holdings Limited",
- "builtAt": "2026-11-16T05:48:36.683Z",
+ "builtAt": "2026-11-16T12:16:25.088Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-016589",
@@ -10,10 +10,23 @@
   "filingDate": "2026-02-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1978527/000121390026016589/ea0275517-20f_globavend.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated cross-border logistics",
+   "products": [
+    "integrated cross-border logistics services",
+    "air freight forwarding services"
+   ],
+   "description": "Provides integrated cross-border logistics and air freight forwarding from Hong Kong to Australia and New Zealand for e-commerce merchants.",
+   "evidence": "The single segment represents the Company's core business of providing (i) integrated cross-border logistics services; and (ii) air freight forwarding services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "E-commerce merchants and platform operators pay for integrated cross-border logistics and air freight forwarding from Hong Kong to Australia and New Zealand.",
+  "evidence": "Our customers are primarily enterprise customers, being e-commerce merchants or operators of e-commerce platforms, providing business-to-consumer (B2C) transactions."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

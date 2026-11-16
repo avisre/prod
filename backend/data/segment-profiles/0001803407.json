@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001803407",
  "issuerName": "Ostin Technology Group Co., Ltd.",
- "builtAt": "2026-11-16T05:48:35.870Z",
+ "builtAt": "2026-11-16T12:16:09.406Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-007702",
@@ -10,10 +10,24 @@
   "filingDate": "2026-01-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1803407/000121390026007702/ea0272584-20f_ostintech.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Display modules",
+   "products": [
+    "polarizers",
+    "repairing services",
+    "mold product sales"
+   ],
+   "description": "Sells display modules and polarizers, with most revenue sourced from the PRC.",
+   "evidence": "Based on management's assessment, the Company has determined that it has only one operating segment as defined by ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for display modules and polarizers the company sells, plus repairing services and mold product sales.",
+  "evidence": "The revenue under category of others, are mostly from repairing services and mold product sales."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

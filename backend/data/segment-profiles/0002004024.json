@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002004024",
  "issuerName": "Lianhe Sowell International Group Ltd",
- "builtAt": "2026-11-16T05:48:36.876Z",
+ "builtAt": "2026-11-16T12:16:44.069Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-089090",
@@ -10,10 +10,28 @@
   "filingDate": "2026-08-13",
   "url": "https://www.sec.gov/Archives/edgar/data/2004024/000121390026089090/ea0300007-20f_lianhe.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Machine vision",
+   "products": [
+    "industrial machine vision",
+    "artificial intelligence (face recognition and AI behavior analysis)",
+    "intelligent weak current (building intelligence and intelligent transportation)",
+    "electronic customs clearance",
+    "Nine-Axis Linkage Spray Painting Robots",
+    "nano-molecular high-temperature steam car washing machine",
+    "fuel station service robot"
+   ],
+   "description": "Provides machine vision products and solutions in China, improving manufacturing efficiency and quality for customers across industries.",
+   "evidence": "The following table presents the significant revenue and expense categories in the Company's single operating segment"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers in a wide range of businesses across industries buy machine vision products and solutions, including customized industrial machine vision solutions for their specific demand.",
+  "evidence": "We are a provider of machine vision products and solutions in China, and our products improve efficiency and quality for customers in a wide range of businesses across industries."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

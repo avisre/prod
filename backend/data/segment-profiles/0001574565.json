@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001574565",
  "issuerName": "EVOGENE LTD.",
- "builtAt": "2026-11-16T05:48:42.808Z",
+ "builtAt": "2026-11-16T12:20:47.021Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-001767",
@@ -10,11 +10,50 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1574565/000117891326001767/zk2634882.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agriculture",
+   "products": [
+    "seed traits",
+    "ag-chemicals"
+   ],
+   "description": "Develops seed traits and ag-chemical products for agricultural activities, including through subsidiary AgPlenus.",
+   "evidence": "our agriculture segment includes our division and subsidiary engaged in agricultural activities, including seed traits activity and ag-chemicals activity (through our subsidiary AgPlenus)."
+  },
+  {
+   "name": "Human Health",
+   "products": [
+    "human microbiome-based therapeutics",
+    "ChemPass AI"
+   ],
+   "description": "Discovers and develops microbiome-based therapeutics and designs small molecules for drug development using AI.",
+   "evidence": "our human health segment focuses mainly on discovery and development of human microbiome-based therapeutics (through our subsidiary Biomica) and Canonic (which ceased its operations in 2024)."
+  },
+  {
+   "name": "Industrial Applications",
+   "products": [
+    "improved castor bean seeds"
+   ],
+   "description": "Develops and commercializes improved castor bean seeds for industrial uses, through subsidiary Casterra.",
+   "evidence": "our industrial applications segment focuses on the development and commercialization of improved castor bean seeds for industrial uses (through our subsidiary Casterra)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Collaborators pay the company research funding, milestone payments and royalties under collaboration and licensing agreements.",
+  "evidence": "Furthermore, the various payments we receive from our collaborators are currently our primary source of revenues."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Canonic, part of the Human Health segment, ceased its operations.",
+   "evidence": "our human health segment focuses mainly on discovery and development of human microbiome-based therapeutics (through our subsidiary Biomica) and Canonic (which ceased its operations in 2024)."
+  },
+  {
+   "text": "In 2025, the Lavie Bio and MicroBoost AI for Ag operations were presented as discontinued operations after a sale.",
+   "evidence": "This accounting treatment follows our sale of the majority of Lavie Bio's activities and the MicroBoost AI for Ag."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

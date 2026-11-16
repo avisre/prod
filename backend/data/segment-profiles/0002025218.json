@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002025218",
  "issuerName": "Delixy Holdings Limited",
- "builtAt": "2026-11-16T05:48:40.609Z",
+ "builtAt": "2026-11-16T12:19:34.154Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050402",
@@ -10,10 +10,36 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2025218/000121390026050402/ea0287803-20f_delixy.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sale of crude oil",
+   "products": [
+    "crude oil"
+   ],
+   "description": "Trades crude oil for customers across Southeast Asia, East Asia and the Middle East.",
+   "evidence": "Crude oil trading represents a core aspect of our business as it accounts for a significant portion of our revenue."
+  },
+  {
+   "name": "Sale of oil-based products",
+   "products": [
+    "naphtha",
+    "motor gasoline",
+    "gas oil",
+    "fuel oil",
+    "asphalt",
+    "base oil",
+    "other petrochemicals"
+   ],
+   "description": "Trades oil-based products such as naphtha, motor gasoline and asphalt for customers across Southeast Asia, East Asia and the Middle East.",
+   "evidence": "We are principally engaged in the trading of oil related products, which can be broadly categorized into (i) crude oil and (ii) oil-based products such as naphtha, motor gasoline, gas oil, fuel oil, asphalt, base oil and other petrochemicals."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for crude oil and oil-based products it trades, often with flexible financing and delivery options.",
+  "evidence": "In addition, our financing capabilities allow us to extend credit terms to our customers while satisfying the immediate payment terms required by our suppliers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

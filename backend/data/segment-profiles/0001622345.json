@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001622345",
  "issuerName": "Polar Power, Inc.",
- "builtAt": "2026-11-16T05:48:42.510Z",
+ "builtAt": "2026-11-16T12:20:25.413Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016671",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1622345/000149315226016671/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DC power systems",
+   "products": [
+    "Base power systems",
+    "Hybrid power systems",
+    "DC solar hybrid power systems",
+    "Mobile power systems"
+   ],
+   "description": "Designs, manufactures and sells DC power systems for applications without utility grid access or needing backup power.",
+   "evidence": "The Company designs, manufactures, and sells DC power systems for applications that do not have access to the utility grid (i.e., prime power and mobile applications) or have critical power needs and cannot be without power in the event of utility grid failure (i.e., back-up power applications)."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for DC power systems and, to a lesser extent, for parts and services that support those systems.",
+  "evidence": "In addition, the Company generates revenue primarily from the sale of its DC power systems, and to a lesser extent from the sale of parts and services to support its DC power systems."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

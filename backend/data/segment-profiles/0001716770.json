@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001716770",
  "issuerName": "Wah Fu Education Group Ltd.",
- "builtAt": "2026-11-16T05:48:43.739Z",
+ "builtAt": "2026-11-16T12:21:15.647Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-083286",
@@ -10,10 +10,31 @@
   "filingDate": "2026-07-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1716770/000121390026083286/ea0298971-20f_wahfu.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online Education Service",
+   "products": [
+    "Online Education Cloud Service",
+    "Online Training Service",
+    "B2B2C Service",
+    "B2C Service"
+   ],
+   "description": "Provides online education services through a cloud platform for business customers and online training for individual learners.",
+   "evidence": "Our online education service consists of two types of online services: Online Education Cloud Service (\"B2B2C\") and Online Training Service (\"B2C\")."
+  },
+  {
+   "name": "Technological Development and Operation Service",
+   "products": [],
+   "description": "Provides technological development and operation services for online education platforms.",
+   "evidence": "Based on CODM 's assessment, the Company has determined that it has two operating segments: online education services, and technological development and operation service."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Revenue comes from online education services and technological development and operation services.",
+  "evidence": "Based on CODM 's assessment, the Company has determined that it has two operating segments: online education services, and technological development and operation service."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

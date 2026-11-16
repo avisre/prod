@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001889823",
  "issuerName": "DEFSEC Technologies Inc.",
- "builtAt": "2026-11-16T05:48:40.559Z",
+ "builtAt": "2026-11-16T12:19:10.785Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-25-124926",
@@ -10,10 +10,25 @@
   "filingDate": "2025-12-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1889823/000110465925124926/tmb-20250930x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "tactical systems",
+   "products": [
+    "TASCS",
+    "TASCS IFM",
+    "Phantom",
+    "PARA SHOT"
+   ],
+   "description": "Develops and commercializes tactical defense systems, including less-lethal products and counter-measures, for military, security and personal defense markets.",
+   "evidence": "We develop and commercialize next-generation tactical systems for military, security, and personal defense markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Military customers pay purchase orders and contracts for tactical systems.",
+  "evidence": "On April 25, 2020, AeroVironment issued an additional purchase order valued at USD$635,000 to provide increased capability to the AWS system."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

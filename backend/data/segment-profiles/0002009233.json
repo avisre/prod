@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002009233",
  "issuerName": "Agroz Inc.",
- "builtAt": "2026-11-16T05:48:45.620Z",
+ "builtAt": "2026-11-16T12:22:05.865Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-104158",
@@ -10,10 +10,27 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/2009233/000121390026104158/ea0306404-20f_agrozinc.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CEA vertical farming",
+   "products": [
+    "CEA vertical farm solutions",
+    "Agroz OS",
+    "Agroz ERP",
+    "Agroz Copilot",
+    "EduFarm",
+    "fresh produce"
+   ],
+   "description": "Designs, constructs and operates indoor CEA vertical farms, and sells their fresh produce to wholesalers and retailers.",
+   "evidence": "For management purposes, the Group operates in one business unit based on its products and has one reportable segment which is offering of farm solutions and selling fresh produce."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay for vertical farm design, construction, operation and sale; wholesalers and retailers pay for fresh produce.",
+  "evidence": "We primarily derive our revenue from: (i) designing and/or constructing indoor CEA vertical farms; (ii) operating and managing indoor CEA vertical farms; (iii) selling CEA vertical farms; (iv) selling of fresh produce from farms operated; and (v) trading of fresh produce"
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

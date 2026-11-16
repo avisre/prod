@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819794",
  "issuerName": "Fusion Fuel Green PLC",
- "builtAt": "2026-11-16T05:48:35.862Z",
+ "builtAt": "2026-11-16T12:15:37.463Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-021722",
@@ -10,11 +10,35 @@
   "filingDate": "2026-05-07",
   "url": "https://www.sec.gov/Archives/edgar/data/1819794/000149315226021722/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LPG Distribution & Engineering",
+   "products": [
+    "Engineering, installation and annual maintenance contracts",
+    "Bulk LPG deliveries",
+    "LPG cylinder sales",
+    "Metered LPG utility services"
+   ],
+   "description": "Distributes and engineers liquefied petroleum gas in the United Arab Emirates through its operating subsidiary Al Shola Gas.",
+   "evidence": "The Group has identified one reportable operating segment under IFRS 8, being its LPG Distribution & Engineering business"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in the United Arab Emirates pay for LPG engineering, installation, bulk and cylinder LPG, metered utility supply and annual maintenance services.",
+  "evidence": "Revenue in the United Arab Emirates is generated through Al Shola Gas, which provides engineering, installation, bulk LPG, cylinder LPG, metered utility and annual maintenance services."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Group changed from a single green hydrogen segment to its LPG Distribution & Engineering segment after acquiring QIND.",
+   "evidence": "Prior to the acquisition of QIND in November 2024, the Group operated as a single segment focused on green hydrogen technology."
+  },
+  {
+   "text": "In 2024, the former green hydrogen and electrolyzer manufacturing businesses were effectively terminated.",
+   "evidence": "As a result, the Company's former green hydrogen and electrolyzer manufacturing businesses have been effectively terminated."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001969863",
  "issuerName": "SU Group Holdings Limited",
- "builtAt": "2026-11-16T05:48:44.655Z",
+ "builtAt": "2026-11-16T12:21:49.991Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001753926-26-000125",
@@ -10,10 +10,29 @@
   "filingDate": "2026-01-16",
   "url": "https://www.sec.gov/Archives/edgar/data/1969863/000175392626000125/g085037_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security-related engineering services",
+   "products": [
+    "security systems",
+    "related maintenance services"
+   ],
+   "description": "Supplies, installs and maintains security systems and parts for customers.",
+   "evidence": "Our principal businesses comprise (i) the provision of security-related engineering services which includes income from the supply and installation of security systems and related maintenance services; and (ii) the provision of security guarding and screening services in Hong Kong."
+  },
+  {
+   "name": "Security guarding and screening services",
+   "products": [],
+   "description": "Provides security guarding and screening services in Hong Kong.",
+   "evidence": "The Group has two reportable segments from continuing operations, including security-related engineering services business and security guarding and screening services business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for supply and installation of security systems, related maintenance services, and security guarding and screening services in Hong Kong.",
+  "evidence": "Our principal businesses comprise (i) the provision of security-related engineering services which includes income from the supply and installation of security systems and related maintenance services; and (ii) the provision of security guarding and screening services in Hong Kong."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

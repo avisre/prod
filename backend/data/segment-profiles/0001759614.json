@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001759614",
  "issuerName": "Yunji Inc.",
- "builtAt": "2026-11-16T05:48:40.661Z",
+ "builtAt": "2026-11-16T12:19:30.571Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-018839",
@@ -10,10 +10,20 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/1759614/000149315226018839/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketplace service",
+   "products": [],
+   "description": "Runs one operating segment for marketplace services, with substantially all revenue from customers in China.",
+   "evidence": "The Group operates as a single operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers located in China pay the Group for its services, which the filing reports as revenues.",
+  "evidence": "Substantially all revenue was derived from customers located in China."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

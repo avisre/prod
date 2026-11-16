@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001536196",
  "issuerName": "Can-Fite BioPharma Ltd.",
- "builtAt": "2026-11-16T05:48:43.323Z",
+ "builtAt": "2026-11-16T12:20:44.842Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-034447",
@@ -10,10 +10,20 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1536196/000121390026034447/ea0282586-20f_canfite.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug candidates",
+   "products": [],
+   "description": "Research and development of the Company's drug candidates, managed as one operating segment on a consolidated basis.",
+   "evidence": "The Company and its chief operating decision-maker view the Company's operations and manage its business in one operating segment which is the research and development of the Company's drug candidates."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Partners pay upfront fees, milestone payments and potential royalties under supply and distribution agreements.",
+  "evidence": "The consideration under these agreements comprises of upfront fees, milestone payments and potential royalty payments."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

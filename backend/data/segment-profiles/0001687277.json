@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001687277",
  "issuerName": "ReTo Eco-Solutions, Inc.",
- "builtAt": "2026-11-16T05:48:41.175Z",
+ "builtAt": "2026-11-16T12:19:43.743Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050658",
@@ -10,8 +10,23 @@
   "filingDate": "2026-05-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1687277/000121390026050658/ea0287277-20f_retoeco.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Equipment and technical service segment",
+   "products": [],
+   "description": "Covers equipment and technical services, the segment reported alongside craft beer.",
+   "evidence": "For the Year Ended December 31, 2023 Equipment and technical service segment Craft beer segment Total (US$)"
+  },
+  {
+   "name": "Craft beer segment",
+   "products": [
+    "craft beer"
+   ],
+   "description": "Supplies and distributes craft beer through PRC subsidiaries, serving customers in China.",
+   "evidence": "Seven Arrows, through its subsidiaries in the PRC, is engaged in craft beer supply chain management and distribution in China."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

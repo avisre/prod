@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001527702",
  "issuerName": "IQSTEL Inc.",
- "builtAt": "2026-11-16T05:48:42.423Z",
+ "builtAt": "2026-11-16T12:20:27.190Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001663577-26-000094",
@@ -10,10 +10,45 @@
   "filingDate": "2026-04-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1527702/000166357726000094/iqst10k_123125.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telecom Division",
+   "products": [
+    "Voice over Internet Protocol (VoIP)",
+    "SMS",
+    "proprietary Internet of Things (IoT) solutions",
+    "international fiber-optic connectivity"
+   ],
+   "description": "International voice, SMS and connectivity services for telecom carriers, businesses and end users.",
+   "evidence": "Our Telecom Division, which represents the majority of current operations and accounted for 91% of our revenues for the year ended December 31, 2025, offers Voice over Internet Protocol (VoIP), SMS, proprietary Internet of Things (IoT) solutions, and international fiber-optic connectivity through its subsidiaries"
+  },
+  {
+   "name": "Fintech Business Line",
+   "products": [
+    "MasterCard Debit Card",
+    "US Bank Account (No SSN Needed)",
+    "Mobile App/Wallet"
+   ],
+   "description": "Financial services ecosystem offering a debit card, US bank account and remittance wallet, aimed at immigrants.",
+   "evidence": "The Company's developing Fintech Business Line offers a complete Fintech ecosystem including a MasterCard Debit Card, US Bank Account (No SSN Needed), and a Mobile App/Wallet for remittances and mobile top-up services."
+  },
+  {
+   "name": "Artificial Intelligence (AI) division",
+   "products": [
+    "Airweb.ai",
+    "IQ2Call.ai",
+    "IQCortex.ai"
+   ],
+   "description": "Enterprise and telecom AI software, including AI agents for web, voice and contact center use.",
+   "evidence": "Reality Border currently serves as IQSTEL's AI innovation and product development platform."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Telecom operators and carriers pay for wholesale voice termination and fiber network capacity, and businesses pay for voice services.",
+  "evidence": "Etelix provides International Long-Distance voice services for Telecommunications Operators (ILD Wholesale), and Submarine Fiber Optic Network capacity for internet (4G and 5G)."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001779476",
  "issuerName": "36Kr Holdings Inc.",
- "builtAt": "2026-11-16T05:48:45.785Z",
+ "builtAt": "2026-11-16T12:22:09.676Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-047351",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1779476/000110465926047351/krkr-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business services",
+   "products": [
+    "online advertising services",
+    "enterprise value-added services",
+    "subscription services"
+   ],
+   "description": "Provides online advertising, enterprise value-added and subscription services to New Economy customers in China.",
+   "evidence": "The segment derives revenue from customers by providing online advertising services, enterprise value-added services and subscription services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for online advertising, enterprise value-added and subscription services provided by the company.",
+  "evidence": "The segment derives revenue from customers by providing online advertising services, enterprise value-added services and subscription services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

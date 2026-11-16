@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001938534",
  "issuerName": "FBS Global Limited",
- "builtAt": "2026-11-16T05:48:42.022Z",
+ "builtAt": "2026-11-16T12:20:08.565Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-020758",
@@ -10,10 +10,29 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1938534/000149315226020758/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Green building contractor",
+   "products": [
+    "additions and alterations",
+    "renovations",
+    "new building erection",
+    "thermal insulation installation",
+    "drywall partition systems",
+    "false ceiling works",
+    "interior design and fit-out elements",
+    "retrofitting of existing structures"
+   ],
+   "description": "Singapore-based green building contractor and interior fit-out specialist for institutional, residential, commercial and industrial projects.",
+   "evidence": "The Company operates as one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay progress payments for construction, fit-out and retrofitting works, with revenue recognized by stage of completion.",
+  "evidence": "We receive progress payments for our work performed and revenue is recognized based on the stage of completion of our projects."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

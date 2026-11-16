@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002039060",
  "issuerName": "Robin Energy Ltd.",
- "builtAt": "2026-11-16T05:48:43.696Z",
+ "builtAt": "2026-11-16T12:21:06.985Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001140361-26-014136",
@@ -10,11 +10,41 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/2039060/000114036126014136/ef20060626_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tanker segment",
+   "products": [
+    "M/T Wonder Mimosa"
+   ],
+   "description": "Operates one tanker vessel carrying refined petroleum products worldwide, employed through an unaffiliated tanker pool.",
+   "evidence": "During the years ended December 31, 2023, 2024 and 2025 we operated one tanker vessel that engaged in the worldwide transportation of refined petroleum products"
+  },
+  {
+   "name": "LPG carrier segment",
+   "products": [
+    "LPG Dream Syrax",
+    "LPG Dream Terrax"
+   ],
+   "description": "Operates two LPG carriers transporting liquefied petroleum gas for charterers under period time charters.",
+   "evidence": "In the third quarter of 2025, we established our LPG carrier operations through the acquisition of two LPG carrier vessels."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Charterers pay the company hire or freight for carrying refined petroleum products and LPG under time charters and pool arrangements.",
+  "evidence": "We intend mainly to employ our fleet, which currently comprises two LPG carrier vessels and one tanker vessel, in period time charter contracts and pool arrangement, while evaluating the conditions and taking advantage of some spot voyages upon redelivery from period time charters if spot market conditions are favorable."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company added the LPG carrier segment, moving from one tanker segment to two reportable segments.",
+   "evidence": "In the third quarter of 2025, we established our LPG carrier operations through the acquisition of two LPG carrier vessels."
+  },
+  {
+   "text": "In 2026 the company proposed spinning off its tanker segment as AI OKTO, a transaction not yet completed.",
+   "evidence": "The AI OKTO Spin-Off remains subject to the Registration Statement being declared effective and the approval of the listing of AI OKTO's common shares on the Nasdaq Capital Market."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
