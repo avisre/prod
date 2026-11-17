@@ -45,6 +45,12 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   and bumps `authVersion`. A completed password reset also sets `emailVerifiedAt`. (4) `GET /api/email/verify` only renders a
   confirm button (mail scanners prefetch links and were spending the single-use token); `POST` verifies.
 - Deploying this code turns the trial ON by default (`TRIAL_ENABLED` defaults to true). Rollback = `TRIAL_ENABLED=false` in Render.
+- Connectors + REST API (owner ask 11-18): a live, verified signup trial is API/MCP access for its 72h
+  (`signupTrialConnectorAccess` in app.js; `hasApiAccess` unchanged). Metered by `trial.connectorLimiter`: AI answers
+  (`mcp_ask`/`api_ask`) reserve on the SAME `trialAiUsed` counter as website Ask (5 total across all surfaces), refunded
+  on failure; lookups unmetered but the company-breadth cap still applies. Expired → `/api/v1` 402 `TRIAL_ENDED`,
+  MCP `ENTITLEMENT_REQUIRED`. Consent screen + `/oauth/session` + profile key panel treat the trial as access.
+  The 30-day `mcp-trial` never applies to a signup-trial account. Tests: `test/signup-trial.test.js` (last 3).
 - Not built: a Google Ads conversion for a trial start (conversions fire on paid checkout only) and acquisition-cost reporting.
 - Tests: new `test/signup-trial.test.js` (grant idempotence, status, concurrent 5-question reserve/refund, wiring). Updated paid-first,
   paywall/hard-paywall, oauth-signup, anon-ask, checkout-conversions, launch-promo, legacy-redirects, oauth-signin-offer, pricing-ladder.

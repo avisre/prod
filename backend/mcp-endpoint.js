@@ -989,7 +989,9 @@ async function callToolResult(ctx, deps, params) {
                     ends_at: gate.endsAt,
                     days_left: gate.daysLeft
                 };
-                result.notice = mcpTrial.usageNotice(gate);
+                // The signup trial (trial.js) carries its own notice: it does
+                // not count lookups, so the connector trial's copy would be wrong.
+                result.notice = gate.notice || mcpTrial.usageNotice(gate);
             }
 
             if (def.aiCost && ctx.anonymous) {

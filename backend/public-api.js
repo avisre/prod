@@ -18,7 +18,12 @@ const assetProfile = require('./asset-profile');
 const { envelope, quotaError } = require('./api-response');
 const companyBreadth = require('./company-breadth');
 
-function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser, breadthFor }) {
+function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser, breadthFor, limiterFor }) {
+    // Which meter serves this request: the credit wallet, or — for an account
+    // on its signup trial — the trial's own limiter (trial.js), so an API ask
+    // spends one of the same five questions as the website. Chosen once in
+    // gate() and reused by the spend after the work.
+    const meter = (req) => req.apiMeter || credits;
     const router = express.Router();
 
     router.get('/health', (req, res) => {
@@ -36,7 +41,16 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
     // only on success" order every other credits.js call site in app.js uses.
     async function gate(req, res, cost) {
         const planId = req.subscription && req.subscription.planId;
-        const check = await credits.check(req.userId, cost, effectiveAskLimit(req), planId, req.user);
+        req.apiMeter = (typeof limiterFor === 'function' && limiterFor(req)) || credits;
+        const check = await req.apiMeter.check(req.userId, cost, effectiveAskLimit(req), planId, req.user);
+        if (!check.ok && check.trial) {
+            res.status(402).json({
+                code: check.reason === 'trial_ended' ? 'TRIAL_ENDED' : 'TRIAL_AI_LIMIT',
+                error: check.message,
+                trial: { asks_left: check.asksLeft, asks_limit: check.asksLimit, ends_at: check.endsAt }
+            });
+            return null;
+        }
         if (!check.ok) {
             // Machine-readable shortfall plus the one link that fixes it — see
             // quotaError in api-response.js. The MCP endpoint returns the same
@@ -71,7 +85,7 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         if (!breadth) return;
         const { status, body } = await freeTools.getToolResult(slug, req.params.ticker);
         if (status !== 200) return res.status(status).json(body);
-        await credits.spend(req.userId, 'api_lookup', `api:${slug}`, req.params.ticker);
+        await meter(req).spend(req.userId, 'api_lookup', `api:${slug}`, req.params.ticker);
         await breadth.record();
         res.json(envelope(slug, freeTools.normalizeSymbol(req.params.ticker), body));
     });
@@ -82,7 +96,7 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         if (!breadth) return;
         const { status, body } = await freeTools.getToolResult('filing-timeline', req.params.ticker);
         if (status !== 200) return res.status(status).json({ error: body.error });
-        await credits.spend(req.userId, 'api_lookup', 'api:filing-timeline', req.params.ticker);
+        await meter(req).spend(req.userId, 'api_lookup', 'api:filing-timeline', req.params.ticker);
         await breadth.record();
         res.json(envelope('filing-timeline', freeTools.normalizeSymbol(req.params.ticker), body));
     });
@@ -94,7 +108,7 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         if (!breadth) return;
         const { status, body } = await freeTools.getToolResult('company-comparison', raw);
         if (status !== 200) return res.status(status).json({ error: body.error });
-        await credits.spend(req.userId, 'api_lookup', 'api:company-comparison', raw);
+        await meter(req).spend(req.userId, 'api_lookup', 'api:company-comparison', raw);
         await breadth.record();
         res.json(envelope('company-comparison', raw.toUpperCase(), body));
     });
@@ -106,7 +120,7 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         if (!breadth) return;
         const { status, body } = await freeTools.getToolResult('portfolio-revenue', raw);
         if (status !== 200) return res.status(status).json({ error: body.error });
-        await credits.spend(req.userId, 'api_lookup', 'api:portfolio-revenue', raw);
+        await meter(req).spend(req.userId, 'api_lookup', 'api:portfolio-revenue', raw);
         await breadth.record();
         res.json(envelope('portfolio-revenue', raw.toUpperCase(), body));
     });
@@ -126,7 +140,7 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         if (!profile || !assetProfile.isFundAsset(profile.assetType)) {
             return res.status(404).json({ error: `${symbol} is not an ETF or mutual fund.` });
         }
-        await credits.spend(req.userId, 'api_lookup', 'api:fund', symbol);
+        await meter(req).spend(req.userId, 'api_lookup', 'api:fund', symbol);
         await breadth.record();
         res.json({
             tool: 'fund',
@@ -150,9 +164,13 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
             console.log('[ask] ' + JSON.stringify(require('./ask-diagnostics').outcome(failed, { mode: 'normal', stream: false, entrypoint: 'public_api' })));
             return { ...failed, error: error.message };
         });
-        if (result && result.error) return res.status(502).json({ error: result.error });
+        if (result && result.error) {
+            // A failed answer never spends a trial question.
+            if (typeof meter(req).release === 'function') await meter(req).release(req.userId, 'api_ask').catch(() => {});
+            return res.status(502).json({ error: result.error });
+        }
         console.log('[ask] ' + JSON.stringify(require('./ask-diagnostics').outcome(result, { mode: 'normal', stream: false, entrypoint: 'public_api' })));
-        await credits.spend(req.userId, 'api_ask', 'api:ask');
+        await meter(req).spend(req.userId, 'api_ask', 'api:ask');
         res.json({
             tool: 'ask',
             question,

@@ -818,7 +818,7 @@ async function callAppsToolResult(ctx, deps, params) {
                     ends_at: gate.endsAt,
                     days_left: gate.daysLeft
                 };
-                result.notice = evaluationNotice(gate);
+                result.notice = gate.neutralNotice || evaluationNotice(gate);
             }
             const final = textResult(connectorNotices.attach(result, notice));
             log(true, null, final);

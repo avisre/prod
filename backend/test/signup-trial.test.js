@@ -239,3 +239,145 @@ test('a completed password reset also counts as inbox proof', () => {
     const reset = routeSource('post', '/api/password/reset');
     assert.match(reset, /if \(!user\.emailVerifiedAt\) \{\s*user\.emailVerifiedAt = new Date\(\);/);
 });
+
+// ---- The trial on the connectors and the REST API (owner, 2026-11-18) ----
+
+async function trialDb(t) {
+    const server = await MongoMemoryServer.create();
+    const db = new Mongoose();
+    await db.connect(server.getUri());
+    t.after(async () => { await db.disconnect().catch(() => {}); await server.stop(); });
+    const schema = new db.Schema({
+        email: String,
+        signupTrialAt: Date,
+        trialAiUsed: { type: Number, default: 0 },
+        trialAiLimit: { type: Number, default: 5 },
+        trialActivatedAt: { type: Date, default: null },
+        subscription: { planId: String, status: String, trialEndsAt: Date }
+    });
+    const User = db.model('ConnectorTrialUser', schema);
+    const make = async (fields = {}) => {
+        const start = new Date();
+        return User.create({
+            email: 'trial@example.com',
+            signupTrialAt: start,
+            subscription: { planId: 'monthly', status: 'trialing', trialEndsAt: new Date(start.getTime() + 72 * HOUR) },
+            ...fields
+        });
+    };
+    return { User, make };
+}
+
+test('connector and API asks spend the same five questions as the website; lookups are not counted', { timeout: 120000 }, async (t) => {
+    const { User, make } = await trialDb(t);
+    // Two questions already asked on the website.
+    const user = await make({ trialAiUsed: 2 });
+    const answered = [];
+    const lim = trial.connectorLimiter(User, user, { upgradeUrl: 'https://x/upgrade', onAnswered: (e) => answered.push(e) });
+
+    const look = await lim.check(user._id, 'mcp_lookup');
+    assert.equal(look.ok, true);
+    assert.equal(look.lookupsLeft, null, 'lookups are not metered during the trial');
+    assert.equal((await User.findById(user._id)).trialAiUsed, 2, 'a lookup spends no question');
+
+    const ask = await lim.check(user._id, 'mcp_ask');
+    assert.equal(ask.ok, true);
+    assert.equal(ask.asksLeft, 2, 'the third question is reserved; two remain');
+    assert.match(ask.notice, /2 of 5 AI answers left \(shared with the website\)/);
+    assert.doesNotMatch(ask.neutralNotice, /\$|subscri|upgrade|price|plan/i, '/mcp/apps copy stays commerce-neutral');
+    await lim.release(user._id, 'mcp_ask');
+    assert.equal((await User.findById(user._id)).trialAiUsed, 2, 'a failed connector answer gives the question back');
+
+    assert.equal((await lim.check(user._id, 'mcp_ask')).ok, true);
+    await lim.spend(user._id, 'mcp_ask');
+    const after = await User.findById(user._id);
+    assert.equal(after.trialAiUsed, 3);
+    assert.ok(after.trialActivatedAt, 'a connector answer activates the trial like a website one');
+    assert.deepEqual(answered, [{ first: true, used: 3, limit: 5 }]);
+
+    // The REST API draws from the same counter.
+    const api = trial.connectorLimiter(User, user, { upgradeUrl: 'https://x/upgrade' });
+    assert.equal((await api.check(user._id, 'api_ask')).ok, true);
+    await api.spend(user._id, 'api_ask');
+    assert.equal((await api.check(user._id, 'api_ask')).ok, true);
+    await api.spend(user._id, 'api_ask');
+    const sixth = await api.check(user._id, 'api_ask');
+    assert.equal(sixth.ok, false);
+    assert.equal(sixth.reason, 'ask_limit');
+    assert.match(sixth.message, /last of your 5 free AI questions/);
+    assert.equal((await User.findById(user._id)).trialAiUsed, 5, 'never a sixth question on any surface');
+    assert.equal((await lim.check(user._id, 'mcp_lookup')).ok, true, 'lookups continue until the trial ends');
+
+    // Expired: everything refused, and the refusal says the trial ended.
+    const old = await make({ signupTrialAt: new Date(Date.now() - 80 * HOUR), subscription: { planId: 'monthly', status: 'trialing', trialEndsAt: new Date(Date.now() - 8 * HOUR) } });
+    const ended = trial.connectorLimiter(User, old, {});
+    for (const key of ['mcp_lookup', 'mcp_ask', 'api_lookup', 'api_ask']) {
+        const r = await ended.check(old._id, key);
+        assert.equal(r.ok, false, key);
+        assert.equal(r.reason, 'trial_ended', key);
+    }
+});
+
+test('REST API /ask on a trial key: refuses the sixth, refunds a failed answer', { timeout: 120000 }, async (t) => {
+    const http = require('node:http');
+    const express = require('express');
+    const aiChat = require('../ai-chat');
+    const { buildPublicApiRouter } = require('../public-api');
+    const { User, make } = await trialDb(t);
+    const user = await make({ trialAiUsed: 4 });
+    const app = express();
+    app.use(buildPublicApiRouter({
+        credits: { check: async () => { throw new Error('the wallet must not meter a trial caller'); }, spend: async () => { throw new Error('no wallet spend'); } },
+        effectiveAskLimit: () => 0,
+        aiChat,
+        apiKeyAuth: (req, res, next) => { req.userId = user._id; req.user = user; req.subscription = user.subscription; next(); },
+        apiAccessGate: (req, res, next) => next(),
+        apiKeyRateLimit: (req, res, next) => next(),
+        jsonParser: express.json(),
+        limiterFor: (req) => trial.connectorLimiter(User, req.user, { upgradeUrl: 'https://x/upgrade' })
+    }));
+    const server = http.createServer(app);
+    await new Promise((resolve) => server.listen(0, resolve));
+    t.after(() => new Promise((resolve) => server.close(resolve)));
+    const base = `http://127.0.0.1:${server.address().port}`;
+    const ask = () => fetch(`${base}/ask`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: 'Revenue?' }) });
+
+    const original = aiChat.ask;
+    t.after(() => { aiChat.ask = original; });
+    aiChat.ask = async () => { throw new Error('model down'); };
+    assert.equal((await ask()).status, 502);
+    assert.equal((await User.findById(user._id)).trialAiUsed, 4, 'a failed API answer does not spend the question');
+
+    aiChat.ask = async () => ({ source: 'ai', answer: 'Filed revenue was 10.', toolsUsed: [] });
+    assert.equal((await ask()).status, 200);
+    assert.equal((await User.findById(user._id)).trialAiUsed, 5);
+
+    const refused = await ask();
+    assert.equal(refused.status, 402);
+    const body = await refused.json();
+    assert.equal(body.code, 'TRIAL_AI_LIMIT');
+    assert.equal(body.trial.asks_left, 0);
+});
+
+test('the app admits a live, verified signup trial on /mcp, /mcp/apps, the REST API and the consent screen', () => {
+    const access = fnSource('signupTrialConnectorAccess');
+    assert.match(access, /signupTrial\.active\(user\)/);
+    assert.match(access, /identityVerified\(user\)/, 'an unverified trial never reaches the connectors');
+    assert.match(access, /!hasApiAccess\(req\)/, 'a paying account stays on its credit wallet');
+
+    const gate = fnSource('apiAccessGate');
+    assert.match(gate, /if \(hasApiAccess\(req\) \|\| signupTrialConnectorAccess\(req\)\) return next\(\);/);
+    assert.match(gate, /code: 'TRIAL_ENDED'/, 'an expired trial is told it ended, not that its plan lacks the API');
+
+    assert.match(APP_SOURCE, /limiterFor: \(req\) => \(signupTrialConnectorAccess\(req\) \? signupTrialLimiter\(req, 'api'\) : null\)/);
+    for (const [route, surface] of [['/mcp', 'mcp'], ['/mcp/apps', 'mcp_apps']]) {
+        const src = routeSource('post', route);
+        assert.match(src, /const signupTrialCaller = signupTrialConnectorAccess\(req\);/, route);
+        assert.match(src, new RegExp(`limiter: signupTrialCaller \\? signupTrialLimiter\\(req, '${surface}'\\)`), route);
+        assert.match(src, /entitled: \(\) => \(trialCaller \|\| signupTrialCaller \? true : hasApiAccess\(req\)\)/, route);
+        assert.match(src, /const trialCaller = !signupTrialCaller && /, `${route}: one trial per account, never both`);
+        assert.match(src, /breadth: companyBreadthFor\(req\)/, `${route}: the anti-scraping cap still holds the trial`);
+    }
+    assert.match(fnSource('connectorUsable'), /signupTrialConnectorAccess\(/);
+    assert.match(routeSource('get', '/oauth/authorize'), /const hasAccess = hasApiAccess\(\{ user, subscription: user\.subscription \}\) \|\| signupTrialLive;/);
+});

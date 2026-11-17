@@ -259,8 +259,41 @@ function hasApiAccess(req) {
     // the undated widening this must never perform.
     return Boolean(user && tierLimits.isLtdApiAccessCohort(user));
 }
+// The signup trial reaches the connectors (/mcp, /mcp/apps) and the REST API
+// too (owner, 2026-11-18): a live trial on a verified identity is connector
+// access for its 72 hours, metered by trial.connectorLimiter — AI answers draw
+// from the same five questions as the website Ask. hasApiAccess itself is
+// unchanged; an expired or unverified trial falls through to it and is refused
+// until a paid plan, exactly like the website.
+function signupTrialConnectorAccess(req) {
+    const user = req && req.user;
+    return Boolean(user && !hasApiAccess(req) && signupTrial.active(user) && identityVerified(user));
+}
+const SIGNUP_TRIAL_CONNECTOR_UPGRADE_URL = 'https://www.stockportfolio.pro/upgrade.html?utm_source=connector&utm_campaign=signup_trial';
+function signupTrialLimiter(req, surface) {
+    const planId = req.subscription && req.subscription.planId;
+    return signupTrial.connectorLimiter(User, req.user, {
+        upgradeUrl: SIGNUP_TRIAL_CONNECTOR_UPGRADE_URL,
+        // Same event and activation key as the website Ask (settleTrialReservation),
+        // so an activation counts once whichever surface asked first.
+        onAnswered: ({ first, used, limit }) => trackFunnel('trial_ai_question', req.userId, planId, {
+            eventName: 'trial_ai_question',
+            dedupeKey: first ? `trial-activation:${String(req.userId)}` : null,
+            questionNumber: used,
+            trialAiLimit: limit,
+            surface
+        })
+    });
+}
 function apiAccessGate(req, res, next) {
-    if (hasApiAccess(req)) return next();
+    if (hasApiAccess(req) || signupTrialConnectorAccess(req)) return next();
+    const trial = req.user ? signupTrial.status(req.user) : null;
+    if (trial && trial.expired) {
+        return res.status(402).json({ message: `Your free trial has ended. Your account and portfolios are kept; subscribe to use the API again: ${SIGNUP_TRIAL_CONNECTOR_UPGRADE_URL}`, code: 'TRIAL_ENDED' });
+    }
+    if (req.user && signupTrial.active(req.user) && !identityVerified(req.user)) {
+        return res.status(403).json({ message: 'Verify your email address to use the API during your free trial.', code: 'EMAIL_VERIFICATION_REQUIRED' });
+    }
     return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($200/mo), the Monthly, Annual, Pro, Power and Desk plans, the Investor and Pro AppSumo/DealMirror tiers, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
@@ -6526,7 +6559,8 @@ function companyBreadthFor(req) {
     if (String(req.user && req.user.email || '').trim().toLowerCase() === CUSTOMER_MESSAGES_ADMIN_EMAIL) return null;
     return companyBreadth.forAccount(mongoose.connection.collection('company_breadth'), req.userId);
 }
-app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser, breadthFor: companyBreadthFor }));
+app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser, breadthFor: companyBreadthFor,
+    limiterFor: (req) => (signupTrialConnectorAccess(req) ? signupTrialLimiter(req, 'api') : null) }));
 
 // Hosted MCP endpoint — see backend/mcp-endpoint.js. Stateless Streamable
 // HTTP: no session id, no server-initiated SSE, since every tool call is a
@@ -6941,10 +6975,19 @@ ${OAUTH_SIGNIN_SCRIPT}`);
     // by a refusal on its first call. Allow stays available: the connection
     // picks a new plan up on the next call. A connector-made account sees its
     // trial instead: what is left, or that it is over.
-    const hasAccess = hasApiAccess({ user, subscription: user.subscription });
+    // A live, verified website signup trial is connector access for its 72
+    // hours; the notice says when it ends and what AI answers are left.
+    const signupTrialLive = signupTrialConnectorAccess({ user, subscription: user.subscription });
+    const signupSt = signupTrialLive ? signupTrial.status(user) : null;
+    const signupTrialNotice = !signupSt ? ''
+        : chatgpt
+            ? `<div class="offer warn"><h2>Evaluation access</h2><p>${signupSt.remaining} AI answers left; ends ${escapeHtmlOauth(new Date(signupSt.endsAt).toUTCString())}.</p></div>`
+            : `<div class="offer warn"><h2>Free trial</h2><p>Your trial ends ${escapeHtmlOauth(new Date(signupSt.endsAt).toUTCString())}. Data lookups are included until then; AI answers here use your ${signupSt.remaining} remaining free questions, shared with the website. After the trial this connector needs a subscription.</p></div>`;
+    const hasAccess = hasApiAccess({ user, subscription: user.subscription }) || signupTrialLive;
     const trial = !hasAccess && mcpTrial.config().days > 0 && mcpTrial.eligible(user) ? await mcpTrial.status(user._id) : null;
     const trialLive = Boolean(trial) && trialIsLive(trial);
-    const notice = hasAccess ? ''
+    const notice = signupTrialLive ? signupTrialNotice
+        : hasAccess ? ''
         : chatgpt ? (trialLive ? oauthOffer.neutralAllowanceNoticeHtml(trial) : oauthOffer.neutralNoAccessNoticeHtml({ ended: Boolean(trial) }))
         : trialLive ? oauthOffer.trialNoticeHtml(trial, offerFacts)
         : trial ? oauthOffer.trialEndedNoticeHtml(trial, offerFacts)
@@ -6957,7 +7000,7 @@ ${OAUTH_SIGNIN_SCRIPT}`);
   ${destination}
   <ul>
     <li>Read filing-grounded company data through your account</li>
-    <li>${trialLive ? (chatgpt ? 'Use this account’s connector allowance' : 'Use your free connector trial') : 'Spend credits from your monthly allowance'}</li>
+    <li>${signupTrialLive ? (chatgpt ? 'Use this account’s evaluation access' : 'Use your free trial') : trialLive ? (chatgpt ? 'Use this account’s connector allowance' : 'Use your free connector trial') : 'Spend credits from your monthly allowance'}</li>
     <li>No access to your password, card details or portfolios</li>
   </ul>
   <form method="POST" action="/oauth/authorize/decision">${hidden}
@@ -6996,6 +7039,7 @@ function trialIsLive(trial) {
 async function connectorUsable(user) {
     if (!user) return false;
     if (hasApiAccess({ user, subscription: user.subscription })) return true;
+    if (signupTrialConnectorAccess({ user, subscription: user.subscription })) return true;
     if (mcpTrial.config().days <= 0 || !mcpTrial.eligible(user)) return false;
     return trialIsLive(await mcpTrial.status(user._id));
 }
@@ -7510,30 +7554,34 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
         // hasApiAccess itself is UNCHANGED — it still gates the REST API and
         // the OAuth consent screen — this branch only decides which limiter
         // serves the tool calls.
-        const trialCaller = !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);
-        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client, ...(trialCaller ? { trial: true } : {}) };
+        // The website signup trial comes first: a live, verified 72-hour trial
+        // is connector access, metered by its own limiter (AI answers share the
+        // website's five questions). It is never also a connector-trial caller.
+        const signupTrialCaller = signupTrialConnectorAccess(req);
+        const trialCaller = !signupTrialCaller && !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);
+        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client, ...(trialCaller || signupTrialCaller ? { trial: true } : {}) };
         const deps = {
-            limiter: trialCaller ? mcpTrial.creditsFor(req.userId) : credits,
+            limiter: signupTrialCaller ? signupTrialLimiter(req, 'mcp') : trialCaller ? mcpTrial.creditsFor(req.userId) : credits,
             effectiveAskLimit: () => effectiveAskLimit(req),
             // The trial IS the entitlement on this request; a paid caller
             // keeps the live check so a plan change is picked up next call.
-            entitled: () => (trialCaller ? true : hasApiAccess(req)),
+            entitled: () => (trialCaller || signupTrialCaller ? true : hasApiAccess(req)),
             wallReason: null,
             resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource`,
             oauthScopes: OAUTH_SCOPES,
-            // The breadth cap and account notices read the credit wallet,
-            // which a trial caller does not have: skipped for trial callers.
-            ...(trialCaller ? {} : {
-                breadth: companyBreadthFor(req),
-                accountNotice: (gate) => connectorAccountNotice(req, gate, false)
-            }),
+            // The account notices read the credit wallet, which a trial caller
+            // does not have. The breadth cap is per account, not per wallet, so
+            // it still holds the signup trial (unmetered lookups for 72 hours).
+            ...(trialCaller ? {} : { breadth: companyBreadthFor(req) }),
+            ...(trialCaller || signupTrialCaller ? {} : { accountNotice: (gate) => connectorAccountNotice(req, gate, false) }),
             usage: mcpUsageCallback(req, { surface: 'mcp', anonymous: false, platform: null, pool: null, client }),
             ...mcpToolDeps(),
             // The refusal nudge speaks to wallet and plan problems; a trial
             // caller's stages (started, 7 days left, ended) go to the trial
             // emails instead (both fire-and-forget, both gated by
-            // CONNECTOR_NUDGE_EMAILS).
-            onLog: (evt, detail) => { logMcp(evt); if (trialCaller) trialEmailOnEvent(req, evt); else nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
+            // CONNECTOR_NUDGE_EMAILS). A signup-trial caller gets neither: the
+            // refusal it reads already says what happened and what to do.
+            onLog: (evt, detail) => { logMcp(evt); if (trialCaller) trialEmailOnEvent(req, evt); else if (!signupTrialCaller) nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
         };
         if (mcpModern.isModern(req)) {
             const modernStarted = Date.now();
@@ -7604,20 +7652,19 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
         // Same trial split as /mcp above: a signed-in account without
         // API/MCP access runs on the per-account trial here too, with this
         // surface's commerce-neutral copy (mcp-apps.js).
-        const trialCaller = !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);
-        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client, ...(trialCaller ? { trial: true } : {}) };
+        const signupTrialCaller = signupTrialConnectorAccess(req);
+        const trialCaller = !signupTrialCaller && !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);
+        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client, ...(trialCaller || signupTrialCaller ? { trial: true } : {}) };
         const deps = {
-            limiter: trialCaller ? mcpTrial.creditsFor(req.userId) : credits,
+            limiter: signupTrialCaller ? signupTrialLimiter(req, 'mcp_apps') : trialCaller ? mcpTrial.creditsFor(req.userId) : credits,
             effectiveAskLimit: () => effectiveAskLimit(req),
-            entitled: () => (trialCaller ? true : hasApiAccess(req)),
+            entitled: () => (trialCaller || signupTrialCaller ? true : hasApiAccess(req)),
             resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource/mcp/apps`,
-            ...(trialCaller ? {} : {
-                breadth: companyBreadthFor(req),
-                accountNotice: (gate) => connectorAccountNotice(req, gate, true)
-            }),
+            ...(trialCaller ? {} : { breadth: companyBreadthFor(req) }),
+            ...(trialCaller || signupTrialCaller ? {} : { accountNotice: (gate) => connectorAccountNotice(req, gate, true) }),
             usage: mcpUsageCallback(req, { surface: 'apps', anonymous: false, platform: null, pool: null, client }),
             ...mcpToolDeps(),
-            onLog: (evt, detail) => { console.log('[mcp-apps]', JSON.stringify(evt)); if (trialCaller) trialEmailOnEvent(req, evt); else nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
+            onLog: (evt, detail) => { console.log('[mcp-apps]', JSON.stringify(evt)); if (trialCaller) trialEmailOnEvent(req, evt); else if (!signupTrialCaller) nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
         };
         if (mcpModern.isModern(req)) {
             const modernStarted = Date.now();
@@ -12510,7 +12557,9 @@ app.get('/api/credits', authMiddleware, async (req, res) => {
         // entitlement — the profile page needs this to decide between showing a
         // Monitor breakdown row and a one-line upsell, since a user who can't
         // reach the feature shouldn't see a usage row for it.
-        res.json({ ...bal, cost: credits.COST, recent, breakdown, activityTotal, hasMonitor: hasMonitor(req), hasApiAccess: hasApiAccess(req) });
+        // A live signup trial can mint an API key (apiAccessGate admits it), so
+        // the profile shows the key panel for it too.
+        res.json({ ...bal, cost: credits.COST, recent, breakdown, activityTotal, hasMonitor: hasMonitor(req), hasApiAccess: hasApiAccess(req) || signupTrialConnectorAccess(req) });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Credit balance check failed') });
     }

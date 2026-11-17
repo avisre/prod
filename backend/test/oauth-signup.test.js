@@ -147,9 +147,11 @@ test('app.js: only an eligible account without access runs on the trial, on both
     // MCP_TRIAL_DAYS=0 must leave no caller on the trial limiter on either
     // surface — without the guard a trial-eligible account would get exactly
     // one free call from the upsert before the cutoff filter refuses.
-    for (const line of lines) assert.equal(line, 'const trialCaller = !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);');
+    // A live website signup trial (2026-11-18) is served by its own limiter
+    // first, so an account never runs on both trials.
+    for (const line of lines) assert.equal(line, 'const trialCaller = !signupTrialCaller && !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);');
     // Not a trial caller and no access: the live check refuses (ENTITLEMENT_REQUIRED).
-    assert.equal((appSource.match(/entitled: \(\) => \(trialCaller \? true : hasApiAccess\(req\)\)/g) || []).length, 2);
+    assert.equal((appSource.match(/entitled: \(\) => \(trialCaller \|\| signupTrialCaller \? true : hasApiAccess\(req\)\)/g) || []).length, 2);
     assert.match(appSource, /hasAccess: await connectorUsable\(user\)/, '/oauth/session counts a live trial as access');
 });
 

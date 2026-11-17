@@ -178,7 +178,91 @@ async function markActivated(User, userId, now = new Date()) {
   return Boolean(result && (result.modifiedCount || result.nModified));
 }
 
+// The trial on the connectors (/mcp, /mcp/apps) and the REST API (/api/v1).
+// Same trial, same counter as the website: an AI answer reserves one of the
+// five questions on the user row (reserveQuestion), so asking in the browser,
+// in Claude and over the API all draw from one allowance. Data lookups are not
+// counted while the trial runs, as on the website; the per-account company
+// breadth cap still applies at the call sites.
+//
+// Credits-shaped (check / spend / release) so mcp-endpoint.js, mcp-apps.js and
+// public-api.js run their existing reserve-then-confirm flow unmodified. One
+// facade serves one request. `onAnswered(first)` fires when an AI answer is
+// confirmed, so app.js can record activation the way the website Ask does.
+const ASK_KEYS = new Set(['mcp_ask', 'api_ask']);
+
+function connectorLimiter(User, user, { upgradeUrl = '/upgrade.html', onAnswered = null, cfg = config() } = {}) {
+  const userId = user && user._id;
+  const outstanding = [];
+
+  const fmtEnds = (iso) => {
+    const d = iso ? new Date(iso) : null;
+    return d && !Number.isNaN(d.getTime())
+      ? d.toLocaleString('en-GB', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short' })
+      : null;
+  };
+  const view = (st, ok, extra = {}) => ({
+    ok,
+    trial: true,
+    used: st.used,
+    allowance: st.limit,
+    // Lookups are not counted during the trial; null tells the caller so.
+    lookupsLeft: null,
+    lookupsLimit: null,
+    asksLeft: st.remaining,
+    asksLimit: st.limit,
+    endsAt: st.endsAt,
+    hoursLeft: st.hoursLeft,
+    daysLeft: Math.ceil((st.hoursLeft || 0) / 24),
+    notice: ok
+      ? `Free trial: ${st.remaining} of ${st.limit} AI answers left (shared with the website); data lookups are included until ${fmtEnds(st.endsAt)} (${st.hoursLeft} hours left). After the trial this connector needs a subscription: ${upgradeUrl}`
+      : null,
+    neutralNotice: ok
+      ? `Evaluation access: ${st.remaining} AI answers left; ends ${fmtEnds(st.endsAt)}.`
+      : null,
+    ...extra
+  });
+  const refuse = (st, reason) => view(st, false, {
+    reason,
+    message: reason === 'trial_ended'
+      ? `Your free trial has ended. Your account and portfolios are kept; subscribe to use this connector again: ${upgradeUrl}`
+      : `That was the last of your ${st.limit} free AI questions (the website, connectors and API share them). Data lookups continue until the trial ends; subscribe to keep asking: ${upgradeUrl}`
+  });
+
+  return {
+    async check(_userId, costKey) {
+      const now = Date.now();
+      const st = status(user, now, cfg);
+      if (!st.active) return refuse(st, 'trial_ended');
+      if (!ASK_KEYS.has(costKey)) return view(st, true);
+      const reservation = await reserveQuestion(User, userId, now, cfg);
+      const after = reservation.status || st;
+      if (!reservation.ok) return refuse(after, after.active ? 'ask_limit' : 'trial_ended');
+      outstanding.push({ costKey, st: after });
+      // remaining already excludes this reservation; the notice reports what
+      // is left once this answer is delivered.
+      return view(after, true);
+    },
+    async spend(_userId, costKey) {
+      const i = outstanding.findIndex((r) => r.costKey === costKey);
+      if (i < 0) return;
+      const [{ st }] = outstanding.splice(i, 1);
+      const first = await markActivated(User, userId);
+      if (typeof onAnswered === 'function') {
+        try { onAnswered({ first, used: st.used, limit: st.limit }); } catch (_) { /* telemetry must never fail the call */ }
+      }
+    },
+    async release(_userId, costKey) {
+      const i = outstanding.findIndex((r) => r.costKey === costKey);
+      if (i < 0) return;
+      outstanding.splice(i, 1);
+      await refundQuestion(User, userId);
+    }
+  };
+}
+
 module.exports = {
+  connectorLimiter,
   HOUR_MS,
   DEFAULT_HOURS,
   DEFAULT_AI_QUESTIONS,
