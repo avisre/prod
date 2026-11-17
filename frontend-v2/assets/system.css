@@ -371,6 +371,10 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 
 .field { display: grid; gap: 6px; }
 .field > span { font-size: var(--text-sm); font-weight: 550; color: var(--ink-2); }
+/* Keep controls on the same baseline even when a filter label wraps. */
+.screener-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 14px 18px; }
+.screener-filters .field { min-width: 0; grid-template-rows: 1fr auto; }
+#presets .chip, #ai-note .chip, .chip[data-ai-example] { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 .input, .select {
   height: 42px;
   width: 100%;

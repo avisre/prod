@@ -10,6 +10,13 @@
     let sortKey = 'marketCapB';
     let sortDir = 'desc';
     let trendAsOf = null; // the snapshot date when the screen used a price-trend filter
+    let aiCriteria = null;
+    let aiSimilar = null;
+    let aiStatus = null;
+    let offeredCriteria = null;
+    let requestId = 0, screenController = null;
+    let buildId = 0, buildController = null;
+    let debounce = null;
 
     const PRESETS = {
         compounders: { 'f-cagr': 8, 'f-margin': 12, 'f-roe': 15, 'f-fcf': true },
@@ -79,27 +86,52 @@
         return q;
     }
 
+    function cancelRun() {
+        requestId += 1;
+        if (screenController) screenController.abort();
+        rows = [];
+        $('export-btn').disabled = true;
+        $('results').setAttribute('aria-busy', 'false');
+    }
+
     async function run() {
+        clearTimeout(debounce);
+        cancelRun();
+        const id = requestId;
+        const controller = screenController = new AbortController();
         const q = buildQuery();
+        tableBusy('Running the screen…');
         try {
-            const r = await fetch(`/api/screener?${q}`);
+            const r = await fetch(`/api/screener?${q}`, { signal: controller.signal });
             const data = await r.json();
-            rows = data.rows || [];
+            if (id !== requestId) return;
+            if (!r.ok) throw new Error(data.message || 'Couldn’t load the screen.');
+            if (!Array.isArray(data.rows)) throw new Error('Couldn’t load the screen.');
+            rows = data.rows;
             aiSimilar = data.similarTo || null;
             trendAsOf = data.technicalsAsOf || null;
-            $('result-count').textContent = `${data.matched} of ${data.universe} companies match` + (trendAsOf ? ` · price trend as of ${trendAsOf}` : '');
+            $('result-count').textContent = `${data.matched ?? rows.length} of ${data.universe ?? rows.length} companies match` + (trendAsOf ? ` · price trend as of ${trendAsOf}` : '');
             const sel = $('f-sector');
             if (sel.options.length <= 1 && Array.isArray(data.sectors)) {
                 data.sectors.forEach((s) => sel.insertAdjacentHTML('beforeend', `<option>${esc(s)}</option>`));
+                if (aiCriteria) syncFiltersTo(aiCriteria);
             }
             render(data.error);
             renderAiNote();
-        } catch (_) {
+        } catch (err) {
+            if (id !== requestId || controller.signal.aborted) return;
+            rows = [];
+            $('result-count').textContent = 'Screen unavailable';
             // A dead-looking error row is a dead end (D7) — make it the retry
             // control itself so recovery is one click in place.
             const body = $('results-body');
-            body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">Couldn’t load the screen. <button type="button" class="btn btn-ghost btn-sm" id="screen-retry">Retry</button></td></tr>';
+            body.innerHTML = '<tr><td colspan="' + (trendAsOf ? 11 : 10) + '" style="text-align:center;padding:40px;" class="faint">' + esc(err.message || 'Couldn’t load the screen.') + ' <button type="button" class="btn btn-ghost btn-sm" id="screen-retry">Retry</button></td></tr>';
             body.querySelector('#screen-retry').addEventListener('click', run);
+        } finally {
+            if (id === requestId) {
+                $('results').setAttribute('aria-busy', 'false');
+                $('export-btn').disabled = !rows.length;
+            }
         }
     }
 
@@ -115,7 +147,7 @@
             return ((x === null) - (y === null)) || (sortDir === 'asc' ? x - y : y - x);
         });
         if (!sorted.length) {
-            $('results-body').innerHTML = `<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">${error ? esc(error.replace(/ For a 200-day.*$/, '')) : 'No companies match these filters — loosen one and run again.'}</td></tr>`;
+            $('results-body').innerHTML = `<tr><td colspan="${trendAsOf ? 11 : 10}" style="text-align:center;padding:40px;" class="faint">${error ? esc(error.replace(/ For a 200-day.*$/, '')) : 'No companies match these filters — loosen one and run again.'}</td></tr>`;
             return;
         }
         const companyUrl = (sym) => `/company?symbol=${encodeURIComponent(sym)}`;
@@ -151,6 +183,7 @@
 
     document.querySelectorAll('th.sortable').forEach((th) =>
         th.addEventListener('click', () => {
+            if ($('results').getAttribute('aria-busy') === 'true') return;
             const k = th.dataset.sort;
             if (sortKey === k) sortDir = sortDir === 'desc' ? 'asc' : 'desc';
             else { sortKey = k; sortDir = k === 'pe' || k === 'symbol' || k === 'sector' ? 'asc' : 'desc'; }
@@ -174,7 +207,10 @@
         return f;
     }
     function savedScreens() {
-        try { return JSON.parse(localStorage.getItem(SAVED_KEY) || '[]'); } catch (_) { return []; }
+        try {
+            const list = JSON.parse(localStorage.getItem(SAVED_KEY) || '[]');
+            return Array.isArray(list) ? list.filter((s) => s && typeof s.name === 'string' && (s.filters || s.criteria)) : [];
+        } catch (_) { return []; }
     }
     // ---- saved screens on the account (signed in) ----
     // Signed in, screens are kept on the account (/api/screens) so they follow
@@ -213,7 +249,7 @@
             if (local.length) {
                 let moved = 0;
                 for (const s of local) {
-                    const criteria = criteriaFromFilters(s.filters || {});
+                    const criteria = s.criteria || criteriaFromFilters(s.filters || {});
                     if (!Object.keys(criteria).length) { moved += 1; continue; }
                     try { await saveToAccount(s.name, criteria); moved += 1; } catch (_) { /* keep it local and try again next visit */ }
                 }
@@ -254,8 +290,10 @@
                 }
                 const s = savedScreens()[Number(b.dataset.saved)];
                 if (!s) return;
-                setFilters(s.filters);
-                if (s.filters['f-sector']) $('f-sector').value = s.filters['f-sector'];
+                if (s.criteria) { adoptAiScreen(s.criteria); return; }
+                clearAiScreen();
+                setFilters(s.filters || {});
+                if (s.filters && s.filters['f-sector']) $('f-sector').value = s.filters['f-sector'];
                 run();
             }));
     }
@@ -273,7 +311,7 @@
                 return;
             }
             const list = savedScreens().filter((s) => s.name !== name);
-            list.push({ name, filters: f });
+            list.push({ name, filters: f, criteria });
             localStorage.setItem(SAVED_KEY, JSON.stringify(list.slice(-8)));
             renderSaved();
         };
@@ -371,23 +409,30 @@
     // words needs one Ask to turn the words into criteria; the page reads that
     // run's screen_universe arguments off the stream and re-runs them through
     // ?criteria=, so the rows, the count and the export stay one code path.
-    let aiCriteria = null;        // screen_universe args the page re-runs
-    let aiSimilar = null;         // the result's similarTo block, for the note
-    let aiStatus = null;          // { text, html } shown while a screen is built
-
-    const AI_MAPPED_KEYS = new Set(['similar_to', 'min_revenue_cagr_5y_pct', 'min_net_margin_pct', 'min_roe_pct', 'max_pe', 'min_dividend_yield_pct', 'min_latest_qtr_earnings_growth_yoy_pct', 'require_positive_fcf', 'min_market_cap_billions', 'max_market_cap_billions', 'sector']);
+    const AI_MAPPED_KEYS = new Set(['similar_to', 'min_revenue_cagr_5y_pct', 'min_net_margin_pct', 'min_roe_pct', 'max_pe', 'min_dividend_yield_pct', 'min_latest_qtr_earnings_growth_yoy_pct', 'require_positive_fcf', 'min_market_cap_billions', 'max_market_cap_billions', 'sector', 'min_rsi14', 'sma200_position', 'golden_cross_within_days', 'min_volume_ratio_20']);
 
     function clearAiScreen() {
+        buildId += 1;
+        if (buildController) buildController.abort();
+        cancelRun();
         aiCriteria = null;
         aiSimilar = null;
         aiStatus = null;
+        offeredCriteria = null;
         renderAiNote();
     }
 
     function renderAiNote() {
         const el = $('ai-note');
-        $('ai-screen-btn').classList.toggle('chip-accent', !!(aiStatus || aiCriteria));
+        $('ai-screen-btn').classList.toggle('chip-accent', !!(aiCriteria && aiCriteria.similar_to));
+        $('custom-screen-btn').classList.toggle('chip-accent', !!(aiCriteria && !aiCriteria.similar_to));
         const clearBtn = '<button type="button" class="chip" id="ai-clear" title="Back to plain filters">×</button>';
+        if (offeredCriteria) {
+            el.style.display = 'flex';
+            el.innerHTML = '<span class="muted">Your custom screen is ready.</span><button type="button" class="chip chip-accent" id="screen-show-results">Show results</button>';
+            $('screen-show-results').addEventListener('click', () => adoptAiScreen(offeredCriteria));
+            return;
+        }
         if (aiStatus) {
             el.style.display = 'flex';
             el.innerHTML = aiStatus.html || '<span class="muted">' + esc(aiStatus.text) + '</span>';
@@ -409,7 +454,7 @@
             // limit and sort_by belong to the page, and the server drops them anyway.
             const extra = Object.keys(aiCriteria).filter((k) => !AI_MAPPED_KEYS.has(k) && k !== 'limit' && k !== 'sort_by');
             el.style.display = 'flex';
-            el.innerHTML = '<span class="muted">Doppelganger screen applied' + (extra.length ? ' — also ' + esc(extra.map((k) => k.replace(/_/g, ' ')).join(', ')) : '') + '.</span>' + clearBtn;
+            el.innerHTML = '<span class="muted">Custom screen applied' + (extra.length ? ' — also ' + esc(extra.map((k) => k.replace(/_/g, ' ')).join(', ')) : '') + '.</span>' + clearBtn;
             $('ai-clear').addEventListener('click', () => { clearAiScreen(); run(); });
             return;
         }
@@ -437,6 +482,7 @@
     }
 
     function adoptAiScreen(args) {
+        clearAiScreen();
         aiCriteria = args;
         aiStatus = null;
         document.querySelectorAll('#presets .chip[data-preset]').forEach((x) => x.classList.remove('chip-accent'));
@@ -455,45 +501,74 @@
         if (x) x.addEventListener('click', () => { aiStatus = null; renderAiNote(); });
     }
     function tableBusy(text) {
-        $('results-body').innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">' + esc(text) + '</td></tr>';
+        rows = [];
+        $('export-btn').disabled = true;
+        $('result-count').textContent = text;
+        $('results').setAttribute('aria-busy', 'true');
+        $('results-body').innerHTML = '<tr><td colspan="' + (trendAsOf ? 11 : 10) + '" style="text-align:center;padding:40px;" class="faint">' + esc(text) + '</td></tr>';
     }
 
     // A screen described in words: one Ask turns it into criteria. Only the
     // screen_universe arguments are read from the stream — the written answer
     // is never shown, because the table is the answer here.
-    async function screenFromWords(q) {
+    async function screenFromWords(q, signal) {
         const headers = { 'Content-Type': 'application/json' };
         if (window.V2 && V2.token && V2.token()) headers.Authorization = 'Bearer ' + V2.token();
         let r;
         try {
-            r = await fetch('/api/ai/chat', { method: 'POST', headers, credentials: 'same-origin',
+            r = await fetch('/api/ai/chat', { method: 'POST', headers, credentials: 'same-origin', signal,
                 body: JSON.stringify({ question: 'Run a stock screen for: ' + q, history: [], stream: true, mode: 'normal' }) });
         } catch (_) { return null; }
         if (r.status === 401 || r.status === 402 || r.status === 429) return { denied: true };
-        if (!r.ok || !r.body || !/event-stream/.test(r.headers.get('content-type') || '')) return { denied: r.ok };
+        if (!r.ok || !r.body || !/event-stream/.test(r.headers.get('content-type') || '')) return null;
         const reader = r.body.getReader();
         const dec = new TextDecoder();
         let buf = '', args = null;
-        for (;;) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            buf += dec.decode(value, { stream: true });
-            let cut;
-            while ((cut = buf.indexOf('\n\n')) >= 0) {
-                const frame = buf.slice(0, cut); buf = buf.slice(cut + 2);
-                const ev = (frame.match(/^event: (.*)$/m) || [])[1];
-                const data = (frame.match(/^data: (.*)$/m) || [])[1];
-                if (ev !== 'tool' || !data) continue;
-                try {
-                    const d = JSON.parse(data);
-                    if (d.tool === 'screen_universe' && d.args && Object.keys(d.args).length) args = d.args;
-                } catch (_) { /* a malformed frame is not a screen */ }
+        const readFrame = (frame) => {
+            const ev = (frame.match(/^event: ?([^\r\n]*)/m) || [])[1];
+            const data = [...frame.matchAll(/^data: ?([^\r\n]*)/gm)].map((m) => m[1]).join('\n');
+            if (ev !== 'tool' || !data) return;
+            try {
+                const d = JSON.parse(data);
+                if (d.tool === 'screen_universe' && d.args && d.ok !== false && typeof d.args === 'object' && !Array.isArray(d.args) && Object.keys(d.args).length) args = d.args;
+            } catch (_) { /* a malformed frame is not a screen */ }
+        };
+        try {
+            for (;;) {
+                const { done, value } = await reader.read();
+                buf += done ? dec.decode() : dec.decode(value, { stream: true });
+                let boundary;
+                while ((boundary = /\r?\n\r?\n/.exec(buf))) {
+                    readFrame(buf.slice(0, boundary.index));
+                    buf = buf.slice(boundary.index + boundary[0].length);
+                }
+                if (done) { if (buf.trim()) readFrame(buf); break; }
             }
-        }
+        } catch (_) { return null; }
+        finally { reader.releaseLock(); }
         return { args };
     }
 
+    async function runCustomScreen(q) {
+        clearTimeout(debounce);
+        clearAiScreen();
+        const id = buildId;
+        buildController = new AbortController();
+        aiMessage('Turning that into a screen…');
+        tableBusy('Building your custom screen…');
+        const built = await screenFromWords(q, buildController.signal);
+        if (id !== buildId) return;
+        if (built && built.args) return adoptAiScreen(built.args);
+        if (built && built.denied) aiFail('Custom screens in words use your Ask allowance. <a href="/profile.html#usage-details">Check your account and allowance</a>, or use the filters below.');
+        else aiFail('Couldn’t turn that into a screen. Try revenue growth, margin, P/E, dividends or price-trend filters.');
+        return run();
+    }
+
     async function runDoppelganger(q) {
+        clearTimeout(debounce);
+        clearAiScreen();
+        const id = buildId;
+        buildController = new AbortController();
         const named = /\b(?:like|similar to|resembl\w*|lookalikes? (?:of|for)|doppelg[aä]ngers? (?:of|for))\s+/i.test(q);
         const company = q.replace(/^.*?\b(?:like|similar to|resembl\w*|lookalikes? (?:of|for)|doppelg[aä]ngers? (?:of|for))\s+/i, '').replace(/[?.!]+$/, '').trim() || q;
         aiCriteria = null; aiSimilar = null;
@@ -501,8 +576,10 @@
         tableBusy('Running the screen…');
         let probe = null;
         try {
-            probe = await (await fetch('/api/screener?' + new URLSearchParams({ criteria: JSON.stringify({ similar_to: company }), limit: 1 }))).json();
+            const response = await fetch('/api/screener?' + new URLSearchParams({ criteria: JSON.stringify({ similar_to: company }), limit: 1 }), { signal: buildController.signal });
+            if (response.ok) probe = await response.json();
         } catch (_) { /* fall through to the words path */ }
+        if (id !== buildId) return;
         if (probe && probe.similarTo && probe.similarTo.symbol) return adoptAiScreen({ similar_to: probe.similarTo.symbol });
         if (probe && Array.isArray(probe.candidates) && probe.candidates.length) {
             aiMessage(null, '<span class="muted">Several companies match — pick one:</span>' + probe.candidates.map((c) =>
@@ -511,7 +588,8 @@
         }
         if (named) { aiFail('No US-listed company with filed fundamentals matches “' + esc(company) + '”.'); return run(); }
         aiMessage('Turning that into a screen…');
-        const built = await screenFromWords(q);
+        const built = await screenFromWords(q, buildController.signal);
+        if (id !== buildId) return;
         if (built && built.args) return adoptAiScreen(built.args);
         if (built && built.denied) aiFail('Describing a screen in words uses Ask — <a href="/login.html?next=/screener.html">sign in</a>, or name a company to match instead.');
         else aiFail('Couldn’t turn that into a screen. Name a company to match, or use the filters below.');
@@ -519,22 +597,23 @@
     }
 
     const AI_EXAMPLES = ['Companies like AppLovin', 'High-margin growers under 30× earnings', 'Cash machines with steady dividends'];
-    $('ai-screen-btn').addEventListener('click', () => {
+    const CUSTOM_EXAMPLES = ['Revenue growth above 10% and net margin above 15%', 'Profitable companies under 25× earnings', 'Dividend yield above 2% with positive free cash flow'];
+    function openScreenBuilder(custom) {
         if (!(window.V2 && V2.modal)) return;
         const m = V2.modal({
-            label: 'Doppelganger',
-            title: "Find a stock's doppelganger",
-            bodyHtml: '<p class="small muted" style="margin:0 0 10px;">Closest matches by the numbers — any sector. Name a company to match, or describe a screen.</p>' +
-              '<input class="input" id="ai-screen-q" maxlength="500" placeholder="A company to match — or a screen in plain words…" style="width:100%;">' +
+            label: custom ? 'Custom screen' : 'Doppelganger',
+            title: custom ? 'Create a custom screen' : "Find a stock’s doppelganger",
+            bodyHtml: '<p class="small muted" style="margin:0 0 10px;">' + (custom ? 'Describe the companies you want using growth, profitability, valuation, dividends or price trends.' : 'Closest matches by the numbers — any sector. Name a company to match, or describe a screen.') + '</p>' +
+              '<input class="input" id="ai-screen-q" aria-label="Describe your screen" maxlength="500" placeholder="' + (custom ? 'e.g. Revenue growth above 10% and P/E below 25' : 'A company to match — or a screen in plain words…') + '" style="width:100%;">' +
               '<p class="small muted" style="margin:12px 0 0;">Try:</p>' +
-              '<p style="margin:6px 0 0;">' + AI_EXAMPLES.map((x) => '<button type="button" class="chip" data-ai-example="' + esc(x) + '">' + esc(x) + '</button>').join(' ') + '</p>' +
-              '<p class="small faint" style="margin:12px 0 0;">Results appear in the table below. Matching a company is instant; a screen described in words spends one Ask.</p>',
+              '<p style="margin:6px 0 0;">' + (custom ? CUSTOM_EXAMPLES : AI_EXAMPLES).map((x) => '<button type="button" class="chip" data-ai-example="' + esc(x) + '">' + esc(x) + '</button>').join(' ') + '</p>' +
+              '<p class="small faint" style="margin:12px 0 0;">Results appear in the table below. ' + (custom ? 'Describing a screen uses one Ask. You can also build a screen directly with the filters.' : 'Matching a company is instant; a screen described in words spends one Ask.') + '</p>',
             actions: [
                 { label: 'Run it', primary: true, onClick: (close) => {
                     const q = (m.el.querySelector('#ai-screen-q').value || '').trim();
                     if (!q) return;
                     close();
-                    runDoppelganger(q);
+                    if (custom) runCustomScreen(q); else runDoppelganger(q);
                 } },
                 { label: 'Cancel' }
             ]
@@ -548,8 +627,23 @@
         const field = m.el.querySelector('#ai-screen-q');
         field.focus();
         field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
+    }
+    $('ai-screen-btn').addEventListener('click', () => openScreenBuilder(false));
+    $('custom-screen-btn').addEventListener('click', () => openScreenBuilder(true));
+    if (!(window.V2 && V2.modal)) {
+        $('ai-screen-btn').style.display = 'none';
+        $('custom-screen-btn').style.display = 'none';
+    }
+
+    // Ask offers its completed screen explicitly; applying it uses the same
+    // criteria, table, count, sorting and export path as every other screen.
+    document.addEventListener(V2.askDoneEvent || 'v2:ask-done', (e) => {
+        const tools = e.detail && e.detail.toolsUsed;
+        if (!Array.isArray(tools)) return;
+        const screen = tools.filter((t) => t && t.tool === 'screen_universe' && t.ok !== false && t.args && typeof t.args === 'object' && !Array.isArray(t.args) && Object.keys(t.args).length).pop();
+        if (screen) { offeredCriteria = screen.args; renderAiNote(); }
+        if (tools.some((t) => t && t.tool === 'save_screen' && t.ok !== false)) loadAccountScreens();
     });
-    if (!(window.V2 && V2.modal)) $('ai-screen-btn').style.display = 'none';
 
     document.querySelectorAll('#presets .chip[data-preset]').forEach((b) =>
         b.addEventListener('click', () => {
@@ -559,12 +653,14 @@
             setFilters(PRESETS[b.dataset.preset] || {});
             run();
         }));
-    $('run-btn').addEventListener('click', run);
+    $('run-btn').addEventListener('click', () => {
+        if (aiStatus) clearAiScreen();
+        run();
+    });
     ['f-sector', 'f-mcap', 'f-sma200', 'f-cross'].forEach((id) => $(id).addEventListener('change', () => { clearAiScreen(); run(); }));
     // typing applies live — no hunting for the Run button; a manual edit also
     // releases the active preset highlight (you're off-script now) and leaves
     // any adopted AI screen behind
-    let debounce = null;
     document.querySelectorAll('.card input').forEach((i) => {
         i.addEventListener('keydown', (e) => { if (e.key === 'Enter') { clearTimeout(debounce); run(); } });
         i.addEventListener('input', () => {
@@ -580,6 +676,7 @@
     // account). Either way it is adopted like any AI screen, and the server
     // whitelists every key when the page re-runs it.
     (async () => {
+        const initialBuildId = buildId;
         const params = new URLSearchParams(location.search);
         let linked = null;
         if (params.get('criteria')) {
@@ -590,6 +687,7 @@
                 if (r.ok) linked = ((await r.json()).screen || {}).criteria || null;
             } catch (_) { /* fall through to the default screen */ }
         }
+        if (initialBuildId !== buildId) return;
         if (linked) adoptAiScreen(linked); else run();
     })();
 })();
