@@ -2749,6 +2749,16 @@ app.get('/connect', (req, res) => {
 // they are served the stored price, not a live one.
 const STOCK_PAGE_TTL_MS = 3 * 60 * 1000;
 const _stockPageCache = new Map();
+// Readers skip the shared SSR cache and its cold-render guard (PRICE_PAGE_RE above), so nothing capped
+// how many of these renders ran at once, and a burst of them ran the heap out (render-gate.js). When
+// every slot is busy, a copy up to half an hour old beats a wait; otherwise the request waits its turn.
+const STOCK_PAGE_STALE_MS = 30 * 60 * 1000;
+const stockRenderGate = require('./render-gate').createGate({ max: 2, queueMax: 40, waitMs: 20000 });
+function sendStockPageBusy(res) {
+    // 503 + Retry-After is what a crawler waits out instead of dropping the URL; a person's browser retries itself.
+    res.status(503).set({ 'Retry-After': '5', 'Cache-Control': 'no-store', 'Content-Type': 'text/html; charset=utf-8' })
+        .send('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="5"><meta name="robots" content="noindex"><title>One moment</title></head><body style="font:16px/1.5 system-ui,sans-serif;margin:3rem">Busy for a moment. This page reloads itself in a few seconds.</body></html>');
+}
 app.get('/stocks/:ticker', async (req, res) => {
     let canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
     if(!canonicalSymbol && !quoteStore.isLikelyCrawler(req.get('user-agent'))){const listing=await require('./stock-universe').resolveListing(req.params.ticker);canonicalSymbol=listing?.symbol || null;}
@@ -2760,26 +2770,37 @@ app.get('/stocks/:ticker', async (req, res) => {
     if (kept && Date.now() - kept.at < STOCK_PAGE_TTL_MS) {
         return res.set('Content-Type', 'text/html; charset=utf-8').set('X-Page-Cache', 'hit').send(kept.html);
     }
-    const quote = await quoteStore.getQuote(canonicalSymbol || req.params.ticker, {
-        allowLive: !quoteStore.isLikelyCrawler(req.get('user-agent'))
-    });
-    let evidenceData=null;
-    // A crawler used to be served the stored payload untouched (the live-price
-    // top-up is reader-only), which meant the indexable page could disagree with
-    // the company page about the same figures after a split. Both now take the
-    // split-normalized payload; the adjuster is fail-open and memoized per symbol.
-    const seoSymbol = canonicalSymbol || req.params.ticker;
-    if(require('./stock-universe').lookup(seoSymbol)?.securityType==='stock'){
-        if(quoteStore.isLikelyCrawler(req.get('user-agent')))try{evidenceData=await require('./adjusted-fundamentals').adjusted(seoSymbol);}catch(_){}
-        else try{evidenceData=await require('./adjusted-fundamentals').adjustClone(seoSymbol,(await require('./verified-fundamentals').getCompanyEvidence(seoSymbol,undefined,undefined,true,{waitMs:0})).data);}catch(_){}
+    if (kept && stockRenderGate.busy() && Date.now() - kept.at < STOCK_PAGE_STALE_MS) {
+        return res.set('Content-Type', 'text/html; charset=utf-8').set('X-Page-Cache', 'stale').send(kept.html);
     }
-    const html = seoPages.renderStockPage(req.params.ticker, { quote,evidenceData });
-    if(!html && !quoteStore.isLikelyCrawler(req.get('user-agent')) && ['stock','closed_end_fund'].includes(require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType))return res.redirect(302,'/company?symbol='+encodeURIComponent(canonicalSymbol || req.params.ticker));
-    if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
-    _stockPageCache.delete(pageKey);
-    _stockPageCache.set(pageKey, { at: Date.now(), html });
-    while (_stockPageCache.size > 400) _stockPageCache.delete(_stockPageCache.keys().next().value);
-    res.set('Content-Type', 'text/html; charset=utf-8').set('X-Page-Cache', 'miss').send(html);
+    const release = await stockRenderGate.acquire();
+    if (!release) return sendStockPageBusy(res);
+    try {
+        // The visitor left while waiting: rendering for nobody is the work a burst can least afford.
+        if (req.socket.destroyed) return;
+        const quote = await quoteStore.getQuote(canonicalSymbol || req.params.ticker, {
+            allowLive: !quoteStore.isLikelyCrawler(req.get('user-agent'))
+        });
+        let evidenceData=null;
+        // A crawler used to be served the stored payload untouched (the live-price
+        // top-up is reader-only), which meant the indexable page could disagree with
+        // the company page about the same figures after a split. Both now take the
+        // split-normalized payload; the adjuster is fail-open and memoized per symbol.
+        const seoSymbol = canonicalSymbol || req.params.ticker;
+        if(require('./stock-universe').lookup(seoSymbol)?.securityType==='stock'){
+            if(quoteStore.isLikelyCrawler(req.get('user-agent')))try{evidenceData=await require('./adjusted-fundamentals').adjusted(seoSymbol);}catch(_){}
+            else try{evidenceData=await require('./adjusted-fundamentals').adjustClone(seoSymbol,(await require('./verified-fundamentals').getCompanyEvidence(seoSymbol,undefined,undefined,true,{waitMs:0})).data);}catch(_){}
+        }
+        const html = seoPages.renderStockPage(req.params.ticker, { quote,evidenceData });
+        if(!html && !quoteStore.isLikelyCrawler(req.get('user-agent')) && ['stock','closed_end_fund'].includes(require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType))return res.redirect(302,'/company?symbol='+encodeURIComponent(canonicalSymbol || req.params.ticker));
+        if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
+        _stockPageCache.delete(pageKey);
+        _stockPageCache.set(pageKey, { at: Date.now(), html });
+        while (_stockPageCache.size > 400) _stockPageCache.delete(_stockPageCache.keys().next().value);
+        res.set('Content-Type', 'text/html; charset=utf-8').set('X-Page-Cache', 'miss').send(html);
+    } finally {
+        release();
+    }
 });
 app.get('/vs/:competitor', (req, res) => {
     const html = comparisonPages.renderComparison(req.params.competitor);
