@@ -18,12 +18,18 @@
       <p class="label">One more step</p>
       <h1 class="title-1" style="margin-top:10px;">Verify your email</h1>
       <p class="muted small" id="intro" style="margin-top:8px; line-height:1.6;">
-        Your 72-hour trial is ready. Open the link we emailed you to prove you own this inbox and unlock the product.
+        Your 72-hour trial is ready. Enter the 6-digit code we emailed you, or open the link in that email, to prove you own this inbox and unlock the product.
       </p>
-      <div class="card card-pad" style="margin-top:24px; display:grid; gap:14px;">
+      <form class="card card-pad" id="code-form" style="margin-top:24px; display:grid; gap:14px;" novalidate>
+        <label class="field"><span>Verification code</span>
+          <input class="input" id="code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="7" placeholder="123456" required style="font-size:22px; letter-spacing:6px; text-align:center;" />
+        </label>
+        <button class="btn btn-primary" type="submit" id="verify">Verify and start trial</button>
         <p class="small" id="status" role="status" aria-live="polite" style="margin:0;"></p>
-        <button class="btn btn-primary" type="button" id="resend">Resend verification email</button>
-        <p class="small faint" style="margin:0;">The link expires in 24 hours. Check spam if it is not there in a minute.</p>
+      </form>
+      <div class="card card-pad" style="margin-top:14px; display:grid; gap:10px;">
+        <button class="btn" type="button" id="resend">Resend verification email</button>
+        <p class="small faint" style="margin:0;">The code and link expire in 24 hours. A new email replaces the old code. Check spam if it is not there in a minute.</p>
       </div>
       <p class="small muted" style="margin-top:16px;">Wrong email? <a href="/register.html">Create a new account</a> · Already verified? <a href="/login.html">Log in</a></p>
     </div>
@@ -33,6 +39,9 @@
     V2.nav('');
     const status = document.getElementById('status');
     const resend = document.getElementById('resend');
+    const form = document.getElementById('code-form');
+    const codeInput = document.getElementById('code');
+    const verifyBtn = document.getElementById('verify');
     const say = (text, bad) => {
       status.textContent = text;
       status.classList.toggle('delta-neg', Boolean(bad));
@@ -52,11 +61,43 @@
       const email = s && s.profile && s.profile.email;
       if (email) {
         document.getElementById('intro').textContent =
-          `We sent a verification link to ${email}. Open it to start your 72-hour trial.`;
+          `We sent a 6-digit code and a verification link to ${email}. Enter the code below, or open the link, to start your 72-hour trial.`;
+        codeInput.focus();
       } else {
         say('We could not find a signed-in account. Log in, or create an account to start the trial.', true);
       }
     })();
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = codeInput.value.replace(/[\s-]/g, '');
+      if (!/^\d{6}$/.test(code)) {
+        say('Enter the 6-digit code from the email.', true);
+        codeInput.focus();
+        return;
+      }
+      verifyBtn.disabled = true;
+      say('Checking…');
+      try {
+        const r = await fetch(`${V2.API}/email/verify-code`, {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code })
+        });
+        const data = await r.json().catch(() => ({}));
+        if (r.ok) {
+          say('Verified. Opening your account…');
+          location.replace(data.redirect || '/dashboard.html?verified=1');
+          return;
+        }
+        say(data.message || 'That code did not work. Please try again.', true);
+        codeInput.select();
+      } catch (_) {
+        say('Network problem — please try again.', true);
+      } finally {
+        verifyBtn.disabled = false;
+      }
+    });
     resend.addEventListener('click', async () => {
       resend.disabled = true;
       say('Sending…');
@@ -68,7 +109,8 @@
           return;
         }
         if (r.ok) {
-          say('Sent. Open the new link in your inbox.');
+          say('Sent. Use the new code (or link) from your inbox; the old one no longer works.');
+          if (data.verificationCode) codeInput.value = data.verificationCode;
           if (data.verificationUrl) {
             const a = document.createElement('a');
             a.href = data.verificationUrl;

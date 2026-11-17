@@ -38,7 +38,8 @@ const mcpAnon = require('./mcp-anon');
 const mcpTrial = require('./mcp-trial');
 const signupTrial = require('./trial');
 const oauthSignup = require('./oauth-signup');
-const { SMS_GATEWAY_DOMAINS, passwordMeetsPolicy, normalizeEmail, emailLooksValid, deriveNameFromEmail } = require('./signup-fields');
+const { SMS_GATEWAY_DOMAINS, isDisposableEmail, DISPOSABLE_EMAIL_MESSAGE, passwordMeetsPolicy, normalizeEmail, emailLooksValid, deriveNameFromEmail } = require('./signup-fields');
+const emailOtp = require('./email-otp');
 const aiPlatformEgress = require('./ai-platform-egress');
 const mcpModern = require('./mcp-modern');
 const oauthCsp = require('./oauth-csp');
@@ -3767,6 +3768,10 @@ const UserSchema = new mongoose.Schema({
     emailVerifyToken: { type: String, default: null, index: true },
     emailVerifyExpires: { type: Date, default: null },
     emailVerifySentAt: { type: Date, default: null },
+    // The 6-digit code sent with the link (email-otp.js): an HMAC, never the
+    // code. Attempts count across every code sent and are never reset.
+    emailVerifyCode: { type: String, default: null },
+    emailVerifyCodeAttempts: { type: Number, default: 0 },
     // Campaign success/review signals are explicit and never inferred from a
     // purchase alone. They are used for the August activation gate.
     customerSuccessStatus: { type: String, enum: [null, 'yes', 'somewhat', 'not_yet'], default: null },
@@ -5646,25 +5651,29 @@ function issueEmailVerification(user, req) {
     user.emailVerifyToken = emailVerifyHash(raw);
     user.emailVerifyExpires = new Date(Date.now() + EMAIL_VERIFY_TTL_MS);
     user.emailVerifySentAt = new Date();
+    // The same email carries a 6-digit code for the verify page; a new email
+    // replaces the old code (and the old link) but not the attempt count.
+    const code = emailOtp.issue(user, JWT_SECRET);
     const verifyUrl = `${PUBLIC_APP_URL}/api/email/verify?token=${encodeURIComponent(raw)}`;
-    return verifyUrl;
+    return { verifyUrl, code };
 }
 
-async function sendEmailVerification(user, verifyUrl) {
+async function sendEmailVerification(user, { verifyUrl, code }) {
     const sent = await mailer.sendEmailVerificationEmail({
         to: user.email,
         name: user.name,
         verifyUrl,
+        code,
         hours: Math.round(EMAIL_VERIFY_TTL_MS / (60 * 60 * 1000))
     }).catch((error) => {
         console.error('[mailer] email verification error:', error && error.message);
         return false;
     });
-    // Local/dev convenience only. In production the link is in the mailbox; a
-    // response that echoed it would let anyone who can call the API verify an
-    // address they do not control.
+    // Local/dev convenience only. In production the link and code are in the
+    // mailbox; a response that echoed them would let anyone who can call the
+    // API verify an address they do not control.
     if (!sent && process.env.NODE_ENV !== 'production') {
-        console.warn(`[trial] SMTP unavailable; verification link for ${user.email}: ${verifyUrl}`);
+        console.warn(`[trial] SMTP unavailable; verification code ${code} and link for ${user.email}: ${verifyUrl}`);
     }
     return sent;
 }
@@ -6266,6 +6275,7 @@ async function findOrCreateSocialUser(profile, { createIfMissing = true } = {}) 
         user.password = null;
         user.emailVerifyToken = null;
         user.emailVerifyExpires = null;
+        emailOtp.clear(user);
         user.authVersion = Number(user.authVersion || 0) + 1;
     }
     if (profile.provider === 'google' && !user.emailVerifiedAt) user.emailVerifiedAt = new Date();
@@ -6302,6 +6312,7 @@ async function findOrCreateSocialUser(profile, { createIfMissing = true } = {}) 
 const EMAIL_VERIFICATION_ALLOWED_PATHS = new Set([
     '/api/session',
     '/api/email/resend',
+    '/api/email/verify-code',
     '/api/password/change',
     '/api/checkout',
     '/api/billing/refund',
@@ -6338,7 +6349,7 @@ async function authMiddleware(req, res, next) {
         // account is usable.
         if (!identityVerified(user) && !emailVerificationAllowedPath(req.path)) {
             return res.status(403).json({
-                message: 'Verify your email address to use the product. We sent you a link when you signed up.',
+                message: 'Verify your email address to use the product. Enter the code we emailed you when you signed up, or open the link in that email.',
                 code: 'EMAIL_VERIFICATION_REQUIRED',
                 verificationRequired: true,
                 email: user.email || null
@@ -7728,6 +7739,12 @@ app.post('/api/subscribe', async (req, res) => {
             createHttpError(400, 'Please sign up with a regular email address.', 'EMAIL_INVALID', { field: 'email' })
         );
     }
+    if (isDisposableEmail(normalizedEmail)) {
+        return sendApiError(
+            res,
+            createHttpError(400, DISPOSABLE_EMAIL_MESSAGE, 'EMAIL_DISPOSABLE', { field: 'email' })
+        );
+    }
     if (typeof password !== 'string' || !password) {
         return sendApiError(
             res,
@@ -7789,9 +7806,9 @@ app.post('/api/subscribe', async (req, res) => {
             attachSignupAttribution(user, { ...requestFields, consent: req.body && req.body.analyticsConsent === true });
             user.subscription = ensureSubscriptionShape(user);
             signupTrial.grant(user, trialPlan);
-            const verifyUrl = issueEmailVerification(user, req);
+            const verification = issueEmailVerification(user, req);
             await user.save();
-            const emailSent = await sendEmailVerification(user, verifyUrl);
+            const emailSent = await sendEmailVerification(user, verification);
             trackFunnel('signup_started', user._id, trialPlan.planName, {
                 eventName: 'signup_started',
                 authMethod: 'email',
@@ -7822,8 +7839,8 @@ app.post('/api/subscribe', async (req, res) => {
                 trial: signupTrial.status(user),
                 subscription: normalizeSubscription(user.subscription),
                 // Development only: SMTP may be unset locally and the operator
-                // needs the link. Production never echoes it.
-                ...(process.env.NODE_ENV !== 'production' && !emailSent ? { verificationUrl: verifyUrl } : {})
+                // needs the link and code. Production never echoes them.
+                ...(process.env.NODE_ENV !== 'production' && !emailSent ? { verificationUrl: verification.verifyUrl, verificationCode: verification.code } : {})
             });
         }
 
@@ -8752,41 +8769,83 @@ app.post('/api/email/verify', express.urlencoded({ extended: false, limit: '2kb'
         if (!user) {
             return res.status(400).type('html').send(EMAIL_VERIFY_PAGE('Verification link expired', 'This link has expired or was already used. If you already verified, just <a rel="nofollow" href="/login">log in</a>. Otherwise log in and choose “Resend verification email”.'));
         }
-        const firstVerification = !user.emailVerifiedAt;
-        user.emailVerifiedAt = user.emailVerifiedAt || new Date();
-        user.emailVerifyToken = null;
-        user.emailVerifyExpires = null;
-        // Start the one trial at verification only if it was not already
-        // granted at signup (new code grants at signup; this is the fallback for
-        // accounts created between the two writes).
-        if (!user.signupTrialAt && SIGNUP_TRIAL.enabled) {
-            signupTrial.grant(user, getPlanConfig(user.subscription && user.subscription.planId));
-        }
-        await user.save();
-        setAuthCookie(res, createUserToken(user), req);
-        if (firstVerification) {
-            trackFunnel('email_verified', user._id, user.subscription && user.subscription.planName, {
-                eventName: 'email_verified', dedupeKey: `email-verified:${String(user._id)}`, authMethod: 'email'
-            });
-            // The welcome/owner notification fires on the far side of identity
-            // proof, so an abandoned, never-verified signup sends no customer mail.
-            sendNewUserEmails({ name: user.name, email: user.email, plan: (user.subscription && user.subscription.planName) || 'Trial' })
-                .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
-            recordCustomerLifecycleEvent(user, 'signup', { source: 'direct' })
-                .catch((e) => console.error('[customers] signup registry error:', e && e.message));
-            trackFunnel('signup', user._id, user.subscription && user.subscription.planName, {
-                eventName: 'signup', authMethod: 'email', selectedPlan: user.subscription && user.subscription.planId
-            });
-            trackFunnel('signup_completed', user._id, user.subscription && user.subscription.planName, {
-                eventName: 'signup_completed', dedupeKey: `signup-complete:${String(user._id)}`,
-                authMethod: 'email', selectedPlan: user.subscription && user.subscription.planId
-            });
-        }
+        await completeEmailVerification(user, req, res, 'link');
         return res.redirect(302, '/dashboard.html?verified=1');
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).type('text').send('Verification is temporarily unavailable. Try again shortly.');
         console.error('Email verification error:', error && error.message);
         return res.status(500).type('text').send('Verification failed. Please try again.');
+    }
+});
+
+// The inbox is proven (link or code): mark the address verified, spend the
+// link and the code, sign this browser in, and record the signup once.
+async function completeEmailVerification(user, req, res, via) {
+    const firstVerification = !user.emailVerifiedAt;
+    user.emailVerifiedAt = user.emailVerifiedAt || new Date();
+    user.emailVerifyToken = null;
+    user.emailVerifyExpires = null;
+    emailOtp.clear(user);
+    // Start the one trial at verification only if it was not already
+    // granted at signup (new code grants at signup; this is the fallback for
+    // accounts created between the two writes).
+    if (!user.signupTrialAt && SIGNUP_TRIAL.enabled) {
+        signupTrial.grant(user, getPlanConfig(user.subscription && user.subscription.planId));
+    }
+    await user.save();
+    setAuthCookie(res, createUserToken(user), req);
+    if (firstVerification) {
+        trackFunnel('email_verified', user._id, user.subscription && user.subscription.planName, {
+            eventName: 'email_verified', dedupeKey: `email-verified:${String(user._id)}`, authMethod: 'email', verifiedVia: via
+        });
+        // The welcome/owner notification fires on the far side of identity
+        // proof, so an abandoned, never-verified signup sends no customer mail.
+        sendNewUserEmails({ name: user.name, email: user.email, plan: (user.subscription && user.subscription.planName) || 'Trial' })
+            .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
+        recordCustomerLifecycleEvent(user, 'signup', { source: 'direct' })
+            .catch((e) => console.error('[customers] signup registry error:', e && e.message));
+        trackFunnel('signup', user._id, user.subscription && user.subscription.planName, {
+            eventName: 'signup', authMethod: 'email', selectedPlan: user.subscription && user.subscription.planId
+        });
+        trackFunnel('signup_completed', user._id, user.subscription && user.subscription.planName, {
+            eventName: 'signup_completed', dedupeKey: `signup-complete:${String(user._id)}`,
+            authMethod: 'email', selectedPlan: user.subscription && user.subscription.planId
+        });
+    }
+}
+
+// First-time activation by code (owner, 2026-11-18): the person types the
+// 6-digit code from the verification email on /verify-email.html. Needs the
+// unverified session signup/login returned, so a code only ever verifies the
+// account it was sent for. Guesses are capped per account in email-otp.js;
+// this limiter only stops one address hammering many accounts.
+const emailCodeLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { message: 'Too many attempts. Wait a few minutes and try again.', code: 'VERIFY_RATE_LIMITED' }
+});
+app.post('/api/email/verify-code', emailCodeLimiter, authMiddleware, async (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    try {
+        if (identityVerified(req.user)) {
+            return res.status(200).json({ ok: true, alreadyVerified: true, redirect: '/dashboard.html?verified=1' });
+        }
+        const result = await emailOtp.check(User, req.user._id, req.body && req.body.code, { secret: JWT_SECRET });
+        if (!result.ok) {
+            return res.status(result.reason === 'format' ? 400 : result.reason === 'locked' ? 429 : 400).json({
+                message: emailOtp.message(result),
+                code: `VERIFY_CODE_${String(result.reason).toUpperCase()}`,
+                ...(Number.isFinite(result.attemptsLeft) ? { attemptsLeft: result.attemptsLeft } : {})
+            });
+        }
+        await completeEmailVerification(result.user, req, res, 'code');
+        return res.status(200).json({ ok: true, redirect: '/dashboard.html?verified=1' });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Verification is temporarily unavailable. Try again shortly.' });
+        console.error('Email code verification error:', error && error.message);
+        return res.status(500).json({ message: 'Verification failed. Please try again.' });
     }
 });
 
@@ -8801,14 +8860,14 @@ app.post('/api/email/resend', subscribeLimiter, authMiddleware, async (req, res)
         if (user.emailVerifySentAt && Date.now() - new Date(user.emailVerifySentAt).getTime() < 60 * 1000) {
             return res.status(429).json({ message: 'A verification email was just sent. Check your inbox, then try again in a minute.', code: 'VERIFY_RATE_LIMITED' });
         }
-        const verifyUrl = issueEmailVerification(user, req);
+        const verification = issueEmailVerification(user, req);
         await user.save();
-        const sent = await sendEmailVerification(user, verifyUrl);
+        const sent = await sendEmailVerification(user, verification);
         return res.status(200).json({
             ok: true,
             emailSent: sent,
             email: user.email,
-            ...(process.env.NODE_ENV !== 'production' && !sent ? { verificationUrl: verifyUrl } : {})
+            ...(process.env.NODE_ENV !== 'production' && !sent ? { verificationUrl: verification.verifyUrl, verificationCode: verification.code } : {})
         });
     } catch (error) {
         console.error('Email verification resend error:', error && error.message);
@@ -8934,6 +8993,7 @@ app.post('/api/password/reset', async (req, res) => {
             user.emailVerifiedAt = new Date();
             user.emailVerifyToken = null;
             user.emailVerifyExpires = null;
+            emailOtp.clear(user);
         }
         await user.save();
         // Same rule as a password change: a reset revokes connected assistants.

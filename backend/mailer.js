@@ -501,41 +501,52 @@ Questions? Just reply to this email.
 // The identity proof for a trial signup. Kept separate from the password-reset
 // mail so a customer can never confuse "prove you own this inbox" with
 // "someone is changing my password".
-function emailVerificationEmail(name, verifyUrl, hours = 24) {
+function emailVerificationEmail(name, verifyUrl, hours = 24, code = null) {
   const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
   const safeFirst = escapeHtml(first);
   const safeUrl = escapeHtml(verifyUrl);
+  const safeCode = code ? escapeHtml(String(code)) : '';
+  const codeHtml = safeCode ? `
+    <p style="font-size:15px;line-height:1.6;color:#45423c;margin:18px 0 6px">Enter this code on the verification page:</p>
+    <p style="font-size:32px;font-weight:700;letter-spacing:8px;margin:0 0 18px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">${safeCode}</p>
+    <p style="font-size:15px;line-height:1.6;color:#45423c;margin:0">Or use the button:</p>` : '';
   const html = `
   <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1c1b18">
     <h1 style="font-size:22px;margin:0 0 12px">Verify your email to start your trial</h1>
     <p style="font-size:15px;line-height:1.6;color:#45423c">
-      Hi ${safeFirst}, click the button below and your 72-hour free trial starts immediately:
+      Hi ${safeFirst}, verify this address and your 72-hour free trial starts immediately:
       full website access and five AI questions. No card required.
-    </p>
+    </p>${codeHtml}
     <p style="margin:22px 0">
       <a href="${safeUrl}" style="background:#1c1b18;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">Verify email and start trial</a>
     </p>
     <p style="font-size:13px;color:#726e65;line-height:1.6">
-      This link expires in ${Number(hours) || 24} hours and can be used once.<br/>
+      ${safeCode ? 'The code and link expire' : 'This link expires'} in ${Number(hours) || 24} hours and can be used once.<br/>
       If the button doesn't work, paste this link into your browser:<br/>
       <a href="${safeUrl}" style="color:#1c1b18;word-break:break-all">${safeUrl}</a>
     </p>
     <p style="font-size:13px;color:#726e65;line-height:1.6">
-      Didn't create an account? You can safely ignore this email.<br/>
+      Didn't create an account? You can safely ignore this email. Never share this code with anyone.<br/>
       — The StockPortfolio.pro team
     </p>
   </div>`;
+  const codeText = code ? `Your verification code: ${code}
+Enter it on the verification page, or open this link instead:` : 'Open this link to verify your email:';
   const text = `Verify your email to start your trial
 
-Hi ${first}, open this link to verify your email and start your 72-hour free trial:
+Hi ${first}, verify your email to start your 72-hour free trial:
 full website access and five AI questions, no card required.
 
+${codeText}
 ${verifyUrl}
 
-This link expires in ${Number(hours) || 24} hours and can be used once.
-Didn't create an account? You can safely ignore this email.
+${code ? 'The code and link expire' : 'This link expires'} in ${Number(hours) || 24} hours and can be used once.
+Didn't create an account? You can safely ignore this email. Never share this code with anyone.
 — The StockPortfolio.pro team`;
-  return { subject: 'Verify your email to start your StockPortfolio.pro trial', html, text };
+  const subject = code
+    ? `${code} is your StockPortfolio.pro verification code`
+    : 'Verify your email to start your StockPortfolio.pro trial';
+  return { subject, html, text };
 }
 
 // Send a single password-reset email. Never throws; returns true only on a
@@ -546,9 +557,9 @@ async function sendPasswordResetEmail({ to, name, resetUrl } = {}) {
   return sendMail({ to, subject: 'Reset your Stock Portfolio Pro password', html, text });
 }
 
-async function sendEmailVerificationEmail({ to, name, verifyUrl, hours = 24 } = {}) {
+async function sendEmailVerificationEmail({ to, name, verifyUrl, code = null, hours = 24 } = {}) {
   if (!to || !verifyUrl) return false;
-  const { subject, html, text } = emailVerificationEmail(name, verifyUrl, hours);
+  const { subject, html, text } = emailVerificationEmail(name, verifyUrl, hours, code);
   return sendMail({ to, subject, html, text });
 }
 

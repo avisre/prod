@@ -191,7 +191,7 @@ test('Google sign-in onto an unverified email/password row drops the squatter pa
     });
     const squatted = makeUser({
         email: 'victim@example.com', password: 'bcrypt-of-attacker-password',
-        signupTrialAt: new Date(), emailVerifyToken: 'hash', emailVerifiedAt: null,
+        signupTrialAt: new Date(), emailVerifyToken: 'hash', emailVerifyCode: 'hmac', emailVerifiedAt: null,
         subscription: { planId: 'monthly', status: 'trialing' }
     });
     const User = {
@@ -199,15 +199,16 @@ test('Google sign-in onto an unverified email/password row drops the squatter pa
     };
     const identityVerifiedSrc = fnSource('identityVerified');
     // eslint-disable-next-line no-new-func
-    const findOrCreate = new Function('User', 'createHttpError', 'ensureSubscriptionShape', 'recordCustomerLifecycleEvent', 'sendNewUserEmails',
+    const findOrCreate = new Function('User', 'createHttpError', 'ensureSubscriptionShape', 'recordCustomerLifecycleEvent', 'sendNewUserEmails', 'emailOtp',
         `${identityVerifiedSrc}\n${fnSource('findOrCreateSocialUser')}\nreturn findOrCreateSocialUser;`)(
         User, (s, m) => Object.assign(new Error(m), { status: s }), (u) => u.subscription,
-        async () => {}, async () => {});
+        async () => {}, async () => {}, require('../email-otp'));
     const { user, created } = await findOrCreate({ provider: 'google', providerUserId: 'g-123', email: 'victim@example.com', name: 'Victim' });
     assert.equal(created, false);
     assert.equal(user.password, null, 'the password someone else chose no longer works');
     assert.equal(user.authVersion, 1, 'tokens issued to the squatter are revoked');
     assert.equal(user.emailVerifyToken, null);
+    assert.equal(user.emailVerifyCode, null, 'the squatter cannot finish with a code either');
     assert.ok(user.emailVerifiedAt, 'Google has verified the address');
     assert.equal(user.googleId, 'g-123');
 
@@ -216,9 +217,9 @@ test('Google sign-in onto an unverified email/password row drops the squatter pa
     const owner = makeUser({ email: 'own@example.com', password: 'keep', emailVerifiedAt: new Date(), subscription: { planId: 'monthly', status: 'active' } });
     const UserB = { async findOne(q) { return q.$or ? owner : null; } };
     // eslint-disable-next-line no-new-func
-    const findOrCreateB = new Function('User', 'createHttpError', 'ensureSubscriptionShape', 'recordCustomerLifecycleEvent', 'sendNewUserEmails',
+    const findOrCreateB = new Function('User', 'createHttpError', 'ensureSubscriptionShape', 'recordCustomerLifecycleEvent', 'sendNewUserEmails', 'emailOtp',
         `${identityVerifiedSrc}\n${fnSource('findOrCreateSocialUser')}\nreturn findOrCreateSocialUser;`)(
-        UserB, () => new Error('x'), (u) => u.subscription, async () => {}, async () => {});
+        UserB, () => new Error('x'), (u) => u.subscription, async () => {}, async () => {}, require('../email-otp'));
     const linked = await findOrCreateB({ provider: 'google', providerUserId: 'g-9', email: 'own@example.com' });
     assert.equal(linked.user.password, 'keep');
     assert.equal(linked.user.authVersion, 0);
@@ -231,8 +232,121 @@ test('opening the inbox link does not spend it; only the confirm POST verifies',
     const post = routeSource('post', '/api/email/verify');
     assert.match(post, /express\.urlencoded/);
     assert.match(post, /emailVerifyToken: emailVerifyHash\(raw\)/);
-    assert.match(post, /user\.emailVerifiedAt = user\.emailVerifiedAt \|\| new Date\(\)/);
-    assert.match(post, /setAuthCookie\(res, createUserToken\(user\), req\)/);
+    assert.match(post, /await completeEmailVerification\(user, req, res, 'link'\)/);
+    const complete = fnSource('completeEmailVerification');
+    assert.match(complete, /user\.emailVerifiedAt = user\.emailVerifiedAt \|\| new Date\(\)/);
+    assert.match(complete, /user\.emailVerifyToken = null;/);
+    assert.match(complete, /emailOtp\.clear\(user\);/, 'the code dies with the link');
+    assert.match(complete, /setAuthCookie\(res, createUserToken\(user\), req\)/);
+});
+
+// ---- First-time activation by emailed code (owner, 2026-11-18) ----
+
+const emailOtp = require('../email-otp');
+const mailer = require('../mailer');
+const signupFields = require('../signup-fields');
+
+async function otpDb(t) {
+    const server = await MongoMemoryServer.create();
+    const db = new Mongoose();
+    await db.connect(server.getUri());
+    t.after(async () => { await db.disconnect().catch(() => {}); await server.stop(); });
+    const User = db.model('OtpUser', new db.Schema({
+        email: String,
+        emailVerifyExpires: Date,
+        emailVerifyCode: { type: String, default: null },
+        emailVerifyCodeAttempts: { type: Number, default: 0 }
+    }));
+    return User;
+}
+
+test('email code: stored as a keyed hash, accepts the right code, counts wrong ones, normalises separators', { timeout: 120000 }, async (t) => {
+    const User = await otpDb(t);
+    const user = new User({ email: 'a@example.com', emailVerifyExpires: new Date(Date.now() + HOUR) });
+    const code = emailOtp.issue(user, 'secret-1');
+    await user.save();
+    assert.match(code, /^\d{6}$/);
+    assert.notEqual(user.emailVerifyCode, code);
+    assert.notEqual(user.emailVerifyCode, require('crypto').createHash('sha256').update(code).digest('hex'), 'not an offline-reversible bare hash');
+    assert.equal(user.emailVerifyCode, emailOtp.codeHash('secret-1', user._id, code));
+
+    const wrong = code === '000000' ? '000001' : '000000';
+    let r = await emailOtp.check(User, user._id, wrong, { secret: 'secret-1' });
+    assert.deepEqual([r.ok, r.reason, r.attemptsLeft], [false, 'wrong', emailOtp.MAX_ATTEMPTS - 1]);
+    r = await emailOtp.check(User, user._id, 'abc', { secret: 'secret-1' });
+    assert.equal(r.reason, 'format');
+    assert.equal((await User.findById(user._id)).emailVerifyCodeAttempts, 1, 'a malformed entry spends no guess');
+    r = await emailOtp.check(User, user._id, code, { secret: 'secret-2' });
+    assert.equal(r.ok, false, 'the server secret is part of the hash');
+    r = await emailOtp.check(User, user._id, `${code.slice(0, 3)} ${code.slice(3)}`, { secret: 'secret-1' });
+    assert.equal(r.ok, true);
+    assert.equal(String(r.user._id), String(user._id));
+});
+
+test('email code: ten guesses per account in total, a resend does not reset them, and expiry is enforced', { timeout: 120000 }, async (t) => {
+    const User = await otpDb(t);
+    const user = new User({ email: 'b@example.com', emailVerifyExpires: new Date(Date.now() + HOUR) });
+    let code = emailOtp.issue(user, 's');
+    await user.save();
+    const wrongFor = (c) => (c === '999999' ? '999998' : '999999');
+    // Parallel guesses cannot exceed the cap: the $inc is conditional.
+    const burst = await Promise.all(Array.from({ length: 6 }, () => emailOtp.check(User, user._id, wrongFor(code), { secret: 's' })));
+    assert.ok(burst.every((x) => !x.ok));
+    // A resend issues a new code but keeps the count.
+    const doc = await User.findById(user._id);
+    code = emailOtp.issue(doc, 's');
+    await doc.save();
+    assert.equal((await User.findById(user._id)).emailVerifyCodeAttempts, 6);
+    for (let i = 0; i < 4; i++) await emailOtp.check(User, user._id, wrongFor(code), { secret: 's' });
+    const locked = await emailOtp.check(User, user._id, code, { secret: 's' });
+    assert.deepEqual([locked.ok, locked.reason], [false, 'locked'], 'even the right code is refused once the guesses are spent');
+    assert.match(emailOtp.message(locked), /Open the link/);
+
+    const old = new User({ email: 'c@example.com', emailVerifyExpires: new Date(Date.now() - 1000) });
+    const oldCode = emailOtp.issue(old, 's');
+    await old.save();
+    assert.equal((await emailOtp.check(User, old._id, oldCode, { secret: 's' })).reason, 'expired');
+    const none = await new User({ email: 'd@example.com' }).save();
+    assert.equal((await emailOtp.check(User, none._id, '123456', { secret: 's' })).reason, 'no_code');
+});
+
+test('the verification email carries the code in the subject and body, escaped', () => {
+    const withCode = mailer.emailVerificationEmail('Ada <b>', 'https://x/api/email/verify?token=abc', 24, '042917');
+    assert.equal(withCode.subject, '042917 is your StockPortfolio.pro verification code');
+    assert.match(withCode.html, />042917</);
+    assert.match(withCode.text, /Your verification code: 042917/);
+    assert.match(withCode.text, /https:\/\/x\/api\/email\/verify\?token=abc/, 'the link stays as a fallback');
+    assert.doesNotMatch(withCode.html, /<b>/);
+    const linkOnly = mailer.emailVerificationEmail('Ada', 'https://x/v', 24);
+    assert.equal(linkOnly.subject, 'Verify your email to start your StockPortfolio.pro trial');
+});
+
+test('throwaway inboxes cannot sign up, on the website or the connector screen', () => {
+    assert.equal(signupFields.isDisposableEmail('Someone@Mailinator.com'), true);
+    assert.equal(signupFields.isDisposableEmail('someone@gmail.com'), false);
+    const err = signupFields.signupFieldError({ email: 'x@yopmail.com', password: 'Abcdefg1' });
+    assert.equal(err.code, 'EMAIL_DISPOSABLE');
+    assert.equal(signupFields.signupFieldError({ email: 'x@example.com', password: 'Abcdefg1' }), null);
+    const subscribe = routeSource('post', '/api/subscribe');
+    assert.match(subscribe, /if \(isDisposableEmail\(normalizedEmail\)\)/);
+});
+
+test('app.js: the code route is signed-in, rate-limited, open to unverified sessions, and verifies through the shared path', () => {
+    const route = routeSource('post', '/api/email/verify-code');
+    assert.match(route, /^app\.post\('\/api\/email\/verify-code', emailCodeLimiter, authMiddleware,/);
+    assert.match(route, /emailOtp\.check\(User, req\.user\._id, req\.body && req\.body\.code, \{ secret: JWT_SECRET \}\)/);
+    assert.match(route, /await completeEmailVerification\(result\.user, req, res, 'code'\)/);
+    assert.match(APP_SOURCE, /'\/api\/email\/resend',\n\s+'\/api\/email\/verify-code',/);
+    const issue = fnSource('issueEmailVerification');
+    assert.match(issue, /const code = emailOtp\.issue\(user, JWT_SECRET\);/);
+    assert.match(issue, /return \{ verifyUrl, code \};/);
+    // The Google takeover guard and a password reset also retire the code.
+    assert.match(fnSource('findOrCreateSocialUser'), /emailOtp\.clear\(user\);/);
+    assert.match(routeSource('post', '/api/password/reset'), /emailOtp\.clear\(user\);/);
+    // The page posts the code to that route.
+    const page = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'verify-email.html'), 'utf8');
+    assert.match(page, /autocomplete="one-time-code"/);
+    assert.match(page, /fetch\(`\$\{V2\.API\}\/email\/verify-code`/);
 });
 
 test('a completed password reset also counts as inbox proof', () => {

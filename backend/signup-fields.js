@@ -28,6 +28,33 @@ const SMS_GATEWAY_DOMAINS = new Set([
     'mymetropcs.com', 'email.uscc.net', 'text.republicwireless.com'
 ]);
 
+// Throwaway inboxes (owner, 2026-11-18: the trial needs a real, working email).
+// These receive mail, so the emailed code alone would not stop them; they are
+// how one person collects a fresh 72-hour trial per minute. Not exhaustive by
+// design: the high-volume public services, which is what a trial farmer uses.
+const DISPOSABLE_EMAIL_DOMAINS = new Set([
+    'mailinator.com', 'guerrillamail.com', 'guerrillamail.net', 'guerrillamail.org', 'guerrillamailblock.com',
+    'grr.la', 'sharklasers.com', 'pokemail.net', 'spam4.me', '10minutemail.com', '10minutemail.net',
+    'throwawaymail.com', 'dispostable.com', 'temp-mail.org', 'temp-mail.io', 'tempmail.com', 'tempmail.net',
+    'tempmail.plus', 'tempmailo.com', 'tempr.email', 'yopmail.com', 'yopmail.net', 'yopmail.fr',
+    'trashmail.com', 'trashmail.de', 'getnada.com', 'nada.email', 'maildrop.cc', '1secmail.com',
+    '1secmail.org', '1secmail.net', 'emailondeck.com', 'fakeinbox.com', 'spamgourmet.com', 'mailnesia.com',
+    'mintemail.com', 'mohmal.com', 'mytemp.email', 'emailfake.com', 'email-fake.com', 'fakemail.net',
+    'burnermail.io', 'mail.tm', 'mail.gw', 'inboxkitten.com', 'moakt.com', 'tmail.ws', 'tmpmail.org',
+    'tmpmail.net', 'dropmail.me', 'harakirimail.com', 'mailcatch.com', 'mailpoof.com', 'spambox.us',
+    'discard.email', 'linshiyouxiang.net', 'byom.de', 'trash-mail.com', 'wegwerfmail.de', 'emltmp.com',
+    'tempail.com', 'tempinbox.com', 'mvrht.net', 'mailsac.com', 'getairmail.com',
+    'cuvox.de', 'dayrep.com', 'einrot.com', 'fleckens.hu', 'gustr.com', 'jourrapide.com', 'rhyta.com',
+    'superrito.com', 'teleworm.us', 'armyspy.com'
+]);
+
+const DISPOSABLE_EMAIL_MESSAGE = 'Temporary email addresses cannot start a trial. Please use an email address you keep.';
+
+function isDisposableEmail(email) {
+    const domain = normalizeEmail(email).split('@')[1] || '';
+    return DISPOSABLE_EMAIL_DOMAINS.has(domain);
+}
+
 function passwordMeetsPolicy(password) {
     if (typeof password !== 'string') return false;
     return password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password);
@@ -81,6 +108,9 @@ function signupFieldError(body) {
     if (SMS_GATEWAY_DOMAINS.has(normalizedEmail.split('@')[1] || '')) {
         return { status: 400, message: 'Please sign up with a regular email address.', code: 'EMAIL_INVALID', field: 'email' };
     }
+    if (isDisposableEmail(normalizedEmail)) {
+        return { status: 400, message: DISPOSABLE_EMAIL_MESSAGE, code: 'EMAIL_DISPOSABLE', field: 'email' };
+    }
     const password = body && body.password;
     if (typeof password !== 'string' || !password) {
         return { status: 400, message: 'Please create a password before continuing.', code: 'PASSWORD_REQUIRED', field: 'password' };
@@ -111,6 +141,9 @@ function signupEmailTakenError() {
 
 module.exports = {
     SMS_GATEWAY_DOMAINS,
+    DISPOSABLE_EMAIL_DOMAINS,
+    DISPOSABLE_EMAIL_MESSAGE,
+    isDisposableEmail,
     passwordMeetsPolicy,
     normalizeEmail,
     emailLooksValid,

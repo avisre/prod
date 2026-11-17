@@ -55,10 +55,19 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - Tests: new `test/signup-trial.test.js` (grant idempotence, status, concurrent 5-question reserve/refund, wiring). Updated paid-first,
   paywall/hard-paywall, oauth-signup, anon-ask, checkout-conversions, launch-promo, legacy-redirects, oauth-signin-offer, pricing-ladder.
   Full suite after fixes: 2387 pass / 1 known failure (`social-compose`, listed in `scripts/predeploy-known-failures.json`; live 403).
-- Open before any deploy: set `TRIAL_ENABLED=true`, `TRIAL_HOURS=72`, `TRIAL_AI_QUESTIONS=5`, `WALL_ALL_PAGES=true`,
-  `WALL_PAID_ONLY=true` in Render (prod.env.example updated). Verify real SMTP delivery of `/api/email/verify`, Google OAuth on the
-  production host, Stripe upgrade of an expired trial on the same User, and a fresh trial → 5 questions → expiry → pay browser run.
-  Do not promise connector/MCP access during the website trial; it stays paid-only.
+- First-time activation by code (owner ask 11-18, "nobody should access the website without a working email"): the
+  verification email now carries a 6-digit code (subject `<code> is your StockPortfolio.pro verification code`) plus the
+  link. `backend/email-otp.js`: HMAC(JWT_SECRET, userId:code) stored in `emailVerifyCode`; `emailVerifyCodeAttempts`
+  is 10 per account in total, never reset by a resend (atomic conditional `$inc`). `POST /api/email/verify-code`
+  (`emailCodeLimiter` 30/15min + `authMiddleware`, allow-listed for unverified sessions) → `completeEmailVerification()`,
+  shared with the link POST (same funnel events, `verifiedVia`). Code form on `verify-email.html`. Signup (both
+  `/api/subscribe` and `signupFieldError` for `/oauth/signup`) refuses ~75 throwaway-inbox domains (`EMAIL_DISPOSABLE`).
+  Local HTTP smoke (in-memory Mongo, real app.js): anon→/register, unverified→/verify-email + API 403, wrong code 400
+  "9 tries left", right code → dashboard 200.
+- Render (read 11-18): `WALL_ALL_PAGES=true`, `WALL_PAID_ONLY=true`, `MCP_TRIAL_DAYS=0`, `SIGNUP_TRIAL_DAYS=3`,
+  `TRIAL_DAYS=0`, `INITIAL_REFUND_DAYS=3` (stale). `TRIAL_ENABLED/HOURS/AI_QUESTIONS` unset = code defaults (on, 72, 5).
+- Open before any deploy: verify real SMTP delivery of the code email, Google OAuth on the production host, Stripe upgrade of
+  an expired trial on the same User, and a fresh trial → 5 questions → expiry → pay browser run.
 
 ## Segments card says what the company sells — 2026-11-14 (owner, from AppLovin showing US/non-US; local only, NOT pushed)
 - Owner's target, per company: segment(s) by name with revenue, the products in each (AppLovin: Advertising — AppLovin
@@ -270,6 +279,8 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   into refresh jobs. Phase 4 auto-follow and Phase 5 checklist grid (10/24 plan) not started.
 - As-filed statements are built but **off** (`AS_FILED_ON = false` in company.js) until the owner designs per-industry
   layouts; `scripts/build-as-filed.js` must be rerun each quarter from SEC's FSDS zips.
+- `frontend/data/index-members.json` (Nasdaq 100, S&P 100) has no refresh job; redo it at reconstitution. Three WIP stashes
+  (two mcp-server sessions, one 10/16 page-copy set) are still unpushed — see `git stash list`.
 - Not yet done: cleanup of `~/Downloads/new/checkpoint-parts` + the `prod-weekly-20261024` worktree (awaiting owner OK).
 
 ## Data refresh traps (read before re-extracting)
@@ -291,16 +302,6 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   fills (10/31 bank fields) as this batch's.
 - The deploy-skip marker matches anywhere in a commit message; `frontend/data/fundamentals/**` and
   `frontend/data/sec-financials/**` commits must never carry it.
-
-## Earlier-session work — now all on origin/main (verified 2026-11-05)
-- The 10/17-snapshot list (`ask-conditions-20261011`, `ask-comparison-fallback-20261011`, the Ask/AI-Portfolio
-  split, Ask customer-question fixes, account actions, AI Portfolio accounting) landed with the October
-  merges; `751f3aaea` (peers tab) and `1bba0cf27` (Ads conversions) are ancestors of origin/main too.
-- `frontend/data/index-members.json` (Nasdaq 100, S&P 100) has no refresh job; redo it at reconstitution.
-- AppSumo listing itself is still live and selling; ending it is the owner's step with AppSumo.
-- Still unpushed: the three WIP stashes (two mcp-server sessions, one 10/16 pre-merge page-copy set) and the
-  untracked `mcp-server/server.json` / `mcp.json` / `.cursor-plugin/` / `assets/` (Cursor-plugin session,
-  never committed) — see `git stash list`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. This Ubuntu checkout has no `mongod` (run the server with a dead

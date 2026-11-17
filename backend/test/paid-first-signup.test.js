@@ -179,7 +179,7 @@ test('the trial account is created immediately, but product access waits for the
   assert.match(appSource, /const trialSignup = SIGNUP_TRIAL\.enabled/);
   assert.match(appSource, /if \(trialSignup\) \{/);
   assert.match(appSource, /signupTrial\.grant\(user, trialPlan\)/);
-  assert.match(appSource, /const verifyUrl = issueEmailVerification\(user, req\)/);
+  assert.match(appSource, /const verification = issueEmailVerification\(user, req\)/);
   assert.match(appSource, /verificationRequired: true/);
   assert.match(appSource, /EMAIL_VERIFICATION_REQUIRED/);
   // The paid-first holding pen remains for Filing Watch / AppSumo, but the
