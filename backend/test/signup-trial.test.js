@@ -329,6 +329,10 @@ test('throwaway inboxes cannot sign up, on the website or the connector screen',
     assert.equal(signupFields.signupFieldError({ email: 'x@example.com', password: 'Abcdefg1' }), null);
     const subscribe = routeSource('post', '/api/subscribe');
     assert.match(subscribe, /if \(isDisposableEmail\(normalizedEmail\)\)/);
+    // The mailer returns the SMTP transcript (message id, envelope, relay queue
+    // line); the browser only learns whether the email went out.
+    assert.match(subscribe, /emailSent: Boolean\(emailSent\),/);
+    assert.match(routeSource('post', '/api/email/resend'), /emailSent: Boolean\(sent\),/);
 });
 
 test('app.js: the code route is signed-in, rate-limited, open to unverified sessions, and verifies through the shared path', () => {

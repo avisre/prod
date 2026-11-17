@@ -7835,7 +7835,7 @@ app.post('/api/subscribe', async (req, res) => {
                 token: createUserToken(user),
                 verificationRequired: true,
                 email: user.email,
-                emailSent,
+                emailSent: Boolean(emailSent),
                 trial: signupTrial.status(user),
                 subscription: normalizeSubscription(user.subscription),
                 // Development only: SMTP may be unset locally and the operator
@@ -8865,7 +8865,7 @@ app.post('/api/email/resend', subscribeLimiter, authMiddleware, async (req, res)
         const sent = await sendEmailVerification(user, verification);
         return res.status(200).json({
             ok: true,
-            emailSent: sent,
+            emailSent: Boolean(sent),
             email: user.email,
             ...(process.env.NODE_ENV !== 'production' && !sent ? { verificationUrl: verification.verifyUrl, verificationCode: verification.code } : {})
         });
