@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001495240",
+ "issuerName": "GLADSTONE LAND CORP",
+ "builtAt": "2026-11-16T13:11:25.175Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001495240-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1495240/000149524026000007/land-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Rental Operations",
+   "products": [],
+   "description": "Leases farmland and farm-related properties to farming tenants for rental income under mostly triple-net leases.",
+   "evidence": "Our current business strategy includes one operating segment: Real Estate Rental Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company rent under operating leases, including reimbursements for certain property operating costs.",
+  "evidence": "We generate revenues, earnings, net income, and cash flows through our single segment by collecting rents from our tenants through operating leases, including reimbursements for certain of our property operating costs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

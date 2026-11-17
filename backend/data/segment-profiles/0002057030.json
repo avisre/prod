@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002057030",
+ "issuerName": "AXIOM INTELLIGENCE ACQUISITION CORP 1",
+ "builtAt": "2026-11-17T00:15:05.166Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034193",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2057030/000121390026034193/ea0282953-10k_axiom1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a Business Combination with one or more businesses, with no operating revenues to date.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income that also is reported on the accompanying statements of operations as net income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operating revenues and earns interest on investments held in the Trust Account.",
+  "evidence": "The CODM reviews interest earned on investments held in the Trust Account to measure and monitor shareholder value and determine the most effective strategy of investment with the Trust Account funds while maintaining compliance with the Investment Management Trust Agreement, dated June 17, 2025, by and between the Company and Continental."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

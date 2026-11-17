@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002077785",
+ "issuerName": "IRIS ACQUISITION CORP II",
+ "builtAt": "2026-11-17T00:15:06.149Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-001068",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2077785/000118518526001068/iac210k123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with a target business; no commercial operations.",
+   "evidence": "We are a newly organized blank check company or special purpose acquisition company (\"SPAC\"), incorporated July 8, 2025 as a Cayman Islands exempted company and formed for the purpose of effecting a merger, amalgamation, share exchange, asset acquisition, share purchase, recapitalization, reorganization or other similar business combination with one or more businesses, which we refer to throughout this report as our initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

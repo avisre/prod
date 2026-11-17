@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002039972",
+ "issuerName": "Guardian Metal Resources PLC",
+ "builtAt": "2026-11-16T13:06:09.529Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-108373",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2039972/000110465926108373/gmtl-20260630x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and evaluation",
+   "products": [],
+   "description": "Exploration and evaluation of mineral resources in Nevada, United States, mainly tungsten, with no revenue generated.",
+   "evidence": "During the year ended 30 June 2026, the Group operated as a single operating and reportable segment, being the exploration and evaluation of mineral resources in Nevada, United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

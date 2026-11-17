@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002057043",
+ "issuerName": "WEN ACQUISITION CORP",
+ "builtAt": "2026-11-16T13:12:41.269Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034867",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2057043/000121390026034867/ea0283367-10k_wenacquisi.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue an initial Business Combination; it has generated no operating revenues to date.",
+   "evidence": "Accordingly, Management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operating revenue and does not expect any until it completes its initial Business Combination.",
+  "evidence": "We have generated no operating revenues to date, and we do not expect that we will generate operating revenues until we consummate our initial Business Combination."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

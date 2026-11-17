@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001372807",
+ "issuerName": "BCP Investment Corporation",
+ "builtAt": "2026-11-17T00:14:55.737Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-093918",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1372807/000119312526093918/bcic-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Management Segment",
+   "products": [
+    "Debt Securities Portfolio",
+    "CLO Fund Securities"
+   ],
+   "description": "Originates and invests in secured term loans, mezzanine debt and CLO fund securities in privately-held middle market companies, generating current income and capital appreciation.",
+   "evidence": "In accordance with ASC 280: Segment Reporting (\"ASC 280\"), the Company has determined that it has a single operating and reporting segment, the \"Investment Management Segment\"."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the company interest on its debt investments in middle market companies, so it earns current income and capital appreciation.",
+  "evidence": "In our Debt Securities Portfolio, our investment objective is to generate current income and, to a lesser extent, capital appreciation from the investments in senior secured term loans, mezzanine debt and selected equity investments in privately-held middle market companies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

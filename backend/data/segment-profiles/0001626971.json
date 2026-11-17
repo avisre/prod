@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001626971",
+ "issuerName": "Corvus Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-16T13:02:02.746Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027047",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1626971/000110465926027047/crvs-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "soquelitinib",
+    "ciforadenant",
+    "mupadolimab",
+    "CPI-006"
+   ],
+   "description": "Development and commercialization of drugs and antibodies that target critical elements of the immune system, for immune-mediated diseases and cancers.",
+   "evidence": "We have one primary business activity and operate as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

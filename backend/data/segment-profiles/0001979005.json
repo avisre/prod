@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001979005",
+ "issuerName": "AIMEI HEALTH TECHNOLOGY CO., LTD",
+ "builtAt": "2026-11-17T00:15:03.247Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-021108",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1979005/000149315226021108/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking a business combination with small cap target businesses in the biopharmaceutical, medical technology and device industries.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

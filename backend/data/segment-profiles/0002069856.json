@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002069856",
+ "issuerName": "HCM III ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:05.533Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035829",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2069856/000121390026035829/ea0281592-10k_hcm3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company that will seek a business combination with an operating business; it has not yet commenced operations.",
+   "evidence": "We are a blank check company incorporated on April 15, 2025 as a Cayman Islands exempted company and formed for the purpose of effecting a merger, amalgamation, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses, which we refer to throughout this Report as our initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue until a business combination; non-operating income is interest on IPO trust proceeds and warrant fair value changes.",
+  "evidence": "The Company will not generate any operating revenues until after the completion of its initial business combination, at the earliest."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

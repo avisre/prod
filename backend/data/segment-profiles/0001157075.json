@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001157075",
+ "issuerName": "PHARMACYTE BIOTECH, INC.",
+ "builtAt": "2026-11-17T00:14:54.669Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-005836",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1157075/000168316826005836/pharmacyte_i10k-043026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cellular cancer therapies",
+   "products": [
+    "Cell-in-a-Box®",
+    "CypCaps™"
+   ],
+   "description": "Research and development of cellular cancer therapies, using encapsulated live human cells placed near tumors.",
+   "evidence": "The Company operates in one business segment, which includes the business of research and development activities related to developing cellular cancer therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

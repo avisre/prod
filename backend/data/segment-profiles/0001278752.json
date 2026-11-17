@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001278752",
+ "issuerName": "MIDCAP FINANCIAL INVESTMENT CORPORATION",
+ "builtAt": "2026-11-17T00:14:54.915Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076499",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1278752/000119312526076499/mfic-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment management",
+   "products": [],
+   "description": "Externally managed BDC that invests primarily in directly originated first lien senior secured loans to private U.S. middle-market companies.",
+   "evidence": "The Company operates under one operating segment and reporting unit, investment management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Portfolio companies borrowing from the company pay it loan income, plus upfront fees, call premiums, and equity or warrant income.",
+  "evidence": "Additional income can be generated from upfront fees, call protections including call premiums, equity co-investments or warrants."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

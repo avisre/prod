@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002082119",
+ "issuerName": "KRAKacquisition Corp",
+ "builtAt": "2026-11-17T00:15:06.617Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-012031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2082119/000114036126012031/ef20067585_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "A blank check company that intends to pursue an initial Business Combination, concentrating on digital asset ecosystem companies.",
+   "evidence": "While we may pursue an initial Business Combination in any business or industry or sector, we intend to concentrate our efforts on companies in the digital asset ecosystem."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

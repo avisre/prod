@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001537137",
+ "issuerName": "Standard Lithium Ltd.",
+ "builtAt": "2026-11-16T13:02:47.794Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-130448",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1537137/000119312526130448/ck0001537137-ex99_3.htm",
+  "exhibit": "ck0001537137-ex99_3.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001827401",
+ "issuerName": "BRIGHT MINDS BIOSCIENCES INC.",
+ "builtAt": "2026-11-16T13:03:58.081Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001437749-25-038729",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1827401/000143774925038729/drug20250930_40f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

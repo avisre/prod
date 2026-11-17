@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002073553",
+ "issuerName": "AI Infrastructure Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:05.725Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011988",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2073553/000149315226011988/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination, initially focused on AI infrastructure and technology businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

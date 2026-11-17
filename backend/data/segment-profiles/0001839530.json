@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001839530",
+ "issuerName": "XBP Global Holdings, Inc.",
+ "builtAt": "2026-11-17T00:15:01.451Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037421",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1839530/000110465926037421/xbp-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Applied Workflow Automation",
+   "products": [
+    "Bills & Payments",
+    "healthcare industry solutions",
+    "on-site enterprise solutions",
+    "integrated communications",
+    "enterprise legal management"
+   ],
+   "description": "Provides AI-enabled workflow services for clients' systems, including payment processing, data capture and distribution, for banks, payers, utilities and government.",
+   "evidence": "The Applied Workflow Automation segment includes the Company's Bills & Payments, healthcare industry solutions, on-site enterprise solutions, integrated communications and enterprise legal management business units which serve leading banks, payers and providers, utilities as well as federal, regional and local government entities."
+  },
+  {
+   "name": "Technology",
+   "products": [
+    "recurring and perpetual software licenses",
+    "software maintenance",
+    "professional services",
+    "hardware solutions",
+    "industry specific platforms for the banking and healthcare industries"
+   ],
+   "description": "Sells recurring and perpetual software licenses, maintenance, professional services and hardware, plus industry platforms for banking and healthcare.",
+   "evidence": "The Company also offers industry specific platforms for the banking and healthcare industries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay transaction-based fees for volumes processed, fixed management fees, and software licenses, maintenance and professional services.",
+  "evidence": "We generate revenue through transaction-based processing fees, fixed-fee managed services, and recurring software licenses and maintenance, along with professional services for system configuration and integration."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company reevaluated its segment reporting, resulting in two businesses: Applied Workflow Automation and Technology.",
+   "evidence": "As part of Business Combination, the Company reevaluated its segment reporting, resulting in the presentation of two businesses: Applied Workflow Automation and Technology."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

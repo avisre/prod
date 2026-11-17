@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001288855",
+ "issuerName": "OPTIMUMBANK HOLDINGS, INC.",
+ "builtAt": "2026-11-17T00:14:55.136Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008143",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1288855/000149315226008143/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "demand interest-bearing and noninterest-bearing accounts",
+    "money market deposit accounts",
+    "NOW accounts",
+    "time deposits",
+    "wire transfers",
+    "ACH services",
+    "Visa debit and ATM cards",
+    "cash management"
+   ],
+   "description": "Provides a variety of community banking services to individual and corporate customers.",
+   "evidence": "The Company has one reportable segment, which provides a variety of community banking services to individual and corporate customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans, and customers pay fees and service charges on depository products and other banking services.",
+  "evidence": "The segment's revenues are driven primarily by interest income on loans, interest and dividend on debt securities, interest-bearing deposits with banks, cash and due from banks, and fees and service charges on depository products and other banking services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

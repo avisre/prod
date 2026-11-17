@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0002076975",
+ "issuerName": "BRAIIN LIMITED",
+ "builtAt": "2026-11-17T00:15:06.077Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-051471",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/2076975/000149315226051471/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Braiin corporate",
+   "products": [],
+   "description": "Parent entity covering corporate costs, listing and acquisition costs, group borrowing finance costs and deferred consideration.",
+   "evidence": "Braiin corporate carries the share-based payments for services, the listing and acquisition costs, the finance costs of the Group's borrowings and the deferred consideration."
+  },
+  {
+   "name": "VIS",
+   "products": [],
+   "description": "VIS Networks Private Limited business, incorporated in India, reported as one of the group's segments.",
+   "evidence": "The goodwill of the VIS group was tested at the level of the VIS group, which is the VIS operating segment and the level at which that goodwill is monitored for internal management purposes."
+  },
+  {
+   "name": "Vega",
+   "products": [],
+   "description": "Vega Global Technologies group, including Mirragin, deploying aerial robotics, autonomous systems and machine learning solutions.",
+   "evidence": "Mirragin RAS Consulting Pty Ltd, acquired through Vega, is an Australian consulting and technology firm specializing in the deployment of aerial robotics, autonomous systems and machine learning solutions for mission-critical applications across agriculture, defense, emergency response and industrial operations."
+  },
+  {
+   "name": "Connect Simple",
+   "products": [],
+   "description": "Australian company with UK and US subsidiaries, acquired in fiscal 2026 and reported as its own segment.",
+   "evidence": "In the post-acquisition period VIS recorded an operating loss of $1,443,710, and Vega and Connect Simple recorded operating profits of $768,104 and $53,605 respectively."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for equipment sales, annual maintenance and warranty support, managed, professional and workforce services, software licences and telecommunications connection services.",
+  "evidence": "Revenue from the sale of equipment, from software licences and subscriptions and from telecommunications connection services is recognised at a point in time; revenue from annual maintenance and warranty support and from managed, professional and workforce services is recognised over time."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 the Group went from a single operating segment to four reportable segments after acquiring VIS, Vega and Connect Simple.",
+   "evidence": "Before the acquisitions the Group had a single operating segment, being the activities now reported as Braiin corporate, whose results are those of the Group as a whole for the years ended 30 June 2025 and 2024; no comparative segment information is therefore presented."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

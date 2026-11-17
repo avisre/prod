@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000910073",
+ "issuerName": "FLAGSTAR BANK, NATIONAL ASSOCIATION",
+ "builtAt": "2026-11-16T12:49:23.903Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000910073-26-000025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/910073/000091007326000025/fbc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "traditional banking products",
+    "non-deposit investment products",
+    "insurance"
+   ],
+   "description": "Offers traditional banking, non-deposit investment and insurance products to individuals and businesses through its branch network.",
+   "evidence": "We have evaluated our operating structure and determined that we operate in one reportable segment, which constitutes our only operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Its key revenue source is NII, mainly from the loans it originates and the deposits it takes.",
+  "evidence": "Additionally, the chief operating decision maker is focused on the key consolidated revenue sources, most notably NII, which led to the decision to sell certain portions of our business and certain loan portfolios."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

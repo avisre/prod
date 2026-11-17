@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001031235",
+ "issuerName": "GLOBAL SELF STORAGE, INC.",
+ "builtAt": "2026-11-17T00:14:53.892Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-124051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1031235/000119312526124051/self-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "rental operations",
+   "products": [
+    "traditional and climate-controlled units",
+    "covered and outside auto/RV/boat storage"
+   ],
+   "description": "Owns, operates and redevelops self storage properties in the United States, renting storage units to residential and commercial customers.",
+   "evidence": "The Company has a single operating segment: rental operations which reflects the aggregated rental operations from our same-store portfolio consisting of only those stores owned and operated on a stabilized basis at the beginning and at the end of the applicable periods presented."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residential and commercial customers rent storage units at the company's self storage stores, which produces rental revenue.",
+  "evidence": "Rental revenues are significantly influenced by demand for self storage space generally, and a decrease in such demand would likely have a greater adverse effect on our rental revenues than if we owned a more diversified real estate portfolio or if we owned a larger number of self storage properties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

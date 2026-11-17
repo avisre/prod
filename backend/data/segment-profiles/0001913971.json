@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001913971",
+ "issuerName": "PRINCETON BANCORP, INC.",
+ "builtAt": "2026-11-16T13:18:31.865Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-106151",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1913971/000119312526106151/bprn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "personal and business lending and deposit services"
+   ],
+   "description": "Full-service bank providing personal and business lending and deposit services to customers in its New Jersey and Pennsylvania markets.",
+   "evidence": "The CODM regularly assesses performance of the aggregated single operating and reporting segment and decides how to allocate resources based on net income calculated on the same basis as is net income reported in the Company's consolidated statements of income and other comprehensive income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans, which produces net interest income for the bank.",
+  "evidence": "Without loaning money, however, a bank cannot generate enough net interest income to be profitable."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

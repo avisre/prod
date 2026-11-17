@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001739174",
+ "issuerName": "BiomX Inc.",
+ "builtAt": "2026-11-17T00:14:59.797Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-018231",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1739174/000121390026018231/ea0276826-10k_biomxinc.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "phage therapy",
+   "products": [
+    "BX011",
+    "BX211"
+   ],
+   "description": "Clinical stage company developing natural and engineered phage-based therapies for chronic diseases such as diabetic foot infections.",
+   "evidence": "The Company operates as a single operating segment, as a clinical stage product discovery company developing products using both natural and engineered phage technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In December 2025, we discontinued the development of our phage cocktail product for the treatment of Cystic Fibrosis.",
+   "evidence": "In December 2025, we discontinued the development of our phage cocktail product for the treatment of Cystic Fibrosis or, BX004"
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

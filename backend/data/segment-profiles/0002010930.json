@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002010930",
+ "issuerName": "CENTURION ACQUISITION CORP.",
+ "builtAt": "2026-11-16T13:12:16.321Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-026959",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/2010930/000121390026026959/ea0279199-10k_centurion.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Shell company seeking a business combination with one or more businesses in any industry or geographic location.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

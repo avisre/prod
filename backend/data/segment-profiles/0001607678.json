@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001607678",
+ "issuerName": "VIKING THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T12:55:57.415Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-046876",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1607678/000119312526046876/vktx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "VK2735"
+   ],
+   "description": "Develops first-in-class or best-in-class therapies for metabolic and endocrine disorders, for patients with those conditions.",
+   "evidence": "The Company is a clinical-stage biopharmaceutical company focused on the development of novel first-in-class or best-in-class therapies for the treatment of metabolic and endocrine disorders, with three compounds currently in clinical trials."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

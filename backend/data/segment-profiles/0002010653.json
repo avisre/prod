@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002010653",
+ "issuerName": "FUTURE VISION II ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:03.617Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-001993",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/2010653/000182912626001993/futurevision2_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking to combine with one or more target businesses; it has not commenced operations or generated revenue.",
+   "evidence": "Future Vision II Acquisition Corp. is a blank check company incorporated as a Cayman Islands exempted company on January 30, 2024 for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses (a \"Business Combination\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operating customers; it earns non-operating interest income on trust account proceeds from its IPO and private placement.",
+  "evidence": "The Company will generate non-operating income in the form of interest income from the proceeds derived from the Initial Public Offering and Private Placement (as defined below)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

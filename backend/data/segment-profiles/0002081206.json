@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0002081206",
+ "issuerName": "AGI Inc",
+ "builtAt": "2026-11-17T00:15:06.431Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002716",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2081206/000129281426002716/agbkform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking business",
+   "products": [
+    "digital accounts",
+    "cards",
+    "payroll and personal loans",
+    "insurance offered through partners"
+   ],
+   "description": "Provides standardized banking financial products and services to individuals, mainly credit, including digital accounts, cards and loans.",
+   "evidence": "For management purposes, the Bank's Management has determined that it has only one operating segment related to the banking business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals are the customers for standardized financial products and services, mainly credit, such as digital accounts, cards and payroll and personal loans.",
+  "evidence": "The Bank provides a standardized set of financial products and services exclusively to individuals, mainly focused on credit, including digital accounts, cards, payroll and personal loans, and insurance offered through partners."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

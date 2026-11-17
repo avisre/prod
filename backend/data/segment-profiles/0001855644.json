@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001855644",
+ "issuerName": "Zura Bio Limited",
+ "builtAt": "2026-11-16T13:11:42.569Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-032080",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1855644/000110465926032080/zura-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel medicines",
+   "products": [
+    "Tibulizumab (ZB-106)",
+    "Crebankitug (ZB-168)",
+    "Torudokimab (ZB-880)"
+   ],
+   "description": "Develops novel medicines for immune and inflammatory disorders, with clinical-stage product candidates.",
+   "evidence": "The Company and the CODM views its operations and manages its business in one operating segment, developing novel medicines for immune and inflammatory disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

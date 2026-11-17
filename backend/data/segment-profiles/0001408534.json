@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001408534",
+ "issuerName": "FIRST GUARANTY BANCSHARES, INC.",
+ "builtAt": "2026-11-17T00:14:55.920Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001408534-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1408534/000140853426000021/fgbi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial banking",
+   "products": [
+    "commercial real estate loans",
+    "commercial and industrial loans",
+    "time deposits",
+    "money market accounts",
+    "credit cards",
+    "merchant services",
+    "Autobooks"
+   ],
+   "description": "Full-range banking, financial and trust services for government entities, individuals and small and commercial businesses.",
+   "evidence": "First Guaranty is engaged in a single line of business as a financial institution, which provides a full range of banking, financial and trust services to state, county and local government entities and individuals and small and commercial businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and customers pay fees such as NSF/OD and ATM/card charges; interest income is the largest source.",
+  "evidence": "First Guaranty's most significant reported source of income and expense are interest income and interest expense (see Consolidated Statements of Income)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

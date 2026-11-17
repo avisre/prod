@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001061630",
+ "issuerName": "Blackstone Mortgage Trust, Inc.",
+ "builtAt": "2026-11-16T12:48:21.520Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001061630-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1061630/000106163026000009/bxmt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial mortgage loans",
+   "products": [
+    "senior loans",
+    "subordinate loans",
+    "mezzanine loans"
+   ],
+   "description": "Originates and acquires senior and other commercial mortgage loans and related investments secured by commercial real estate in North America, Europe and Australia.",
+   "evidence": "We operate our business as one segment, which originates and acquires commercial mortgage loans and related investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns interest from borrowers on the senior and subordinate mortgage loans it originates or acquires, secured by commercial real estate.",
+  "evidence": "The interest payment rates are expressed as a spread over the relevant floating benchmark rates, which include SOFR , SONIA, EURIBOR, CORRA, and other indices, as applicable to each loan."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

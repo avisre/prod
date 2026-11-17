@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001141688",
+ "issuerName": "LANDMARK BANCORP, INC.",
+ "builtAt": "2026-11-17T00:14:54.473Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016495",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1141688/000149315226016495/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "banking services",
+    "deposit products",
+    "treasury management services"
+   ],
+   "description": "Attracts deposits and makes commercial, real estate, agriculture and consumer loans to individuals and businesses in Kansas communities.",
+   "evidence": "The Company's reportable segment is determined by the Chief Executive Officer, who is the designated CODM, based upon information provided about the company's products and services offered, primarily banking operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Loans, investments and deposits generate the company's revenues, from banking services provided to individuals and businesses.",
+  "evidence": "Loans, investments, and deposits provide the revenues for the Company."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

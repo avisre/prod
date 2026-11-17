@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001287032",
+ "issuerName": "Prospect Capital Corporation",
+ "builtAt": "2026-11-17T00:14:55.098Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001287032-26-000269",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1287032/000128703226000269/psec-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial services",
+   "products": [],
+   "description": "Lends to and invests in privately held U.S. middle market companies, seeking current income and capital appreciation.",
+   "evidence": "The Company operates through a single operating and reporting segment with an investment objective to generate both current income and capital appreciation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Middle-market borrowers pay the company current yield on senior and secured loans, and the company also seeks capital appreciation from equity investments.",
+  "evidence": "We seek to maximize returns, including both current yield and capital-appreciation potential, and minimize risk for our investors by applying rigorous credit and other analyses and cash-flow and asset-based lending techniques to originate, close, and monitor our investments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

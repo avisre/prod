@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001068851",
+ "issuerName": "PROSPERITY BANCSHARES, INC.",
+ "builtAt": "2026-11-16T12:50:33.923Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-077437",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1068851/000119312526077437/pb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "certificates of deposit",
+    "interest checking accounts",
+    "money market accounts",
+    "savings accounts",
+    "digital banking solutions",
+    "trust and wealth management",
+    "retail brokerage services",
+    "treasury management"
+   ],
+   "description": "Banking operations offering loan and deposit products to individual consumers and businesses throughout Texas and Oklahoma.",
+   "evidence": "The Company's banking operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual consumers and businesses pay the bank for traditional loan and deposit products in Texas and Oklahoma.",
+  "evidence": "The Company, through the Bank, offers a variety of traditional loan and deposit products to its customers, which consist primarily of individual consumers and businesses throughout Texas and Oklahoma."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

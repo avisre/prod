@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001962011",
+ "issuerName": "KAIROS PHARMA, LTD.",
+ "builtAt": "2026-11-17T00:15:03.107Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014159",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1962011/000149315226014159/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biopharmaceutical",
+   "products": [
+    "KROS 101",
+    "KROS 201",
+    "ENV 105",
+    "ENV 205"
+   ],
+   "description": "Develops immunotherapy and cell therapies for the treatment of cancer.",
+   "evidence": "The Company operates and manages its business as one reportable segment and operates as a clinical-stage biopharmaceutical company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

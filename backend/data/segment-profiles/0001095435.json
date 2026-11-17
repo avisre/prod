@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001095435",
+ "issuerName": "Alpha Compute Corp",
+ "builtAt": "2026-11-17T00:14:54.294Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001171843-25-004718",
+  "periodEnd": "2025-03-31",
+  "filingDate": "2025-07-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1095435/000117184325004718/f20f_071425.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immuno-oncology",
+   "products": [
+    "PORT-6",
+    "PORT-7",
+    "PORT-8",
+    "PORT-9"
+   ],
+   "description": "Clinical-stage immuno-oncology company developing therapies that target resistance to checkpoint inhibitors in invasive cancers.",
+   "evidence": "Portage Biotech is a clinical-stage immuno-oncology company seeking to advance what we believe are first-in-class therapies that target resistance mechanisms to existing checkpoint inhibitors, with the goal of improving the durability of anti-tumor responses and quality of life in patients with invasive cancers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, Tarus Therapeutics, LLC was relaunched as an independently managed company named Cyncado Therapeutics.",
+   "evidence": "In January 2025, we announced the relaunch of Tarus Therapeutics, LLC as an independently managed company under the name Cyncado Therapeutics™."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001420565",
+ "issuerName": "Rein Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:14:56.030Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126385",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1420565/000119312526126385/rntx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel therapies",
+   "products": [
+    "LTI-03",
+    "LTI-01"
+   ],
+   "description": "Develops novel therapies for orphan pulmonary and fibrosis indications with no approved or limited effective treatments.",
+   "evidence": "The Company has one reportable segment which focuses on developing novel therapies for the treatment of orphan pulmonary and fibrosis indications with no approved or limited effective treatments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: The Company has wound down its original business operations as of December 31, 2"
+ ],
+ "reader": "agent"
+}

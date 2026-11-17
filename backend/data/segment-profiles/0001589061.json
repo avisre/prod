@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001589061",
+ "issuerName": "Gyrodyne, LLC",
+ "builtAt": "2026-11-17T00:14:58.082Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010078",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1589061/000143774926010078/gyrllc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "Cortlandt Medical Center",
+    "Flowerfield"
+   ],
+   "description": "Manages a portfolio of medical office and industrial properties in Suffolk and Westchester Counties, New York, and pursues their entitlements.",
+   "evidence": "Gyrodyne, LLC (including its subsidiaries, \"Gyrodyne\", the \"Company\" or the \"Registrant\") is a limited liability company formed under the laws of the State of New York whose primary business is the management of a portfolio of medical office and industrial properties and the pursuit of entitlements on such properties located in Suffolk (\"Flowerfield\") and Westchester (\"Cortlandt Manor\") Counties, New York."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants lease the company's properties and reimburse it for utilities, insurance, repairs, maintenance and real estate taxes.",
+  "evidence": "Substantially all of our developed properties are subject to leases in which the tenant reimburses the Company for a portion, all of or substantially all of the costs and/or cost increases for utilities, insurance, repairs, maintenance and real estate taxes."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

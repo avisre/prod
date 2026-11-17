@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001680048",
+ "issuerName": "MUSTANG BIO, INC.",
+ "builtAt": "2026-11-17T00:14:59.150Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-032063",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1680048/000110465926032063/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "research and development",
+   "products": [
+    "MB-101",
+    "MB-108",
+    "MB-109"
+   ],
+   "description": "Clinical-stage research and development of potential cures for difficult-to-treat cancers, including CAR T and oncolytic virus therapies.",
+   "evidence": "The Company views its operations and manages its business in one segment, which reflects the research and development of potential cures for difficult-to-treat cancers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

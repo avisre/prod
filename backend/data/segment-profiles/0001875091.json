@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001875091",
+ "issuerName": "NeuroSense Therapeutics Ltd.",
+ "builtAt": "2026-11-17T00:15:02.082Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-036970",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1875091/000121390026036970/ea0283072-20f_neurosense.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Neurodegenerative diseases",
+   "products": [
+    "PrimeC"
+   ],
+   "description": "Develops treatments for patients suffering from debilitating neurodegenerative diseases, including ALS, AD and PD.",
+   "evidence": "The Company has one reportable segment specializing in the development of treatments for patients suffering from debilitating neurodegenerative diseases, as described in Note 1."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

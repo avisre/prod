@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001789972",
+ "issuerName": "CULLINAN THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:15:00.769Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-099362",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1789972/000119312526099362/cgem-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunology and oncology",
+   "products": [
+    "CLN-049",
+    "CLN-617",
+    "CLN-619",
+    "CLN-978",
+    "Velinotamig",
+    "Zipalertinib"
+   ],
+   "description": "Develops immunology and oncology therapies through research and development programs for clinical candidates.",
+   "evidence": "The Company operates and manages the business as one reporting and one operating segment, which is the business of developing immunology and oncology therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

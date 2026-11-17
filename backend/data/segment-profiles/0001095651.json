@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001095651",
+ "issuerName": "Safehold Inc.",
+ "builtAt": "2026-11-16T12:51:13.874Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001095651-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1095651/000109565126000010/safe-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ground Leases",
+   "products": [],
+   "description": "Acquires, manages and capitalizes ground leases, giving investors contractual rent growth and residual ownership of land and buildings.",
+   "evidence": "We are a publicly-traded company that operates our business through one reportable segment by acquiring, managing and capitalizing ground leases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Ground lease tenants pay the company contractual base rent, with periodic escalators, for long-term leases of land under commercial real estate projects.",
+  "evidence": "Ground Leases typically provide growing income streams through contractual base rent escalators that may compound over the duration of the lease."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Ground Leases): ground leases"
+ ],
+ "reader": "agent"
+}

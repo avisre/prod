@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001541157",
+ "issuerName": "Akari Therapeutics, Plc",
+ "builtAt": "2026-11-17T00:14:57.594Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013664",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1541157/000149315226013664/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology",
+   "products": [
+    "PH1",
+    "AKTX-101",
+    "AKTX-102"
+   ],
+   "description": "Develops next-generation antibody-drug conjugates with novel payloads to attack cancer cells.",
+   "evidence": "We manage our operations as a single operating segment for the purposes of assessing performance, making operating decisions and allocating resources, resulting in a single reportable segment, or reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Has generated no revenue and does not expect product sales revenue soon; plans partnering and out-licensing deals instead.",
+  "evidence": "The Company has not generated any revenue since its inception and does not expect to generate any revenue from the sale of products in the near future."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

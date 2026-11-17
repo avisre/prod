@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001675033",
+ "issuerName": "Great Elm Capital Corp.",
+ "builtAt": "2026-11-17T00:14:59.028Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085697",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1675033/000119312526085697/gecc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Debt and equity",
+   "products": [
+    "secured and senior secured debt instruments",
+    "CLO securities",
+    "subordinated debt",
+    "mezzanine debt",
+    "equity-linked securities"
+   ],
+   "description": "Invests in debt and equity of middle-market companies to generate current income and capital appreciation.",
+   "evidence": "The Company operates as a single reportable segment with an investment objective to generate both current income and capital appreciation through debt and equity investments and manages the business on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Portfolio companies pay interest on the debt investments held, with some dividends, capital gains and fees.",
+  "evidence": "We generate revenue primarily from interest on the debt investments that we hold."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

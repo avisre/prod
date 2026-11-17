@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002048948",
+ "issuerName": "New Providence Acquisition Corp. III/Cayman",
+ "builtAt": "2026-11-16T13:11:54.040Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037680",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2048948/000121390026037680/ea0283443-10k_newpro3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue an initial business combination with one or more businesses in any industry.",
+   "evidence": "We are a blank check company incorporated on December 4, 2024 as a Cayman Islands exempted company and formed for the purpose of effecting a Business Combination with one or more businesses or entities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue; income is interest earned on Trust Account securities until a business combination.",
+  "evidence": "The CODM reviews interest earned on marketable securities held in the Trust Account to measure and monitor shareholder value and determine the most effective strategy of investment with the Trust Account funds while maintaining compliance with the Trust Agreement."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

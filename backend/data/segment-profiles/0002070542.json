@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002070542",
+ "issuerName": "AIB Data Centers Inc.",
+ "builtAt": "2026-11-17T00:15:05.586Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036810",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2070542/000121390026036810/ea0282624-10k_blockchain.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hosting services",
+   "products": [],
+   "description": "Operates a data center facility providing hosting for blockchain computing, AI and high-performance data processing customers.",
+   "evidence": "The Company, through its Chief Executive Officer in his role as chief operating decision-maker, views Company operations and manages the business as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay monthly, in advance, for hosting services including secure rack space, power capacity, security and equipment within the data center facility.",
+  "evidence": "Hosting services include providing its customers with secure rack space, power capacity, security, and equipment within its data center facility."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Hosting services): hosting services"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001680581",
+ "issuerName": "FULCRUM THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T13:10:33.699Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-065197",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1680581/000119312526065197/fulc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rare disease",
+   "products": [
+    "pociredir",
+    "losmapimod"
+   ],
+   "description": "Develops small molecule drugs for patients with genetically defined rare diseases with high unmet medical need.",
+   "evidence": "The Company's singular focus is on developing small molecules to improve the lives of patients with genetically defined rare diseases in areas of high unmet medical need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

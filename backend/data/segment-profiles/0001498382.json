@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001498382",
+ "issuerName": "TuHURA BIOSCIENCES, INC./NV",
+ "builtAt": "2026-11-17T00:14:56.868Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134950",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1498382/000119312526134950/hura-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cancer treatment",
+   "products": [
+    "IFx2.0",
+    "TBS-2025",
+    "IFx"
+   ],
+   "description": "Advances immuno-oncology therapies for cancer treatment, covering all of the company's activities.",
+   "evidence": "The Company operates in one reportable segment, which includes all activities related to advancing therapies for cancer treatment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

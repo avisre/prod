@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001418076",
+ "issuerName": "SLR INVESTMENT CORP.",
+ "builtAt": "2026-11-17T00:14:56.018Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-066979",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1418076/000119312526066979/ck0001418076-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Comprehensive financing solutions",
+   "products": [],
+   "description": "Provides comprehensive financing solutions to middle market borrowers in the United States via direct cash flow lending or specialty finance.",
+   "evidence": "The Company operates as a single reporting segment and derives its revenue from providing comprehensive financing solutions primarily to middle market borrowers in the United States through direct cash flow lending or specialty finance instruments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Middle market borrowers in the United States pay the company for comprehensive financing solutions through direct cash flow lending or specialty finance instruments.",
+  "evidence": "The Company operates as a single reporting segment and derives its revenue from providing comprehensive financing solutions primarily to middle market borrowers in the United States through direct cash flow lending or specialty finance instruments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

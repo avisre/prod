@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001953575",
+ "issuerName": "Collective Mining Ltd.",
+ "builtAt": "2026-11-16T13:00:18.895Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001213900-26-037056",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1953575/000121390026037056/ea0280494-40f_collective.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

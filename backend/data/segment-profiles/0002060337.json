@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002060337",
+ "issuerName": "Jena Acquisition Corporation II",
+ "builtAt": "2026-11-17T00:15:05.286Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035838",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2060337/000121390026035838/ea0283170-10k_jenaacq2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company with no operating business, seeking a Business Combination with a target in any industry.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the accompanying statement of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Public unit investors fund the company, which has no operating customers or operating revenues to date.",
+  "evidence": "The Public Units were sold at a price of $10.00 per Public Unit, generating gross proceeds to our Company of $230,000,000."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

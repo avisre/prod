@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001626878",
+ "issuerName": "XBIOTECH INC.",
+ "builtAt": "2026-11-17T00:14:58.662Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-001561",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1626878/000117184326001561/xbit20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "True Human™ monoclonal antibodies",
+    "Natrunix™",
+    "Hutrukin"
+   ],
+   "description": "Discovers and develops True Human™ monoclonal antibodies for treating a variety of diseases.",
+   "evidence": "The Company and the chief operating decision maker view the Company's operations and manage its business as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2023 XBiotech stopped producing drug product and conducting contract clinical research under its supply and clinical trial agreements.",
+   "evidence": "As of the end of 2023, these agreements concluded and XBiotech is no longer producing drug product or conducting contract clinical research under these agreements."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

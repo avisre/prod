@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001538716",
+ "issuerName": "OPORTUN FINANCIAL CORPORATION",
+ "builtAt": "2026-11-16T13:18:10.333Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001538716-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1538716/000153871626000015/oprt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "savings and budgeting",
+   "products": [
+    "Personal Loans",
+    "Unsecured Personal Loans",
+    "Secured Personal Loans",
+    "Set & Save™"
+   ],
+   "description": "Provides unsecured and secured borrowings, savings and budgeting products to its members.",
+   "evidence": "The segment provides unsecured and secured borrowings, savings and budgeting products to its members."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Members pay loan interest and associated fees, plus subscription revenue from the savings product.",
+  "evidence": "Interest income is derived from the Company's lending products and includes loan interest and associated fees, while non-interest income is largely driven by the Company's savings product and includes subscription revenue, and interest on member accounts."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

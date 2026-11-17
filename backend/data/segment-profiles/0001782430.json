@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001782430",
+ "issuerName": "Strawberry Fields REIT, Inc.",
+ "builtAt": "2026-11-17T00:15:00.461Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011682",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1782430/000149315226011682/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Triple-net leasing",
+   "products": [
+    "skilled nursing facilities",
+    "assisted living facilities",
+    "long-term acute care hospitals"
+   ],
+   "description": "Leases skilled nursing, assisted living and long-term acute care properties to healthcare operators on triple-net terms.",
+   "evidence": "We conduct and manage our business as one operating segment for internal reporting and internal decision-making purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under long-term triple-net leases for healthcare properties the company owns.",
+  "evidence": "We generate substantially all of our revenues by leasing our properties to tenants under long-term leases primarily on a triple-net basis, under which the tenant pays the cost of real estate taxes, insurance and other operating costs of the facility and capital expenditures."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

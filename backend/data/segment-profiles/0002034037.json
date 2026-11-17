@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002034037",
+ "issuerName": "SIDDHI ACQUISITION CORP",
+ "builtAt": "2026-11-16T13:13:09.213Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-028326",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2034037/000121390026028326/ea0276497-10k_siddhi.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a merger or similar business combination with one or more businesses, with no target selected yet.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

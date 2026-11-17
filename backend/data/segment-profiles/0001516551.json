@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001516551",
+ "issuerName": "Skye Bioscience, Inc.",
+ "builtAt": "2026-11-17T00:14:57.096Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016394",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1516551/000162828026016394/skye-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceutical development",
+   "products": [
+    "nimacimab",
+    "SBI-100"
+   ],
+   "description": "Clinical-stage research and development of medicines for obesity and metabolic diseases, led by nimacimab.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment — pharmaceutical development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

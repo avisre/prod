@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001979414",
+ "issuerName": "NEONC TECHNOLOGIES HOLDINGS, INC.",
+ "builtAt": "2026-11-17T00:15:03.287Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002860",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1979414/000182912626002860/neonctechnologies_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "NEO100",
+    "NEO212"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing drug delivery methods and candidate treatments for intracranial brain cancers.",
+   "evidence": "The Company manages its business activities on a consolidated basis and operates as a single operating segment: Biotechnology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

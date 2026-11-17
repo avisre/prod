@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001164771",
+ "issuerName": "NORTHERN DYNASTY MINERALS LTD",
+ "builtAt": "2026-11-16T13:01:37.342Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001654954-26-003025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1164771/000165495426003025/ndm_ex991.htm",
+  "exhibit": "ndm_ex991.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mineral resource exploration",
+   "products": [
+    "Pebble Project"
+   ],
+   "description": "Advances the Pebble Project, a copper, gold and molybdenum property, through permitting, engineering and financing toward possible development.",
+   "evidence": "The likelihood of future mining at the Pebble Project is subject to a large number of risks and will require achievement of a number of technical, economic and legal objectives"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

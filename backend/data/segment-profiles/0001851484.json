@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001851484",
+ "issuerName": "Citius Oncology, Inc.",
+ "builtAt": "2026-11-17T00:15:01.776Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-25-125331",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1851484/000121390025125331/ea0270097-10k_citius.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Targeted oncology therapies",
+   "products": [
+    "LYMPHIR"
+   ],
+   "description": "Develops and commercializes innovative targeted oncology therapies, led by LYMPHIR for relapsed or refractory CTCL.",
+   "evidence": "The Company operates through a single operating and reportable segment which is focused on developing and commercializing innovative targeted oncology therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes from direct sales in the U.S. and royalty income, with partners marketing products outside the U.S.",
+  "evidence": "This commercialization strategy is anticipated to result in a combination of direct sales revenue, and royalty income, as well as incremental operating expenses and greater working capital requirements."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

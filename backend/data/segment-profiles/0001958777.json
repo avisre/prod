@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001958777",
+ "issuerName": "FibroBiologics, Inc.",
+ "builtAt": "2026-11-17T00:15:03.076Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-066965",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1958777/000119312526066965/fblg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell therapy",
+   "products": [
+    "CYWC628",
+    "CYPS317",
+    "CYMS101",
+    "CybroCell TM"
+   ],
+   "description": "Clinical-stage cell therapy company developing fibroblast-based product candidates for chronic diseases with unmet medical needs.",
+   "evidence": "The Company's operations are organized and reported as a single reportable segment, which includes all activities related to the discovery, development, and commercialization of its products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no revenue today; it is funded by angel investors, private debt, convertible debt and equity sales.",
+  "evidence": "The Company has primarily relied on a combination of angel investors, private debt placements, convertible debt issuances, and sales of equity to funds its operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

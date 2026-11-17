@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001734342",
+ "issuerName": "Amerant Bancorp Inc.",
+ "builtAt": "2026-11-16T13:03:19.274Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001734342-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1734342/000173434226000017/amtb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking services",
+   "products": [],
+   "description": "Provides individuals and businesses with deposit, credit, investment, wealth management and mortgage services in the United States.",
+   "evidence": "The Company is managed using a single segment concept, on a consolidated basis, as one reportable business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals and businesses pay for deposit, loan and wealth management services that generate substantially all revenue.",
+  "evidence": "Substantially, all of our revenues, assets, and liabilities are derived from deposits, loans, and wealth management services primarily offered in the United States to customers located in the United States and abroad."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company decided to shift its mortgage business to an in-footprint model and is winding down Amerant Mortgage.",
+   "evidence": "In April 2025, considering its strategic decision to focus on Florida, the Company announced it would transition its mortgage business from a national mortgage originator model to an in-footprint mortgage focused approach, emphasizing mortgage lending that supports the Company's retail and private banking customers."
+  },
+  {
+   "text": "The Cayman Bank is being dissolved, with completion expected in 2026.",
+   "evidence": "The dissolution of the Cayman Bank is expected to be completed in 2026 once regulatory approval from the applicable regulatory agency is received."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

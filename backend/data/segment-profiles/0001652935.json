@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001652935",
+ "issuerName": "Actuate Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:14:58.814Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002257",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1652935/000168316826002257/actuate_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "novel therapies",
+   "products": [
+    "Elraglusib Injection",
+    "Elraglusib Oral Tablet"
+   ],
+   "description": "Clinical-stage company developing novel cancer therapies, led by elraglusib, for patients with cancer.",
+   "evidence": "The Company manages its operations as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

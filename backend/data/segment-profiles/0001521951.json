@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001521951",
+ "issuerName": "FIRST BUSINESS FINANCIAL SERVICES, INC.",
+ "builtAt": "2026-11-16T13:10:02.996Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071523",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1521951/000119312526071523/fbiz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "business banking",
+    "private wealth",
+    "bank consulting",
+    "commercial real estate lending",
+    "commercial and industrial lending",
+    "treasury management solutions",
+    "company retirement services",
+    "SBA lending and servicing"
+   ],
+   "description": "Delivers commercial banking products and services to small and medium-sized businesses, business owners, executives, professionals, and high net worth individuals.",
+   "evidence": "We conduct our commercial banking operations through one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The bank earns interest income from loans and leases to commercial clients, plus fees from treasury, retirement and trust services.",
+  "evidence": "We earn interest income from these loans, generally at variable rates higher than those of our traditional commercial loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

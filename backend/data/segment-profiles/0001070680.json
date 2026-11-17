@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001070680",
+ "issuerName": "CF BANKSHARES INC.",
+ "builtAt": "2026-11-17T00:14:54.097Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-103638",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1070680/000119312526103638/cfbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial bank",
+   "products": [
+    "commercial loans and equipment leases",
+    "commercial and residential real estate loans",
+    "treasury management depository services",
+    "residential mortgage lending",
+    "online banking",
+    "mobile banking",
+    "remote deposit capabilities"
+   ],
+   "description": "A boutique commercial bank serving closely held businesses and entrepreneurs in Ohio and Indiana metro markets.",
+   "evidence": "The CODM regularly assesses performance of the aggregated single operating and reporting segment and decides how to allocate resources based on net income calculated on the same basis as is net income reported in the Company's consolidated statements of income and other comprehensive income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans originated, plus noninterest income from selling loans, and customers pay banking fees.",
+  "evidence": "Our revenues are derived principally from the generation of interest and fees on loans originated and noninterest income generated on the sale of loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

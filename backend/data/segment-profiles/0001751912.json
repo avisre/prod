@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001751912",
+ "issuerName": "NERVGEN PHARMA CORP.",
+ "builtAt": "2026-11-17T00:14:59.993Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-037357",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1751912/000110465926037357/tmb-20251231xex99d2.htm",
+  "exhibit": "tmb-20251231xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical drugs",
+   "products": [],
+   "description": "Research and development of pharmaceutical drugs for spinal cord injury and other neurotraumatic and neurologic conditions.",
+   "evidence": "The Company has one reportable operating segment being the research and development of pharmaceutical drugs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is pre-revenue, so no customers pay it, and its operations depend on raising additional financing.",
+  "evidence": "The Company is in pre-revenue stage and no revenues are expected in the foreseeable future."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

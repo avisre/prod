@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001878313",
+ "issuerName": "MAIA BIOTECHNOLOGY, INC.",
+ "builtAt": "2026-11-17T00:15:02.124Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012088",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1878313/000149315226012088/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunotherapies for cancer",
+   "products": [
+    "Ateganosine"
+   ],
+   "description": "Develops targeted immunotherapies for cancer, led by ateganosine, an investigational dual mechanism drug candidate.",
+   "evidence": "The Company and the Company's chief operating decision-maker, the Company's Chief Executive Officer, view the Company's operations and manage its business as a single operating segment, which is the business of discovering and developing products for the treatment of immunotherapies for cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The National Institutes of Health pays research grants, reimbursing allowable costs, to support specific primary research and clinical development projects.",
+  "evidence": "The Company receives research grants from the National Institutes of Health (NIH) to support specific primary research and clinical development projects."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001543418",
+ "issuerName": "TRILOGY METALS INC.",
+ "builtAt": "2026-11-16T13:05:33.115Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-015668",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1543418/000110465926015668/tmq-20251130x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and development",
+   "products": [
+    "Upper Kobuk Mineral Projects",
+    "Arctic Project",
+    "Bornite Project"
+   ],
+   "description": "Exploration and development of the Upper Kobuk Mineral Projects in Alaska, held through an equity interest in Ambler Metals.",
+   "evidence": "Management has evaluated the Company's operations and concluded it has one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

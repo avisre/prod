@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002015502",
+ "issuerName": "Launch One Acquisition Corp.",
+ "builtAt": "2026-11-16T13:15:56.235Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035527",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2015502/000121390026035527/ea0282898-10k_launch.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial Business Combination with one or more businesses in any industry.",
+   "evidence": "Management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated no operating revenues and expects none until it completes an initial Business Combination.",
+  "evidence": "We have generated no operating revenues to date and we do not expect that we will generate operating revenues until we consummate our initial Business Combination."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

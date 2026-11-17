@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001979332",
+ "issuerName": "Central Plains Bancshares, Inc.",
+ "builtAt": "2026-11-17T00:15:03.269Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-275962",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1979332/000119312526275962/cpbi-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "checking accounts",
+    "savings accounts",
+    "certificate of deposit accounts",
+    "mobile banking",
+    "on-line banking",
+    "bill pay"
+   ],
+   "description": "Accepts deposits from the general public and invests them mainly in residential and commercial real estate loans in southcentral Nebraska.",
+   "evidence": "Accordingly, all of the Company's operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue is primarily derived from banking: taking public deposits and lending those funds out mainly as residential and commercial real estate loans.",
+  "evidence": "Our business consists primarily of accepting deposits from the general public and investing those deposits, together with funds generated from operations, in one- to four-family residential mortgage loans secured by properties located in our primary market area, as well as commercial real estate loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

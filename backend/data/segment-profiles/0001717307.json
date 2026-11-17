@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001717307",
+ "issuerName": "INDUSTRIAL LOGISTICS PROPERTIES TRUST",
+ "builtAt": "2026-11-16T13:08:13.091Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001717307-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1717307/000171730726000012/ilpt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial and logistics",
+   "products": [],
+   "description": "Owns and leases industrial and logistics buildings and leased industrial lands to tenants across the United States.",
+   "evidence": "We manage our business on a consolidated basis and therefore have one reportable segment: ownership and leasing of properties that include industrial and logistics buildings and leased industrial lands."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay fixed annual rents and also pay or reimburse property operating and maintenance expenses such as taxes, insurance, utilities and repairs.",
+  "evidence": "In general, our Mainland Properties are subject to leases pursuant to which the tenants pay fixed annual rents on a monthly, quarterly or semi-annual basis, and also pay or reimburse us for all, or substantially all, property level operating and maintenance expenses, such as real estate taxes, insurance, utilities and repairs, including increases with respect thereto."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001513525",
+ "issuerName": "Azora Therapeutics, Inc. (DE)",
+ "builtAt": "2026-11-17T00:14:56.991Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-024175",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1513525/000121390026024175/ea0279150-10k_adial.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug development",
+   "products": [
+    "AD04"
+   ],
+   "description": "Drug development for addiction and related disorders.",
+   "evidence": "The Company has one reportable operating segment relating to drug development for addiction and related disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no products approved for sale and has not generated any significant revenue since its inception.",
+  "evidence": "We currently do not have any products approved for sale and we have not generated any significant revenue since our inception."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company sold the business and assets of its Purnovate, Inc. subsidiary to Adovate.",
+   "evidence": "Consideration for the sale of the assets of Purnovate, Inc. to Adovate also included contingent payments based on the occurrence of certain milestone events and a contingent royalty on future sales."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

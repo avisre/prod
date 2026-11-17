@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001769697",
+ "issuerName": "Frontier Nuclear and Minerals Inc.",
+ "builtAt": "2026-11-17T00:15:00.126Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001753926-25-001675",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-10-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1769697/000175392625001675/g084981_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

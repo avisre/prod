@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002054272",
+ "issuerName": "1RT ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:05.103Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035520",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2054272/000121390026035520/ea0282896-10k_1rtacq.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to complete an initial Business Combination with a target business; it has no operating revenues.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no customers and no operating revenue; it earns nothing from sales before its initial Business Combination.",
+  "evidence": "We have generated no operating revenues to date and we do not expect that we will generate operating revenues until we consummate our initial Business Combination."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

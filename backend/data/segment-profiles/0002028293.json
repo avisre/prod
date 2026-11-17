@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002028293",
+ "issuerName": "RAIN ENHANCEMENT TECHNOLOGIES HOLDCO, INC.",
+ "builtAt": "2026-11-17T00:15:04.146Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-044121",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2028293/000121390026044121/ea0282265-10k_rainenhan.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AEI technology",
+   "products": [
+    "rainfall ionization equipment"
+   ],
+   "description": "Develops, manufactures and commercializes ionization AEI technology, including rainfall ionization equipment.",
+   "evidence": "The Company operates and manages the business as one reportable and operating segment, which is the business of developing, manufacturing and commercializing ionization AEI technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers are expected to pay under revenue-generating agreements, but the company has not yet earned any revenue.",
+  "evidence": "As we are currently in an early stage of commercial deployment, certain installation activities may occur prior to the execution of revenue-generating customer agreements."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002097163",
+ "issuerName": "XANADU QUANTUM TECHNOLOGIES LIMITED",
+ "builtAt": "2026-11-17T00:15:07.498Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-042080",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/2097163/000121390026042080/ea0285152-20f_xanadu.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Quantum computing",
+   "products": [
+    "PennyLane",
+    "Borealis",
+    "Aurora"
+   ],
+   "description": "Develops photonic quantum computers and the PennyLane software platform, offering cloud-based quantum computing access and professional services.",
+   "evidence": "The Company operates in a single operating and reportable segment and manages segment performance and resource allocation based upon consolidated net loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for cloud-based access to the company's quantum computing systems, related professional services, and software frameworks.",
+  "evidence": "Our business model focuses on providing customers with access to our quantum computing systems through cloud-based services, enabling quantum-computing-as-a-service (\"QCaaS\"), as well as offering related professional services to help organizations explore and implement quantum solutions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

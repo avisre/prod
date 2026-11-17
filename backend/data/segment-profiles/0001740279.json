@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001740279",
+ "issuerName": "IN8BIO, INC.",
+ "builtAt": "2026-11-17T00:14:59.824Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104181",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1740279/000119312526104181/inab-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gamma-delta T cell",
+   "products": [
+    "INB-100",
+    "INB-200",
+    "INB-400",
+    "DeltEx Allogeneic",
+    "DeltEx Drug Resistant Immunotherapy"
+   ],
+   "description": "Clinical-stage biopharmaceutical developing gamma-delta T cell product candidates for solid and liquid tumors.",
+   "evidence": "The Company has one operating segment focused on the discovery, development and commercialization of gamma-delta T cell product candidates for solid and liquid tumors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

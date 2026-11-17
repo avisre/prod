@@ -2,37 +2,37 @@
  "version": 1,
  "cik": "0000829224",
  "issuerName": "Starbucks Corporation",
- "builtAt": "2026-11-14T13:52:13.319Z",
+ "builtAt": "2026-11-17T00:14:53.248Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0000829224-25-000114",
-  "periodEnd": "2025-09-28",
-  "filingDate": "2025-11-14",
-  "url": "https://www.sec.gov/Archives/edgar/data/829224/000082922425000114/sbux-20250928.htm"
+  "accessionNumber": "0000829224-26-000162",
+  "periodEnd": "2026-09-27",
+  "filingDate": "2026-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/829224/000082922426000162/sbux-20260927.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "North America",
    "products": [
-    "company-operated stores",
-    "licensed stores",
-    "beverages",
-    "food"
+    "coffee and other beverages",
+    "complementary food",
+    "packaged coffees",
+    "single-serve coffee products"
    ],
-   "description": "Operates Starbucks company-operated and licensed coffeehouses in the U.S. and Canada, selling coffee, tea, beverages and food.",
-   "evidence": "We have three reportable operating segments: 1) North America, which is inclusive of the U.S. and Canada; 2) International, which is inclusive of China, Japan, Asia Pacific, Europe, Middle East, Africa, Latin America, and the Caribbean; and 3) Channel Development."
+   "description": "Sells coffee, beverages and food through company-operated and licensed coffeehouses in the U.S. and Canada.",
+   "evidence": "North America and International operations sell coffee and other beverages, complementary food, packaged coffees, single-serve coffee products, and a focused selection of merchandise through company-operated coffeehouses and licensed coffeehouses."
   },
   {
    "name": "International",
    "products": [
-    "company-operated stores",
-    "licensed stores",
-    "beverages",
-    "food"
+    "coffee and other beverages",
+    "complementary food",
+    "packaged coffees",
+    "single-serve coffee products"
    ],
-   "description": "Operates Starbucks company-operated and licensed coffeehouses across China, Japan, Asia Pacific, Europe, Middle East, Africa, Latin America and the Caribbean.",
-   "evidence": "Our North America and International segments include both company-operated and licensed stores."
+   "description": "Sells coffee, beverages and food through company-operated and licensed coffeehouses in China, Japan, Asia Pacific, Europe and other markets.",
+   "evidence": "North America and International operations sell coffee and other beverages, complementary food, packaged coffees, single-serve coffee products, and a focused selection of merchandise through company-operated coffeehouses and licensed coffeehouses."
   },
   {
    "name": "Channel Development",
@@ -40,22 +40,23 @@
     "roasted whole bean and ground coffees",
     "Starbucks-branded single-serve products",
     "ready-to-drink beverages",
-    "Frappuccino®",
-    "Starbucks Doubleshot®",
     "foodservice products"
    ],
-   "description": "Sells Starbucks-branded coffee, single-serve and ready-to-drink products worldwide outside company-operated and licensed stores, largely via the Nestlé Global Coffee Alliance.",
-   "evidence": "Our Channel Development segment includes roasted whole bean and ground coffees, Starbucks-branded single-serve products, a variety of ready-to-drink beverages, such as Frappuccino ® and Starbucks Doubleshot ® , foodservice products, and other branded products sold worldwide outside of our company-operated and licensed stores."
+   "description": "Sells packaged coffee, tea, foodservice products and ready-to-drink beverages to customers outside its coffeehouses, mostly through Nestlé.",
+   "evidence": "Channel Development revenues include packaged coffee, tea, foodservice products, and ready-to-drink beverage sales to customers outside of our company-operated and licensed coffeehouses."
   }
  ],
  "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Starbucks earns most of its revenue from retail sales at company-operated coffeehouses, plus royalties, licensing and product sales through licensed stores and the Global Coffee Alliance with Nestlé.",
-  "evidence": "We generate the majority of our revenues through company-operated stores and licensed stores."
+  "text": "Customers pay for beverages and food at company-operated and licensed coffeehouses, which generate most of the revenue.",
+  "evidence": "We generate the majority of our revenues through company-operated coffeehouses and licensed coffeehouses."
  },
- "changes": [],
- "dropped": [
-  "change not grounded: In fiscal 2025 Starbucks acquired 23.5 Degrees Topco Limited, converting 113 lic",
-  "change not grounded: In fiscal 2025 Starbucks announced a restructuring plan closing coffeehouses, in"
- ]
+ "changes": [
+  {
+   "text": "In fiscal 2026, Starbucks divested its China retail operations and converted them to a licensed joint venture model.",
+   "evidence": "The fiscal year 2026 balances reflect the impact of divesting Starbucks retail operations in China during the third quarter of fiscal 2026."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
 }

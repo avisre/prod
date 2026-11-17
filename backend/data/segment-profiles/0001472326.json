@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001472326",
+ "issuerName": "Brazil Potash Corp.",
+ "builtAt": "2026-11-17T00:14:56.377Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-119937",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1472326/000119312526119937/gro-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Potash mining",
+   "products": [],
+   "description": "Develops a potash mining project near the city of Autazes in the Amazon potash basin.",
+   "evidence": "Certain numeric values describing the Autazes Project disclosed herein have been converted from the metric system of measurement, which is used in the Technical Report, to the imperial system of measurement commonly used in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001855129",
+ "issuerName": "GH Research PLC",
+ "builtAt": "2026-11-16T12:59:11.108Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-007986",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1855129/000114036126007986/ef20059887_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and Development",
+   "products": [
+    "GH001",
+    "GH002"
+   ],
+   "description": "Clinical-stage development of mebufotenin therapies, initially for treatment-resistant depression and other psychiatric and neurological disorders.",
+   "evidence": "Management considers the Group to have only a single segment: Research and Development (\"R&D\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

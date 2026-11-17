@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001722010",
+ "issuerName": "OP BANCORP",
+ "builtAt": "2026-11-17T00:14:59.542Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001722010-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1722010/000172201026000002/opbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial community banking",
+   "products": [
+    "CRE loans",
+    "SBA loans",
+    "C&I loans",
+    "mortgage warehouse lines of credit",
+    "residential mortgage loans",
+    "unsecured consumer loans"
+   ],
+   "description": "Commercial community banking for small and medium-sized businesses, their owners and retail customers, with a focus on the Korean-American community.",
+   "evidence": "We provide commercial banking services to small and medium-sized businesses, their owners, and retail customers, with a focus on the Korean-American community."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the company interest on its loans, which is its principal source of income after interest paid on deposits.",
+  "evidence": "Because our principal source of income is the net interest income we earn on our loans and investments after deducting interest paid on deposits and other sources of funds, our ability to generate the revenues needed to cover our expenses and finance such investments is limited by the size of our loan and investment portfolios."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

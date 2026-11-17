@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001315399",
+ "issuerName": "PARKE BANCORP, INC.",
+ "builtAt": "2026-11-16T13:12:56.023Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007748",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1315399/000143774926007748/pkbk20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [],
+   "description": "Provides retail and community banking services to individuals and small to mid-sized businesses.",
+   "evidence": "The Company operates one reportable segment of business, \"community banking\"."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals and small to mid-sized businesses pay for personal and business financial services, including loans and deposit products.",
+  "evidence": "We, through our wholly owned subsidiary Parke Bank, provide personal and business financial services to individuals and small to mid-sized businesses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

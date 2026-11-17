@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001488813",
+ "issuerName": "Customers Bancorp, Inc.",
+ "builtAt": "2026-11-16T23:12:12.841Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001488813-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1488813/000148881326000029/cubi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "specialized loans",
+    "mortgage finance loans",
+    "multifamily and commercial real estate loans",
+    "business banking",
+    "small business loans",
+    "commercial equipment financing",
+    "residential mortgage loans",
+    "installment loans"
+   ],
+   "description": "Provides commercial and consumer loan and deposit banking products to businesses and consumers through branches and digital banking.",
+   "evidence": "Customers operates as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses and consumers pay the Bank for its loan and deposit banking products, along with payments and treasury services.",
+  "evidence": "The primary customers of the Bank are privately held businesses, business customers, large corporate clients, not-for-profit organizations and consumers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

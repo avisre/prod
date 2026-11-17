@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002041208",
+ "issuerName": "Tactical Resources Corp.",
+ "builtAt": "2026-11-17T00:15:04.597Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-114402",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2041208/000121390026114402/ea0310071-20f_tactical.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rare earth processing",
+   "products": [],
+   "description": "Holds and processes crushed aggregate stockpiles containing rare earth elements as feedstock for future rare earth processing.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

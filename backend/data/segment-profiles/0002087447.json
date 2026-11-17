@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002087447",
+ "issuerName": "LAFAYETTE DIGITAL ACQUISITION CORP. I",
+ "builtAt": "2026-11-17T00:15:07.132Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034100",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2087447/000121390026034100/ea0277662-10k_lafayette1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with businesses, focusing on financial services and technology.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

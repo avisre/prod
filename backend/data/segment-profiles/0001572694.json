@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001572694",
+ "issuerName": "Goldman Sachs BDC, Inc.",
+ "builtAt": "2026-11-16T13:02:16.282Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-077458",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1572694/000119312526077458/gsbd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Middle-market lending",
+   "products": [],
+   "description": "Originates and holds secured debt, unsecured debt and select equity investments in U.S. middle-market companies.",
+   "evidence": "Segment reporting, the Company has determined that it operates through a single operating and reporting segment with the investment objectives to generate current income and, to a lesser extent, capital appreciation through direct origination of secured debt, unsecured debt and select equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Middle-market portfolio companies pay the Company interest on the debt it holds, plus loan origination and other fees, dividends and capital gains.",
+  "evidence": "We generate revenues primarily through receipt of interest income from the investments we hold."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

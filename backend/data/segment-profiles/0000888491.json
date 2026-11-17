@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000888491",
+ "issuerName": "OMEGA HEALTHCARE INVESTORS, INC.",
+ "builtAt": "2026-11-16T12:50:22.697Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000888491-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/888491/000088849126000008/ohi-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare-related real estate",
+   "products": [
+    "skilled nursing facilities",
+    "assisted living facilities",
+    "independent living facilities",
+    "specialty facilities",
+    "continuing care retirement communities"
+   ],
+   "description": "Provides financing and capital to long-term healthcare operators through leases and real estate loans on healthcare facilities.",
+   "evidence": "Omega has one reportable segment consisting of investments in healthcare-related real estate properties located in the United States (\"U.S.\"), the United Kingdom (\"U.K.\") and Canada."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare operators pay Omega rent under long-term leases and interest on real estate loans, mainly for long-term care facilities.",
+  "evidence": "The reportable segment derives revenues from operators primarily through providing financing and capital to the long-term healthcare industry."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

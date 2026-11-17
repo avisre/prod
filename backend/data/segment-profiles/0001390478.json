@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001390478",
+ "issuerName": "SELLAS Life Sciences Group, Inc.",
+ "builtAt": "2026-11-16T13:00:15.815Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001390478-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1390478/000139047826000003/sls-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "novel therapeutics",
+   "products": [
+    "galinpepimut-S",
+    "GPS",
+    "GPS+",
+    "SLS009 (tambiciclib)"
+   ],
+   "description": null,
+   "evidence": "The Company views its operations and manages its business as one operating segment, which includes all activities related to the development of novel therapeutics for a broad range of cancer indications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company does not currently generate revenues; it has no paying customers yet.",
+  "evidence": "As the Company does not currently generate revenues, the CODM evaluates Company performance through the achievement of clinical development goals."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

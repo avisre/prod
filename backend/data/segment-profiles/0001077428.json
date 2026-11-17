@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001077428",
+ "issuerName": "TEXAS CAPITAL BANCSHARES INC/TX",
+ "builtAt": "2026-11-16T12:51:19.561Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001077428-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1077428/000107742826000010/tcbi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial banking",
+   "products": [
+    "commercial loans",
+    "real estate term and construction loans",
+    "mortgage warehouse lending and mortgage finance services",
+    "treasury management services and solutions",
+    "investment banking and advisory services",
+    "letters of credit",
+    "personal wealth management and trust services",
+    "Bask Bank"
+   ],
+   "description": "Provides commercial, mortgage and individual banking, treasury and investment banking services to businesses and individuals, mainly in Texas.",
+   "evidence": "The CODM regularly assesses performance of the aggregated single operating and reporting segment and decides how to allocate resources based on net income calculated on the same basis as is net income reported in the Company's consolidated statements of income and other comprehensive income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy loan, deposit account and other financial products and services from the Company.",
+  "evidence": "The Company offers a variety of loan, deposit account and other financial products and services to its customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

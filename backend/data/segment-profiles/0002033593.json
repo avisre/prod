@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002033593",
+ "issuerName": "STELLAR V CAPITAL CORP.",
+ "builtAt": "2026-11-17T00:15:04.393Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-025213",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/2033593/000121390026025213/ea0276725-10k_stellar5.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company that intends to effect a business combination with one or more businesses; no target has been selected.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income that also is reported on the statements of operations as net income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

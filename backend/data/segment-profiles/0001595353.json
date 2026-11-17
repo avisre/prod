@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001595353",
+ "issuerName": "GALMED PHARMACEUTICALS LTD.",
+ "builtAt": "2026-11-17T00:14:58.231Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-014182",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1595353/000149315226014182/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceuticals",
+   "products": [
+    "Aramchol"
+   ],
+   "description": "Develops Aramchol, a product candidate for NASH, an indication with no approved products.",
+   "evidence": "We have historically developed Aramchol for the treatment of NASH, an indication for which there are no approved products, and there is significant uncertainty regarding the regulatory approval process."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001051470",
+ "issuerName": "CROWN CASTLE INC.",
+ "builtAt": "2026-11-16T12:48:39.425Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001051470-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1051470/000105147026000016/cci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Towers",
+   "products": [
+    "site development services"
+   ],
+   "description": "Provides long-term access to its towers in the U.S., mainly to wireless carriers, under tenant contracts.",
+   "evidence": "Following the classification of the Fiber Business as discontinued operations, the Company has one reportable segment, which is also its operating segment, that constitutes consolidated results consisting of its towers operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wireless carriers such as T-Mobile, AT&T and Verizon Wireless pay monthly rent for space on towers under long-term tenant contracts.",
+  "evidence": "We generally receive monthly rental payments and, in some cases, upfront payments, from our tenants pursuant to long-term tenant contracts with (1) initial contract terms generally between five to 15 years, (2) multiple renewal periods of generally five years each, exercisable at the option of the tenant, (3) limited termination rights for our tenants and (4) contractual escalations of the rental price."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company agreed to sell its Fiber segment, which is now presented as discontinued operations, leaving one towers reportable segment.",
+   "evidence": "As the aforementioned sale represents a material strategic shift for the Company, the Fiber Business' results and net assets are presented herein as discontinued operations and comparable prior periods have been recast to reflect this change."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

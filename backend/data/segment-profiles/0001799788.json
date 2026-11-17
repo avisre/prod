@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001799788",
+ "issuerName": "GREENWICH LIFESCIENCES, INC.",
+ "builtAt": "2026-11-16T13:12:56.218Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-026651",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1799788/000149315226026651/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical development programs",
+   "products": [
+    "GLSI-100",
+    "GP2",
+    "Flamingo-01"
+   ],
+   "description": "Clinical-stage immunotherapy development aiming to prevent breast cancer recurrence in certain high-risk patients.",
+   "evidence": "The Company views its operations and manages its business as one operating segment, which includes all activities related to its clinical development programs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

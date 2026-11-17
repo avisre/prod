@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002083452",
+ "issuerName": "SHREYA ACQUISITION GROUP",
+ "builtAt": "2026-11-17T00:15:06.761Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-011085",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/2083452/000182912626011085/shreyaacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination; has not commenced operations and generates no operating revenue.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns no operating revenue; its only income is interest earned on cash held in the Trust Account.",
+  "evidence": "The Company generates non-operating income in the form of interest income earned on cash held in the Trust Account."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

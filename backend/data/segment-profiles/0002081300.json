@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002081300",
+ "issuerName": "SPACSphere Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:06.497Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002804",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2081300/000182912626002804/spacsphereacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect an initial business combination with one or more businesses, not limited to a particular industry or region.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

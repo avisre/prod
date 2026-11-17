@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002081468",
+ "issuerName": "MESHFLOW ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:06.539Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-029189",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2081468/000121390026029189/ea0280029-10k_meshflow.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with a target at the blockchain infrastructure layer; has no operations.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

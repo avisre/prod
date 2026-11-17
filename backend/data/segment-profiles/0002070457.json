@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002070457",
+ "issuerName": "TWENTY ONE CAPITAL, INC.",
+ "builtAt": "2026-11-17T00:15:05.548Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037460",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2070457/000121390026037460/ea0280065-10k_twenty.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin",
+   "products": [],
+   "description": "Accumulates and manages Bitcoin holdings and is developing educational content to build investor Bitcoin literacy.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

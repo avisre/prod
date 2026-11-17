@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002077033",
+ "issuerName": "Miluna Acquisition Corp",
+ "builtAt": "2026-11-17T00:15:06.138Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-006447",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/2077033/000149315226006447/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect an initial business combination with a target business in any industry or region.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001776111",
+ "issuerName": "MBX Biosciences, Inc.",
+ "builtAt": "2026-11-16T12:59:46.178Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-103121",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312526103121/mbx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision peptide therapies",
+   "products": [
+    "Canvuparatide",
+    "MBX 4291",
+    "Imapextide"
+   ],
+   "description": "Discovers and develops novel precision peptide therapies for endocrine and metabolic disorders.",
+   "evidence": "The Company operates as a single reportable segment engaged in the discovery and development of novel precision peptide therapies for the treatment of endocrine and metabolic disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

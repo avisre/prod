@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001571776",
+ "issuerName": "CHERRY HILL MORTGAGE INVESTMENT CORPORATION",
+ "builtAt": "2026-11-17T00:14:57.957Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-008094",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1571776/000114036126008094/ef20060666_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RMBS",
+   "products": [
+    "Agency RMBS",
+    "residential mortgage pass-through certificates",
+    "CMOs",
+    "TBAs"
+   ],
+   "description": "Holds Agency RMBS, including residential mortgage pass-through certificates, CMOs and TBAs, to earn interest income on leveraged mortgage securities.",
+   "evidence": "At December 31, 2025, the Company's investments in RMBS consist solely of Agency RMBS."
+  },
+  {
+   "name": "Servicing Related Assets",
+   "products": [
+    "MSRs",
+    "Excess MSRs"
+   ],
+   "description": "Owns mortgage servicing rights and Excess MSRs on Fannie Mae and Freddie Mac loans, earning servicing fee income.",
+   "evidence": "We hold our MSRs through Aurora, a wholly owned subsidiary of our TRS."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns interest income from RMBS and servicing fee income from Servicing Related Assets, which are its primary revenue generating assets.",
+  "evidence": "The two reportable segments that the Company conducts its business through are investments in RMBS and investments in Servicing Related Assets, which are the primary revenue generating assets of the Company."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

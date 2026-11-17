@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001691082",
+ "issuerName": "LB Pharmaceuticals Inc",
+ "builtAt": "2026-11-16T13:03:53.982Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126368",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1691082/000119312526126368/lbrx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel therapies",
+   "products": [
+    "LB-102"
+   ],
+   "description": "Develops novel therapies for neuropsychiatric diseases, including schizophrenia, and has not generated revenue.",
+   "evidence": "The Company operates as a single reportable segment in the development of novel therapies for the treatment of neuropsychiatric diseases, including schizophrenia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

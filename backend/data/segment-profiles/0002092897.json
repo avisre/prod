@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002092897",
+ "issuerName": "ARMADA ACQUISITION CORP. III",
+ "builtAt": "2026-11-17T00:15:07.393Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-117694",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2092897/000119312526117694/d107030d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company with no operations, formed to effect a business combination with one or more businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

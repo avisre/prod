@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002059165",
+ "issuerName": "STARRY SEA ACQUISITION CORP",
+ "builtAt": "2026-11-17T00:15:05.207Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-003089",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/2059165/000182912626003089/starryseaacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a merger or similar business combination with one or more businesses.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001615219",
+ "issuerName": "Decoy Therapeutics Inc.",
+ "builtAt": "2026-11-17T00:14:58.508Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134897",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1615219/000119312526134897/dcoy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug development",
+   "products": [
+    "SP-3164",
+    "seclidemstat",
+    "SP-2577",
+    "IMP 3 ACT Platform"
+   ],
+   "description": "Discovers and develops therapeutics for patients with high, unmet medical needs, including peptide conjugates and small molecule drugs.",
+   "evidence": "The Company views its operations as and manages its business in one operating segment, focused on the discovery and development therapeutics for patients with high, unmet medical needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

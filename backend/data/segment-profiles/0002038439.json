@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0002038439",
+ "issuerName": "VISIONWAVE HOLDINGS INC.",
+ "builtAt": "2026-11-17T00:15:04.519Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001731122-25-001750",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2038439/000173112225001750/e7126_10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autonomous solutions",
+   "products": [
+    "C-UAS (Counter-Unmanned Aircraft System)",
+    "Multi-Purpose Autonomous UAS",
+    "Vision-AI Technology",
+    "Vision-RF Imaging System",
+    "High-Resolution Radar System",
+    "Remote Weapon Station (RWS)",
+    "Unmanned Ground Vehicle (UGV)",
+    "Active Protection System (APS)"
+   ],
+   "description": "Develops AI and autonomous defense systems for military, homeland security and industrial customers.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government and defense customers pay for pilot orders, non-recurring engineering fees, product sales, and licensing.",
+  "evidence": "Revenue is derived from pilot orders, NRE fees, product sales, and licensing."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

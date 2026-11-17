@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001918102",
+ "issuerName": "DEEP FISSION, INC.",
+ "builtAt": "2026-11-17T00:15:02.708Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-043870",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1918102/000110465926043870/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nuclear energy technology",
+   "products": [
+    "Gravity Reactor"
+   ],
+   "description": "Develops the Gravity Reactor, a small modular nuclear reactor emplaced in deep boreholes, for electricity generation.",
+   "evidence": "The CODM has made decisions and assessed performance at the Company level as one segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

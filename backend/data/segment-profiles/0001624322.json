@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001624322",
+ "issuerName": "BUSINESS FIRST BANCSHARES, INC.",
+ "builtAt": "2026-11-16T13:02:55.521Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001624322-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1624322/000162432226000018/bfst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "Wealth Solutions Services",
+    "debit and credit card products",
+    "treasury and cash management services",
+    "merchant services",
+    "SBA products",
+    "receivables factoring"
+   ],
+   "description": "Community banking for small-to-midsized businesses and professionals, with banking centers and loan production offices in Louisiana and Texas.",
+   "evidence": "The Company has a single reportable operating segment called Community Banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and loan fees, customers pay service fees, and the bank earns interest income on its securities.",
+  "evidence": "As a financial holding company operating through one reportable operating segment, community banking, we generate most of our revenues from interest income on loans, customer service and loan fees, and interest income from securities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

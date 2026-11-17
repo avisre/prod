@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001829576",
+ "issuerName": "CARTER BANKSHARES, INC.",
+ "builtAt": "2026-11-16T13:07:51.901Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829576-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1829576/000182957626000018/care-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "full range of deposit products",
+    "commercial and consumer loans"
+   ],
+   "description": "Accepts deposits and originates commercial and consumer loans for personal and business customers.",
+   "evidence": "The Company operates through a single operating and reporting segment, Community Banking that offers services which include accepting a full range of deposit products and originating commercial and consumer loans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on loans and securities and fees for financial services, which generate the Bank's revenue.",
+  "evidence": "As a state-chartered commercial bank and state member of the FRB, the Bank earns revenue primarily from interest on loans and securities and fees charged for financial services provided to customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001649739",
+ "issuerName": "BAYFIRST FINANCIAL CORP.",
+ "builtAt": "2026-11-17T00:14:58.793Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001649739-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1649739/000164973926000014/bafn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "Community Banking",
+    "Government Guaranteed Lending",
+    "Essential checking",
+    "TrendSetters Club",
+    "Cash Kids' Club savings account"
+   ],
+   "description": "Provides community banking, deposit, and lending services to consumers and small businesses in the Tampa Bay/Sarasota region.",
+   "evidence": "All of the Company's financial results are similar and considered by management to be aggregated into one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Bank through deposit accounts, interest on loans, and fees for banking services such as treasury management and merchant processing.",
+  "evidence": "The Company's revenue is primarily derived from the business of banking."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the Company discontinued its nationwide residential mortgage lending segment.",
+   "evidence": "In 2022, the Company discontinued the Bank's nationwide residential mortgage lending segment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company discontinued its nationwide SBA 7(a) lending business."
+ ],
+ "reader": "agent"
+}

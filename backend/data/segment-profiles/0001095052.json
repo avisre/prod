@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001095052",
+ "issuerName": "PLATINUM GROUP METALS LTD.",
+ "builtAt": "2026-11-17T00:14:54.272Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-25-017053",
+  "periodEnd": "2025-08-31",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1095052/000106299325017053/exhibit99-1.htm",
+  "exhibit": "exhibit99-1.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

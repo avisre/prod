@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001482541",
+ "issuerName": "BNB Standard Corporation",
+ "builtAt": "2026-11-17T00:14:56.637Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001482541-26-000019",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1482541/000148254126000019/bncww-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "BNB Treasury Management",
+   "products": [
+    "BNB",
+    "Airdrops"
+   ],
+   "description": "Holds and manages BNB and other digital assets, including Airdrops, to build a treasury for public-market BNB exposure.",
+   "evidence": "Upon completion of our Strategic Transformation, we operate our business under two segments: our BNB treasury management (\"BNB Treasury Management\") segment, within which we operate our DAT Strategy, and our retail and industry (\"Retail and Industry\") segment attributable to our Fat Panda and industrial climate control systems operating businesses."
+  },
+  {
+   "name": "Retail and Industry",
+   "products": [
+    "Fat Panda",
+    "industrial climate control systems"
+   ],
+   "description": "Fat Panda's retail and distribution operations and industrial climate control systems for controlled environment agriculture.",
+   "evidence": "Upon completion of our Strategic Transformation, we operate our business under two segments: our BNB treasury management (\"BNB Treasury Management\") segment, within which we operate our DAT Strategy, and our retail and industry (\"Retail and Industry\") segment attributable to our Fat Panda and industrial climate control systems operating businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns income on its BNB holdings through treasury management, derivatives and Airdrops.",
+  "evidence": "We seek to continue to build and manage the largest corporate treasury of BNB to provide institutional-grade exposure to BNB Chain and to generate income on our eligible BNB holdings through active treasury management, derivatives, or through new tokens or coins distributed by projects to a wide range of individuals in the crypto community (\"Airdrops\")."
+ },
+ "changes": [
+  {
+   "text": "In August 2025 the company adopted a DAT strategy focused on BNB, transforming its legacy operating business.",
+   "evidence": "In August 2025, we initiated a strategic transformation by adopting a DAT strategy focused on BNB (\"DAT Strategy\")."
+  },
+  {
+   "text": "In fiscal 2026 the company introduced a BNB treasury business line and reassessed its operating segments into BNB Treasury Management and Retail and Industry.",
+   "evidence": "During the second fiscal quarter of 2026, the Company introduced a new business line focused on the Company's DAT strategy, and appointed a new Chief Executive Officer, who serves as the chief operating decision maker (\"CODM\")."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001281895",
+ "issuerName": "Rocket Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-16T13:14:55.179Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076551",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1281895/000119312526076551/rckt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "gene therapies",
+   "products": [],
+   "description": "Research and development and commercial readiness of gene therapies.",
+   "evidence": "The Company has one reportable segment related to R&D and commercial readiness of its gene therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

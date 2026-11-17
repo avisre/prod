@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001790340",
+ "issuerName": "Immuneering Corporation",
+ "builtAt": "2026-11-16T13:14:21.306Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001790340-26-000042",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1790340/000179034026000042/imrx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical oncology",
+   "products": [
+    "Atebimetinib (IMM-1-104)",
+    "envometinib (IMM-6-415)"
+   ],
+   "description": "Late-stage oncology company developing Deep Cyclic Inhibitor cancer medicines for patients with solid tumors.",
+   "evidence": "The Company's CODM uses consolidated single-segment ( one ) financial information for purposes of: allocating resources, evaluating performance, making operating decisions, setting incentive targets, and planning and forecasting for future periods."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

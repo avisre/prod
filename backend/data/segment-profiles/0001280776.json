@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001280776",
+ "issuerName": "Immunic, Inc.",
+ "builtAt": "2026-11-17T00:14:54.947Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001280776-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1280776/000128077626000005/imux-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life science",
+   "products": [
+    "vidofludimus calcium",
+    "IMU-856",
+    "IMU-381"
+   ],
+   "description": "Development of clinical and preclinical product candidates for the company's proprietary new therapies.",
+   "evidence": "The life science segment consists of the development of clinical and preclinical product candidates for the development of the Company's proprietary new therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No one pays the company yet: it has no approved products and has generated no product sales revenue.",
+  "evidence": "We have no products approved for commercial sale and have not generated any revenue from product sales."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

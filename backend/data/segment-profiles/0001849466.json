@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001849466",
+ "issuerName": "Texas Community Bancshares, Inc.",
+ "builtAt": "2026-11-17T00:15:01.694Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034560",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1849466/000110465926034560/tcbs-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bank",
+   "products": [
+    "checking accounts",
+    "money market accounts",
+    "savings accounts",
+    "certificate of deposit accounts",
+    "Service Charges on Deposit Accounts",
+    "Interchange Income",
+    "residential real estate loans",
+    "commercial real estate loans"
+   ],
+   "description": "Savings bank that takes deposits and makes residential, commercial and construction loans in its Texas market area.",
+   "evidence": "The Company's single reportable segment, the Bank, generates revenues primarily from interest income from financial instruments and non-interest income and service charges on deposit accounts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans, and deposit customers pay fees for account, transaction and overdraft services.",
+  "evidence": "The Company earns fees from its deposit customers for transaction-based, account-maintenance, and overdraft services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

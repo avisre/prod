@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001875558",
+ "issuerName": "NUVECTIS PHARMA, INC.",
+ "builtAt": "2026-11-16T13:17:27.121Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-013044",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1875558/000110465926013044/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "clinical development",
+   "products": [
+    "NXP900"
+   ],
+   "description": "Develops potential new drug compounds for serious conditions of unmet medical need in oncology.",
+   "evidence": "The Company operates in one reportable segment: clinical development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001774857",
+ "issuerName": "AARDVARK THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:15:00.209Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-119770",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1774857/000119312526119770/ck0001774857-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metabolic diseases",
+   "products": [
+    "ARD-101"
+   ],
+   "description": "Discovers and develops novel small-molecule therapies for metabolic diseases, including hunger-associated conditions.",
+   "evidence": "The Company views its operations and manages its business as one operating segment, focused on the discovery and development of novel therapies for the treatment of metabolic diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

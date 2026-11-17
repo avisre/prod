@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002075310",
+ "issuerName": "Trailblazer Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:05.884Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036383",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2075310/000121390026036383/ea0283933-10k_trailblazer.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial Business Combination with one or more businesses; it has no operating revenues.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

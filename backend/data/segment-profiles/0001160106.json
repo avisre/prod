@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001160106",
+ "issuerName": "Lloyds Banking Group plc",
+ "builtAt": "2026-11-16T12:51:55.626Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001160106-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1160106/000116010626000010/lyg-20251231_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [],
+   "description": "Serves individual customers, distinguished from corporate entities by the type of customer and products provided.",
+   "evidence": "At 31 December 2025 , the Group's three primary operating divisions, which are also its financial reporting segments, were: Retail; Commercial Banking; and Insurance, Pensions and Investments."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [],
+   "description": "Serves corporate entities, distinguished from individual customers by the type of customer and products provided.",
+   "evidence": "At 31 December 2025 , the Group's three primary operating divisions, which are also its financial reporting segments, were: Retail; Commercial Banking; and Insurance, Pensions and Investments."
+  },
+  {
+   "name": "Insurance, Pensions and Investments",
+   "products": [],
+   "description": "Provides long-term savings, protection and investment products as one of the Group's main business activities.",
+   "evidence": "At 31 December 2025 , the Group's three primary operating divisions, which are also its financial reporting segments, were: Retail; Commercial Banking; and Insurance, Pensions and Investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual and business customers in the UK pay for financial services, including retail and commercial banking and long-term savings, protection and investment.",
+  "evidence": "Lloyds Banking Group is a leading provider of financial services to individual and business customers in the UK."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

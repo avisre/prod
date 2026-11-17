@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001411342",
+ "issuerName": "Ellington Financial Inc.",
+ "builtAt": "2026-11-16T12:49:02.275Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013279",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1411342/000162828026013279/efc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Portfolio Segment",
+   "products": [
+    "Agency RMBS",
+    "CMBS",
+    "ABS",
+    "CLOs",
+    "Forward MSR-related investments",
+    "residential and commercial mortgage loans"
+   ],
+   "description": "Invests in a diverse array of financial assets, including mortgage loans, RMBS, CMBS, consumer ABS, CLOs and derivatives.",
+   "evidence": "In our Investment Portfolio Segment, we invest in a diverse array of financial assets, including residential and commercial mortgage loans; residential mortgage-backed securities (\"RMBS\"), including RMBS for which the principal and interest payments are guaranteed by a U.S. government agency or a U.S. government-sponsored entity (\"Agency RMBS\"); commercial mortgage-backed securities (\"CMBS\"); consumer loans and asset-backed securities (\"ABS\") including ABS backed by consumer loans; investments r"
+  },
+  {
+   "name": "Longbridge Segment",
+   "products": [
+    "HECM loans",
+    "reverse mortgage loans",
+    "proprietary reverse mortgage loans",
+    "HMBS"
+   ],
+   "description": "Originates, purchases, sells and services reverse mortgage loans, including HECM loans insured by the FHA.",
+   "evidence": "Our Longbridge Segment is focused on the origination and servicing of, and investment in, reverse mortgage loans, including associated financial assets, financing, hedging, and allocated expenses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

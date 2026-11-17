@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001781174",
+ "issuerName": "Acrivon Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:15:00.344Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115123",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1781174/000119312526115123/acrv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision oncology therapies",
+   "products": [
+    "ACR-368",
+    "ACR-2316",
+    "AP3"
+   ],
+   "description": "Clinical-stage research and development of precision oncology therapies using a proprietary precision medicine platform.",
+   "evidence": "The Company manages its operations as a single operating and reportable segment focused on the research and development of precision oncology therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001840439",
+ "issuerName": "Biomea Fusion, Inc.",
+ "builtAt": "2026-11-17T00:15:01.527Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-121825",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840439/000119312526121825/bmea-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Small molecule drugs",
+   "products": [
+    "icovamenib",
+    "BMF-650"
+   ],
+   "description": "Developing oral small molecule drugs to treat patients with diabetes, obesity and other metabolic diseases.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of developing small molecule drugs to treat patients with diabetes and obesity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has not generated any revenue, and its product candidates have no approved commercial sales.",
+  "evidence": "We have a limited operating history, limited experience in conducting clinical trials, have not completed the clinical development of any product candidates, have no products approved for commercial sale, and have not generated any revenue, which may make it difficult for you to evaluate our current business and likelihood of success and viability."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

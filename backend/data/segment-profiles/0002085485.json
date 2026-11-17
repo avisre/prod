@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002085485",
+ "issuerName": "APEX TECH ACQUISITION INC.",
+ "builtAt": "2026-11-17T00:15:06.939Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-050743",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-11-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/2085485/000149315226050743/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with a target business; no operating business yet.",
+   "evidence": "We have one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

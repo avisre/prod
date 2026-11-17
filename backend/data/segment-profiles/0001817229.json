@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001817229",
+ "issuerName": "Vor Biopharma Inc.",
+ "builtAt": "2026-11-16T13:05:17.672Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-130451",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1817229/000119312526130451/vor-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autoimmune therapeutics",
+   "products": [
+    "telitacicept",
+    "trem-cel",
+    "VCAR33"
+   ],
+   "description": "Develops telitacicept, a fusion protein licensed from RemeGen, for autoimmune diseases.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, centered around the commercial development of its product candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025 the Company wound down its then clinical and manufacturing operations under a restructuring plan.",
+   "evidence": "On May 5, 2025, the Company's board of directors approved the wind down of the Company's then clinical and manufacturing operations and the initiation of a process to explore strategic alternatives to maximize shareholder value (the \"Restructuring Plan\")."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 the Company agreed to sell certain intellectual property related to its "
+ ],
+ "reader": "agent"
+}

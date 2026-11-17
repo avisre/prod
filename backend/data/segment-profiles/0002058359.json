@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002058359",
+ "issuerName": "Cal Redwood Acquisition Corp.",
+ "builtAt": "2026-11-16T13:11:39.283Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037519",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2058359/000121390026037519/ea0283241-10k_calredwood.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company that seeks an initial business combination with target businesses, mainly in technology, media and telecommunications.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

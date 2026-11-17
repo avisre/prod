@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000949961",
+ "issuerName": "INCOME OPPORTUNITY REALTY INVESTORS, INC.",
+ "builtAt": "2026-11-17T00:14:53.829Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001999371-26-005688",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/949961/000199937126005688/ior-10k_123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage notes receivables",
+   "products": [
+    "notes receivable from related parties"
+   ],
+   "description": "Invests in mortgage notes receivables and real property, earning interest mainly from related-party notes.",
+   "evidence": "We operate as a single reportable segment since operations principal source of income is interest on notes receivable from related parties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Related parties pay the company interest on notes receivable, which is its principal source of income.",
+  "evidence": "We operate as a single reportable segment since operations principal source of income is interest on notes receivable from related parties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

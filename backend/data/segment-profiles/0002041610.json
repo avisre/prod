@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0002041610",
+ "issuerName": "Skydance Corporation",
+ "builtAt": "2026-11-17T00:15:04.627Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002041610-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2041610/000204161026000011/psky-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TV Media",
+   "products": [
+    "CBS Television Network",
+    "CBS Stations",
+    "BET Media Group",
+    "Paramount Media Networks",
+    "CBS Studios",
+    "Paramount Television Studios",
+    "CBS Media Ventures",
+    "CBS Sports Network"
+   ],
+   "description": "Broadcast networks, owned television stations, cable networks and studios serving audiences with news, sports and entertainment.",
+   "evidence": "TV Media also includes a number of digital properties such as CBS News 24/7 for 24-hour news and CBS Sports HQ for sports news and analysis."
+  },
+  {
+   "name": "Direct-to-Consumer",
+   "products": [
+    "Paramount+",
+    "Pluto TV",
+    "BET+"
+   ],
+   "description": "Domestic and international pay and free streaming services for viewers.",
+   "evidence": "Our Direct-to-Consumer segment consists of our portfolio of domestic and international pay and free streaming services, including Paramount+, Pluto TV, and BET+."
+  },
+  {
+   "name": "Filmed Entertainment",
+   "products": [
+    "Paramount Pictures",
+    "Paramount Players",
+    "Paramount Animation",
+    "Nickelodeon Studio",
+    "Miramax"
+   ],
+   "description": "Production and acquisition of films, series and short-form content for release and licensing worldwide.",
+   "evidence": "Our production and acquisition of films, series and short-form content for release and licensing around the world, including in theaters, on streaming services, on television, and through digital and physical home entertainment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers, distributors and licensees pay TV Media for ads, carriage fees and content licensing.",
+  "evidence": "TV Media's revenues are generated primarily from (1) advertising; (2) affiliate and subscription revenues, principally comprised of (i) fees received from distributors for carriage of our cable networks (known as cable affiliate fees) and our owned television stations (known as retransmission fees) and (ii) fees received from television stations owned by third parties for their affiliation with the CBS Television Network; and (3) the licensing and distribution of our content and other rights."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the reporting structure moved to TV Media, Direct-to-Consumer and Studios, with Studios combining Filmed Entertainment and TV Media studio operations.",
+   "evidence": "Under this structure, our new Studios segment combines our historical Filmed Entertainment segment with our historical TV Media studio operations, consolidating our content creation activities."
+  },
+  {
+   "text": "Telefe in Argentina and Chilevisión in Chile were sold in 2025 and 2026.",
+   "evidence": "On October 23, 2025, we completed the sale of Telefe in Argentina, and on January 12, 2026, we completed the sale of Chilevisión in Chile."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

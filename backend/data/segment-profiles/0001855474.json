@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001855474",
+ "issuerName": "AIRJOULE TECHNOLOGIES CORPORATION",
+ "builtAt": "2026-11-17T00:15:01.858Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-133335",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1855474/000119312526133335/airj-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy and water-harvesting",
+   "products": [
+    "AirJoule contactors",
+    "coated contactors"
+   ],
+   "description": "Develops and commercializes AirJoule technology and equipment for energy and water harvesting from air.",
+   "evidence": "The Company operates as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

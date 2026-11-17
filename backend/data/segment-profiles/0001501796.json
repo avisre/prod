@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001501796",
+ "issuerName": "Aura Biosciences, Inc.",
+ "builtAt": "2026-11-16T13:04:35.565Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-130401",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1501796/000119312526130401/aura-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ocular and urologic oncology",
+   "products": [
+    "belzupacap sarotalocan",
+    "bel-sar"
+   ],
+   "description": "Develops ocular and urologic oncology targeted therapies for a range of cancer indications; lead candidate bel-sar is in clinical trials.",
+   "evidence": "The Company operates in one reportable segment which includes all activities related to the research and development of ocular and urologic oncology targeted therapies for a range of cancer indications with high unmet medical need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No approved product yet; future revenue would come from sales of bel-sar if approved.",
+  "evidence": "If bel-sar or any future product candidates do not achieve broad market acceptance, the revenue that we generate from their sales may be limited, and we may never become profitable."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

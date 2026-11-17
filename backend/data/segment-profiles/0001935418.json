@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001935418",
+ "issuerName": "Foremost Clean Energy Ltd.",
+ "builtAt": "2026-11-17T00:15:02.903Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001171843-26-004369",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1935418/000117184326004369/fmst20260331_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and evaluation",
+   "products": [],
+   "description": "Acquires and explores exploration and evaluation assets, mainly uranium and lithium mineral properties in Canada.",
+   "evidence": "The Company primarily operates in one reportable operating segment, being the acquisition and exploration of exploration and evaluation assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, Foremost transferred its former subsidiary Sierra Gold & Silver Ltd. to Rio Grande Resource Ltd. under a plan arrangement.",
+   "evidence": "Pursuant to the Arrangement, Foremost transferred to Rio Grande all of the issued and outstanding shares of Sierra, resulting in the Winston Property being wholly-owned by Rio Grande, Sierra becoming a subsidiary of Rio Grande, and Rio Grande completing its own public listing of its shares in Canada."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

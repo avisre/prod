@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001761918",
+ "issuerName": "Erasca, Inc.",
+ "builtAt": "2026-11-16T12:56:01.315Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104150",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1761918/000119312526104150/eras-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision oncology",
+   "products": [],
+   "description": "Discovers and develops precision medicines for patients with cancer.",
+   "evidence": "The Company operates and manages its business as a single operating and reportable segment focused on the discovery and development of precision medicines for the benefit of patients with cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

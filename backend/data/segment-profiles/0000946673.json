@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0000946673",
+ "issuerName": "BANNER CORPORATION",
+ "builtAt": "2026-11-16T12:47:45.510Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000946673-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/946673/000094667326000009/banr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [],
+   "description": "Community banking through Banner Bank, gathering deposits and originating loans in its primary market areas.",
+   "evidence": "The Bank is engaged in the single line of business of community banking, which involves gathering deposits and originating loans in its primary market areas."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay interest on loans and deposit fees, and mortgage banking brings in loan sale gains and servicing fees.",
+  "evidence": "Our net income is also affected by the level of our non-interest income, including deposit fees and other service charges, results of mortgage banking operations—which includes gains and losses on the sale of loans and servicing fees—gains and losses on the sale of securities, as well as our non-interest expenses and provisions for credit losses and income taxes."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

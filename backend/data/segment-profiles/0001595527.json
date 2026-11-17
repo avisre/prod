@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001595527",
+ "issuerName": "American Strategic Investment Co.",
+ "builtAt": "2026-11-17T00:14:58.280Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-025292",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1595527/000162828026025292/nycr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "income-producing properties",
+   "products": [
+    "office properties",
+    "retail spaces and amenities"
+   ],
+   "description": "Owns and operates New York City commercial real estate, mainly Manhattan office properties, earning rent from tenants.",
+   "evidence": "The Company has determined that it has one reportable segment, income-producing properties, which consists of activities related to investing in real estate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under long-term leases for office, retail and amenity space in the company's properties.",
+  "evidence": "Revenue from tenants: a component of net earnings (loss), this balance represents the total income derived from long-term leases with tenants."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

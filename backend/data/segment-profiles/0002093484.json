@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002093484",
+ "issuerName": "MUZERO ACQUISITION CORP",
+ "builtAt": "2026-11-17T00:15:07.402Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035586",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2093484/000121390026035586/ea0283261-10k_muzero.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue an initial Business Combination with one or more businesses in any industry.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statement of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

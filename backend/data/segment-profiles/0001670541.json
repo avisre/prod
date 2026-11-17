@@ -2,55 +2,39 @@
  "version": 1,
  "cik": "0001670541",
  "issuerName": "Adient plc",
- "builtAt": "2026-11-16T02:18:36.268Z",
+ "builtAt": "2026-11-17T00:14:58.971Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001670541-25-000152",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-18",
-  "url": "https://www.sec.gov/Archives/edgar/data/1670541/000167054125000152/adnt-20250930.htm"
+  "accessionNumber": "0001670541-26-000122",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1670541/000167054126000122/adnt-20260930.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "Americas",
-   "products": [
-    "complete seating systems",
-    "frames",
-    "mechanisms",
-    "foam",
-    "head restraints",
-    "armrests",
-    "trim covers"
-   ],
-   "description": "Designs and builds complete seats and components for vehicle makers in the Americas.",
-   "evidence": "Adient is a global seat supplier with the capability to design, develop, engineer, manufacture, and deliver complete seat systems and components in every major automotive producing region in the world."
+   "products": [],
+   "description": "Seating operations in North America and South America serving automotive OEM customers.",
+   "evidence": "Adient manages its business on a geographic basis and operates in the following three reportable segments for financial reporting purposes: 1) Americas, which is inclusive of North America and South America; 2) Europe, the Middle East and Africa (\"EMEA\") and 3) Asia Pacific/China (\"Asia\")."
   },
   {
    "name": "EMEA",
-   "products": [
-    "complete seating systems",
-    "frames",
-    "mechanisms",
-    "trim covers"
-   ],
-   "description": "Supplies seating systems and components to vehicle makers in Europe, the Middle East and Africa.",
-   "evidence": "Adient is a global seat supplier with the capability to design, develop, engineer, manufacture, and deliver complete seat systems and components in every major automotive producing region in the world."
+   "products": [],
+   "description": "Seating operations in Europe, the Middle East and Africa serving automotive OEM customers.",
+   "evidence": "Adient manages its business on a geographic basis and operates in the following three reportable segments for financial reporting purposes: 1) Americas, which is inclusive of North America and South America; 2) Europe, the Middle East and Africa (\"EMEA\") and 3) Asia Pacific/China (\"Asia\")."
   },
   {
    "name": "Asia Pacific/China",
-   "products": [
-    "complete seating systems",
-    "components"
-   ],
-   "description": "Supplies seating systems and components to vehicle makers across Asia Pacific and China.",
-   "evidence": "Adient is a global seat supplier with the capability to design, develop, engineer, manufacture, and deliver complete seat systems and components in every major automotive producing region in the world."
+   "products": [],
+   "description": "Seating operations in Asia Pacific and China serving automotive OEM customers, including domestic Chinese OEMs.",
+   "evidence": "Adient manages its business on a geographic basis and operates in the following three reportable segments for financial reporting purposes: 1) Americas, which is inclusive of North America and South America; 2) Europe, the Middle East and Africa (\"EMEA\") and 3) Asia Pacific/China (\"Asia\")."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Automotive original equipment manufacturers buy complete seat systems and components from it.",
-  "evidence": "Adient is a global seat supplier with the capability to design, develop, engineer, manufacture, and deliver complete seat systems and components in every major automotive producing region in the world."
+  "text": "Global automotive OEMs pay Adient for complete seating systems and components for passenger cars, commercial vehicles and light trucks.",
+  "evidence": "Adient is a supplier to all of the global OEMs and has longstanding relationships with premier automotive manufacturers, including BMW, Mercedes-Benz Group, Ford Motor Company, General Motors Company, Honda Motor Company, Hyundai Motor Company, Jaguar Land Rover, Kia Corporation, Mazda Motor Corporation, Mitsubishi Motor Corporation, Nissan Motor Corporation, Polaris Inc., Renault Group, Stellantis N.V., Suzuki Motor Corporation, Toyota Motor Corporation, Volkswagen Group, and Volvo Cars."
  },
  "changes": [],
  "dropped": [],

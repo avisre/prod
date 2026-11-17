@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001872228",
+ "issuerName": "THAYER VENTURES ACQUISITION CORPORATION II",
+ "builtAt": "2026-11-16T13:16:45.950Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-131579",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1872228/000119312526131579/d113157d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination, focused on travel and transportation industries; it has no operating revenues.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operating revenue and is funded by sales of its securities and loans from its sponsor and other parties.",
+  "evidence": "We have relied upon the sale of our securities and loans from the Sponsor and other parties to fund our operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

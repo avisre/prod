@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001470683",
+ "issuerName": "Antelope Enterprise Holdings Ltd",
+ "builtAt": "2026-11-17T00:14:56.292Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-004260",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1470683/000149315226004260/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Live-streaming e-commerce",
+   "products": [
+    "livestreaming ecommerce"
+   ],
+   "description": "Provides a one-stop solution for customers to use the livestreaming ecommerce sales channel.",
+   "evidence": "All of the Company's operations are considered by the chief operating decision maker to be aggregated into three reportable operating segments: 1) live-streaming e-commerce segment, providing a one-stop solution for our customers to enable them to utilize the growing sales channel of livestreaming ecommerce, 2) business management consulting, information system technology consulting services including the sales of software use rights for digital data deposit platforms and asset management system"
+  },
+  {
+   "name": "Business management consulting",
+   "products": [
+    "information system technology consulting services",
+    "software use rights for digital data deposit platforms and asset management syst",
+    "online social media platform development and consulting"
+   ],
+   "description": "Provides business management consulting, information system technology consulting, software use rights and social media platform development.",
+   "evidence": "We provide business management and consulting services which consists of computer consulting services and software development through our subsidiaries in China, including Chengdu Future and Antelope Chengdu."
+  },
+  {
+   "name": "Natural gas power generation",
+   "products": [],
+   "description": "Power generation business in initial development stage using natural gas, with no revenue yet as of the report date.",
+   "evidence": "We will use natural gas as the source to generate electricity."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2023 the company sold its ceramic tile business, which is now reported as discontinued operations.",
+   "evidence": "On April 28, 2023, the Company completed the sale of Stand Best Creation Limited and its subsidiaries, Hengda and Hengdali, to New Stonehenge Limited for a total of USD 8,500,000 ."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001631569",
+ "issuerName": "COMMUNITY HEALTHCARE TRUST INC",
+ "builtAt": "2026-11-16T13:09:44.047Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001631569-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1631569/000163156926000012/chct-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare-related real estate",
+   "products": [],
+   "description": "Owns and finances healthcare-related real estate leased to hospitals, doctors, healthcare systems and other healthcare providers across the U.S.",
+   "evidence": "The Company operates and manages its business as one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare providers pay rent under leases of the company's properties, and borrowers pay interest on its notes.",
+  "evidence": "The primary source of revenue for the Company is generated through its leasing arrangements with its tenants which is accounted for under ASC Topic 842, or through notes with its borrowers which is covered under ASC 310."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

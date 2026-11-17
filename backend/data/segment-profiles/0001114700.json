@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001114700",
+ "issuerName": "GRUPO FINANCIERO GALICIA SA",
+ "builtAt": "2026-11-16T12:53:54.443Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001114700-26-000038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1114700/000111470026000038/ggal-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bank",
+   "products": [
+    "Banco Galicia"
+   ],
+   "description": "Banco Galicia's banking operations, providing bank services to customers in Argentina.",
+   "evidence": "a. Bank: It represents the banking business operation results."
+  },
+  {
+   "name": "Naranja X",
+   "products": [
+    "proprietary brand credit cards",
+    "consumer finance",
+    "digital banking services"
+   ],
+   "description": "Proprietary brand credit cards, consumer finance and digital banking for Argentina's underbanked population.",
+   "evidence": "b. Naranja X: This segment represents the results of operations of brand credit cards, consumer finance and digital banking services business."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "insurance products"
+   ],
+   "description": "Insurance products in Argentina, provided through Sudamericana Holding and its subsidiaries.",
+   "evidence": "Through Sudamericana Holding and its subsidiaries, we provide insurance products in Argentina."
+  },
+  {
+   "name": "Other Businesses",
+   "products": [],
+   "description": "Remaining subsidiaries reported beside the bank and Naranja X segments, after eliminations.",
+   "evidence": "the last net of eliminations of the income from equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for bank services, proprietary brand credit cards, consumer finance, digital banking and insurance products.",
+  "evidence": "Through the operating subsidiaries of Tarjetas Regionales (i.e. Tarjeta Naranja S.A.U. and Naranja Digital Compania Financiera S.A.U.), we provide proprietary brand credit cards, consumer finance and digital banking services to the underbanked population of Argentina."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

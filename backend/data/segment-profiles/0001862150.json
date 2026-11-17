@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001862150",
+ "issuerName": "Cingulate Inc.",
+ "builtAt": "2026-11-17T00:15:02.041Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010882",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1862150/000149315226010882/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "CTx-1301",
+    "CTx-1302",
+    "CTx-2103"
+   ],
+   "description": "Researches, develops and manufactures next-generation ADHD and anxiety drug candidates using its proprietary PTR drug delivery platform.",
+   "evidence": "The Company manages its business activities on a consolidated basis and operates as a single operating segment dedicated to the research and development and manufacturing of its product candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

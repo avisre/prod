@@ -2,52 +2,49 @@
  "version": 1,
  "cik": "0001368458",
  "issuerName": "SALLY BEAUTY HOLDINGS, INC.",
- "builtAt": "2026-11-15T14:24:24.920Z",
+ "builtAt": "2026-11-17T00:14:55.611Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001193125-25-280122",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-13",
-  "url": "https://www.sec.gov/Archives/edgar/data/1368458/000119312525280122/sbh-20250930.htm"
+  "accessionNumber": "0001368458-26-000020",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1368458/000136845826000020/sbh-20260930.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "Sally Beauty",
    "products": [
-    "hair care",
-    "hair color",
-    "styling tools",
-    "nails",
-    "Ion 8 in 1 Airstyler",
-    "Beauty Secrets",
-    "Texture ID",
-    "Inspired by Nature"
+    "Hair color",
+    "Hair care",
+    "Styling tools and supplies",
+    "Nail",
+    "Skin and cosmetics",
+    "Other beauty items"
    ],
-   "description": "An omni-channel retailer offering professional-quality beauty supplies at attractive prices to retail consumers and salon professionals in North America, South America and Europe.",
-   "evidence": "Sally Beauty (\"Sally\") – An omni-channel retailer that offers professional-quality beauty supplies at attractive prices and provides education to retail consumers and salon professionals throughout North America, South America and Europe."
+   "description": "Omni-channel retailer of professional-quality beauty supplies to retail consumers and salon professionals through stores and digital channels.",
+   "evidence": "Sally operates primarily through retail stores (generally operating under the Sally Beauty banner) and digital platforms, including our www.sallybeauty.com website, a mobile commerce-based app, and third-party digital marketplaces."
   },
   {
    "name": "Beauty Systems Group",
    "products": [
-    "hair color",
-    "hair care",
-    "K18",
-    "Goddess",
-    "Image Skincare",
-    "Unite",
-    "Color Wow",
-    "Amika"
+    "Hair color",
+    "Hair care",
+    "Styling tools and supplies",
+    "Nail",
+    "Skin and cosmetics",
+    "Other beauty items"
    ],
-   "description": "A full-service omni-channel distributor offering professional beauty supplies exclusively to salons and licensed beauty professionals in the U.S. and Canada.",
-   "evidence": "Beauty Systems Group (\"BSG\") – A leading full-service omni-channel distributor that offers professional beauty supplies exclusively to salons and licensed beauty professionals throughout the U.S. and Canada."
+   "description": "Distributor of professional beauty supplies exclusively to salons and licensed beauty professionals through company-operated and franchised stores and digital platforms.",
+   "evidence": "BSG operates through company-operated stores (generally operating under the Cosmo Prof banner), franchised stores, salon business consultants (\"SBCs\"), and digital platforms, including our www.cosmoprofbeauty.com website, a mobile commerce-based app, and chain portals."
   }
  ],
- "productRevenueBrokenOut": false,
+ "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "The company earns revenue from selling beauty products to retail consumers through Sally stores and digital platforms, and to salons and licensed professionals through BSG stores, consultants and digital platforms.",
+  "text": "Retail consumers and salon professionals pay the company for professional beauty supplies bought in stores and online.",
   "evidence": "Sally operates primarily through retail stores (generally operating under the Sally Beauty banner) and digital platforms, including our www.sallybeauty.com website, a mobile commerce-based app, and third-party digital marketplaces."
  },
  "changes": [],
- "dropped": []
+ "dropped": [],
+ "reader": "agent"
 }

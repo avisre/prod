@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001022837",
+ "issuerName": "SUMITOMO MITSUI FINANCIAL GROUP, INC.",
+ "builtAt": "2026-11-16T12:52:09.506Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-283871",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1022837/000119312526283871/d118844d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale Business Unit",
+   "products": [],
+   "description": "Provides comprehensive solutions primarily to corporate clients, earning interest on loans and deposits and fees.",
+   "evidence": "The Group has four main business segments: the Wholesale Business Unit, the Retail Business Unit, the Global Business Unit and the Global Markets Business Unit, with the remaining operations recorded in Head office account and others."
+  },
+  {
+   "name": "Retail Business Unit",
+   "products": [
+    "wealth management",
+    "payment businesses"
+   ],
+   "description": "Earns interest income on deposits, plus income from wealth management and payment businesses.",
+   "evidence": "The Group has four main business segments: the Wholesale Business Unit, the Retail Business Unit, the Global Business Unit and the Global Markets Business Unit, with the remaining operations recorded in Head office account and others."
+  },
+  {
+   "name": "Global Business Unit",
+   "products": [],
+   "description": "Earns interest income on loans and loan-related fees across its global business.",
+   "evidence": "The Group has four main business segments: the Wholesale Business Unit, the Retail Business Unit, the Global Business Unit and the Global Markets Business Unit, with the remaining operations recorded in Head office account and others."
+  },
+  {
+   "name": "Global Markets Business Unit",
+   "products": [],
+   "description": "Earns gross profit through nimble portfolio management in a volatile market environment.",
+   "evidence": "The Group has four main business segments: the Wholesale Business Unit, the Retail Business Unit, the Global Business Unit and the Global Markets Business Unit, with the remaining operations recorded in Head office account and others."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay interest on loans, fees and commissions, and charges for wealth management and payment services.",
+  "evidence": "This was primarily due to increases in interest income on deposits and income from the wealth management and payment businesses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

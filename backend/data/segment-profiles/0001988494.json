@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001988494",
+ "issuerName": "FRONTVIEW REIT, INC.",
+ "builtAt": "2026-11-16T13:11:39.141Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-072181",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1988494/000119312526072181/fvr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Net leased properties",
+   "products": [],
+   "description": "Acquires, leases, finances and owns net-leased properties with frontage, leased to diversified tenants.",
+   "evidence": "The Company currently operates in a single reportable segment, which includes the acquisition, leasing, mortgage loan financing and ownership of net leased properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under net leases and generally cover real estate taxes, insurance and maintenance of the property.",
+  "evidence": "The leases are generally net leases, where the tenants are generally responsible for the payment of real estate taxes, insurance premiums and maintenance costs related to the leased property."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

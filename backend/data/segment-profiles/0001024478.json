@@ -1,14 +1,14 @@
 {
  "version": 1,
  "cik": "0001024478",
- "issuerName": "Rockwell Automation, Inc.",
- "builtAt": "2026-11-16T04:37:24.384Z",
+ "issuerName": "Rockwell Automation, Inc",
+ "builtAt": "2026-11-17T00:14:53.885Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001024478-25-000116",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-12",
-  "url": "https://www.sec.gov/Archives/edgar/data/1024478/000102447825000116/rok-20250930.htm"
+  "accessionNumber": "0001024478-26-000048",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1024478/000102447826000048/rok-20260930.htm"
  },
  "status": "ok",
  "segments": [
@@ -23,7 +23,7 @@
     "industrial components",
     "configured-to-order products"
    ],
-   "description": "Builds drives, motion, safety, sensing and other industrial components and configured-to-order products for automation customers.",
+   "description": "Makes drives, motion, safety, sensing and configured-to-order industrial products for automation customers.",
    "evidence": "The Intelligent Devices segment includes drives, motion, advanced material handling, safety, sensing, industrial components, and configured-to-order products."
   },
   {
@@ -34,30 +34,31 @@
     "simulation and information software",
     "network and security infrastructure"
    ],
-   "description": "Supplies control and visualization software and hardware, digital twin and simulation software, and network and security infrastructure.",
+   "description": "Provides control and visualization software, digital twin, simulation and network security infrastructure for industrial customers.",
    "evidence": "The Software & Control segment includes control and visualization software and hardware, digital twin, simulation and information software, and network and security infrastructure."
   },
   {
    "name": "Lifecycle Services",
    "products": [
     "digital consulting",
-    "professional services",
-    "recurring services",
-    "cybersecurity",
-    "remote monitoring",
-    "asset management",
-    "Sensia"
+    "professional services including engineered-to-order solutions",
+    "recurring services including cybersecurity, safety, remote monitoring, and asset"
    ],
-   "description": "Provides consulting, engineered-to-order and recurring services such as cybersecurity, remote monitoring and asset management for industrial customers.",
-   "evidence": "The Lifecycle Services segment includes digital consulting, professional services including engineered-to-order solutions, recurring services including cybersecurity, safety, remote monitoring, and asset management, and the Sensia joint venture."
+   "description": "Delivers digital consulting, engineered-to-order professional services, and recurring cybersecurity, safety, monitoring and asset management services.",
+   "evidence": "The Lifecycle Services segment includes digital consulting, professional services including engineered-to-order solutions, recurring services including cybersecurity, safety, remote monitoring, and asset management."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Industrial manufacturers and process companies pay Rockwell Automation for automation hardware, software and lifecycle services.",
-  "evidence": "Major markets served by all segments consist of discrete end markets (e.g., Automotive including Electric Vehicle and Battery, Semiconductor, and e-Commerce & Warehouse Automation)"
+  "text": "Customers pay for hardware and software products, solutions, and services across the three operating segments.",
+  "evidence": "Demand for our hardware and software products, solutions, and services is sensitive to changes in levels of production and the financial performance of major industries that we serve."
  },
- "changes": [],
+ "changes": [
+  {
+   "text": "The Sensia joint venture ended with its dissolution in 2026.",
+   "evidence": "The Lifecycle Services segment previously included the Sensia joint venture prior to its dissolution on April 1, 2026."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001857190",
+ "issuerName": "NYXOAH SA",
+ "builtAt": "2026-11-17T00:15:01.915Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-035161",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1857190/000110465926035161/nyxh-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical technology",
+   "products": [
+    "Genio system"
+   ],
+   "description": "Develops and commercializes the Genio system, a neurostimulation therapy for moderate to severe Obstructive Sleep Apnea.",
+   "evidence": "Our lead solution is the Genio system, a CE-Marked and FDA approved, patient-centric next generation hypoglossal neurostimulation, or HGNS, therapy for the treatment of moderate to severe OSA, implanted via a single-incision procedure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and medical institutions pay the company for sales of the Genio system.",
+  "evidence": "We started generating revenue from the sale of the Genio system in Europe in July 2020."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001997377",
+ "issuerName": "IsoEnergy Ltd.",
+ "builtAt": "2026-11-16T13:05:45.945Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-020794",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1997377/000110465926020794/isou-20251231xex99d3.htm",
+  "exhibit": "isou-20251231xex99d3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Uranium properties",
+   "products": [],
+   "description": "Acquires, explores and develops uranium properties.",
+   "evidence": "The Company has one operating segment, being the acquisition, exploration and development of uranium properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024 the company disposed of its Argentina business, which was classified as discontinued operations.",
+   "evidence": "The Company disposed of all net assets in the Argentina reporting segment in the year ended December 31, 2024 and all associated income and expenses in the comparative period were classified as discontinued operations (Note 6a)."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

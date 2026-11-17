@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002034266",
+ "issuerName": "CANTOR EQUITY PARTNERS V, INC.",
+ "builtAt": "2026-11-16T13:15:04.279Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037420",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2034266/000121390026037420/ea0272799-10k_cantor5.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking to acquire a target business in financial services, digital assets, healthcare, real estate, technology or software.",
+   "evidence": "The Company has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No customers pay it; it has no operating revenue until a business combination completes.",
+  "evidence": "The Company will not generate any operating revenues until after the completion of the Business Combination, at the earliest."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

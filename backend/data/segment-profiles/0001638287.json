@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001638287",
+ "issuerName": "METAVIA INC.",
+ "builtAt": "2026-11-17T00:14:58.755Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034911",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1638287/000110465926034911/mtva-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical products",
+   "products": [
+    "Vanoglipel (DA-1241)",
+    "DA-1726"
+   ],
+   "description": "Develops novel pharmaceuticals to treat cardiometabolic diseases, such as MASH and obesity, through clinical trials.",
+   "evidence": "We manage and operate as one reportable segment, which is principally the business of development of pharmaceutical products, with one geographic location in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has not yet generated revenues, so no customers currently pay it for products.",
+  "evidence": "We have had significant pre-tax losses since our inception, and we have not yet generated revenues and face significant challenges to becoming profitable."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

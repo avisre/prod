@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002064658",
+ "issuerName": "Yorkville Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:05.406Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037697",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2064658/000110465926037697/mcga-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue a business combination; it has no operating business and earns interest on trust funds.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue; the company earns non-operating interest income on cash and cash equivalents from its IPO proceeds.",
+  "evidence": "The Company generates non-operating income in the form of interest income on cash and cash equivalents from the proceeds derived from the Initial Public Offering."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

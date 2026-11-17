@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001070524",
+ "issuerName": "GREENE COUNTY BANCORP, INC.",
+ "builtAt": "2026-11-16T13:10:56.496Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-035998",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1070524/000114036126035998/ef20075522_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "Greene Investment Services",
+    "debit card"
+   ],
+   "description": "Provides retail, municipal and commercial banking and financial services in the Hudson Valley and Capital District of New York.",
+   "evidence": "the Company operates as a single operating segment, banking, providing financial services to retail, municipal and commercial customers in its market area, consisting of the Hudson Valley and Capital District Regions of New York State."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on mortgage and consumer loans, and depositors and cardholders pay service, debit card and other account fees to the bank.",
+  "evidence": "The Bank of Greene County's revenues are derived principally from the interest on its residential and commercial real estate mortgages, and to a lesser extent, from interest on consumer and commercial loans and other types of securities, as well as from servicing fees and service charges and other fees collected on its deposit accounts, debit card fee income, and bank owned life insurance income."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

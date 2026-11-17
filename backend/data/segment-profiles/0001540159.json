@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001540159",
+ "issuerName": "EDESA BIOTECH, INC.",
+ "builtAt": "2026-11-17T00:14:57.563Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-25-007914",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1540159/000117184325007914/edsa20250930_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical products",
+   "products": [
+    "EB06",
+    "EB01",
+    "EB05"
+   ],
+   "description": "Develops and commercializes innovative pharmaceutical products for inflammatory and immune-related diseases, including vitiligo and ARDS.",
+   "evidence": "The Company's operations comprise a single reportable segment engaged in the research and development, manufacturing and commercialization of innovative pharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001998781",
+ "issuerName": "IB ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:03.514Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-25-029365",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1998781/000149315225029365/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company seeking a merger or other business combination with a target business.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001852353",
+ "issuerName": "Dakota Gold Corp.",
+ "builtAt": "2026-11-16T13:05:15.525Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034576",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1852353/000110465926034576/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and Evaluation",
+   "products": [
+    "Richmond Hill Gold Project",
+    "Maitland Gold Project"
+   ],
+   "description": "Exploration and evaluation of gold mineral properties in the Homestake District of South Dakota.",
+   "evidence": "We have organized our operations into one operating segment, which conducts exploration and evaluation of mineral properties and thus have identified one reportable segment: Exploration and Evaluation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001504008",
+ "issuerName": "BankUnited, Inc.",
+ "builtAt": "2026-11-16T12:48:01.759Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001504008-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1504008/000150400826000011/bku-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [],
+   "description": "Provides consumer and commercial banking products and services to individuals, businesses and institutions.",
+   "evidence": "The Company has a single operating segment and thus a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals, businesses and institutions pay for consumer and commercial banking products and services.",
+  "evidence": "BankUnited provides a full range of consumer and commercial banking products and services to individuals, small businesses, middle-market companies, large corporations and institutions, and offers certain commercial lending and deposit products through national platforms and certain consumer deposit products through an online channel."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

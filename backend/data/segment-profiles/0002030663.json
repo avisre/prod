@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002030663",
+ "issuerName": "Sizzle Acquisition Corp. II",
+ "builtAt": "2026-11-16T13:15:09.691Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-027095",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/2030663/000121390026027095/ea0280549-10k_sizzleacq2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company that has not yet selected a target and has generated no operating revenues.",
+   "evidence": "Accordingly, Management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001347426",
+ "issuerName": "Macro Bank Inc.",
+ "builtAt": "2026-11-16T23:12:12.792Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-163876",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1347426/000119312526163876/d29142d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking business",
+   "products": [],
+   "description": "The Bank's single operating segment, covering its banking business as managed by its Management.",
+   "evidence": "For management purposes, the Bank's Management has determined that it has only one operating segment related to the banking business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns net interest income and commissions income from its banking business, the income lines it reports in its statement of income.",
+  "evidence": "Commissions income divided by the sum of net interest income plus commissions income."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

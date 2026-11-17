@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001677940",
+ "issuerName": "BeyondSpring Inc.",
+ "builtAt": "2026-11-17T00:14:59.091Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-001908",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1677940/000117184326001908/bysi20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Plinabulin pipeline",
+   "products": [
+    "Plinabulin"
+   ],
+   "description": "Develops innovative cancer therapies, led by Plinabulin, for patients with high unmet medical needs.",
+   "evidence": "The Plinabulin pipeline focuses on developing innovative cancer therapies to improve clinical outcomes for patients who have high unmet medical needs."
+  },
+  {
+   "name": "TPD platform",
+   "products": [],
+   "description": "Previously developed therapeutic agents using molecular glue technology through SEED, now reported as discontinued operations.",
+   "evidence": "The TPD platform segment was comprised of SEED's operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Collaboration partners pay upfront, milestone and royalty payments; the company has no product sales yet.",
+  "evidence": "In the future, we may generate revenue from a combination of product sales, reimbursements, upfront payments, milestone payments and royalties in connection with existing and future collaborations."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the board approved a divestiture plan for SEED, and the TPD platform segment became discontinued operations.",
+   "evidence": "On December 13, 2024, the Company's Board of Directors discussed and approved a divestiture plan to sell and transfer about 90 % to 100 % of the Company's interests in SEED to potential investors at a determined price."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002064355",
+ "issuerName": "Bain Capital GSS Investment Corp.",
+ "builtAt": "2026-11-17T00:15:05.378Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-117644",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2064355/000119312526117644/d76448d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Newly formed Cayman Islands blank check company that will seek a merger or similar business combination with one or more businesses.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statement of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001816590",
+ "issuerName": "COMPASS Pathways plc",
+ "builtAt": "2026-11-16T12:58:55.066Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001816590-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1816590/000181659026000020/cmps-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Psilocybin treatment",
+   "products": [
+    "COMP360 psilocybin treatment"
+   ],
+   "description": "Develops the investigational psilocybin treatment for serious mental health conditions, starting with treatment-resistant depression.",
+   "evidence": "The Company views its operations and manages its business as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001796073",
+ "issuerName": "Vizsla Silver Corp.",
+ "builtAt": "2026-11-16T13:01:06.665Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-003706",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1796073/000106299326003706/exhibit99-3.htm",
+  "exhibit": "exhibit99-3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral exploration",
+   "products": [],
+   "description": "Explores, evaluates and develops mineral properties, substantially all in Canada and Mexico.",
+   "evidence": "The Company has one reportable segment, mainly mineral exploration, evaluation and development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

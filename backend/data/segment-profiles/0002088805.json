@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002088805",
+ "issuerName": "INFLECTION POINT ACQUISITION CORP. VII",
+ "builtAt": "2026-11-17T00:15:07.263Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036382",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2088805/000121390026036382/ea0282954-10k_columbus2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a Business Combination with one or more businesses or entities.",
+   "evidence": "We are a blank check company incorporated on April 3, 2025 as a Cayman Islands exempted company and formed for the purpose of effecting a Business Combination with one or more businesses or entities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001723069",
+ "issuerName": "Tiziana Life Sciences Ltd",
+ "builtAt": "2026-11-17T00:14:59.564Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-051015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1723069/000121390026051015/ea0287936-20f_tiziana.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development",
+   "products": [
+    "Foralumab (TZLS-401)",
+    "TZLS-501"
+   ],
+   "description": "Develops immunotherapy drug candidates, mainly intranasal Foralumab, for neurodegenerative and neuroinflammatory diseases.",
+   "evidence": "The Board considers there to be only one operating segment being the research and development of biotechnological and pharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

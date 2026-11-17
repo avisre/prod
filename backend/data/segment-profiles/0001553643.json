@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001553643",
+ "issuerName": "RELMADA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T13:04:57.689Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-031862",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1553643/000121390026031862/ea0273255-10k_relmada.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "clinical stage drug development",
+   "products": [
+    "NDV-01",
+    "sepranolone"
+   ],
+   "description": "Clinical-stage development of new drug candidates aimed at cancer and neurological disorders.",
+   "evidence": "Management determined the Company's operations constitute a single reportable segment in accordance with ASC 280: clinical stage drug development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,87 @@
+{
+ "version": 1,
+ "cik": "0001027552",
+ "issuerName": "BANCO SANTANDER-CHILE",
+ "builtAt": "2026-11-16T12:53:14.216Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001027552-26-000038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1027552/000102755226000038/bsac-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Banking",
+   "products": [
+    "consumer loans",
+    "credit cards",
+    "auto loans",
+    "mortgage loans",
+    "debit cards",
+    "checking accounts",
+    "savings products",
+    "securities brokerage"
+   ],
+   "description": "Serves individuals excluding high-net-worth clients, and small and medium-sized enterprises, with consumer, card, mortgage and deposit products.",
+   "evidence": "This segment gives customers a variety of services, including consumer loans, credit cards, auto loans, commercial loans, foreign exchange, mortgage loans, debit cards, checking accounts, savings products, securities brokerage, and insurance brokerage."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "Asset Management",
+    "Insurance",
+    "Private Banking"
+   ],
+   "description": "Insurance, private banking and asset management businesses, including for high-net-worth clients.",
+   "evidence": "This segment comprises the Asset Management, Insurance and Private Banking businesses."
+  },
+  {
+   "name": "Middle-market",
+   "products": [
+    "commercial loans",
+    "leasing",
+    "factoring",
+    "foreign trade",
+    "mortgage loans",
+    "treasury services",
+    "financial consulting",
+    "mutual funds"
+   ],
+   "description": "Serves large companies, institutions and real estate developers with commercial loans, leasing, treasury and transactional services.",
+   "evidence": "A wide variety of products are offered to this segment, including commercial loans, leasing, factoring, foreign trade, credit cards, mortgage loans, current accounts, transactional services, treasury services, financial consulting, savings products, mutual funds and insurance."
+  },
+  {
+   "name": "Corporate Investment Banking",
+   "products": [
+    "investment banking",
+    "treasury services",
+    "derivatives",
+    "securitization",
+    "financial consulting",
+    "mutual funds",
+    "leasing",
+    "factoring"
+   ],
+   "description": "Serves multinational and large firms and financial institutions with lending, treasury, investment banking and derivatives products.",
+   "evidence": "This segment offers a wide variety of products, including commercial loans, leasing, factoring, foreign trade, credit cards, mortgage loans, current accounts, transactional services, treasury services, financial consulting, investment banking, savings products, mutual funds and insurance."
+  },
+  {
+   "name": "Corporate Activities (\"Other\")",
+   "products": [
+    "Financial Management Division"
+   ],
+   "description": "Manages the bank's structural FX, interest rate and liquidity risk, capital allocation and unallocated items.",
+   "evidence": "This segment mainly includes our Financial Management Division, which develops global management functions, including managing inflation rate risk, foreign currency gaps, interest rate risk and liquidity risk."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay interest on loans, plus fees and commissions for cards, accounts, insurance and brokerage services.",
+  "evidence": "The Bank earns most of its income in the form of interest income, fee and commission income and income from financial operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001786108",
+ "issuerName": "TRINITY CAPITAL INC.",
+ "builtAt": "2026-11-16T12:59:30.670Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-068600",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1786108/000119312526068600/trin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty lending",
+   "products": [
+    "term loans",
+    "equipment financings",
+    "asset-based lending",
+    "working capital loans"
+   ],
+   "description": "Provides debt, including loans, equipment financings and asset-based lending, to growth-oriented companies.",
+   "evidence": "The Company has determined that is has a single operating segment in accordance with Topic 280, Segment Reporting (\"ASC 280\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns income and capital appreciation by lending debt, including loans and equipment financings, to growth-oriented companies.",
+  "evidence": "While the Company derives income and capital appreciation by providing debt to growth-oriented companies across various industries, the Company and the CODM evaluate and monitor performance of the business on a consolidated basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001829635",
+ "issuerName": "TRANSCODE THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:15:01.098Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-043810",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1829635/000110465926043810/rnaz-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug candidates",
+   "products": [
+    "TTX-MC138",
+    "Seviprotimut-L",
+    "TTX platform"
+   ],
+   "description": "Develops drug candidates designed to treat cancer, including RNA therapeutics, a cancer vaccine and an oncolytic immunotherapy platform.",
+   "evidence": "The Company has a single reportable business unit segment, development of drug candidates designed to treat cancer, and one reportable country segment, the United States of America, for the years ended December 31, 2025 and 2024."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

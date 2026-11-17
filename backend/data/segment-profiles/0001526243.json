@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001526243",
+ "issuerName": "Perpetua Resources Corp.",
+ "builtAt": "2026-11-16T23:12:13.141Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037403",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1526243/000110465926037403/ppta-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and development",
+   "products": [
+    "Stibnite Gold Project"
+   ],
+   "description": "Exploration and development of mineral interests in Idaho, centred on the Stibnite Gold Project.",
+   "evidence": "The Company has determined that it operates as a single reportable segment, focused on the exploration and development of its mineral interests in the state of Idaho, United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

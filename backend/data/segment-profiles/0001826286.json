@@ -1,0 +1,87 @@
+{
+ "version": 1,
+ "cik": "0001826286",
+ "issuerName": "Vinci Partners Investments Ltd.",
+ "builtAt": "2026-11-16T13:06:46.025Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-164057",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1826286/000119312526164057/d79123d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global IP&S",
+   "products": [
+    "Third-Party Distribution (Liquid and Alternative)",
+    "Separate Mandates",
+    "Commingled Funds",
+    "Brokerage",
+    "Pension Plans",
+    "Global Solutions",
+    "Vinci Retirement Services"
+   ],
+   "description": "Access to top asset managers and proprietary investment solutions for clients, on discretionary and non-discretionary bases.",
+   "evidence": "The Global IP&S segment provides access to a network of world-class GPs and top-tier asset managers as well as proprietary investment solutions, on a discretionary and non-discretionary basis."
+  },
+  {
+   "name": "Credit",
+   "products": [
+    "Public and Private Credit",
+    "Opportunistic Capital Solutions",
+    "Agribusiness Credit"
+   ],
+   "description": "Financing for mature and growing businesses through public and private credit, opportunistic and agribusiness credit strategies.",
+   "evidence": "The segment operates across three business lines: Public and Private Credit, Opportunistic Capital Solutions, and Agribusiness Credit, with both local and hard currency strategies."
+  },
+  {
+   "name": "Private Equity",
+   "products": [
+    "Vinci Capital Partners",
+    "Vinci Impact and Return"
+   ],
+   "description": "Growth equity investments in Brazilian companies, seeking control or minority stakes to create value through operating changes.",
+   "evidence": "The Private Equity segment has a sector-agnostic approach focused on growth equity investments in Brazil."
+  },
+  {
+   "name": "Equities",
+   "products": [
+    "Long Only",
+    "Dividends",
+    "Small Caps",
+    "Long Biased"
+   ],
+   "description": "Diversified equity strategies across Latin America or specific country markets, for investors with different profiles.",
+   "evidence": "The Equities segment operates through two distinct strategies, delivering robust and diversified investment solutions across Latin America or specific country markets."
+  },
+  {
+   "name": "Real Assets",
+   "products": [
+    "Real Estate",
+    "Infrastructure",
+    "Forestry"
+   ],
+   "description": "Investments in income-generating real estate, infrastructure and forestry assets, mainly in Brazil.",
+   "evidence": "The Real Assets segment comprises investments focused on tangible, income-generating assets through real estate, infrastructure and forestry strategies, as described below:"
+  },
+  {
+   "name": "Corporate Advisory",
+   "products": [
+    "IPO advisory",
+    "M&A transactions"
+   ],
+   "description": "Financial and strategic advisory, mainly IPO advisory and M&A transactions, for Brazilian middle-market companies and their boards.",
+   "evidence": "The corporate advisory services objective is including high value-added to financial and strategic advisory services to entrepreneurs, corporate senior management teams and boards of directors, focusing primarily on IPO advisory and M&A transactions for Brazilian middle-market companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay management fees on fund net asset value, performance fees, and advisory fees for investment and corporate services.",
+  "evidence": "Management fees are recognized in the period when the corresponding services are rendered, which generally consist of a percentage on the net asset value of each investment fund being managed."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

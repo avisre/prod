@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000883975",
+ "issuerName": "MICROBOT MEDICAL INC.",
+ "builtAt": "2026-11-17T00:14:53.468Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012935",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/883975/000149315226012935/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "robotic endoluminal surgery",
+   "products": [
+    "LIBERTY ® Endovascular Robotic Surgical System"
+   ],
+   "description": "Develops robotic devices for endoluminal surgery, led by the LIBERTY Endovascular Robotic Surgical System.",
+   "evidence": "The Company has one operating and reportable segment, which is the development of robotic devices for endoluminal surgery."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001818794",
+ "issuerName": "Dyne Therapeutics, Inc.",
+ "builtAt": "2026-11-16T12:56:40.456Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-084178",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312526084178/dyn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Neuromuscular diseases",
+   "products": [
+    "FORCE platform",
+    "Z-rostudirsen",
+    "Z-basivarsen"
+   ],
+   "description": "Clinical-stage company developing therapeutics for genetically driven neuromuscular diseases using its FORCE platform.",
+   "evidence": "The Company has one operating and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

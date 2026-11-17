@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002074872",
+ "issuerName": "RICE ACQUISITION CORPORATION 3",
+ "builtAt": "2026-11-17T00:15:05.787Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-031295",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/2074872/000121390026031295/ea0280244-10k_rice3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to acquire or combine with an energy-sector business through an initial business combination.",
+   "evidence": "We are a blank check company incorporated on June 6, 2025, as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, recapitalization, reorganization or similar business combination with one or more businesses or entities"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

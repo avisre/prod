@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001314052",
+ "issuerName": "ANAVEX LIFE SCIENCES CORP.",
+ "builtAt": "2026-11-16T23:12:12.786Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001731122-25-001596",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1314052/000173112225001596/e7052_10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biopharmaceutical",
+   "products": [
+    "ANAVEX ® 2-73",
+    "ANAVEX ® 3-71"
+   ],
+   "description": "Develops clinical and preclinical CNS therapeutics for Alzheimer's, Parkinson's, schizophrenia and rare diseases.",
+   "evidence": "The Company has determined that it operates in a single operating segment, which consists of the development of clinical and preclinical product candidates focused on advancing novel therapeutics for CNS diseases and disorders, and related administrative activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

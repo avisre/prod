@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001831979",
+ "issuerName": "Stardust Power Inc.",
+ "builtAt": "2026-11-17T00:15:01.225Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012709",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1831979/000149315226012709/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lithium refinery",
+   "products": [
+    "BGLC"
+   ],
+   "description": "Develops a lithium refinery in Muskogee, Oklahoma, planning to sell BGLC to battery manufacturers, defense industry and OEMs.",
+   "evidence": "The Company has a single reportable operating segment which operates as a single business platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Plans to sell BGLC to battery manufacturers, the US defense industrial base and Western OEMs; no BGLC sales yet.",
+  "evidence": "The Company plans to sell its products to and for the benefit of battery manufacturers, the United States' defense industrial base, and Western original equipment manufacturers"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

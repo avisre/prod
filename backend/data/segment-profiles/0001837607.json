@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001837607",
+ "issuerName": "AEON Biopharma, Inc.",
+ "builtAt": "2026-11-17T00:15:01.359Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001837607-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1837607/000183760726000019/aeon-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "ABP-450"
+   ],
+   "description": "Develops a botulinum toxin biosimilar to Botox for therapeutic indications, seeking U.S. market entry.",
+   "evidence": "The Company determined that it operates and manages its business as one operating segment, focused on the research and development of ABP-450."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

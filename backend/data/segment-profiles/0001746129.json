@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001746129",
+ "issuerName": "BANK7 CORP.",
+ "builtAt": "2026-11-16T13:11:07.465Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-009657",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1746129/000114036126009657/ef20060654_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial bank",
+   "products": [
+    "commercial real estate lending",
+    "hospitality lending",
+    "energy lending",
+    "commercial and industrial lending",
+    "consumer lending services",
+    "certificates of deposit",
+    "checking accounts"
+   ],
+   "description": "Commercial bank serving business owners and entrepreneurs with lending and deposit products, plus consumer lending.",
+   "evidence": "Therefore, management considers all financial service operations to be aggregated within one reportable operating segment, and evaluates financial performance on a company-wide basis using net income as reported on the consolidated statement of income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes mainly from interest on financial instruments, plus non-interest income and service charges on deposit accounts.",
+  "evidence": "The Company's single reportable segment, generates revenues primarily from interest income from financial instruments and non-interest income and service charges on deposit accounts."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

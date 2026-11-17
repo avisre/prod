@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001884046",
+ "issuerName": "Spark I Acquisition Corp",
+ "builtAt": "2026-11-17T00:15:02.201Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036922",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1884046/000110465926036922/spkl-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination; it has no operations and generates no operating revenue.",
+   "evidence": "The Company is a blank check company formed for the purpose of effecting a Business Combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue before a business combination; its only income is interest earned on funds held in the Trust Account.",
+  "evidence": "The Company will generate non-operating income in the form of interest income on the investments held in the Trust Account."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

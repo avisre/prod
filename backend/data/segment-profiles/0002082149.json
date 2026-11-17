@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002082149",
+ "issuerName": "DAEDALUS SPECIAL ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:06.642Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035726",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2082149/000121390026035726/ea0280155-10k_daedalus.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue an initial business combination with one or more businesses in any industry.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

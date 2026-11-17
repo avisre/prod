@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000917225",
+ "issuerName": "SOLITARIO RESOURCES CORP.",
+ "builtAt": "2026-11-17T00:14:53.678Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-001934",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/917225/000165495426001934/xpl_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral exploration",
+   "products": [
+    "Golden Crest project",
+    "Florida Canyon project",
+    "Lik project",
+    "Cat Creek project",
+    "Bright Angel project",
+    "Chambara project"
+   ],
+   "description": "Acquires and explores precious metal, zinc and other base metal mineral properties, seeking to advance them toward development or sale.",
+   "evidence": "Solitario's primary focus is on the acquisition and exploration of precious metal, zinc and other base metal exploration mineral properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Buyers pay for mineral properties and royalties it sells, an infrequent and inconsistent source of revenue.",
+  "evidence": "Solitario has recorded revenue in the past from the sale of mineral properties, including the sale of certain mineral royalties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

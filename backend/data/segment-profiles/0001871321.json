@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001871321",
+ "issuerName": "Alpha Tau Medical Ltd.",
+ "builtAt": "2026-11-16T13:02:46.843Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-025174",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1871321/000121390026025174/ea0279271-20f_alpha.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology therapeutics",
+   "products": [
+    "Alpha DaRT"
+   ],
+   "description": "Develops Alpha DaRT, a localized alpha-particle radiation therapy for solid tumors, for oncology patients.",
+   "evidence": "The Company operates as a single operating segment, with its Chief Executive Officer acting as the Chief Operating Decision Maker (CODM)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

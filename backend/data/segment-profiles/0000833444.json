@@ -2,13 +2,13 @@
  "version": 1,
  "cik": "0000833444",
  "issuerName": "JOHNSON CONTROLS INTERNATIONAL PLC",
- "builtAt": "2026-11-14T13:52:21.196Z",
+ "builtAt": "2026-11-17T00:14:53.275Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0000833444-25-000097",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-14",
-  "url": "https://www.sec.gov/Archives/edgar/data/833444/000083344425000097/jci-20250930.htm"
+  "accessionNumber": "0000833444-26-000108",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/833444/000083344426000108/jci-20260930.htm"
  },
  "status": "ok",
  "segments": [
@@ -21,10 +21,11 @@
     "refrigeration",
     "integrated electronic security systems",
     "integrated fire detection and suppression systems",
-    "digital (software) solutions"
+    "digital (software) solutions",
+    "energy efficiency solutions"
    ],
-   "description": "Designs, manufactures, sells, installs and services building products and solutions for commercial, industrial, data center, institutional and governmental customers in the Americas.",
-   "evidence": "Americas, which designs, manufactures, sells, installs and services HVAC, controls, building management, refrigeration, integrated electronic security systems, integrated fire detection and suppression systems, and digital (software) solutions for commercial, industrial, data center, institutional and governmental customers in the Americas (United States, Canada, and Latin America – Central and South America)."
+   "description": "Designs, installs and services HVAC, controls, security, fire and digital solutions for commercial, industrial, data center and governmental customers in the Americas.",
+   "evidence": "Americas also provides energy efficiency solutions and technical services, including inspection, scheduled maintenance, and repair and replacement of mechanical and control systems, as well as data-driven \"smart building\" solutions, to the Americas marketplace."
   },
   {
    "name": "EMEA",
@@ -37,8 +38,8 @@
     "integrated fire detection and suppression systems",
     "digital (software) solutions"
    ],
-   "description": "Designs, manufactures, sells, installs and services building products and solutions for commercial, residential security, industrial, data center, institutional, governmental and marine customers in Europe, the Middle…",
-   "evidence": "EMEA, which designs, manufactures sells, installs and services HVAC, controls, building management, refrigeration, integrated electronic security systems, integrated fire detection and suppression systems, and digital (software) solutions for commercial, residential security (Subscriber business), industrial, data center, institutional, governmental, and marine customers and provides technical services, including data-driven \"smart building\" solutions, to markets in Europe, the Middle East and A"
+   "description": "Designs, installs and services HVAC, controls, security, fire and digital solutions for commercial, residential security, industrial and marine customers in Europe, the Middle East and Africa.",
+   "evidence": "EMEA, which designs, manufactures, sells, installs and services HVAC, controls, building management, refrigeration, integrated electronic security systems, integrated fire detection and suppression systems, and digital (software) solutions for commercial, residential security (Global Subscriber business), industrial, data center, institutional, governmental, and marine customers and provides technical services, including data-driven \"smart building\" solutions, to markets in Europe, the Middle Ea"
   },
   {
    "name": "APAC",
@@ -51,26 +52,21 @@
     "integrated fire detection and suppression systems",
     "digital (software) solutions"
    ],
-   "description": "Designs, manufactures, sells, installs and services building products and solutions for commercial, industrial, data center, institutional and governmental customers in Asian and Pacific markets.",
-   "evidence": "APAC, which designs, manufactures, sells, installs, and services HVAC, controls, building management, refrigeration, integrated electronic security systems, integrated fire detection and suppression systems, and digital (software) solutions for commercial, industrial, data center, institutional, and governmental customers and provides technical services, including data-driven \"smart building\" solutions, to the Asian and Pacific marketplaces."
+   "description": "Designs, installs and services HVAC, controls, security, fire and digital solutions for commercial, industrial, data center and governmental customers in Asia and the Pacific.",
+   "evidence": "APAC, which designs, manufactures, sells, installs and services HVAC, controls, building management, refrigeration, integrated electronic security systems, integrated fire detection and suppression systems, and digital (software) solutions for commercial, industrial, data center, institutional, and governmental customers and provides technical services, including data-driven \"smart building\" solutions, to the Asian and Pacific marketplace."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers pay for building products and systems sold through direct and third-party channels, plus technical services and data-driven solutions designed to generate recurring revenue.",
-  "evidence": "In fiscal 2025, products and systems accounted for approximately 68% of sales from continuing operations and services accounted for 32% of sales from continuing operations."
+  "text": "Commercial, industrial and governmental customers pay for HVAC, controls, security and fire systems, plus recurring service, retrofit and replacement work.",
+  "evidence": "The Company sells and installs its commercial HVAC equipment and systems, control systems, security systems, fire-detection and fire suppression systems, equipment and services primarily through its extensive direct channel, consisting of a global network of sales and service offices."
  },
  "changes": [
   {
-   "text": "In 2025, the Company completed the divestiture of its Residential and Light Commercial HVAC business to Robert Bosch GmbH.",
-   "evidence": "On July 31, 2025, the Company completed the divestiture of its Residential and Light Commercial (\"R&LC\") HVAC business to Robert Bosch GmbH (\"Bosch\")."
-  },
-  {
-   "text": "In 2024, the Company divested its Air Distribution Technologies business as part of portfolio optimization.",
-   "evidence": "In 2024 and 2025, the Company acted to optimize its core commercial buildings portfolio with the divestitures of its Air Distribution Technologies and R&LC HVAC businesses."
+   "text": "In 2025, the Company divested its Residential and Light Commercial HVAC business, including its North America Ducted business and global residential joint venture with Hitachi.",
+   "evidence": "In 2025, the Company completed the divestiture of its Residential and Light Commercial (\"R&LC\") HVAC business, including the Company's North America Ducted business and the Company's global residential joint venture with Hitachi Global Life Solutions, Inc."
   }
  ],
- "dropped": [
-  "change not grounded: In 2025, the Company realigned from four reportable segments into three regional"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

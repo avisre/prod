@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001596812",
+ "issuerName": "Enlivex Ltd.",
+ "builtAt": "2026-11-17T00:14:58.304Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-033857",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1596812/000121390026033857/ea0282960-20f_enlivex.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell therapy platform",
+   "products": [
+    "Allocetra™"
+   ],
+   "description": "Develops a universal, off-the-shelf cell therapy platform to restore macrophage homeostasis for inflammatory diseases.",
+   "evidence": "The Company operates in a single operating segment focused on the development of a universal, off-the-shelf cell therapy platform designed to restore the homeostatic state of macrophages for the treatment of inflammatory diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

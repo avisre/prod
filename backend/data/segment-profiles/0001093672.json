@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001093672",
+ "issuerName": "PEOPLES BANCORP OF NORTH CAROLINA, INC.",
+ "builtAt": "2026-11-17T00:14:54.268Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-002154",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1093672/000165495426002154/pebk_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial banking",
+   "products": [
+    "Real estate loans",
+    "Commercial loans",
+    "deposits"
+   ],
+   "description": "Commercial bank serving individuals and small-to-medium-sized businesses in its North Carolina market area with loans and deposits.",
+   "evidence": "The Bank, founded in 1912, is a state-chartered commercial bank serving the citizens and business interests of the Catawba Valley and surrounding communities through 15 banking offices, located in Lincolnton, Newton, Denver, Catawba, Conover, Maiden, Claremont, Hiddenite, Hickory, Charlotte, Huntersville and Mooresville, North Carolina."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the Bank interest and loan fees on the loans it makes.",
+  "evidence": "The Bank competes for loans primarily through the interest rates and loan fees it charges and the efficiency and quality of services it provides to borrowers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

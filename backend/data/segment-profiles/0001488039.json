@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001488039",
+ "issuerName": "ATOSSA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:14:56.727Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-124396",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1488039/000119312526124396/atos-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology",
+   "products": [
+    "(Z)-endoxifen"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing proprietary oncology medicines, led by oral (Z)-endoxifen, for breast cancer.",
+   "evidence": "The Company operates as a single segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

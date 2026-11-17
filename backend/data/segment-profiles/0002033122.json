@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002033122",
+ "issuerName": "BERTO ACQUISITION CORP.",
+ "builtAt": "2026-11-16T13:12:13.218Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002856",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2033122/000182912626002856/bertoacquisition_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Cayman Islands blank check company formed to effect a business combination with one or more businesses, with no operations to date.",
+   "evidence": "We are a blank check company incorporated on July 15, 2024 as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operations and no customers; it has generated no revenue to date.",
+  "evidence": "We have neither engaged in any operations nor generated any revenue to date."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

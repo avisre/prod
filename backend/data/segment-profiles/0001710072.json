@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001710072",
+ "issuerName": "Edgewise Therapeutics, Inc.",
+ "builtAt": "2026-11-16T12:55:47.612Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020112",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1710072/000110465926020112/ewtx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug products",
+   "products": [
+    "Sevasemten",
+    "EDG-7500",
+    "EDG-15400",
+    "EDG-003"
+   ],
+   "description": "Discovers, develops and manufactures drug products for the treatment of severe muscle diseases, including muscular dystrophies and cardiac diseases.",
+   "evidence": "The Company has one reportable segment focused on the discovery, development, and manufacture of drug products for the treatment of various muscular disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

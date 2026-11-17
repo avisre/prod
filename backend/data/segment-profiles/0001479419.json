@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001479419",
+ "issuerName": "KALA BIO, INC.",
+ "builtAt": "2026-11-17T00:14:56.552Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-043782",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1479419/000110465926043782/kala-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "KPI-012",
+    "KPI-014",
+    "MSC-S platform",
+    "Researgency"
+   ],
+   "description": "Innovative therapies for rare and severe diseases of the front and back of the eye, now in transition to an AI platform.",
+   "evidence": "The Company manages its operations as one operating and reportable segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Planned: biotechnology and pharmaceutical customers would pay for Researgency platform-as-a-service, implementation support, maintenance subscriptions and data analytics.",
+  "evidence": "We also intend to offer the platform on a platform-as-a-service basis, together with implementation support, maintenance subscriptions, and data analytics services, targeting mid-size biotechnology companies, contract research organizations, and pharmaceutical companies as our primary customer base."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company began early-stage development of Researgency, a prospective AI platform-as-a-service offering.",
+   "evidence": "Our current activities comprise of (i) evaluating strategic alternatives for our legacy MSC-S assets and related intellectual property and (ii) early-stage development of a prospective AI platform-as-a-service offering, Researgency, intended for deployment within biotechnology and pharmaceutical customer environments."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 the company determined to discontinue development of KPI-012 and the MSC"
+ ],
+ "reader": "agent"
+}

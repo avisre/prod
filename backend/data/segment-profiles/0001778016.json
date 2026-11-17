@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001778016",
+ "issuerName": "NovaBridge Biosciences",
+ "builtAt": "2026-11-17T00:15:00.258Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001778016-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1778016/000177801626000002/nbp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oncology",
+   "products": [],
+   "description": "Researches and develops precision immuno-oncology agents for the treatment of cancer.",
+   "evidence": "The oncology operating segment focuses on the research and development of precision immuno-oncology agents for the treatment of cancer."
+  },
+  {
+   "name": "ophthalmology",
+   "products": [
+    "VIS-101"
+   ],
+   "description": "Researches and develops ophthalmologic indications such as Wet AMD and DME.",
+   "evidence": "The ophthalmology operating segment focuses on research and development of ophthalmologic indications such as Wet AMD and DME."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025 the company moved from one reportable segment to two, adding ophthalmology.",
+   "evidence": "The ophthalmology reportable segment was established in the fourth quarter of 2025, and therefore, no segment results are presented for periods prior to its establishment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

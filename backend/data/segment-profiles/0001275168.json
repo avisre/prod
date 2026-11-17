@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001275168",
+ "issuerName": "FIVE STAR BANCORP",
+ "builtAt": "2026-11-16T13:03:03.132Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012724",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1275168/000162828026012724/fsbc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [],
+   "description": "Provides banking products and services to small and medium-sized businesses, professionals, and individuals in Northern California.",
+   "evidence": "The Company has one reportable operating segment: banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Business and individual customers pay the Bank for loans and deposit accounts, which are its primary products.",
+  "evidence": "Our primary loan products are commercial real estate loans, land development loans, construction loans, and operating lines of credit and our primary deposit products are checking accounts, savings accounts, money market accounts, and term certificate accounts."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

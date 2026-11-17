@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002012807",
+ "issuerName": "RF ACQUISITION CORP II",
+ "builtAt": "2026-11-17T00:15:03.658Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-001254",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/2012807/000182912626001254/rfacq2_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a Business Combination with target businesses in Asia's deep technology sector; generates no operating revenue.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns no operating revenue, only interest income on cash from its Initial Public Offering proceeds.",
+  "evidence": "The Company will generate non-operating income in the form of interest income from the proceeds derived from the Initial Public Offering."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

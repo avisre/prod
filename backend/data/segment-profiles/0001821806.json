@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001821806",
+ "issuerName": "LESLIE’S, INC.",
+ "builtAt": "2026-11-17T00:15:01.008Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-323811",
+  "periodEnd": "2025-10-04",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1821806/000119312525323811/lesl-20251004.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pool and spa",
+   "products": [
+    "Leslie's",
+    "In the Swim",
+    "AccuBlue",
+    "AccuBlue Home"
+   ],
+   "description": "Retail and e-commerce sales of pool and spa care products and services to residential and commercial customers in the United States.",
+   "evidence": "We manage our business activities on a consolidated basis and operate as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residential consumers, pool professionals and commercial property operators pay for pool and spa products and services through retail locations and e-commerce.",
+  "evidence": "We derive our revenue in the United States by providing pool related goods and services to our customers through a variety of channels."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

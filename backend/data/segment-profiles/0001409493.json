@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001409493",
+ "issuerName": "CHIMERA INVESTMENT CORPORATION",
+ "builtAt": "2026-11-16T13:01:43.844Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001409493-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1409493/000140949326000017/cim-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Portfolio",
+   "products": [
+    "residential mortgage loans",
+    "Non-Agency RMBS",
+    "Agency RMBS",
+    "Agency CMBS",
+    "MSRs",
+    "business purpose and investor loans",
+    "third-party investment management and advisory services"
+   ],
+   "description": "Invests in residential mortgage assets and provides third-party investment management and advisory services to institutions.",
+   "evidence": "The Investment Portfolio segment consists of the Company's investments and third-party advisory services activities."
+  },
+  {
+   "name": "Residential Origination",
+   "products": [
+    "consumer Non-QM",
+    "investor business purpose",
+    "Non-Agency and Agency mortgage loan products",
+    "QM residential mortgage loans"
+   ],
+   "description": "Originates Non-QM, investor business purpose and other mortgage loans through brokers and bankers, selling them to third-party institutional investors.",
+   "evidence": "The Residential Origination segment consists of the stand-alone mortgage origination business of HomeXpress that originates consumer Non-QM, investor business purpose, and other Non-Agency and Agency mortgage loan products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutions pay fees for non-discretionary investment management and advisory services; HomeXpress earns income from selling the mortgage loans it originates.",
+  "evidence": "HomeXpress primarily generates income from the origination and sale of its mortgage loan products and, to a lesser degree, the interest on its loans held for sale."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company split its single reportable segment into two: Investment Portfolio and Residential Origination.",
+   "evidence": "These activities were previously reflected within our single reportable segment prior to the 2025 segment reevaluation."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

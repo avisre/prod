@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001999480",
+ "issuerName": "Alto Neuroscience, Inc.",
+ "builtAt": "2026-11-16T13:05:19.442Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001999480-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1999480/000199948026000002/alto-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biopharmaceutical",
+   "products": [
+    "ALTO-207",
+    "ALTO-300",
+    "ALTO-100",
+    "ALTO-101",
+    "ALTO-203",
+    "Spectra",
+    "TechCheck",
+    "Altoscope"
+   ],
+   "description": "Develops neuropsychiatric drug candidates using its Precision Psychiatry Platform to select patients likely to respond.",
+   "evidence": "The Company is a clinical-stage biopharmaceutical company advancing psychiatry through its proprietary Precision Psychiatry Platform, which leverages advanced data science and neurobiology to develop personalized treatments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

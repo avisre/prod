@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002028935",
+ "issuerName": "FACT II ACQUISITION CORP.",
+ "builtAt": "2026-11-16T13:17:42.415Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-027657",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/2028935/000121390026027657/ea0280365-10k_fact2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to merge with or acquire an operating business; has generated no revenues to date.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income that also is reported on the statements of operations as net income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No customers pay the company; it generates no revenues until it completes an initial business combination.",
+  "evidence": "We have generated no revenues to date and we do not expect that we will generate operating revenues until we consummate our initial business combination, at the earliest."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002079106",
+ "issuerName": "LaFayette Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:06.256Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-025877",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/2079106/000121390026025877/ea0279167-10k_lafayette.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business combination",
+   "products": [],
+   "description": "Blank-check company formed to effect a business combination with one or more businesses in any industry.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statement of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

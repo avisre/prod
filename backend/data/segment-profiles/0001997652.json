@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001997652",
+ "issuerName": "Tamboran Resources Corporation",
+ "builtAt": "2026-11-16T13:02:37.386Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-063492",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1997652/000162828026063492/trc-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural gas",
+   "products": [
+    "Tenements",
+    "Sturt Plateau Compression Facility"
+   ],
+   "description": "Exploration and appraisal stage natural gas company developing unconventional gas resources in Australia's Northern Territory.",
+   "evidence": "The Group is in the exploration and appraisal stage with a current focus on exploiting its primary assets, which are rights to working interests (\"Tenements\") in exploration acreage in the Beetaloo sub-basin (\"Beetaloo\" or \"Beetaloo Basin\"), NT Australia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

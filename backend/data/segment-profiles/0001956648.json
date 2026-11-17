@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001956648",
+ "issuerName": "CO2 ENERGY TRANSITION CORP.",
+ "builtAt": "2026-11-17T00:15:03.047Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-027784",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1956648/000121390026027784/ea0279184-10k_co2energy.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to acquire an operating business in the energy transition industry; it has no operating revenues.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

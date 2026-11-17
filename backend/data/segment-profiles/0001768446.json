@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001768446",
+ "issuerName": "Climb Bio, Inc.",
+ "builtAt": "2026-11-16T13:06:50.687Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-092546",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1768446/000119312526092546/clym-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "immune-mediated diseases",
+   "products": [
+    "budoprutug",
+    "CLYM116"
+   ],
+   "description": "Develops therapeutics for patients with immune-mediated diseases through its clinical-stage product candidates.",
+   "evidence": "The Company views its operations and manages its business as one operating and reportable segment, focused on developing therapeutics for patients with immune-mediated diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

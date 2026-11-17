@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002077010",
+ "issuerName": "OTG Acquisition Corp. I",
+ "builtAt": "2026-11-17T00:15:06.108Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013203",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2077010/000149315226013203/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to acquire a business in Digital Infrastructure Services; has not selected a target and has no revenue.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

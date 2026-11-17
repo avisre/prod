@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002031561",
+ "issuerName": "ALDEL FINANCIAL II INC.",
+ "builtAt": "2026-11-17T00:15:04.255Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-033988",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2031561/000110465926033988/aldf-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with a financial services business; has no operations yet.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

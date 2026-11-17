@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001918414",
+ "issuerName": "NEWBRIDGE ACQUISITION LIMITED",
+ "builtAt": "2026-11-17T00:15:02.732Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-032632",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1918414/000121390026032632/ea0282475-10k_newbridge.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company that seeks a business combination with one or more businesses, not limited to any industry or region.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

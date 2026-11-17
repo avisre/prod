@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001514597",
+ "issuerName": "FURY GOLD MINES LTD",
+ "builtAt": "2026-11-17T00:14:57.085Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001171843-26-002083",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1514597/000117184326002083/fury20251231_40f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

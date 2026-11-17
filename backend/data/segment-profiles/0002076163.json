@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0002076163",
+ "issuerName": "SILVIA, INC.",
+ "builtAt": "2026-11-17T00:15:05.976Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-007352",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/2076163/000149315226007352/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Modern finance company",
+   "products": [
+    "media products",
+    "AI-powered products",
+    "Bitcoin holdings",
+    "digital advertising and marketing services"
+   ],
+   "description": "Modern finance company offering Bitcoin-focused media products, Bitcoin treasury holdings, and developing AI-powered financial tools for consumers.",
+   "evidence": "The Company operates as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay ProCap fixed fees to run ads on its podcasts and video content, plus limited digital advertising and marketing services revenue.",
+  "evidence": "the advertisers pay to ProCap a fixed fee, which may be paid in a combination of fiat, Bitcoin, stable coin, or the advertiser's token, subject to ProCap's consent."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

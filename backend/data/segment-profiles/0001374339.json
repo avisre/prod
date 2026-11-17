@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001374339",
+ "issuerName": "PROMIS NEUROSCIENCES INC.",
+ "builtAt": "2026-11-17T00:14:55.747Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034554",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1374339/000110465926034554/pmn-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life science",
+   "products": [
+    "PMN310"
+   ],
+   "description": "Development of clinical and preclinical product candidates.",
+   "evidence": "The life science segment consists of the development of clinical and preclinical product candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

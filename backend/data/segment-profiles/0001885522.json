@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001885522",
+ "issuerName": "NEUMORA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T13:14:37.136Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-130388",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1885522/000119312526130388/nmra-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Neuroscience",
+   "products": [],
+   "description": "Develops clinical and preclinical neuroscience programs targeting novel mechanisms for neuropsychiatric disorders and neurodegenerative diseases.",
+   "evidence": "The Company views its operations and manages its business in one operating segment related to the development of clinical and preclinical neuroscience programs that target novel mechanisms of action for a broad range of underserved neuropsychiatric disorders and neurodegenerative diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002018145",
+ "issuerName": "RISING DRAGON ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:03.841Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036396",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2018145/000121390026036396/ea0281349-10k_rising.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue a merger or similar business combination with one or more businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

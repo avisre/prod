@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001040161",
+ "issuerName": "PIXELWORKS, INC",
+ "builtAt": "2026-11-17T00:14:54.072Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001040161-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1040161/000104016126000019/pxlw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cinematic visualization",
+   "products": [
+    "TrueCut Motion platform",
+    "TrueCut Motion content creation software tools",
+    "motion grading services"
+   ],
+   "description": "Licensing and services for content creation, remastering, video streaming and cinematic display, for filmmakers and display makers.",
+   "evidence": "Following the sale of PWSH, we continue to operate in one segment consisting of licensing and services for content creation, remastering and video streaming, and display of cinematic video."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for remastering services and for licenses to TrueCut Motion technology, including license fees and royalty fees.",
+  "evidence": "We generate our revenue primarily from services provided for remastering content and from licensing."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company sold its PWSH semiconductor business and no longer operates Mobile or Home & Enterprise businesses.",
+   "evidence": "As a result of the Sale, Pixelworks no longer operates a semiconductor business, which included the businesses that it previously described as \"Mobile\" (smartphone and tablet) and \"Home & Enterprise\" (projectors, personal video recorders, and over-the-air streaming devices)."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

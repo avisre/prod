@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001971387",
+ "issuerName": "LIMINATUS PHARMA, INC.",
+ "builtAt": "2026-11-17T00:15:03.195Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037933",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1971387/000110465926037933/limn-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "humanized anti CD47 monoclonal antibody",
+    "next generation CD47 checkpoint inhibitor",
+    "IBA101"
+   ],
+   "description": "Pre-clinical biopharmaceutical company developing novel cancer therapies, including for solid cancers and non-small cell lung cancer.",
+   "evidence": "The Company's chief operating decision maker (\"CODM\"), the Chief Executive Officer, manages the Company's business activities as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

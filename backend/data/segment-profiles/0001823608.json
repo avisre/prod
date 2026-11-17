@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001823608",
+ "issuerName": "Amalgamated Financial Corp.",
+ "builtAt": "2026-11-16T13:01:19.376Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001823608-26-000048",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823608/000182360826000048/amal-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operation",
+   "products": [
+    "residential mortgage loans",
+    "multifamily loans",
+    "consumer loans",
+    "savings accounts",
+    "money market accounts",
+    "certificates of deposit",
+    "interest-bearing demand products",
+    "non-interest-bearing accounts"
+   ],
+   "description": "Delivers loan and deposit products to values-based commercial and consumer customers.",
+   "evidence": "Management makes operating decisions and assesses performance based on an ongoing review of its banking operation, which constitutes our only operating segment for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Loan interest and fee income from banking, plus trust, custody and investment management fees.",
+  "evidence": "We further develop new and existing relationships through our trust, custody, and investment management services, which generate fee income, and we also offer investment, brokerage, asset management, and insurance products to our retail customers through a third-party broker dealer."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

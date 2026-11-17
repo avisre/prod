@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001728951",
+ "issuerName": "Essential Properties Realty Trust, Inc.",
+ "builtAt": "2026-11-16T12:49:06.290Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001728951-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1728951/000172895126000008/eprt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial real estate",
+   "products": [],
+   "description": "Acquires, owns and manages primarily single-tenant properties net leased on a long-term basis to middle-market operators.",
+   "evidence": "Therefore, the Company aggregates these investments for reporting purposes and operates in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Middle-market operators pay us contractual base rent under long-term net leases on properties we own.",
+  "evidence": "Our properties generally are subject to long-term net leases that we believe provide us a stable base of revenue from which to grow our portfolio."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

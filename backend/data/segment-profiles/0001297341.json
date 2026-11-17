@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001297341",
+ "issuerName": "KENTUCKY FIRST FEDERAL BANCORP",
+ "builtAt": "2026-11-17T00:14:55.149Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-103633",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1297341/000121390026103633/ea0305657-10k_kentucky.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001907184",
+ "issuerName": "Electra Battery Materials Corp",
+ "builtAt": "2026-11-17T00:15:02.591Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001171843-26-001993",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1907184/000117184326001993/elbm20251231_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Refinery",
+   "products": [
+    "hydrometallurgical refinery"
+   ],
+   "description": "Hydrometallurgical refinery in Ontario that refines battery materials from mining operations and battery recycling.",
+   "evidence": "The Company's Chief Operating Decision Maker reviews operating results and assesses performance for the Refinery and Exploration and Evaluation activities on a separate basis, and therefore, the Refinery and Exploration and Evaluation assets both meet the definition of a segment."
+  },
+  {
+   "name": "Exploration and Evaluation",
+   "products": [
+    "Idaho Properties",
+    "Iron Creek Project"
+   ],
+   "description": "Acquisition and exploration of resource properties, including the Idaho Cobalt Belt properties.",
+   "evidence": "The Company's Chief Operating Decision Maker reviews operating results and assesses performance for the Refinery and Exploration and Evaluation activities on a separate basis, and therefore, the Refinery and Exploration and Evaluation assets both meet the definition of a segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

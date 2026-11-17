@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001787414",
+ "issuerName": "Bogota Financial Corp.",
+ "builtAt": "2026-11-17T00:15:00.669Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010056",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1787414/000143774926010056/bsbk20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "retail banking",
+   "products": [
+    "retail and commercial banking services"
+   ],
+   "description": "Provides a broad range of retail and commercial banking services to customers through Bogota Savings Bank in New Jersey.",
+   "evidence": "The Company operates one reportable segment of business, \"retail banking\"."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the bank on its residential, commercial and multi-family real estate loans, and the bank earns yield on its securities.",
+  "evidence": "Subject to market conditions and our asset-liability analysis, we expect to continue to focus on commercial and multi-family real estate lending as part of our effort to diversify the loan portfolio and increase the overall yield earned on our loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000917251",
+ "issuerName": "AGREE REALTY CORPORATION",
+ "builtAt": "2026-11-16T12:47:17.707Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000917251-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/917251/000091725126000013/adc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail real estate",
+   "products": [
+    "retail properties"
+   ],
+   "description": "Owns, acquires, develops and manages retail properties net leased to industry leading tenants.",
+   "evidence": "Accordingly, the Company has a single reportable segment for disclosure purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company minimum monthly rent and property operating expenses, including property taxes, insurance and maintenance, under net leases.",
+  "evidence": "A net lease typically requires the tenant to be responsible for minimum monthly rent and property operating expenses including property taxes, insurance and maintenance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

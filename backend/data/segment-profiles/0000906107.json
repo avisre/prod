@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000906107",
+ "issuerName": "Vivmark Residential",
+ "builtAt": "2026-11-16T12:51:58.504Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-051433",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/906107/000119312526051433/eqr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Same store",
+   "products": [
+    "apartment communities"
+   ],
+   "description": "Stabilized apartment communities held for all current and comparable periods, aggregated across geographic markets.",
+   "evidence": "Same store primarily includes all properties acquired or completed that were stabilized (defined as having achieved 90 % physical occupancy for three consecutive months) for all of the current and comparable periods presented."
+  },
+  {
+   "name": "Non-same store",
+   "products": [
+    "development properties"
+   ],
+   "description": "Apartment properties acquired in recent years, development properties and pre-disposition operations, excluded from same store results.",
+   "evidence": "Non-same store/other NOI results consist primarily of properties acquired in calendar years 2024 and 2025, operations from the Company's development properties, other corporate operations and operations prior to disposition from 2024 and 2025 sold properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay rent under year-to-year or monthly leases, and non-residential tenants pay lease income for retail and parking spaces.",
+  "evidence": "Leases entered into between a resident and a property for the rental of an apartment unit are generally year-to-year, renewable upon consent of both parties on an annual or monthly basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001892500",
+ "issuerName": "Clearmind Medicine Inc.",
+ "builtAt": "2026-11-17T00:15:02.284Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-005665",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1892500/000121390026005665/ea0271909-20f_clearmind.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "psychedelic medicine",
+   "products": [
+    "CMND-100",
+    "MEAI"
+   ],
+   "description": "Clinical-stage research and development of psychedelic medicines, primarily conducted in Israel, for mental health disorders such as alcohol use disorder.",
+   "evidence": "As of October 31, 2025, the Company has one operating segment, research and development of psychedelic medicine, which takes place primarily in Israel."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

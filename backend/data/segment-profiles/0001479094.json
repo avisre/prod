@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001479094",
+ "issuerName": "STAG Industrial, Inc.",
+ "builtAt": "2026-11-16T12:51:05.483Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001479094-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1479094/000147909426000009/stag-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate operations",
+   "products": [],
+   "description": "Owns and operates industrial buildings, earning rental income from tenants who occupy them.",
+   "evidence": "This single segment of real estate operations derives its revenues from rental income from the tenants who occupy its buildings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company rental income for occupying its industrial buildings.",
+  "evidence": "This single segment of real estate operations derives its revenues from rental income from the tenants who occupy its buildings."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

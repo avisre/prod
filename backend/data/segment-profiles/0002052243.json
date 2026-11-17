@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002052243",
+ "issuerName": "Twelve Seas Investment Co III/Cayman",
+ "builtAt": "2026-11-17T00:15:05.049Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036676",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2052243/000121390026036676/ea0283106-10k_twelve3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a business combination with a target, focused on international companies.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

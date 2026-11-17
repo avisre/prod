@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002056634",
+ "issuerName": "ProCap Acquisition Corp",
+ "builtAt": "2026-11-16T13:12:26.502Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-028492",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2056634/000121390026028492/ea0280702-10k_procap.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a Business Combination, primarily with a target in the financial services sector.",
+   "evidence": "We are a blank check company incorporated on January 2, 2025 as a Cayman Islands exempted company and formed for the purpose of effecting a Business Combination with one or more businesses or entities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002086545",
+ "issuerName": "ART TECHNOLOGY ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:07.028Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-029258",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2086545/000121390026029258/ea0281167-10k_art.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a business combination with one or more target businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

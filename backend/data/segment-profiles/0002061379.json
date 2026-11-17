@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002061379",
+ "issuerName": "LIGHTWAVE ACQUISITION CORP.",
+ "builtAt": "2026-11-16T13:16:11.533Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036692",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2061379/000121390026036692/ea0281199-10k_lightwave.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with one or more businesses, funded by its public offering.",
+   "evidence": "LightWave Acquisition Corp. is a blank check company incorporated as a Cayman Islands exempted company and formed for the purpose of effecting a merger, amalgamation, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses, which we refer to throughout this report as our initial business combination or initial Business Combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

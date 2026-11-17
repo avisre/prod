@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001090009",
+ "issuerName": "Southern First Bancshares, Inc.",
+ "builtAt": "2026-11-16T13:08:48.167Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001206774-26-000084",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1090009/000120677426000084/sfst4554191-10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "demand, time and savings deposits",
+    "lending services",
+    "ATM processing",
+    "mortgage banking services"
+   ],
+   "description": "Provides banking services, including deposits, loans, ATM processing and mortgage banking, to individuals and companies in South Carolina, North Carolina and Georgia.",
+   "evidence": "The Company operates through a single operating and reporting segment, primarily as a bank through services including demand, time and savings deposits; lending services; ATM processing and mortgage banking services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank provides commercial, consumer and mortgage loans to the general public and accepts demand and savings deposits from its clients.",
+  "evidence": "The Bank is primarily engaged in the business of accepting demand deposits and savings deposits insured by the Federal Deposit Insurance Corporation (the \"FDIC\"), and providing commercial, consumer and mortgage loans to the general public."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

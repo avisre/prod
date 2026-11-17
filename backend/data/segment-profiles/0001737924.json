@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001737924",
+ "issuerName": "NUVEEN CHURCHILL DIRECT LENDING CORP.",
+ "builtAt": "2026-11-16T13:07:40.166Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001737924-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1737924/000173792426000014/ncdlc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Senior secured loans",
+   "products": [
+    "first-lien senior secured debt",
+    "unitranche loans",
+    "second-lien loans",
+    "subordinated debt",
+    "equity co-investments"
+   ],
+   "description": "Senior secured lending to private equity-owned U.S. middle market companies, mainly first-lien debt and unitranche loans.",
+   "evidence": "The Company is externally managed by Churchill and operates as a single reportable segment in accordance with ASC Topic 280, Segment Reporting (\"ASC 280\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the company floating-rate interest on directly originated senior secured loans to private equity-owned middle market companies.",
+  "evidence": "The Company's sole business activity is deriving investment income from its portfolio of investments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

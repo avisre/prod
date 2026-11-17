@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001631596",
+ "issuerName": "KKR Real Estate Finance Trust Inc.",
+ "builtAt": "2026-11-16T13:11:09.309Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-005092",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1631596/000162828026005092/kref-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate finance",
+   "products": [
+    "Senior Loans",
+    "Mezzanine Loans",
+    "Preferred Equity",
+    "Commercial Mortgage-Backed Securities"
+   ],
+   "description": "Originates and acquires transitional senior loans and related debt investments secured by commercial real estate owned by experienced sponsors.",
+   "evidence": "As a result, KREF conducts its business as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on senior and mezzanine loans and preferred returns on preferred equity investments.",
+  "evidence": "The loans may vary in duration, bear interest at a fixed or floating rate and amortize, and typically require a balloon payment of principal at maturity, but are typically anticipated to be floating rate and shorter-term duration."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

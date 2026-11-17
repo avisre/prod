@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002070602",
+ "issuerName": "HIGHVIEW MERGER CORP.",
+ "builtAt": "2026-11-17T00:15:05.610Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-001102",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2070602/000118518526001102/hvmc10k123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check shell company that seeks a merger or business combination with one or more businesses and has no operations.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no customers and has generated no revenue to date.",
+  "evidence": "We have neither engaged in any operations nor generated any revenue to date."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

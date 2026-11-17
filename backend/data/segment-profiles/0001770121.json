@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001770121",
+ "issuerName": "Sana Biotechnology, Inc.",
+ "builtAt": "2026-11-16T13:03:37.093Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-088215",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1770121/000119312526088215/sana-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "cell therapy",
+   "products": [
+    "SC451",
+    "SG293",
+    "UP421"
+   ],
+   "description": null,
+   "evidence": "The Company views its operations and manages its business in one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

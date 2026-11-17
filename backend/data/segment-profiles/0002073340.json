@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002073340",
+ "issuerName": "TALON CAPITAL CORP.",
+ "builtAt": "2026-11-17T00:15:05.701Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035558",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2073340/000121390026035558/ea0280278-10k_talon.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination, focused on energy and power industries.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statements of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

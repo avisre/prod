@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001443575",
+ "issuerName": "Avidbank Holdings, Inc.",
+ "builtAt": "2026-11-16T13:14:43.933Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008852",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1443575/000143774926008852/avbh20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "Corporate Banking",
+    "Commercial Real Estate",
+    "Construction Lending",
+    "Venture Lending",
+    "Specialty Finance"
+   ],
+   "description": "Commercial banking through divisions serving Bay Area and national commercial clients, including lending and deposit services.",
+   "evidence": "Accordingly, all the Company's operations are recorded in one segment, banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Loans, investments and deposits provide the net revenues from commercial lending and deposit services to business clients.",
+  "evidence": "Loans, investments and deposits provide the net revenues in the banking operation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

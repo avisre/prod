@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001575965",
+ "issuerName": "Gaming and Leisure Properties, Inc.",
+ "builtAt": "2026-11-16T12:49:38.040Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001575965-26-000032",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1575965/000157596526000032/glpi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate investments",
+   "products": [
+    "destination and leisure properties"
+   ],
+   "description": "Owns gaming and leisure real estate leased to gaming operators under long-term triple-net leases.",
+   "evidence": "As such, the Company has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Gaming operator tenants pay rent under long-term triple-net leases for the real estate properties they operate.",
+  "evidence": "As a REIT, substantially all of our revenues are derived from rent received from tenants under long-term, triple-net leases."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

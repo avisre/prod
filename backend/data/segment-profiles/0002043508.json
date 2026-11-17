@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002043508",
+ "issuerName": "Lake Superior Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:04.665Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-000781",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/2043508/000147793226000781/lake_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company whose business purpose is to effect a merger or similar business combination with one or more businesses.",
+   "evidence": "We are a blank check company, incorporated as a BVI business company whose business purpose is to effect a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001253986",
+ "issuerName": "Arbor Realty Trust, Inc.",
+ "builtAt": "2026-11-16T12:47:24.079Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001253986-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1253986/000125398626000019/abr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Structured Business",
+   "products": [
+    "Bridge Financing",
+    "SFR Portfolio Financing",
+    "Construction Financing",
+    "Mezzanine Financing",
+    "Preferred Equity Investments",
+    "Structured Transactions"
+   ],
+   "description": "Originates and holds bridge, mezzanine and preferred equity loans on multifamily, SFR and commercial real estate for borrowers.",
+   "evidence": "Through our Structured Business, we focus primarily on the following investment types: Bridge Financing."
+  },
+  {
+   "name": "Agency Business",
+   "products": [
+    "GSE and HUD Agency Lending",
+    "Private Label",
+    "Fannie Mae DUS",
+    "Freddie Mac Optigo",
+    "HUD MAP and LEAN"
+   ],
+   "description": "Originates, sells and services multifamily agency loans through Fannie Mae, Freddie Mac, Ginnie Mae, FHA and HUD, retaining servicing.",
+   "evidence": "Through our Agency Business, we focus primarily on the following investment types: GSE and HUD Agency Lending."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on structured loans, and the Agency Business earns origination and servicing fees from GSE and HUD programs.",
+  "evidence": "Additional yield enhancements may include origination fees, deferred interest, yield look-backs, and participating interests, which are equity interests in the borrower that share in a percentage of the underlying cash flows of the property."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002089982",
+ "issuerName": "HCM IV ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:07.314Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035836",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2089982/000121390026035836/ea0282571-10k_hcm4.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company that has not commenced operations and seeks a business combination with an established business.",
+   "evidence": "We are a blank check company incorporated as a Cayman Islands exempted corporation on September 5, 2025, as Mercator I Acquisition Corp."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue until a business combination; non-operating income comes from interest on trust account proceeds.",
+  "evidence": "The Company will generate non-operating income in the form of interest income from the proceeds derived from the Initial Public Offering and from changes in the fair value of its warrant liability."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

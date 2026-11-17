@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002000410",
+ "issuerName": "Eureka Acquisition Corp",
+ "builtAt": "2026-11-17T00:15:03.540Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-25-121398",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2000410/000121390025121398/ea0266856-10k_eureka.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check",
+   "products": [],
+   "description": "Blank check company that has no revenue and seeks a business combination with a target business.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

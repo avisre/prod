@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001487428",
+ "issuerName": "Horizon Technology Finance Corp",
+ "builtAt": "2026-11-16T13:16:59.533Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006636",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1487428/000143774926006636/hrzn20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001831828",
+ "issuerName": "Vera Therapeutics, Inc.",
+ "builtAt": "2026-11-16T12:57:15.688Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-077442",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1831828/000119312526077442/vera-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Therapeutics",
+   "products": [
+    "atacicept",
+    "MAU868",
+    "VT-109"
+   ],
+   "description": "Develops and commercializes transformative treatments for patients with serious immunological diseases.",
+   "evidence": "The Company has one reportable segment: Therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001835385",
+ "issuerName": "MARATHON BANCORP, INC.",
+ "builtAt": "2026-11-17T00:15:01.274Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-108076",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1835385/000110465926108076/mara-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "noninterest-bearing demand deposits",
+    "interest-bearing demand deposits",
+    "savings deposits",
+    "money market deposits",
+    "certificate of deposits",
+    "wire transfers",
+    "remote deposit capture",
+    "mobile deposits"
+   ],
+   "description": "Accepts deposits and originates loans, including commercial and residential real estate, for customers through various delivery channels.",
+   "evidence": "The Company's financial results are considered to be aggregated into one reportable operating segment with revenue derived from the business of community banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on loans and fees for deposit accounts and other banking services.",
+  "evidence": "The community banking segment derives revenues mainly from interest income on loans to customers, investment securities held and fees and income related to the services listed above."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

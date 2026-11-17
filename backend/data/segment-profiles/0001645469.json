@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001645469",
+ "issuerName": "Monopar Therapeutics Inc.",
+ "builtAt": "2026-11-16T13:11:10.772Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1645469/000143774926010025/mnpr20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biopharmaceutical",
+   "products": [
+    "ALXN1840",
+    "MNPR-101-Zr",
+    "MNPR-101-Lu",
+    "MNPR-101-Ac"
+   ],
+   "description": "Develops clinical and preclinical product candidates for Wilson disease and uPAR-targeted cancer radiopharmaceuticals.",
+   "evidence": "The Company operates as a single reportable segment, focusing on the development of clinical and preclinical product candidates"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

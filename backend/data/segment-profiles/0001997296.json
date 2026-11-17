@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001997296",
+ "issuerName": "MEDICUS PHARMA LTD.",
+ "builtAt": "2026-11-17T00:15:03.440Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001062993-26-001606",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1997296/000106299326001606/form10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical development",
+   "products": [
+    "D-MNA",
+    "Teverelix"
+   ],
+   "description": "Clinical-stage biotech advancing novel therapeutic assets toward out-licensing or strategic partnerships with pharmaceutical companies.",
+   "evidence": "The Company manages the business activities on a consolidated basis and operates as one reportable segment that constitutes all of the consolidated entity, which is the business of advancing the clinical development program of the Company's product, while opportunistically identifying, evaluating, and acquiring accretive assets, properties or businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

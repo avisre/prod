@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002064177",
+ "issuerName": "Blueport Acquisition Ltd",
+ "builtAt": "2026-11-17T00:15:05.364Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-000677",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2064177/000118518526000677/bpacu10k123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company that has not commenced operations and seeks a business combination with a target business.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue; its only income is interest earned on IPO proceeds held in the trust account.",
+  "evidence": "The Company will generate non-operating income in the form of interest income from the proceeds derived from the IPO."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002053799",
+ "issuerName": "Kochav Defense Acquisition Corp.",
+ "builtAt": "2026-11-16T13:13:37.238Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036406",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2053799/000121390026036406/ea0282840-10k_kochav.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with a target in the defense and aerospace industries.",
+   "evidence": "Accordingly, Management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

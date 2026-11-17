@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001423689",
+ "issuerName": "AGNC INVESTMENT CORP.",
+ "builtAt": "2026-11-16T12:47:25.366Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001423689-26-000043",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1423689/000142368926000043/agnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agency RMBS",
+   "products": [
+    "Agency multifamily MBS",
+    "CRT securities",
+    "Non-Agency RMBS",
+    "CMBS"
+   ],
+   "description": "Invests primarily in Agency RMBS on a leveraged basis, funded mainly through repurchase agreements.",
+   "evidence": "Consequently, the Company operates as a single reportable segment, as reflected in the accompanying consolidated financial statements and notes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Income is the interest earned on investments, net of borrowing and hedging costs, plus net realized gains and losses on investment and hedging activities.",
+  "evidence": "We generate income from the interest earned on our investments, net of associated borrowing and hedging costs, and net realized gains and losses on our investment and hedging activities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

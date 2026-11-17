@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002042902",
+ "issuerName": "EQV Ventures Acquisition Corp. II",
+ "builtAt": "2026-11-16T13:07:57.114Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035526",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2042902/000121390026035526/ea0282193-10k_eqvventures2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company with no operations or revenue, seeking an initial business combination with an energy-industry target.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statements of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

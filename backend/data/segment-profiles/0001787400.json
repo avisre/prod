@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001787400",
+ "issuerName": "Nkarta, Inc.",
+ "builtAt": "2026-11-17T00:15:00.632Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001787400-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1787400/000178740026000006/nktx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell therapies",
+   "products": [
+    "NKX019",
+    "CAR NK platform"
+   ],
+   "description": null,
+   "evidence": "The Company operates as a single reporting segment, focused on the research and development of cell therapies for patients with autoimmune diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated no product revenue yet, so no customers currently pay it for products.",
+  "evidence": "No product revenue has been generated since inception and all assets are held in the United States."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

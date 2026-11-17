@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001477845",
+ "issuerName": "Annovis Bio, Inc.",
+ "builtAt": "2026-11-17T00:14:56.540Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027751",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1477845/000110465926027751/anvs-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical drug platform",
+   "products": [
+    "buntanetap"
+   ],
+   "description": "Develops buntanetap, an oral brain-penetrant drug candidate for Alzheimer's and Parkinson's diseases.",
+   "evidence": "The Company's operations are organized and reported as a single reportable segment, which includes all activities related to the discovery, development, and commercialization of our lead product candidate, buntanetap, which is designed to address AD, PD, and potentially other chronic neurodegenerative diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No customer pays the company yet; it has generated no revenue and is developing buntanetap.",
+  "evidence": "The Company is a clinical-stage biopharmaceutical company and has not generated any revenue since commencing significant operations in 2008."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

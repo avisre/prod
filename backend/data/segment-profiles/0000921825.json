@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000921825",
+ "issuerName": "FIRST INDUSTRIAL REALTY TRUST, INC.",
+ "builtAt": "2026-11-16T12:49:26.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000921825-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/921825/000092182526000012/fr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial real estate",
+   "products": [
+    "industrial properties"
+   ],
+   "description": "Acquires, develops, leases and manages industrial properties in various U.S. markets for its tenants.",
+   "evidence": "Management views the Company as operating within a single business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants lease the company's industrial properties and pay rent, plus property-related expenses passed through under the leases.",
+  "evidence": "We pursue an active leasing strategy that includes broadly marketing available space, seeking to renew existing leases at higher rents while minimizing re-leasing costs and seeking leases which provide for the pass-through of property-related expenses to the tenant."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

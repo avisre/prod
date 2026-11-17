@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0002093856",
+ "issuerName": "APEX CRITICAL METALS CORP.",
+ "builtAt": "2026-11-17T00:15:07.422Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-005611",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2093856/000106299326005611/exhibit99-2.htm",
+  "exhibit": "exhibit99-2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

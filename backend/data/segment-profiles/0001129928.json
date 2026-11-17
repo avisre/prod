@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001129928",
+ "issuerName": "ONCOLYTICS BIOTECH INC.",
+ "builtAt": "2026-11-17T00:14:54.448Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001129928-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1129928/000112992826000020/oncy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "pelareorep"
+   ],
+   "description": "Develops pelareorep, an intravenously delivered immunotherapeutic agent for cancer, focused on gastrointestinal cancers.",
+   "evidence": "We manage our operations as a single reportable and operating segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Strategic partners would share in proceeds from product sales in exchange for product rights and marketing commitments.",
+  "evidence": "In exchange for certain product rights and commitments to market our product, the strategic partners would be expected to share in proceeds from the sale of our product."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

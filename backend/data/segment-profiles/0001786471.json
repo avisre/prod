@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001786471",
+ "issuerName": "APTERA MOTORS CORP.",
+ "builtAt": "2026-11-17T00:15:00.572Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013581",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1786471/000149315226013581/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solar electric vehicles",
+   "products": [
+    "Launch Edition Aptera"
+   ],
+   "description": "Develops, produces and distributes energy-efficient solar-powered, battery-electric vehicles for consumers.",
+   "evidence": "The Company operates as a single reportable segment focused on the development of solar electric vehicles."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers would buy vehicles directly from the company through its website and mobile application, not through dealers.",
+  "evidence": "We intend to sell our vehicles directly to customers through our website and mobile application, eliminating the inventory holding costs and sales commissions associated with independent dealers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

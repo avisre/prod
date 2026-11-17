@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002067627",
+ "issuerName": "TERRA INNOVATUM GLOBAL N.V.",
+ "builtAt": "2026-11-16T13:10:45.624Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-068933",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2067627/000121390026068933/ea0285850-10k_terra.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nuclear energy technology",
+   "products": [
+    "SOLO Micro-Modular Nuclear Reactor"
+   ],
+   "description": "Develops the SOLO micro-modular nuclear reactor for future sale to industrial and other customers; not yet generating revenue.",
+   "evidence": "We are a development-stage nuclear energy technology company focused on the research, development, and future commercialization of our SOLO micro-modular nuclear reactor."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Planned model is direct sale of SOLO reactors to customers, plus service packages and periodic maintenance; no external revenue has been generated yet.",
+  "evidence": "Terra Innovatum's primary business model is centered on the direct sale of SOLO reactors to customers seeking reliable and sustainable energy solutions, such as industrial operations, manufacturing facilities, remote locations, healthcare facilities, and data centers, among many others."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

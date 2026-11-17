@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001829667",
+ "issuerName": "REGENCELL BIOSCIENCE HOLDINGS LIMITED",
+ "builtAt": "2026-11-16T12:53:22.279Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-107581",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1829667/000121390026107581/ea0307551-20f_regencell.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development",
+   "products": [
+    "standardized TCM formula candidate"
+   ],
+   "description": "Research and development of a standardized TCM formula candidate targeting ADHD and ASD patients.",
+   "evidence": "The Company operates and manages its business as a single segment – in the research and development of the Company's product candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

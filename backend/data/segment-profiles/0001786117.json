@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001786117",
+ "issuerName": "ALPINE INCOME PROPERTY TRUST, INC.",
+ "builtAt": "2026-11-16T13:14:26.452Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-010910",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1786117/000110465926010910/pine-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Income Properties",
+   "products": [
+    "commercial net lease properties",
+    "income producing properties"
+   ],
+   "description": "Owns and leases commercial net lease properties across the United States to creditworthy tenants.",
+   "evidence": "Our income property operations consist of lease income from income producing properties and our business plan is focused on investing in additional income-producing properties."
+  },
+  {
+   "name": "Commercial Loans and Investments",
+   "products": [
+    "construction loans",
+    "mortgage notes"
+   ],
+   "description": "Makes and holds commercial loans and investments, generally secured by real estate, including construction loans and mortgage notes.",
+   "evidence": "In addition to our income property portfolio, as of December 31, 2025, our business included a portfolio of nine construction loans, six mortgage notes, and three properties acquired pursuant to a sale-leaseback transaction whereby the tenant has a future repurchase right."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay lease income and reimburse property operating expenses under long-term leases; borrowers pay interest on commercial loans and investments.",
+  "evidence": "The properties in our portfolio are primarily subject to long-term leases, which generally require the tenant to pay directly or reimburse us for property operating expenses such as real estate taxes, insurance, assessments and other governmental fees, utilities, repairs and maintenance and certain capital expenditures."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

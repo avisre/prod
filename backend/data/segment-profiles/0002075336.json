@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002075336",
+ "issuerName": "AA Mission Acquisition Corp. II",
+ "builtAt": "2026-11-17T00:15:05.939Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-024163",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/2075336/000121390026024163/ea0277848-10k_aamission2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination, focusing on the food and beverage industry.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

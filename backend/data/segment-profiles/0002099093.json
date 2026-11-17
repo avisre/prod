@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002099093",
+ "issuerName": "HENNESSY CAPITAL INVESTMENT CORP. VIII",
+ "builtAt": "2026-11-17T00:15:07.625Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013683",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2099093/000149315226013683/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Special purpose acquisition",
+   "products": [],
+   "description": "A newly organized special purpose acquisition company formed to effect a business combination with one or more businesses.",
+   "evidence": "HCIC is a newly organized special purpose acquisition company (a \"SPAC\") incorporated as a Cayman Islands exempted company, on July 15, 2025, for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses, which is referred to throughout this Report as its initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

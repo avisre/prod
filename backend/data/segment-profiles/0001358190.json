@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001358190",
+ "issuerName": "IT TECH PACKAGING, INC.",
+ "builtAt": "2026-11-17T00:14:55.595Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-25-031072",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-04-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1358190/000121390025031072/ea0236516-10k_ittech.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dongfang Paper",
+   "products": [
+    "offset printing paper",
+    "corrugating medium paper",
+    "tissue paper"
+   ],
+   "description": "Produces offset printing paper, corrugating medium paper and tissue paper for customers in China.",
+   "evidence": "Since March 10, 2010, Baoding Shengde started its operations and thereafter the Company manages its operations through three business operating segments: Dongfang Paper and Tengsheng Paper, which produces offset printing paper, corrugating medium paper and tissue paper, and Baoding Shengde, which produces face masks and digital photo paper."
+  },
+  {
+   "name": "Tengsheng Paper",
+   "products": [
+    "offset printing paper",
+    "corrugating medium paper",
+    "tissue paper"
+   ],
+   "description": "Produces offset printing paper, corrugating medium paper and tissue paper for customers in China.",
+   "evidence": "Since March 10, 2010, Baoding Shengde started its operations and thereafter the Company manages its operations through three business operating segments: Dongfang Paper and Tengsheng Paper, which produces offset printing paper, corrugating medium paper and tissue paper, and Baoding Shengde, which produces face masks and digital photo paper."
+  },
+  {
+   "name": "Baoding Shengde",
+   "products": [
+    "face masks",
+    "digital photo paper"
+   ],
+   "description": "Produces face masks and digital photo paper for customers in China.",
+   "evidence": "Since March 10, 2010, Baoding Shengde started its operations and thereafter the Company manages its operations through three business operating segments: Dongfang Paper and Tengsheng Paper, which produces offset printing paper, corrugating medium paper and tissue paper, and Baoding Shengde, which produces face masks and digital photo paper."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in the PRC pay for paper products and face masks the company produces and distributes.",
+  "evidence": "All sales were sold to customers located in the PRC."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

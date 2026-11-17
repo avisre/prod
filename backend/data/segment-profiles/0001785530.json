@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001785530",
+ "issuerName": "WEREWOLF THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:15:00.524Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001785530-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1785530/000178553026000006/howl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cancer therapeutics",
+   "products": [],
+   "description": "Discovers and develops cancer therapeutics; the segment's revenue comes from a collaboration agreement with Jazz.",
+   "evidence": "We have one reportable segment which focuses on the discovery and development of cancer therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Jazz Pharmaceuticals, under a collaboration agreement, is the source of the segment's revenue.",
+  "evidence": "The segment derives its revenues from the Collaboration Agreement with Jazz (see Note 4, Collaboration and License Agreement )."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

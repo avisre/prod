@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001818844",
+ "issuerName": "Dogwood Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:15:00.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-031061",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1818844/000110465926031061/dwtx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "novel therapeutics",
+   "products": [
+    "Halneuron®",
+    "SP16"
+   ],
+   "description": "Develops clinical and preclinical product candidates for pain and fatigue illness; no product revenue yet.",
+   "evidence": "The segment consists of the development of clinical and preclinical product candidates focused on advancing novel therapeutics for pain and fatigue illness."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

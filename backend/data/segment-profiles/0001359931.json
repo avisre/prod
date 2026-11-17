@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001359931",
+ "issuerName": "Protara Therapeutics, Inc.",
+ "builtAt": "2026-11-16T13:17:15.788Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-025433",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1359931/000121390026025433/ea0277639-10k_protara.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [],
+   "description": "Develops clinical-stage therapies for cancer and rare diseases, aimed at patients with limited treatment options.",
+   "evidence": "The Company views its operations and manages its business as one operating and reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001845437",
+ "issuerName": "NET Power Inc.",
+ "builtAt": "2026-11-17T00:15:01.613Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001845437-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1845437/000184543726000009/npwr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clean gas power",
+   "products": [
+    "Clean Gas Product",
+    "Oxy-Combustion Cycle"
+   ],
+   "description": "Designs, builds and operates clean gas power plants, selling electricity, captured carbon dioxide and environmental attributes to customers.",
+   "evidence": "the Company has determined that it has one operating segment and one reportable segment, which includes all of the Company's consolidated accounts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Potential customers pay for electricity sold into wholesale markets or to strategic buyers, plus captured carbon dioxide and environmental attributes.",
+  "evidence": "In addition to selling electricity into wholesale markets on a merchant basis, potential strategic power customers include hyperscalers, data center co-locators, oil and gas exploration and production and midstream companies, and other industrial companies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

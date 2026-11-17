@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002051587",
+ "issuerName": "BEST SPAC I ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:05.008Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-013671",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/2051587/000121390026013671/ea0274054-10k_bestspac1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company that has not commenced operations and is seeking a business combination.",
+   "evidence": "BEST SPAC I Acquisition Corp. (the \"Company\") is a blank check company incorporated as a British Virgin Island (\"BVI\") business company on December 13, 2024."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001934642",
+ "issuerName": "MDB CAPITAL HOLDINGS, LLC",
+ "builtAt": "2026-11-17T00:15:02.876Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013924",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1934642/000149315226013924/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Broker Dealer & Intellectual Property Service",
+   "products": [
+    "Public Ventures",
+    "PatentVest"
+   ],
+   "description": "Runs a self-clearing broker-dealer for private and public securities offerings and offers patent research for investment banking due diligence.",
+   "evidence": "The broker dealer & intellectual property service segment currently has two subsidiaries, Public Ventures and PatentVest."
+  },
+  {
+   "name": "Technology Development",
+   "products": [
+    "eXoZymes",
+    "M1"
+   ],
+   "description": "Develops early-stage synthetic biology and small molecule senescence platforms through research and development subsidiaries.",
+   "evidence": "The technology development segment currently has two subsidiaries, eXoZymes, and M1."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The broker-dealer earns fee income from investment banking activities such as advisory services and capital raising, and PatentVest earns fees for patent research.",
+  "evidence": "Includes fee income generated for the broker-dealer from investment banking activities, including advisory services, capital raising, and other related financial transactions."
+ },
+ "changes": [
+  {
+   "text": "eXoZymes was deconsolidated in 2024 and is now accounted for under the equity method.",
+   "evidence": "As a result, effective November 14, 2024, eXoZymes became a minority owned company and is now accounted for under the equity method of accounting."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

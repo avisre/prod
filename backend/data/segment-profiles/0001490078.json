@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001490078",
+ "issuerName": "First Phosphate Corp.",
+ "builtAt": "2026-11-17T00:14:56.787Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001753926-24-001223",
+  "periodEnd": "2024-02-29",
+  "filingDate": "2024-07-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1490078/000175392624001223/g084282_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral exploration",
+   "products": [],
+   "description": "Explores mineral properties in Quebec for phosphate, ilmenite and magnetite concentrates.",
+   "evidence": "The Company has one operating segment involved in the exploration of mineral properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

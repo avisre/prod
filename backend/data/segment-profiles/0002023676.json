@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002023676",
+ "issuerName": "Launch Two Acquisition Corp.",
+ "builtAt": "2026-11-16T13:15:55.335Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034881",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2023676/000121390026034881/ea0283281-10k_launch2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue a Business Combination with one or more businesses; has generated no operating revenue.",
+   "evidence": "Accordingly, Management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

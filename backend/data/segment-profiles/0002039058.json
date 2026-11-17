@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002039058",
+ "issuerName": "JACKSON ACQUISITION COMPANY II",
+ "builtAt": "2026-11-16T13:15:52.403Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-032353",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2039058/000121390026032353/ea0274212-10k_jackson2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check",
+   "products": [],
+   "description": "Blank check shell company formed to complete a business combination, with a focus on healthcare services and technology.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income that also is reported on the statements of operations as net income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

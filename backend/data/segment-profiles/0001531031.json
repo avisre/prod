@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001531031",
+ "issuerName": "Esquire Financial Holdings, Inc.",
+ "builtAt": "2026-11-16T13:02:34.017Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027706",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1531031/000110465926027706/esq-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "Litigation-Related Loans",
+    "payment processing"
+   ],
+   "description": "Full-service commercial bank serving legal and small business communities nationally, plus retail and commercial customers in New York and Los Angeles.",
+   "evidence": "The Chief Executive Officer is designated the chief operating decision maker (\"CODM\") who evaluates the Company's performance and allocates resources based on the Company being one operating segment, that of community banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Small businesses pay the company fees for payment processing, and borrowers pay interest on loans, mainly litigation-related commercial loans.",
+  "evidence": "Additionally, our payment processing activities to small businesses nationally generate a relatively stable source of fee income."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001434754",
+ "issuerName": "SAFE BULKERS, INC.",
+ "builtAt": "2026-11-16T13:05:49.239Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-014408",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1434754/000162828026014408/sb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dry bulk shipping",
+   "products": [
+    "dry bulk vessels"
+   ],
+   "description": "Provides worldwide seaborne transportation of dry bulk commodities using an owned fleet of vessels for customers.",
+   "evidence": "We are a global shipping company providing worldwide seaborne transportation solutions in the dry bulk sector."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company charter revenues for seaborne transport of major and minor bulk cargoes on its vessels.",
+  "evidence": "The Chief Operating Decision Makers (\"CODM\"), the board of directors of the Company, receive financial information and evaluate the Company's operations by charter revenues and not by the length, type of vessel or type of ship employment for its customers or by geographical region as the charterer is free to trade the vessel worldwide and as a result, the disclosure of geographic information is impracticable."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -2,33 +2,30 @@
  "version": 1,
  "cik": "0001896425",
  "issuerName": "Li Bang International Corporation Inc.",
- "builtAt": "2026-11-16T12:29:22.806Z",
+ "builtAt": "2026-11-17T00:15:02.456Z",
  "filing": {
   "form": "20-F",
-  "accessionNumber": "0001213900-25-107445",
-  "periodEnd": "2025-06-30",
-  "filingDate": "2025-11-07",
-  "url": "https://www.sec.gov/Archives/edgar/data/1896425/000121390025107445/ea0258519-20f_libang.htm"
+  "accessionNumber": "0001493152-26-051829",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1896425/000149315226051829/form20-f.htm"
  },
  "status": "ok",
  "segments": [
   {
-   "name": "Commercial kitchen equipment",
+   "name": "commercial kitchen equipment",
    "products": [
-    "Cookers",
-    "cooking machinery",
-    "food machinery",
-    "hotel supplies",
-    "kitchen accessories"
+    "stainless steel commercial kitchen equipment",
+    "Li Bang"
    ],
-   "description": "Designs, produces and sells stainless steel commercial kitchen equipment in China under its own Li Bang brand, with design and installation services.",
-   "evidence": "The main business of our Operating Subsidiaries is to design, develop, produce and sell stainless steel commercial kitchen equipment in China under our own \"Li Bang\" brand."
+   "description": "Designs, produces and sells stainless steel commercial kitchen equipment in China, plus kitchen design, installation and after-sales maintenance.",
+   "evidence": "The Company determined it operates in one operating and reportable segment."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers such as hotels, companies, public institutions and hospitals pay for the kitchen equipment they buy; installation and after-sales services generate no separate revenue.",
-  "evidence": "Our Operating Subsidiaries sell products and provide services under our own \"Li Bang\" brand, and our income comes from these sales, of which installation and after-sales services do not separately generate revenue."
+  "text": "Customers pay for stainless steel commercial kitchen equipment and for design, installation and after-sales maintenance services.",
+  "evidence": "Additionally, our Operating Subsidiaries provide customers with comprehensive services, from commercial kitchen design in the early stage to equipment installation and after-sales maintenance."
  },
  "changes": [],
  "dropped": [],

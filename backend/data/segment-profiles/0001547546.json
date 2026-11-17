@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001547546",
+ "issuerName": "LUMENT FINANCE TRUST, INC.",
+ "builtAt": "2026-11-17T00:14:57.699Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001547546-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1547546/000154754626000005/hcft-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CRE debt instruments",
+   "products": [
+    "transitional floating rate CRE mortgage loans",
+    "mezzanine loans",
+    "preferred equity",
+    "CMBS",
+    "fixed rate loans",
+    "construction loans"
+   ],
+   "description": "Invests in and originates commercial real estate debt, mainly floating rate loans on middle-market multifamily assets.",
+   "evidence": "As a result, LFT conducts its business as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on the CRE loans the company funds, and the company also earns non-interest income from mortgage loan-related activities.",
+  "evidence": "Our primary sources of income are net interest from our investment portfolio and non-interest income from our mortgage loan-related activities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001617867",
+ "issuerName": "Autonomix Medical, Inc.",
+ "builtAt": "2026-11-17T00:14:58.533Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-018573",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1617867/000143774926018573/amix20260331_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "nervous system",
+   "products": [],
+   "description": "Develops catheter-based technologies for sensing and treating nervous system disorders, initially for pancreatic cancer pain.",
+   "evidence": "Management has determined that the Company operates in one reportable segment, which is advancing the development of innovative technologies for sensing and treating disorders relating to the nervous system."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

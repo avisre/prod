@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001228454",
+ "issuerName": "BCB Bancorp, Inc.",
+ "builtAt": "2026-11-17T00:14:54.698Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001228454-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1228454/000122845426000004/bcbp-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking services",
+   "products": [
+    "commercial lending",
+    "residential lending",
+    "consumer lending",
+    "checking, savings and time deposits",
+    "cash management"
+   ],
+   "description": "Provides banking services to individuals and companies primarily in New Jersey and New York, including commercial, residential and consumer lending and deposits.",
+   "evidence": "The Company operates as a single reportable segment under ASC 280, as the Chief Operating Decision Maker (CODM) reviews financial performance and allocates resources based on the consolidated results of the Company as a whole."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns net interest income from interest on loans and investment securities, net of interest paid on deposits and borrowings.",
+  "evidence": "The Company's primary measure of profitability is net interest income, which represents interest earned on loans and investment securities, net of interest expense on deposits and borrowings."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

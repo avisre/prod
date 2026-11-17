@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001612720",
+ "issuerName": "NEXTDECADE CORPORATION",
+ "builtAt": "2026-11-16T12:57:33.707Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001612720-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1612720/000161272026000009/next-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural gas liquefaction",
+   "products": [
+    "Rio Grande LNG Facility"
+   ],
+   "description": "Builds and develops the Rio Grande LNG Facility, a natural gas liquefaction and export plant near Brownsville, Texas, for LNG sales.",
+   "evidence": "As such, for purposes of financial reporting under U.S. GAAP, the Company operates as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay under long-term LNG sale and purchase agreements, a fixed fee plus a variable fee per MMBtu of LNG.",
+  "evidence": "Under these SPAs, the customers will purchase LNG from the Rio Grande LNG Facility for a price consisting of a fixed fee per MMBtu of LNG plus a variable fee per MMBtu of LNG, with the variable fees structured to cover the expected cost of natural gas plus fuel and other sourcing costs to produce LNG."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

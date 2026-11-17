@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0001615903",
+ "issuerName": "INTERCORP FINANCIAL SERVICES INC.",
+ "builtAt": "2026-11-16T12:54:49.737Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-177617",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1615903/000119312526177617/ifs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "consumer loans",
+    "payroll deduction loans",
+    "commercial loans",
+    "retail mortgages",
+    "retail deposits"
+   ],
+   "description": "Provides consumer, commercial and mortgage lending and deposits to Peruvian customers through Interbank's retail network.",
+   "evidence": "Interbank is the third largest provider of consumer loans (retail loans other than mortgages) in Peru with a 19.1% market share in terms of total gross consumer loans outstanding as of December 31, 2025, according to the SBS."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "annuities",
+    "credit life",
+    "car insurance",
+    "credit card protection insurance"
+   ],
+   "description": "Provides annuities, individual life and lower-premium retail insurance products, including car and credit life cover, in Peru.",
+   "evidence": "Interseguro is the leading provider of annuities in Peru, with a 25.5% market share as measured by total premiums collected during 2025, according to the SBS, and is one of the leading individual life insurance companies in Peru."
+  },
+  {
+   "name": "Wealth management",
+   "products": [
+    "Inteligo Bank",
+    "Inteligo SAB",
+    "Interfondos",
+    "Veltria"
+   ],
+   "description": "Provides banking, financing, brokerage and investing services to high-net-worth individuals through four subsidiaries.",
+   "evidence": "Inteligo is a provider of wealth management services, which includes banking, financing, brokerage and investing activities for high-net-worth individuals through four operating subsidiaries: Inteligo Bank, Inteligo SAB (brokerage), Interfondos (mutual funds) and Veltria (multi-family office)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay premiums for annuities and retail insurance products such as credit life and car insurance.",
+  "evidence": "Interseguro is the leading provider of annuities in Peru, with a 25.5% market share as measured by total premiums collected during 2025, according to the SBS, and is one of the leading individual life insurance companies in Peru."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the payments segment stopped being an operating segment and its businesses are now reported with the group's other subsidiaries.",
+   "evidence": "In 2024, the Group performed an assessment of the operating business segments, taking into consideration, among others, relevance criteria regarding revenues, income and the Group's consolidated assets, and concluded that the segment Payments will no longer be an operating business segment and will be presented jointly with the rest of the Group's Subsidiaries that are not part of an operating segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

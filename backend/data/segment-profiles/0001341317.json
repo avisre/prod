@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001341317",
+ "issuerName": "BRIDGEWATER BANCSHARES, INC.",
+ "builtAt": "2026-11-16T13:09:11.764Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020063",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1341317/000110465926020063/bwb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "loan and deposit products",
+    "Commercial real estate loans",
+    "commercial and industrial loans",
+    "construction loans",
+    "remote deposit and cash management products"
+   ],
+   "description": "Provides commercial loan and deposit banking to businesses, entrepreneurs and individuals in the Twin Cities area.",
+   "evidence": "The Company's CODM makes operating decisions and assesses performance based on an ongoing review of the banking activities, which constitute the Company's only operating segment for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans; the bank also earns investment income and fees such as service charges and letter of credit fees.",
+  "evidence": "The Company's principal sources of income are interest and fees collected on loans, interest and dividends earned on investment securities and noninterest income, including service charges, letter of credit fees, and swap fees."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001981546",
+ "issuerName": "Commercial Bancgroup, Inc.",
+ "builtAt": "2026-11-16T13:12:03.664Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-033659",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1981546/000121390026033659/ea0282863-10k_commercial.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "mortgages",
+    "home equity lines of credit",
+    "small consumer finance loans",
+    "remote deposit capture",
+    "commercial internet banking",
+    "mobile banking applications",
+    "treasury management products"
+   ],
+   "description": "Full-service community bank serving businesses and individuals in Kentucky, North Carolina and Tennessee.",
+   "evidence": "Accordingly, all of the financial service operations are considered by management to aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns fees from customers for debit card transactions and other services such as insurance commissions and safe deposit box rent.",
+  "evidence": "the Bank charges a fee, typically a fixed amount, which is recognized as revenue upon the completion of the transaction."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

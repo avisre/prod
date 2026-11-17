@@ -2,13 +2,13 @@
  "version": 1,
  "cik": "0001260221",
  "issuerName": "TransDigm Group Incorporated",
- "builtAt": "2026-11-16T08:57:15.996Z",
+ "builtAt": "2026-11-17T00:14:54.723Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001260221-25-000081",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-12",
-  "url": "https://www.sec.gov/Archives/edgar/data/1260221/000126022125000081/tdg-20250930.htm"
+  "accessionNumber": "0001260221-26-000077",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1260221/000126022126000077/tdg-20260930.htm"
  },
  "status": "ok",
  "segments": [
@@ -21,10 +21,10 @@
     "power conditioning devices",
     "specialized AC/DC electric motors and generators",
     "batteries and chargers",
-    "advanced sensor products",
-    "switches and relay panels"
+    "databus and power controls",
+    "advanced sensor products"
    ],
-   "description": "Develops, produces and markets systems and components that provide or control aircraft power, selling to engine and power suppliers, airlines, maintenance suppliers and military agencies.",
+   "description": "Designs and sells systems and components that provide power to or control power of aircraft.",
    "evidence": "The Power & Control segment includes operations that primarily develop, produce and market systems and components that predominately provide power to or control power of the aircraft utilizing electronic, fluid, power and mechanical motion control technologies."
   },
   {
@@ -36,10 +36,10 @@
     "cockpit security components and systems",
     "specialized and advanced cockpit displays",
     "engineered audio, radio and antenna systems",
-    "seat belts and safety restraints",
-    "parachutes"
+    "specialized lavatory components",
+    "seat belts and safety restraints"
    ],
-   "description": "Develops, produces and markets systems and components for non-power airframe applications, selling to airframe manufacturers, cabin system suppliers, airlines, maintenance suppliers and military agencies.",
+   "description": "Develops and sells systems and components for non-power airframe and cabin structure applications.",
    "evidence": "The Airframe segment includes operations that primarily develop, produce and market systems and components that are used in non-power airframe applications utilizing airframe and cabin structure technologies."
   },
   {
@@ -51,14 +51,14 @@
     "refueling systems for heavy equipment used in mining, construction and other ind",
     "turbine controls for the energy and oil and gas markets"
    ],
-   "description": "Develops, produces and markets products for non-aviation markets, selling to off-road vehicle suppliers, child restraint system suppliers, satellite and space suppliers, equipment manufacturers and utilities.",
+   "description": "Develops and sells products for non-aviation markets such as ground transportation, space, energy and heavy equipment.",
    "evidence": "The Non-aviation segment includes operations that primarily develop, produce and market products for non-aviation markets."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Aircraft operators, OEMs, airlines, distributors, governments and defense and industrial customers pay for proprietary engineered components and aftermarket parts and services.",
-  "evidence": "Our customers include: (1) distributors of aerospace components; (2) worldwide commercial airlines, including national and regional airlines; (3) large commercial transport and regional and business aircraft OEMs; (4) various armed forces of the United States and friendly foreign governments; (5) defense OEMs; (6) system suppliers; and (7) various other industrial customers."
+  "text": "Customers such as airlines, aircraft makers and armed forces pay for engineered aircraft components sold through original equipment and aftermarket channels.",
+  "evidence": "Products are sold in the original equipment and aftermarket market channels."
  },
  "changes": [],
  "dropped": [],

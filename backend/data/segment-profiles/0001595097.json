@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001595097",
+ "issuerName": "Corbus Pharmaceuticals Holdings, Inc.",
+ "builtAt": "2026-11-17T00:14:58.154Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-098530",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1595097/000119312526098530/crbp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology and obesity",
+   "products": [
+    "CRB-701",
+    "CRB-913"
+   ],
+   "description": "Develops and commercializes therapeutics for cancer and obesity, with clinical-stage candidates in both areas.",
+   "evidence": "The Company views its operations and manages its business in one reportable segment, which is developing and commercializing therapeutics for cancer and obesity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

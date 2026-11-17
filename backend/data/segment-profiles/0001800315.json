@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001800315",
+ "issuerName": "DAMORA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T12:59:04.067Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115922",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1800315/000119312526115922/dmra-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mutCALR portfolio",
+   "products": [
+    "DMR-001",
+    "DMR-002",
+    "DMR-003"
+   ],
+   "description": "Develops the mutCALR portfolio of product candidates to address mutCALR myeloproliferative neoplasm disease.",
+   "evidence": "The Company's s ingular focus is on the development of its mutCALR portfolio to address the full mutCALR myeloproliferative neoplasm disease spectrum."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

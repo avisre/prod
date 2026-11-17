@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001736243",
+ "issuerName": "Acurx Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-17T00:14:59.695Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027052",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1736243/000110465926027052/acxp-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "product candidates",
+   "products": [
+    "ibezapolstat",
+    "ACX-375C"
+   ],
+   "description": "Develops clinical and preclinical antibiotic product candidates for difficult-to-treat bacterial infections.",
+   "evidence": "The Company's segment consists of the development of clinical and preclinical product candidates for the development of the Company's proprietary new therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002055879",
+ "issuerName": "VENDOME ACQUISITION CORPORATION I",
+ "builtAt": "2026-11-17T00:15:05.144Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-010592",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2055879/000114036126010592/ef20060833_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "A blank check company seeking a business combination, focused on consumer sector targets.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

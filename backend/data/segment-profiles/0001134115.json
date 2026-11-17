@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001134115",
+ "issuerName": "INTERNATIONAL TOWER HILL MINES LTD",
+ "builtAt": "2026-11-16T13:06:27.748Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-026416",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1134115/000110465926026416/thm-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and development",
+   "products": [
+    "Livengood Gold Project"
+   ],
+   "description": "Acquires and develops mineral properties, currently the Livengood Gold Project in Alaska, with no revenue yet.",
+   "evidence": "The Company operates in a single reportable operating segment, being the exploration and development of mineral properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001705696",
+ "issuerName": "VICI Properties Inc.",
+ "builtAt": "2026-11-16T12:51:27.354Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001705696-26-000034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1705696/000170569626000034/vici-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate investment",
+   "products": [],
+   "description": "Owns and leases gaming, hospitality, wellness, entertainment and leisure properties to operators under long-term triple net leases.",
+   "evidence": "Our operations consist of real estate investment activities, which represent substantially all of our business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenant operators pay long-term triple-net rent for leasing the company's gaming, hospitality and entertainment properties, and bear all property operating costs.",
+  "evidence": "Our long-term triple-net leases provide our tenants with complete control over management at our leased properties, including sole responsibility for all operations and related expenses, including property taxes, insurance and maintenance, repair, improvement and other capital expenditures, as well as over the implementation of environmental sustainability and other initiatives."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

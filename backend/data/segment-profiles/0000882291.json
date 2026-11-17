@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000882291",
+ "issuerName": "Aethlon Medical, Inc.",
+ "builtAt": "2026-11-17T00:14:53.453Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-004710",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/882291/000168316826004710/aethlon_i10k-033126.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical technology",
+   "products": [
+    "Hemopurifier®"
+   ],
+   "description": "Development-stage medical technology company advancing the Hemopurifier, a clinical-stage device for oncology and viral diseases.",
+   "evidence": "The Company operates as a single operating and reportable segment, which reflects the manner in which the Chief Operating Decision Maker (CODM), the Company's Chief Executive Officer, manages the business and allocates resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

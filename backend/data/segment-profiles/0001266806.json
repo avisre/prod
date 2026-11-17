@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001266806",
+ "issuerName": "Vivani Medical, Inc.",
+ "builtAt": "2026-11-17T00:14:54.910Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001753926-26-000548",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1266806/000175392626000548/vani-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharm Division",
+   "products": [],
+   "description": "Develops miniature, ultra long-acting subdermal drug implant candidates for chronic diseases; not revenue producing.",
+   "evidence": "The Biopharm Division includes activities from NPM and Vivani Medical Australia Pty Ltd."
+  },
+  {
+   "name": "Neurostimulation Division",
+   "products": [],
+   "description": "Develops neurostimulation systems aimed at helping patients recover critical body functions; not revenue producing.",
+   "evidence": "The Neurostimulation Division includes activities from Cortigent and our subsidiary in Switzerland ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No customer currently pays the company for products, as it is a clinical stage company that has generated no product revenue to date.",
+  "evidence": "The Company has not generated any product revenue to date."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

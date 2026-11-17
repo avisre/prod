@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0002039072",
+ "issuerName": "DAVION HEALTHCARE PLC",
+ "builtAt": "2026-11-17T00:15:04.537Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001683168-26-003389",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2039072/000168316826003389/davion_i20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home tests",
+   "products": [
+    "BreastCheck",
+    "FootFlow",
+    "Testic",
+    "ThermaDerm"
+   ],
+   "description": "Develops and licenses non-invasive home test products for early detection of health anomalies to regional or global licensees.",
+   "evidence": "Davion Healthcare is a healthcare company focusing on the development and commercialization of non-invasive home tests for the early detection, prevention and monitoring of health anomalies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Licensees pay the company license fees and royalties on products they manufacture or sell under license in their territories.",
+  "evidence": "Cash flows are expected to be derived primarily from milestone-based license fees and recurring royalty payments tied to the volume of products manufactured and/or sold by licensees."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001750284",
+ "issuerName": "OLEMA PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-16T13:01:27.780Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-107169",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1750284/000119312526107169/olma-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "palazestrant",
+    "OP-3136"
+   ],
+   "description": "Focuses on discovering and developing next-generation targeted therapies for breast cancer and beyond, led by palazestrant.",
+   "evidence": "It operates in one business segment and therefore has only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No payers yet: the company has not generated revenue from product sales and depends on future commercialization of its product candidates.",
+  "evidence": "We do not have any product candidates approved for commercial sale, and we have not generated any revenue from product sales."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

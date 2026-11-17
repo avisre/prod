@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000894671",
+ "issuerName": "OHIO VALLEY BANC CORP",
+ "builtAt": "2026-11-17T00:14:53.653Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-009342",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/894671/000114036126009342/sec10k123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "checking, savings, time and money market accounts",
+    "personal and commercial loans",
+    "credit card services",
+    "trust services",
+    "Internet banking"
+   ],
+   "description": "Commercial and retail banking across southeastern Ohio and western West Virginia, offering deposits, loans and trust services.",
+   "evidence": "Ohio Valley's financial service operations are considered by management to be aggregated in one reportable segment: banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans, which account for most of total revenue.",
+  "evidence": "Consolidated interest and fee revenue from loans accounted for 77.84% and 73.02% of total consolidated revenues in 2025 and 2024, respectively."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

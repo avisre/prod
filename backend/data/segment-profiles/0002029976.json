@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002029976",
+ "issuerName": "K&F GROWTH ACQUISITION CORP. II",
+ "builtAt": "2026-11-16T13:11:22.036Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035745",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2029976/000121390026035745/ea0283366-10k_kandfgrowth2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a Business Combination with one or more businesses or entities in any industry.",
+   "evidence": "Accordingly, Management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

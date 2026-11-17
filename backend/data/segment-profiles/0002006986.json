@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "cik": "0002006986",
+ "issuerName": "ADAGIO MEDICAL HOLDINGS, INC.",
+ "builtAt": "2026-11-17T00:15:03.572Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002006986-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2006986/000200698626000003/adgm-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and medical centers pay for catheters, called consumables, used with the company's consoles.",
+  "evidence": "The Company generates product revenue primarily from the sale of catheters (the \"Consumables\") used with the Company's consoles."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Cardiac arrhythmia ablation"
+ ],
+ "reader": "agent"
+}

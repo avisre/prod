@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000949858",
+ "issuerName": "Achieve Life Sciences, Inc.",
+ "builtAt": "2026-11-16T13:10:14.967Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-120690",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/949858/000119312526120690/achv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cytisinicline",
+   "products": [],
+   "description": "Develops and commercializes cytisinicline for nicotine dependence, the company's sole product candidate.",
+   "evidence": "We view our operations and manage our business as one operating segment, dedicated to the development and commercialization of cytisinicline for nicotine dependence, with operations located in Canada, the United States and the U.K."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Cytisinicline): Cytisinicline"
+ ],
+ "reader": "agent"
+}

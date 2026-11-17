@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001954488",
+ "issuerName": "Jyong Biotech Ltd.",
+ "builtAt": "2026-11-17T00:15:02.984Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-057073",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1954488/000121390026057073/ea0287254-20f_jyong.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel therapeutics",
+   "products": [
+    "Botreso ®"
+   ],
+   "description": "Researches and develops novel therapeutics targeting significant unmet needs.",
+   "evidence": "The Group operates and manages its business as a single reportable segment—in the research and development of novel therapeutics targeting significant unmet needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

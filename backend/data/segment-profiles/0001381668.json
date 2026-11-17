@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001381668",
+ "issuerName": "TFS FINANCIAL CORPORATION",
+ "builtAt": "2026-11-16T12:55:12.509Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001381668-25-000106",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1381668/000138166825000106/tfsl-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "retail consumer banking",
+   "products": [
+    "residential mortgage loans",
+    "deposit products",
+    "home equity loans",
+    "home equity lines of credit"
+   ],
+   "description": "Provides residential mortgage lending and deposit products to retail customers in the United States.",
+   "evidence": "The Company operates as a single reportable segment that derives revenues primarily by providing residential mortgage loans and deposit products to customers in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans, and the bank also earns fees, gains on loan sales and service charges.",
+  "evidence": "The Association's revenues are derived primarily from interest on loans and, to a lesser extent, interest on interest-earning deposits in other financial institutions, deposits maintained at the FRS, federal funds sold, investment securities, including mortgage-backed securities and dividends from FHLB of Cincinnati stock."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001888654",
+ "issuerName": "5E ADVANCED MATERIALS, INC.",
+ "builtAt": "2026-11-17T00:15:02.233Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-394541",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1888654/000119312526394541/feam-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "the development of the Project",
+   "products": [
+    "boric acid",
+    "calcium chloride",
+    "gypsum",
+    "lithium carbonate"
+   ],
+   "description": "Development-stage company developing the Project to extract and refine borates, calcium co-products and potentially lithium carbonate for industrial customers.",
+   "evidence": "The Company has evaluated how it is organized and managed and has identified only one reportable business segment, which is the development of the Project."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no revenue yet and plans to sell boric acid and other products to industrial customers under offtake agreements that are not yet binding.",
+  "evidence": "The Company currently generates no revenue from operations and will need to rely on raising additional capital or 88 financing to sustain current and planned operations in the long term."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001614806",
+ "issuerName": "RITHM PROPERTY TRUST INC.",
+ "builtAt": "2026-11-17T00:14:58.472Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001614806-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1614806/000161480626000010/rpt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential",
+   "products": [
+    "whole mortgage loans",
+    "RMBS",
+    "beneficial interests",
+    "residential mortgage assets"
+   ],
+   "description": "Manages the company's historical residential mortgage portfolio, including whole loans, RMBS and beneficial interests.",
+   "evidence": "The Company's Residential segment is focused on managing its historical portfolio, which includes residential mortgage assets, including whole mortgage loans, RMBS and beneficial interests."
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "CMBS",
+    "commercial real property",
+    "commercial mortgage loans",
+    "other CRE investments"
+   ],
+   "description": "Originates, acquires and manages commercial real estate investments, including CMBS and commercial mortgage loans.",
+   "evidence": "The Company's CRE business focuses on investments in the CRE sector, including originating, acquiring and managing portfolios of CMBS, commercial real property, commercial mortgage loans and other CRE investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income on its CMBS and residential mortgage investments, recognized under the effective interest method.",
+  "evidence": "Interest income on CMBS is recognized using the effective interest method."
+ },
+ "changes": [
+  {
+   "text": "Beginning in 2025, the company reports two reportable segments, Residential and Commercial, after having had one.",
+   "evidence": "Beginning with the first quarter of 2025, the Company has two reportable operating segments: Residential and Commercial."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

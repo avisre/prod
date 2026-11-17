@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001912966",
+ "issuerName": "Regentis Biomaterials Ltd.",
+ "builtAt": "2026-11-17T00:15:02.651Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-019917",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1912966/000121390026019917/ea0277515-20f_regentis.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tissue repair solutions",
+   "products": [
+    "GelrinC",
+    "Gelrin platform"
+   ],
+   "description": "Develops innovative tissue repair solutions, currently focused on orthopedic treatments using the Gelrin platform.",
+   "evidence": "The Company's business is comprised of one reportable segment specializing in development of innovative tissue repair solutions, with current efforts focused on orthopedic treatments using the Gelrin platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buying GelrinC are expected to provide most of the company's revenues.",
+  "evidence": "We expect to derive most of our revenues from the sales of our GelrinC."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

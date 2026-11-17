@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001718405",
+ "issuerName": "HYCROFT MINING HOLDING CORPORATION",
+ "builtAt": "2026-11-16T12:56:38.370Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001718405-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1718405/000171840526000009/hymc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hycroft Mine",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Exploration-stage gold and silver issuer developing the Hycroft Mine in Northern Nevada; no current revenue.",
+   "evidence": "The Hycroft Mine is our only operating segment and includes the mine site, exploration, and development activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No revenue is currently earned; gold and silver sales are expected only after mining operations restart.",
+  "evidence": "We do not expect revenues from gold and silver sales until restarting mining operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

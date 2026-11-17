@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001986817",
+ "issuerName": "Gores Holdings X, Inc. / CI",
+ "builtAt": "2026-11-16T23:12:13.180Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-130002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1986817/000119312526130002/ck0001986817-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check shell company formed to effect a business combination with one or more target businesses; it has no operations or revenue.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income (loss) that also is reported on the statements of operations as net income (loss)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

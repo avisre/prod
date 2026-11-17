@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001810560",
+ "issuerName": "REVELATION BIOSCIENCES, INC.",
+ "builtAt": "2026-11-17T00:15:00.882Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076552",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1810560/000119312526076552/revb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "innate immune system",
+   "products": [
+    "Gemini",
+    "GEM-AKI",
+    "GEM-CKD"
+   ],
+   "description": "Develops and commercializes therapeutics that modulate the innate immune system for prevention and treatment of disease.",
+   "evidence": "The Company and the Company's CODM view the Company's operations and manage its business on the basis of one reportable segment, which is focused on the prevention and treatment of disease by developing and commercializing therapeutics that modulate the innate immune system."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

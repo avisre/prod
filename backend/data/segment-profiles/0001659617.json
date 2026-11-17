@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001659617",
+ "issuerName": "Moleculin Biotech, Inc.",
+ "builtAt": "2026-11-17T00:14:58.849Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008841",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1659617/000143774926008841/mbrx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "drug products",
+   "products": [
+    "Annamycin",
+    "WP1066 Portfolio",
+    "WP1122 Portfolio"
+   ],
+   "description": "Develops and commercializes drug products, chiefly Annamycin, a next-generation anthracycline for relapsed or refractory acute myeloid leukemia.",
+   "evidence": "Management has determined that the Company operates in one reportable segment, which is the development and commercialization of drug products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated no revenue and relies on outside financing, such as equity and debt offerings, to fund its operations.",
+  "evidence": "As of December 31, 2025, the Company had an accumulated deficit of $ 206.0 million since inception and had not yet generated any revenues from operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

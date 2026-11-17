@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001682220",
+ "issuerName": "SACHEM CAPITAL CORP",
+ "builtAt": "2026-11-17T00:14:59.211Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001682220-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1682220/000168222026000014/sach-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate finance",
+   "products": [
+    "first mortgage loans",
+    "hard money loans"
+   ],
+   "description": "Originates, underwrites, funds, services and manages short-term loans secured by first mortgage liens for real estate investors and developers.",
+   "evidence": "The Company operates through a single operating and reporting segment with an investment objective to generate both current income and capital appreciation through its investments in real estate mortgage loans and real estate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on short-term loans secured by first mortgage liens on real property.",
+  "evidence": "Revenue is generated primarily from the interest borrowers pay on our loans and fees related to the origination, maintenance, service, modification, and extension of loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001701478",
+ "issuerName": "Azitra, Inc.",
+ "builtAt": "2026-11-17T00:14:59.328Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001701478-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1701478/000170147826000013/aztr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision dermatology",
+   "products": [
+    "ATR-12",
+    "ATR-04",
+    "ATR-01"
+   ],
+   "description": "Discovers and develops novel therapeutics, including engineered proteins and live biotherapeutics, for skin diseases.",
+   "evidence": "The Company operates and manages its business as a single reportable segment, which is to discover and develop novel therapeutics to create a new paradigm for treating skin diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

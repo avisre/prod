@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001852551",
+ "issuerName": "NOVA MINERALS CORP",
+ "builtAt": "2026-11-17T00:15:01.798Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-045120",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1852551/000149315226045120/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral exploration",
+   "products": [
+    "Estelle Gold and Critical Minerals Project",
+    "antimony trisulfide",
+    "antimony trioxide",
+    "antimony metal ingots",
+    "doré"
+   ],
+   "description": "Exploration and development of the Estelle gold and antimony project in Alaska, with a planned antimony pilot plant.",
+   "evidence": "Therefore, the Company has concluded that it has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Expected buyers are refiners and precious metals participants for gold, and industrial and government customers for antimony; no revenue has been generated yet.",
+  "evidence": "Gold recovered from mineralized material generally requires processing to separate and concentrate the gold and may ultimately be sold in the form of doré or other gold-bearing products to refiners and other participants in the precious metals market."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

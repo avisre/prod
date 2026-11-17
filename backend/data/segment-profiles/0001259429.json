@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001259429",
+ "issuerName": "OXFORD SQUARE CAPITAL CORP.",
+ "builtAt": "2026-11-17T00:14:54.702Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-024280",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1259429/000121390026024280/ea0276931_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment portfolio",
+   "products": [],
+   "description": "Invests primarily in corporate debt securities and CLO structured finance investments to maximize total return.",
+   "evidence": "The Company operates as a single operating and reporting segment and its primary business objective is to maximize its investment portfolio's total return."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Portfolio companies pay the company interest on the corporate debt securities it holds.",
+  "evidence": "Interest payments, if not deferred, are normally payable quarterly with most debt investments having scheduled principal payments on a monthly or quarterly basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

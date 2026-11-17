@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002047455",
+ "issuerName": "Quartzsea Acquisition Corporation",
+ "builtAt": "2026-11-17T00:15:04.879Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002326",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2047455/000182912626002326/quartzsea_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Combination",
+   "products": [],
+   "description": "Identifies and evaluates acquisition candidates for a future business combination; the company has no revenue.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

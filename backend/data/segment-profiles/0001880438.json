@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001880438",
+ "issuerName": "AN2 Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:15:02.173Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-110693",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1880438/000119312526110693/antx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "epetraborole",
+    "AN2-502998",
+    "PI3Kα",
+    "ENPP1"
+   ],
+   "description": "Clinical-stage company developing novel small-molecule boron-chemistry therapeutics for hematologic, infectious and oncology diseases.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Global health programs are funded mainly by non-dilutive grants from public and private agencies and foundations.",
+  "evidence": "These programs are funded primarily through non-dilutive grant funding, including sources such as public and private agencies and foundations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

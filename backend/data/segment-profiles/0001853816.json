@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001853816",
+ "issuerName": "DERMATA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:15:01.817Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012992",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1853816/000149315226012992/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DTC skincare",
+   "products": [
+    "Tome skincare line",
+    "Bioneedle",
+    "OTC topical acne system"
+   ],
+   "description": "Develops, brands, markets and commercializes direct-to-consumer skincare products for consumers who want treatments without a prescription.",
+   "evidence": "The Company and the Company's chief operating decision maker view the Company's operations and manage its business in one operating segment, which is the business of developing, branding, marketing, and commercializing direct to consumer skincare products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy skincare treatments through DTC channels or from healthcare professionals, without needing a prescription.",
+  "evidence": "Our core values will remain unchanged during this strategic shift as we strive to provide consumers with affordable, safe, and effective treatment options, which can be obtained either through our DTC channels or through healthcare professionals, without having to get a prescription."
+ },
+ "changes": [
+  {
+   "text": "In September 2025 the company shifted from prescription products to OTC products, and its segment information was recast for all periods.",
+   "evidence": "Given the Company's September 2025 strategic pivot to prioritize the development and distribution of OTC products, the segment information disclosure has been recast for all periods presented to reflect this change."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001677077",
+ "issuerName": "ALZAMEND NEURO, INC.",
+ "builtAt": "2026-11-17T00:14:59.061Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001214659-26-008832",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1677077/000121465926008832/az72426110k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "AL001",
+    "ALZN002"
+   ],
+   "description": null,
+   "evidence": "The Company operates as a single operating and reportable segment, which reflects the manner in which the Chief Operating Decision Maker, who is the Company's Chief Executive Officer, manages the business and allocates resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Biopharmaceutical partners are expected to fund later-stage clinical development; the company does not anticipate selling products directly.",
+  "evidence": "We intend to commercialize AL001 and ALZN002 by seeking FDA marketing approval for both product candidates and partnering with biopharmaceutical companies seeking to strategically fortify pipelines and, in turn, receiving funding for the costly later-stage clinical development."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

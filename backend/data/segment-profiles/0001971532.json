@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001971532",
+ "issuerName": "Telomir Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-17T00:15:03.213Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010625",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1971532/000149315226010625/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

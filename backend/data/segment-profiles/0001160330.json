@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001160330",
+ "issuerName": "BANK BRADESCO",
+ "builtAt": "2026-11-17T00:14:54.676Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-001753",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1160330/000129281426001753/bbdform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "retail",
+    "middle-market",
+    "corporate",
+    "lease",
+    "international bank operations",
+    "investment bank operations",
+    "private bank"
+   ],
+   "description": "Retail, middle-market, corporate, leasing, international and investment banking services for individuals and companies.",
+   "evidence": "We operate and manage our business through two segments: (i) the banking segment; and (ii) the insurance, pension plans and capitalization bond segment."
+  },
+  {
+   "name": "Insurance, Pension Plans and Capitalization Bonds",
+   "products": [
+    "insurance",
+    "supplemental Pension Plans",
+    "capitalization bonds"
+   ],
+   "description": "Insurance, supplemental pension plans and capitalization bonds sold to clients through the subsidiary Bradesco Seguros.",
+   "evidence": "Additionally, we are engaged in insurance, supplemental Pension Plans and capitalization bonds through our subsidiary, Bradesco Seguros"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals, enterprises and institutions are offered banking and financial products and services, including loans, deposits, insurance and pension plans.",
+  "evidence": "We offer a wide range of banking and financial products and services in Brazil and abroad to individuals, micro, small, medium-sized and large enterprises and major local and international corporations and institutions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

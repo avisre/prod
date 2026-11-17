@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002095161",
+ "issuerName": "D. Boral Acquisition I Corp.",
+ "builtAt": "2026-11-17T00:15:07.486Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037905",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/2095161/000121390026037905/ea0281264-10k_dboralacq1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a merger or similar business combination with one or more businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

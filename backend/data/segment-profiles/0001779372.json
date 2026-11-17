@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001779372",
+ "issuerName": "HEARTBEAM, INC.",
+ "builtAt": "2026-11-17T00:15:00.323Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104080",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1779372/000119312526104080/beat-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ambulatory cardiac monitoring",
+   "products": [
+    "HeartBeam System"
+   ],
+   "description": "Develops a cable-free ECG device and cloud software for ambulatory cardiac monitoring by patients and physicians.",
+   "evidence": "The Company operates in one reporting segment, The Company's Chief Operating Decision Maker (\"CODM\") is the Chief Executive Officer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

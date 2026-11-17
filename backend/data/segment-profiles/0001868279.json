@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001868279",
+ "issuerName": "ARRIVENT BIOPHARMA, INC.",
+ "builtAt": "2026-11-16T13:01:06.256Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024127",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1868279/000110465926024127/avbp-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life science",
+   "products": [],
+   "description": "Identifies, licenses and globalizes top biopharma innovations to deliver important medicines to patients.",
+   "evidence": "The life science segment is engaged in identifying, licensing and globalizing top biopharma innovations from around the world to deliver important medicines to patients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

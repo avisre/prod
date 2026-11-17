@@ -1,74 +1,54 @@
 {
  "version": 1,
  "cik": "0000886206",
- "issuerName": "FRANKLIN COVEY CO.",
- "builtAt": "2026-11-15T14:23:20.992Z",
+ "issuerName": "Franklin Covey Co.",
+ "builtAt": "2026-11-17T00:14:53.486Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0000886206-25-000085",
-  "periodEnd": "2025-08-31",
-  "filingDate": "2025-11-12",
-  "url": "https://www.sec.gov/Archives/edgar/data/886206/000088620625000085/fc-20250831x10k.htm"
+  "accessionNumber": "0001193125-26-458439",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/886206/000119312526458439/fc-20260831.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "North America",
    "products": [
-    "All Access Pass (AAP)",
-    "The 7 Habits of Highly Effective People",
-    "The Four Disciplines of Execution",
-    "The Speed of Trust",
-    "Multipliers"
+    "All Access Pass"
    ],
-   "description": "Sells Franklin Covey's leadership and performance-improvement solutions, including the AAP subscription, to corporations, governments, and not-for-profits in North America.",
-   "evidence": "The Enterprise Division consists of our North America, International Direct Office, and International Licensee segments and is focused on selling our solutions to corporations, governments, not-for-profits, and other related organizations."
+   "description": "Sells Franklin Covey solutions to corporations, governments and not-for-profits in the United States and Canada.",
+   "evidence": "The Enterprise Division consists of our North America and International segments and is focused on selling our solutions to corporations, governments, not-for-profits, and other related organizations."
   },
   {
-   "name": "International direct offices",
+   "name": "International",
    "products": [
-    "All Access Pass (AAP)",
-    "The 7 Habits of Highly Effective People",
-    "The Four Disciplines of Execution",
-    "The Speed of Trust",
-    "Multipliers"
+    "All Access Pass"
    ],
-   "description": "Delivers Franklin Covey's enterprise solutions through wholly owned subsidiaries serving clients in Europe, Asia, and Australia.",
-   "evidence": "operate wholly owned subsidiaries that serve clients in Austria, Australia, China, France, Germany, Ireland, Japan, New Zealand, Switzerland, and the United Kingdom."
-  },
-  {
-   "name": "International licensees",
-   "products": [
-    "All Access Pass (AAP)",
-    "The 7 Habits of Highly Effective People",
-    "The Four Disciplines of Execution",
-    "The Speed of Trust",
-    "Multipliers"
-   ],
-   "description": null,
-   "evidence": "we may contract with independent licensee partners who deliver our content and provide services in approximately 150 other countries and territories around the world."
+   "description": "Serves Enterprise clients in other countries through wholly owned subsidiaries and independent licensee partners.",
+   "evidence": "The Enterprise Division consists of our North America and International segments and is focused on selling our solutions to corporations, governments, not-for-profits, and other related organizations."
   },
   {
    "name": "Education Division",
    "products": [
     "Leader in Me membership",
-    "Leader in Me online service",
-    "The Teacher Believed in Me"
+    "Leader in Me online service"
    ],
-   "description": "Helps educational institutions build leadership cultures and improve student performance through the Leader in Me program and related coaching.",
+   "description": "Sells Leader in Me membership, content and coaching to schools and colleges, including through international licensees.",
    "evidence": "In our Education Division, we offer the Leader in Me membership, which provides access to the Leader in Me online service, and authorizes Education clients to use Franklin Covey's proprietary intellectual property."
   }
  ],
- "productRevenueBrokenOut": false,
+ "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Organizations and educational institutions pay subscription fees for the All Access Pass and Leader in Me membership, plus fees for consulting, coaching, training, and related services.",
-  "evidence": "FranklinCovey solutions are delivered as a combination of subscription-based access to proprietary content, implementation tools, assessments, and expert consulting and advisory services to help clients engage and align their people around their desired outcomes."
+  "text": "Clients pay subscription fees for the All Access Pass and Leader in Me membership, plus fees for training and consulting services.",
+  "evidence": "Subscription revenue includes sales of our All Access Pass and Leader In Me membership offerings including executive coaching and Education training and coaching days that are invoiced in one lump sum when contracted with a Leader In Me membership."
  },
  "changes": [
   {
-   "text": "In early fiscal 2025, the company opened a new direct office in France, converting operations from a licensee partnership to direct ownership.",
-   "evidence": "In early fiscal 2025, we opened a new direct office operation in France, which was previously served by a licensee partner."
+   "text": "In fiscal 2026, the Company changed its reportable segment presentation and recast prior period segment information to match.",
+   "evidence": "segment information has been recast to conform with the new reporting segment presentation described above."
   }
  ],
- "dropped": []
+ "dropped": [],
+ "reader": "agent"
 }

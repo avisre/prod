@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002084396",
+ "issuerName": "INFINITE EAGLE ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:06.841Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-033017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/2084396/000121390026033017/ea0277483-10k_infinite.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking a business combination with one or more businesses; it has no operations or revenue.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statement of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

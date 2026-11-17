@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001279704",
+ "issuerName": "Cellectar Biosciences, Inc.",
+ "builtAt": "2026-11-17T00:14:54.934Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-023167",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1279704/000110465926023167/clrb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PDC platform",
+   "products": [
+    "iopofosine I 131",
+    "CLR 125",
+    "CLR 225"
+   ],
+   "description": "Develops PDC platform drugs for treating cancer, aiming to deliver radioisotopes directly to cancer cells.",
+   "evidence": "The Company has one operating and reportable segment focused on utilizing its PDC platform to develop drugs for the treatment of cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

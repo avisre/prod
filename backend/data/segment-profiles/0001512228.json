@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001512228",
+ "issuerName": "NioCorp Developments Ltd.",
+ "builtAt": "2026-11-16T23:12:13.132Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-402806",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1512228/000119312526402806/nb-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "Elk Creek Project"
+   ],
+   "description": "Conducts exploration, development, and care and maintenance of the Elk Creek Project, positioned as a development opportunity in the strategic minerals sector.",
+   "evidence": "The United States segment conducts exploration, development, and care and maintenance activities at the Elk Creek Project."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company currently earns no operating revenues and requires additional capital to advance the Elk Creek Project toward commercial operation.",
+  "evidence": "The Company currently earns no operating revenues and will require additional capital in order to advance the Elk Creek Project to construction and commercial operation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

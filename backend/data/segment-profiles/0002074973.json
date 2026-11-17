@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002074973",
+ "issuerName": "Agility Robotics, Inc",
+ "builtAt": "2026-11-17T00:15:05.844Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034863",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2074973/000121390026034863/ea0282743-10k_churchill11.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a business combination with one or more businesses or entities.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

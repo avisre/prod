@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002052162",
+ "issuerName": "DIGITAL ASSET ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:05.023Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-022519",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/2052162/000121390026022519/ea0276770-10k_digital.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Shell blank check company formed to effect a merger or similar business combination with one or more businesses.",
+   "evidence": "Digital Asset Acquisition Corp. (the \"Company\") is a blank check company incorporated in the Cayman Islands on December 9, 2024."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001751783",
+ "issuerName": "Rhinebeck Bancorp, Inc.",
+ "builtAt": "2026-11-17T00:14:59.965Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001751783-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1751783/000175178326000005/rbkb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking Operations",
+   "products": [
+    "deposits",
+    "borrowings",
+    "lending products",
+    "financial advisory services"
+   ],
+   "description": "Accepts deposits and borrowings, provides real estate, commercial and consumer lending, makes investments and offers financial advisory services to customers.",
+   "evidence": "The Company's sole operating segment, Banking Operations, consists of raising funds through deposits and borrowings, providing lending products, making investments and providing financial advisory services to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and other earning assets, and fee-based businesses generate income for the bank.",
+  "evidence": "Interest income from loans and other earning assets, and income from fee-based businesses provide banking operation revenue."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

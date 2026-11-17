@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001428205",
+ "issuerName": "ARMOUR RESIDENTIAL REIT, INC.",
+ "builtAt": "2026-11-16T12:47:48.180Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001428205-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1428205/000142820526000029/arr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential MBS",
+   "products": [
+    "MBS",
+    "U.S. Treasury Securities",
+    "money market instruments"
+   ],
+   "description": "Invests mainly in fixed rate, adjustable rate and hybrid adjustable rate residential MBS issued or guaranteed by U.S. GSEs or Ginnie Mae.",
+   "evidence": "We operate in the U.S. and invest primarily in fixed rate residential, adjustable rate and hybrid adjustable rate residential MBS issued or guaranteed by U.S. GSEs or guaranteed by Ginnie Mae."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Security holders receive principal and interest passed through from pools of mortgage loans, collected by the issuer or servicer.",
+  "evidence": "The pass-through issuer or servicer collects the payments on the loans in the pool and \"passes through\" the principal and interest to the security holders on a pro rata basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

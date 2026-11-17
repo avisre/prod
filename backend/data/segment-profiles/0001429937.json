@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0001429937",
+ "issuerName": "B2GOLD CORP",
+ "builtAt": "2026-11-16T12:54:34.119Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-026310",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1429937/000110465926026310/tm266740d1_ex99-2.htm",
+  "exhibit": "tm266740d1_ex99-2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fekola Mine",
+   "products": [
+    "Fekola"
+   ],
+   "description": "Mining operation that produces gold for the company.",
+   "evidence": "The Company's reportable operating segments for 2025 include its mining operations and development projects, namely the Fekola, Masbate, Otjikoto and the Goose mines."
+  },
+  {
+   "name": "Fekola Regional",
+   "products": [
+    "Anaconda Area",
+    "Dandoko permit"
+   ],
+   "description": "Exploration and evaluation stage properties, including the Anaconda Area and the Dandoko permit.",
+   "evidence": "The Fekola Regional segment includes the Anaconda Area (the combined Menankoto permit) and the Dandoko permit."
+  },
+  {
+   "name": "Masbate Mine",
+   "products": [
+    "Masbate"
+   ],
+   "description": "Mining operation that produces gold for the company.",
+   "evidence": "The Company's reportable operating segments for 2025 include its mining operations and development projects, namely the Fekola, Masbate, Otjikoto and the Goose mines."
+  },
+  {
+   "name": "Otjikoto Mine",
+   "products": [
+    "Otjikoto"
+   ],
+   "description": "Mining operation that produces gold for the company.",
+   "evidence": "The Company's reportable operating segments for 2025 include its mining operations and development projects, namely the Fekola, Masbate, Otjikoto and the Goose mines."
+  },
+  {
+   "name": "Goose Mine",
+   "products": [
+    "Goose"
+   ],
+   "description": "Mining operation that produces gold for the company.",
+   "evidence": "The Company's reportable operating segments for 2025 include its mining operations and development projects, namely the Fekola, Masbate, Otjikoto and the Goose mines."
+  },
+  {
+   "name": "Other Mineral Properties",
+   "products": [
+    "Gramalote Project"
+   ],
+   "description": "Interests in exploration and evaluation stage mineral properties, and equity accounting for associates.",
+   "evidence": "The Other Mineral Properties segment consists of the Company's interests in mineral properties which are at various stages of exploration and evaluation, including the Company's interest in the Gramalote Project, as well as the Company's equity accounting for its investment in associates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001874071",
+ "issuerName": "Ponce Financial Group, Inc.",
+ "builtAt": "2026-11-16T13:10:39.404Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104610",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1874071/000119312526104610/pdlb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "deposit accounts",
+    "mortgage loans",
+    "multifamily residential",
+    "construction and land loans",
+    "SBA loans",
+    "consumer loans"
+   ],
+   "description": "Takes deposits from the general public and lends them mainly as real estate-secured mortgage loans in the New York City area.",
+   "evidence": "The Bank offers a variety of deposit accounts, including demand, savings, money markets and certificates of deposit accounts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on the mortgage, construction and business loans the Bank originates.",
+  "evidence": "The Bank's business primarily consists of taking deposits from the general public and investing those deposits, together with funds generated from operations and borrowings, in mortgage loans, consisting of one-to-four family residential (both investor-owned and owner-occupied), multifamily residential, nonresidential properties and construction and land, and, to a lesser extent, in business and consumer loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

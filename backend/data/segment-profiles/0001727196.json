@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001727196",
+ "issuerName": "SCHOLAR ROCK HOLDING CORPORATION",
+ "builtAt": "2026-11-16T23:12:13.166Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-022551",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1727196/000110465926022551/srrk-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "apitegromab",
+    "SRK-439"
+   ],
+   "description": "Develops monoclonal antibody therapies for rare, severe neuromuscular diseases such as spinal muscular atrophy.",
+   "evidence": "The Company operates and manages its business on a consolidated basis as a single reportable and single operating segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

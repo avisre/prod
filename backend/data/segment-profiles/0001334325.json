@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001334325",
+ "issuerName": "CODA OCTOPUS GROUP, INC.",
+ "builtAt": "2026-11-17T00:14:55.407Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-004135",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1334325/000149315226004135/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marine Technology Business",
+   "products": [
+    "Echoscope",
+    "DAVD",
+    "Echoscope PIPE NANO Gen Series",
+    "F280 Series",
+    "DA4G-USB",
+    "GeoSurvey software",
+    "Survey Engine",
+    "Voice_HUB_4"
+   ],
+   "description": "Underwater imaging sonar, diving and subsea hardware and software sold and rented to offshore, defense and commercial customers.",
+   "evidence": "Our Marine Technology Business revenues are derived from both sales and rental of underwater technologies."
+  },
+  {
+   "name": "Acoustic Sensors and Materials Business",
+   "products": [
+    "acoustic sensors and materials",
+    "calibration services"
+   ],
+   "description": "Acoustic hydrophone, sensor and material supply plus ultrasound calibration services for medical, subsea, defense and research customers.",
+   "evidence": "PAL revenues are derived from sale of acoustic sensors and materials, in addition to the provision of calibration services."
+  },
+  {
+   "name": "Defense Engineering Services Business",
+   "products": [
+    "embedded solutions",
+    "sub-assemblies",
+    "Engineering Parts"
+   ],
+   "description": "Designs and manufactures embedded sub-assemblies and engineering services for prime defense contractors' integrated defense programs.",
+   "evidence": "Our Defense Engineering Services Businesses are suppliers of embedded solutions and sub-assemblies which they design, manufacture and sell as a component of mission critical integrated defense systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for sales and rentals of underwater technology, acoustic sensors and calibration, and defense engineering services.",
+  "evidence": "Our Marine Technology Business revenues are derived from both sales and rental of underwater technologies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

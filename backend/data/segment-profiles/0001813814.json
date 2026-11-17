@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001813814",
+ "issuerName": "Definium Therapeutics, Inc.",
+ "builtAt": "2026-11-16T12:57:02.334Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076742",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1813814/000119312526076742/dftx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Neurological drug development",
+   "products": [
+    "DT120 ODT",
+    "DT402"
+   ],
+   "description": "Develops psychedelic-derived drug candidates for brain health disorders such as anxiety, depression and autism.",
+   "evidence": "The Company has one reportable segment relating to the research and development of the Company's neurological drug development platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

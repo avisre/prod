@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000907254",
+ "issuerName": "SAUL CENTERS, INC.",
+ "builtAt": "2026-11-16T12:48:02.509Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000907254-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/907254/000090725426000006/bfs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shopping Centers",
+   "products": [
+    "grocery-anchored Shopping Centers"
+   ],
+   "description": "Grocery-anchored shopping centers in the Washington, DC/Baltimore area, leasing space to retail tenants for rent and expense reimbursements.",
+   "evidence": "The Company's primary strategy is to continue to diversify its assets through development of transit-oriented, residential mixed-use projects and expansion of and additions to its grocery-anchored Shopping Centers in the Washington, DC/Baltimore metropolitan area."
+  },
+  {
+   "name": "Mixed-Use Properties",
+   "products": [
+    "office, retail and multi-family residential uses"
+   ],
+   "description": "Transit-oriented properties combining office, retail and multi-family residential uses, leasing space to office, retail and residential tenants.",
+   "evidence": "The properties have been aggregated into two reportable business segments: Shopping Centers and Mixed-Use Properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent and expense reimbursements for space, plus parking and lease termination fees.",
+  "evidence": "Total property revenue includes most components of rental revenue, except straight-line rent and above and below market lease amortization, plus parking revenues and lease termination fee revenue."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

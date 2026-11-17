@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001994702",
+ "issuerName": "Kyverna Therapeutics, Inc.",
+ "builtAt": "2026-11-16T13:09:27.597Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126242",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1994702/000119312526126242/kytx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autoimmune diseases",
+   "products": [
+    "mivocabtagene autoleucel",
+    "miv-cel",
+    "KYV-101"
+   ],
+   "description": "Develops cell therapies for autoimmune and inflammatory diseases, led by its lead candidate mivocabtagene autoleucel.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of developing therapies for autoimmune and inflammatory diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

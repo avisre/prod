@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001980845",
+ "issuerName": "enGene Therapeutics Inc.",
+ "builtAt": "2026-11-17T00:15:03.350Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-328743",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1980845/000119312525328743/engn-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "genetic medicines",
+   "products": [
+    "detalimogene voraplasmid",
+    "detalimogene",
+    "dually derivatized chitosan",
+    "DDX"
+   ],
+   "description": "Develops non-viral genetic medicines for bladder cancer, led by detalimogene for BCG-unresponsive NMIBC with CIS.",
+   "evidence": "The Company operates and manages its business as one operating segment and one reportable segment, which is focused on developing genetic medicines to improve the lives of patients suffering from bladder cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No product is approved and no revenue has been earned; future revenue may come from product sales or partner collaboration and license payments.",
+  "evidence": "If our development efforts for our current lead product candidate, detalimogene, or additional product candidates that we may develop in the future are successful and result in marketing approval or if we enter into collaboration or license agreements with third parties, we may generate revenue in the future from a combination of product sales and payments from such collaboration or license agreements."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,14 +1,14 @@
 {
  "version": 1,
  "cik": "0001385157",
- "issuerName": "TE CONNECTIVITY PLC",
- "builtAt": "2026-11-15T14:24:51.416Z",
+ "issuerName": "TE CONNECTIVITY PLC",
+ "builtAt": "2026-11-17T00:14:55.905Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001104659-25-109150",
-  "periodEnd": "2025-09-26",
-  "filingDate": "2025-11-10",
-  "url": "https://www.sec.gov/Archives/edgar/data/1385157/000110465925109150/tel-20250926x10k.htm"
+  "accessionNumber": "0001104659-26-124497",
+  "periodEnd": "2026-09-25",
+  "filingDate": "2026-11-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1385157/000110465926124497/tel-20260925x10k.htm"
  },
  "status": "ok",
  "segments": [
@@ -21,39 +21,29 @@
     "relays",
     "application tooling"
    ],
-   "description": "Provides connectivity and sensor technologies for automotive, commercial transportation, and sensor end markets.",
-   "evidence": "The primary products sold by the Transportation Solutions segment include terminals and connector systems and components, sensors, heat shrink tubing, relays, and application tooling."
+   "description": "A leader in connectivity and sensor technologies whose products must withstand harsh conditions, sold to automotive, commercial transportation and sensors markets.",
+   "evidence": "The Transportation Solutions segment is a leader in connectivity and sensor technologies."
   },
   {
    "name": "Industrial Solutions",
    "products": [
     "terminals and connector systems and components",
-    "interventional medical components",
     "heat shrink tubing",
     "relays",
+    "interventional medical components",
     "wire and cable",
     "filters"
    ],
-   "description": "Supplies products that connect and distribute power, data, and signals for digital data networks, automation, aerospace, energy, and medical markets.",
+   "description": "A leading supplier of products that connect and distribute power, data, and signals for industrial and medical markets.",
    "evidence": "The Industrial Solutions segment is a leading supplier of products that connect and distribute power, data, and signals."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company sells connectivity and sensor products directly to manufacturers and indirectly through third-party distributors.",
+  "text": "TE Connectivity sells connectivity and sensor products to manufacturers, mainly through direct selling efforts.",
   "evidence": "We sell our products into approximately 130 countries primarily through direct selling efforts to manufacturers."
  },
- "changes": [
-  {
-   "text": "Effective for fiscal 2025, the company reorganized into two reportable segments, Transportation Solutions and Industrial Solutions, with prior periods recast.",
-   "evidence": "Effective for fiscal 2025, we reorganized our management and segments to align the organization around our current strategy."
-  },
-  {
-   "text": "In fiscal 2025, the company acquired Richard Manufacturing Co.",
-   "evidence": "We acquired Richard Manufacturing Co. (\"Richards Manufacturing\") in fiscal 2025."
-  }
- ],
- "dropped": [
-  "change not grounded: In fiscal 2024, the company changed its jurisdiction of incorporation from Switz"
- ]
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

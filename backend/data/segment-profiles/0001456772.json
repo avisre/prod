@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001456772",
+ "issuerName": "OFFICE PROPERTIES INCOME TRUST",
+ "builtAt": "2026-11-17T00:14:56.228Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001456772-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1456772/000145677226000022/opi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ownership and leasing of real estate properties",
+   "products": [],
+   "description": "Owns and leases high-quality office and mixed-use properties in select U.S. markets to its tenants.",
+   "evidence": "We manage our business on a consolidated basis and therefore have one reportable segment: ownership and leasing of real estate properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company rent under leases for its properties, including government and non-government tenants.",
+  "evidence": "We have leases with government entities, including the U.S. government, state governments and other government tenants as well as non-government tenants."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

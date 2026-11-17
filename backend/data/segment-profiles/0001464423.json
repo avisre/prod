@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001464423",
+ "issuerName": "PennyMac Mortgage Investment Trust",
+ "builtAt": "2026-11-16T12:50:50.542Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-057041",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1464423/000119312526057041/pmt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Credit sensitive strategies",
+   "products": [
+    "CRT arrangements",
+    "subordinate and credit-linked MBS"
+   ],
+   "description": "Invests in credit risk transfer arrangements on its own loans and in subordinate and credit-linked mortgage-backed securities.",
+   "evidence": "The credit sensitive strategies segment represents our investments in CRT arrangements referencing loans from our own correspondent production and subordinate and credit-linked MBS."
+  },
+  {
+   "name": "Interest rate sensitive strategies",
+   "products": [
+    "MSRs",
+    "Agency MBS",
+    "structured products",
+    "senior non-Agency MBS"
+   ],
+   "description": "Invests in mortgage servicing rights, Agency and senior non-Agency MBS, structured products and related interest rate hedging.",
+   "evidence": "The interest rate sensitive strategies segment represents our investments in MSRs, Agency MBS and structured products (including IO and PO MBS and floating rate CMOs), senior non-Agency MBS and the related interest rate hedging activities."
+  },
+  {
+   "name": "Correspondent production",
+   "products": [
+    "newly originated prime credit quality loans"
+   ],
+   "description": "Buys, pools and resells newly originated prime credit quality loans, mainly to government-sponsored enterprises.",
+   "evidence": "The correspondent production segment represents our operations aimed at serving as an intermediary between lenders and the capital markets by purchasing, pooling and reselling newly originated prime credit quality loans either directly or in the form of MBS, using the services of PCM and PLS."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government-sponsored enterprises buy the loans it acquires through its correspondent production activities.",
+  "evidence": "The Company primarily sells the loans it acquires through its correspondent production activities to government-sponsored enterprises (\"GSEs\") such as the Federal Home Loan Mortgage Corporation (\"Freddie Mac\") and the Federal National Mortgage Association (\"Fannie Mae\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

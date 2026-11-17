@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001770069",
+ "issuerName": "MapLight Therapeutics, Inc.",
+ "builtAt": "2026-11-16T13:00:51.158Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-125072",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312526125072/mplt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "ML-007C-MA"
+   ],
+   "description": "Research and development of therapies for central nervous system disorders, for patients with debilitating CNS conditions.",
+   "evidence": "The Company has one reportable segment focused on the research and development of therapies for CNS disorders and manages its operations on a consolidated basis for the purpose of allocating resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

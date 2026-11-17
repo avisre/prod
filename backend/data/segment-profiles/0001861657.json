@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001861657",
+ "issuerName": "CANTON STRATEGIC HOLDINGS, INC.",
+ "builtAt": "2026-11-17T00:15:02.011Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013861",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1861657/000149315226013861/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "digital asset treasury",
+   "products": [
+    "Canton Coin",
+    "Canton Network"
+   ],
+   "description": "Holds and deploys Canton Coin and supports the Canton Network through validator operations, application support and ecosystem participation.",
+   "evidence": "Due to the new digital asset treasury strategy, the Company now has two reportable segments: digital asset treasury and clinical stage bio-technology."
+  },
+  {
+   "name": "clinical stage bio-technology",
+   "products": [
+    "GV104",
+    "HS3215",
+    "HS1940",
+    "GV023"
+   ],
+   "description": "Develops therapeutic candidates for rare, inflammatory and oncologic conditions.",
+   "evidence": "The clinical stage bio-technology segment develops therapeutic candidates for rare, inflammatory and oncologic conditions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025 the company shifted from biotechnology toward a digital asset treasury strategy, which created two reportable segments.",
+   "evidence": "In November 2025, we undertook a strategic shift to prioritize disciplined digital asset treasury management and investment in the digital asset ecosystem, specifically the Canton Network."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

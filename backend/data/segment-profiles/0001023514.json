@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001023514",
+ "issuerName": "HARMONY GOLD MINING COMPANY LIMITED",
+ "builtAt": "2026-11-17T00:14:53.857Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-068459",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1023514/000162828026068459/hmy-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gold operations",
+   "products": [
+    "Moab Khotsong",
+    "Mponeng",
+    "Tshepong North",
+    "Tshepong South",
+    "Doornkop",
+    "Joel",
+    "Target 1",
+    "Kusasalethu"
+   ],
+   "description": "Mines and processes gold from South African shafts, surface operations and the Hidden Valley operation.",
+   "evidence": "Our reportable segments are as follows: Gold operations"
+  },
+  {
+   "name": "Copper operations",
+   "products": [
+    "CSA"
+   ],
+   "description": "Produces copper at CSA, an underground copper mine in Australia, sold under offtake arrangements.",
+   "evidence": "During fiscal 2026 , CSA produced 18,207 tonnes of copper at a yield of 3.75% ."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for gold and copper sold, with copper sales priced provisionally against market prices.",
+  "evidence": "Most of our revenue is derived from the sale of gold and copper."
+ },
+ "changes": [
+  {
+   "text": "Copper operations became a reportable segment in fiscal 2026 after the MAC Copper acquisition.",
+   "evidence": "Fiscal 2026 is the first year in which our results include a producing copper business."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

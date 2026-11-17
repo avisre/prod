@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001552198",
+ "issuerName": "WhiteHorse Finance, Inc.",
+ "builtAt": "2026-11-17T00:14:57.732Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024735",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1552198/000110465926024735/whf-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct origination",
+   "products": [
+    "senior secured loans",
+    "second lien facilities",
+    "mezzanine loans"
+   ],
+   "description": "Direct lender originating senior secured loans to privately held, lower middle market companies in the United States.",
+   "evidence": "The Company operates through a single reporting segment, with an investment strategy to generate current income and, to a lesser extent, capital appreciation primarily through direct origination of senior secured debt and select equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Portfolio companies pay the company interest, origination and other fees, and dividends on its loans and securities.",
+  "evidence": "We generate current income through the receipt of interest payments, as well as origination and other fees, capital appreciation and dividends."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

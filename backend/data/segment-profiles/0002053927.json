@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002053927",
+ "issuerName": "WINTERGREEN ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:05.089Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-001698",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2053927/000182912626001698/wintergreenacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company with no operations or revenues, seeking a business combination with a target business.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operating revenue; it earns interest on IPO and private placement proceeds held in trust.",
+  "evidence": "We will generate non-operating income in the form of interest income from the proceeds derived from the Initial Public Offering and Private Placement (as defined below)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

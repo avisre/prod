@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0002101240",
+ "issuerName": "SunScout Holding Limited",
+ "builtAt": "2026-11-17T00:15:07.723Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-119954",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2101240/000121390026119954/ea0311015-20f_sunscout.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineering Products and Services",
+   "products": [
+    "Brunton Engineering"
+   ],
+   "description": "Custom manufacturing, metal fabrication, prototyping and engineering services, operated in New Zealand.",
+   "evidence": "Our Engineering Products and Services are operated through SunScout NZ, doing business as \"Brunton Engineering\"."
+  },
+  {
+   "name": "SunScout Products",
+   "products": [
+    "SunScout Eco",
+    "SunScout Pro",
+    "SunScout ProMax"
+   ],
+   "description": "Autonomous robotic mowers marketed to customers through third-party distributors and retail partners.",
+   "evidence": "Our SunScout Products are currently marketed primarily through a limited number of third-party distributors and retail partners, including WWS in Europe, and MowBot in Australia."
+  },
+  {
+   "name": "Solar Power Development Solutions",
+   "products": [],
+   "description": "Develops and installs solar power systems for commercial, industrial and institutional customers, including EPC services.",
+   "evidence": "This line of services represents our solar energy business segment that develops and installs solar power systems for commercial, industrial, and institutional customers, and provides engineering, procurement, and construction (\"EPC\") services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for turnkey EPC solar projects under contracts structured as fixed-price or cost-plus with milestone-based payments.",
+  "evidence": "Projects are typically structured under fixed-price or cost-plus contracts, with milestone-based payment schedules."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

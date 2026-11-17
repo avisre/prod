@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001788028",
+ "issuerName": "JASPER THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:15:00.696Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036426",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1788028/000121390026036426/ea0282128-10k_jasper.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mast cell therapeutics",
+   "products": [
+    "briquilimab"
+   ],
+   "description": "Research and development of therapeutic products for chronic urticaria and asthma, targeting mast cell driven diseases.",
+   "evidence": "The Company has determined it operates as a single operating and reportable segment, which is the research and development of therapeutic products in the fields of chronic urticaria and asthma."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001956439",
+ "issuerName": "Enhanced Group Inc.",
+ "builtAt": "2026-11-17T00:15:03.026Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-013706",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1956439/000121390026013706/ea0273966-10k_aparadise.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking a business combination, initially targeting leisure and entertainment, with no operating revenue yet.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

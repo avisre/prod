@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000919864",
+ "issuerName": "Finward Bancorp",
+ "builtAt": "2026-11-17T00:14:53.693Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021073",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/919864/000162828026021073/fnwd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "residential mortgage loans",
+    "construction loans",
+    "commercial real estate loans",
+    "consumer loans",
+    "commercial business loans",
+    "loans to municipalities"
+   ],
+   "description": "Commercial and consumer banking services for individuals, businesses and municipalities in Northwest Indiana and Cook County, Illinois.",
+   "evidence": "The Company has identified one reporting unit and one operating segment, community banking, which encompasses commercial and consumer banking services to serve a similar base of clients utilizing company-wide offerings of similar products and services managed through similar processes and platforms offered to individuals, businesses, municipalities and other entities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers and depositors pay for the bank's lending and deposit services, and wealth management clients pay for estate and trust services.",
+  "evidence": "The Company's revenue is primarily derived from the business of banking and the Company's CODM evaluates financial performance on a consolidated Company-wide basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

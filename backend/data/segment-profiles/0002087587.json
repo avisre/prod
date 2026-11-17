@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0002087587",
+ "issuerName": "CoinShares PLC",
+ "builtAt": "2026-11-17T00:15:07.157Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050434",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2087587/000121390026050434/ea0287072-20f_coinshares.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset Management",
+   "products": [
+    "ETPs",
+    "ETFs",
+    "Listed Product Platform",
+    "Non-Listed Product Platform"
+   ],
+   "description": "Designs, issues and manages regulated exchange-listed digital asset investment products for institutional and retail investors.",
+   "evidence": "The Asset Management segment comprises the Group's regulated digital-asset investment products, including its suite of ETPs and exchange-traded funds (\"ETFs\") that provide investors with exchange-listed exposure to cryptocurrencies and blockchain-related themes."
+  },
+  {
+   "name": "Capital Markets",
+   "products": [
+    "proprietary trading and arbitrage",
+    "staking and lending of digital assets",
+    "treasury/liquidity management"
+   ],
+   "description": "Runs trading, liquidity and balance-sheet activities that support the platform and earn yield through staking and lending.",
+   "evidence": "The Capital Markets segment is the Group's trading, liquidity, and balance-sheet deployment engine, focused on proprietary trading and arbitrage, staking and lending of digital assets, treasury/liquidity management, and other yield- and spread-generating activities that support the broader platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investors pay management fees accruing daily on assets under management, and Capital Markets earns trading, staking, lending and liquidity provisioning returns.",
+  "evidence": "Recurring Asset Management revenues, derived primarily from management fees accruing daily based on assets under management"
+ },
+ "changes": [
+  {
+   "text": "From 2025, the operating information given to the chief operating decision maker changed to align with the current view of the business.",
+   "evidence": "Beginning in 2025, the operating information provided to the CODM changed to align with the current view of the business."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

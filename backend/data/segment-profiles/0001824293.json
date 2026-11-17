@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001824293",
+ "issuerName": "GRI Bio, Inc.",
+ "builtAt": "2026-11-17T00:15:01.038Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001824293-26-000033",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1824293/000182429326000033/ck0001824293-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "biotechnology research",
+   "products": [
+    "GRI-0621",
+    "GRI-0803"
+   ],
+   "description": "Research and development of products for the treatment of inflammatory disease.",
+   "evidence": "The Company has one reportable segment: biotechnology research."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

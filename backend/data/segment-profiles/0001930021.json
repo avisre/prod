@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001930021",
+ "issuerName": "NEW HORIZON AIRCRAFT LTD.",
+ "builtAt": "2026-11-17T00:15:02.852Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-078490",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1930021/000121390026078490/ea0295260-10k_newhorizon.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "eVTOL aircraft",
+   "products": [
+    "Cavorite X7"
+   ],
+   "description": null,
+   "evidence": "The Company has determined that it operates as a single operating segment and one reportable segment, as the CODM reviews financial information presented on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "reader": "agent"
+}

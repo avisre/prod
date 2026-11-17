@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001468492",
+ "issuerName": "HeartSciences Inc.",
+ "builtAt": "2026-11-17T00:14:56.236Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-024337",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1468492/000143774926024337/hscs20260430_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI-ECG solutions",
+   "products": [
+    "MyoVista Insights™",
+    "MyoVista® wavECG™ device"
+   ],
+   "description": "Develops and commercializes ECG management software and AI-ECG solutions for cardiovascular diagnostic testing.",
+   "evidence": "Management and the CODM view the Company's operations and manage its business in one operating segment, which is the business of identifying, developing and commercializing products and AI-ECG solutions in the cardiovascular diagnostic technology field."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay installation fees, software-as-a-service usage fees, and fees for AI-ECG algorithms offered through the platform's marketplace.",
+  "evidence": "We expect to generate revenue from installation fees, software-as-a-service (\"SaaS\") usage fees, and fees associated with AI-ECG algorithms made available through the platform's AI-ECG marketplace, including third-party algorithms."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

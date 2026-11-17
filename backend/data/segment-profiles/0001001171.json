@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001001171",
+ "issuerName": "BROADWAY FINANCIAL CORPORATION",
+ "builtAt": "2026-11-17T00:14:53.853Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-012311",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1001171/000114036126012311/ef20068512_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [],
+   "description": "Attracts deposits and makes loans, mainly secured by multi-family and commercial real estate, for its customers.",
+   "evidence": "The Company operates one reportable segment — banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and investments earn interest income, which is the company's primary revenue.",
+  "evidence": "Our revenue is derived primarily from interest income on loans and investments."
+ },
+ "changes": [
+  {
+   "text": "In the second half of 2025, the company exited the origination of wholesale lending.",
+   "evidence": "During the second half of the year ended December 31, 2025, we exited the origination of wholesale lending."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

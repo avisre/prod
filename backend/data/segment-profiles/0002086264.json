@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002086264",
+ "issuerName": "VINE HILL CAPITAL INVESTMENT CORP. II",
+ "builtAt": "2026-11-17T00:15:06.992Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035770",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2086264/000121390026035770/ea0282794-10k_vinehill2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business combination",
+   "products": [],
+   "description": "Blank check company that seeks to identify and close a business combination with a target business; it has not commenced operations.",
+   "evidence": "For purposes of ASC Topic 280, the Company is considered to operate in one segment, seeking to identify and close a business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

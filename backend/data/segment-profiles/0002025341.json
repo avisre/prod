@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002025341",
+ "issuerName": "Andretti Acquisition Corp. II",
+ "builtAt": "2026-11-16T13:15:41.142Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-033562",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/2025341/000121390026033562/ea0279112-10k_andretti2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with one or more businesses; it has generated no operating revenues to date.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statements of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

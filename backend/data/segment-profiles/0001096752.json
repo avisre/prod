@@ -2,52 +2,54 @@
  "version": 1,
  "cik": "0001096752",
  "issuerName": "EDGEWELL PERSONAL CARE COMPANY",
- "builtAt": "2026-11-16T02:59:53.531Z",
+ "builtAt": "2026-11-17T00:14:54.311Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001628280-25-052765",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-18",
-  "url": "https://www.sec.gov/Archives/edgar/data/1096752/000162828025052765/epc-20250930.htm"
+  "accessionNumber": "0001628280-26-073923",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1096752/000162828026073923/epc-20260930.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "Wet Shave",
    "products": [
-    "Hydro®",
-    "Quattro®",
-    "Hydro Silk®",
-    "Intuition®",
-    "Skintimate",
-    "Extra3™"
+    "Schick®",
+    "Wilkinson Sword®",
+    "Edge",
+    "Skintimate®",
+    "Billie®",
+    "Shave Guard"
    ],
-   "description": "Sells men's and women's shaving systems and disposables.",
-   "evidence": "3 Our Business Segments and Product Strategies We manage our business in three operating segments: Wet Shave, Sun and Skin Care, and Feminine Care."
+   "description": "Manufactures and sells razors, blades, shaving gels and creams for men and women, plus private label shaving products.",
+   "evidence": "We manage our business in two operating segments: Wet Shave and Sun and Skin Care."
   },
   {
    "name": "Sun and Skin Care",
    "products": [
-    "sun care",
-    "skin care"
+    "Banana Boat",
+    "Hawaiian Tropic",
+    "Bulldog®",
+    "Jack Black®",
+    "Cremo®",
+    "Wet Ones"
    ],
-   "description": "Sells sun care and skin care products.",
-   "evidence": "3 Our Business Segments and Product Strategies We manage our business in three operating segments: Wet Shave, Sun and Skin Care, and Feminine Care."
-  },
-  {
-   "name": "Feminine Care",
-   "products": [
-    "feminine care products"
-   ],
-   "description": "Sells feminine care products.",
-   "evidence": "3 Our Business Segments and Product Strategies We manage our business in three operating segments: Wet Shave, Sun and Skin Care, and Feminine Care."
+   "description": "Sells sun care, men's and women's grooming, and personal wipe products under brands such as Banana Boat and Hawaiian Tropic.",
+   "evidence": "Sun and Skin Care products are sold under the Banana Boat, Hawaiian Tropic, Bulldog®, Jack Black®, Cremo® and Wet Ones brand names."
   }
  ],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [
-  "revenue model not grounded"
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retailers and distributors pay the company for its products, which are sold to consumers through retail locations worldwide.",
+  "evidence": "We distribute our products to consumers through numerous retail locations worldwide, including mass merchandisers and warehouse clubs, food, drug and convenience stores, and military stores, and both traditional and modern trade customers outside of the United States."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Feminine Care segment was sold to Essity and is now reported as discontinued operations.",
+   "evidence": "The former Feminine Care segment's results are presented as discontinued operations on a retrospective basis for all fiscal years."
+  }
  ],
+ "dropped": [],
  "reader": "agent"
 }

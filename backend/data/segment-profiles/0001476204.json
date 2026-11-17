@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001476204",
+ "issuerName": "PHILLIPS EDISON & COMPANY, INC.",
+ "builtAt": "2026-11-16T12:50:39.485Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001476204-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1476204/000147620426000005/cik0001476204-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate Properties",
+   "products": [
+    "omni-channel grocery-anchored shopping centers",
+    "community and neighborhood shopping centers"
+   ],
+   "description": "Owns and operates grocery-anchored shopping centers, leasing retail space to tenants called Neighbors.",
+   "evidence": "Our Real Estate Properties segment derives a majority of its revenue from the lease contracts it enters into as a lessor, which are all in the form of operating leases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Neighbor tenants pay rent for leased shopping center space, plus reimbursements for common area maintenance, insurance and real estate taxes.",
+  "evidence": "Further, our lease contracts typically provide for reimbursements from tenants for common area maintenance, insurance, and real estate tax expense."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

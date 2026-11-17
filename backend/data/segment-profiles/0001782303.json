@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001782303",
+ "issuerName": "BOUNDLESS BIO, INC.",
+ "builtAt": "2026-11-17T00:15:00.426Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-097543",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1782303/000119312526097543/bold-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ecDTx development",
+   "products": [
+    "ecDTx"
+   ],
+   "description": "Designs and develops ecDTx, a therapy candidate in development, for which no revenue has been recorded.",
+   "evidence": "The Company operates and manages its business as one reporting and one operating segment, which is the business of designing and developing ecDTx, for which no revenue has been recorded."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001595248",
+ "issuerName": "Genprex, Inc.",
+ "builtAt": "2026-11-17T00:14:58.185Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010346",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1595248/000143774926010346/gnpx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gene therapy",
+   "products": [
+    "REQORSA® Gene Therapy",
+    "ONCOPREX® Delivery System",
+    "GPX-002"
+   ],
+   "description": "Clinical-stage gene therapy developer pursuing gene-based therapies for large patient populations with unmet medical needs.",
+   "evidence": "The Segment is focused on pioneering the discovery and development of gene therapies for use in patient populations with unmet medical needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

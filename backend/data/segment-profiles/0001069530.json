@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001069530",
+ "issuerName": "Filana Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:14:54.082Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007962",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069530/000143774926007962/sava20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel drugs",
+   "products": [
+    "simufilam"
+   ],
+   "description": "Develops novel drugs and diagnostics, with its lead candidate simufilam being studied for TSC-related epilepsy.",
+   "evidence": "The Company's operations are confined to one business segment: the development of novel drugs and diagnostics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

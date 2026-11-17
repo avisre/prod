@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001956827",
+ "issuerName": "Abivax S.A.",
+ "builtAt": "2026-11-16T12:53:30.720Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001956827-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1956827/000195682726000012/abvx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical products",
+   "products": [],
+   "description": "Research and development of pharmaceutical products, to be marketed in the future.",
+   "evidence": "The Group operates in a single operating segment: R&D of pharmaceutical products in order to market them in the future."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

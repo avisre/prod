@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002098712",
+ "issuerName": "GigCapital9 Corp.",
+ "builtAt": "2026-11-17T00:15:07.598Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134550",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2098712/000119312526134550/gix-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Initial business combination",
+   "products": [],
+   "description": "Formed to effect a business combination with one or more businesses; intends to focus on aerospace and defense services and technology, media and telecommunications.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001466085",
+ "issuerName": "INDEPENDENCE REALTY TRUST, INC.",
+ "builtAt": "2026-11-16T23:12:12.820Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004376",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1466085/000143774926004376/irt20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Same-Store",
+   "products": [
+    "multifamily properties"
+   ],
+   "description": "Multifamily properties owned and not in development as of the start of 2024, earning rent from residents.",
+   "evidence": "Same-Store includes properties that were owned and not a development property as of January 1, 2024, and that have not been sold or identified as held for sale."
+  },
+  {
+   "name": "Non Same-Store",
+   "products": [
+    "multifamily properties"
+   ],
+   "description": "Multifamily properties that did not qualify as same-store as of the start of 2024, earning rent from residents.",
+   "evidence": "Non Same-Store includes properties that did not meet the definition of a same-store property as of January 1, 2024."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay rent under leases, generally for a term of a year or less, for apartment homes in multifamily properties.",
+  "evidence": "Each of our multifamily properties is considered an operating segment that earns revenues through the leasing of apartment homes and incurs associated expenses."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

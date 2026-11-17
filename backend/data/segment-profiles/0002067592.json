@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002067592",
+ "issuerName": "McKinley Acquisition Corporation",
+ "builtAt": "2026-11-17T00:15:05.468Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-021733",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2067592/000121390026021733/ea0278046-10k_mckinley.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A newly formed blank check company whose purpose is to effect a business combination with one or more operating businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

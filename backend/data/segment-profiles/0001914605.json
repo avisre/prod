@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001914605",
+ "issuerName": "ECB Bancorp, Inc. /MD/",
+ "builtAt": "2026-11-17T00:15:02.687Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009778",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1914605/000143774926009778/ecbk20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "one-to-four family residential real estate loans",
+    "commercial real estate and multifamily real estate loans",
+    "construction and land loans",
+    "home equity lines of credit and loans",
+    "commercial business loans",
+    "certificate of deposit accounts",
+    "money market accounts",
+    "savings accounts"
+   ],
+   "description": "Takes deposits from the public and invests them mainly in residential, multifamily and commercial real estate loans.",
+   "evidence": "Our business consists primarily of taking deposits from the general public and investing those deposits, together with funds generated from operations, in one-to-four family residential real estate loans, commercial real estate and multifamily real estate loans, construction and land loans and home equity lines of credit and loans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Depositors place funds with the bank, and borrowers take residential, commercial and construction loans that the bank funds and holds.",
+  "evidence": "Our business consists primarily of taking deposits from the general public and investing those deposits, together with funds generated from operations, in one-to-four family residential real estate loans, commercial real estate and multifamily real estate loans, construction and land loans and home equity lines of credit and loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

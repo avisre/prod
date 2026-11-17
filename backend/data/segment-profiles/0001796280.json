@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001796280",
+ "issuerName": "ORIC PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-16T13:03:21.232Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1796280/000119312526064005/oric-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology drug development",
+   "products": [
+    "Rinzimetostat",
+    "Enozertinib"
+   ],
+   "description": "Discovers and develops innovative cancer therapies designed to counter resistance mechanisms, for clinical-stage development.",
+   "evidence": "The Company views its operations and manages its business as one operating segment, focused on the discovery and development of innovative therapies designed to counter the resistance mechanisms in cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

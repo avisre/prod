@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002028614",
+ "issuerName": "DRUGS MADE IN AMERICA ACQUISITION CORP.",
+ "builtAt": "2026-11-16T13:17:45.886Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-044139",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2028614/000121390026044139/ea0285662-10k_drugs.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a merger or similar business combination; it has no operations or revenue.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

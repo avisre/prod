@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001897463",
+ "issuerName": "GRAF GLOBAL CORP.",
+ "builtAt": "2026-11-17T00:15:02.492Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-058645",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1897463/000110465926058645/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company with no operations that seeks an initial Business Combination with a target business.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operations and has generated no revenue to date, so no customers pay it.",
+  "evidence": "We also have neither engaged in any operations nor generated any revenue to date."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

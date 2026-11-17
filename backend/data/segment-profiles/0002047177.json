@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002047177",
+ "issuerName": "CHENGHE ACQUISITION III CO.",
+ "builtAt": "2026-11-17T00:15:04.823Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034000",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2047177/000121390026034000/ea0283140-10k_chenghe3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking an initial business combination with businesses in Asian markets or global businesses focused on Asia.",
+   "evidence": "We are a blank check company incorporated as a Cayman Islands exempted company whose business purpose is to effect a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses or entities, which we refer to throughout this Annual Report as our initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

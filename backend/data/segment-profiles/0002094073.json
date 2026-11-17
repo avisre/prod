@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002094073",
+ "issuerName": "ClearThink 1 Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:07.445Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014157",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2094073/000149315226014157/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination, with a focus on the financial services sector.",
+   "evidence": "As of December 31, 2025, the Company reported its operations as a single reportable segment, noting no disaggregation of Company activities, management or allocation of resources by geographic region, business activity or organizational method, thus this new guidance does not affect the disclosures."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

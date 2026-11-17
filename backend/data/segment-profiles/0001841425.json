@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001841425",
+ "issuerName": "Verde Clean Fuels, Inc.",
+ "builtAt": "2026-11-17T00:15:01.557Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021763",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1841425/000162828026021763/vgasw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gas-to-liquids processing technology",
+   "products": [
+    "STG+®",
+    "renewable gasoline"
+   ],
+   "description": "Converts syngas into fully finished liquid fuels using its STG+ technology, for licensing and deployment at customer plants.",
+   "evidence": "The Company has determined that it operates in one operating segment, as the CODM reviews financial information presented on a combined basis for purposes of making operating decisions, allocating resources, and evaluating financial performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers would pay for licensing the STG+ technology and for engineering, technical and operational services under the company's planned capital-lite strategy.",
+  "evidence": "Such opportunities include licensing technology and providing engineering, technical, and operational services to customers to enable them to build, own, and operate commercial production plants"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001025835",
+ "issuerName": "ENTERPRISE FINANCIAL SERVICES CORP",
+ "builtAt": "2026-11-16T12:57:33.178Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001025835-26-000058",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1025835/000102583526000058/efsc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking services",
+   "products": [
+    "mortgage",
+    "tax credit brokerage",
+    "wealth management",
+    "traditional banking services"
+   ],
+   "description": "Full-range banking services, including mortgage, tax credit brokerage, wealth management and traditional banking, for individuals and corporate clients.",
+   "evidence": "The Company has determined it has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual and corporate clients buy banking, mortgage, tax credit brokerage, wealth management and traditional banking services from the company.",
+  "evidence": "The Company provides a full range of banking services, including mortgage, tax credit brokerage, wealth management and traditional banking services, to individuals and corporate clients."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

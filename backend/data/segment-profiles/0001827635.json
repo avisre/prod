@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001827635",
+ "issuerName": "Veradermics, Inc",
+ "builtAt": "2026-11-16T23:12:13.173Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001827635-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1827635/000182763526000013/mane-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "VDPHL01",
+    "VDMN",
+    "VDMC",
+    "VDAA"
+   ],
+   "description": null,
+   "evidence": "The Company manages its operations as a single operating and reportable segment and the measure of segment profit or loss is net loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002040475",
+ "issuerName": "DRUGS MADE IN AMERICA ACQUISITION II CORP.",
+ "builtAt": "2026-11-16T13:07:00.355Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-044055",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2040475/000121390026044055/ea0285468-10k_drugs2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check shell company that seeks to complete a business combination with one or more businesses and has no operations.",
+   "evidence": "We are a blank check company incorporated in the Cayman Islands as an exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, recapitalization, reorganization or other similar business combination with one or more businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

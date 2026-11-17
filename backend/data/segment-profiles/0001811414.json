@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001811414",
+ "issuerName": "QUANTUMSCAPE CORPORATION",
+ "builtAt": "2026-11-16T12:54:54.255Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071556",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1811414/000119312526071556/qs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solid-state battery technology",
+   "products": [
+    "QSE-5"
+   ],
+   "description": "Develops solid-state lithium-metal battery cell technology for electric vehicles and other applications.",
+   "evidence": "We currently conduct our business through one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Expects payments from PowerCo for collaboration activities and a licensing arrangement; no revenue to date.",
+  "evidence": "In addition to the collaboration with PowerCo, which contemplates payments for collaboration activities and a licensing arrangement, we may operate solely-owned manufacturing facilities, license technology to other manufacturers, or enter into joint venture arrangements, among other approaches."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

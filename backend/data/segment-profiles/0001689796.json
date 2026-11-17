@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001689796",
+ "issuerName": "JBG SMITH PROPERTIES",
+ "builtAt": "2026-11-16T12:49:47.757Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-016450",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1689796/000110465926016450/jbgs-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multifamily",
+   "products": [
+    "multifamily assets"
+   ],
+   "description": "Owns, operates and develops multifamily residential assets in and around Washington, D.C., leasing units to tenants.",
+   "evidence": "As of December 31, 2025, we had 15 multifamily assets totaling 6,519 units (6,333 units at our share), which were 84.7% leased at our share."
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "commercial assets"
+   ],
+   "description": "Owns, operates and develops commercial properties in and around Washington, D.C., leasing office and retail space to tenants.",
+   "evidence": "As of December 31, 2025, we had 22 commercial assets totaling 7.3 million square feet (6.9 million square feet at our share), which were 77.5% leased at our share."
+  },
+  {
+   "name": "Third-party real estate services",
+   "products": [
+    "Property management fees",
+    "Asset management fees",
+    "Development fees",
+    "Leasing fees",
+    "Construction management fees",
+    "Other service revenue"
+   ],
+   "description": "Provides fee-based real estate services to third parties, including property management, leasing and development.",
+   "evidence": "In addition, our third-party real estate services business provides fee-based real estate services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Tenants pay rent under leases of multifamily and commercial properties, and third-party clients pay fees for real estate services.",
+  "evidence": "We derive our revenue primarily from leases with multifamily and commercial tenants."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

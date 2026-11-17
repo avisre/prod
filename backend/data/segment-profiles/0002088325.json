@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002088325",
+ "issuerName": "ONEIM ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:07.209Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035757",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2088325/000121390026035757/ea0283069-10k_oneim.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with one or more target businesses; has no operations or revenue.",
+   "evidence": "We are a blank check exempted company incorporated in the Cayman Islands on September 5, 2025, and formed for the purpose of effecting a merger, capital stock exchange, asset acquisition, stock purchase, reorganization or similar business combination with one or more businesses (a \"Business Combination\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

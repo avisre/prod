@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002035016",
+ "issuerName": "Ribbon Acquisition Corporation",
+ "builtAt": "2026-11-17T00:15:04.409Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037440",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2035016/000121390026037440/ea0283868-10k_ribbon.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Cayman Islands blank check company formed to effect a business combination with a target business.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

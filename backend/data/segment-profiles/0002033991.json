@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002033991",
+ "issuerName": "Texas Ventures Acquisition III Corp",
+ "builtAt": "2026-11-16T13:15:38.679Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-043863",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2033991/000110465926043863/tva-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with one or more businesses in any industry.",
+   "evidence": "We are a blank check company incorporated on July 26, 2024, as a Cayman Islands exempted company with no material operations of our own."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue until a business combination; it earns non-operating interest income on its IPO trust account proceeds.",
+  "evidence": "The Company generates non-operating income in the form of interest income from the proceeds derived from our Initial Public Offering."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

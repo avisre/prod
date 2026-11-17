@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001729427",
+ "issuerName": "CNS Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-17T00:14:59.646Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002550",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1729427/000168316826002550/cns_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [],
+   "description": "Develops innovative therapies for serious diseases in neurology and oncology.",
+   "evidence": "The Company manages its operations as a single segment for the purpose of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001863127",
+ "issuerName": "Tyra Biosciences, Inc.",
+ "builtAt": "2026-11-16T12:58:06.340Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085490",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1863127/000119312526085490/tyra-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug development",
+   "products": [
+    "oral dabogratinib",
+    "TYRA-430",
+    "TYRA-200"
+   ],
+   "description": "Clinical-stage development of small molecule FGFR-targeted precision medicines for oncology and genetically defined conditions.",
+   "evidence": "The Company manages its operations as a single reportable segment, which includes all activities related to the research, development, and potential future commercialization of its small molecule drug development candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

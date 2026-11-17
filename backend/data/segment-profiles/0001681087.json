@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001681087",
+ "issuerName": "TECTONIC THERAPEUTIC, INC.",
+ "builtAt": "2026-11-16T13:08:28.593Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076793",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1681087/000119312526076793/tecx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Therapeutic proteins",
+   "products": [
+    "TX45",
+    "TX2100",
+    "GEODe"
+   ],
+   "description": "Discovers and develops therapeutic proteins and antibodies that modulate GPCR activity, targeting areas of unmet medical need.",
+   "evidence": "The Company operates in one operating segment, and therefore one reportable segment, focused on the discovery and development of therapeutic proteins and antibodies that modulate the activity of GPCRs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

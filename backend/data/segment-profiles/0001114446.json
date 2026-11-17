@@ -1,0 +1,74 @@
+{
+ "version": 1,
+ "cik": "0001114446",
+ "issuerName": "UBS AG",
+ "builtAt": "2026-11-17T00:14:54.435Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001610520-26-000026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1114446/000161052026000026/ubs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Wealth Management",
+   "products": [
+    "investment management",
+    "estate planning",
+    "corporate finance advice",
+    "wealth management and banking products and services"
+   ],
+   "description": "Provides financial services, advice and solutions to private wealth clients and select institutional clients.",
+   "evidence": "Global Wealth Management provides financial services, advice and solutions to private wealth clients, as well as select institutional clients."
+  },
+  {
+   "name": "Personal & Corporate Banking",
+   "products": [
+    "banking",
+    "retirement",
+    "financing",
+    "investments",
+    "strategic transactions"
+   ],
+   "description": "Provides banking, retirement, financing and investment products to private, corporate and institutional clients in Switzerland.",
+   "evidence": "Personal & Corporate Banking provides an extensive range of financial products and services, from banking to retirement, financing, investments and strategic transactions, to private, corporate and institutional clients, in Switzerland, through its branch network and digital channels."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "investment capabilities and strategies"
+   ],
+   "description": "Global asset manager offering investment capabilities across traditional and alternative asset classes to institutions, intermediaries and wealth clients.",
+   "evidence": "Asset Management is a global, large-scale and diversified asset manager, offering investment capabilities and strategies across all major traditional and alternative asset classes and investing styles to institutions, wholesale intermediaries and Global Wealth Management clients."
+  },
+  {
+   "name": "Investment Bank",
+   "products": [
+    "equities",
+    "foreign exchange",
+    "precious metals",
+    "research",
+    "advisory and capital markets",
+    "rates and credit platform"
+   ],
+   "description": "Provides capital raising, investment and risk management services to institutional, corporate, financial sponsor and wealth clients.",
+   "evidence": "The Investment Bank provides services to institutional, corporate, financial sponsor and Global Wealth Management clients, helping them raise capital, invest and manage risks."
+  },
+  {
+   "name": "Non-core and Legacy",
+   "products": [],
+   "description": "Holds selected assets and liabilities from the former Credit Suisse businesses not aligned with long-term strategic priorities.",
+   "evidence": "Non-core and Legacy incorporates selected assets and liabilities originating from the former Credit Suisse businesses not aligned with UBS AG's long-term strategic priorities or risk appetite, including associated financial and non- financial assets, operating expenses, and funding costs."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay portfolio management fees, and funds pay management and performance fees to the company.",
+  "evidence": "This category includes fees earned on portfolio management mandates with clients and management and performance fees earned on UBS-managed funds and third-party-managed funds."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001437071",
+ "issuerName": "Invesco Mortgage Capital Inc.",
+ "builtAt": "2026-11-16T13:05:30.375Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437071-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1437071/000143707126000015/ivr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage-backed securities",
+   "products": [
+    "Agency RMBS",
+    "Agency CMBS",
+    "non-Agency CMBS",
+    "non-Agency RMBS",
+    "TBAs",
+    "U.S. Treasury securities"
+   ],
+   "description": "Invests in, finances and manages mortgage-backed securities and other mortgage-related assets to provide returns to stockholders.",
+   "evidence": "Accordingly, we have a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns interest income on its investments in mortgage-backed securities and other real estate-related assets.",
+  "evidence": "We generate interest income on our investments in MBS and other real estate-related assets."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

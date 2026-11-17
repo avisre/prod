@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002045473",
+ "issuerName": "Copley Acquisition Corp",
+ "builtAt": "2026-11-17T00:15:04.806Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002944",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2045473/000182912626002944/copleyacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination with a target business in technology or lifestyle sectors.",
+   "evidence": "Management has determined that the Company only has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operating revenue; its only income reviewed is interest and dividends earned on Trust Account investments.",
+  "evidence": "We have generated no operating revenues to date and we do not expect that we will generate operating revenues until we consummate our initial business combination."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

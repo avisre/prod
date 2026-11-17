@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002087446",
+ "issuerName": "Proem Acquisition Corp I",
+ "builtAt": "2026-11-17T00:15:07.122Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034861",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2087446/000121390026034861/ea0281107-10k_proem1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a business combination with one or more businesses; it has not commenced operations.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

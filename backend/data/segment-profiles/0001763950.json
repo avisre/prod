@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001763950",
+ "issuerName": "LANTERN PHARMA INC.",
+ "builtAt": "2026-11-17T00:15:00.018Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013612",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1763950/000149315226013612/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cancer therapies",
+   "products": [
+    "LP-300",
+    "LP-184",
+    "LP-284",
+    "Antibody Drug Conjugate (ADC) program"
+   ],
+   "description": "Develops cancer therapies using an A.I. platform to identify and advance oncology drug candidates.",
+   "evidence": "We have active clinical programs for our three lead small molecule drug candidates: LP-300, LP-184, and LP-284."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

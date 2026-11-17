@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001050441",
+ "issuerName": "Eagle Bancorp, Inc.",
+ "builtAt": "2026-11-16T23:12:12.773Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001050441-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1050441/000105044126000021/egbn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "commercial loans",
+    "asset based lending",
+    "construction and commercial real estate loans",
+    "business equipment financing",
+    "consumer home equity lines of credit",
+    "consumer installment loans",
+    "online banking",
+    "Treasury Management services"
+   ],
+   "description": "Provides commercial banking, consumer lending and digital banking services to businesses and individuals in its market area.",
+   "evidence": "The Company has one reporting unit, one operating segment and, consequently, a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers and depositors pay the Company interest and fees on loans, investments and deposits, which provide most revenue.",
+  "evidence": "Interest income and fees on loans, investments, and deposits provide the majority of revenues in the Company's operation."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: The Company exited its multifamily FHA loan origination business by December 31,"
+ ],
+ "reader": "agent"
+}

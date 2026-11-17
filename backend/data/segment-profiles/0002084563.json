@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002084563",
+ "issuerName": "Leapfrog Acquisition Corporation",
+ "builtAt": "2026-11-17T00:15:06.868Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-001001",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2084563/000118518526001001/lfacu10k123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination with a business focused on energy or infrastructure; it has not commenced operations.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statement of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue until a business combination; only non-operating interest income on Initial Public Offering proceeds.",
+  "evidence": "The Company may generate non-operating income in the form of interest income on the proceeds derived from the Initial Public Offering."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002043630",
+ "issuerName": "STONEBRIDGE ACQUISITION II CORPORATION",
+ "builtAt": "2026-11-17T00:15:04.691Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002474",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/2043630/000182912626002474/stonebridgeacq2_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue a business combination with a target not yet selected; it has no operations.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no customers; its income is interest earned on the IPO proceeds held in the Trust Account, not operating revenue.",
+  "evidence": "We will generate non-operating income in the form of interest income from the proceeds derived from our IPO and held in the Trust Account."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

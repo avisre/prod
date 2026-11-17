@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001795091",
+ "issuerName": "OS THERAPIES INCORPORATED",
+ "builtAt": "2026-11-17T00:15:00.803Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036629",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1795091/000121390026036629/ea0283146-10k_ostherap.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "OST-HER2",
+    "OST-tADC"
+   ],
+   "description": "Clinical-stage company developing cancer treatments, mainly for osteosarcoma and other solid tumors.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

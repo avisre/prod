@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001544206",
+ "issuerName": "Carlyle Secured Lending, Inc.",
+ "builtAt": "2026-11-17T00:14:57.638Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001544206-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1544206/000154420626000013/csl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Secured debt investments",
+   "products": [
+    "Middle Market Senior Loans"
+   ],
+   "description": "Originates and holds secured debt loans to U.S. middle market companies, supported by financial sponsors.",
+   "evidence": "The Company operates through a single operating and reporting segment with an investment objective to generate current income and, to a lesser extent, capital appreciation primarily through assembling a portfolio of secured debt investments in U.S. middle market companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Private U.S. middle market borrowers, often controlled by private equity firms, pay interest on secured loans the company originates.",
+  "evidence": "The Middle Market Senior Loans are generally made to private U.S. middle market companies that are, in many cases, controlled by private equity firms."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

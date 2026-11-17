@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001855175",
+ "issuerName": "Contineum Therapeutics, Inc.",
+ "builtAt": "2026-11-16T13:09:36.702Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015165",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1855175/000162828026015165/ctnm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "PIPE-791",
+    "PIPE-307",
+    "CTX-343"
+   ],
+   "description": "Pioneers differentiated small-molecule therapies for NI&I indications with significant unmet need.",
+   "evidence": "The Company operates in one reportable segment, pioneering differentiated therapies for the treatment of NI&I indications with significant unmet need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

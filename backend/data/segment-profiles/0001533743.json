@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001533743",
+ "issuerName": "Processa Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-17T00:14:57.414Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011204",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1533743/000149315226011204/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Next Generation Cancer",
+   "products": [
+    "PCS6422",
+    "PCS11T",
+    "PCS12852",
+    "PCS499"
+   ],
+   "description": "Discovers and develops a pipeline of Next Generation Cancer therapy drugs aimed at fighting cancer.",
+   "evidence": "We have one reportable segment, which is focused on discovering and developing a pipeline of Next Generation Cancer therapy drugs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001759138",
+ "issuerName": "CABALETTA BIO, INC.",
+ "builtAt": "2026-11-16T13:07:57.950Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001759138-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1759138/000175913826000011/caba-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "T cell therapies",
+   "products": [
+    "rese-cel",
+    "Resecabtagene autoleucel"
+   ],
+   "description": "Clinical-stage company developing engineered T cell therapies, led by rese-cel, for autoimmune diseases.",
+   "evidence": "The segment consists of the development of clinical and preclinical product candidates for the discovery and development of innovative engineered T cell therapies and related administrative activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no product revenue yet; it expects revenue only from commercializing its product candidates, which may take many years.",
+  "evidence": "Our ability to generate product revenues, which we do not expect will occur for many years, if ever, will depend heavily on the successful development and eventual commercialization of one or more of our product candidates."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

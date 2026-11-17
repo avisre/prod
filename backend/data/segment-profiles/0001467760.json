@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001467760",
+ "issuerName": "Apollo Commercial Real Estate Finance, Inc.",
+ "builtAt": "2026-11-16T13:00:32.772Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-044725",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1467760/000119312526044725/ari-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial mortgage loans",
+   "products": [
+    "performing commercial mortgage loans",
+    "subordinate financings",
+    "other commercial real estate-related debt investments",
+    "real estate owned"
+   ],
+   "description": "Originates, acquires and manages performing commercial mortgage loans and related real estate debt investments for borrowers secured by institutional quality real estate.",
+   "evidence": "We currently operate as one segment, which is also our sole reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Interest income earned on its loans, net of the cost of financing them, is the main source of its earnings.",
+  "evidence": "Our consolidated net income (loss) is primarily derived through the difference between the interest income earned on our loans and the cost at which we are able to finance them."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

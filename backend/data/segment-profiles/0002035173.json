@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002035173",
+ "issuerName": "RENATUS TACTICAL ACQUISITION CORP I",
+ "builtAt": "2026-11-17T00:15:04.427Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-027653",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/2035173/000121390026027653/ea0280228-10k_renatus1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue a business combination with one or more businesses; has no operations or revenues.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

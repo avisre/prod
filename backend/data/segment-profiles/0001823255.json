@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001823255",
+ "issuerName": "MAYFAIR GOLD CORP.",
+ "builtAt": "2026-11-17T00:15:01.027Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001376474-26-000286",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823255/000137647426000286/mine-20251231_ex99z2.htm",
+  "exhibit": "mine-20251231_ex99z2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

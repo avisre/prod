@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002015955",
+ "issuerName": "LIONHEART HOLDINGS",
+ "builtAt": "2026-11-16T13:14:41.771Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034194",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2015955/000121390026034194/ea0282894-10k_lionheart.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to pursue a Business Combination with businesses in any industry; it has no operating revenues.",
+   "evidence": "Accordingly, Management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

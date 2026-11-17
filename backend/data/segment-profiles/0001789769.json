@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001789769",
+ "issuerName": "Instil Bio, Inc.",
+ "builtAt": "2026-11-17T00:15:00.742Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001789769-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1789769/000178976926000019/til-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel therapies",
+   "products": [],
+   "description": "Research and development of novel therapeutic candidates, sourced through acquisition or in-licensing, for diseases with unmet medical need.",
+   "evidence": "The Company manages its business activities on a consolidated basis and has one reportable segment relating to the research and development of its novel therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

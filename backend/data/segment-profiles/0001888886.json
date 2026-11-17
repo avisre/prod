@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001888886",
+ "issuerName": "Structure Therapeutics Inc.",
+ "builtAt": "2026-11-16T12:56:46.555Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020562",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1888886/000110465926020562/gpcr-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development",
+   "products": [
+    "aleniglipron",
+    "ACCG-2671",
+    "ACCG-3535"
+   ],
+   "description": "Research and development of oral small molecule medicines for chronic diseases with unmet medical need.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of research and development of medicines that target chronic diseases with unmet medical need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

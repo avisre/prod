@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001947016",
+ "issuerName": "STARFIGHTERS SPACE, INC.",
+ "builtAt": "2026-11-16T13:16:58.621Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001062993-26-002001",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1947016/000106299326002001/form10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "F-104 Fighter jets",
+   "products": [
+    "infrastructure for orbital space launch"
+   ],
+   "description": "Operates fighter jets for pilot training, flight testing and launch services, and develops orbital launch infrastructure for commercial, defense and government clients.",
+   "evidence": "Our Chief Executive Officer, who is our chief operating decision maker, views the Company's operations and manages its business in one operating segment, which is principally the operations of F-104 Fighter jets and development of infrastructure for orbital space launch."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay for pilot training and in-flight testing services, which produced most of the company's income historically.",
+  "evidence": "Historically, Starfighters generated the majority of its income from its Historical Services of pilot training and in-flight testing, and continues to do so today."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

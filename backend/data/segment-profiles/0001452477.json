@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001452477",
+ "issuerName": "Seven Hills Realty Trust",
+ "builtAt": "2026-11-17T00:14:56.157Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001452477-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1452477/000145247726000010/sevn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "First mortgage loans",
+   "products": [
+    "floating rate first mortgage loans",
+    "bridge loans"
+   ],
+   "description": "Originates and invests in floating rate first mortgage loans secured by middle market transitional CRE properties, for borrowers with business plans.",
+   "evidence": "We operate in one business segment: originating and investing in floating rate first mortgage loans secured by CRE properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay origination, exit, extension and modification fees on the bridge loans the company makes.",
+  "evidence": "We expect to receive origination fees for bridge loans we make and we may also receive exit fees, extension fees, modification or similar fees in connection with some of our bridge loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002040381",
+ "issuerName": "Pioneer Acquisition I Corp",
+ "builtAt": "2026-11-16T13:15:22.941Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002737",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2040381/000182912626002737/pioneeracq1_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking a business combination, focused on healthcare or healthcare related industries.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

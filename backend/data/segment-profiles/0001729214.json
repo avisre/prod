@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001729214",
+ "issuerName": "XORTX Therapeutics Inc.",
+ "builtAt": "2026-11-17T00:14:59.598Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-032775",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1729214/000110465926032775/tmb-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hyperuricemia related diseases",
+   "products": [],
+   "description": "Develops and commercializes therapies to treat hyperuricemia related diseases.",
+   "evidence": "The Company operates in one reportable operating segment: the development and commercialization of therapies to treat hyperuricemia related diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

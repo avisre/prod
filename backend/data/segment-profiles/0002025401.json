@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002025401",
+ "issuerName": "FIFTH ERA ACQUISITION CORP I",
+ "builtAt": "2026-11-16T23:12:13.333Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037410",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2025401/000121390026037410/ea0283788-10k_fifthera1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check shell company seeking an initial business combination with technology-enabled target businesses; no operating revenue.",
+   "evidence": "Accordingly, Management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

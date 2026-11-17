@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001852207",
+ "issuerName": "BOLD EAGLE ACQUISITION CORP.",
+ "builtAt": "2026-11-16T13:14:54.351Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-032983",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1852207/000121390026032983/ea0276711-10k_bold.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Seeks a business combination with one or more businesses; has no operations and nominal assets.",
+   "evidence": "We are a blank check company incorporated as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

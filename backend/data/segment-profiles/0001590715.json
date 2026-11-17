@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001590715",
+ "issuerName": "AMERICAN RESOURCES CORPORATION",
+ "builtAt": "2026-11-16T23:12:13.155Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-003317",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1590715/000147793226003317/arec_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EMC",
+   "products": [
+    "recovered metal and steel",
+    "scrap steel materials"
+   ],
+   "description": "Aggregates and processes used metals for recycling into new steel-based products, selling recovered metal and steel.",
+   "evidence": "EMC - Aggregator and processor of used metals for recycling into new steel-based products for the recovery and sale of recovered metal and steel."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Buyers pay the company for scrap steel materials it aggregates and sells, mainly recovered metal and steel.",
+  "evidence": "From inception to date the majority of company activities and revenue have been focused on the aggregation and sales of scrap steel materials."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company spun off its American Infrastructure and ReElements segments, which are now discontinued operations.",
+   "evidence": "During the year ended December 31, 2025 the Company spun-off of the American Infrastructure and ReElements segments."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

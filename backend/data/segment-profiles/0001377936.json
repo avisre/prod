@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001377936",
+ "issuerName": "SARATOGA INVESTMENT CORP.",
+ "builtAt": "2026-11-16T13:13:08.088Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-052176",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-05-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1377936/000121390026052176/ea0283348-10k_saratoga.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty finance",
+   "products": [
+    "senior and unitranche leveraged loans",
+    "mezzanine debt"
+   ],
+   "description": "Provides customized financing to U.S. middle-market businesses through senior, unitranche and mezzanine debt and equity investments.",
+   "evidence": "However, because each of these investment relationships have similar business and economic characteristics, they have been aggregated into a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Portfolio companies pay the company interest on the leveraged loans and mezzanine debt it provides.",
+  "evidence": "Interest income, adjusted for amortization of premium and accretion of discount, is recorded on an accrual basis to the extent that such amounts are expected to be collected."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001690437",
+ "issuerName": "GRANITESHARES GOLD TRUST",
+ "builtAt": "2026-11-17T00:14:59.281Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-037707",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1690437/000149315226037707/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gold bullion",
+   "products": [],
+   "description": "Holds gold bullion for investors who buy Shares representing fractional beneficial interests in the Trust.",
+   "evidence": "The Trust operates in one segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Gold bullion): Gold bullion"
+ ],
+ "reader": "agent"
+}

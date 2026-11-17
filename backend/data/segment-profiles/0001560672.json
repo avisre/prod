@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001560672",
+ "issuerName": "Ellington Credit Company",
+ "builtAt": "2026-11-17T00:14:57.838Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001560672-25-000074",
+  "periodEnd": "2025-03-31",
+  "filingDate": "2025-06-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1560672/000156067225000074/earn-20250331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate CLOs",
+   "products": [
+    "CLO Notes",
+    "CLO Equity",
+    "Agency RMBS",
+    "Corporate debt"
+   ],
+   "description": "Invests primarily in mezzanine debt and equity tranches of corporate CLOs for attractive current yields and risk-adjusted total returns.",
+   "evidence": "The Company operates through a single operating and reporting segment with an objective to generate attractive current yields and risk-adjusted total returns for its shareholders by acquiring, investing in, and managing its targeted assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns net interest income from coupon interest and amortization on its CLO and RMBS securities holdings.",
+  "evidence": "The following tables reflect the components of net interest income (expense) by security type for the three-month periods ended March 31, 2025 and 2024 and the years ended December 31, 2024 and 2023:"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company liquidated its remaining mortgage-related assets and began acquiring additional CLOs.",
+   "evidence": "Shortly after the Conversion Date, we liquidated our remaining mortgage-related assets and began acquiring additional CLOs."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

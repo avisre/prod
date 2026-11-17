@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001610820",
+ "issuerName": "BRIACELL THERAPEUTICS CORP.",
+ "builtAt": "2026-11-17T00:14:58.398Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-049041",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-10-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1610820/000149315226049041/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunotherapy",
+   "products": [
+    "Bria-IMT™",
+    "Bria-OTS™"
+   ],
+   "description": "Researches and develops immunotherapy product candidates for cancer patients.",
+   "evidence": "The Company manages its business activities on a consolidated basis and operates as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

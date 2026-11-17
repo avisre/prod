@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002044523",
+ "issuerName": "ORIGIN INVESTMENT CORP I",
+ "builtAt": "2026-11-17T00:15:04.777Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013616",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2044523/000149315226013616/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination with a target business, focusing on Asia.",
+   "evidence": "As a blank check company, we have no operations and therefore do not have any operations of our own that face material cybersecurity threats."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

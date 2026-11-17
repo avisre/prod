@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002100125",
+ "issuerName": "Cambridge Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:07.707Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036095",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2100125/000110465926036095/caq-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company with no operating business, formed to effect an initial Business Combination with a target.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

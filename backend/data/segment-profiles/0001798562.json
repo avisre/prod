@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001798562",
+ "issuerName": "TMC the metals Co Inc.",
+ "builtAt": "2026-11-16T12:56:29.063Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037863",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1798562/000110465926037863/tmc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "exploration of seafloor polymetallic nodules",
+   "products": [],
+   "description": "Explores seafloor polymetallic nodules and develops a metallurgical process to treat them.",
+   "evidence": "Accordingly, the Company operates as a single operating and reportable segment, namely exploration of seafloor polymetallic nodules, which includes the development of a metallurgical process to treat such seafloor polymetallic nodules."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

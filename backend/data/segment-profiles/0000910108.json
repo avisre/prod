@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000910108",
+ "issuerName": "LXP INDUSTRIAL TRUST",
+ "builtAt": "2026-11-17T00:14:53.667Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000910108-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/910108/000091010826000009/lxp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Warehouse and distribution",
+   "products": [
+    "Class A warehouse and distribution facilities"
+   ],
+   "description": "Owns and leases Class A warehouse and distribution properties, a majority under net or similar leases to tenants.",
+   "evidence": "The Company has only one reportable operating segment because of its organizational and management structure, as well as information used by the CODM to make decisions about resource allocation and assess performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company rent for leasing its warehouse and distribution properties, with most leases shifting property costs to tenants.",
+  "evidence": "A majority of our properties are subject to net or similar leases, where the tenant bears all or substantially all of the costs, including cost increases, for real estate taxes, utilities, insurance and ordinary repairs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

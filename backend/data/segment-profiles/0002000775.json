@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002000775",
+ "issuerName": "Black Hawk Acquisition Corporation",
+ "builtAt": "2026-11-17T00:15:03.556Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002021",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/2000775/000182912626002021/blackhawkacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Identifies and evaluates acquisition candidates for a future business combination; has no revenue or operations.",
+   "evidence": "The measure of segment assets is reported on the balance sheet as total assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company presently has no revenue; it is funded by sales of its securities and loans from the Sponsor and other parties.",
+  "evidence": "We have relied upon the sale of our securities and loans from the Sponsor and other parties to fund our operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

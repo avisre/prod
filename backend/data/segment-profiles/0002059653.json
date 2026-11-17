@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0002059653",
+ "issuerName": "LAKE SHORE BANCORP, INC.",
+ "builtAt": "2026-11-17T00:15:05.239Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-109481",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2059653/000119312526109481/lsbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community bank",
+   "products": [
+    "commercial real estate loans",
+    "one- to four-family residential mortgage loans",
+    "home equity lines of credit",
+    "commercial business loans",
+    "consumer loans",
+    "investment securities"
+   ],
+   "description": "Community bank taking retail deposits and lending to households and small businesses in Western New York.",
+   "evidence": "The Company has one reporting unit, one operating segment and, consequently, a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans, and the bank earns interest on its investment securities.",
+  "evidence": "Our revenues are principally derived from interest earned on our loans and investment securities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

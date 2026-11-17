@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002028027",
+ "issuerName": "Newbury Street II Acquisition Corp",
+ "builtAt": "2026-11-16T13:17:57.459Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-024817",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/2028027/000121390026024817/ea0279254-10k_newbury2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue an initial Business Combination with a target business in any industry.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income that also is reported on the statements of operations as net income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

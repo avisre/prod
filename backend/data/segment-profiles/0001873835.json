@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001873835",
+ "issuerName": "IMMIX BIOPHARMA, INC.",
+ "builtAt": "2026-11-16T13:07:37.846Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012714",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1873835/000149315226012714/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CAR-T cell therapy",
+   "products": [
+    "NXC-201",
+    "N-GENIUS platform"
+   ],
+   "description": null,
+   "evidence": "We operate as one business segment and have incurred recurring losses, the majority of which are attributable to research and development activities and negative cash flows from operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

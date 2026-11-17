@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002042292",
+ "issuerName": "BTC DEVELOPMENT CORP.",
+ "builtAt": "2026-11-16T13:14:04.016Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-033564",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/2042292/000121390026033564/ea0280834-10k_btcdevelop.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company with no operations, formed to complete a business combination with one or more target businesses.",
+   "evidence": "We are a blank check company incorporated as a Cayman Islands exempted company and incorporated for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or other similar business combination, involving one or more businesses or assets, which we refer to throughout this Annual Report as our initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

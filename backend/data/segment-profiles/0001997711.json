@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0001997711",
+ "issuerName": "Logistic Properties of the Americas",
+ "builtAt": "2026-11-17T00:15:03.467Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001997711-26-000045",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1997711/000199771126000045/lpa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Costa Rica",
+   "products": [
+    "warehouses"
+   ],
+   "description": "Leases warehouses in Costa Rica to commercial tenants, the company's largest operating segment.",
+   "evidence": "As of December 31, 2025, Costa Rica is our largest operating segment, with 19 buildings and an Operating GLA of 2.5 million square feet."
+  },
+  {
+   "name": "Colombia",
+   "products": [
+    "warehouses"
+   ],
+   "description": "Leases warehouses in Colombia to commercial tenants under operating leases.",
+   "evidence": "As of December 31, 2025, Colombia has 5 buildings with an Operating GLA of 1.3 million square feet and land reserves of 50.6 acres."
+  },
+  {
+   "name": "Peru",
+   "products": [
+    "warehouses"
+   ],
+   "description": "Leases warehouses in Peru to commercial tenants under operating leases.",
+   "evidence": "As of December 31, 2025, Peru has 8 buildings with an Operating GLA of 1.8 million square feet and land reserves of 19.0 acres."
+  },
+  {
+   "name": "Mexico",
+   "products": [
+    "warehouses"
+   ],
+   "description": "Leases warehouses in Puebla, Mexico, a segment added in 2025 to commercial tenants.",
+   "evidence": "As of December 31, 2025, Mexico has 2 buildings with an Operating GLA of 0.3 million square feet."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under operating leases for warehouse space in Costa Rica, Colombia, Peru and Mexico.",
+  "evidence": "The four geographic segments primarily derive revenue from various operating leases with customers for the rental of warehouses."
+ },
+ "changes": [
+  {
+   "text": "Mexico was added as a fourth operating segment beginning in the third quarter of 2025.",
+   "evidence": "The Mexico operating segment was added as our fourth segment beginning in the third quarter of 2025."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

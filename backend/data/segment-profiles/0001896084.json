@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001896084",
+ "issuerName": "IONEER LTD",
+ "builtAt": "2026-11-17T00:15:02.396Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-017853",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1896084/000114036126017853/ef20070398_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Rhyolite Ridge"
+   ],
+   "description": "Holds the Rhyolite Ridge lithium-boron project in Nevada, USA, and the Reno office.",
+   "evidence": "North America Represents activity in the US, primarily in relation to Rhyolite Ridge and the Reno office."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

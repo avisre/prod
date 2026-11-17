@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001370755",
+ "issuerName": "BLACKROCK TCP CAPITAL CORP.",
+ "builtAt": "2026-11-17T00:14:55.615Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-079299",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1370755/000119312526079299/tcpc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Debt and equity investments",
+   "products": [],
+   "description": "Invests in middle-market companies to generate current income and capital appreciation through debt and equity investments.",
+   "evidence": "The CODM has concluded that the Company operates through a single operating and reporting segment with an investment objective to generate both current income and capital appreciation through debt and equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the company contractual interest on debt investments plus origination and similar fees, with equity appreciation a lesser source of returns.",
+  "evidence": "We expect to generate returns through a combination of the receipt of contractual interest payments on debt investments and origination and similar fees, and, to a lesser extent, equity appreciation through options, warrants, conversion rights or direct equity investments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

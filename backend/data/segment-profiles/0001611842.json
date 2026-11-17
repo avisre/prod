@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001611842",
+ "issuerName": "PolyPid Ltd",
+ "builtAt": "2026-11-17T00:14:58.421Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-020370",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1611842/000121390026020370/ea0276727-20f_polypid.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PLEX technology",
+   "products": [
+    "D-PLEX 100"
+   ],
+   "description": "Develops the PLEX technology and its lead product candidate to prevent SSIs in surgery.",
+   "evidence": "The Company's chief operating decision maker (\"CODM\") is its chief executive officer , who manages the Company's business activities as a single operating and reportable segment on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No revenue has been generated yet; future product sales would depend on payer coverage and reimbursement, and on third-party partners to market them.",
+  "evidence": "It may be difficult for us to profitably sell our product candidates if coverage and reimbursement for these products, or the procedures in which they are used, is limited by government authorities and/or third-party payor policies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

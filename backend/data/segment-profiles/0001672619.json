@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001672619",
+ "issuerName": "ENLIVEN THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T12:56:57.647Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-088232",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1672619/000119312526088232/elvn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "ELVN-001",
+    "ELVN-002"
+   ],
+   "description": "Clinical-stage biopharmaceutical company discovering and developing small molecule therapeutics for unmet needs.",
+   "evidence": "While the Company operates as a single reportable segment, the Company's external research and development expenses for ELVN-001 and ELVN-002 are tracked and regularly reported to the CODM."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

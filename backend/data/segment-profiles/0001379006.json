@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001379006",
+ "issuerName": "NANOVIRICIDES, INC.",
+ "builtAt": "2026-11-17T00:14:55.884Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-111390",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1379006/000110465926111390/nnvc-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life science",
+   "products": [],
+   "description": "Development of clinical and preclinical product candidates for the company's proprietary anti-viral therapies.",
+   "evidence": "The Company has one reportable segment: life science."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No customers currently pay the company, which has generated no revenue to date.",
+  "evidence": "We have no customers, products or revenues to date, and may never achieve revenues or profitable operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

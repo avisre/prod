@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001681682",
+ "issuerName": "ENDRA LIFE SCIENCES INC.",
+ "builtAt": "2026-11-17T00:14:59.188Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037617",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1681682/000121390026037617/ea0283994-10k_endra.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "biotech",
+   "products": [
+    "TAEUS"
+   ],
+   "description": "Develops clinical and preclinical product candidates for its proprietary thermoacoustic technology platform.",
+   "evidence": "The Company has one reportable segment: biotech."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Planned: customers pay multi-year subscriptions for the TAEUS platform, plus capital equipment sales with service and upgrades; no product revenue to date.",
+  "evidence": "We plan to offer a multi-year, subscription-based business model with recurring revenue, while continuing to support traditional capital equipment sales with associated service and upgrade offerings."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

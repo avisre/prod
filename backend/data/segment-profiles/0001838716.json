@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001838716",
+ "issuerName": "Genenta Science S.p.A.",
+ "builtAt": "2026-11-17T00:15:01.395Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-014387",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1838716/000149315226014387/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "Temferon"
+   ],
+   "description": "Clinical-stage company developing hematopoietic stem cell gene therapies for solid tumors, led by the Temferon candidate.",
+   "evidence": "The Company and its chief operating decision-maker view the Company's current operations and the management of its biotech business in one (1) operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In January 2026 the company discontinued its GU development program for Temferon in metastatic renal cell carcinoma.",
+   "evidence": "However, following the strategic review completed in January 2026, we discontinued the GU development program and we are no longer pursuing active clinical development in mRCC."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

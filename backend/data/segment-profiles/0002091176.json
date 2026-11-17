@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002091176",
+ "issuerName": "IDEA ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:07.340Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037891",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2091176/000110465926037891/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "A blank check shell company seeking an initial business combination with a target business, focused on AI-related companies.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

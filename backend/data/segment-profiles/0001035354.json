@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001035354",
+ "issuerName": "ELOXX PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-17T00:14:54.055Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108687",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1035354/000119312526108687/elox-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life science",
+   "products": [],
+   "description": "Develops clinical and preclinical product candidates for proprietary new therapies based on ribosomal modulation.",
+   "evidence": "The Company has one operating and reportable segment: life science."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns license and service revenue from one customer headquartered in Spain.",
+  "evidence": "To date, the Company has generated only license and service revenue, all of which relate to one customer with headquarters in Spain."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

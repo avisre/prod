@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000894158",
+ "issuerName": "THERIVA BIOLOGICS, INC.",
+ "builtAt": "2026-11-17T00:14:53.499Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-026767",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/894158/000110465926026767/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncolytic viruses",
+   "products": [
+    "VCN-01 (zabilugene almadenorepvec)"
+   ],
+   "description": "Discovers and develops oncolytic viruses intended to overcome the protective barrier surrounding solid tumors and selectively kill tumor cells.",
+   "evidence": "The Company views its operations and manages its business as one operating segment, focused on the discovery and development of oncolytic viruses intended to overcome the protective barrier surrounding solid tumors and selectively kill tumor cells."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company does not currently generate revenue, so no customer payments fund its operations.",
+  "evidence": "As the Company does not currently generate revenue, the CODM assesses Company performance using the consolidated net loss and through the achievement of pre-clinical and clinical research goals."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2026, the company granted Rasayana Therapeutics an exclusive worldwide licens"
+ ],
+ "reader": "agent"
+}

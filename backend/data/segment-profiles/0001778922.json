@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001778922",
+ "issuerName": "SpyGlass Pharma, Inc.",
+ "builtAt": "2026-11-16T13:05:50.982Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001778922-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1778922/000177892226000020/sgp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sustained drug delivery",
+   "products": [
+    "Bimatoprost Drug Pad-IOL System"
+   ],
+   "description": "Develops long-acting, sustained drug delivery of approved medicines for patients with chronic eye conditions.",
+   "evidence": "The Company operates as a single reportable and single operating segment in the development of the treatment paradigm for patients living with chronic eye conditions through long-acting, sustained drug delivery of approved medicines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

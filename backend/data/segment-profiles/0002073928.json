@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002073928",
+ "issuerName": "M3-BRIGADE ACQUISITION VI CORP.",
+ "builtAt": "2026-11-17T00:15:05.747Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-028501",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2073928/000121390026028501/ea0281578-10k_m3brigade6.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a business combination with one or more businesses; it has no operations or revenue.",
+   "evidence": "We are a blank check company incorporated on June 5, 2025, as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

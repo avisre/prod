@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001339688",
+ "issuerName": "LION COPPER CORP.",
+ "builtAt": "2026-11-17T00:14:55.512Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001062993-26-001760",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1339688/000106299326001760/form10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Copper exploration and development",
+   "products": [
+    "Yerington Copper Project"
+   ],
+   "description": "Copper exploration and development in the United States, centered on the Yerington Copper Project in Nevada.",
+   "evidence": "The Company operates as a single operating segment focused on exploration and development in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operating revenue and relies on funding from Nuton under its earn-in agreement and other financing.",
+  "evidence": "Our development plan relies substantially on funding from Nuton and potentially other equity or debt financing."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

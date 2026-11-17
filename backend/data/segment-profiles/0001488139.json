@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0001488139",
+ "issuerName": "Ameresco, Inc.",
+ "builtAt": "2026-11-17T00:14:56.745Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001488139-25-000018",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-02-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1488139/000148813925000018/amrc-20241231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Regions",
+   "products": [],
+   "description": "Delivers energy efficiency, renewable energy and O&M projects to governments, utilities, institutions and commercial customers across North America.",
+   "evidence": "Our reportable segments for the year ended December 31, 2024 were North America Regions, U.S. Federal, Europe, and Renewable Fuels (formerly Alternative Fuels)."
+  },
+  {
+   "name": "U.S. Federal",
+   "products": [],
+   "description": "Delivers energy efficiency, renewable and O&M projects to the U.S. federal government, which is treated as a single customer.",
+   "evidence": "Revenues from the U.S. federal government are included in our U.S. Federal segment."
+  },
+  {
+   "name": "Europe",
+   "products": [],
+   "description": "Delivers energy projects to customers across Europe, including active projects in the United Kingdom.",
+   "evidence": "Our reportable segments for the year ended December 31, 2024 were North America Regions, U.S. Federal, Europe, and Renewable Fuels (formerly Alternative Fuels)."
+  },
+  {
+   "name": "Renewable Fuels",
+   "products": [
+    "Renewable natural gas"
+   ],
+   "description": "Develops and operates biogas facilities that produce renewable natural gas, electricity and thermal energy for sale.",
+   "evidence": "Our reportable segments for the year ended December 31, 2024 were North America Regions, U.S. Federal, Europe, and Renewable Fuels (formerly Alternative Fuels)."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "consulting services",
+    "integrated-PV"
+   ],
+   "description": "Offers consulting services and sells solar PV energy products and systems, called integrated-PV.",
+   "evidence": "The \"All Other\" category offers consulting services and the sale of solar PV energy products and systems which we refer to as integrated-PV."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for energy efficiency and renewable energy projects, multi-year operations and maintenance contracts, and energy sold under contracts.",
+  "evidence": "After a project is complete, we may operate, maintain and repair the customer's energy systems under a multi-year O&M contract, designed to provide us with recurring revenue and visibility into the customer's evolving needs."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Renewable Fuels was renamed from Alternative Fuels.",
+   "evidence": "Our reportable segments for the year ended December 31, 2024 were North America Regions, U.S. Federal, Europe, and Renewable Fuels (formerly Alternative Fuels)."
+  },
+  {
+   "text": "In 2024, U.S. Regions and Canada were moved into the North America Regions segment.",
+   "evidence": "On January 1, 2024, we changed the structure of our internal organization, and our U.S. Regions and Canada are now included in North America Regions."
+  },
+  {
+   "text": "In 2024, the company sold a business, which was reported within All Other.",
+   "evidence": "On December 31, 2024, we completed the sale of a business."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

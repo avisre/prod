@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001823652",
+ "issuerName": "EVE HOLDING, INC.",
+ "builtAt": "2026-11-16T13:02:01.738Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001554855-26-000300",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823652/000155485526000300/evex-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "eVTOL",
+   "products": [
+    "eVTOLs"
+   ],
+   "description": "Designs, certifies and plans to market an eVTOL purpose-built for urban air mobility missions to operators and lessors.",
+   "evidence": "The Company is designing and certifying an eVTOL purpose-built for UAM missions and plans to market its eVTOLs globally to operators of UAM services, including fixed wing and helicopter operators, as well as lessors that purchase and manage aircraft on behalf of operators."
+  },
+  {
+   "name": "Service and Operations Solutions",
+   "products": [
+    "TechCare"
+   ],
+   "description": "Plans eVTOL maintenance, technical support, training, ground handling and data services for urban air mobility fleet operators.",
+   "evidence": "The Company plans to offer a full suite of eVTOL service and support capabilities (named \"TechCare\"), including material services, maintenance, technical support, training, ground handling and data services."
+  },
+  {
+   "name": "Urban Air Traffic Management",
+   "products": [
+    "Vector"
+   ],
+   "description": "Develops Vector software to help eVTOLs operate safely in dense urban airspace, for air navigation providers and vertiport operators.",
+   "evidence": "The Company is developing next-generation UATM software (named \"Vector\") to help enable eVTOLs to operate safely and efficiently in dense urban airspace along with conventional fixed wing and rotary aircraft and unmanned drones."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Planned customers are UAM operators, lessors and air navigation providers, paying for eVTOL aircraft, TechCare services and Vector software.",
+  "evidence": "The Company is designing and certifying an eVTOL purpose-built for UAM missions and plans to market its eVTOLs globally to operators of UAM services, including fixed wing and helicopter operators, as well as lessors that purchase and manage aircraft on behalf of operators."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001759774",
+ "issuerName": "POSTAL REALTY TRUST, INC.",
+ "builtAt": "2026-11-16T13:03:51.098Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011212",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1759774/000162828026011212/pstl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Postal properties",
+   "products": [],
+   "description": "Acquires, owns and manages postal properties leased primarily to the USPS.",
+   "evidence": "We acquire and manage postal properties and report our business as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The USPS pays rent as lessee of the company's postal properties, mainly under modified double-net leases.",
+  "evidence": "Our properties are leased primarily to the USPS."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

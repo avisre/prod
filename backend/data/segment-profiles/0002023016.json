@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0002023016",
+ "issuerName": "Turn Therapeutics Inc.",
+ "builtAt": "2026-11-17T00:15:03.963Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037505",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2023016/000121390026037505/ea0281342-10k_turntherap.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Topical immunomodulators",
+   "products": [
+    "GX-03",
+    "K183681",
+    "K160872",
+    "K171191"
+   ],
+   "description": "Develops non-systemic, non-biologic topical immunomodulators for inflammatory skin disease, with drug and medical device products.",
+   "evidence": "We manage our operations as a single reportable segment for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Commercial partners pay to license or buy the company's cleared medical device products, while the company focuses on drug development.",
+  "evidence": "Our current business model is to license and/or sell medical device products through commercial partners, without significant capital commitments from us, which allows us to focus our internal efforts on drug development."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

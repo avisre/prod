@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001533615",
+ "issuerName": "Chiron Real Estate Inc.",
+ "builtAt": "2026-11-16T13:09:08.663Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021956",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1533615/000110465926021956/xrn-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical real estate",
+   "products": [],
+   "description": "Acquires and leases healthcare facilities to physician groups and regional and national healthcare systems.",
+   "evidence": "The Company operates and manages its business as one 66 Table of Contents reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Physician groups and regional and national healthcare systems pay rent to lease the company's healthcare facilities, its primary revenue source.",
+  "evidence": "The Company acquires healthcare facilities and leases those facilities to physician groups and regional and national healthcare systems and derives its revenue primarily from the leasing of those facilities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

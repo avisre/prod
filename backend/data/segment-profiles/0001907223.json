@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001907223",
+ "issuerName": "GREENLAND MINES LTD",
+ "builtAt": "2026-11-17T00:15:02.629Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-038629",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1907223/000121390026038629/ea0275233-10k_green.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Essential medicines",
+   "products": [
+    "generic drug portfolio",
+    "biosimilar biologics platform",
+    "gene therapy platform"
+   ],
+   "description": "Develops essential medicines for chronic diseases such as cancer, cardiovascular and neurodegenerative disorders.",
+   "evidence": "The Company operates as a single reporting segment, focused on developing essential medicines for the treatment of chronic diseases – cancer, cardiovascular, and neurodegenerative disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

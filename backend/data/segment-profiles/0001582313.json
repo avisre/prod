@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001582313",
+ "issuerName": "XENON PHARMACEUTICALS INC.",
+ "builtAt": "2026-11-16T12:54:56.871Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076650",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1582313/000119312526076650/xene-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "neuroscience-focused biopharmaceutical",
+   "products": [
+    "azetukalner",
+    "Kv7 potassium channel openers",
+    "Nav sodium channel modulators"
+   ],
+   "description": "Discovers, develops and delivers neuroscience therapeutics, led by azetukalner, for patients in need.",
+   "evidence": "The Company operates as a single reportable segment dedicated to discovering, developing, and delivering life-changing therapeutics for patients in need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

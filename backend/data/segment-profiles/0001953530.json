@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001953530",
+ "issuerName": "Oculis Holding AG",
+ "builtAt": "2026-11-16T12:58:33.818Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-091446",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1953530/000119312526091446/ocs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ophthalmic indications",
+   "products": [
+    "Licaminlimab",
+    "Privosegtor"
+   ],
+   "description": "Develops ophthalmic product candidates, including Licaminlimab and Privosegtor, not yet on the market.",
+   "evidence": "The license agreement between Legacy Oculis and Accure, dated as of January 29, 2022, relates to the exclusive global licensing of its Privosegtor (formerly ACT-01) technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Icelandic government grants reimburse research and development expenses and fund certain research projects.",
+  "evidence": "Grant income reflects reimbursement of research and development expenses, and income from certain research projects managed by Icelandic governmental institutions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

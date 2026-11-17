@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002089536",
+ "issuerName": "CANTOR EQUITY PARTNERS VI, INC.",
+ "builtAt": "2026-11-17T00:15:07.299Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037550",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2089536/000121390026037550/ea0282891-10k_cantor6.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a business combination with a target business; it has not yet commenced operations.",
+   "evidence": "The Company has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

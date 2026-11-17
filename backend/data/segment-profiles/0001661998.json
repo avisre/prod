@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001661998",
+ "issuerName": "Q32 Bio Inc.",
+ "builtAt": "2026-11-17T00:14:58.895Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-099339",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1661998/000119312526099339/qttb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel biologics",
+   "products": [
+    "Bempikibart",
+    "ADX-097"
+   ],
+   "description": "Developing clinical and preclinical novel biologics, including bempikibart, for autoimmune and inflammatory diseases such as alopecia areata.",
+   "evidence": "The Company operates as one operating segment, focused on research, development, and discovering, developing and delivering therapies for its novel biologics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Collaboration payments from Amgen under a 2025 amendment; the company has no products for sale.",
+  "evidence": "In 2025, other segment items also include the recognition of collaboration arrangement revenue related to the Amendment with Amgen (see Note 16) and the gain recognized related to the ADX-097 Sale (see Note 4)."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025 the company recognized a gain related to the ADX-097 Sale."
+ ],
+ "reader": "agent"
+}

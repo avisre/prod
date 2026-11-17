@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002035644",
+ "issuerName": "Range Capital Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:04.457Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-122319",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2035644/000119312526122319/d107084d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination with a target business in any industry or location.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Interest earned on IPO proceeds held in the Trust Account is its only income; it has no operating revenue before a business combination.",
+  "evidence": "The Company will generate non-operating income in the form of interest income from the proceeds derived from the Initial Public Offering, which are held in a Trust Account."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

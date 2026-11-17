@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001581068",
+ "issuerName": "Brixmor Property Group Inc.",
+ "builtAt": "2026-11-16T12:48:24.498Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001581068-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1581068/000158106826000007/brx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Reporting Segment",
+   "products": [
+    "open-air retail shopping centers",
+    "community and neighborhood shopping centers"
+   ],
+   "description": "Owns and operates open-air grocery-anchored community and neighborhood shopping centers that lease space to retail tenants.",
+   "evidence": "Our principal business is the ownership and operation of open-air retail shopping centers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay contractual monthly base rent under signed or commenced leases for space in the company's shopping centers.",
+  "evidence": "ABR represents contractual monthly base rent as of a specified date, under leases that have been signed or commenced as of the specified date, multiplied by 12."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

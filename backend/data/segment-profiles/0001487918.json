@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001487918",
+ "issuerName": "OFS CAPITAL CORPORATION",
+ "builtAt": "2026-11-17T00:14:56.642Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001487918-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1487918/000148791826000021/ofs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Credit investments",
+   "products": [
+    "senior secured loans",
+    "unitranche loans",
+    "subordinated loans",
+    "Structured Finance Securities",
+    "common stock",
+    "preferred stock"
+   ],
+   "description": "Makes debt and, to a lesser extent, equity investments in middle-market U.S. companies for current income and capital appreciation.",
+   "evidence": "The Company determined it operates through a single operating and reporting segment with a single investment objective to provide its stockholders with both current income and capital appreciation primarily through debt investments and, to a lesser extent, equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Portfolio companies pay the company interest on its loans and investments, plus syndication, prepayment and other contractual fees.",
+  "evidence": "The Company generates fee revenue in the form of syndication, prepayment, and other contractual fees, that are recognized as the related services are rendered, which, when received from portfolio companies are non-recurring in nature."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

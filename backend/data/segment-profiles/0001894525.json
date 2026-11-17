@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001894525",
+ "issuerName": "APIMEDS PHARMACEUTICALS US, INC.",
+ "builtAt": "2026-11-17T00:15:02.375Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-051139",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1894525/000121390026051139/ea0288344-10k_apimeds.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "BioBusiness",
+   "products": [
+    "Apitox"
+   ],
+   "description": "Clinical development of Apitox, a honeybee venom-based drug for knee osteoarthritis pain, through subsidiary Lokahi Therapeutics.",
+   "evidence": "The Company has two reportable segments: The BioBusiness segment and the Digital Assets segment."
+  },
+  {
+   "name": "Digital Assets",
+   "products": [
+    "MindWaveDAO blockchain",
+    "NILA Tokens",
+    "Bitcoin",
+    "Tether"
+   ],
+   "description": "Holds, sells and advances the MindWaveDAO blockchain and related digital assets such as Bitcoin, Tether and NILA Tokens.",
+   "evidence": "the Digital Assets segment, which encompasses the Company's digital asset holdings (Bitcoin, Tether, and NILA Tokens) acquired in connection with the MindWave acquisition and the activities associated with the MindWaveDAO ecosystem."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Biopharmaceutical operations have generated no revenue so far; proceeds from selling digital assets are recorded as gains, not revenue.",
+  "evidence": "The Company has not generated revenue from its biopharmaceutical operations."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Following the MindWave Merger on December 1, 2025, the Company operates in two s"
+ ],
+ "reader": "agent"
+}

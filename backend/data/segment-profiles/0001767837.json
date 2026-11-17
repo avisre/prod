@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001767837",
+ "issuerName": "RICHMOND MUTUAL BANCORPORATION, INC.",
+ "builtAt": "2026-11-17T00:15:00.101Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-020414",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1767837/000162828026020414/fil-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "commercial, mortgage and consumer loans",
+    "commercial and industrial loans",
+    "direct finance leases",
+    "retail deposit products",
+    "trust and wealth management services"
+   ],
+   "description": "Community banking through First Bank Richmond, offering deposits, loans, leases and wealth management to customers in Indiana and Ohio.",
+   "evidence": "The Company has one reportable segment: community banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for banking services, including deposit accounts, loans, leases and trust services, which generate interest and fee income.",
+  "evidence": "The Company's primary source of revenue is providing banking services to its customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

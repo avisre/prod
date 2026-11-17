@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001143513",
+ "issuerName": "GLADSTONE CAPITAL CORP",
+ "builtAt": "2026-11-17T00:14:54.481Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001143513-25-000015",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1143513/000114351325000015/glad-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment income",
+   "products": [
+    "Secured First Lien Debt Securities",
+    "Secured Second Lien Debt Securities",
+    "Preferred and Common Equity/Equivalents"
+   ],
+   "description": "Invests in debt and equity securities of established lower middle market companies in the U.S. to earn investment income.",
+   "evidence": "Our current business strategy includes one reporting segment which derives investment income from our portfolio companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowing portfolio companies pay the company interest and success fees on its debt investments.",
+  "evidence": "We seek debt instruments that pay interest monthly or, at a minimum, quarterly, may have a success fee or deferred interest provision and are primarily interest only, with all principal and any accrued but unpaid interest due at maturity."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

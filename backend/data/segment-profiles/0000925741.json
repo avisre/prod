@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0000925741",
+ "issuerName": "BioCardia, Inc.",
+ "builtAt": "2026-11-17T00:14:53.705Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009587",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/925741/000143774926009587/bcda20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biotherapeutic",
+   "products": [
+    "CardiAMP Cell Therapy System",
+    "CardiALLO",
+    "Helix™"
+   ],
+   "description": "Clinical-stage biotherapeutic company developing cellular and cell-derived therapeutics for cardiovascular and pulmonary diseases with unmet medical needs.",
+   "evidence": "We operate in only one business segment, which is a clinical-stage biotherapeutic company developing novel therapeutics for diseases with large unmet medical needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

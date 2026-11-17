@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001808898",
+ "issuerName": "BENITEC BIOPHARMA INC.",
+ "builtAt": "2026-11-16T13:12:14.427Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-390570",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1808898/000119312526390570/bntc-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Therapeutic agents",
+   "products": [
+    "BB-301",
+    "ddRNAi"
+   ],
+   "description": "Discovery and development of therapeutic agents for the treatment of genetic disorders.",
+   "evidence": "The Company's CODM views the Company's operations and manages its business as a single reportable segment with a single operating segment, which is the business of discovery and development of therapeutic agents in the treatment of genetic disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no established revenue yet and is funded by capital financing activities while developing its genetic medicines.",
+  "evidence": "The Company's business focuses on the development of novel genetic medicines and, at this stage in the Company's development, the Company has not established a source of revenue to cover its operating costs, and as such, is dependent on funding operations through capital financing activities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

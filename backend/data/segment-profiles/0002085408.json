@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002085408",
+ "issuerName": "GENERAL PURPOSE ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:06.898Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-011732",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2085408/000114036126011732/ef20063398_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination, with no operating revenues to date.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

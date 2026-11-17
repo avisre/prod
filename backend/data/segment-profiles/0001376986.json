@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001376986",
+ "issuerName": "TENNESSEE VALLEY AUTHORITY",
+ "builtAt": "2026-11-17T00:14:55.760Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001376986-25-000056",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1376986/000137698625000056/tve-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "power program",
+   "products": [],
+   "description": "Generates, transmits and sells electricity throughout the Tennessee Valley, mainly to LPCs and directly served customers.",
+   "evidence": "TVA operates as a single reportable segment that includes the generation, transmission, and sale of electricity throughout the Tennessee Valley."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Electricity buyers, mainly LPCs and directly served customers, pay for wholesale electricity sales.",
+  "evidence": "Revenue is primarily derived from wholesale electricity sales to LPCs and directly served customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001860871",
+ "issuerName": "Tevogen Inc.",
+ "builtAt": "2026-11-17T00:15:01.978Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014326",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1860871/000149315226014326/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty immunotherapy",
+   "products": [
+    "TVGN 489"
+   ],
+   "description": "Clinical-stage immunotherapy developing off-the-shelf T cell therapies for infectious diseases and cancers.",
+   "evidence": "The Company operates in one operating segment, and therefore one reportable segment, and is focused on the global discovery, development and commercialization of proprietary therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

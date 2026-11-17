@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001786248",
+ "issuerName": "NexPoint Real Estate Finance, Inc.",
+ "builtAt": "2026-11-16T13:13:49.200Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134672",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1786248/000119312526134672/nref-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NREF",
+   "products": [],
+   "description": "Invests in real estate loans, including mortgage, mezzanine, preferred equity, promissory note and revolving credit facility loans.",
+   "evidence": "The Company has determined it has one reportable segment: NREF."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on the loans the company holds for investment.",
+  "evidence": "The weighted-average of loans paying a fixed rate is weighted on current principal balance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

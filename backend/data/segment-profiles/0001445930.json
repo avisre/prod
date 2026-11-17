@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0001445930",
+ "issuerName": "KB Financial Group Inc.",
+ "builtAt": "2026-11-16T12:52:36.932Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-183398",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1445930/000119312526183398/d79770d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail banking operations",
+   "products": [],
+   "description": "Retail banking services provided by Kookmin Bank to individuals, including mortgage and home equity lending.",
+   "evidence": "This segment consists of retail banking services provided by Kookmin Bank."
+  },
+  {
+   "name": "Corporate banking operations",
+   "products": [],
+   "description": "Banking services for large corporate and small- and medium-sized enterprise customers.",
+   "evidence": "Generally, for our retail banking operations, the amounts procured from financing activities are greater than the amounts used in investing activities, whereas for our corporate banking operations, the amounts used in investing activities are greater than the amounts procured from financing activities."
+  },
+  {
+   "name": "Other banking operations",
+   "products": [
+    "treasury activities"
+   ],
+   "description": "Treasury activities that fund the retail and corporate banking operations and receive their financing funds.",
+   "evidence": "Our other banking operations, which include treasury activities, provide funding to our retail banking operations and corporate banking operations and receive funds procured through the financing activities of such segments, such as deposit-taking activities."
+  },
+  {
+   "name": "Credit card operations",
+   "products": [
+    "Credit sale",
+    "cash advance",
+    "card loan"
+   ],
+   "description": "Credit card services covering credit sales, cash advances and card loans for cardholders.",
+   "evidence": "We are organized into seven major business segments: retail banking operations, corporate banking operations, other banking operations, credit card operations, securities operations, life insurance operations and non-life insurance operations."
+  },
+  {
+   "name": "Securities operations",
+   "products": [],
+   "description": "Securities business providing capital markets activities within the group.",
+   "evidence": "We are organized into seven major business segments: retail banking operations, corporate banking operations, other banking operations, credit card operations, securities operations, life insurance operations and non-life insurance operations."
+  },
+  {
+   "name": "Life insurance operations",
+   "products": [],
+   "description": "Life insurance business and related supporting activities.",
+   "evidence": "We are organized into seven major business segments: retail banking operations, corporate banking operations, other banking operations, credit card operations, securities operations, life insurance operations and non-life insurance operations."
+  },
+  {
+   "name": "Non-life insurance operations",
+   "products": [],
+   "description": "Non-life insurance business and related supporting activities.",
+   "evidence": "We are organized into seven major business segments: retail banking operations, corporate banking operations, other banking operations, credit card operations, securities operations, life insurance operations and non-life insurance operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers and corporations pay for banking, securities, insurance and credit card financial services.",
+  "evidence": "KB Financial Group Inc. and its subsidiaries (the \"Group\") derive substantially all of their revenue and income from providing a broad range of banking and related financial services to consumers and corporations."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the parent company sold its shares in KB Credit Information Co., Ltd. to KB Kookmin Card Co., Ltd.",
+   "evidence": "The Parent Company sold 100% shares of KB Credit Information Co., Ltd. to KB Kookmin Card Co., Ltd. on June 30, 2023."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

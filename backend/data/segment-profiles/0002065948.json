@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002065948",
+ "issuerName": "SOLARIUS CAPITAL ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:05.443Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-001003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2065948/000118518526001003/soca10k123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with one or more businesses, not limited to a particular industry.",
+   "evidence": "We are a blank check company incorporated as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

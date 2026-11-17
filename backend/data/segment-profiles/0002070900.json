@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002070900",
+ "issuerName": "Quantumsphere Acquisition Corporation",
+ "builtAt": "2026-11-17T00:15:05.668Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-006482",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2070900/000182912626006482/quantumsphereacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a merger or similar business combination with one or more businesses; it has no revenue.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

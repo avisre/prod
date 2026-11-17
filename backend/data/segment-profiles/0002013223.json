@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002013223",
+ "issuerName": "Highlander Silver Corp.",
+ "builtAt": "2026-11-17T00:15:03.682Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001213900-26-036688",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2013223/000121390026036688/ea0282558-40f_highland.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

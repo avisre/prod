@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001533040",
+ "issuerName": "Phio Pharmaceuticals Corp",
+ "builtAt": "2026-11-17T00:14:57.390Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007078",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1533040/000143774926007078/phio20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical",
+   "products": [
+    "PH-762",
+    "PH-894",
+    "INTASYL"
+   ],
+   "description": "Develops INTASYL RNA-interference compounds designed to make immune cells more effective in killing tumor cells.",
+   "evidence": "The Company operates with a single operating segment and a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

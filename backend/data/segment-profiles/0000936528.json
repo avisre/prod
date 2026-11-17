@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000936528",
+ "issuerName": "WaFd, Inc.",
+ "builtAt": "2026-11-16T12:51:40.124Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000936528-25-000117",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/936528/000093652825000117/wfsl-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking services",
+   "products": [
+    "lending",
+    "depository",
+    "insurance",
+    "wealth management products and services"
+   ],
+   "description": "Provides lending, depository, insurance and other banking services to consumers, businesses, and commercial real estate owners and developers.",
+   "evidence": "As the Company manages its business and operations on a consolidated basis, management has determined that there is one operating and one reportable business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the bank interest on loans, its principal source of revenue, alongside interest and dividends on investments.",
+  "evidence": "WaFd's principal sources of revenue are interest on loans and interest and dividends on investments."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the bank stopped originating consumer single-family home loans and home equity lines of credit.",
+   "evidence": "In January, 2025, the Bank announced it will no longer originate consumer single family home loans and home equity lines of credit."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

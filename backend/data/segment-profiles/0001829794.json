@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001829794",
+ "issuerName": "Empery Digital Inc.",
+ "builtAt": "2026-11-17T00:15:01.160Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002333",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1829794/000168316826002333/empery_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Two-Wheeled Products",
+   "products": [
+    "Brat",
+    "E-Bike"
+   ],
+   "description": "Sells two-wheeled products, including the Brat E-Bike, through importers, dealers and consumers.",
+   "evidence": "Following the divestiture of the four-wheel products noted above, the Company expects to concentrate on its two-wheel business, including the launch of new products in European markets in the second half of 2026."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Importers, dealers and consumers pay for two-wheeled vehicles and accessories, with importers paying before shipment.",
+  "evidence": "Payment for vehicle orders is required in advance of shipment."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the four-wheel product lines were sold and reported as discontinued operations.",
+   "evidence": "As discussed below, in October 2025, we sold the HF1 and MN1 product lines."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

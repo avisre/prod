@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001787297",
+ "issuerName": "Passage BIO, Inc.",
+ "builtAt": "2026-11-17T00:15:00.594Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-022549",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1787297/000110465926022549/pasg-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Genetic medicines",
+   "products": [
+    "PBFT02"
+   ],
+   "description": "Develops and advances genetic medicines designed to target critical underlying pathology of neurodegenerative diseases.",
+   "evidence": "The Company operates in a single reportable segment, developing and advancing genetic medicines designed to target critical underlying pathology of neurodegenerative diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

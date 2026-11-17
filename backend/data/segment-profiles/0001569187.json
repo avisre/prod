@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001569187",
+ "issuerName": "AH REALTY TRUST, INC.",
+ "builtAt": "2026-11-16T13:06:14.487Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001569187-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1569187/000156918726000019/ahh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail real estate",
+   "products": [],
+   "description": "Owns and operates retail properties anchored by credit-worthy tenants, including grocery stores and big-box retailers.",
+   "evidence": "The Company's retail portfolio is concentrated in high-barrier-to-entry markets and is anchored by credit-worthy tenants, including grocery stores and big-box retailers."
+  },
+  {
+   "name": "Office real estate",
+   "products": [],
+   "description": "Owns Class A office space in mixed-use town centers, such as the Town Center of Virginia Beach and Harbor Point in Baltimore.",
+   "evidence": "The office portfolio consists primarily of Class A office space located in mixed-use town centers, such as the Town Center of Virginia Beach and Harbor Point in Baltimore."
+  },
+  {
+   "name": "Multifamily real estate",
+   "products": [],
+   "description": "Owns and operates luxury apartment communities, primarily within its mixed-use developments, providing stable cash flows.",
+   "evidence": "The Company owns and operates luxury apartment communities, primarily within its mixed-use developments."
+  },
+  {
+   "name": "Real estate financing",
+   "products": [
+    "preferred equity investments"
+   ],
+   "description": "Provides preferred equity financing for development projects that serve as a pipeline for future acquisition of stabilized assets.",
+   "evidence": "This segment encompasses the Company's preferred equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent to the property segments, and borrowers pay interest on the real estate financing segment's investments.",
+  "evidence": "Segment revenues include rental revenues for our property segments and interest income for our real estate financing segment."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company committed to sell its general contracting and real estate services segment, which is now presented as discontinued operations.",
+   "evidence": "During the fourth quarter of December 31, 2025, the Company completed a strategic review of its operations and committed to a plan to sell its general contracting and real estate services segment."
+  },
+  {
+   "text": "In 2026 the company announced it would exit the multifamily property sector and divest its construction and real estate financing businesses.",
+   "evidence": "On February 16, 2026, we announced a fundamental business restructuring to eliminate complexity, strengthen the balance sheet, and relentlessly focus on operating a streamlined real estate platform."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001567264",
+ "issuerName": "INTENSITY THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:14:57.916Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001567264-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1567264/000156726426000024/intensity-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "localized cancer reduction",
+   "products": [],
+   "description": "Late-stage clinical biotechnology work on localized cancer reduction, leading to anti-cancer immune activation, via direct intratumoral injection.",
+   "evidence": "The Company has one reportable segment, which consists of the application of scientific leadership in the field of localized cancer reduction leading to anti-cancer immune activation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No one pays the company yet: it has generated no product revenue while advancing product candidates through development and clinical trials.",
+  "evidence": "To date, the Company has not generated any product revenue and expects to continue to incur significant expenses and operating losses for the foreseeable future as it advances product candidates through all stages of development and clinical trials and, ultimately, seeks regulatory approval."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

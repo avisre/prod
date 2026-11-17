@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002016221",
+ "issuerName": "Melar Acquisition Corp. I/Cayman",
+ "builtAt": "2026-11-17T00:15:03.759Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-024849",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/2016221/000121390026024849/ea0277239-10k_melaracq1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a Business Combination with one or more businesses, currently pursuing the Everli Business Combination.",
+   "evidence": "Accordingly, Management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

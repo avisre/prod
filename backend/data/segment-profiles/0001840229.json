@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001840229",
+ "issuerName": "MiNK Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:15:01.499Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134813",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840229/000119312526134813/inkt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "iNKT cell therapies",
+   "products": [
+    "iNKT cell therapy platform"
+   ],
+   "description": "Discovers, develops and manufactures allogeneic, off-the-shelf iNKT cell therapies to treat cancer and other immune-mediated diseases.",
+   "evidence": "MiNK's single reportable segment is focused on the discovery, development and manufacturing of allogeneic, off-the-shelf, iNKT cell therapies to treat cancer and other immune-mediated diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

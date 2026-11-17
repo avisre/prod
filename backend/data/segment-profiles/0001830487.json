@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001830487",
+ "issuerName": "Pharvaris N.V.",
+ "builtAt": "2026-11-16T12:58:03.285Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001830487-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1830487/000183048726000013/phvs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oral bradykinin",
+   "products": [],
+   "description": "Discovers, develops and commercializes oral bradykinin receptor antagonists as one operating segment.",
+   "evidence": "By these criteria, the activities of Pharvaris are considered to be one segment which comprises the discovery, development and commercialization of oral bradykinin B2 receptor antagonists and the segmental analysis is the same as the analysis for Pharvaris as a whole."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "If approved, payers such as insurers and government health authorities would reimburse patients' costs for the product candidates.",
+  "evidence": "Sales of our product candidates will depend substantially, both domestically and abroad, on the extent to which the costs of our product candidates will be paid by health maintenance, managed care, pharmacy benefit and similar healthcare management organizations, or reimbursed by government health administration authorities, private health coverage insurers and other third-party payors."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

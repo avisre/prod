@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001157647",
+ "issuerName": "Western New England Bancorp, Inc.",
+ "builtAt": "2026-11-16T13:17:13.822Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001999371-26-005514",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1157647/000199937126005514/wneb-10k_123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial lending",
+    "residential lending",
+    "consumer lending",
+    "checking",
+    "savings",
+    "time deposits",
+    "cash management",
+    "wealth management"
+   ],
+   "description": "Provides banking services, including lending, deposits, cash management and wealth management, to individuals and companies in western Massachusetts and northern Connecticut.",
+   "evidence": "The Company operates as a single reportable segment under ASC 280, as the Chief Operating Decision Maker (\"CODM\") reviews financial performance and allocates resources based on the consolidated results of the Company as a whole."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The bank earns interest on its loans and securities and pays interest on its deposits and borrowings, with net interest and dividend income as its primary profit measure.",
+  "evidence": "Net interest and dividend income is the difference between the interest income earned on interest-earning assets and the interest paid on interest-bearing liabilities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

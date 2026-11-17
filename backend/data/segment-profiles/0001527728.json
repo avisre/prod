@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001527728",
+ "issuerName": "LUNAI BIOWORKS INC.",
+ "builtAt": "2026-11-17T00:14:57.348Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001731122-26-001339",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1527728/000173112226001339/e7993_10k.htm"
+ },
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "BioSymetrics",
+   "products": [
+    "Contingent AI",
+    "Phenograph"
+   ],
+   "description": "Biomedical AI platform integrating genomics, imaging and electronic health records to advance biomarker discovery, therapeutic development and precision medicine.",
+   "evidence": "BioSymetrics is a biomedical artificial intelligence company focused on integrating multimodal data sources, including genomics, imaging, electronic health records, and other real-world evidence, to advance biomarker discovery, therapeutic development, and precision medicine."
+  },
+  {
+   "name": "RENB",
+   "products": [
+    "RENB-DC11",
+    "RENB-DC20",
+    "Allogeneic Cell Therapy Platform"
+   ],
+   "description": "Biotech developing allogeneic cell and gene therapies, subject to funding, to promote immune responses against solid tumors and serious infectious diseases.",
+   "evidence": "Renovaro Biosciences is a biotechnology company intending, if the necessary funding is obtained, to develop advanced allogeneic cell and gene therapies to promote stronger immune system responses potentially for long-term or life-long cancer remission in some of the deadliest cancers, and potentially to treat or cure serious infectious diseases such as Human Immunodeficiency Virus (HIV) infections."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "A single customer pays a fixed fee for research services, which the company recognizes ratably over the service period.",
+  "evidence": "During the year ended June 30, 2026 the Company began providing research services under a fixed fee services agreement with a single customer."
+ },
+ "changes": [
+  {
+   "text": "GEDi Cube filed for bankruptcy and ceased operations in the quarter ended September 2025.",
+   "evidence": "During the quarter ended September 30, 2025, GEDi Cube B.V. (\"GEDi Cube\"), acquired on February 13, 2024, filed for bankruptcy and ceased operations."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

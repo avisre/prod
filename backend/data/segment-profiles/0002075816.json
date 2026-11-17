@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002075816",
+ "issuerName": "Emmis Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:05.951Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035521",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2075816/000121390026035521/ea0277147-10k_emmis.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination with a target business; has generated no revenues to date.",
+   "evidence": "Emmis Acquisition Corp. (the \"Company\") is a blank check company incorporated as a Cayman Islands exempted company whose business purpose is to effect a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses, which we refer to throughout this prospectus as our initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

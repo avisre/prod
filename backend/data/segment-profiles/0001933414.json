@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001933414",
+ "issuerName": "MINERALYS THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T12:57:15.192Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001933414-26-000056",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1933414/000193341426000056/mlys-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "lorundrostat"
+   ],
+   "description": "Develops lorundrostat, an oral aldosterone synthase inhibitor, for hypertension and related cardiorenal conditions.",
+   "evidence": "The Company operates in one operating segment for the purposes of assessing performance, making operating decisions, and allocating Company resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

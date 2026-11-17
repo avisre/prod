@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001599298",
+ "issuerName": "Summit Therapeutics Inc.",
+ "builtAt": "2026-11-16T12:53:13.610Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001599298-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1599298/000159929826000015/smmt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "ivonescimab"
+   ],
+   "description": "Develops ivonescimab, a bispecific antibody for oncology indications including non-small cell lung cancer and colorectal cancer.",
+   "evidence": "The CODM function views the Company's operations and manages its business on a consolidated basis and as a single reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

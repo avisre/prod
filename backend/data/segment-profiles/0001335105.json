@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001335105",
+ "issuerName": "NOMAD POWER SOLUTIONS, INC.",
+ "builtAt": "2026-11-17T00:14:55.415Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014052",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1335105/000149315226014052/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cancer treatments",
+   "products": [
+    "LB-100",
+    "LiGHT System"
+   ],
+   "description": null,
+   "evidence": "Because the CODM evaluates financial performance on a consolidated basis, the Company has determined that it operates in a single reportable segment, which consists of the development of cancer treatments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001898601",
+ "issuerName": "IPERIONX Ltd",
+ "builtAt": "2026-11-16T13:01:00.210Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001898601-26-000030",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1898601/000189860126000030/ipx-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Minerals and metals",
+   "products": [
+    "HAMR™ powder",
+    "HSPT™",
+    "titanium powder",
+    "titanium plate",
+    "titanium minerals",
+    "zircon",
+    "HREC"
+   ],
+   "description": "Exploration and development of minerals and metals in the U.S., covering titanium metal production and critical mineral operations.",
+   "evidence": "The Consolidated Entity operates in one segment, being exploration and development of minerals and metals in the U.S ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy titanium powder and titanium products; the company has had no significant sales of these to date but expects sales now that its Virginia campus has started operations.",
+  "evidence": "To date, the Group has not had significant sales of titanium and titanium products, but anticipates product sales now that the Group's Titanium Manufacturing Campus in Virginia has started operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

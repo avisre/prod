@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001455365",
+ "issuerName": "Cognition Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:14:56.165Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034880",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1455365/000110465926034880/cgtx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Neurodegenerative disorders",
+   "products": [
+    "zervimesine"
+   ],
+   "description": "Develops clinical and preclinical product candidates for neurodegenerative disorders, such as Alzheimer's disease and dementia with Lewy bodies, lead candidate zervimesine.",
+   "evidence": "The Company has determined that it operates and manages one operating segment, which is the business of development of clinical and preclinical product candidates for neurodegenerative disorders, such as Alzheimer's disease and DLB."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Grants awarded primarily by the NIA fund its research and clinical programs.",
+  "evidence": "The majority of our research and clinical efforts have been funded by approximately $171 million in cumulative grants awarded primarily by the NIA."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

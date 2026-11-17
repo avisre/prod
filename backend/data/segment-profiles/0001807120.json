@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001807120",
+ "issuerName": "Design Therapeutics, Inc.",
+ "builtAt": "2026-11-16T13:05:34.484Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-098491",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1807120/000119312526098491/dsgn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Design Therapeutics, Inc.",
+   "products": [
+    "GeneTAC"
+   ],
+   "description": "Develops therapeutic candidates for inherited diseases driven by nucleotide repeat expansion, using its proprietary GeneTAC platform.",
+   "evidence": "The Company operates in one operating and reportable segment, Design Therapeutics, Inc., which is focused on utilizing the Company's proprietary GeneTAC ® platform to design and develop therapeutic candidates for inherited diseases driven by nucleotide repeat expansion."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

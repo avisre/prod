@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001720580",
+ "issuerName": "Adicet Bio, Inc.",
+ "builtAt": "2026-11-17T00:14:59.470Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001720580-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1720580/000172058026000008/acet-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "T cell therapies",
+   "products": [
+    "prula-cel",
+    "ADI-212",
+    "ADI-270"
+   ],
+   "description": "Discovers and develops allogeneic gamma delta T cell therapies for autoimmune diseases and cancer, reported as one segment.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of research and development of allogeneic gamma delta T cell therapies for autoimmune diseases and cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

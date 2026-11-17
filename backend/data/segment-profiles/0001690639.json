@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001690639",
+ "issuerName": "VersaBank",
+ "builtAt": "2026-11-16T13:10:22.981Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001437749-25-037310",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1690639/000143774925037310/versb20241031d_40f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

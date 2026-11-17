@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001889109",
+ "issuerName": "Belite Bio, Inc",
+ "builtAt": "2026-11-16T12:54:31.425Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-037374",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1889109/000110465926037374/blte-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel therapeutics",
+   "products": [
+    "Tinlarebant"
+   ],
+   "description": "Researches and develops novel therapeutics, led by its primary drug candidate Tinlarebant, plus early-stage pipelines targeting significant unmet needs.",
+   "evidence": "The Company operates and manages its business as one operating and reportable segment, focused on the research and development of its primary drug candidate, Tinlarebant, along with other early-stage pipelines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has not generated any revenue to date, so no customer payments are reported.",
+  "evidence": "The Company has not generated any revenue to date."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001630472",
+ "issuerName": "TPG RE Finance Trust, Inc.",
+ "builtAt": "2026-11-16T13:07:20.122Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001630472-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1630472/000163047226000004/trtx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate finance",
+   "products": [
+    "commercial mortgage loans",
+    "first mortgage loans",
+    "senior participation interests in first mortgage loans",
+    "mezzanine loans"
+   ],
+   "description": "Directly originates and acquires commercial real estate-related credit assets, mainly first mortgage loans secured by institutional-quality properties in the United States.",
+   "evidence": "The Company operates its business in a single operating and reportable segment, which is consistent with how the Company's Chief Executive Officer, who is its chief operating decision maker (\"CODM\"), assesses financial performance and allocates resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest, and prepayment penalties and exit fees, on the commercial mortgage loans the company originates or acquires.",
+  "evidence": "Prepayment penalties from borrowers are recognized as interest income when received."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

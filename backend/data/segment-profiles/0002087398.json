@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0002087398",
+ "issuerName": "Metals Royalty Co Inc.",
+ "builtAt": "2026-11-17T00:15:07.095Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-049527",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2087398/000110465926049527/tmcr-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metal and Minerals",
+   "products": [
+    "NORI Royalty"
+   ],
+   "description": "Holds a royalty on the NORI Property, a polymetallic nodule project in the CCZ, with no royalty revenue received yet.",
+   "evidence": "The Company had two reportable operating segments, Metal and Minerals and Oil and Gas."
+  },
+  {
+   "name": "Oil and Gas",
+   "products": [
+    "Maria Conchita (Colombia) block",
+    "SINU-9 (Colombia) block"
+   ],
+   "description": "Former gross overriding royalties on Colombian oil and gas blocks, classified as discontinued operations and spun out in 2025.",
+   "evidence": "The Oil and Gas segment is classified as discontinued operations effective September 2025 (see Note 15)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Royalty payments on metals produced from the NORI Property, paid by The Metals Company; none received to date.",
+  "evidence": "To date, we have not received any royalty revenue from the NORI Royalty."
+ },
+ "changes": [
+  {
+   "text": "The Oil and Gas business was classified as a discontinued operation in 2025.",
+   "evidence": "The Company met the criteria for classifying the Oil and Gas business as a discontinued operation as of September 30, 2025."
+  },
+  {
+   "text": "The Oil and Gas business was spun out in 2025, ending the Company's interest in it.",
+   "evidence": "Upon completion of the Spin-Out on December 18, 2025, the Company ceased to have an interest in the Oil and Gas business."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

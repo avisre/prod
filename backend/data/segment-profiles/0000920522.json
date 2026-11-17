@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000920522",
+ "issuerName": "ESSEX PROPERTY TRUST, INC.",
+ "builtAt": "2026-11-16T12:49:19.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000920522-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/920522/000092052226000003/ess-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Southern California",
+   "products": [],
+   "description": "Apartment communities in Southern California, measured by net operating income for segment reporting.",
+   "evidence": "The Company defines its reportable operating segments as the three geographical regions in which its communities are located: Southern California, Northern California and Seattle Metro."
+  },
+  {
+   "name": "Northern California",
+   "products": [],
+   "description": "Apartment communities in Northern California, measured by net operating income for segment reporting.",
+   "evidence": "The Company defines its reportable operating segments as the three geographical regions in which its communities are located: Southern California, Northern California and Seattle Metro."
+  },
+  {
+   "name": "Seattle Metro",
+   "products": [],
+   "description": "Apartment communities in the Seattle metro area, measured by net operating income for segment reporting.",
+   "evidence": "The Company defines its reportable operating segments as the three geographical regions in which its communities are located: Southern California, Northern California and Seattle Metro."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent for apartment homes in the company's West Coast communities, plus other property and affiliate management fees.",
+  "evidence": "The Company manages its communities by focusing on activities that may generate above-average rental growth, tenant retention/satisfaction and long-term asset appreciation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002071778",
+ "issuerName": "Fermi Inc.",
+ "builtAt": "2026-11-16T12:55:32.282Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002071778-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2071778/000207177826000010/frmi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "powered shell facilities",
+   "products": [
+    "powered shell leases"
+   ],
+   "description": "Builds and owns powered shell facilities for hyperscale tenants, leased out with contracted power capacity.",
+   "evidence": "All of the Company's activities relate to our business of building and owning powered shell facilities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hyperscale tenants pay lease rental income, expected to be based on reserved power capacity and agreed reliability characteristics.",
+  "evidence": "The Company's single reportable segment is expected to earn substantially all of its revenue from lease rental income from hyperscaler tenants."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

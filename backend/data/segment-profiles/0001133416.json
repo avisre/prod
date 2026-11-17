@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001133416",
+ "issuerName": "GALECTIN THERAPEUTICS INC.",
+ "builtAt": "2026-11-17T00:14:54.458Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-012155",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1133416/000114036126012155/ef20060823_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "fibrotic disease therapeutics",
+   "products": [
+    "belapectin"
+   ],
+   "description": "Develops belapectin, a galectin inhibitor, to create new therapies for fibrotic disease and cancer.",
+   "evidence": "The accounting policies of the fibrotic disease therapeutics segment are the same as those described in the summary of significant accounting policies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

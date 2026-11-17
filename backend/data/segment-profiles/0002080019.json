@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002080019",
+ "issuerName": "GigCapital8 Corp.",
+ "builtAt": "2026-11-17T00:15:06.353Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134564",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2080019/000119312526134564/giwwu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business combination",
+   "products": [],
+   "description": "Formed to effect a merger, share exchange, asset acquisition or similar initial business combination with one or more businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

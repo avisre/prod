@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001798100",
+ "issuerName": "NETSTREIT Corp.",
+ "builtAt": "2026-11-16T12:50:05.662Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-006901",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1798100/000162828026006901/ntst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail net lease",
+   "products": [],
+   "description": "Acquires, owns and manages single-tenant commercial retail properties on long-term net leases to high-credit-quality tenants across the United States.",
+   "evidence": "The Company aggregates these investments for reporting purposes and operates in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company rent under long-term net leases and are obligated to pay property operating costs.",
+  "evidence": "The Company acquires, owns, and manages single-tenant commercial retail net lease properties, the majority of which have long-term triple-net leases where the tenant is generally responsible for all improvements and contractually obligated to pay all operating costs (such as real estate taxes, utilities, and repairs and maintenance costs)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

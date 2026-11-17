@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002023658",
+ "issuerName": "Bicara Therapeutics Inc.",
+ "builtAt": "2026-11-16T13:00:34.358Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2023658/000162828026022010/bcax-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "research and development",
+   "products": [
+    "ficerafusp alfa"
+   ],
+   "description": "Research and development of its lead program, ficerafusp alfa, in clinical trials; does not generate revenue.",
+   "evidence": "The Company has one reportable segment relating to research and development of its product."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The segment does not currently generate revenues; it is conducting clinical trials and has not commercialized.",
+  "evidence": "The segment does not currently generate revenues as it is currently conducting clinical trials and has not commercialized."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

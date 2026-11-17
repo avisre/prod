@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002028516",
+ "issuerName": "ARCHIMEDES TECH SPAC PARTNERS II CO.",
+ "builtAt": "2026-11-17T00:15:04.171Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006780",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/2028516/000143774926006780/atii20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check shell company seeking to complete a business combination with a technology business.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the consolidated statements of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

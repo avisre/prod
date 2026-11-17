@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001926792",
+ "issuerName": "SAMFINE CREATION HOLDINGS GROUP LIMITED",
+ "builtAt": "2026-11-17T00:15:02.817Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-035532",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1926792/000121390026035532/ea0279231-20f_samfine.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial printing",
+   "products": [
+    "Book products",
+    "Novelty and packaging products"
+   ],
+   "description": "Provides commercial printing services for book traders, mainly in Hong Kong and the PRC.",
+   "evidence": "Based on management's assessment, we have determined that we have only one operating segment as defined by ASC 280, because we offers commercial printing products and services by only one operational team."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Book traders in Hong Kong, whose clients are around the world, pay for printing services and printed products.",
+  "evidence": "Our operating subsidiaries provide printing services to book traders principally located in Hong Kong whose clients are located around the world, through our production site in Shenzhen, the PRC."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

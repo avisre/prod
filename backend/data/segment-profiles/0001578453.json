@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001578453",
+ "issuerName": "DYNAGAS LNG PARTNERS LP",
+ "builtAt": "2026-11-17T00:14:58.014Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-040882",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1578453/000110465926040882/dlng-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vessel operations",
+   "products": [
+    "LNG vessels",
+    "time charter agreements"
+   ],
+   "description": "Owns and operates LNG vessels that earn time-charter revenue from charterers.",
+   "evidence": "The Partnership's vessel operations segment derives revenues from charterers under time charter agreements of its LNG vessels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the Partnership under time charter agreements for use of its LNG vessels.",
+  "evidence": "The Partnership's vessel operations segment derives revenues from charterers under time charter agreements of its LNG vessels."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

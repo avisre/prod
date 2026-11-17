@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001658551",
+ "issuerName": "Amylyx Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-16T12:59:27.744Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-086645",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1658551/000119312526086645/amlx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage pharmaceutical",
+   "products": [
+    "avexitide",
+    "AMX0035",
+    "AMX0114",
+    "AMX0318"
+   ],
+   "description": "Develops investigational therapies for endocrine and neurodegenerative diseases, including avexitide for post-bariatric hypoglycemia.",
+   "evidence": "The Company views its operations and manages its business as one operating segment and reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

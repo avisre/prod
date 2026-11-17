@@ -1,114 +1,91 @@
 {
  "version": 1,
  "cik": "0000032604",
- "issuerName": "EMERSON ELECTRIC CO.",
- "builtAt": "2026-11-14T13:44:00.242Z",
+ "issuerName": "Emerson Electric Co.",
+ "builtAt": "2026-11-17T00:14:53.184Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0000032604-25-000087",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-10",
-  "url": "https://www.sec.gov/Archives/edgar/data/32604/000003260425000087/emr-20250930.htm"
+  "accessionNumber": "0000032604-26-000054",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/32604/000003260426000054/emr-20260930.htm"
  },
  "status": "ok",
  "segments": [
   {
-   "name": "Final Control",
-   "products": [
-    "control valves",
-    "isolation valves",
-    "shutoff valves",
-    "pressure relief valves",
-    "pressure safety valves",
-    "actuators",
-    "regulators"
-   ],
-   "description": "Provides valves, actuators and regulators that control and regulate the flow of liquids or gases for process and hybrid industry manufacturers.",
-   "evidence": "The Final Control segment is a leading global provider of control valves, isolation valves, shutoff valves, pressure relief valves, pressure safety valves, actuators, and regulators for process and hybrid industries."
-  },
-  {
-   "name": "Measurement & Analytical",
-   "products": [
-    "intelligent instrumentation",
-    "Flexim",
-    "Micro Motion",
-    "Rosemount"
-   ],
-   "description": "Supplies intelligent instrumentation measuring physical properties of liquids or gases for process and hybrid industry operators.",
-   "evidence": "The Measurement & Analytical segment is a leading supplier of intelligent instrumentation measuring the physical properties of liquids or gases, such as pressure, temperature, level, flow, acoustics, corrosion, pH, conductivity, water quality, toxic gases, and flame."
-  },
-  {
-   "name": "Discrete Automation",
-   "products": [
-    "solenoid valves",
-    "pneumatic valves",
-    "valve position indicators",
-    "pneumatic cylinders and actuators",
-    "air preparation equipment",
-    "programmable automation control systems and software",
-    "materials joining solutions"
-   ],
-   "description": "Provides valves, actuators, motion and control solutions used primarily in discrete industries.",
-   "evidence": "The Discrete Automation segment includes solenoid valves, pneumatic valves, valve position indicators, pneumatic cylinders and actuators, air preparation equipment, pressure and temperature switches, electric linear motion solutions, programmable automation control systems and software, electrical distribution equipment, and materials joining solutions used primarily in discrete industries."
-  },
-  {
-   "name": "Safety & Productivity",
-   "products": [
-    "pipe-working tools",
-    "electrical tools",
-    "wet-dry vacuums",
-    "commercial vacuums",
-    "Greenlee",
-    "Klauke",
-    "ProTeam",
-    "RIDGID"
-   ],
-   "description": "Delivers tools for professionals and homeowners that support infrastructure, promote safety and enhance productivity.",
-   "evidence": "The Safety & Productivity segment delivers tools for professionals and homeowners that support infrastructure, promote safety and enhance productivity."
-  },
-  {
    "name": "Control Systems & Software",
    "products": [
-    "distributed control systems",
-    "safety instrumented systems",
-    "SCADA systems",
-    "application software",
-    "digital twins",
-    "asset performance management",
-    "cybersecurity",
-    "AspenTech"
+    "DeltaV™",
+    "Ovation™",
+    "AspenTech's asset optimization software",
+    "programmable automation controllers"
    ],
-   "description": "Provides control systems and asset optimization software, including AspenTech, used predominantly by process and hybrid manufacturers.",
-   "evidence": "The Control Systems & Software segment provides control systems and software that control plant processes by collecting and analyzing information from measurement devices in the plant."
+   "description": "Delivers automation systems, intelligent software and industrial AI solutions that help industrial organizations optimize performance worldwide.",
+   "evidence": "The Control Systems & Software segment delivers a portfolio of automation systems, intelligent software and industrial AI solutions."
   },
   {
    "name": "Test & Measurement",
    "products": [
-    "modular instrumentation",
-    "data acquisition and control solutions",
-    "general-purpose development software"
+    "NI brand",
+    "intelligent test platforms",
+    "modular hardware"
    ],
-   "description": "Provides software-connected automated test and measurement systems that help enterprises bring products to market faster and at lower cost.",
-   "evidence": "Test & Measurement provides software-connected automated test and measurement systems that enable enterprises to bring products to market faster and at a lower cost."
+   "description": "Offers intelligent test platforms, modular hardware and software that help companies test and measure products across diverse industries.",
+   "evidence": "The Test & Measurement segment offers an integrated portfolio of intelligent test platforms, modular hardware and powerful software to accelerate innovation, reduce complexity and enhance product quality."
+  },
+  {
+   "name": "Sensors",
+   "products": [
+    "Rosemount",
+    "Micro Motion"
+   ],
+   "description": "Provides sensing and measurement solutions that deliver real-time data for demanding applications and help customers monitor critical parameters.",
+   "evidence": "The Sensors segment (formerly described as Measurement & Analytical) delivers leading sensing and measurement solutions that provide real-time, reliable data for the world's most essential applications."
+  },
+  {
+   "name": "Final Control",
+   "products": [
+    "Fisher",
+    "ASCO",
+    "Bettis",
+    "valves",
+    "digital valve controllers",
+    "actuators",
+    "regulators"
+   ],
+   "description": "Supplies valves, digital valve controllers, actuators and regulators that manage the flow of liquids and gases in demanding conditions.",
+   "evidence": "The Final Control segment is a leading supplier of valves, digital valve controllers, actuators and regulators engineered to excel in the most demanding conditions."
+  },
+  {
+   "name": "Safety & Productivity",
+   "products": [
+    "connected equipment",
+    "electrical equipment and materials joining businesses",
+    "mechanical, electrical and diagnostic solutions"
+   ],
+   "description": "Provides tools, connected equipment and mechanical, electrical and diagnostic solutions for professionals in construction, maintenance and industrial environments.",
+   "evidence": "The Safety & Productivity segment delivers innovative tools, connected equipment and technologies that empower professionals in the mechanical, electrical and plumbing industries."
   }
  ],
- "productRevenueBrokenOut": true,
- "revenueModel": null,
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for manufactured products, software and services, including automation systems, valves, sensors, test platforms and safety tools.",
+  "evidence": "The majority of the Company's revenues relate to a broad offering of manufactured products and software which are recognized at the point in time when control transfers, generally in accordance with shipping terms, or the first day of the contractual term for software."
+ },
  "changes": [
   {
-   "text": "In 2025, AspenTech, previously a separate segment, was consolidated into the Control Systems & Software segment after Emerson purchased the remaining outstanding shares.",
-   "evidence": "AspenTech's results, which were previously reported as a separate segment, are now consolidated into the Control Systems & Software segment for all periods presented."
+   "text": "In fiscal 2026 Emerson revised its management organization and updated its reportable segments.",
+   "evidence": "Effective in fiscal 2026, Emerson revised its management organization and updated its reportable segments."
   },
   {
-   "text": "In 2023, Emerson sold a majority stake in its Climate Technologies business (Copeland), constituting the former Climate Technologies segment, and fully exited the interest in 2024.",
-   "evidence": "On May 31, 2023, the Company completed the sale of a majority stake in its Climate Technologies business (which constitutes the former Climate Technologies segment, excluding Therm-O-Disc which was divested earlier in 2022; the new standalone business is named Copeland) to private equity funds managed by Blackstone in a $14.0 billion transaction."
+   "text": "In fiscal 2026 the fluid & motion control business moved from the former Discrete Automation segment into Final Control.",
+   "evidence": "This segment also now includes the fluid & motion control business from the former Discrete Automation segment."
   },
   {
-   "text": "In 2023, the acquired National Instruments business began being reported as the new Test & Measurement segment.",
-   "evidence": "On October 11, 2023, the Company completed the acquisition of National Instruments Corporation (\"NI\") at an equity value of $8.2 billion."
+   "text": "In fiscal 2026 programmable automation controllers moved from the former Discrete Automation segment into Control Systems & Software.",
+   "evidence": "This segment also now includes programmable automation controllers, which were previously reported in the former Discrete Automation segment."
   }
  ],
- "dropped": [
-  "revenue model not grounded"
- ]
+ "dropped": [],
+ "reader": "agent"
 }

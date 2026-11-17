@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001000209",
+ "issuerName": "MEDALLION FINANCIAL CORP",
+ "builtAt": "2026-11-17T00:14:53.839Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-100121",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1000209/000119312526100121/mfin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Recreation Lending",
+   "products": [
+    "RVs",
+    "boats",
+    "collector cars",
+    "trailers",
+    "other consumer recreational equipment"
+   ],
+   "description": "Fixed-rate loans to consumers financing recreational vehicles, boats, collector cars and other recreational equipment, sourced through dealers and financial service providers.",
+   "evidence": "Recreation lending is a return-oriented business focused on originating prime and non-prime recreation loans, comprising 63% of our loans receivable as of December 31, 2025."
+  },
+  {
+   "name": "Home Improvement Lending",
+   "products": [
+    "swimming pools",
+    "roofs",
+    "windows",
+    "siding"
+   ],
+   "description": "Installment loans financing contractor-sold window, siding, roof, swimming pool and other home improvement projects for prime and promotional-credit customers.",
+   "evidence": "Working directly with contractors and FSPs, we offer flexible customer financing for window, siding, and roof replacement, swimming pool installations, and other home improvement projects."
+  },
+  {
+   "name": "Commercial Lending",
+   "products": [],
+   "description": "Loans financing commercial businesses, from small to mid-size businesses, provided through the Company's subsidiaries.",
+   "evidence": "We manage our financial results under four operating segments; recreation lending, home improvement lending, commercial lending, and taxi medallion lending."
+  },
+  {
+   "name": "Taxi Medallion Lending",
+   "products": [
+    "taxi medallions",
+    "taxis"
+   ],
+   "description": "Historical loans financing taxi medallions, taxis and related assets, primarily in the New York City area.",
+   "evidence": "The taxi medallion lending segment arose in connection with the financing of taxi medallions, taxis, and related assets, primarily all of which are located in the New York City metropolitan area as of December 31, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans that finance recreational purchases, home improvements, commercial businesses and taxi medallions.",
+  "evidence": "We provide loans to individuals and small to mid-size businesses, through our subsidiaries, under four operating segments:"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

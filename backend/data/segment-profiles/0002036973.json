@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002036973",
+ "issuerName": "UY Scuti Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:04.485Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-002932",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/2036973/000118518526002932/uyscu10k033126.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with one or more businesses; it has no operations or revenue.",
+   "evidence": "We are a blank check company originally formed as a Cayman Islands exempted company on January 18, 2024, for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses, which we refer to as our initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

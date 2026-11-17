@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0000906345",
+ "issuerName": "CAMDEN PROPERTY TRUST",
+ "builtAt": "2026-11-16T12:48:41.090Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007697",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/906345/000162828026007697/cpt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multifamily apartment communities",
+   "products": [],
+   "description": "Owns, operates, develops and manages multifamily apartment communities across the United States for residents.",
+   "evidence": "As a result, our operating properties are aggregated into a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay rent to lease apartment homes in the company's multifamily communities.",
+  "evidence": "This competitive environment could have a material adverse effect on our ability to lease apartment homes or on the rents realized at our present properties or any newly-developed or acquired property."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

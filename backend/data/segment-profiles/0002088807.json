@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002088807",
+ "issuerName": "XSOLLA SPAC 1",
+ "builtAt": "2026-11-17T00:15:07.285Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037649",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2088807/000121390026037649/ea0279324-10k_xsolla1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination with one or more businesses; no target selected yet.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

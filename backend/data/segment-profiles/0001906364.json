@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001906364",
+ "issuerName": "BOXABL Inc.",
+ "builtAt": "2026-11-17T00:15:02.577Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037797",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1906364/000110465926037797/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Shell company formed to find and complete a merger, share exchange or similar business combination with a target business.",
+   "evidence": "We are a blank check company incorporated in Nevada on September 20, 2023 for the purpose of merger, share exchange, asset acquisition, stock purchase, recapitalization, reorganization or other similar business combination with one or more businesses or entities (\"Business Combination\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns no operating revenue; its only income is interest on IPO proceeds held in trust, until a business combination.",
+  "evidence": "The Company generates nonoperating income in the form of interest income from the proceeds derived from the IPO."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

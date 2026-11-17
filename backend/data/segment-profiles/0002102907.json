@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0002102907",
+ "issuerName": "Resolution Minerals Ltd",
+ "builtAt": "2026-11-17T00:15:07.765Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-114112",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2102907/000121390026114112/ea0308986-20f_resolution.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Australia",
+   "products": [
+    "Gold and Antimony project exploration"
+   ],
+   "description": "Gold and antimony project exploration run from the Group's Australian based operations.",
+   "evidence": "Results by business segment based on geographical location are: 1. Australia Gold and Antimony project exploration 2. United States Gold and Antimony exploration 3. Unallocated corporate expenditure."
+  },
+  {
+   "name": "United States",
+   "products": [
+    "Gold and Antimony exploration"
+   ],
+   "description": "Gold and antimony exploration run from the Group's US based operations.",
+   "evidence": "Results by business segment based on geographical location are: 1. Australia Gold and Antimony project exploration 2. United States Gold and Antimony exploration 3. Unallocated corporate expenditure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

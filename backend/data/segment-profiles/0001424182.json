@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001424182",
+ "issuerName": "BROADSTONE NET LEASE, INC.",
+ "builtAt": "2026-11-16T12:48:06.684Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001424182-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1424182/000142418226000012/bnl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "net lease real estate",
+   "products": [
+    "net leased properties"
+   ],
+   "description": "Acquires, leases and owns single-tenant net leased commercial properties for a diversified group of tenants.",
+   "evidence": "The Company currently operates in a single reportable segment, which includes the acquisition, leasing, and ownership of net leased properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company rent under long-term net leases, and most tenants also cover property operating costs.",
+  "evidence": "A majority of the Company's properties are leased on a net basis, which provides that the tenants are responsible for the payment of property operating expenses, including, but not limited to, property taxes, maintenance, insurance, repairs, and capital costs, during the lease term."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

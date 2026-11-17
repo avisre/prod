@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0000913059",
+ "issuerName": "BANCO BBVA ARGENTINA S.A.",
+ "builtAt": "2026-11-16T23:12:12.615Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-024441",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/913059/000162828026024441/bbar-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking activities",
+   "products": [],
+   "description": "Banking business serving corporate, SME and retail customers, mostly in Argentina.",
+   "evidence": "As of December 31, 2025 and 2024, the Group has determined that it has only one reportable segment related to banking activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Companies and individuals pay the bank for its financial services.",
+  "evidence": "To support these customers, the Bank offers differentiated services, both in person and online, together with financial services primarily aimed at companies and individuals engaged in commercial activities in the private sector."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

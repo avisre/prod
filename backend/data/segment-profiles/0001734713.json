@@ -2,56 +2,56 @@
  "version": 1,
  "cik": "0001734713",
  "issuerName": "BrightView Holdings, Inc.",
- "builtAt": "2026-11-16T10:10:22.099Z",
+ "builtAt": "2026-11-17T00:14:59.667Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001193125-25-288109",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-19",
-  "url": "https://www.sec.gov/Archives/edgar/data/1734713/000119312525288109/bv-20250930.htm"
+  "accessionNumber": "0001193125-26-455474",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1734713/000119312526455474/bv-20260930.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "Maintenance Services",
    "products": [
-    "mowing",
-    "gardening",
-    "mulching",
-    "snow removal",
+    "landscape maintenance services",
+    "snow removal services",
+    "commercial landscaping services",
     "water management",
     "irrigation maintenance",
     "tree care",
-    "golf course maintenance"
+    "golf course maintenance",
+    "landscape enhancements"
    ],
-   "description": "Provides recurring commercial landscaping services including mowing, gardening, mulching, snow removal and enhancements to commercial properties, institutions and municipalities across the United States.",
+   "description": "Delivers recurring commercial landscaping, snow removal and tree care services to commercial customers throughout the United States.",
    "evidence": "Our Maintenance Services segment delivers a full suite of recurring commercial landscaping services in both evergreen and seasonal markets, ranging from mowing, gardening, mulching and snow removal, to more horticulturally advanced services, such as water management, irrigation maintenance, tree care and golf course maintenance."
   },
   {
    "name": "Development Services",
    "products": [
-    "project design and management services",
     "landscape architecture",
     "landscape installation",
     "irrigation installation",
     "tree moving and installation",
     "pool and water features",
     "sports field services",
-    "specialty turf maintenance"
+    "specialty turf maintenance",
+    "project design and management services"
    ],
-   "description": "Provides landscape architecture and development services, including design and installation, for new facilities and significant redesign projects requested by general contractors.",
+   "description": "Provides landscape architecture, design and installation for new facilities and significant redesign projects, typically hired through general contractors.",
    "evidence": "Through our Development Services segment, we provide landscape architecture and development services for new facilities and significant redesign projects."
   }
  ],
  "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Commercial customers pay for recurring landscape maintenance, enhancements and snow removal, while general contractors pay for landscape development projects.",
-  "evidence": "BrightView Holdings, Inc. (the \"Company\" and, collectively with its consolidated subsidiaries, \"BrightView\") provides landscape maintenance and enhancements, landscape development, snow removal and other landscape related services for commercial customers throughout the United States."
+  "text": "Commercial customers pay under recurring maintenance and snow removal contracts, and under project fees for landscape development work.",
+  "evidence": "Fees for contracted landscape maintenance services are typically billed on an equal monthly basis."
  },
  "changes": [
   {
-   "text": "In 2024 the company divested U.S. Lawns.",
-   "evidence": "Gain on divestiture for the fiscal year ended September 30, 2024 was $43.6 million which consisted of the realized gain on sale and transaction related expenses from the divestiture of U.S. Lawns on January 12, 2024."
+   "text": "The company divested its U.S. Lawns business in 2024.",
+   "evidence": "Represents the realized gain on sale and transaction related expenses from the divestiture of U.S. Lawns on January 12, 2024."
   }
  ],
  "dropped": [],

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002085659",
+ "issuerName": "SILICON VALLEY ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:06.955Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037552",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2085659/000121390026037552/ea0279176-10k_silicon.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination with a target business it has not yet selected.",
+   "evidence": "We are a blank check company incorporated on July 21, 2025, as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination, which we refer to throughout this Annual Report as our \"business combination\" or \"initial business combination,\" with one or more businesses or entities, which we refer to throughout this Annual Report as a \"target business\" or \"target businesses\"."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no sales or customers; it generates no operating revenue until it completes an initial business combination.",
+  "evidence": "We have generated no revenues to date and we do not expect that we will generate operating revenues until, at the earliest, we consummate our initial business combination."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

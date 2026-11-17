@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001509261",
+ "issuerName": "Rezolute, Inc.",
+ "builtAt": "2026-11-16T13:15:36.521Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-110420",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1509261/000110465926110420/rzlt-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "clinical stage biopharmaceutical",
+   "products": [
+    "ersodetug"
+   ],
+   "description": "Develops ersodetug, a potential treatment for hypoglycemia caused by hyperinsulinism, for rare disease patients.",
+   "evidence": "The Company has determined that it operates as a single reportable segment which includes all of its activities as a clinical stage biopharmaceutical company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

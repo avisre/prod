@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002025608",
+ "issuerName": "Soulpower Acquisition Corporation",
+ "builtAt": "2026-11-16T13:13:55.376Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013246",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2025608/000149315226013246/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company formed to complete an initial business combination with one or more target businesses.",
+   "evidence": "We are a blank check company incorporated on May 14, 2024, as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001947244",
+ "issuerName": "U.S. GOLDMINING INC.",
+ "builtAt": "2026-11-17T00:15:02.968Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011885",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1947244/000149315226011885/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral exploration",
+   "products": [
+    "Whistler Project"
+   ],
+   "description": "Explores and develops mineral properties; its one mineral property is the Whistler Project.",
+   "evidence": "Management has determined that the Company operates and reports in one segment, which focuses on the exploration and development of mineral properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

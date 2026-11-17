@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001163668",
+ "issuerName": "South Plains Financial, Inc.",
+ "builtAt": "2026-11-16T13:04:17.409Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-008087",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1163668/000114036126008087/ef20060591_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "commercial, real estate and consumer loans",
+    "time deposits",
+    "checking and savings accounts"
+   ],
+   "description": "Community banking services offering commercial, real estate and consumer loans, time deposits, checking and savings accounts to individuals and businesses.",
+   "evidence": "all of the community banking services and branch locations are considered by management to be aggregated into one reportable operating segment, banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans, and the bank also earns revenue from investments and deposits.",
+  "evidence": "Loans, investments, and deposits provide the significant revenues and interest expense, provision for credit losses and salaries and employee benefits comprise the significant expenses within the banking segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

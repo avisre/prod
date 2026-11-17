@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001393726",
+ "issuerName": "Tiptree Inc.",
+ "builtAt": "2026-11-16T13:06:32.348Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001393726-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1393726/000139372626000009/tipt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capital allocation",
+   "products": [],
+   "description": "Holds and allocates capital to select small and middle market companies across industries, seeking controlling interests.",
+   "evidence": "the Company now operates under one operating and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the insurance and mortgage segments were classified as discontinued operations, leaving one reportable segment.",
+   "evidence": "the Company now operates under one operating and one reportable segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

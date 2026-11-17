@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002026767",
+ "issuerName": "Calisa Acquisition Corp",
+ "builtAt": "2026-11-17T00:15:04.085Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012686",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2026767/000149315226012686/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with a target business; has no operating revenues yet.",
+   "evidence": "We are a blank check company incorporated on March 11, 2024, as a Cayman Islands exempted company for the purpose of effecting a merger, stock exchange, asset acquisition, stock purchase, reorganization or similar business combination with one or more businesses or entities"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

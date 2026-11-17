@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002023730",
+ "issuerName": "Hadron Energy, Inc.",
+ "builtAt": "2026-11-17T00:15:03.985Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-096526",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/2023730/000119312526096526/ck0002023730-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue a business combination with one or more businesses; it has no operating revenue.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

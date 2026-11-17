@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0002082866",
+ "issuerName": "PINNACLE FINANCIAL PARTNERS, INC.",
+ "builtAt": "2026-11-16T12:50:49.084Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002082866-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/2082866/000208286626000018/pnfp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "Lending Services",
+    "Deposit Services"
+   ],
+   "description": "Community bank offering commercial, real estate and consumer lending and deposit accounts, plus investment, insurance, trust and mortgage services.",
+   "evidence": "At December 31, 2025, Pinnacle Financial operated through a single operating and reporting segment primarily as a bank, although Pinnacle Financial does provide additional non-banking services customary for a financial services institution including investment, insurance, trust and mortgage lending services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals, businesses and professional entities borrow from the bank under commercial, real estate and consumer loans, which the bank earns from.",
+  "evidence": "We offer a full range of lending products, including commercial, real estate and consumer loans to individuals, businesses and professional entities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001750149",
+ "issuerName": "INHIBIKASE THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:14:59.916Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126371",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1750149/000119312526126371/ikt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Protein kinase inhibitor",
+   "products": [
+    "IKT-001"
+   ],
+   "description": "Develops protein kinase inhibitor therapeutics for pulmonary arterial hypertension.",
+   "evidence": "The Company views its operations and manages its business as one operating and reportable segment, which is the business of developing protein kinase inhibitor therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

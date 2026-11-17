@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001468748",
+ "issuerName": "Kodiak Sciences Inc.",
+ "builtAt": "2026-11-16T12:57:27.936Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134887",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1468748/000119312526134887/kod-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "transformative therapeutics",
+   "products": [
+    "tarcocimab tedromer",
+    "Zenkuda",
+    "KSI-501",
+    "KSI-101"
+   ],
+   "description": "Researches, develops and commercializes transformative therapeutics to treat a broad spectrum of retinal diseases.",
+   "evidence": "The Company operates and manages its business as one operating and reportable segment, which is the business of researching, developing and commercializing transformative therapeutics to treat a broad spectrum of retinal diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

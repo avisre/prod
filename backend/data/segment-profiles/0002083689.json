@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002083689",
+ "issuerName": "ACTIVATE ENERGY ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:06.784Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-026243",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/2083689/000121390026026243/ea0279420-10k_activate.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination, focused on the oil and gas industry.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns non-operating interest income on IPO proceeds; no operating revenues until an initial business combination.",
+  "evidence": "We generate non-operating income in the form of interest income from the proceeds derived from the IPO."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

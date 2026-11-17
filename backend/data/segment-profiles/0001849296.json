@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001849296",
+ "issuerName": "OKYO Pharma Limited",
+ "builtAt": "2026-11-17T00:15:01.664Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-033847",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1849296/000149315226033847/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ophthalmology",
+   "products": [
+    "urcosimod"
+   ],
+   "description": "Clinical-stage ophthalmology company developing therapies for corneal and anterior segment diseases, led by urcosimod.",
+   "evidence": "The Board considers there to be only one operating segment being the research and development of biotechnological and pharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001620393",
+ "issuerName": "NexPoint Residential Trust, Inc.",
+ "builtAt": "2026-11-16T12:50:17.459Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-077343",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1620393/000119312526077343/nxrt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NXRT",
+   "products": [
+    "multifamily properties",
+    "apartment communities"
+   ],
+   "description": "Owns and operates value-add multifamily apartment properties, mainly in the Southeastern and Southwestern United States, for long-term yield and appreciation.",
+   "evidence": "We have one reportable segment: NXRT."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay monthly rent to lease apartment units in the company's multifamily properties.",
+  "evidence": "Average effective monthly rent per unit is equal to the contractual rent for commenced leases as of December 31 for the respective year minus any tenant concessions over the term of the lease, divided by the number of units under commenced leases as of December 31 for the respective year."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

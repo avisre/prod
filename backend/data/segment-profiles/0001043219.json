@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001043219",
+ "issuerName": "ANNALY CAPITAL MANAGEMENT INC",
+ "builtAt": "2026-11-16T12:50:18.727Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001043219-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1043219/000104321926000013/nly-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agency",
+   "products": [
+    "Agency MBS",
+    "Agency CMBS",
+    "Agency pass-through certificates",
+    "To-be-announced forward contracts",
+    "Non-agency mortgage-backed securities"
+   ],
+   "description": "Invests in Agency mortgage-backed securities guaranteed by Fannie Mae, Freddie Mac or Ginnie Mae, plus complementary Agency investments.",
+   "evidence": "Invests in Agency mortgage-backed securities (\"MBS\") collateralized by residential mortgages which are guaranteed by Fannie Mae, Freddie Mac or Ginnie Mae and complementary investments within the Agency market, including Agency commercial MBS."
+  },
+  {
+   "name": "Residential Credit",
+   "products": [
+    "Residential mortgage loans",
+    "Non-agency mortgage-backed securities",
+    "Credit risk transfer securities",
+    "residential whole loans"
+   ],
+   "description": "Invests primarily in non-Agency residential whole loans and securitized products within residential and commercial markets.",
+   "evidence": "Invests primarily in non-Agency residential whole loans and securitized products within the residential and commercial markets."
+  },
+  {
+   "name": "MSR",
+   "products": [
+    "mortgage servicing rights",
+    "Interests in MSR"
+   ],
+   "description": "Holds mortgage servicing rights, which earn a portion of the interest payments on the residential mortgage loans serviced.",
+   "evidence": "Invests in mortgage servicing rights (\"MSR\"), which provide the right to service residential mortgage loans in exchange for a portion of the interest payments made on the loans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns the spread between yields on its mortgage investments and its borrowing costs, plus servicing income from mortgage servicing rights.",
+  "evidence": "We use our capital coupled with borrowed funds to invest primarily in real estate related investments, earning the spread between the yield on our assets and the cost of our borrowings and hedging activities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000921114",
+ "issuerName": "ARMATA PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-16T13:16:27.120Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034532",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/921114/000110465926034532/armp-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bacteriophage therapeutics",
+   "products": [
+    "AP-PA02",
+    "AP-SA02"
+   ],
+   "description": "Developing pathogen-specific bacteriophage therapeutics to treat antibiotic-resistant and difficult-to-treat bacterial infections.",
+   "evidence": "The Company operates and manages its business as one reportable operating segment, which is the business of developing a pathogen-specific bacteriophage therapeutics for the treatment of antibiotic-resistant and difficult-to-treat acute and chronic bacterial infections using its proprietary bacteriophage-based technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Grant and award funders such as the CFF pay the company for its development work.",
+  "evidence": "This study was supported by the CFF, which granted us a Therapeutics Development Award of $5.0 million."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

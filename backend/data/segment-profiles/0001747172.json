@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001747172",
+ "issuerName": "Kayne Anderson BDC, Inc.",
+ "builtAt": "2026-11-16T13:02:19.304Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-022392",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1747172/000121390026022392/ea0274005-10k_kayne.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private credit",
+   "products": [],
+   "description": "Makes debt and equity investments in private middle market companies, mainly first lien senior secured loans.",
+   "evidence": "The Company operates through a single operating and reporting segment with an investment objective to generate both current income and capital appreciation through debt and equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns income from loans to private middle market companies, mainly first lien senior secured loans.",
+  "evidence": "We intend to achieve our investment objective by investing primarily in first lien senior secured loans, with a secondary focus on unitranche and split-lien loans to middle market companies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

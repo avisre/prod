@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001923891",
+ "issuerName": "NANO     NUCLEAR ENERGY INC.",
+ "builtAt": "2026-11-16T12:59:46.377Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-25-028285",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1923891/000149315225028285/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nuclear energy",
+   "products": [
+    "KRONOS MMR™ Energy System",
+    "LOKI MMR™ reactor",
+    "ZEUS™ reactor",
+    "ODIN ™ reactor"
+   ],
+   "description": "Develops smaller, simpler advanced nuclear microreactors for remote communities, industry and large population centers.",
+   "evidence": "For the years ended September 30, 2025 and 2024, the Company was managed as a single operating segment in accordance with the provisions in the FASB guidance on segment reporting, which establishes standards for, and requires disclosure of, certain financial information related to reportable operating segments and geographic regions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is pre-revenue, so no paying customers currently buy its reactors or services.",
+  "evidence": "Currently, we are in the pre-revenue stage and are principally focused on four business lines as part of our development strategy"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

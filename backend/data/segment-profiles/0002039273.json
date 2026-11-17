@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002039273",
+ "issuerName": "JAGUAR URANIUM CORP.",
+ "builtAt": "2026-11-17T00:15:04.553Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035549",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2039273/000121390026035549/ea0283433-10k_jaguar.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "exploration and evaluation of mineral properties",
+   "products": [],
+   "description": "Explores and evaluates mineral properties, principally uranium projects in Colombia and Argentina, with no revenue.",
+   "evidence": "The Company operates in one reportable segment which is the exploration and evaluation of mineral properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no revenue, so no customers pay it for any product or service.",
+  "evidence": "The Company has no revenues and incurs expenditures in various jurisdictions, being Colombia, Argentina and North America (principally the U.S. and Canada, represented below as Jaguar Uranium Corp.)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002063816",
+ "issuerName": "INDIGO ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:05.343Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034278",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2063816/000121390026034278/ea0280193-10k_indigo.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "A blank check company formed to pursue a business combination with one or more target businesses; it has no operating revenues.",
+   "evidence": "We are a blank check company incorporated on June 7, 2024 in the Cayman Islands as an exempted company, for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses or entities (a \"Business Combination\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated no revenues and is funded by investors who buy its Units and by its Sponsor and EBC through private placement purchases, not by customers.",
+  "evidence": "We have generated no revenues to date and we do not expect that we will generate operating revenues until, at the earliest, we consummate our initial Business Combination."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002049248",
+ "issuerName": "Lakeshore Acquisition III Corp.",
+ "builtAt": "2026-11-17T00:15:04.942Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001929980-26-000034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/2049248/000192998026000034/lccc_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "A blank check company that will seek an initial business combination with a target business and generates no operating revenue.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statements of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue before a business combination; its only income is interest on cash from IPO proceeds.",
+  "evidence": "The Company will generate non-operating income in the form of interest income on cash and cash equivalents from the proceeds derived from the IPO."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

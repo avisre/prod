@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002091222",
+ "issuerName": "SPACE ASSET ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:07.367Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035748",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2091222/000121390026035748/ea0282885-10k_space.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check shell company with no operations, seeking a business combination, focused on the global space economy.",
+   "evidence": "We are a blank check company incorporated on September 12, 2025 as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses (the \"Business Combination\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

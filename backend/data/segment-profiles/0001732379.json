@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001732379",
+ "issuerName": "Blue Moon Metals Inc.",
+ "builtAt": "2026-11-16T13:05:02.219Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001554855-26-000717",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1732379/000155485526000717/ex992_2.htm",
+  "exhibit": "ex992_2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blue Moon",
+   "products": [
+    "Blue M oo n polymetallic project"
+   ],
+   "description": "Exploration and development of the Blue Moon polymetallic project in the United States.",
+   "evidence": "The Company is a mineral exploration and development company focusing on advancing its projects in Norway and the United States, including the Nussir and Sulitjelma copper projects and the Blue M oo n polymetallic project."
+  },
+  {
+   "name": "Nussir/REAS",
+   "products": [
+    "Nussir project",
+    "REAS"
+   ],
+   "description": "Exploration and development of the Nussir and REAS acquisitions in Norway, aggregated into one reportable segment.",
+   "evidence": "The Nussir and REAS acquisitions have been aggregated into a single reportable segment."
+  },
+  {
+   "name": "NSG",
+   "products": [
+    "Sulitjelma copper projects"
+   ],
+   "description": "Exploration and development of the Sulitjelma copper projects in Norway.",
+   "evidence": "The Company is a mineral exploration and development company focusing on advancing its projects in Norway and the United States, including the Nussir and Sulitjelma copper projects and the Blue M oo n polymetallic project."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002059654",
+ "issuerName": "Blue Acquisition Corp/Cayman",
+ "builtAt": "2026-11-17T00:15:05.262Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-000621",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/2059654/000118518526000621/bacc10k123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company formed to effect a business combination with one or more businesses; no operating revenues to date.",
+   "evidence": "Accordingly, Management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

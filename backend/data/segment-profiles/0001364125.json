@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001364125",
+ "issuerName": "WESTERN COPPER AND GOLD CORPORATION",
+ "builtAt": "2026-11-16T13:07:01.138Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001628",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1364125/000106299326001628/exhibit99-3.htm",
+  "exhibit": "exhibit99-3.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

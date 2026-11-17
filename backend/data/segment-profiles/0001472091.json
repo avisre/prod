@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001472091",
+ "issuerName": "PDS Biotechnology Corporation",
+ "builtAt": "2026-11-17T00:14:56.304Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-012030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1472091/000114036126012030/ef20060644_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunotherapy",
+   "products": [
+    "Versamune®",
+    "Infectimune®",
+    "PDS01ADC"
+   ],
+   "description": "Develops targeted immunotherapies for cancer and infectious diseases using its Versamune® T cell activator platform.",
+   "evidence": "the Company has determined that it operates as a single reportable segment, developing a growing pipeline of targeted immunotherapies designed to overcome the limitations of current immunotherapy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

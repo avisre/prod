@@ -2,31 +2,53 @@
  "version": 1,
  "cik": "0000928465",
  "issuerName": "AMCON DISTRIBUTING CO",
- "builtAt": "2026-11-16T05:40:05.084Z",
+ "builtAt": "2026-11-17T00:14:53.722Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001104659-25-108504",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-07",
-  "url": "https://www.sec.gov/Archives/edgar/data/928465/000110465925108504/dit-20250930x10k.htm"
+  "accessionNumber": "0001104659-26-124512",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/928465/000110465926124512/dit-20260930x10k.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "Wholesale Segment",
-   "products": [],
-   "description": "Distributes food and consumer products to retailers.",
-   "evidence": "\" The Company serves customers in 34 states through two business segments: ● Our wholesale distribution segment (the \"Wholesale Segment\"), which includes our Team Sledd, LLC (\"Team Sledd\") and Henry's Foods, Inc."
+   "products": [
+    "cigarettes and tobacco products",
+    "candy and other confectionery products",
+    "beverages",
+    "groceries",
+    "paper products",
+    "health and beauty care products",
+    "frozen and refrigerated products",
+    "institutional foodservice products"
+   ],
+   "description": "Distributes consumer products, including tobacco, candy, beverages and groceries, to convenience stores, grocery and other retail outlets.",
+   "evidence": "We currently distribute over 20,000 different consumer products, including cigarettes and tobacco products, candy and other confectionery products, beverages, groceries, paper products, health and beauty care products, frozen and refrigerated products and institutional foodservice products."
+  },
+  {
+   "name": "Retail Segment",
+   "products": [
+    "Chamberlin's Natural Foods",
+    "Akin's Natural Foods",
+    "Earth Origins Market",
+    "produce",
+    "baked goods",
+    "frozen foods",
+    "nutritional supplements",
+    "personal care items"
+   ],
+   "description": "Operates health food retail stores selling natural and organic groceries, supplements and personal care products to consumers.",
+   "evidence": "Our Retail Segment, through our Healthy Edge Retail Group subsidiary, is a specialty retailer of natural/organic groceries and operates 15 retail health food stores under the Chamberlin's Natural Foods, Akin's Natural Foods, and Earth Origins Market banners."
   }
  ],
- "productRevenueBrokenOut": false,
+ "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Retailers buy its products wholesale.",
-  "evidence": "Our Wholesale Segment offers retailers the ability to take advantage of manufacturer- and Company-sponsored sales and marketing programs, merchandising and product cat"
+  "text": "Retail outlets such as convenience and grocery stores buy the wholesale segment's consumer products, and shoppers buy natural and health foods at the retail stores.",
+  "evidence": "Our Wholesale Segment is one of the largest wholesale distributors in the United States serving approximately 8,200 retail outlets including convenience stores, grocery stores, liquor stores, drug stores, and tobacco shops."
  },
  "changes": [],
- "dropped": [
-  "product not in text (Wholesale Segment): food and consumer products"
- ],
+ "dropped": [],
  "reader": "agent"
 }

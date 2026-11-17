@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001671502",
+ "issuerName": "Quoin Pharmaceuticals, Ltd.",
+ "builtAt": "2026-11-17T00:14:59.000Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-035251",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1671502/000110465926035251/qnrx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty pharmaceutical",
+   "products": [
+    "QRX003"
+   ],
+   "description": "Develops therapeutic products for rare and orphan diseases that currently have no approved treatments or cures.",
+   "evidence": "The Company operates in one business segment, which includes the business of research and development activities related to the development of therapeutic products that treat rare and orphan diseases for which there are currently very limited or no approved treatments or cures."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

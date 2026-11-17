@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001562463",
+ "issuerName": "First Internet Bancorp",
+ "builtAt": "2026-11-17T00:14:57.891Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001562463-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1562463/000156246326000022/inbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial banking",
+   "products": [
+    "public finance",
+    "single tenant lease financing",
+    "small business lending",
+    "specialty finance",
+    "construction and investor commercial real estate lending",
+    "commercial deposits and treasury management"
+   ],
+   "description": "Provides commercial, small business, consumer and municipal banking products and services to customers nationwide through digital channels.",
+   "evidence": "The Company's business activities are currently limited to one reporting unit and reportable segment, which is commercial banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and leases, and customers pay fees for financial and transaction services.",
+  "evidence": "The Company's principal source of revenue is interest income from loans and leases and investment securities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001098146",
+ "issuerName": "PATRIOT NATIONAL BANCORP, INC.",
+ "builtAt": "2026-11-17T00:14:54.326Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022508",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1098146/000162828026022508/pnbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [],
+   "description": "The Bank's single segment provides deposit, lending, treasury management and institutional banking services to targeted client segments.",
+   "evidence": "Patriot's only business segment is Banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers and program managers pay the Bank fees for deposit accounts, treasury services and digital payments, while loans and securities earn interest.",
+  "evidence": "Interest earning assets consist of commercial and consumer loans, investment securities and cash and provide the majority of interest income in the Banking segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

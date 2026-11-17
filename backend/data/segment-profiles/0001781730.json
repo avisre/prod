@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001781730",
+ "issuerName": "THIRD COAST BANCSHARES, INC.",
+ "builtAt": "2026-11-16T13:07:21.664Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-091656",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1781730/000119312526091656/tcbx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial banking",
+   "products": [],
+   "description": "Commercial bank serving small and medium-sized businesses and professionals in Texas markets.",
+   "evidence": "The Company has one reportable segment as a financial institution."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns mainly interest income from lending and pays interest expense on deposits and borrowings.",
+  "evidence": "The Company's most significant reported source of income and expense are interest income and interest expense (See Consolidated Statements of Income)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002055459",
+ "issuerName": "REPUBLIC DIGITAL ACQUISITION COMPANY",
+ "builtAt": "2026-11-16T13:12:27.059Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034938",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2055459/000121390026034938/ea0282744-10k_republic.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue an initial Business Combination with a target business, with no operating revenues to date.",
+   "evidence": "Accordingly, Management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

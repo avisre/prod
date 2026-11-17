@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001514281",
+ "issuerName": "TPG MORTGAGE INVESTMENT TRUST, INC.",
+ "builtAt": "2026-11-16T13:18:33.826Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011775",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1514281/000162828026011775/mitt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Loans and Securities",
+   "products": [
+    "Non-Agency Loans",
+    "Agency-Eligible Loans",
+    "Home Equity Loans",
+    "Re- and Non-Performing Loans",
+    "Non-Agency RMBS",
+    "Agency RMBS",
+    "Commercial Loans",
+    "CMBS"
+   ],
+   "description": "Acquires and securitizes newly-originated residential mortgage loans in the non-agency housing market and holds related securities.",
+   "evidence": "The Company's Residential Investments, Agency RMBS, and Legacy WMC Commercial Investments are included in the Loans and Securities segment."
+  },
+  {
+   "name": "Arc Home",
+   "products": [],
+   "description": "Multi-channel licensed mortgage originator and servicer that originates and sells residential mortgage loans and retains servicing rights.",
+   "evidence": "Arc Home is a multi-channel licensed mortgage originator and servicer led by an external management team."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income on the loans and securities it holds, and Arc Home earns revenue from selling originated mortgage loans and servicing.",
+  "evidence": "Arc Home generates revenue primarily through originating and selling residential mortgage loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

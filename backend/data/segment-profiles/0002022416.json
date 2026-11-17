@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002022416",
+ "issuerName": "SILEXION         THERAPEUTICS CORP",
+ "builtAt": "2026-11-17T00:15:03.927Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001178913-26-000953",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2022416/000117891326000953/zk2634529.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pancreatic cancer",
+   "products": [
+    "SIL204",
+    "siG12D-LODER"
+   ],
+   "description": "Develops siRNA-based treatments for pancreatic cancer, aiming to silence the KRAS oncogene.",
+   "evidence": "The Company operates as a single operating segment in the research and development of innovative treatments for pancreatic cancer based on siRNA."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

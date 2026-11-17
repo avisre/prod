@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002093912",
+ "issuerName": "PRAETORIAN ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:07.424Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035559",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2093912/000121390026035559/ea0281449-10k_praetorian.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking to complete a business combination with one or more target businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

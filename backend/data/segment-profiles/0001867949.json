@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001867949",
+ "issuerName": "CHICAGO ATLANTIC REAL ESTATE FINANCE, INC.",
+ "builtAt": "2026-11-16T13:18:37.538Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-103027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1867949/000119312526103027/refi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "real estate finance",
+   "products": [
+    "first mortgage loans",
+    "alternative structured financings",
+    "senior loans"
+   ],
+   "description": "Originates and holds commercial real estate loans, mainly senior loans to state-licensed cannabis operators.",
+   "evidence": "The Company operates through a single operating and reporting segment with an investment objective to generate both current income and capital appreciation through its investments in loans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on the loans the Company makes, mainly senior loans to state-licensed cannabis operators.",
+  "evidence": "Our loans bear interest rates that are either fixed or determined periodically on the basis of U.S. Prime Rate (\"Prime\") or Secured Overnight Financing Rate (\"SOFR\") plus a premium."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002032528",
+ "issuerName": "Roman DBDR Acquisition Corp. II",
+ "builtAt": "2026-11-16T13:15:21.920Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-023575",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/2032528/000110465926023575/drdb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination; it has not commenced operations and generates no operating revenue.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns no operating revenue before a business combination; its only income is interest on Trust Account funds.",
+  "evidence": "The Company will generate non-operating income in the form of interest income on cash and cash equivalents from the proceeds derived from the Initial Public Offering, which are held in the Trust Account, and non-operating income or expense from the changes in the fair value of over-allotment option liability, which is not considered a measure of financial performance used by the CODM."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001519469",
+ "issuerName": "Anfield Energy Inc.",
+ "builtAt": "2026-11-17T00:14:57.162Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001493152-26-014375",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1519469/000149315226014375/ex99-2.htm",
+  "exhibit": "ex99-2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and evaluation",
+   "products": [],
+   "description": "Explores and evaluates mineral properties, with its property and equipment all located in the USA.",
+   "evidence": "The Company operates in one operating segment being the exploration and evaluation of mineral properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

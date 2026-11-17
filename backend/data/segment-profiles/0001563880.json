@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001563880",
+ "issuerName": "Trevi Therapeutics, Inc.",
+ "builtAt": "2026-11-16T12:57:57.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-110783",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1563880/000119312526110783/trvi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Haduvio",
+   "products": [
+    "oral nalbuphine ER"
+   ],
+   "description": "Developing and commercializing Haduvio, an investigational oral nalbuphine ER therapy for chronic cough in IPF, non-IPF ILD and RCC patients.",
+   "evidence": "The Company operates and manages its business as one reportable segment, which is also the Company's only operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

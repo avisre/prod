@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002083143",
+ "issuerName": "SOCIAL COMMERCE PARTNERS CORPORATION",
+ "builtAt": "2026-11-17T00:15:06.747Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-033724",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2083143/000121390026033724/ea0277928-10k_social.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination; intends to focus on social commerce (direct selling) targets.",
+   "evidence": "Social Commerce Partners Corporation (the \"Company\") is a blank check company incorporated on August 11, 2025 as a Cayman Islands exempted company and formed for the purpose of effecting a merger, amalgamation, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses, which we refer to throughout this report as our initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

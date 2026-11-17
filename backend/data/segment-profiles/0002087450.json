@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002087450",
+ "issuerName": "Legato Merger Corp. IV",
+ "builtAt": "2026-11-17T00:15:07.142Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-012403",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/2087450/000182912626012403/legatomerger4_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company with no operations, seeking a business combination with a target business.",
+   "evidence": "We are a blank check company incorporated in the Cayman Islands on September 1, 2025, as an exempted company, formed for the purpose of entering into a merger, share exchange, asset acquisition, share purchase, recapitalization, reorganization or other similar business combination with one or more target businesses or entities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

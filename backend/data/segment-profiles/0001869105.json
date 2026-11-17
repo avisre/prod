@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001869105",
+ "issuerName": "BridgeBio Oncology Therapeutics, Inc.",
+ "builtAt": "2026-11-16T13:06:21.083Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-094112",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1869105/000119312526094112/bbot-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology therapies",
+   "products": [],
+   "description": "Develops oncology therapies through various related development projects, with all assets located in the United States.",
+   "evidence": "The Company operates in one operating and reportable segment within the United States, developing oncology therapies through various related development projects."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

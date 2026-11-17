@@ -2,13 +2,13 @@
  "version": 1,
  "cik": "0000876523",
  "issuerName": "EZCORP, INC.",
- "builtAt": "2026-11-15T06:38:25.319Z",
+ "builtAt": "2026-11-17T00:14:53.422Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0000876523-25-000094",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-13",
-  "url": "https://www.sec.gov/Archives/edgar/data/876523/000087652325000094/ezpw-20250930.htm"
+  "accessionNumber": "0000876523-26-000076",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/876523/000087652326000076/ezpw-20260930.htm"
  },
  "status": "ok",
  "segments": [
@@ -18,8 +18,8 @@
     "EZPAWN",
     "Value Pawn & Jewelry"
    ],
-   "description": "Pawn lending and merchandise sales operations in the United States through branded store locations.",
-   "evidence": "U.S. Pawn, which includes our EZPAWN, Value Pawn & Jewelry and other branded pawn operations in the United States"
+   "description": "Pawn stores in the United States operating under EZPAWN and Value Pawn & Jewelry brands, excluding SMG.",
+   "evidence": "U.S. Pawn, which includes our EZPAWN, Value Pawn & Jewelry and other branded pawn operations in the United States, excluding SMG"
   },
   {
    "name": "Latin America Pawn",
@@ -29,21 +29,34 @@
     "GuatePrenda",
     "MaxiEfectivo"
    ],
-   "description": "Pawn lending and merchandise sales operations in Mexico, Guatemala, El Salvador and Honduras.",
-   "evidence": "Latin America Pawn, which includes our Empeño Fácil, Cash Apoyo Efectivo and other branded pawn operations in Mexico, as well as our GuatePrenda and MaxiEfectivo pawn operations in Guatemala, El Salvador and Honduras (referred to as \"GPMX\")"
+   "description": "Pawn operations in Mexico, Guatemala, El Salvador and Honduras, under local brands.",
+   "evidence": "Latin America Pawn, which includes our Empeño Fácil, Cash Apoyo Efectivo and other branded pawn operations in Mexico, as well as our GuatePrenda and MaxiEfectivo pawn operations in Guatemala, El Salvador and Honduras"
   },
   {
-   "name": "Other Investments",
-   "products": [],
-   "description": "Equity interest in Cash Converters and investment in Simple Management Group pawn operations.",
-   "evidence": "Other Investments, which primarily includes our equity interest in Cash Converters and our investment in and notes receivable from Founders"
+   "name": "SMG",
+   "products": [
+    "La Familia Pawn and Jewelry",
+    "CashWiz"
+   ],
+   "description": "Pawn operations in the U.S., the Caribbean and Central America, under La Familia Pawn and Jewelry and CashWiz brands.",
+   "evidence": "SMG, which includes our La Familia Pawn and Jewelry and CashWiz branded pawn operations in the U.S., the Caribbean and Central America"
   }
  ],
  "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Customers pay pawn service charges on cash loans secured by collateral, pay for merchandise sales, and the company earns jewelry scrapping revenue.",
+  "text": "Customers pay pawn service charges on pawn loans and buy pre-owned merchandise; jewelry scrapping also generates revenue.",
   "evidence": "We generate revenues primarily from pawn service charges (\"PSC\") on pawn loans outstanding (\"PLO\"), merchandise sales and jewelry scrapping."
  },
- "changes": [],
- "dropped": []
+ "changes": [
+  {
+   "text": "In fiscal 2026, SMG became a standalone reportable segment after the Founders acquisition.",
+   "evidence": "SMG is now reported as a standalone reportable segment and our equity interest in CCV is now included within Corporate"
+  },
+  {
+   "text": "In fiscal 2026, the Other Investments segment was removed and the Cash Converters equity interest moved into Corporate.",
+   "evidence": "Our equity interest in Cash Converters is now included within Corporate, and the Other Investments segment has been removed."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
 }

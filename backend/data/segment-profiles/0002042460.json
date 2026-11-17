@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002042460",
+ "issuerName": "Harvard Ave Acquisition Corporation",
+ "builtAt": "2026-11-17T00:15:04.656Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034730",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2042460/000121390026034730/ea0281721-10k_harvard.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check shell company seeking a merger or similar business combination with one or more target businesses.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statement of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no revenue and is funded by sales of its securities and loans from its Sponsors.",
+  "evidence": "We have relied upon the sale of our securities and loans from the Sponsors and other parties to fund our operations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

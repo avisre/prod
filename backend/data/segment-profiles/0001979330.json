@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001979330",
+ "issuerName": "NB Bancorp, Inc.",
+ "builtAt": "2026-11-16T13:03:31.310Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-022367",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1979330/000110465926022367/nbbk-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking business",
+   "products": [
+    "lending",
+    "savings",
+    "small business offerings"
+   ],
+   "description": "The company's single reportable segment, its banking business, offers lending, savings and small business services to customers.",
+   "evidence": "The Company has one reportable segment: its banking business, which consists of a full range of banking lending, savings, and small business offerings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on the commercial, residential and consumer loans the bank makes, funded mainly by deposits from the public.",
+  "evidence": "Our business consists primarily of taking deposits from the general public and investing those deposits, together with funds generated from operations, in commercial real estate and multifamily loans, one-to-four-family residential real estate loans, construction and land development loans, commercial and industrial loans, mortgage warehouse loans and consumer loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

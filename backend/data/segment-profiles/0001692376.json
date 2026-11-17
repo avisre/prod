@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001692376",
+ "issuerName": "Velocity Financial, Inc.",
+ "builtAt": "2026-11-16T13:06:04.151Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-102677",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1692376/000119312526102677/vel-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate finance",
+   "products": [],
+   "description": "Originates, securitizes and manages a nationwide portfolio of real estate loans, mainly for small investors.",
+   "evidence": "The Company operates as a single reportable segment, conducting its business activities within the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns interest and fees from real estate loans it originates, securitizes and manages for investors and small businesses.",
+  "evidence": "We primarily originate investor loans secured by 1-4 unit residential rental properties, as well as loans for multi-family, mixed use and commercial properties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

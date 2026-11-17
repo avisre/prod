@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001580149",
+ "issuerName": "BIOVIE INC.",
+ "builtAt": "2026-11-17T00:14:58.062Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001520138-26-000332",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1580149/000152013826000332/bivi-20260630_10kv8.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug therapies",
+   "products": [
+    "Bezisterim (NE3107)"
+   ],
+   "description": "Develops drug therapies for neurological and neurodegenerative disorders and advanced liver disease.",
+   "evidence": "The Company operates as one operating segment with a focus on its efforts to develop drug therapies for the treatment of neurological and neurodegenerative disorders and advanced liver disease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The U.S. Department of War grant reimburses the company for its Long COVID program expenses.",
+  "evidence": "The Company records expenses related to the DOD Long Covid Program as such expenses are incurred."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

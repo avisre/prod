@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001074828",
+ "issuerName": "USBC, INC.",
+ "builtAt": "2026-11-17T00:14:54.115Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-002725",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1074828/000165495426002725/usbc_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital financial technologies",
+   "products": [
+    "USBC tokenized deposit offering",
+    "Bitcoin treasury strategy",
+    "legacy non-invasive sensor business"
+   ],
+   "description": "Operates a digital financial technology platform, including the USBC tokenized deposit offering, digital asset treasury and legacy sensor technology.",
+   "evidence": "Accordingly, all operations are considered by management to be one operating segment and one reportable segment as contained in the Consolidated Statements of Operations included in the consolidated financial statements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In August 2025 the company was renamed USBC, Inc. and its ticker changed to USBC on the NYSE American.",
+   "evidence": "Following the closing of the capital investment by Goldeneye in August 2025, we changed our corporate name to USBC, Inc. and our ticker symbol to \"USBC\" on the NYSE American."
+  },
+  {
+   "text": "In February 2026 the company elected to proceed with a divestiture of its legacy non-invasive sensor business.",
+   "evidence": "In February 2026, we completed our evaluation of the legacy non-invasive sensor business and we have elected to proceed with a divestiture transaction."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

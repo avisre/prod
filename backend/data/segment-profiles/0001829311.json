@@ -2,41 +2,36 @@
  "version": 1,
  "cik": "0001829311",
  "issuerName": "BITMINE IMMERSION TECHNOLOGIES, INC.",
- "builtAt": "2026-11-16T09:31:55.190Z",
+ "builtAt": "2026-11-17T00:15:01.075Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0001493152-25-024679",
-  "periodEnd": "2025-08-31",
-  "filingDate": "2025-11-21",
-  "url": "https://www.sec.gov/Archives/edgar/data/1829311/000149315225024679/form10-k.htm"
+  "accessionNumber": "0001628280-26-072846",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-11-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1829311/000162828026072846/bmnr-20260831.htm"
  },
  "status": "ok",
  "segments": [
   {
-   "name": "Digital Asset Technology",
+   "name": "Digital asset technology",
    "products": [
-    "ETH treasury",
-    "BTC mining",
-    "immersion cooling",
-    "self-mining",
-    "hosting/mining-as-a-service",
-    "consulting, equipment sales and leasing",
-    "digital asset treasury management",
-    "consulting/advisory"
+    "MAVAN",
+    "staking services",
+    "digital asset treasury"
    ],
-   "description": "Digital asset technology company acquiring and holding ETH as a treasury asset while operating BTC mining, hosting and advisory services.",
-   "evidence": "In accordance with ASC 280-10, Segment Reporting, management has determined that the Company operates as one operating segment and one reportable segment."
+   "description": "Holds ETH as long-term reserves and provides Ethereum staking and validator infrastructure services to third parties.",
+   "evidence": "In accordance with ASC 280-10, Segment Reporting, management has determined that the Company operates as one reportable segment."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Institutional customers pay for mining equipment and energized space, hosting, management services, consulting, advisory and equipment leasing.",
-  "evidence": "Hosting services include the provision of mining equipment and energized space, as well as monitoring, troubleshooting, repair, and maintenance of customer mining equipment."
+  "text": "Third parties pay the company fees for staking services through MAVAN, and the company earns staking revenue on its own ETH.",
+  "evidence": "Our results of operations are driven primarily by changes in the fair value of our ETH holdings, staking revenue from our own ETH and revenue from staking services provided to third parties through MAVAN, the U.S. dollar value of which fluctuates with ETH prices."
  },
  "changes": [
   {
-   "text": "In fiscal 2025 the Company decided to dispose of its Trinidad operation and sold all property and equipment located there.",
-   "evidence": "The Company previously had operation in Trinidad which is decided to dispose of during fiscal year 2025."
+   "text": "From July 2025 the company shifted focus from Bitcoin mining and hosting toward Ethereum and ETH staking.",
+   "evidence": "Beginning in July 2025, we expanded our business to focus primarily on Ethereum and its native cryptocurrency, ETH, transitioning from primarily Bitcoin mining and hosting activities toward long-term accumulation, staking and optimization of our digital asset holdings."
   }
  ],
  "dropped": [],

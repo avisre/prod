@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001746109",
+ "issuerName": "Bank First Corp",
+ "builtAt": "2026-11-16T12:59:12.478Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021567",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1746109/000110465926021567/bfc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "checking accounts",
+    "savings accounts",
+    "money market accounts",
+    "cash management accounts",
+    "certificates of deposit",
+    "commercial and industrial loans",
+    "commercial real estate loans",
+    "residential mortgages"
+   ],
+   "description": "Provides retail and commercial banking services, including loans and deposit accounts, to businesses, professionals and consumers in Wisconsin and Illinois.",
+   "evidence": "Accordingly, all of the financial service operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers of the banking operation generate its significant revenues through loans, investments, service charges and deposits in other banks.",
+  "evidence": "Loans, investments, service charges, and deposits in other banks provide the significant revenues in the banking operation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

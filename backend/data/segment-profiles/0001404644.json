@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001404644",
+ "issuerName": "Neurogene Inc.",
+ "builtAt": "2026-11-16T13:10:49.886Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001404644-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1404644/000140464426000019/ngne-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical stage biotechnology",
+   "products": [
+    "NGN-401",
+    "EXACT TM"
+   ],
+   "description": "Develops gene therapies for rare neurological diseases, with its lead program aimed at Rett syndrome.",
+   "evidence": "The Company is a clinical stage biotechnology company that operates as a single operating segment and has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes from licensing its intellectual property to customers under license agreements, with no product sales yet.",
+  "evidence": "Under the Company's license agreements, the Company grants the license to a customer as it exists at the point of transfer and the nature of the license is a right to use the Company's intellectual property as transferred."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

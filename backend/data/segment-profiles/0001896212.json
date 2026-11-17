@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001896212",
+ "issuerName": "CDT EQUITY INC.",
+ "builtAt": "2026-11-17T00:15:02.425Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016858",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1896212/000149315226016858/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical asset development",
+   "products": [
+    "AZD1656",
+    "AZD5658",
+    "AZD5904"
+   ],
+   "description": "Develops and repurposes clinical-stage compounds, licensed from AstraZeneca, for licensing to third parties.",
+   "evidence": "The Company has one operating segment focused on the research and development of clinical assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Licensing partners would pay up-front milestone payments and royalties on its assets after successful pre-clinical trials.",
+  "evidence": "There is no assurance that any pre-clinical trials on the assets owned or licensed by us will be successful, however, following a successful pre-clinical trial, we would look to licensing opportunities with large biotech or pharmaceutical companies, typically for up-front milestone payments and royalty income streams for the life of the asset patent."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

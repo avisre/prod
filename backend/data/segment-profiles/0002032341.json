@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002032341",
+ "issuerName": "Cyabra, Inc.",
+ "builtAt": "2026-11-17T00:15:04.266Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034218",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2032341/000121390026034218/ea0282729-10k_trailblazer.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Combination",
+   "products": [],
+   "description": "Holdings was formed solely to merge with Trailblazer and has no operations, serving as the vehicle for the Business Combination.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

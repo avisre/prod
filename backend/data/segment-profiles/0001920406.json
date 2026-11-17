@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001920406",
+ "issuerName": "STRIVE, INC.",
+ "builtAt": "2026-11-17T00:15:02.750Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-019879",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1920406/000162828026019879/asst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset Management",
+   "products": [
+    "investment advisory services"
+   ],
+   "description": "Provides investment advisory services.",
+   "evidence": "Beginning in 2025, the Company's management directs operations as two reportable operating segments, the \"Asset Management\" segment, which provides investment advisory services and the \"Corporate & Other\" segment, which includes the Company's bitcoin treasury operations."
+  },
+  {
+   "name": "Corporate & Other",
+   "products": [
+    "bitcoin treasury operations"
+   ],
+   "description": "Includes the company's bitcoin treasury operations.",
+   "evidence": "Beginning in 2025, the Company's management directs operations as two reportable operating segments, the \"Asset Management\" segment, which provides investment advisory services and the \"Corporate & Other\" segment, which includes the Company's bitcoin treasury operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investment advisory clients pay the company fees for its investment advisory services.",
+  "evidence": "Beginning in 2025, the Company's management directs operations as two reportable operating segments, the \"Asset Management\" segment, which provides investment advisory services and the \"Corporate & Other\" segment, which includes the Company's bitcoin treasury operations."
+ },
+ "changes": [
+  {
+   "text": "Beginning in 2025, the company reports two segments, adding Corporate & Other for its bitcoin treasury operations.",
+   "evidence": "Prior to 2025, the Company's management evaluated performance and allocated resources in consideration of only one operating segment, the Asset Management segment, as the Company's sole operations were related to its asset management business, with no consideration of a potential bitcoin treasury strategy."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

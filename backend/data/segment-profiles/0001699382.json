@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001699382",
+ "issuerName": "PMV PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-17T00:14:59.296Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-095014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1699382/000119312526095014/pmvp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "precision oncology",
+   "products": [
+    "rezatapopt"
+   ],
+   "description": "Develops small molecule, tumor-agnostic cancer therapies that structurally correct mutant tumor suppressor proteins.",
+   "evidence": "The Company has viewed its operations and manages its business as one operating and reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

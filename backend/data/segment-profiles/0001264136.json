@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0001264136",
+ "issuerName": "Woori Financial Group Inc.",
+ "builtAt": "2026-11-16T12:53:05.180Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-168715",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1264136/000119312526168715/d82423d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "Woori Bank"
+   ],
+   "description": "Banking segment provides banking and other financial services to large corporations, small- and medium-sized enterprises and individuals in Korea.",
+   "evidence": "This segment primarily consists of the banking operations of Woori Bank and its overseas subsidiaries."
+  },
+  {
+   "name": "Life insurance",
+   "products": [
+    "annuities",
+    "savings insurance",
+    "variable life insurance",
+    "whole life insurance",
+    "term life insurance",
+    "health insurance"
+   ],
+   "description": "Offers individual and group life insurance products, plus health insurance, through Tongyang Life Insurance and ABL Life Insurance.",
+   "evidence": "This segment consists of the life insurance operations of Tongyang Life Insurance and ABL Life Insurance."
+  },
+  {
+   "name": "Credit card",
+   "products": [
+    "credit card products"
+   ],
+   "description": "Offers credit card products and services mainly to consumers and corporate customers in Korea.",
+   "evidence": "This segment consists of the credit card operations of Woori Card."
+  },
+  {
+   "name": "Capital",
+   "products": [
+    "installment finance services",
+    "loan services",
+    "lease financing"
+   ],
+   "description": "Provides installment finance and loan services, including lease financing, mainly through Woori Financial Capital.",
+   "evidence": "This segment consists of the capital operations of Woori Financial Capital."
+  },
+  {
+   "name": "Investment securities",
+   "products": [],
+   "description": "Investment securities segment, one of six operational business segments reported by the group.",
+   "evidence": "We currently have six operational business segments: banking, life insurance, credit card, capital, investment securities and other operations."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Other operations reported beside the segments, including results attributable to Woori Financial Group on a separate basis.",
+   "evidence": "We currently have six operational business segments: banking, life insurance, credit card, capital, investment securities and other operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay fees for transactions and services, and interest is earned on financial assets such as loans.",
+  "evidence": "These fees are recognized when transactions occur at the customers' request and services are provided, at the same time when commission are received."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

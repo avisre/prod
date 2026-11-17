@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001341235",
+ "issuerName": "ALDEYRA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-17T00:14:55.523Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-083012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1341235/000119312526083012/aldx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immune-mediated diseases",
+   "products": [
+    "reproxalap",
+    "ADX‑2191",
+    "ADX‑248",
+    "ADX‑246",
+    "RASP (reactive aldehyde species) modulators"
+   ],
+   "description": "Discovers and develops next-generation medicines to treat immune-mediated diseases, pursued as pharmaceutical product candidates.",
+   "evidence": "The Company operates through a single operating and reportable segment focused on the discovery and development of innovative therapies designed to treat immune-mediated diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "AbbVie pays non-refundable option payments for an exclusive option to collaborate on reproxalap; revenue is recognised only if the option is exercised or expires.",
+  "evidence": "AbbVie has paid us a non-refundable payment of $1.0 million in consideration of the AbbVie Option (the AbbVie Option Payment)."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

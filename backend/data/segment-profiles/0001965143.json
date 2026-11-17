@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001965143",
+ "issuerName": "Nvni Group Limited",
+ "builtAt": "2026-11-17T00:15:03.144Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050294",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1965143/000121390026050294/ea0287091-20f_nvnigroup.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multi-vertical SaaS",
+   "products": [
+    "SaaS platform subscription services",
+    "data analytics services",
+    "set-up and other services"
+   ],
+   "description": null,
+   "evidence": "The Company has determined that it has a single operating and reportable segment, multi-vertical SaaS solution model."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for SaaS platform subscriptions, data analytics services, and set-up and other services.",
+  "evidence": "The Group generates revenues and profits by providing to customers SaaS platform subscription services, data analytics services, set-up and other services."
+ },
+ "changes": [
+  {
+   "text": "Smart NX was deconsolidated in 2025, with its assets and liabilities derecognised.",
+   "evidence": "Relates to the derecognition of Smart NX assets and liabilities after the May 8, 2025 deconsolidation."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

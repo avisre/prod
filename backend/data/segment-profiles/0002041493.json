@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002041493",
+ "issuerName": "Alussa Energy Acquisition Corp. II",
+ "builtAt": "2026-11-16T13:13:22.634Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035639",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2041493/000121390026035639/ea0282460-10k_alussa2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination, focused on energy and power infrastructure sectors.",
+   "evidence": "Accordingly, Management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no operating revenues and does not expect any until it completes its initial Business Combination.",
+  "evidence": "We have also generated no operating revenues to date and we do not expect that we will generate operating revenues until we consummate our initial Business Combination."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

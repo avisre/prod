@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001080340",
+ "issuerName": "MANHATTAN BRIDGE CAPITAL, INC.",
+ "builtAt": "2026-11-17T00:14:54.254Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013241",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1080340/000149315226013241/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lending",
+   "products": [
+    "first mortgage loans"
+   ],
+   "description": "Originates, services and manages short-term secured commercial loans to real estate investors.",
+   "evidence": "The Company operates as a single reportable segment, originating, servicing, and managing short-term secured commercial loans to real estate investors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the company monthly interest on short-term secured loans to real estate investors.",
+  "evidence": "Interest is always payable monthly, in arrears."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

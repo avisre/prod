@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001421642",
+ "issuerName": "Satellos Bioscience Inc.",
+ "builtAt": "2026-11-17T00:14:56.152Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-035729",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1421642/000110465926035729/msle-20251231xex99d2.htm",
+  "exhibit": "msle-20251231xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug development",
+   "products": [],
+   "description": "Biotechnology company researching small molecule drug candidates to treat degenerative muscle diseases.",
+   "evidence": "The Company operates within a single operating segment, the research and development of small molecule drug candidates to treat degenerative muscle diseases, which is the Company's only reportable segment and is consistent with the internal reporting provided to the chief operating decision-maker."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "The Company sold its Canadian subsidiary Amphotericin B Technologies, Inc. in 2025.",
+   "evidence": "On July 29, 2025, the Company completed the sale of its wholly owned subsidiary in Canada, Amphotericin B Technologies, Inc., (AmpB), to Natural Works Trading Limited, as part of a strategic portfolio review, for consideration of $ 10 ."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

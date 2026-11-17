@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001737953",
+ "issuerName": "REPLIMUNE GROUP, INC.",
+ "builtAt": "2026-11-16T13:12:49.190Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-045886",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1737953/000162828026045886/repl-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncolytic immunotherapy",
+   "products": [
+    "RP1 (vusolimogene oderparepvec)",
+    "RP2 (sturlimgene erparepvec)",
+    "RP3"
+   ],
+   "description": "Develops oncolytic immunotherapies to treat cancer through its RPx platform of product candidates.",
+   "evidence": "The Company manages its operations on a consolidated basis as a single operating and reportable segment with a focus on developing and commercializing novel oncolytic immunotherapies in order to treat cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

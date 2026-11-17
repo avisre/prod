@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0002019435",
+ "issuerName": "Blue Gold Limited",
+ "builtAt": "2026-11-17T00:15:03.859Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048773",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/2019435/000121390026048773/ea0283648-20f_bluegold.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gold mining",
+   "products": [
+    "Standard Gold Coin",
+    "Electronic Transaction Application",
+    "Mine-to-Wallet"
+   ],
+   "description": "Gold exploration, development and mining company that tokenizes gold to enable fractional gold ownership.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

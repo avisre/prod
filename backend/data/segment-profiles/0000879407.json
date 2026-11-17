@@ -2,43 +2,32 @@
  "version": 1,
  "cik": "0000879407",
  "issuerName": "ARROWHEAD PHARMACEUTICALS, INC.",
- "builtAt": "2026-11-15T10:01:50.147Z",
+ "builtAt": "2026-11-17T00:14:53.438Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0000879407-25-000029",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-25",
-  "url": "https://www.sec.gov/Archives/edgar/data/879407/000087940725000029/arwr-20250930.htm"
+  "accessionNumber": "0000879407-26-000078",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/879407/000087940726000078/arwr-20260930.htm"
  },
  "status": "ok",
  "segments": [
   {
-   "name": "single segment",
+   "name": "RNAi therapeutics",
    "products": [
-    "REDEMPLO (plozasiran)",
-    "Plozasiran (ARO-APOC3)",
-    "Zodasiran (ARO-ANG3)",
-    "ARO-DIMER-PA",
-    "ARO-PNPLA3"
+    "REDEMPLO",
+    "TRiM platform"
    ],
-   "description": "Develops and commercializes RNA interference therapeutics that silence disease-causing genes to treat intractable diseases in patients.",
-   "evidence": "The Company operates as a single segment as the chief operating decision maker, or CODM, reviews operating results on an aggregate basis and manages the operations as a single operating segment."
-  },
-  {
-   "name": "Other",
-   "products": [],
-   "description": null,
-   "evidence": null
+   "description": "Discovers, develops, manufactures and commercializes RNAi therapeutics for diseases with a genetic basis.",
+   "evidence": "The Company operates in a single segment dedicated to the discovery, development, manufacturing and commercialization of RNAi therapeutics."
   }
  ],
- "productRevenueBrokenOut": false,
+ "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "The Company earns revenue from licensing and collaboration agreements with pharmaceutical partners through upfront payments, milestones and royalties, plus commercial product sales of REDEMPLO.",
-  "evidence": "The Company's primary sources of financing have been through the sale of its equity securities, credit facility, revenue from its licensing and collaboration agreements and the sale of certain future royalties."
+  "text": "Licensing partners pay the Company fees under collaboration agreements, and customers pay for REDEMPLO product sales.",
+  "evidence": "The Company has entered into multiple license and collaboration agreements with leading biotech and pharmaceutical companies, including Novartis Pharma AG, Sarepta Therapeutics, Inc., Amgen Inc., Takeda Pharmaceutical Company Limited, GlaxoSmithKline Intellectual Property (No. 3) Limited and Madrigal Pharmaceuticals, Inc., for programs that the Company does not intend to commercialize independently."
  },
  "changes": [],
- "dropped": [
-  "change not grounded: In 2023, Horizon (acquired by Amgen) terminated the Horizon License Agreement fo"
- ],
- "escalated": "revenue model not quoted"
+ "dropped": [],
+ "reader": "agent"
 }

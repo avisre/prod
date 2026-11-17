@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001766478",
+ "issuerName": "Angel Oak Mortgage REIT, Inc.",
+ "builtAt": "2026-11-17T00:15:00.057Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001766478-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1766478/000176647826000002/aomr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate finance",
+   "products": [
+    "residential mortgage loans",
+    "residential mortgage loans in securitization trusts",
+    "RMBS"
+   ],
+   "description": "Acquires, invests in and finances mortgage-related assets, chiefly newly-originated non-QM loans, aiming for risk-adjusted returns for stockholders.",
+   "evidence": "The Company has determined it currently operates in a single operating segment and has one reportable segment, which is to acquire, invest in, and finance mortgage‑related assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns interest income on the residential and commercial mortgage loans it holds, paid by borrowers.",
+  "evidence": "Interest income on residential mortgage loans and commercial mortgage loans is recognized using the effective interest method over the life of the loans."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

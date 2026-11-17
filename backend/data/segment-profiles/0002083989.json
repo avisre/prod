@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002083989",
+ "issuerName": "ALDABRA 4 LIQUIDITY OPPORTUNITY VEHICLE, INC.",
+ "builtAt": "2026-11-17T00:15:06.815Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036353",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2083989/000110465926036353/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business combination",
+   "products": [],
+   "description": "Blank-check company formed to pursue a business combination with one or more target businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

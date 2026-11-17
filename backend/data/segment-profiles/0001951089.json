@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001951089",
+ "issuerName": "Critical Metals Corp.",
+ "builtAt": "2026-11-16T12:58:53.842Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-103607",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1951089/000121390026103607/ea0302128-20f_critical.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Minerals Exploration",
+   "products": [
+    "Wolfsberg (Austria)",
+    "Tanbreez (Greenland)",
+    "Eastern Alps Projects (Austria)"
+   ],
+   "description": "Explores and evaluates critical metals projects in Greenland and Austria, all at the exploration and evaluation stage.",
+   "evidence": "Minerals Exploration covers the Group's main project including:"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Not yet earning revenue; once operational, expects to supply rare earth elements to western-hemisphere customers and defence industry demand.",
+  "evidence": "Once operational, the Tanbreez Project is expected to supply REEs to customers in the western hemisphere to support the production of a wide range of next-generation commercial products, as well as demand from the defense industry."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

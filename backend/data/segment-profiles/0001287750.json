@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001287750",
+ "issuerName": "Ares Capital Corp",
+ "builtAt": "2026-11-17T00:14:55.109Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001287750-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1287750/000128775026000006/arcc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty finance",
+   "products": [
+    "first lien senior secured loans",
+    "second lien senior secured loans",
+    "subordinated debt",
+    "preferred equity",
+    "common equity investments"
+   ],
+   "description": "Lends to and invests in U.S. middle-market companies through first and second lien senior secured loans, subordinated debt, and preferred equity.",
+   "evidence": "The Company operates through a single operating and reporting segment with an investment objective to generate both current income and capital appreciation through debt and equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns current income and capital appreciation from debt and equity investments in middle-market companies.",
+  "evidence": "Our investment objective is to generate both current income and capital appreciation through debt and equity investments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

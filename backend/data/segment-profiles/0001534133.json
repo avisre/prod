@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001534133",
+ "issuerName": "CalciMedica, Inc.",
+ "builtAt": "2026-11-17T00:14:57.441Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-088147",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1534133/000119312526088147/ck0001534133-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Auxora",
+    "zegocractin",
+    "CM5480"
+   ],
+   "description": "Develops highly selective calcium release-activated calcium channel inhibitors for acute inflammatory indications, primarily in the U.S.",
+   "evidence": "The Company operates as one operating segment focused on developing and commercializing innovative therapeutics primarily in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

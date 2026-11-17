@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001490349",
+ "issuerName": "PHENIXFIN CORPORATION",
+ "builtAt": "2026-11-17T00:14:56.793Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-25-120913",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1490349/000121390025120913/ea0264791-10k_phenixfin.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business development company",
+   "products": [],
+   "description": "Makes loans and private equity investments in privately-held companies to generate current income and capital appreciation.",
+   "evidence": "As the Company's operations comprise of a single reporting segment, the segment assets are reflected on the accompanying Consolidated Statements of Assets and Liabilities as Total Assets, investments held on the Consolidated Schedule of Investments, and the significant segment expenses are listed on the accompanying Consolidated Statements of Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Private companies that borrow from the Company pay it interest on loans it makes directly to them.",
+  "evidence": "We lend directly to many companies that are underserved by the traditional banking system and generally seek to avoid broadly marketed investment opportunities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

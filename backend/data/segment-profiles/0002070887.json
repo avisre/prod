@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002070887",
+ "issuerName": "CROWN RESERVE ACQUISITION CORP. I",
+ "builtAt": "2026-11-17T00:15:05.650Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035701",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2070887/000121390026035701/ea0281762-10k_crown1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with one or more businesses; no operations yet.",
+   "evidence": "Accordingly, management has determined that the Company operates as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Earns non-operating interest income from proceeds held in the Trust Account; no operating revenue until a business combination.",
+  "evidence": "The Company generates non-operating income in the form of interest income from the proceeds held in the Trust Account."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

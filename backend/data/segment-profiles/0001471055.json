@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001471055",
+ "issuerName": "BANCO SANTANDER (BRASIL) S.A.",
+ "builtAt": "2026-11-16T12:52:25.696Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-000592",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1471055/000129281426000592/bsbrform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "Santander Free",
+    "Private Banking",
+    "Santander Select",
+    "Santander Especial",
+    "Santander MEI account"
+   ],
+   "description": "Serves individuals and companies, excluding global corporate customers, with banking and financial products and services.",
+   "evidence": "The revenue generated from this segment is derived from the banking and financial products and services offered to both account holders and non-account holders."
+  },
+  {
+   "name": "Global Wholesale Banking",
+   "products": [
+    "Santander Corporate & Investment Banking"
+   ],
+   "description": "Provides national and international tailor-made financial services and structured solutions for global corporate customers.",
+   "evidence": "Global Wholesale Banking: offers a wide range of national and international tailor-made financial services and structured solutions for our global corporate customers, which are primarily local and multinational corporations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Account holders and non-account holders pay for banking and financial products and services; global corporate customers pay for tailor-made financial and structured solutions.",
+  "evidence": "The revenue generated from this segment is derived from the banking and financial products and services offered to both account holders and non-account holders."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

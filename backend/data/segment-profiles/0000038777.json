@@ -1,38 +1,39 @@
 {
  "version": 1,
  "cik": "0000038777",
- "issuerName": "FRANKLIN RESOURCES INC",
- "builtAt": "2026-11-14T13:44:18.411Z",
+ "issuerName": "FRANKLIN TEMPLETON, INC.",
+ "builtAt": "2026-11-17T00:14:53.201Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0000038777-25-000238",
-  "periodEnd": "2025-09-30",
-  "filingDate": "2025-11-10",
-  "url": "https://www.sec.gov/Archives/edgar/data/38777/000003877725000238/ben-20250930.htm"
+  "accessionNumber": "0000038777-26-000289",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/38777/000003877726000289/ben-20260930.htm"
  },
  "status": "ok",
  "segments": [
   {
-   "name": "Investment management and related services",
+   "name": "investment management and related services",
    "products": [
     "Franklin Templeton",
-    "Alcentra",
+    "Apera",
     "Benefit Street Partners",
+    "Benji",
     "Brandywine Global Investment Management",
-    "Clarion Partners",
+    "Canvas",
     "ClearBridge Investments",
-    "Legg Mason",
-    "Lexington Partners"
+    "Putnam"
    ],
-   "description": "Global investment management organization providing investment management and related services to retail, institutional and high-net-worth investors worldwide.",
+   "description": "Provides investment management and related services to retail, institutional and high-net-worth investors worldwide.",
    "evidence": "We have one operating segment, investment management and related services."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company earns investment management fees, generally based on a percentage of assets under management in advised accounts, from retail, institutional and high-net-worth investors.",
-  "evidence": "Our fees for providing investment management services are generally based on a percentage of AUM in the accounts that we advise, and vary based on the asset classes of the accounts, the types of services that we provide, and the market for those services."
+  "text": "Clients pay investment management fees, generally a percentage of the assets under management in the accounts advised.",
+  "evidence": "Our fees for providing investment management services are generally based on a percentage of AUM in the accounts that we advise, and vary based on asset class, type of services provided, and the market for those services."
  },
  "changes": [],
- "dropped": []
+ "dropped": [],
+ "reader": "agent"
 }

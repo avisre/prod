@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002020385",
+ "issuerName": "Tavia Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:03.891Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-028406",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2020385/000121390026028406/ea0280629-10k_tavia.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with a target business, focused on sustainability and innovation sectors.",
+   "evidence": "The CODM assesses performance for the single segment and decides how to allocate resources based on net income or loss that also is reported on the statements of operations as net income or loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

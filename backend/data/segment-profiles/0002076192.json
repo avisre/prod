@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002076192",
+ "issuerName": "Westin Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:06.004Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-104251",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/2076192/000121390026104251/ea0306721-10k_westin.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with a target business; no operating revenues to date.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

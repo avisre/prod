@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001764013",
+ "issuerName": "IMMUNOVANT, INC.",
+ "builtAt": "2026-11-16T12:54:15.204Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001764013-26-000064",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1764013/000176401326000064/imvt-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunology",
+   "products": [
+    "IMVT-1402",
+    "imeroprubart"
+   ],
+   "description": "Clinical-stage immunology company developing an anti-FcRn antibody for IgG-mediated autoimmune diseases.",
+   "evidence": "The Company operates in a single operating segment and has one reportable segment, which includes all activities related to the discovery, development and manufacturing of its product candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

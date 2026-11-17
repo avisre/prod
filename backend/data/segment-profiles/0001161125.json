@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0001161125",
+ "issuerName": "Bank of Chile",
+ "builtAt": "2026-11-16T12:52:53.279Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050243",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1161125/000121390026050243/ea0283244-20f_bancode.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Banking",
+   "products": [
+    "consumer loans",
+    "commercial loans",
+    "current accounts",
+    "credit cards",
+    "credit lines",
+    "residential mortgage loans"
+   ],
+   "description": "Serves individuals and small and medium-sized companies with consumer loans, credit cards, current accounts and mortgages.",
+   "evidence": "The segment's value proposition is primarily focused on consumer loans, commercial loans, current accounts, credit cards, credit lines and residential mortgage loans."
+  },
+  {
+   "name": "Wholesale Banking",
+   "products": [],
+   "description": "Serves corporate customers and large companies across a wide range of economic sectors.",
+   "evidence": "Our wholesale customers are engaged in a wide range of economic sectors."
+  },
+  {
+   "name": "Treasury",
+   "products": [],
+   "description": "Covers the securities portfolio, derivatives positions and currency trading.",
+   "evidence": "This segment also includes the results of our securities portfolio, our derivatives positions and currency trading."
+  },
+  {
+   "name": "Subsidiaries",
+   "products": [
+    "Banchile Administradora General de Fondos S.A.",
+    "Banchile Asesoría Financiera S.A.",
+    "Banchile Corredores de Seguros Ltda.",
+    "Banchile Corredores de Bolsa S.A.",
+    "Operadora de Tarjetas Banchile Pagos S.A."
+   ],
+   "description": "Companies controlled by the bank, such as brokerage, mutual fund management, insurance brokerage and card processing.",
+   "evidence": "This segment includes all companies controlled by us whose results are obtained individually by the respective company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals and companies pay the bank for traditional banking products and specialized financial services.",
+  "evidence": "Our core business is commercial banking in Chile, providing traditional banking products and specialized financial services to our large and diversified customer base of individuals and companies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

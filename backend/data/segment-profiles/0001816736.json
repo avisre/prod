@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001816736",
+ "issuerName": "Disc Medicine, Inc.",
+ "builtAt": "2026-11-16T12:57:07.813Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073602",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1816736/000119312526073602/iron-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hematologic diseases",
+   "products": [
+    "Bitopertin",
+    "DISC-0974",
+    "DISC-3405"
+   ],
+   "description": "Develops clinical and preclinical product candidates that modify heme biosynthesis and iron homeostasis in red blood cells for hematologic diseases.",
+   "evidence": "The Company has assembled a portfolio of clinical and preclinical product candidates that aim to modify fundamental biological pathways associated with the formation and function of red blood cells, specifically heme biosynthesis and iron homeostasis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no approved products and no product sales yet, so no customer currently pays it for goods or services.",
+  "evidence": "We have no products approved for commercial sale and have not generated any revenue from product sales."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

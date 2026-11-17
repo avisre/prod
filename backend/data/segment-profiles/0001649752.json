@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001649752",
+ "issuerName": "Nouveau Monde Graphite Inc.",
+ "builtAt": "2026-11-16T13:07:36.722Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-034697",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1649752/000110465926034697/nmg-20251231xex99d2.htm",
+  "exhibit": "nmg-20251231xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mining projects",
+   "products": [
+    "Matawinie Mine project",
+    "Uatnan Mining Project"
+   ],
+   "description": "Develops the Matawinie Mine and Uatnan Mining Project in Québec, Canada.",
+   "evidence": "The Company currently operates in two segments: the Mining projects (which includes the Matawinie Mine project and the Uatnan Mining Project) and the Battery Material Plant project."
+  },
+  {
+   "name": "Battery Material Plant project",
+   "products": [],
+   "description": "Develops the Battery Material Plant project in Québec, Canada, for carbon-neutral advanced graphite materials.",
+   "evidence": "The Mining projects and Battery Material Plant project were identified as separate segments due to their specific nature."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

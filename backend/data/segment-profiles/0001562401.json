@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001562401",
+ "issuerName": "AMERICAN HOMES 4 RENT",
+ "builtAt": "2026-11-16T12:47:30.034Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001562401-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1562401/000156240126000010/amh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Single-family homes",
+   "products": [],
+   "description": "Develops, leases and manages single-family homes as rental properties for tenants.",
+   "evidence": "The Company is organized as a REIT with activities related to developing, renovating, leasing and managing single-family homes as rental properties in one geographically diversified portfolio, which represents our one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company to lease single-family homes under non-cancelable leases, generally one year, plus certain fees.",
+  "evidence": "Our one reportable segment derives its revenues from leasing single-family homes to tenants under non-cancelable lease agreements generally with a term of one year as well as certain fees charged to tenants."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002064683",
+ "issuerName": "COHEN CIRCLE ACQUISITION CORP. II",
+ "builtAt": "2026-11-16T13:13:24.562Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034097",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2064683/000121390026034097/ea0279440-10k_cohen2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company seeking a business combination, focused on fintech and fintech-adjacent sectors.",
+   "evidence": "Accordingly, Management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001337068",
+ "issuerName": "Magyar Bancorp, Inc.",
+ "builtAt": "2026-11-17T00:14:55.506Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002077096-25-000193",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1337068/000207709625000193/ea0267256-10k_magyar.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Magyar Bancorp, Inc.",
+   "products": [
+    "traditional banking and related financial services",
+    "the taking of time, savings and demand deposits",
+    "the making of commercial, consumer and home equity loans"
+   ],
+   "description": "Community bank offering deposit-taking, lending and related financial services to individual, business and government customers in New Jersey.",
+   "evidence": "Although we have seven operational branches, they are all located in New Jersey; providing similar banking products and services to similar customers and markets; and under the same regulatory environment, so we have one reportable segment which is Magyar Bancorp, Inc."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and customers pay fees and service charges; interest on loans and securities is the main revenue.",
+  "evidence": "Our revenues are derived principally from interest on loans and securities; our investment securities consist primarily of mortgage-backed securities and U.S. Government and government-sponsored enterprise obligations."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

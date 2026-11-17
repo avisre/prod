@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000944745",
+ "issuerName": "Civista Bancshares, Inc.",
+ "builtAt": "2026-11-16T13:08:55.797Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-096836",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/944745/000119312526096836/civb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operation",
+   "products": [
+    "general banking business",
+    "trust services",
+    "Civista Wealth Management division",
+    "general equipment leasing and financing business"
+   ],
+   "description": "Community bank taking deposits, making loans, purchasing securities and offering trust services to retail and commercial customers.",
+   "evidence": "Loans and investments provide the majority of revenues in the banking operation."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans and leases; customers pay service charges, ATM and interchange fees, and wealth management fees.",
+  "evidence": "Interest and fees on loans accounted for 77% of total revenue for 2025, 75% of total revenue for 2024, and 73% of total revenue for 2023."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

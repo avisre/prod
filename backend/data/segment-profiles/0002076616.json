@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002076616",
+ "issuerName": "Tailwind 2.0 Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:06.035Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037639",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2076616/000121390026037639/ea0280507-10k_tailwind2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue an initial business combination, focusing its search on energy and compute infrastructure.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

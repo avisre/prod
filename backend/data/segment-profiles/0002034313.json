@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002034313",
+ "issuerName": "Oxley Bridge Acquisition Limited",
+ "builtAt": "2026-11-16T13:15:23.575Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036390",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2034313/000121390026036390/ea0282755-10k_oxley.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with consumer and technology targets in Asia, excluding China.",
+   "evidence": "Accordingly, Management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

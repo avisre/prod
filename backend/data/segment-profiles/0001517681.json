@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001517681",
+ "issuerName": "PROPANC BIOPHARMA, INC.",
+ "builtAt": "2026-11-17T00:14:57.138Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-044373",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1517681/000149315226044373/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cancer treatment",
+   "products": [
+    "PRP"
+   ],
+   "description": "Develops PRP, a proenzyme treatment, aimed at preventing cancer recurrence and metastasis from solid tumors.",
+   "evidence": "For the years ended June 30, 2026 and 2025, the Company operates in one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no paying customers because it has not commenced commercial operations or generated revenues.",
+  "evidence": "All activities are related to the development of cancer treatment and the Company has not commenced commercial operations or generated revenues to date."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002086524",
+ "issuerName": "K2 CAPITAL ACQUISITION CORP.",
+ "builtAt": "2026-11-17T00:15:07.015Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034333",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2086524/000121390026034333/ea0283163-10k_k2capital.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company that pursues an initial business combination with a target business for its shareholders.",
+   "evidence": "Accordingly, management has determined that the Company only has one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

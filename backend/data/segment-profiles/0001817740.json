@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001817740",
+ "issuerName": "Austin Gold Corp.",
+ "builtAt": "2026-11-17T00:15:00.943Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-035225",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1817740/000110465926035225/aust-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and development",
+   "products": [
+    "Kelly Creek Project",
+    "Stockade Mountain Project"
+   ],
+   "description": "Gold exploration of mineral projects in Nevada and Oregon, aimed at district-scale gold discoveries.",
+   "evidence": "Exploration and development of mineral projects is considered the Company's single business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

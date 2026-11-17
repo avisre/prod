@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001404281",
+ "issuerName": "Eledon Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-16T13:16:06.598Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-116164",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1404281/000119312526116164/eldn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tegoprubart development",
+   "products": [
+    "tegoprubart"
+   ],
+   "description": "Develops tegoprubart to protect transplanted organs from rejection and to treat ALS.",
+   "evidence": "The Company operates as one operating and one reportable segment, focused on the development of tegoprubart, to develop therapies to protect transplanted organs and prevent rejection, and to treat ALS."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

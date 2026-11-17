@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001603454",
+ "issuerName": "CELCUITY INC.",
+ "builtAt": "2026-11-16T12:54:03.081Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012801",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1603454/000149315226012801/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Targeted therapies",
+   "products": [
+    "gedatolisib"
+   ],
+   "description": "Develops targeted therapies for multiple solid tumor indications, led by gedatolisib for advanced breast cancer.",
+   "evidence": "The Company has one reportable operating segment, which is the development of targeted therapies for the treatment of multiple solid tumor indications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002081909",
+ "issuerName": "SILVERBOX CORP V",
+ "builtAt": "2026-11-17T00:15:06.590Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-033348",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/2081909/000110465926033348/sbxe-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "blank check company",
+   "products": [],
+   "description": "Shell company formed to complete a business combination with one or more operating businesses; it has no operations yet.",
+   "evidence": "We are a newly organized blank check company incorporated as a Cayman Islands exempted company on May 29, 2025 for the purpose of effecting a merger, amalgamation, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses, which we refer to as our initial business combination."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It has generated no revenue to date, so no customers pay it for products or services.",
+  "evidence": "The Company has not commenced any operations nor generated any revenues to date."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

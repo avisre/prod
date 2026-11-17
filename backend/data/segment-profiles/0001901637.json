@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001901637",
+ "issuerName": "USCB Financial Holdings, Inc.",
+ "builtAt": "2026-11-16T13:14:24.338Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001562762-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1901637/000156276226000027/uscb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "Lending Services",
+    "Deposit Products",
+    "Title Services",
+    "Yacht lending",
+    "Private Client Group services",
+    "Correspondent Banking services"
+   ],
+   "description": "Provides personal and business banking, lending, deposit and title services to small businesses and professionals in South Florida.",
+   "evidence": "through the Bank, its sole direct subsidiary, operates 10 banking centers in South Florida providing a wide range of personal and business banking products and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans, and clients pay fees for fee-based services such as title insurance.",
+  "evidence": "Interest rates on both loans and deposits and prices of fee-based services are significant competitive factors among financial institutions generally."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

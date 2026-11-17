@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002030482",
+ "issuerName": "PLUM ACQUISITION CORP. IV",
+ "builtAt": "2026-11-16T13:17:46.195Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036962",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2030482/000121390026036962/ea0282088-10k_plumacq4.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking a business combination with one or more businesses, not limited to any industry or region.",
+   "evidence": "We are a blank check company, incorporated as a Cayman Islands exempted company for the purpose of effecting a merger, share exchange, asset acquisition, share purchase, reorganization or similar business combination with one or more businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

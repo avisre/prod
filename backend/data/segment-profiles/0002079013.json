@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002079013",
+ "issuerName": "Hall Chadwick Acquisition Corp.",
+ "builtAt": "2026-11-17T00:15:06.226Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-003527",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2079013/000182912626003527/hallchadwickacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company with no operating business; it seeks a business combination with a target company.",
+   "evidence": "We are a blank check company incorporated as a Cayman Islands exempted company"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

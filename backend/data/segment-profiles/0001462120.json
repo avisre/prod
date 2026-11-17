@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001462120",
+ "issuerName": "Live Oak Bancshares, Inc.",
+ "builtAt": "2026-11-16T12:58:40.850Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001462120-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1462120/000146212026000020/lob-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking platform",
+   "products": [],
+   "description": "Provides a banking platform for small businesses nationwide, earning mainly from net interest income and government guaranteed loans.",
+   "evidence": "Therefore, the Company has one significant operating segment as of December 31, 2024 and 2025, which is providing a banking platform for small businesses nationwide."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes primarily from net interest income and secondarily from originating and selling government guaranteed loans to small businesses.",
+  "evidence": "The banking platform generates revenue primarily from net interest income and secondarily through the origination and sale of government guaranteed loans."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company combined its Banking and Fintech reportable segments into one significant operating segment.",
+   "evidence": "Due to Canapi Advisors voluntarily withdrawing as an investment advisor to the Canapi Funds in the third quarter of 2024, the chief operating decision maker began evaluating the business on a consolidated basis."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

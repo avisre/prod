@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001476765",
+ "issuerName": "Golub Capital BDC, Inc.",
+ "builtAt": "2026-11-17T00:14:56.384Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001476765-25-000096",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1476765/000147676525000096/gbdc-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Middle-market lending",
+   "products": [
+    "one stop loans",
+    "senior secured loans"
+   ],
+   "description": "Invests in senior secured and one stop loans to U.S. middle-market companies, mostly sponsored by private equity firms.",
+   "evidence": "Segment Reporting (\"ASC Topic 280\"), the Company has determined that it has a single operating and reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "U.S. middle-market borrowers pay the company interest and fees on the senior secured and one stop loans it makes.",
+  "evidence": "Our investment objective is to generate current income and capital appreciation by investing primarily in senior secured and one stop loans of U.S. middle-market companies."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

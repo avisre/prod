@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001598646",
+ "issuerName": "Minerva Neurosciences, Inc.",
+ "builtAt": "2026-11-16T13:18:14.948Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-101117",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1598646/000119312526101117/nerv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CNS diseases",
+   "products": [
+    "roluperidone"
+   ],
+   "description": "Develops and commercializes proprietary product candidates to treat patients with CNS diseases.",
+   "evidence": "The Company's operations are organized into one operating and one reportable segment focused on the development and commercialization of proprietary product candidates to treat patients suffering from CNS diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Would earn revenue from commercial sales or license agreements for its product candidates; none is approved yet.",
+  "evidence": "The operating segment's revenue would be generated from commercial sales or license agreements of the product candidates."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001173420",
+ "issuerName": "NOVAGOLD RESOURCES INC.",
+ "builtAt": "2026-11-16T12:55:39.501Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-000374",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1173420/000117184326000374/ng20251130_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gold mining",
+   "products": [
+    "Donlin Gold project"
+   ],
+   "description": "Advances the Donlin Gold project in Alaska toward development; does not yet produce gold or earn operating income.",
+   "evidence": "We operate in the gold mining industry, primarily focused on advancing the Donlin Gold project in Alaska."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

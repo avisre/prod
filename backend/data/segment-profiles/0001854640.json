@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001854640",
+ "issuerName": "CENTERRA GOLD INC.",
+ "builtAt": "2026-11-17T00:15:01.847Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001854640-24-000011",
+  "periodEnd": "2023-12-31",
+  "filingDate": "2024-03-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1854640/000185464024000011/cgau-20231231_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Öksüt",
+   "products": [],
+   "description": "Operating segment named Öksüt, with revenue reported for Türkiye.",
+   "evidence": "Öksüt Mount Milligan Molybdenum Total Segments Corporate and other Total Revenue"
+  },
+  {
+   "name": "Mount Milligan",
+   "products": [],
+   "description": "Operating segment named Mount Milligan, with revenue reported for Canada.",
+   "evidence": "Öksüt Mount Milligan Molybdenum Total Segments Corporate and other Total Revenue"
+  },
+  {
+   "name": "Molybdenum",
+   "products": [],
+   "description": "Operating segment named Molybdenum, with revenue reported for the United States.",
+   "evidence": "Öksüt Mount Milligan Molybdenum Total Segments Corporate and other Total Revenue"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2021, the Company sold its interest in the Greenstone Partnership.",
+   "evidence": "On January 19, 2021, the Company completed the sale of its 50 % interest in the Greenstone Partnership"
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

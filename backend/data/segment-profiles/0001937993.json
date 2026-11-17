@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001937993",
+ "issuerName": "Cadrenal Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:15:02.936Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036946",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1937993/000121390026036946/ea0283741-10k_cadrenal.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "CAD-1005",
+    "tecarfarin",
+    "frunexian"
+   ],
+   "description": "Develops novel therapies for life-threatening immune and thrombotic conditions, led by a candidate for heparin-induced thrombocytopenia.",
+   "evidence": "The Company manages its business activities as a single entity and operates in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

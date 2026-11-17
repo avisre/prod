@@ -2,74 +2,90 @@
  "version": 1,
  "cik": "0000100493",
  "issuerName": "TYSON FOODS, INC.",
- "builtAt": "2026-11-14T13:46:58.236Z",
+ "builtAt": "2026-11-17T00:14:53.218Z",
  "filing": {
   "form": "10-K",
-  "accessionNumber": "0000100493-25-000095",
-  "periodEnd": "2025-09-27",
-  "filingDate": "2025-11-10",
-  "url": "https://www.sec.gov/Archives/edgar/data/100493/000010049325000095/tsn-20250927.htm"
+  "accessionNumber": "0000100493-26-000079",
+  "periodEnd": "2026-10-03",
+  "filingDate": "2026-11-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/100493/000010049326000079/tsn-20261003.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "Beef",
    "products": [
-    "primal and sub-primal meat cuts",
+    "dressed beef carcasses",
+    "primal and sub-primal cuts",
     "case-ready products",
     "hides",
     "rendered products",
     "variety meats"
    ],
-   "description": "Processes live fed cattle and fabricates dressed beef carcasses into meat cuts and case-ready products for domestic and export markets.",
-   "evidence": "Beef includes our operations related to processing live fed cattle and fabricating dressed beef carcasses into primal and sub-primal meat cuts and case-ready products."
+   "description": "Processes live fed cattle and fabricates dressed beef into cuts and case-ready products sold to retailers and foodservice.",
+   "evidence": "Beef includes our operations related to processing live fed cattle and fabricating dressed beef carcasses into primal and sub-primal cuts and case-ready products."
   },
   {
    "name": "Pork",
    "products": [
+    "pork carcasses",
     "primal and sub-primal cuts",
     "case-ready products",
-    "live swine"
+    "live swine group",
+    "specialty product processing activities"
    ],
-   "description": "Processes live market hogs and fabricates pork carcasses into cuts and case-ready products for domestic and export markets.",
+   "description": "Processes live market hogs and fabricates pork into cuts and case-ready products for retail, foodservice and export.",
    "evidence": "Pork includes our operations related to processing live market hogs and fabricating pork carcasses into primal and sub-primal cuts and case-ready products."
   },
   {
    "name": "Chicken",
    "products": [
-    "value-added chicken products",
     "breaded chicken strips",
     "nuggets",
     "patties",
-    "chicken breeding stock"
+    "fully cooked chicken parts",
+    "fresh, frozen and value-added chicken products",
+    "specialty products"
    ],
-   "description": "Raises and processes live chickens into fresh, frozen and value-added chicken products for domestic and export markets.",
+   "description": "Raises and processes chickens into fresh, frozen and value-added products sold to retailers, foodservice and export markets.",
    "evidence": "Chicken includes our domestic operations related to raising and processing live chickens into and purchasing raw materials for fresh, frozen and value-added chicken products, as well as sales from specialty products."
   },
   {
    "name": "Prepared Foods",
    "products": [
-    "Jimmy Dean®",
-    "Hillshire Farm®",
-    "Ball Park®",
-    "Wright®",
-    "State Fair®",
-    "Aidells®",
-    "Gallo Salame®",
-    "ready-to-cook and ready-to-eat sandwiches"
+    "Jimmy Dean ®",
+    "Hillshire Farm ®",
+    "Ball Park ®",
+    "Wright ®",
+    "State Fair ®",
+    "aidells ®",
+    "Gallo Salame ®",
+    "hot dogs"
    ],
-   "description": "Manufactures and markets frozen and refrigerated food products, including branded meats and prepared meals, for retail and foodservice customers.",
-   "evidence": "Prepared Foods includes our operations related to manufacturing and marketing frozen and refrigerated food products and logistics operations to move products through the supply chain."
+   "description": "Manufactures and markets frozen and refrigerated food products under brands such as Jimmy Dean, Hillshire Farm and Ball Park.",
+   "evidence": "This segment includes brands such as Jimmy Dean ®, Hillshire Farm ®, Ball Park ®, Wright ® and State Fair ®, as well as the artisanal brands aidells ® and Gallo Salame ®."
+  },
+  {
+   "name": "International",
+   "products": [
+    "fresh, frozen and value-added chicken products",
+    "other protein and non-protein food products"
+   ],
+   "description": "Foreign operations that raise and process chickens and distribute chicken and other protein food products in several countries.",
+   "evidence": "International includes our foreign operations in China, Europe, Malaysia, Mexico, South Korea, Thailand and the Kingdom of Saudi Arabia related to raising and processing live chickens into and purchasing raw materials for fresh, frozen and value-added chicken products, as well as the distribution of chicken products and other protein and non-protein food products."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Tyson earns revenue by selling beef, pork, chicken and prepared food products to grocery retailers, wholesalers, distributors, restaurants, foodservice operators, industrial processors and export markets.",
+  "text": "Retailers, foodservice distributors, restaurant operators and other customers pay the company for its meat and food products.",
   "evidence": "Our products are marketed and sold primarily by our sales staff to grocery retailers, grocery wholesalers, meat distributors, warehouse club stores, military commissaries, industrial food processing companies, chain restaurants or their distributors, live markets, international export companies and domestic distributors who serve restaurants, foodservice operations such as plant and school cafeterias, convenience stores, hospitals and other vendors."
  },
- "changes": [],
- "dropped": [
-  "product not in text (Chicken): fresh chicken products",
-  "product not in text (Chicken): frozen chicken products"
- ]
+ "changes": [
+  {
+   "text": "In fiscal 2026, International was identified as a reportable segment, previously presented within International/Other.",
+   "evidence": "Effective in the first quarter of fiscal 2026, International was identified as a reportable segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
 }

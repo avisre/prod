@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002025942",
+ "issuerName": "Curanex Pharmaceuticals Inc",
+ "builtAt": "2026-11-17T00:15:04.065Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013677",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2025942/000149315226013677/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceuticals",
+   "products": [],
+   "description": "Pharmaceutical business focused on research and development, with provisional patent applications and animal studies.",
+   "evidence": "As such, the Company has determined that it operates in one operating and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

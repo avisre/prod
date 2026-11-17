@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0002013639",
+ "issuerName": "FB Bancorp, Inc.",
+ "builtAt": "2026-11-17T00:15:03.691Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126081",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2013639/000119312526126081/ck0002013639-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Traditional banking",
+   "products": [
+    "loans held for investment",
+    "deposit and other banking services"
+   ],
+   "description": "Provides traditional banking services, including loans and deposit accounts, to customers in southern Louisiana.",
+   "evidence": "The Company's revenue, from continuing operations, is primarily derived from the business of traditional banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans, and customers pay fees for deposit and other banking services.",
+  "evidence": "Revenues from traditional banking operations consist primarily of interest and fees earned on loans held for investment, interest earned on securities, and fees from deposit and other banking services."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the mortgage banking segment, NOLA Lending Group, was agreed for sale, closed in 2026, and is no longer reported as a segment.",
+   "evidence": "As a result, the mortgage banking operations are presented as discontinued operations for all periods presented, and the Company no longer reports mortgage banking as a separate operating or reportable segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

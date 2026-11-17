@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002012706",
+ "issuerName": "SUNRISE REALTY TRUST, INC.",
+ "builtAt": "2026-11-17T00:15:03.631Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/2012706/000162828026017017/suns-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Institutional lending",
+   "products": [],
+   "description": "Originates and invests in secured commercial real estate loans for high-quality borrowers and sponsors with transitional business plans.",
+   "evidence": "The Company operates as one operating segment and has one reportable operating segment for activities related to institutional lending."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay the company for secured commercial real estate loans it originates and invests in.",
+  "evidence": "The Company generates revenue from originating and investing in secured CRE loans and providing capital to high-quality borrowers and sponsors with transitional business plans collateralized by CRE assets with opportunities for near-term value creation, as well as recapitalization opportunities."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002073153",
+ "issuerName": "Hoyne Bancorp, Inc.",
+ "builtAt": "2026-11-17T00:15:05.683Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-035156",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2073153/000110465926035156/hyne-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operation",
+   "products": [
+    "Loans",
+    "investments",
+    "deposit product service fees"
+   ],
+   "description": "Provides banking products and services to customers in Cook County, Illinois and adjacent communities.",
+   "evidence": "The Bank operates under a single segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Loans, investments, and deposit product service fees provide the bank's revenue.",
+  "evidence": "Loans, investments, and deposit product service fees provide the revenues in the banking operation."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

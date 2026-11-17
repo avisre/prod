@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002030829",
+ "issuerName": "PANTAGES CAPITAL ACQUISITION CORPORATION",
+ "builtAt": "2026-11-17T00:15:04.240Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-024889",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/2030829/000121390026024889/ea0278002-10k_pantages.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check shell company formed to effect a merger or similar business combination with one or more target businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

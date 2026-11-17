@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001838957",
+ "issuerName": "ATRenew Inc.",
+ "builtAt": "2026-11-16T13:02:28.271Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-146260",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1838957/000119312526146260/rere-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pre-owned electronics",
+   "products": [
+    "platform service"
+   ],
+   "description": "Earns net product and service revenues from pre-owned electronics and platform services for merchants.",
+   "evidence": "Hence, the Group has only one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net product revenues and net service revenues, the latter from platform services provided to merchants.",
+  "evidence": "(3) The amount relates to the refundable deposits paid to merchants to whom the Group provides platform service."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

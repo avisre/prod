@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001518621",
+ "issuerName": "Orchid Island Capital, Inc.",
+ "builtAt": "2026-11-16T13:00:39.693Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004889",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1518621/000143774926004889/orc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agency RMBS",
+   "products": [
+    "PT Agency RMBS",
+    "structured Agency RMBS"
+   ],
+   "description": "Invests in Agency RMBS to earn net interest margin and interest income, paying monthly distributions to stockholders.",
+   "evidence": "Consequently, the Company has determined that it operates in a single reportable segment and the strategic purpose of all operating activities is to support that one segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Nearly all income is interest earned on its RMBS portfolio of mortgage-backed securities.",
+  "evidence": "The Company derives nearly all of its income from interest on its RMBS portfolio."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

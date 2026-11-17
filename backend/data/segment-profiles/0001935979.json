@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001935979",
+ "issuerName": "Biohaven Ltd.",
+ "builtAt": "2026-11-16T13:00:04.591Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001935979-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1935979/000193597926000020/bhvn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "BHV-4157 (Troriluzole)",
+    "BHV-2000 (Taldefgrobep Alfa)",
+    "BHV-7000 & BHV-7010 (Kv7)",
+    "BHV-1300 (IgG Degrader)",
+    "BHV-1400 (IgA Degrader)",
+    "BHV-8000 (TYK2/JAK1)",
+    "BHV-1510 (Trop2)",
+    "BHV-1530 (FGFR3)"
+   ],
+   "description": "Discovers, develops and commercializes life-changing treatments in immunology, neuroscience and oncology.",
+   "evidence": "The Company manages its operations as a single segment, focused on the discovery, development, and commercialization of life-changing treatments in key therapeutic areas, including immunology, neuroscience, and oncology for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

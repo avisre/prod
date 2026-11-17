@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002009183",
+ "issuerName": "Titan Acquisition Corp",
+ "builtAt": "2026-11-16T13:13:23.615Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002929",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2009183/000182912626002929/titanacq_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company seeking an initial business combination with one or more businesses, focused on finance and tech-enabled services.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001760854",
+ "issuerName": "Nanobiotix S.A.",
+ "builtAt": "2026-11-16T12:58:29.314Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001760854-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1760854/000176085426000003/nbx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nanotherapeutics",
+   "products": [
+    "JNJ-1900 (NBTXR3)",
+    "Nanoradioenhancer platform",
+    "Nanoprimer platform",
+    "Neurological disease platform"
+   ],
+   "description": "Develops physics-based nanotherapeutic product candidates to transform cancer treatment, alongside radiotherapy and immunotherapy.",
+   "evidence": "The Company operates in a single operating segment: research and development in product candidates that harness principles of physics to transform cancer treatment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Janssen, its one principal customer, pays for clinical product supplies sold to it.",
+  "evidence": "Revenues in 2025 also include €7.0 million of 'Other Sales' corresponding to clinical product supplies sold to Janssen for the year ended December 31, 2025"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

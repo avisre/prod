@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001903595",
+ "issuerName": "House of Doge Inc.",
+ "builtAt": "2026-11-17T00:15:02.519Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036715",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1903595/000121390026036715/ea0279601-10k_braghouse.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gaming",
+   "products": [
+    "Brag House",
+    "Bragging Functionality",
+    "Loyalty Tokens reward system"
+   ],
+   "description": "A vertically integrated social network for college gaming that lets college students compete, support teams and win prizes.",
+   "evidence": "The Company and its subsidiaries manage its business activities on a consolidated basis and operate as a single operating segment (the \"Gaming\" segment)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Brands pay the company to reach its Gen Z college gaming audience through sponsored content and prizes.",
+  "evidence": "Brag House is a mission-driven organization that utilizes a diversified business strategy to operate a media-tech platform designed for casual college gamers to drive community-driven gaming experiences anchored in the college sports culture, while creating authentic pathways for brands to connect with our Gen Z audience."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

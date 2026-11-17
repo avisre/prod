@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001649313",
+ "issuerName": "BW LPG Ltd",
+ "builtAt": "2026-11-16T12:56:24.984Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-037215",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1649313/000110465926037215/bwlp-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shipping",
+   "products": [
+    "VLGCs"
+   ],
+   "description": "Owns and operates LPG carriers, mainly VLGCs, on spot voyages and time charters for customers.",
+   "evidence": "The operation of the Group's fleet of VLGCs has historically been the Group's core activity."
+  },
+  {
+   "name": "Product Services",
+   "products": [
+    "integrated LPG delivery services",
+    "LPG trading operations"
+   ],
+   "description": "Buys LPG and delivers it directly to customers, so end customers secure supply at the point of consumption.",
+   "evidence": "Product Services provides customers with integrated LPG delivery services, by purchasing LPG and delivering it directly to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for spot voyages, time charter voyages and sale of LPG cargo.",
+  "evidence": "Revenues from external customers are derived mainly from spot voyages, time charter voyages and sale of LPG cargo."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

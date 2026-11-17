@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001683553",
+ "issuerName": "Spruce Biosciences, Inc.",
+ "builtAt": "2026-11-17T00:14:59.241Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-097558",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1683553/000119312526097558/sprb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "novel therapies",
+   "products": [],
+   "description": "Develops and commercializes novel therapies for serious neurological disorders with significant unmet medical need.",
+   "evidence": "We operate and manage our business as one operating segment, which is the business of developing and commercializing novel therapies for serious neurological disorders with significant unmet medical need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Prior-year revenue came from a collaboration and license agreement with Kaken Pharmaceutical Co, Ltd.",
+  "evidence": "The Company's prior year segment revenue is derived from a collaboration and license agreement with Kaken Pharmaceutical Co, Ltd."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

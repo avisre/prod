@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001506983",
+ "issuerName": "Glucotrack, Inc.",
+ "builtAt": "2026-11-17T00:14:56.927Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013656",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1506983/000149315226013656/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Glucotrack CBGM Product Segment",
+   "products": [
+    "Glucotrack CBGM"
+   ],
+   "description": null,
+   "evidence": "The Company has only one reportable segment, the Glucotrack CBGM Product Segment, as all their research and development activities are related the development of the Glucotrack CBGM Product."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2023 the Company withdrew the Glucotrack CE Mark and focused its efforts on the Glucotrack CBGM.",
+   "evidence": "As such, the Company withdrew the CE Mark for Glucotrack and are no longer pursuing commercialization of this product or development of any further iterations."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

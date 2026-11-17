@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001926314",
+ "issuerName": "Ocean Capital Acquisition Corporation",
+ "builtAt": "2026-11-17T00:15:02.781Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-044555",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1926314/000149315226044555/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with one or more target businesses.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

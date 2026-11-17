@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001846416",
+ "issuerName": "HENNESSY CAPITAL INVESTMENT CORP. VII",
+ "builtAt": "2026-11-17T00:15:01.633Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-009187",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1846416/000149315226009187/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SPAC",
+   "products": [],
+   "description": "A special purpose acquisition company that has not yet completed an initial business combination, focused on industrial technology and energy transition.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

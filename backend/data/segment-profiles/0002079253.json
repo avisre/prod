@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002079253",
+ "issuerName": "APEX TREASURY CORPORATION",
+ "builtAt": "2026-11-17T00:15:06.303Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034729",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2079253/000121390026034729/ea0277285-10k_apex.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to pursue a Business Combination with target businesses in its target industries.",
+   "evidence": "Accordingly, management has determined that there is only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

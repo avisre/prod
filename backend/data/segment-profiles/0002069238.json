@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002069238",
+ "issuerName": "PYROPHYTE ACQUISITION CORP. II",
+ "builtAt": "2026-11-17T00:15:05.503Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036502",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2069238/000121390026036502/ea0282458-10k_pyrophyte2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check company with no operations that seeks a business combination with one or more target businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

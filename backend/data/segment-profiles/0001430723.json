@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001430723",
+ "issuerName": "SERVISFIRST BANCSHARES, INC.",
+ "builtAt": "2026-11-16T12:51:09.670Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-001150",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1430723/000117184326001150/sfbs20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [],
+   "description": "Accepts deposits from the public and makes loans and other investments through its bank in Alabama, Florida, Georgia and other states.",
+   "evidence": "Our business is conducted through a single reportable segment, and our principal business is to accept deposits from the public and to make loans and other investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and fees on loans, and the bank also earns interest, dividends and service charges on other investments.",
+  "evidence": "Our principal sources of income are interest and fees collected on loans, interest and dividends collected on other investments, and service charges."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

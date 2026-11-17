@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001757499",
+ "issuerName": "SHUTTLE PHARMACEUTICALS HOLDINGS, INC.",
+ "builtAt": "2026-11-17T00:14:59.998Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014131",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1757499/000149315226014131/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug discovery",
+   "products": [
+    "Molecule.ai",
+    "Ropidoxuridine"
+   ],
+   "description": "Pharmaceutical research: the Molecule.ai AI platform helps researchers evaluate molecular candidates in early-stage drug discovery.",
+   "evidence": "The Company's CODM, its chief executive officer, evaluates the Company's operations and manages its business as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "The company committed in 2025 to wind down its clinical trials of Ropidoxuridine, its lead product candidate.",
+   "evidence": "On November 20, 2025, the Company committed to a plan to wind-down its clinical trials of Ropidoxuridine (the \"Clinical Trials\"), our lead product candidate."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

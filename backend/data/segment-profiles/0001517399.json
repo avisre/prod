@@ -1,0 +1,96 @@
+{
+ "version": 1,
+ "cik": "0001517399",
+ "issuerName": "GRUPO SUPERVIELLE S.A.",
+ "builtAt": "2026-11-16T13:04:34.746Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-040713",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1517399/000110465926040713/supv-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal & Business Banking",
+   "products": [
+    "personal loans",
+    "mortgage loans",
+    "car loans",
+    "credit cards",
+    "debit cards",
+    "savings accounts",
+    "time deposits",
+    "checking accounts"
+   ],
+   "description": "Serves individuals, professionals, entrepreneurs, small businesses and SMEs with loans, cards, accounts, deposits and investment products.",
+   "evidence": "Through this segment, Supervielle offers a wide range of financial products and services designed to meet the needs of individuals, entrepreneurs and small businesses and SMEs."
+  },
+  {
+   "name": "Corporate Banking",
+   "products": [
+    "Deposits",
+    "Loans",
+    "Plan Sueldo",
+    "Foreign Trade",
+    "Cash Management",
+    "Leasing"
+   ],
+   "description": "Provides advisory, asset and loan administration, foreign trade, payroll, cash management and leasing services to corporate clients.",
+   "evidence": "Includes advisory services at a corporate and financial level, as well as the administration of assets and loans targeted to corporate clients."
+  },
+  {
+   "name": "Bank Treasury",
+   "products": [
+    "money market instruments",
+    "public debt instruments",
+    "foreign exchange",
+    "stocks",
+    "futures",
+    "swaps",
+    "repos"
+   ],
+   "description": "Allocates the bank's liquidity to other segments, manages financial risk, and runs the trading desk and institutional sales.",
+   "evidence": "The Bank Treasury segment is primarily responsible for the allocation of the Bank's liquidity according to the needs of the Personal and Business Banking segment, the Corporate banking segment and its own needs."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "life",
+    "home",
+    "protected technology",
+    "personal accidents",
+    "protected bags",
+    "ATMs",
+    "protected content"
+   ],
+   "description": "Offers life, home, personal accident and other insurance products through Supervielle Seguros, sold through the bank's channels.",
+   "evidence": "Our insurance business is operated by our subsidiaries Supervielle Seguros and Supervielle Productores Asesores de Seguros."
+  },
+  {
+   "name": "Asset Management and Other Services",
+   "products": [
+    "mutual fund products",
+    "retail brokerage services",
+    "non-financial products",
+    "IOL invertironline"
+   ],
+   "description": "Provides mutual funds, retail brokerage through InvertirOnline, and non-financial products to clients.",
+   "evidence": "Grupo Supervielle offers a variety of other services to its clients, including mutual fund products through Supervielle Asset Management S.A., retail brokerage services through InvertirOnline S.A.U., non-financial products through Espacio Cordial Servicios S.A. and until February 2023 it offered payment solutions to retailers through Bolsillo Digital S.A.U. (in dissolution)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual, business and corporate clients buy the group's financial products, insurance and investment services, generating financial income and service fees for the company.",
+  "evidence": "Grupo Supervielle analyses the bussiness taking into account the different type of services and products offered"
+ },
+ "changes": [
+  {
+   "text": "Payment solutions for retailers through Bolsillo Digital S.A.U. ended in February 2023, when that subsidiary was in dissolution.",
+   "evidence": "Grupo Supervielle offers a variety of other services to its clients, including mutual fund products through Supervielle Asset Management S.A., retail brokerage services through InvertirOnline S.A.U., non-financial products through Espacio Cordial Servicios S.A. and until February 2023 it offered payment solutions to retailers through Bolsillo Digital S.A.U. (in dissolution)."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}

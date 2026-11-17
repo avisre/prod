@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001993431",
+ "issuerName": "Micropolis Holding Company",
+ "builtAt": "2026-11-17T00:15:03.416Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-040772",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-05-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1993431/000121390025040772/ea0240837-20f_micropolis.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autonomous mobile robots",
+   "products": [
+    "M01",
+    "M02",
+    "Mobility Specific Platform",
+    "Application-Specific Pods",
+    "Autonomous Driving Software",
+    "Fleet Mission Planner",
+    "User Bespoke Software Development Service",
+    "Microspot"
+   ],
+   "description": "Builds autonomous mobile robots, operating software and control units for government and real estate clients.",
+   "evidence": "We specialize in the development and integration of AMRs, operating software, and electronic control units and power storage units."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government entities and large real estate developers are the clients, with projects funded on a client-specific basis.",
+  "evidence": "Operating on a business model that emphasizes collaboration and shared R&D, Micropolis strategically opts for client-specific funding as a means to avoid share dilution."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

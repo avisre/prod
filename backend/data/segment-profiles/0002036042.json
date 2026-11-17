@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002036042",
+ "issuerName": "SIONNA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T12:58:20.055Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012996",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/2036042/000162828026012996/sionna-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cystic fibrosis therapies",
+   "products": [
+    "SION-719",
+    "SION-451",
+    "SION-2222",
+    "SION-109",
+    "SION-2851",
+    "SION-3067"
+   ],
+   "description": null,
+   "evidence": "This operating segment is focused on the research and development of cystic fibrosis therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

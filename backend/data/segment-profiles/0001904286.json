@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001904286",
+ "issuerName": "MIRA Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-17T00:15:02.557Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014001",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1904286/000149315226014001/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceuticals",
+   "products": [],
+   "description": "Develops and commercializes pharmaceuticals targeting neurologic and neuropsychiatric disorders.",
+   "evidence": "The Company operates in one reportable segment related to the development and commercialization of pharmaceuticals targeting neurologic and neuropsychiatric disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

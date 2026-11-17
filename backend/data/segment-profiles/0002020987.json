@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002020987",
+ "issuerName": "YHN Acquisition I Limited",
+ "builtAt": "2026-11-17T00:15:03.913Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002441",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2020987/000168316826002441/yhn_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "Blank check company formed to effect a business combination with one or more target businesses.",
+   "evidence": "Accordingly, management has determined that the Company only has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Its reported earnings are interest and dividends on investments held in its Trust Account.",
+  "evidence": "The key measures of segment profit or loss reviewed by the Company's CODM are earned on investments held in Trust Account and formation and operating costs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

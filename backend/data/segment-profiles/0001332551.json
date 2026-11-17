@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001332551",
+ "issuerName": "ACRES COMMERCIAL REALTY CORP.",
+ "builtAt": "2026-11-17T00:14:55.393Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-098916",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1332551/000119312526098916/acr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CRE lending operations",
+   "products": [
+    "CRE mortgage loans",
+    "CRE whole loans",
+    "CRE equity investments"
+   ],
+   "description": "Originates, holds and manages commercial real estate mortgage loans and equity investments for middle-market borrowers in U.S. markets.",
+   "evidence": "The Company's management directs operations on a consolidated basis as a single operating segment, CRE lending operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Income comes mainly from the spread between interest earned on CRE loans and the cost of financing them, plus rental income from direct property equity investments.",
+  "evidence": "We generate our income primarily from the spread between the revenues we receive from our interest-bearing assets and the cost to finance our ownership of those assets, including corporate debt."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

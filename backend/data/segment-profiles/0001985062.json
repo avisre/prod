@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001985062",
+ "issuerName": "PSYENCE BIOMEDICAL LTD",
+ "builtAt": "2026-11-17T00:15:03.391Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-070607",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1985062/000121390026070607/ea0294983-20f_psyence.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Psychedelic-based therapeutics",
+   "products": [
+    "NPX-5",
+    "PEX010"
+   ],
+   "description": "Clinical-stage biopharmaceutical developing nature-derived psilocybin treatments for mental health disorders, including adjustment disorder in palliative care.",
+   "evidence": "The Company is a multi-asset, vertically integrated biopharmaceutical company focused on psychedelic-based therapeutics, with pharmaceutical-grade drug candidates manufactured through its investment in PsyLabs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investors fund the company through equity and convertible debt; it has no approved products and has generated no revenue.",
+  "evidence": "To date, no products have been approved for commercial sale and Psyence has not generated any revenue."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

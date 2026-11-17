@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001287865",
+ "issuerName": "MEDICAL PROPERTIES TRUST INC",
+ "builtAt": "2026-11-16T12:49:58.402Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073587",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1287865/000119312526073587/mpt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare real estate",
+   "products": [
+    "investments in healthcare real estate",
+    "other loans",
+    "investments in our tenants"
+   ],
+   "description": "Leases hospitals and other healthcare facilities to operators under long-term net leases, plus related loans and tenant investments.",
+   "evidence": "Our investments in healthcare real estate, other loans, and any investments in our tenants are considered a single reportable segment as further discussed in Note 2 of Item 8 of this Annual Report on Form 10-K."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare operating companies pay rent under long-term net leases on healthcare facilities the company acquires or develops.",
+  "evidence": "Our primary business strategy and source of revenue is from the acquisition and development of healthcare facilities that are leased to healthcare operating companies under long-term net leases, which require the tenant to bear most of the costs associated with the property."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

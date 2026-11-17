@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001849867",
+ "issuerName": "CATALYST BANCORP, INC.",
+ "builtAt": "2026-11-17T00:15:01.722Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037676",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1849867/000110465926037676/clst-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [],
+   "description": "Runs banking operations that earn income mainly from loans, investment securities, and loan and deposit service fees.",
+   "evidence": "Therefore, the Company's banking operations are aggregated into one reportable segment, which generates income principally from interest on loans and investment securities, as well as from fees charged in connection with various loan and deposit services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on loans and customers pay fees for various loan and deposit services; investment securities also generate interest income.",
+  "evidence": "Therefore, the Company's banking operations are aggregated into one reportable segment, which generates income principally from interest on loans and investment securities, as well as from fees charged in connection with various loan and deposit services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

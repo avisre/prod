@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001821586",
+ "issuerName": "MOONLAKE IMMUNOTHERAPEUTICS",
+ "builtAt": "2026-11-16T13:00:51.025Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001821586-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1821586/000182158626000002/mnlk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical stage biotechnology",
+   "products": [
+    "SLK"
+   ],
+   "description": "Develops SLK, a tri-specific Nanobody therapy for inflammatory skin and joint diseases in dermatology and rheumatology.",
+   "evidence": "The Company operates as a single operating segment, focusing exclusively on the research, development, and eventual commercialization of its product."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No customer pays the company yet; it has not generated revenue from any programs or services.",
+  "evidence": "As of December 31, 2025, the Company's single operating segment had not generated revenue from any programs or services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

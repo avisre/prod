@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001527590",
+ "issuerName": "READY CAPITAL CORPORATION",
+ "builtAt": "2026-11-16T13:16:52.036Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013256",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1527590/000162828026013256/rc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LMM Commercial Real Estate",
+   "products": [
+    "Construction",
+    "Bridge",
+    "Fixed rate",
+    "Freddie Mac SBL program",
+    "Ready Capital Affordable"
+   ],
+   "description": "Originates and acquires LMM commercial real estate loans for businesses and investors across construction, bridge and fixed-rate products.",
+   "evidence": "The Company originates LMM loans across the full life-cycle of an LMM property including construction, bridge, stabilized and agency channels."
+  },
+  {
+   "name": "Small Business Lending",
+   "products": [
+    "SBA Section 7(a) Program",
+    "USDA loans",
+    "small business loans"
+   ],
+   "description": "Acquires, originates and services SBA-guaranteed, USDA and small business loans for owner-occupied and small business borrowers.",
+   "evidence": "The Company acquires, originates and services loans guaranteed by the SBA under the SBA Section 7(a) Program and originates and services government guaranteed loans focused on the USDA as well as originate and service small business loans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses and investors borrow from the company to buy real estate, including multi-family, office, retail and warehouse properties.",
+  "evidence": "Our loans range in original principal amounts generally up to $40 million and are used by businesses to purchase real estate used in their operations or by investors seeking to acquire multi-family, office, retail, mixed use or warehouse properties."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: We completed the disposition of our Residential Mortgage Banking segment effecti"
+ ],
+ "reader": "agent"
+}

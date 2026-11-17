@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0002083493",
+ "issuerName": "X3 Acquisition Corp. Ltd.",
+ "builtAt": "2026-11-17T00:15:06.775Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012685",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2083493/000149315226012685/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check company",
+   "products": [],
+   "description": "A blank check shell company that will seek a business combination, focused on financial services targets.",
+   "evidence": "Accordingly, management has determined that the Company only has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

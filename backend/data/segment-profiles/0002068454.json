@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0002068454",
+ "issuerName": "CSLM DIGITAL ASSET ACQUISITION CORP III, LTD",
+ "builtAt": "2026-11-17T00:15:05.487Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002517",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/2068454/000182912626002517/cslmacq3_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business combination",
+   "products": [],
+   "description": "Blank check company that expects to pursue a business combination in digital asset and financial infrastructure sectors.",
+   "evidence": "The CODM reviews loss from operations to determine if expenditures are in alignment with budgeted and contractually agreed upon amounts with service providers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "No operating revenue until a business combination; income comes from interest earned on IPO proceeds held in cash and cash equivalents.",
+  "evidence": "The Company will generate non-operating income in the form of interest income on cash and cash equivalents from the proceeds derived from the IPO."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

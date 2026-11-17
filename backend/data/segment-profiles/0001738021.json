@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001738021",
+ "issuerName": "COMPASS THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T13:11:54.366Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-001337",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1738021/000117184326001337/cmpx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development",
+   "products": [],
+   "description": "Develops proprietary antibody-based therapeutics for oncology, advancing clinical-stage product candidates to treat multiple human diseases.",
+   "evidence": "The Company's business is research and development of drug candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

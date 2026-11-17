@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001571283",
+ "issuerName": "Rexford Industrial Realty, Inc.",
+ "builtAt": "2026-11-16T12:50:54.114Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001571283-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1571283/000157128326000006/rexr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial real estate",
+   "products": [
+    "industrial properties"
+   ],
+   "description": "Owns, operates, repositions and develops industrial real estate in Southern California infill markets, for tenants leasing those properties.",
+   "evidence": "We are engaged in the business of investing in, operating, repositioning and developing industrial real estate properties located in Southern California infill markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent to lease and operate the company's industrial properties, which is its primary source of revenue.",
+  "evidence": "Our operating results depend primarily upon generating rental revenue from leasing and operating our industrial properties."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

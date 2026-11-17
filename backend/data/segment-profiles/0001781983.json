@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001781983",
+ "issuerName": "Aprea Therapeutics, Inc.",
+ "builtAt": "2026-11-17T00:15:00.381Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028068",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1781983/000110465926028068/apre-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision medicine oncology",
+   "products": [
+    "APR-1051",
+    "ATRN-119 (Mosipasertib)",
+    "APR-1602"
+   ],
+   "description": "Develops small molecule precision oncology drugs that target cancer-specific gene mutations, for patients with biomarker-defined cancers.",
+   "evidence": "The Company's chief operating decision maker (\"CODM\"), the Chief Executive Officer, manages the Company's business activities as a single operating and reportable segment at the consolidated level considering the nature of the Company's product candidates and services, class of customers and the regulatory environment in which the Company operates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

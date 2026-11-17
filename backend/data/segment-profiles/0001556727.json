@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001556727",
+ "issuerName": "First Northwest Bancorp",
+ "builtAt": "2026-11-17T00:14:57.797Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1556727/000143774926008021/fnwb20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "One-to-four family",
+    "Multi-family",
+    "Commercial real estate",
+    "Commercial business loans",
+    "Home equity",
+    "Auto and other consumer"
+   ],
+   "description": "Community bank taking deposits and making commercial, mortgage and consumer loans in Washington State.",
+   "evidence": "The Company's activities are considered to be a single industry segment for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes from interest income, fee income and other noninterest income from investments and services.",
+  "evidence": "The Company generates revenue from interest income, fee income and other noninterest income from investments and services."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001593538",
+ "issuerName": "Navient Corporation",
+ "builtAt": "2026-11-17T00:14:58.115Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076753",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1593538/000119312526076753/navi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Lending",
+   "products": [
+    "Private Education Loans",
+    "Private Education Refinance Loans",
+    "Private Education Legacy In-School Loans"
+   ],
+   "description": "Originates, owns and services refinance and in-school private education loans for students and their families.",
+   "evidence": "Navient owns, originates and services refinance and in-school Private Education Loans."
+  },
+  {
+   "name": "Federal Education Loans",
+   "products": [
+    "FFELP Loans",
+    "Federal Education Loan Servicing"
+   ],
+   "description": "Holds and services FFELP education loans guaranteed under a federal program discontinued in 2010.",
+   "evidence": "The Federal Family Education Loan Program, formerly the Guaranteed Education Loan Program, a program that was discontinued in 2010."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Reportable segment reported alongside Consumer Lending and Federal Education Loans.",
+   "evidence": "We monitor and assess our ongoing operations and results based on the following three reportable operating segments: Consumer Lending, Federal Education Loans, and Other."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Students and families borrow education loans from the company, which earns interest income on those loans.",
+  "evidence": "Private Education Loans — Education loans to students or their families that bear the full credit risk of the customer and any cosigner."
+ },
+ "changes": [
+  {
+   "text": "The Business Processing segment was divested, with its government services business sold in February 2025.",
+   "evidence": "As of February 2025, we had divested our Business Processing segment."
+  }
+ ],
+ "dropped": [],
+ "reader": "agent"
+}
