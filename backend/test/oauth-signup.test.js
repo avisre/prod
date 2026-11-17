@@ -73,7 +73,7 @@ test('a valid connector request creates a free account flagged for the trial and
     assert.equal(user.password, 'hashed:Abcdefg1');
     assert.equal(user.subscription.planId, 'free');
     assert.equal(user.subscription.status, 'active');
-    assert.equal(user.paymentRequiredAt, null, 'owes nothing');
+    assert.deepEqual(user.paymentRequiredAt, new Date('2026-10-26T12:00:00Z'), 'must pay; its first payment opens the 7-day refund');
     assert.deepEqual(user.mcpTrial, { eligible: true, grantedAt: new Date('2026-10-26T12:00:00Z'), clientId: CLIENT.clientId });
     assert.equal(mcpTrial.eligible(user), true);
     assert.deepEqual(h.cookies, ['token-u1'], 'signed in straight away');
@@ -130,10 +130,11 @@ test('only a connector-made account is eligible; a website or lapsed account is 
     assert.equal(mcpTrial.eligible({ subscription: { status: 'canceled' } }), false);
 });
 
-test('app.js: the route is mounted behind the signup limiter, and website signup still refuses plan=free', () => {
+test('app.js: the route is mounted behind the signup limiter, and website signup uses the trial', () => {
     assert.match(appSource, /app\.post\('\/oauth\/signup', subscribeLimiter, jsonParser, oauthSignup\.connectorSignupHandler\(\{/);
     assert.match(appSource, /planConfig: getPlanConfig\(FREE_PLAN_ID\)/);
-    assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID\)/);
+    assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && !trialSignup && planConfig\.planId === FREE_PLAN_ID\)/);
+    assert.match(appSource, /const trialSignup = SIGNUP_TRIAL\.enabled && !appsumoActivationSignup && planConfig\.planId !== FILING_WATCH_PLAN_ID;/);
     assert.match(appSource, /require\('\.\/signup-fields'\)/, 'field checks come from the shared module');
     assert.doesNotMatch(appSource, /^function passwordMeetsPolicy/m, 'no second copy in app.js');
     assert.doesNotMatch(appSource, /^const SMS_GATEWAY_DOMAINS = new Set/m);

@@ -89,7 +89,7 @@ test('app.js renders both offers, exposes the session check and routes the retur
 
 test('register.html carries only the connector return path through checkout', () => {
     const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'register.html'), 'utf8');
-    assert.ok(html.includes("requestedNext === 'oauth/resume' ? 'oauth/resume' : 'dashboard.html'"),
+    assert.ok(html.includes("nextParam === 'oauth/resume' ? 'oauth/resume' : 'dashboard.html'"),
         'any other ?next= falls back to the dashboard');
     assert.equal(offer.RESUME_NEXT, 'oauth/resume');
 });

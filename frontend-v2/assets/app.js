@@ -945,8 +945,8 @@
     };
     // Anon preview wall: the free questions are spent. The next rung is an
     // email for +2 more verified questions (one POST, no account — see
-    // /api/ask-trial/email), then the paid plan. Copy leads with checkout
-    // because signup is paid-first: there is no "free account" to offer.
+    // /api/ask-trial/email), then the 3-day signup trial. Copy leads with the
+    // trial because there is no card to ask for at signup.
     function askTrialWall(data) {
         const msg = (data && data.message) ? esc(data.message) : 'That was the free preview — every answer grounded in the actual SEC filings.';
         return `<div class="ask-wall">
@@ -959,14 +959,14 @@
           </div>
           <div class="ask-wall-panel">
             <h3>Get 2 more questions — leave your email.</h3>
-            <p class="sub">We email a one-click link; verifying unlocks 2 more free questions. Or start the full plan now — 50 questions a month with the filing, period and source under every figure.</p>
+            <p class="sub">We email a one-click link; verifying unlocks 2 more free questions. Or start the 3-day free trial — full website access and 5 AI questions, no card.</p>
             <form class="ask-trial-email" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
               <input class="input" type="email" required autocomplete="email" maxlength="254" placeholder="you@example.com" style="flex:1; min-width:200px;" aria-label="Email address">
               <button class="btn btn-primary" type="submit">Send 2 more →</button>
             </form>
             <p class="small faint ask-trial-msg" style="margin:8px 0 0;" role="status"></p>
-            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=monthly" style="margin-top:14px;">Start secure checkout — $79.99/month</a>
-            <p class="small faint" style="margin-top:12px;">Paid-first signup · the initial payment is refundable within 7 days. Already have an account? <a href="/login.html">Log in</a>.
+            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=monthly" style="margin-top:14px;">Start the 3-day free trial — no card</a>
+            <p class="small faint" style="margin-top:12px;">$79.99/month after the trial · refundable within 7 days · cancel anytime. Already have an account? <a href="/login.html">Log in</a>.
             Or <a href="/verify.html">verify one headline against the filing — free, no account</a>.</p>
           </div>
         </div>`;
@@ -995,6 +995,23 @@
                 if (btn) btn.disabled = false;
             }
         });
+    }
+    // Signed-in trial wall: the five-question allowance is spent but the
+    // website is still open until the 72 hours end. The CTA upgrades the SAME
+    // account, so the saved portfolios and threads stay where they are.
+    function trialAiWall(data) {
+        const q = (data && data.quota) || {};
+        const info = (data && data.trialInfo) || {};
+        const limit = Number(q.limit) || 5;
+        const hours = Number.isFinite(Number(info.hoursLeft)) ? Number(info.hoursLeft) : null;
+        return `<div class="ask-wall">
+          <div class="ask-wall-panel">
+            <h3>That was your ${limit} free AI questions.</h3>
+            <p class="sub">Your website access continues${hours === null ? '' : ` for about ${hours} more hour${hours === 1 ? '' : 's'}`}. Subscribe to keep Ask and every other product surface after the trial ends.</p>
+            <a class="btn btn-primary" href="/upgrade.html" style="margin-top:14px;">Subscribe — $79.99/month</a>
+            <p class="small faint" style="margin-top:12px;">The same account keeps your portfolios and research. No re-signup.</p>
+          </div>
+        </div>`;
     }
     function quotaWall(data) {
         const limit = (data && data.quota && Number(data.quota.limit)) || 3;
@@ -1575,23 +1592,23 @@
     }
 
     // ---------- trial banner ----------
-    // Slim bar above the nav for signed-in users: a countdown during the no-card
-    // Pro trial, and an "ended" prompt once it lapses to free. Both route to the
-    // in-app upgrade checkout. Dismissals (trial state only) hold for the session.
-    async function startUpgrade(e) {
+    // Slim bar above the nav for signed-in users. During the 72-hour trial it
+    // shows the exact time and AI questions left; after expiry it says product
+    // access is paused and points at the same-account upgrade checkout.
+    async function startUpgrade(e, plan = 'monthly') {
         if (e) e.preventDefault();
         const t = token();
-        if (!t) { location.href = '/register.html?plan=pro-annual'; return; }
+        if (!t) { location.href = '/register.html?plan=' + encodeURIComponent(plan); return; }
         try {
             const r = await fetch(`${V2.API}/checkout`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` },
-                body: JSON.stringify({ plan: 'pro-annual', next: 'dashboard.html' })
+                body: JSON.stringify({ plan, next: 'dashboard.html' })
             });
             const d = await r.json().catch(() => ({}));
             if (r.ok && d.url) { location.href = d.url; return; }
-        } catch (_) { /* fall through to the register page */ }
-        location.href = '/register.html?plan=pro-annual';
+        } catch (_) { /* fall through to the plan page */ }
+        location.href = '/upgrade.html';
     }
 
     // Returns the /api/session payload (or null) so the caller can reuse it —
@@ -1615,17 +1632,26 @@
             if (chip) chip.hidden = topTier;
         });
         if (!sub) return s;
+        const trial = s.trial;
         const ends = sub.trialEndsAt ? new Date(sub.trialEndsAt) : null;
         let html = '';
         let dismissible = false;
-        if (sub.status === 'trialing' && ends) {
+        if (trial && trial.active) {
+            if (sessionStorage.getItem('trialBannerDismissed') === '1') return s;
+            const hours = Math.max(0, Math.ceil((ends.getTime() - Date.now()) / 3600000));
+            const label = hours <= 1 ? 'Less than an hour left in your free trial' : `${hours} hours left in your free trial`;
+            const price = trial.price ? `$${Number(trial.price).toFixed(2)}/${trial.currency === 'USD' ? 'month' : trial.currency}` : 'a paid plan';
+            html = `<span>${label} · ${trial.remaining} of ${trial.limit} AI questions left · ${price} after.</span> <a href="#" data-upgrade>Keep access →</a>`;
+            dismissible = true;
+        } else if (trial && trial.expired && !['active', 'cancel_at_period_end'].includes(sub.status)) {
+            html = `<span>Your 72-hour trial has ended. Your account and portfolios are still here.</span> <a href="#" data-upgrade>Subscribe to continue →</a>`;
+        } else if (sub.status === 'trialing' && ends) {
+            // Legacy/manual comp: keep the old countdown, but never call it a
+            // signup trial or promise the five-question allowance.
             if (sessionStorage.getItem('trialBannerDismissed') === '1') return s;
             const days = Math.max(0, Math.ceil((ends.getTime() - Date.now()) / 86400000));
-            const label = days <= 1 ? 'Last day of your Pro trial' : `${days} days left in your Pro trial`;
-            html = `<span>${label} — the full AI analyst is unlocked.</span> <a href="#" data-upgrade>Keep Pro →</a>`;
+            html = `<span>${days <= 1 ? 'Last day' : days + ' days'} left on your trial account.</span> <a href="#" data-upgrade>Subscribe →</a>`;
             dismissible = true;
-        } else if (s.tier === 'free' && sub.status === 'cancelled' && !sub.activatedAt && ends && ends.getTime() < Date.now()) {
-            html = `<span>Your free Pro trial has ended.</span> <a href="#" data-upgrade>Upgrade to keep the AI analyst →</a>`;
         } else {
             return s;
         }
@@ -2526,10 +2552,18 @@
                 if (!ct.includes('text/event-stream')) {
                     const data = await r.json().catch(() => ({}));
                     closeProgress();
+                    if (r.status === 403 && data && data.code === 'EMAIL_VERIFICATION_REQUIRED') {
+                        location.href = '/verify-email.html';
+                        return;
+                    }
                     if (r.status === 401) {
-                        answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html">start secure checkout</a>.`;
+                        answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html">start the 3-day free trial</a>.`;
+                    } else if (r.status === 402 && data && data.code === 'TRIAL_STANDARD_ONLY') {
+                        answerEl.innerHTML = trialAiWall(data);
                     } else if (r.status === 429) {
-                        if (data && data.trial) {
+                        if (data && data.code === 'TRIAL_AI_LIMIT') {
+                            answerEl.innerHTML = trialAiWall(data);
+                        } else if (data && data.trial) {
                             answerEl.innerHTML = askTrialWall(data);
                             wireAskTrialEmail(answerEl, data);
                         } else {

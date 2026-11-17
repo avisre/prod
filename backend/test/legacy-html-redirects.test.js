@@ -139,11 +139,12 @@ test('every redirect target is a page that exists, and is not itself a redirect'
     }
 });
 
-test('/pricing answers a permanent redirect, not a temporary one', () => {
+test('/pricing is a real public page, while its .html twin 301s to it', () => {
     const at = APP.indexOf("app.get('/pricing'");
     assert.ok(at > 0, '/pricing route still exists');
-    assert.match(APP.slice(at, at + 200), /res\.redirect\(301,/,
-        'a 302 tells Bing the move is temporary, so /pricing keeps competing with /#pricing');
+    assert.match(APP.slice(at, at + 220), /res\.sendFile\(path\.join\(__dirname, '\.\.\/frontend-v2\/pricing\.html'\)\)/,
+        'the clean route serves the pricing page');
+    assert.equal(TABLE['/pricing.html'], '/pricing', 'the twin redirects to the clean route');
 });
 
 test('core.xml lists every redirect target except the deliberately unlisted skeleton', () => {

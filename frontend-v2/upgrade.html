@@ -41,7 +41,7 @@
         <p class="muted">Loading your plan…</p>
       </div>
 
-      <p class="provenance" id="upgrade-note" hidden>Only the tiers above your current plan are shown, so the plan you're on can't be re-purchased. A new account's first payment can be refunded within 3 days — <a href="/dashboard.html#billing-refund" rel="nofollow">request it from your dashboard</a>. Monthly is refunded in full; Annual, Pro and Desk are refunded minus the credits used, at $14.99 per 150 credits. Subscriptions can be cancelled anytime. Not investment advice.</p>
+      <p class="provenance" id="upgrade-note" hidden>Only the tiers above your current plan are shown, so the plan you're on can't be re-purchased. A new account's first payment can be refunded in full within 7 days — <a href="/dashboard.html#billing-refund" rel="nofollow">request it from your dashboard</a>. Subscriptions can be cancelled anytime. Not investment advice.</p>
 
       <p class="provenance" id="upgrade-appsumo" hidden>AppSumo licenses are upgraded through AppSumo's own account page, so entitlements stay in one place — <a id="upgrade-appsumo-link" href="#" target="_blank" rel="noopener">Upgrade your AppSumo license →</a>.</p>
 
@@ -220,10 +220,13 @@
         const planId = String(owned.planId || (session && session.tier === 'free' ? 'free' : (session && session.tier === 'pro' ? 'pro' : 'monthly'))).toLowerCase();
         const rank = (id) => { const i = LADDER.findIndex((p) => p.planId === id); return i === -1 ? -1 : i; };
         // Mask everything at or below the current plan (error prevention: a
-        // double purchase of something already owned). The nav chip's top-tier
-        // rule doesn't apply here — Desk is a real upgrade for Power — so
-        // only enterprise, which has nothing above, ranks past the ladder.
-        const myRank = planId === 'enterprise' ? LADDER.length : rank(planId);
+        // double purchase of something already owned). A trial is not a
+        // purchased rung: show the full ladder during it and after it expires,
+        // including Monthly, so the customer can subscribe without creating a
+        // second account. The nav chip's top-tier rule doesn't apply here.
+        const trialUser = Boolean(session && session.trial && (session.trial.active || session.trial.expired));
+        const ended = ['free', 'pending', 'cancelled'].includes(String(status || ''));
+        const myRank = (trialUser || ended) ? -1 : (planId === 'enterprise' ? LADDER.length : rank(planId));
 
         // Unrecognized plan state (historical planId) shows the full ladder —
         // never an empty page; the Stripe checkout itself remains authoritative.
@@ -235,7 +238,13 @@
           return;
         }
 
-        sub.textContent = `You're on ${esc(planName(session))}. Charged today, prorated — cancel anytime before renewal.`;
+        if (trialUser) {
+          sub.textContent = session.trial.active
+            ? 'Your trial is active. Choose a plan now to keep access when it ends — your account and portfolios stay the same.'
+            : 'Your trial has ended. Choose a plan to resume product and AI access on this same account.';
+        } else {
+          sub.textContent = `You're on ${esc(planName(session))}. Charged today, prorated — cancel anytime before renewal.`;
+        }
         // Group the visible rungs good/better/best so the billing variants
         // (monthly vs annual) share one card. Within a group, the first
         // remaining variant is the monthly button; the annual one renders as

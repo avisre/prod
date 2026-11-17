@@ -165,8 +165,8 @@ function ledgerCol() { return mongoose.connection.collection('credit_ledger'); }
 // was three ledger queries, one of them over the account's whole history
 // (median ~790 ms measured 2026-11-09). Every ledger write below bumps the
 // user's generation once it lands, so an entry read before a spend, grant or
-// refund is never served after it. Billing decisions (check, spend, the
-// refund quote) never read through this cache.
+// refund is never served after it. Billing decisions (check, spend) never
+// read through this cache.
 const READ_TTL_MS = 30 * 1000;
 const _readGen = new Map();   // userId -> writes seen
 const _reads = new Map();     // `${userId}|${key}` -> { at, gen, promise }
@@ -510,17 +510,6 @@ async function spend(userId, cost, reason, refId, client) {
     finally { ledgerWritten(userId); }
 }
 
-// Credits spent since a moment, per month — what a priced refund deducts
-// (refund-quote.js). Unlike used(), this THROWS on a read error: a refund must
-// not be priced off a metering blip that reads as zero.
-async function spentByMonthSince(userId, since) {
-    const rows = await ledgerCol().aggregate([
-        { $match: { userId: String(userId), delta: { $lt: 0 }, at: { $gte: new Date(since) } } },
-        { $group: { _id: '$month', total: { $sum: '$delta' } } }
-    ]).toArray();
-    return rows.map((r) => ({ month: r._id, spent: -r.total }));
-}
-
 // One step of a long Ask, charged while it runs. It is the same question as
 // the row that carries its flat price, so it adds to what Ask spent and not to
 // how many questions were asked (`step` keeps it out of monthBreakdown's count).
@@ -594,4 +583,4 @@ const LISTED_COST = { ...COST, mcp_lookup: LISTED_LOOKUP_COST, api_lookup: LISTE
 // app.js charges it and the /docs pages quote it, so the number lives in one place.
 const DEEP_THINKING_FACTOR = 3;
 
-module.exports = { askCredits, spendAskStep, refundRun, spentByMonthSince, ASK_BASE_TOKENS, ASK_TOKENS_PER_CREDIT, COST, LISTED_COST, DEEP_THINKING_FACTOR, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };
+module.exports = { askCredits, spendAskStep, refundRun, ASK_BASE_TOKENS, ASK_TOKENS_PER_CREDIT, COST, LISTED_COST, DEEP_THINKING_FACTOR, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };

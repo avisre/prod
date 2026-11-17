@@ -39,8 +39,10 @@ function config(env = process.env) {
         return Number.isFinite(n) && n >= 0 ? n : fallback;
     };
     return {
-        // One trial per account: 30 days from the first reserved call.
-        days: num(env.MCP_TRIAL_DAYS, 30),
+        // One trial per account, N days from the first reserved call. Off
+        // unless MCP_TRIAL_DAYS turns it on: there is no free tier (owner
+        // decision 2026-11-12).
+        days: num(env.MCP_TRIAL_DAYS, 0),
         // What the trial includes: enough deterministic lookups to judge the
         // data, and a handful of AI answers, which are the only calls with a
         // real per-call cost.

@@ -58,7 +58,7 @@ test('Frontend trial wall renders the inline email capture, not a dead-end notic
     assert.doesNotMatch(askTrialWallBody, /register(?:\.html)?\?plan=free/, 'no /register?plan=free links remain in the ask wall');
     assert.match(src, /api\/ask-trial\/email/);
     assert.match(src, /refundable within 7 days/);
-    assert.match(src, /Start secure checkout — \$79\.99\/month/);
+    assert.match(src, /Start the 3-day free trial — no card/);
     const quotaWall = src.match(/const ASK_PLANS = \{[\s\S]*?\};/)[0];
     assert.ok(!quotaWall.includes('\$0'), 'the unsellable Free — $0/forever card is gone from the ladder');
     assert.match(quotaWall, /'Monthly', price: '\$79\.99'/);

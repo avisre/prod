@@ -127,18 +127,23 @@ test('gurus.html renders the top-5 teaser footer and hides the locked-holdings o
     assert.match(src, /paywall-strip/);
 });
 
-test('no plan carries a trial: no no-card trial code, no Stripe trial_period_days', () => {
+test('one card-free 72-hour trial, and still no Stripe trial_period_days', () => {
     const src = appSource();
+    // The trial is our own local clock and AI meter, never a Stripe trial.
     assert.doesNotMatch(src, /startSignupTrial|startNoCardTrial|SIGNUP_TRIAL_DAYS|trial_period_days|skipTrial/);
-    // Every plan config is trialDays: 0.
+    assert.match(src, /const SIGNUP_TRIAL = signupTrial\.config\(\);/);
+    assert.match(src, /const trialSignup = SIGNUP_TRIAL\.enabled/);
+    assert.match(src, /signupTrial\.grant\(user, trialPlan\)/);
+    assert.match(src, /signupTrial\.reserveQuestion\(User, userId\)/);
+    // Plan configs remain trial-free: the product trial is not a Stripe trial.
     const fn = src.slice(src.indexOf('function getPlanConfig('), src.indexOf('function getPlanConfigByPriceId') > 0 ? src.indexOf('function getPlanConfigByPriceId') : undefined);
     const days = fn.match(/trialDays: [^\s,}]+/g) || [];
     assert.ok(days.length >= 9, 'found the plan configs');
-    assert.ok(days.every((d) => d === 'trialDays: 0'), `all trialDays are 0: ${days.join(' | ')}`);
-    // The schema field stays so existing documents keep their value.
+    assert.ok(days.every((d) => d === 'trialDays: 0'), `all plan trialDays are 0: ${days.join(' | ')}`);
+    // The free-plan 402 is skipped for the trial, but still guards a rollback.
+    assert.match(src, /REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && !trialSignup && planConfig\.planId === FREE_PLAN_ID\)/);
     assert.match(src, /signupTrialAt: \{ type: Date, default: null \}/);
-    // The paid-first 402 fires for every free-plan signup except an AppSumo redemption.
-    assert.match(src, /REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID\)/);
+    assert.match(src, /trialAiUsed: \{ type: Number, default: 0 \}/);
 });
 
 test('upgrade strip helper is a pure function exported once on window.V2', () => {

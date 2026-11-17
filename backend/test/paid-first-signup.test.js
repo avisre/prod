@@ -67,6 +67,24 @@ test('seven-day refund state is recorded and protected by an authenticated route
   assert.match(appSource, /stripe\.refunds\.create/);
 });
 
+test('every initial refund is the full payment within a fixed 7 days, connector accounts included', () => {
+  // Owner decision 2026-11-12: no env value can shorten the window, and no plan
+  // deducts credits used.
+  assert.match(appSource, /const INITIAL_REFUND_DAYS = 7;/);
+  assert.doesNotMatch(appSource, /process\.env\.INITIAL_REFUND_DAYS/);
+  assert.doesNotMatch(appSource, /refund-quote|initialRefundDeductsUsage|REFUND_NOTHING_LEFT/);
+  const route = appSource.slice(appSource.indexOf("app.post('/api/billing/refund'"), appSource.indexOf("app.post('/api/subscription/cancel'"));
+  const create = route.slice(route.indexOf('stripe.refunds.create'), route.indexOf('stripe.refunds.create') + 400);
+  assert.doesNotMatch(create, /amount/, 'no partial amount: Stripe refunds the whole charge');
+  // Trial accounts and connector signups get the window on their first paid
+  // invoice even though neither starts life with paymentRequiredAt.
+  assert.match(appSource, /function owesInitialPayment\(user\) \{\s*return Boolean\(user && \(user\.paymentRequiredAt \|\| user\.signupTrialAt \|\| \(user\.mcpTrial && user\.mcpTrial\.grantedAt\)\)\);/);
+  assert.match(appSource, /if \(!user \|\| !invoice \|\| !owesInitialPayment\(user\) \|\| user\.initialPaymentAt\) return false;/);
+  assert.match(appSource, /if \(!user\.paymentRequiredAt\) user\.paymentRequiredAt = user\.signupTrialAt \|\| user\.mcpTrial\.grantedAt;/);
+  assert.equal((appSource.match(/if \(owesInitialPayment\(user\) && !user\.initialPaymentAt && subscription\.latest_invoice\)/g) || []).length, 2, 'checkout claim + webhook');
+  assert.match(appSource, /initialSignup: owesInitialPayment\(req\.user\) && !req\.user\.initialPaymentAt/);
+});
+
 test('a refund request must carry a reason, which is stored and sent to the owner', () => {
   const route = appSource.slice(appSource.indexOf("app.post('/api/billing/refund'"));
   const claim = route.indexOf('User.findOneAndUpdate');
@@ -104,15 +122,20 @@ test('a refund request must carry a reason, which is stored and sent to the owne
   }
 });
 
-test('signup surfaces describe payment and refund terms instead of a no-card trial', () => {
-  assert.match(registerSource, /Continue to secure checkout/);
-  assert.match(registerSource, /refund within 3 days/);
+test('signup surfaces explain the 72-hour trial, its AI limit and the price after it', () => {
+  assert.match(registerSource, /72-hour free trial/);
+  assert.match(registerSource, /5 standard AI questions/);
+  assert.match(registerSource, /No card required at signup/);
+  assert.match(registerSource, /\$79\.99/);
+  assert.match(registerSource, /full refund within 7 days on every plan/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
-  assert.match(termsSource, /initial payment is refundable within 3 days/);
-  assert.match(registerSource, /amount: '\$79\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
-  assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
-  // No plan card advertises a trial or a no-card option.
-  assert.doesNotMatch(registerSource, /free-trial-card|no card required|Start my free trial/i);
+  assert.match(termsSource, /72-hour free trial/);
+  assert.match(termsSource, /five \(5\) standard AI questions/);
+  assert.match(termsSource, /initial subscription payment is refundable in full within 7 days/);
+  assert.doesNotMatch(termsSource, /minus the credits/);
+  // The signup page must not require Stripe at account creation.
+  assert.doesNotMatch(registerSource, /Continue to secure checkout/);
+  assert.doesNotMatch(registerSource, /clientSecret/);
 });
 
 // --- account creation is gated on the payment, not on the form submit -------
@@ -152,18 +175,19 @@ test('the payment is the only thing that can create the account', () => {
   assert.match(appSource, /const pendingSignupId = payload\.metadata\?\.pendingSignupId \|\| null;/);
 });
 
-test('the buyer is signed in by claiming the paid checkout, not by pre-issuing a token', () => {
+test('the trial account is created immediately, but product access waits for the email link', () => {
+  assert.match(appSource, /const trialSignup = SIGNUP_TRIAL\.enabled/);
+  assert.match(appSource, /if \(trialSignup\) \{/);
+  assert.match(appSource, /signupTrial\.grant\(user, trialPlan\)/);
+  assert.match(appSource, /const verifyUrl = issueEmailVerification\(user, req\)/);
+  assert.match(appSource, /verificationRequired: true/);
+  assert.match(appSource, /EMAIL_VERIFICATION_REQUIRED/);
+  // The paid-first holding pen remains for Filing Watch / AppSumo, but the
+  // ordinary self-serve path no longer sends the visitor to Stripe.
   assert.match(appSource, /app\.post\('\/api\/checkout\/claim', checkoutClaimLimiter/);
-  assert.match(appSource, /if \(session\.payment_status !== 'paid'\) \{/);
-  // Pending-signup only: a leaked session id can never mint a session for a
-  // pre-existing account, and a used one cannot be replayed.
-  assert.match(appSource, /if \(!pendingSignupId\) \{\s*\n\s*return res\.status\(404\)/);
-  assert.match(appSource, /if \(pending && pending\.claimedAt\) \{/);
   assert.match(appSource, /withCheckoutSessionIdParam/);
-  // Social sign-in hands back a checkout, not a session.
-  assert.match(appSource, /checkoutRequired: true,\s*\n\s*pendingSignup: true/);
-  assert.match(socialSource, /\/checkout\/claim/);
-  assert.match(registerSource, /\/checkout\/claim/);
+  assert.match(registerSource, /verificationRequired/);
+  assert.doesNotMatch(registerSource, /\/checkout\/claim/);
 });
 
 // --- AppSumo redemption must never be routed into Stripe ------------------
@@ -171,9 +195,9 @@ test('the buyer is signed in by claiming the paid checkout, not by pre-issuing a
 // a lifetime customer is charged a second time for what they own for life.
 test('an AppSumo redemption is exempt from paid-first checkout on both signup routes', () => {
   // Social sign-in reads the same signed activation token /api/subscribe uses.
-  assert.match(appSource, /const appsumoActivationSignup = isAppSumoActivationSignup\(req\);\s*\n\s*const paymentRequired = initialPaymentRequiredForSignup\(planConfig\.planId, appsumoActivationSignup\);/);
-  // The free-plan 402 is unconditional apart from the AppSumo bypass.
-  assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID\)/);
+  assert.match(appSource, /const appsumoActivationSignup = isAppSumoActivationSignup\(req\);\s*\n\s*const trialSignup = SIGNUP_TRIAL\.enabled && !appsumoActivationSignup;\s*\n\s*const paymentRequired = initialPaymentRequiredForSignup\(planConfig\.planId, appsumoActivationSignup\);/);
+  // AppSumo accounts still bypass trial/paid-first account creation.
+  assert.match(appSource, /if \(appsumoActivationSignup\) \{[\s\S]{0,400}appsumoActivation: true/);
   // And returns a real session before any Stripe branch can be reached.
   assert.match(appSource, /if \(appsumoActivationSignup\) \{[\s\S]{0,400}appsumoActivation: true/);
 });

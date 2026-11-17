@@ -88,8 +88,13 @@ test('existing accounts emit no signup, and expired receipts are dropped', async
 test('checkout return paths await the verified receipt and login fallback cannot emit a purchase', () => {
     const register = fs.readFileSync(path.join(__dirname, '../../frontend-v2/register.html'), 'utf8');
     const social = fs.readFileSync(path.join(__dirname, '../../frontend-v2/assets/social.js'), 'utf8');
-    for (const s of [register, social]) assert.match(s, /await window\.spTrackPaidSignup\(data\.conversion\)/);
+    // Trial registration is card-free and never sees a paid conversion. The
+    // remaining paid checkout return path (social / Filing Watch) must await
+    // the verified receipt.
+    assert.match(social, /await window\.spTrackPaidSignup\(data\.conversion\)/);
     assert.doesNotMatch(register, /spTrack\('subscribe'/);
+    assert.doesNotMatch(register, /await window\.spTrackPaidSignup/);
+    assert.doesNotMatch(register, /\/checkout\/claim/);
 });
 test('real claim handler gates receipts on Stripe payment and a successful account claim', async () => {
     const server = fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8');

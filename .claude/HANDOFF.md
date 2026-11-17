@@ -14,6 +14,37 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Signup trial: 72 hours, 5 AI questions — 2026-11-18 (local, NOT pushed)
+- Owner brief: Google + email/password sign-in with verified identity; one 72-hour no-card trial; 5 standard AI questions total;
+  price/trial/AI visible before signup; after expiry block product+AI until Stripe confirms payment, keep portfolios; ads landing
+  page; measure trial starts, activations, payers and acquisition cost. Production remains paid-first until an explicit deploy.
+- New `backend/trial.js`: env `TRIAL_ENABLED` (default true), `TRIAL_HOURS=72`, `TRIAL_AI_QUESTIONS=5`. `grant()` writes
+  `signupTrialAt`, `subscription.status='trialing'`, `trialEndsAt`, `trialAiUsed=0`, `trialAiLimit=5`; it refuses a second grant, so
+  Google/email switching, sign-out and device changes cannot restart. `reserveQuestion()` is an atomic conditional `$inc`, refunded
+  on blocked/error/no answer.
+- `app.js`: email signup creates the User immediately but `emailVerifiedAt=null` and sends a hashed-token link; product access is
+  blocked by `identityVerified` in `authMiddleware`, `paidOnlyDataGate`, `anonCompanyGate` and the page wall. Google sign-in marks the
+  Google-verified email and starts the trial immediately. Existing/paying/lifetime rows are grandfathered. `/api/email/verify` sets the
+  auth cookie and redirects to the dashboard; `/api/email/resend` is the only unverified product-allowed POST.
+- `userTier` maps a live trial to Core (never Pro); `hasMonitor`/`hasApiAccess` use `PAID_ACTIVE_STATUSES`, so the trial does not open
+  Monitor or API/MCP. `subscriptionGrantsProductAccess` is trial-or-paid and is used by the page wall and data gates. Expiry is still
+  `ensureSubscriptionShape()`; it cancels only local trialing rows with no Stripe subscription.
+- `POST /api/ai/chat`: trial blocks Deep thinking/Analyst/AI-Portfolio, reserves one of the five before the model call, refunds failed
+  answers, skips paid credit/usage meters, returns `trial` quota. Key Points generation is blocked during a trial; cached reads remain.
+  Anonymous Ask and the `/api/ask-trial/email` bonus close whenever `WALL_ALL_PAGES` or `WALL_PAID_ONLY` is on, so the wall has no keyless AI side door.
+  `/api/ai/chat/quota` and `/api/credits` report the five-question meter, not a paid wallet. Session exposes `trial` + `profile.emailVerified`.
+- Frontend: `register.html` is now the ads landing/signup page (Google + email, 72h/5/$79.99, no card); new `verify-email.html`,
+  `pricing.html`; `/pricing` serves it and `/pricing.html` 301s; `/start`/`/trial` 301 to `/register`. Login handles
+  `verificationRequired`; `upgrade.html` shows the full ladder during/after a trial; trial banner shows hours + AI left + price.
+  Terms/support/index copy updated. Cache stamp bumped to `20261118-trial1` everywhere.
+- Tests: new `test/signup-trial.test.js` (grant idempotence, status, concurrent 5-question reserve/refund, wiring). Updated paid-first,
+  paywall/hard-paywall, oauth-signup, anon-ask, checkout-conversions, launch-promo, legacy-redirects, oauth-signin-offer, pricing-ladder.
+  Full suite after fixes: 2387 pass / 1 known failure (`social-compose`, listed in `scripts/predeploy-known-failures.json`; live 403).
+- Open before any deploy: set `TRIAL_ENABLED=true`, `TRIAL_HOURS=72`, `TRIAL_AI_QUESTIONS=5`, `WALL_ALL_PAGES=true`,
+  `WALL_PAID_ONLY=true` in Render (prod.env.example updated). Verify real SMTP delivery of `/api/email/verify`, Google OAuth on the
+  production host, Stripe upgrade of an expired trial on the same User, and a fresh trial → 5 questions → expiry → pay browser run.
+  Do not promise connector/MCP access during the website trial; it stays paid-only.
+
 ## Segments card says what the company sells — 2026-11-14 (owner, from AppLovin showing US/non-US; local only, NOT pushed)
 - Owner's target, per company: segment(s) by name with revenue, the products in each (AppLovin: Advertising — AppLovin
   Ads, MAX, Adjust, Wurl), how it makes money, "not broken out by product" when true, segment changes (Apps sold to
@@ -25,12 +56,25 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - New: `scripts/build-segment-profiles.js` → `backend/data/segment-profiles/<cik>.json` (latest 10-K/20-F/40-F, site's
   `ai-client` 'summary'; every name/product must be in the filing text, every sentence carries a verbatim quote, no
   figures). `segment-profiles.enrich()` names a generic row and adds products; wired into `/api/company/:s/segments`,
-  `/api/demo/alpha/segments`, `revenue-breakdown.forSymbol/forPage`. Card in `company.js` (stamp `20261114-seg5`).
+  `/api/demo/alpha/segments`, `revenue-breakdown.forSymbol/forPage`. Card in `company.js` (stamp `20261118-trial1`).
 - `sec-segment-history.dropRepeats`: a year over revenue where dropping one of two equal figures reconciles exactly
   (AppLovin 2021 "Software Platform" twice, 124%) — applied to all 60 stored histories it touched.
 - **NOT RUN YET: the extraction itself** (auto mode refused the outbound EDGAR + AI calls). Until it runs no profile
   exists and the card looks as before except named regions. Pilot: `SEGMENT_PROFILES_DIR=~/Downloads/new/segment-work/pilot-profiles
   node scripts/build-segment-profiles.js --cik 1751008 --cik 6281 ...`; then all: `node scripts/build-segment-profiles.js --jobs 6`.
+
+## Paid-only, 7-day full refund for everyone — 2026-11-12 (owner: "everybody should pay … full refund in 7 days … including the connectors")
+- `INITIAL_REFUND_DAYS = 7` is now fixed in `app.js`; the Render env `INITIAL_REFUND_DAYS=3` is ignored (delete it there).
+- The credit deduction on plans above Monthly is gone (`refund-quote.js`, its test, `credits.spentByMonthSince`,
+  `initialRefundDeductsUsage` removed). `/api/billing/refund` always refunds the whole charge. Stored
+  `initialRefundUntil` values are kept, so a payment made under the 3-day terms keeps its 3-day window, refunded in full.
+- Connector accounts: `oauth-signup.js` sets `paymentRequiredAt`. `owesInitialPayment()` also accepts
+  `mcpTrial.grantedAt` (older connector accounts), and `/api/checkout` shows the refund line on their first payment.
+- `mcp-trial.js` default `days` is now 0, so the free connector trial stays off even without `MCP_TRIAL_DAYS`. The free
+  pages and anonymous Ask are still controlled by `WALL_ALL_PAGES`/`WALL_PAID_ONLY` (both true on prod). Their code
+  defaults stay false.
+- Left as is: `frontend-v2/assets/dashboard.js` still has the `policy.deductsUsage` branch. It can no longer run,
+  because the server stopped sending the field. Removing it would need an asset-stamp bump.
 
 ## Filing-backed statement repair (face16) + Q3 weekly — 2026-11-08 (owner authorized deploy after tests + predeploy)
 - `EXTRACTION_VERSION` `20261107-face16`. Rules: Alamo-type partial D&A sums corrected from the same filing's face
@@ -43,7 +87,7 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   10-Q that repeats a figure was taken as its face (CoStar Q2 SG&A, Kosmos 2025-09-30). (2) Line fill: when the newest
   filing gives two figures for one line, the next filing that gives one is used (AA Mission EPS, First Hawaiian allowance).
   Pinned by two tests dated 2026-11-08 in `statement-face.test.js` and `statement-lines.test.js`. Both were run against the
-  pre-fix code (the copy in `~/Downloads/sec-bulk/bisect`): both FAIL there and pass on the fix. The revenue-breakdown golden
+  pre-fix code (a copy in `~/Downloads/sec-bulk/bisect`, deleted 2026-11-16): both FAIL there and pass on the fix. The revenue-breakdown golden
   refresh changed only QCOM and V `fiscalYear`, FY2025 to FY2026 (new 10-Ks); rows unchanged.
 - Measured vs `99d4daaf5`: about 85.7k cells filled. 488 emptied, mostly corrections: gross receivables, cash including
   restricted cash, OtherAssets as current assets, op-costs as R&D, and notes read as faces (Plug 2019).
@@ -71,7 +115,7 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - **Commits:** 580c3115e (code: `sec-facts.js`, `sec-coverage.js`, `statement-lines.js`, `build-statement-lines.js`,
   `test/statement-face.test.js`; `EXTRACTION_VERSION` `20261107-face4`), 0b7129413 (data: 5,384 issuers, indexes,
   PGR revenue-breakdown golden). Full `predeploy.js --all` passed (2307/2308, 1 known failure). A push deploys both.
-- **Tier-1 gappy rows/stocks (`~/Downloads/sec-bulk/stmtgaps.js`, before → after):** rejected by validation
+- **Tier-1 gappy rows/stocks (`docs/statement-audit/stmtgaps.js`, before → after):** rejected by validation
   1,771/759 → 826/417; SEC has the exact tag but dropped 670/369 → 600/342; near-match tag 697/472 → 704/473
   (unchanged BY DESIGN — near-match tags such as CostsAndExpenses are never used). not_reported rose 49,143 → 49,591
   because formerly refused rows now show their genuinely unfiled cells.
@@ -82,10 +126,11 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   NII + noninterest income (39311, 712771, 721994, 792966).
 - **Vs HEAD:** 0 cells lost, 68 changed (all corrections above), 90 pre-2020 quarters rolled off the 48-quarter window.
   439 cells the re-extraction dropped were restored from HEAD (118 files, digests re-recorded, input provenance
-  restored; Cipher's double-counted shortTermDebt removed). 86 issuers keep HEAD files (`~/Downloads/sec-bulk/
+  restored; Cipher's double-counted shortTermDebt removed). 86 issuers keep HEAD files (`docs/statement-audit/
   keep-head-ciks.txt`): 69 guard/fetch cases, 16 whose industry stage fails with ERR_BAD_RESPONSE (segments would be
   lost), QCOM (FY2024 segment group lost). Re-try those 17 when SEC serves them.
-- **Traps:** compare against `SEC_BULK_DIR=~/Downloads/sec-bulk-audit-1105snap` (fresh-mtime copy of the 11-05 zip).
+- **Traps:** the 11-05 comparison zip (`~/Downloads/sec-bulk-audit-1105snap`) and all other local companyfacts.zip
+  copies were deleted 2026-11-16; download a fresh one for any new re-extract.
   `/tmp` has a user quota — predeploy failed with EDQUOT (dozens of unrelated test failures) until scratch was
   cleared; keep big outputs under `~/Downloads`. Grafting HEAD segment observations breaks provenance (they must
   cite current revenue source ids) — don't.

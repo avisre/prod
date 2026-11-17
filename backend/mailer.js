@@ -498,12 +498,58 @@ Questions? Just reply to this email.
   return { subject: 'Your StockPortfolio.pro partner application', html, text };
 }
 
+// The identity proof for a trial signup. Kept separate from the password-reset
+// mail so a customer can never confuse "prove you own this inbox" with
+// "someone is changing my password".
+function emailVerificationEmail(name, verifyUrl, hours = 24) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const safeUrl = escapeHtml(verifyUrl);
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1c1b18">
+    <h1 style="font-size:22px;margin:0 0 12px">Verify your email to start your trial</h1>
+    <p style="font-size:15px;line-height:1.6;color:#45423c">
+      Hi ${safeFirst}, click the button below and your 72-hour free trial starts immediately:
+      full website access and five AI questions. No card required.
+    </p>
+    <p style="margin:22px 0">
+      <a href="${safeUrl}" style="background:#1c1b18;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">Verify email and start trial</a>
+    </p>
+    <p style="font-size:13px;color:#726e65;line-height:1.6">
+      This link expires in ${Number(hours) || 24} hours and can be used once.<br/>
+      If the button doesn't work, paste this link into your browser:<br/>
+      <a href="${safeUrl}" style="color:#1c1b18;word-break:break-all">${safeUrl}</a>
+    </p>
+    <p style="font-size:13px;color:#726e65;line-height:1.6">
+      Didn't create an account? You can safely ignore this email.<br/>
+      — The StockPortfolio.pro team
+    </p>
+  </div>`;
+  const text = `Verify your email to start your trial
+
+Hi ${first}, open this link to verify your email and start your 72-hour free trial:
+full website access and five AI questions, no card required.
+
+${verifyUrl}
+
+This link expires in ${Number(hours) || 24} hours and can be used once.
+Didn't create an account? You can safely ignore this email.
+— The StockPortfolio.pro team`;
+  return { subject: 'Verify your email to start your StockPortfolio.pro trial', html, text };
+}
+
 // Send a single password-reset email. Never throws; returns true only on a
 // successful send (false if SMTP isn't configured or the send fails).
 async function sendPasswordResetEmail({ to, name, resetUrl } = {}) {
   if (!to || !resetUrl) return false;
   const { html, text } = passwordResetEmail(name, resetUrl);
   return sendMail({ to, subject: 'Reset your Stock Portfolio Pro password', html, text });
+}
+
+async function sendEmailVerificationEmail({ to, name, verifyUrl, hours = 24 } = {}) {
+  if (!to || !verifyUrl) return false;
+  const { subject, html, text } = emailVerificationEmail(name, verifyUrl, hours);
+  return sendMail({ to, subject, html, text });
 }
 
 // Fire onboarding + owner-notification emails for a newly created user.
@@ -841,4 +887,4 @@ async function sendBriefingPaidEmails({ name, email, priceUsd, companiesPerMonth
   return out;
 }
 
-module.exports = { refundRequestedOwnerEmail, internalCustomerEventEmail, sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, sendOwnerMail, isOwnerMailerConfigured, ownerMailConfig, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };
+module.exports = { refundRequestedOwnerEmail, internalCustomerEventEmail, sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendEmailVerificationEmail, emailVerificationEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, sendOwnerMail, isOwnerMailerConfigured, ownerMailConfig, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Verify your email — stockportfolio.pro</title>
+  <meta name="description" content="Verify your email address to start your 3-day free trial." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css?v=20261118-trial1" />
+</head>
+<body>
+  <main>
+    <div class="container" style="max-width:480px; padding-top:72px;">
+      <p class="label">One more step</p>
+      <h1 class="title-1" style="margin-top:10px;">Verify your email</h1>
+      <p class="muted small" id="intro" style="margin-top:8px; line-height:1.6;">
+        Your 72-hour trial is ready. Open the link we emailed you to prove you own this inbox and unlock the product.
+      </p>
+      <div class="card card-pad" style="margin-top:24px; display:grid; gap:14px;">
+        <p class="small" id="status" role="status" aria-live="polite" style="margin:0;"></p>
+        <button class="btn btn-primary" type="button" id="resend">Resend verification email</button>
+        <p class="small faint" style="margin:0;">The link expires in 24 hours. Check spam if it is not there in a minute.</p>
+      </div>
+      <p class="small muted" style="margin-top:16px;">Wrong email? <a href="/register.html">Create a new account</a> · Already verified? <a href="/login.html">Log in</a></p>
+    </div>
+  </main>
+  <script src="assets/app.js?v=20261118-trial1"></script>
+  <script>
+    V2.nav('');
+    const status = document.getElementById('status');
+    const resend = document.getElementById('resend');
+    const say = (text, bad) => {
+      status.textContent = text;
+      status.classList.toggle('delta-neg', Boolean(bad));
+    };
+    async function session() {
+      try {
+        const r = await fetch(`${V2.API}/session`, { credentials: 'same-origin' });
+        return r.ok ? await r.json() : null;
+      } catch (_) { return null; }
+    }
+    (async () => {
+      const s = await session();
+      if (s && (s.identityVerified || (s.profile && s.profile.emailVerified))) {
+        location.replace('/dashboard.html?verified=1');
+        return;
+      }
+      const email = s && s.profile && s.profile.email;
+      if (email) {
+        document.getElementById('intro').textContent =
+          `We sent a verification link to ${email}. Open it to start your 72-hour trial.`;
+      } else {
+        say('We could not find a signed-in account. Log in, or create an account to start the trial.', true);
+      }
+    })();
+    resend.addEventListener('click', async () => {
+      resend.disabled = true;
+      say('Sending…');
+      try {
+        const r = await fetch(`${V2.API}/email/resend`, { method: 'POST', credentials: 'same-origin' });
+        const data = await r.json().catch(() => ({}));
+        if (r.ok && data.alreadyVerified) {
+          location.replace('/dashboard.html?verified=1');
+          return;
+        }
+        if (r.ok) {
+          say('Sent. Open the new link in your inbox.');
+          if (data.verificationUrl) {
+            const a = document.createElement('a');
+            a.href = data.verificationUrl;
+            a.textContent = ' Local development link';
+            a.style.display = 'block';
+            a.style.marginTop = '8px';
+            status.appendChild(a);
+          }
+        } else {
+          say(data.message || 'Could not resend right now. Please try again.', true);
+        }
+      } catch (_) {
+        say('Network problem — please try again.', true);
+      } finally {
+        resend.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

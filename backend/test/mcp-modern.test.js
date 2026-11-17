@@ -6,6 +6,9 @@
 // with a real in-memory Mongo behind the anonymous limiter, because the
 // modern path must charge the same allowance the legacy one does.
 
+// The free connector trial is off by default since 2026-11-12 (mcp-trial.js);
+// these tests cover its code path, so they switch it on as MCP_TRIAL_DAYS would.
+process.env.MCP_TRIAL_DAYS = '30';
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const http = require('node:http');

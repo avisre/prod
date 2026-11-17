@@ -120,7 +120,7 @@ function trialSignupHtml({ clientId, redirectUri, trial, price, credits = 200 } 
     <label for="ts-e">Email</label><input id="ts-e" type="email" autocomplete="email" required>
     <label for="ts-p">Password</label><input id="ts-p" type="password" autocomplete="new-password" minlength="8" required>
     <p class="fine">At least 8 characters, with an uppercase letter, a lowercase letter and a number.</p>
-    <button type="submit">Create free account and continue</button>
+    <button type="submit">${trialOn ? 'Create free account and continue' : 'Create account and continue'}</button>
     <div class="err" id="ts-err"></div>
   </form>
 </div>`;

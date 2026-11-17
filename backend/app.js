@@ -36,7 +36,7 @@ const mcpEndpoint = require('./mcp-endpoint');
 const mcpApps = require('./mcp-apps');
 const mcpAnon = require('./mcp-anon');
 const mcpTrial = require('./mcp-trial');
-const refundQuote = require('./refund-quote');
+const signupTrial = require('./trial');
 const oauthSignup = require('./oauth-signup');
 const { SMS_GATEWAY_DOMAINS, passwordMeetsPolicy, normalizeEmail, emailLooksValid, deriveNameFromEmail } = require('./signup-fields');
 const aiPlatformEgress = require('./ai-platform-egress');
@@ -101,9 +101,41 @@ function normalizeAppSumoDiscoverySource(value) {
 // that the Pro tier has real teeth (Filing Diff, attribution, smart alerts,
 // wash-sale guard, segments, insights, 300 Ask).
 const AI_PRO_FOR_ALL = process.env.AI_PRO_FOR_ALL === 'true';
+
+// Verified identity = an email the visitor has actually received mail at, or a
+// Google identity (Google has already verified its email). Accounts created
+// before the trial rollout are grandfathered: they existed before this gate
+// and must keep working even though their old documents have no field.
+function identityVerified(user) {
+    if (!user) return false;
+    if (user.emailVerifiedAt) return true;
+    if (user.googleId) return true;
+    // Paying, lifetime and connector accounts predate this gate or have already
+    // proved an identity through Stripe/AppSumo. Never lock them out.
+    if (user.stripeCustomerId || user.stripeSubscriptionId || user.appsumoRedeemedAt || user.dealMirrorRedeemedAt) return true;
+    // A pre-trial account has neither a trial clock nor a pending verification
+    // token. That is the safe grandfather rule for every existing customer row.
+    if (!user.signupTrialAt && !user.emailVerifyToken) return true;
+    return false;
+}
+
+function subscriptionGrantsProductAccess(user, sub = (user && user.subscription) || {}) {
+    if (!sub) return false;
+    // A live signup trial is a first-class product entitlement. A paid plan, a
+    // live Stripe/manual trial and a lifetime grant also qualify through the
+    // normal active check. Expired trials are cancelled by
+    // ensureSubscriptionShape(), so this is false on the next read.
+    if (signupTrial.active(user)) return true;
+    return ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+}
+
 function userTier(user, subscription) {
     const sub = subscription || (user && user.subscription) || {};
     const planId = sub.planId || '';
+    // A signup trial is the Core website product, never the Pro AI tier. This
+    // check comes first so choosing Pro at signup does not unlock Dossiers,
+    // Monitor or an unlimited Ask allowance during the five-question trial.
+    if (signupTrial.active(user)) return 'core';
     const active = SUB_ACTIVE_STATUSES.includes(sub.status);
     // Dev is checked FIRST and returns 'free' on purpose: the plan sells
     // API/MCP credits and nothing else. Without this line it would fall through
@@ -156,7 +188,7 @@ const trialExpiryCheck = require('../jobs/trial-expiry-check');
 // still doesn't disturb the free<core<pro ladder every other gate relies on.
 function hasMonitor(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
-    const active = SUB_ACTIVE_STATUSES.includes(sub.status);
+    const active = PAID_ACTIVE_STATUSES.includes(sub.status);
     if (active && ['power', 'power-monthly', 'desk', 'enterprise', 'pro-annual'].includes(sub.planId)) return true;
     if (tierLimits.isLifetimeBuyer(req.user)) return true;
     return hasActiveTrialGrant(req.user, 'monitor');
@@ -200,7 +232,7 @@ function monitorGate(req, res, next) {
 // bypass the tier floor below.
 function hasApiAccess(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
-    const active = SUB_ACTIVE_STATUSES.includes(sub.status);
+    const active = PAID_ACTIVE_STATUSES.includes(sub.status);
     if (active && ['monthly', 'annual', 'pro-annual', 'power', 'power-monthly', 'desk', 'dev'].includes(sub.planId)) return true;
     const user = req.user;
     // A lifetime AppSumo/DealMirror grant has no billing cycle, so it isn't
@@ -816,7 +848,11 @@ const STRIPE_CANCEL_URL = process.env.STRIPE_CANCEL_URL || '';
 // explicit escape hatch for a controlled rollback or local test environment;
 // production defaults to the paid-first policy when the variable is absent.
 const REQUIRE_INITIAL_STRIPE_PAYMENT = String(process.env.REQUIRE_INITIAL_STRIPE_PAYMENT ?? 'true').toLowerCase() !== 'false';
-const INITIAL_REFUND_DAYS = Math.max(1, Math.min(30, Number.parseInt(process.env.INITIAL_REFUND_DAYS || '7', 10) || 7));
+// Every plan, website and connector alike, refunds the full initial payment
+// within 7 days (owner decision 2026-11-12). Fixed in code on purpose: an
+// INITIAL_REFUND_DAYS env value (prod once had 3) can no longer shorten the
+// window the site and the terms promise.
+const INITIAL_REFUND_DAYS = 7;
 const INITIAL_REFUND_WINDOW_MS = INITIAL_REFUND_DAYS * 24 * 60 * 60 * 1000;
 // A refund request must say why. The dashboard offers these as a list; the
 // code is what gets stored, the label is what the owner reads. 'other' needs
@@ -1072,7 +1108,18 @@ const WALL_ALL_PAGES = process.env.WALL_ALL_PAGES === 'true';
 // no-card trials and the connector's mcp-trial) in one switch, and unsetting
 // it restores the previous behaviour with no redeploy.
 const WALL_PAID_ONLY = process.env.WALL_PAID_ONLY === 'true';
+// The signup trial is a product entitlement by itself, so a 'trialing' row must
+// open the website even while WALL_PAID_ONLY is set. Paid-only checks that must
+// NOT see a trial (geo/hosting walls, Monitor, API/MCP, Stripe reconciliation)
+// use PAID_ACTIVE_STATUSES instead.
 const SUB_ACTIVE_STATUSES = WALL_PAID_ONLY ? ['active', 'cancel_at_period_end'] : ['active', 'trialing', 'cancel_at_period_end'];
+const PAID_ACTIVE_STATUSES = ['active', 'cancel_at_period_end'];
+const SIGNUP_TRIAL = signupTrial.config();
+// Accounts created before this rollout have no emailVerifiedAt field. They are
+// existing customers and must not be locked out; new accounts are verified by
+// the emailed link (or by Google). Set TRIAL_IDENTITY_CUTOFF to the deploy day.
+const TRIAL_IDENTITY_CUTOFF = new Date(process.env.TRIAL_IDENTITY_CUTOFF || '2026-11-18T00:00:00Z');
+const EMAIL_VERIFY_TTL_MS = 24 * 60 * 60 * 1000;
 const stripeAccountPreflight = {
   checkedAt: 0,
   accountId: '',
@@ -1951,13 +1998,18 @@ function isAppSumoActivationSignup(req) {
 }
 
 function initialPaymentRequiredForSignup(planId, appsumoActivation = false) {
+  if (appsumoActivation) return false;
+  // The self-serve trial is card-free for every normal plan. Filing Watch is a
+  // founder-delivered service with its own paid reservation flow and keeps its
+  // existing checkout requirement.
+  if (SIGNUP_TRIAL.enabled && normalizePlanSelection(planId) !== FILING_WATCH_PLAN_ID) return false;
   return Boolean(REQUIRE_INITIAL_STRIPE_PAYMENT
     && !appsumoActivation
     && normalizePlanSelection(planId) !== FREE_PLAN_ID) || normalizePlanSelection(planId) === FILING_WATCH_PLAN_ID;
 }
 
-// There is deliberately no free trial of any kind: every customer pays at
-// checkout. Old trialing accounts still self-expire via ensureSubscriptionShape().
+// New self-serve accounts use the one 72-hour trial in trial.js. Older
+// trialing accounts still self-expire via ensureSubscriptionShape().
 
 function createDefaultSubscription(plan = MONTHLY_PLAN_ID) {
   const planConfig = getPlanConfig(plan);
@@ -2246,7 +2298,7 @@ app.use((req, res, next) => {
 // another duplicate URL.
 const HTML_TWIN_REDIRECTS = {
     '/filing-watch.html': '/filing-watch', '/filing-watch-sample.html': '/filing-watch-sample',
-    '/index.html': '/', '/ask.html': '/ask', '/register.html': '/register',
+    '/index.html': '/', '/ask.html': '/ask', '/register.html': '/register', '/pricing.html': '/pricing',
     '/privacy.html': '/privacy', '/terms.html': '/terms', '/screener.html': '/screener',
     '/support.html': '/support', '/monitor.html': '/monitor', '/monitor-demo.html': '/monitor-demo',
     '/verify.html': '/verify', '/company.html': '/company', '/compare-dossiers.html': '/compare-dossiers',
@@ -2443,7 +2495,7 @@ const WALL_PAGE_EXEMPT_PREFIXES = [
     '/sitemaps', '/register', '/login', '/forgot-password', '/reset-password',
     '/privacy', '/terms', '/partner-terms', '/affiliate-terms', '/support',
     '/appsumo', '/dealmirror', '/lifetime', '/recharge', '/upgrade', '/checkout',
-    '/health', '/filing-watch',
+    '/health', '/filing-watch', '/verify-email', '/trial', '/start', '/pricing',
     // Machine endpoints that carry no product content and break if walled.
     // /stripe/config carries the Stripe publishable key and the launch promo
     // register.html renders from — walling it breaks checkout (it is a root
@@ -2664,12 +2716,17 @@ async function wallAllPagesMiddleware(req, res, next) {
         if (!user || Number(decoded.v || 0) !== Number(user.authVersion || 0)) {
             return wallRedirect(res, '/register');
         }
+        // Identity proof before product access. An unverified signup gets a
+        // page that can resend the link, not the product.
+        if (!identityVerified(user)) return wallRedirect(res, '/verify-email.html');
         const normalized = ensureSubscriptionShape(user);
         if (user.isModified('subscription')) await user.save().catch(() => {});
-        if (!subscriptionIsActive(normalized)) return wallRedirect(res, '/upgrade.html');
-        // WALL_PAID_ONLY: a live trial no longer opens the wall either — only
-        // a paid plan does (same predicate the geo/hosting walls use).
-        if (WALL_PAID_ONLY && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
+        // A live signup trial is a first-class product entitlement while it
+        // runs, even under WALL_PAID_ONLY. After ensureSubscriptionShape()
+        // expires it, this falls through to the upgrade page.
+        if (!subscriptionGrantsProductAccess(user, normalized)) return wallRedirect(res, '/upgrade.html');
+        // The geo/hosting walls stay paid-only: they are anti-abuse walls, not
+        // the trial paywall. A trial inside one is refused and sent to upgrade.
         if (walled && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
         if (walled === 'region') return geoWallPass(req, next, 'paid-account');
         next();
@@ -2711,11 +2768,15 @@ app.get('/sitemaps/:shard.xml', (req, res) => {
 app.get('/stocks', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
 });
-// Pricing has no standalone page — the homepage #pricing section holds the tiers.
-// Catch /pricing (a URL cold visitors guess; was a 404) and land them on it.
-// 301, not 302: this is permanent, and Bing's Site Scan flags a temporary
-// redirect on a linked URL as a page it cannot settle on (2026-09-28).
-app.get('/pricing', (req, res) => res.redirect(301, '/#pricing'));
+// Ad landing aliases. A Google Search ad can point at /start or /trial without
+// caring which spelling the site uses; both land on the one signup page that
+// explains the 72-hour trial and offers Google + email/password.
+app.get(['/start', '/trial'], (req, res) => res.redirect(301, '/register'));
+
+// Public pricing page. The hard wall keeps product pages signed-in, but a
+// visitor must always be able to see the price and the trial terms before
+// creating an account. The .html twin 301s to this clean route above.
+app.get('/pricing', (req, res) => res.sendFile(path.join(__dirname, '../frontend-v2/pricing.html')));
 // E-E-A-T transparency pages (server-rendered, public, no auth).
 app.get('/methodology', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderMethodology());
@@ -3656,6 +3717,20 @@ const UserSchema = new mongoose.Schema({
     // trial account cannot re-trial by re-registering. Distinct from the Pro
     // no-card trial's own trialGrant machinery above.
     signupTrialAt: { type: Date, default: null },
+    // The 72-hour trial's AI meter. Five standard questions in TOTAL, not per
+    // day or per device; reserveQuestion() increments atomically before a model
+    // call and refunds the reservation when no answer was delivered.
+    trialAiUsed: { type: Number, default: 0 },
+    trialAiLimit: { type: Number, default: () => signupTrial.config().aiQuestions },
+    trialActivatedAt: { type: Date, default: null },
+    trialExpiredTrackedAt: { type: Date, default: null },
+    // Email identity proof for self-serve email/password accounts. The token is
+    // stored only as a SHA-256 hash; the raw value lives in the one email. Google
+    // accounts are verified by Google's email_verified claim instead.
+    emailVerifiedAt: { type: Date, default: null },
+    emailVerifyToken: { type: String, default: null, index: true },
+    emailVerifyExpires: { type: Date, default: null },
+    emailVerifySentAt: { type: Date, default: null },
     // Campaign success/review signals are explicit and never inferred from a
     // purchase alone. They are used for the August activation gate.
     customerSuccessStatus: { type: String, enum: [null, 'yes', 'somewhat', 'not_yet'], default: null },
@@ -3718,12 +3793,9 @@ const UserSchema = new mongoose.Schema({
     initialInvoiceId: { type: String, default: null },
     initialPaymentIntentId: { type: String, default: null },
     initialChargeId: { type: String, default: null },
-    // What the first invoice actually charged (after any coupon), and whether
-    // its refund deducts the credits used since (refund-quote.js: plans priced
-    // above Monthly, decided when the payment is recorded).
+    // What the first invoice actually charged (after any coupon).
     initialPaidMinor: { type: Number, default: null },
     initialPaidCurrency: { type: String, default: null },
-    initialRefundDeductsUsage: { type: Boolean, default: false },
     // The free connector trial (mcp-trial.js) belongs only to accounts created
     // on the connector's sign-in screen (oauth-signup.js). Nothing else sets it,
     // so website signups and older plan-less accounts never get the trial.
@@ -5483,11 +5555,23 @@ async function handleDirectLtdPaid(user, payload, event) {
     });
 }
 
-// A first paid invoice starts the explicit refund window. Only users marked by
-// the new registration flow are eligible, so legacy subscribers and lifetime
-// AppSumo/DealMirror entitlements are untouched.
+// Accounts that must pay before using the product: website registrations
+// (paymentRequiredAt) and accounts created on the connector sign-in screen
+// (mcpTrial.grantedAt; connector signups made before 2026-11-12 carry no
+// paymentRequiredAt). Their first paid invoice opens the refund window.
+function owesInitialPayment(user) {
+    return Boolean(user && (user.paymentRequiredAt || user.signupTrialAt || (user.mcpTrial && user.mcpTrial.grantedAt)));
+}
+
+// A first paid invoice starts the explicit refund window. Only paid-first
+// accounts (owesInitialPayment) are eligible, so legacy subscribers and
+// lifetime AppSumo/DealMirror entitlements are untouched.
 async function recordInitialStripePayment(user, invoice, fallbackAt = new Date()) {
-    if (!user || !invoice || !user.paymentRequiredAt || user.initialPaymentAt) return false;
+    if (!user || !invoice || !owesInitialPayment(user) || user.initialPaymentAt) return false;
+    // The refund route checks paymentRequiredAt; a trial account's first payment
+    // opens the same window, and an older connector account gets it from the
+    // moment it was created.
+    if (!user.paymentRequiredAt) user.paymentRequiredAt = user.signupTrialAt || user.mcpTrial.grantedAt;
     const paidAtSeconds = Number(invoice.status_transitions && invoice.status_transitions.paid_at);
     const paidAt = Number.isFinite(paidAtSeconds) && paidAtSeconds > 0
         ? new Date(paidAtSeconds * 1000)
@@ -5506,18 +5590,47 @@ async function recordInitialStripePayment(user, invoice, fallbackAt = new Date()
     user.initialChargeId = charge || user.initialChargeId || null;
     user.initialPaidMinor = Number.isFinite(Number(invoice.amount_paid)) ? Number(invoice.amount_paid) : null;
     user.initialPaidCurrency = invoice.currency || null;
-    // The plan the invoice actually bought, read off its price; the account's
-    // stored plan is the fallback for an invoice without line items.
-    const line = invoice.lines && Array.isArray(invoice.lines.data) ? invoice.lines.data[0] : null;
-    const linePriceId = line && line.price ? (typeof line.price === 'string' ? line.price : line.price.id) : null;
-    const boughtPlan = (linePriceId && getPlanConfigByPriceId(linePriceId)) || getPlanConfig(user.subscription && user.subscription.planId);
-    user.initialRefundDeductsUsage = refundQuote.deductsUsage(boughtPlan && boughtPlan.price, CORE_PLAN_PRICE);
     await user.save();
     return true;
 }
 
 function createUserToken(user) {
     return jwt.sign({ userId: user._id, v: Number(user.authVersion || 0) }, JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
+}
+
+// Email verification for the trial. Only the SHA-256 hash is stored, so a
+// database read cannot be turned into a working verification link. The raw
+// token goes in the one email and is cleared the moment it is used.
+function emailVerifyHash(raw) {
+    return crypto.createHash('sha256').update(String(raw || '')).digest('hex');
+}
+
+function issueEmailVerification(user, req) {
+    const raw = crypto.randomBytes(32).toString('hex');
+    user.emailVerifyToken = emailVerifyHash(raw);
+    user.emailVerifyExpires = new Date(Date.now() + EMAIL_VERIFY_TTL_MS);
+    user.emailVerifySentAt = new Date();
+    const verifyUrl = `${PUBLIC_APP_URL}/api/email/verify?token=${encodeURIComponent(raw)}`;
+    return verifyUrl;
+}
+
+async function sendEmailVerification(user, verifyUrl) {
+    const sent = await mailer.sendEmailVerificationEmail({
+        to: user.email,
+        name: user.name,
+        verifyUrl,
+        hours: Math.round(EMAIL_VERIFY_TTL_MS / (60 * 60 * 1000))
+    }).catch((error) => {
+        console.error('[mailer] email verification error:', error && error.message);
+        return false;
+    });
+    // Local/dev convenience only. In production the link is in the mailbox; a
+    // response that echoed it would let anyone who can call the API verify an
+    // address they do not control.
+    if (!sent && process.env.NODE_ENV !== 'production') {
+        console.warn(`[trial] SMTP unavailable; verification link for ${user.email}: ${verifyUrl}`);
+    }
+    return sent;
 }
 
 // Records a self-serve registration that has not been paid for yet. Re-using
@@ -5759,9 +5872,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         custom_text: {
             submit: {
                 message: extraMetadata.initialSignup === true
-                    ? (refundQuote.deductsUsage(planConfig.price, CORE_PLAN_PRICE)
-                        ? `Charged today. **Refund terms for this plan:** within ${INITIAL_REFUND_DAYS} days you can request a refund of this payment **minus the credits you have used**, at $${CREDIT_TOPUP_PRICE} per ${CREDIT_TOPUP_CREDITS} credits (about $0.10 each). Your dashboard shows the exact refund before you confirm. Only the Monthly plan has a full refund.`
-                        : `Charged today. If the service is not right for you, request a full refund within ${INITIAL_REFUND_DAYS} days.`)
+                    ? `Charged today. If the service is not right for you, request a full refund within ${INITIAL_REFUND_DAYS} days.`
                     : 'Charged today for this upgrade. Cancel anytime before renewal.'
             }
         },
@@ -6135,6 +6246,26 @@ async function findOrCreateSocialUser(profile, { createIfMissing = true } = {}) 
     return { user, created };
 }
 
+// A small allowlist of authenticated routes an unverified signup may still
+// reach. Everything else is a product surface and answers
+// EMAIL_VERIFICATION_REQUIRED until the inbox link is opened. Password reset
+// and login are separate public routes and are not listed here.
+const EMAIL_VERIFICATION_ALLOWED_PATHS = new Set([
+    '/api/session',
+    '/api/email/resend',
+    '/api/password/change',
+    '/api/checkout',
+    '/api/billing/refund',
+    '/api/support',
+    '/api/account/theme'
+]);
+function emailVerificationAllowedPath(pathname) {
+    const p = String(pathname || '');
+    return EMAIL_VERIFICATION_ALLOWED_PATHS.has(p)
+        || p.startsWith('/api/admin/')
+        || p.startsWith('/api/track/');
+}
+
 // Middleware to authenticate user and enforce subscription
 async function authMiddleware(req, res, next) {
     const token = authTokenFromRequest(req);
@@ -6152,6 +6283,19 @@ async function authMiddleware(req, res, next) {
             return res.status(401).json({ message: 'Session expired. Please sign in again.' });
         }
 
+        // Identity proof comes before every product route. The session and the
+        // resend endpoint stay open so the verification page can work; login
+        // returns a token with verificationRequired instead of pretending the
+        // account is usable.
+        if (!identityVerified(user) && !emailVerificationAllowedPath(req.path)) {
+            return res.status(403).json({
+                message: 'Verify your email address to use the product. We sent you a link when you signed up.',
+                code: 'EMAIL_VERIFICATION_REQUIRED',
+                verificationRequired: true,
+                email: user.email || null
+            });
+        }
+
         const normalized = ensureSubscriptionShape(user);
         if (user.isModified('subscription')) {
             await user.save().catch(() => {});
@@ -6160,6 +6304,7 @@ async function authMiddleware(req, res, next) {
         req.userId = user._id;
         req.user = user;
         req.subscription = normalized;
+        req.identityVerified = identityVerified(user);
         ollamaUsage.setActor({ userId: user._id, email: user.email, actorType: 'user' });
         // free / core / pro — an expired or never-started subscription now
         // downgrades to the free tier (coreGate/proGate 402 on gated routes)
@@ -6193,6 +6338,7 @@ async function optionalAuth(req, res, next) {
             const normalized = ensureSubscriptionShape(user);
             req.user = user;
             req.subscription = normalized;
+            req.identityVerified = identityVerified(user);
             ollamaUsage.setActor({ userId: user._id, email: user.email, actorType: 'user' });
             req.tier = userTier(user, normalized);
         }
@@ -6268,6 +6414,7 @@ async function apiKeyAuth(req, res, next) {
         req.userId = user._id;
         req.user = user;
         req.subscription = normalized;
+        req.identityVerified = identityVerified(user);
         req.tier = userTier(user, normalized);
         req.apiKeyId = resolved.keyId || null;
         req.oauthClientId = resolved.clientId || null;
@@ -7487,8 +7634,9 @@ app.post('/api/subscribe', async (req, res) => {
     }
     const selectedPlan = normalizePlanSelection(req.body?.plan);
     const planConfig = getPlanConfig(selectedPlan);
+    const trialSignup = SIGNUP_TRIAL.enabled && !appsumoActivationSignup && planConfig.planId !== FILING_WATCH_PLAN_ID;
     const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
-    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
+    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && !trialSignup && planConfig.planId === FREE_PLAN_ID) {
         return sendApiError(
             res,
             createHttpError(402, `Please choose a paid plan to create an account. You can request a refund within ${INITIAL_REFUND_DAYS} days if the service is not right for you.`, 'PAID_PLAN_REQUIRED')
@@ -7566,6 +7714,55 @@ app.post('/api/subscribe', async (req, res) => {
         const displayName = trimmedName.length >= 2
             ? trimmedName
             : deriveNameFromEmail(normalizedEmail);
+
+        // Trial signup: the account is created now, but product access waits for
+        // the emailed identity proof. The 72-hour clock starts with the account,
+        // not with the click that happens to open the inbox later, so abandoning
+        // verification cannot buy a fresh trial.
+        if (trialSignup) {
+            const trialPlan = getPlanConfig([FREE_PLAN_ID, DEV_PLAN_ID].includes(planConfig.planId) ? MONTHLY_PLAN_ID : planConfig.planId);
+            const user = new User({ name: displayName, email: normalizedEmail, password: hashedPassword });
+            if (utm) user.signupUtm = { ...utm, capturedAt: new Date() };
+            attachSignupAttribution(user, { ...requestFields, consent: req.body && req.body.analyticsConsent === true });
+            user.subscription = ensureSubscriptionShape(user);
+            signupTrial.grant(user, trialPlan);
+            const verifyUrl = issueEmailVerification(user, req);
+            await user.save();
+            const emailSent = await sendEmailVerification(user, verifyUrl);
+            trackFunnel('signup_started', user._id, trialPlan.planName, {
+                eventName: 'signup_started',
+                authMethod: 'email',
+                selectedPlan: trialPlan.planId,
+                trial: true,
+                consent: req.body && req.body.analyticsConsent === true,
+                utm,
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
+            });
+            trackFunnel('trial_started', user._id, trialPlan.planName, {
+                eventName: 'trial_started',
+                dedupeKey: `trial-start:${String(user._id)}`,
+                authMethod: 'email',
+                selectedPlan: trialPlan.planId,
+                trialHours: SIGNUP_TRIAL.hours,
+                trialAiQuestions: SIGNUP_TRIAL.aiQuestions,
+                consent: req.body && req.body.analyticsConsent === true,
+                utm,
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
+            });
+            return res.status(200).json({
+                token: createUserToken(user),
+                verificationRequired: true,
+                email: user.email,
+                emailSent,
+                trial: signupTrial.status(user),
+                subscription: normalizeSubscription(user.subscription),
+                // Development only: SMTP may be unset locally and the operator
+                // needs the link. Production never echoes it.
+                ...(process.env.NODE_ENV !== 'production' && !emailSent ? { verificationUrl: verifyUrl } : {})
+            });
+        }
 
         // Paid-first: create no account. The identity waits in PendingSignup
         // until Stripe confirms the payment (webhook, or the claim call the
@@ -7805,7 +8002,7 @@ app.post('/api/checkout/claim', checkoutClaimLimiter, async (req, res) => {
         if (session.subscription) {
             try {
                 const subscription = await stripe.subscriptions.retrieve(session.subscription);
-                if (user.paymentRequiredAt && !user.initialPaymentAt && subscription.latest_invoice) {
+                if (owesInitialPayment(user) && !user.initialPaymentAt && subscription.latest_invoice) {
                     const initialInvoice = typeof subscription.latest_invoice === 'string'
                         ? await stripe.invoices.retrieve(subscription.latest_invoice)
                         : subscription.latest_invoice;
@@ -7969,6 +8166,17 @@ app.get('/stripe/config', (req, res) => {
         publishableKey: STRIPE_PUBLISHABLE_KEY,
         successUrl: buildStripeReturnUrl(req, { session: 'success', flow: 'register' }),
         cancelUrl: buildStripeReturnUrl(req, { session: 'cancel', flow: 'register' }),
+        // Trial copy and gates read the same numbers the server enforces. A
+        // missing env leaves the defaults (72 hours, five questions) in place.
+        trial: {
+            enabled: SIGNUP_TRIAL.enabled,
+            hours: SIGNUP_TRIAL.hours,
+            days: Math.round((SIGNUP_TRIAL.hours / 24) * 10) / 10,
+            aiQuestions: SIGNUP_TRIAL.aiQuestions,
+            price: CORE_PLAN_PRICE,
+            currency: CORE_PLAN_CURRENCY,
+            monthlyPlanId: MONTHLY_PLAN_ID
+        },
         // The September launch rate, present only while the offer window is
         // open. Pages render their price from this rather than hardcoding
         // $8.99, so the copy reverts to the list price on its own the moment
@@ -8021,8 +8229,9 @@ app.post('/api/auth/social', async (req, res) => {
         // charge them a second time for what they own for life. Same signed,
         // non-Stripe bypass /api/subscribe uses.
         const appsumoActivationSignup = isAppSumoActivationSignup(req);
+        const trialSignup = SIGNUP_TRIAL.enabled && !appsumoActivationSignup;
         const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
-        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
+        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && !trialSignup && planConfig.planId === FREE_PLAN_ID) {
             return res.status(402).json({
                 message: `Please choose a paid plan to create an account. You can request a refund within ${INITIAL_REFUND_DAYS} days if the service is not right for you.`,
                 code: 'PAID_PLAN_REQUIRED'
@@ -8033,6 +8242,37 @@ app.post('/api/auth/social', async (req, res) => {
         const utm = requestUtm(req);
         const profile = await verifySocialIdentity(provider, req.body || {});
         const { user, created } = await findOrCreateSocialUser(profile, { createIfMissing: !paymentRequired });
+
+        // Trial signup: Google's verified email is the identity proof, so the
+        // account can start immediately. The grant is conditional on no prior
+        // trial and no paid/lifetime entitlement; signing in later with Google,
+        // email/password or on another device finds this same row and therefore
+        // the same trial clock.
+        let trialGranted = false;
+        if (trialSignup && user && !user.signupTrialAt && !subscriptionIsActive(user.subscription)
+            && !user.stripeCustomerId && !user.appsumoRedeemedAt) {
+            const eligibleNewIdentity = created || (user.createdAt && new Date(user.createdAt).getTime() >= TRIAL_IDENTITY_CUTOFF.getTime());
+            if (eligibleNewIdentity) {
+                if (provider === 'google') user.emailVerifiedAt = user.emailVerifiedAt || new Date();
+                const trialPlan = getPlanConfig([FREE_PLAN_ID, DEV_PLAN_ID].includes(planConfig.planId) ? MONTHLY_PLAN_ID : planConfig.planId);
+                trialGranted = signupTrial.grant(user, trialPlan);
+                if (trialGranted) {
+                    await user.save();
+                    trackFunnel('signup_started', user._id, trialPlan.planName, {
+                        eventName: 'signup_started', authMethod: provider, selectedPlan: trialPlan.planId,
+                        trial: true, consent: req.body && req.body.analyticsConsent === true, utm,
+                        ...acquisitionFunnelFields(acquisition), ...requestFields
+                    });
+                    trackFunnel('trial_started', user._id, trialPlan.planName, {
+                        eventName: 'trial_started', dedupeKey: `trial-start:${String(user._id)}`,
+                        authMethod: provider, selectedPlan: trialPlan.planId,
+                        trialHours: SIGNUP_TRIAL.hours, trialAiQuestions: SIGNUP_TRIAL.aiQuestions,
+                        consent: req.body && req.body.analyticsConsent === true, utm,
+                        ...acquisitionFunnelFields(acquisition), ...requestFields
+                    });
+                }
+            }
+        }
 
         // Paid-first: a Google/Facebook identity we have never seen gets a
         // checkout, not an account and not a session cookie. The account is
@@ -8162,7 +8402,22 @@ app.post('/api/auth/social', async (req, res) => {
                 token: createUserToken(user),
                 subscription: normalized,
                 created,
-                provider
+                provider,
+                trial: signupTrial.status(user)
+            });
+        }
+
+        // A trial that has ended is not an abandoned checkout: sign the customer
+        // in, let the page wall take them to /upgrade.html, and never create a
+        // Stripe session they did not ask for. Signing in with Google must not be
+        // a hidden purchase button.
+        if (user.signupTrialAt && !user.paymentRequiredAt && !user.appsumoRedeemedAt) {
+            return res.status(200).json({
+                token: createUserToken(user),
+                subscription: normalized,
+                created,
+                provider,
+                trial: signupTrial.status(user)
             });
         }
 
@@ -8323,6 +8578,18 @@ app.post('/api/login', async (req, res) => {
             await user.save().catch(() => {});
         }
 
+        // A trial account that has not opened its inbox link is signed in
+        // enough to resend the email, but not enough to use the product.
+        if (!identityVerified(user)) {
+            return res.status(200).json({
+                token: createUserToken(user),
+                verificationRequired: true,
+                email: user.email,
+                subscription: normalized,
+                trial: signupTrial.status(user)
+            });
+        }
+
         // A new paid-first account may return here after cancelling checkout
         // or before the webhook has activated it. Keep the account pending and
         // resume the same Stripe checkout instead of granting free access.
@@ -8380,12 +8647,93 @@ app.post('/api/login', async (req, res) => {
 
         // Create JWT
         const token = createUserToken(user);
-        res.status(200).json({ token, subscription: normalized });
+        res.status(200).json({ token, subscription: normalized, trial: signupTrial.status(user) });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
             return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
         }
         res.status(500).json({ message: 'Unable to log in right now.' });
+    }
+});
+
+// ---- Email identity proof for trial accounts ------------------------------
+// Public by necessity: the link in the inbox is the proof. The raw token is
+// never stored, only its SHA-256 hash; opening the link verifies the address,
+// signs the browser in and sends it straight into the product.
+app.get('/api/email/verify', async (req, res) => {
+    const raw = String(req.query.token || '').trim();
+    if (!/^[a-f0-9]{64}$/i.test(raw)) {
+        return res.status(400).type('html').send('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verification link invalid</title><p style="font-family:system-ui;max-width:560px;margin:64px auto;line-height:1.6">That verification link is invalid. <a rel="nofollow" href="/register">Create a new account</a> or <a rel="nofollow" href="/login">log in</a> to request a fresh link.</p>');
+    }
+    try {
+        const user = await User.findOne({
+            emailVerifyToken: emailVerifyHash(raw),
+            emailVerifyExpires: { $gt: new Date() }
+        });
+        if (!user) {
+            return res.status(400).type('html').send('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verification link expired</title><p style="font-family:system-ui;max-width:560px;margin:64px auto;line-height:1.6">That verification link has expired or was already used. <a rel="nofollow" href="/login">Log in</a> and choose “Resend verification email”, or <a rel="nofollow" href="/register">create a new account</a>.</p>');
+        }
+        const firstVerification = !user.emailVerifiedAt;
+        user.emailVerifiedAt = user.emailVerifiedAt || new Date();
+        user.emailVerifyToken = null;
+        user.emailVerifyExpires = null;
+        // Start the one trial at verification only if it was not already
+        // granted at signup (new code grants at signup; this is the fallback for
+        // accounts created between the two writes).
+        if (!user.signupTrialAt && SIGNUP_TRIAL.enabled) {
+            signupTrial.grant(user, getPlanConfig(user.subscription && user.subscription.planId));
+        }
+        await user.save();
+        setAuthCookie(res, createUserToken(user), req);
+        if (firstVerification) {
+            trackFunnel('email_verified', user._id, user.subscription && user.subscription.planName, {
+                eventName: 'email_verified', dedupeKey: `email-verified:${String(user._id)}`, authMethod: 'email'
+            });
+            // The welcome/owner notification fires on the far side of identity
+            // proof, so an abandoned, never-verified signup sends no customer mail.
+            sendNewUserEmails({ name: user.name, email: user.email, plan: (user.subscription && user.subscription.planName) || 'Trial' })
+                .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
+            recordCustomerLifecycleEvent(user, 'signup', { source: 'direct' })
+                .catch((e) => console.error('[customers] signup registry error:', e && e.message));
+            trackFunnel('signup', user._id, user.subscription && user.subscription.planName, {
+                eventName: 'signup', authMethod: 'email', selectedPlan: user.subscription && user.subscription.planId
+            });
+            trackFunnel('signup_completed', user._id, user.subscription && user.subscription.planName, {
+                eventName: 'signup_completed', dedupeKey: `signup-complete:${String(user._id)}`,
+                authMethod: 'email', selectedPlan: user.subscription && user.subscription.planId
+            });
+        }
+        return res.redirect(302, '/dashboard.html?verified=1');
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).type('text').send('Verification is temporarily unavailable. Try again shortly.');
+        console.error('Email verification error:', error && error.message);
+        return res.status(500).type('text').send('Verification failed. Please try again.');
+    }
+});
+
+// Resend the identity link. Requires the signed-in but unverified session that
+// /api/login and /api/subscribe already return; a verified account is a no-op.
+app.post('/api/email/resend', subscribeLimiter, authMiddleware, async (req, res) => {
+    try {
+        const user = req.user;
+        if (identityVerified(user)) {
+            return res.status(200).json({ ok: true, alreadyVerified: true, message: 'This email is already verified.' });
+        }
+        if (user.emailVerifySentAt && Date.now() - new Date(user.emailVerifySentAt).getTime() < 60 * 1000) {
+            return res.status(429).json({ message: 'A verification email was just sent. Check your inbox, then try again in a minute.', code: 'VERIFY_RATE_LIMITED' });
+        }
+        const verifyUrl = issueEmailVerification(user, req);
+        await user.save();
+        const sent = await sendEmailVerification(user, verifyUrl);
+        return res.status(200).json({
+            ok: true,
+            emailSent: sent,
+            email: user.email,
+            ...(process.env.NODE_ENV !== 'production' && !sent ? { verificationUrl: verifyUrl } : {})
+        });
+    } catch (error) {
+        console.error('Email verification resend error:', error && error.message);
+        return res.status(500).json({ message: 'Could not send the verification email right now. Please try again.' });
     }
 });
 
@@ -8523,33 +8871,8 @@ app.post('/api/password/reset', async (req, res) => {
 // Refund the first Stripe payment for a paid-first signup. This is an explicit
 // customer action, limited to the recorded seven-day window and never
 // available for AppSumo/DealMirror lifetime entitlements.
-// The refund this account would get now: the payment minus plan credits used
-// since paying (refund-quote.js). Null for a full refund. Throws when the
-// ledger or Stripe can't be read, so a refund is never priced off a blip.
-async function initialRefundQuote(req, user = req.user) {
-    if (!user || user.initialRefundDeductsUsage !== true || !user.initialPaymentAt) return null;
-    let paidMinor = Number(user.initialPaidMinor);
-    let currency = user.initialPaidCurrency || null;
-    if (!Number.isFinite(paidMinor) && stripe && user.initialInvoiceId) {
-        const invoice = await stripe.invoices.retrieve(user.initialInvoiceId);
-        paidMinor = Number(invoice.amount_paid);
-        currency = currency || invoice.currency || null;
-    }
-    if (!Number.isFinite(paidMinor)) throw new Error('The initial payment amount is not available.');
-    const planId = user.subscription && user.subscription.planId;
-    return {
-        ...refundQuote.quote({
-            paidMinor,
-            spentByMonth: await credits.spentByMonthSince(user._id, user.initialPaymentAt),
-            monthlyAllowance: credits.allowance(effectiveAskLimit(req), planId, user),
-            topupPriceMinor: Math.round(CREDIT_TOPUP_PRICE * 100),
-            topupCredits: CREDIT_TOPUP_CREDITS
-        }),
-        currency: String(currency || CORE_PLAN_CURRENCY).toLowerCase(),
-        rate: { price: CREDIT_TOPUP_PRICE, credits: CREDIT_TOPUP_CREDITS }
-    };
-}
-
+// Every initial refund is the full payment, whatever the plan or the credits
+// used (owner decision 2026-11-12; the 2026-10-26 credit deduction is gone).
 app.post('/api/billing/refund', authMiddleware, async (req, res) => {
     if (!stripe) return res.status(503).json({ message: 'Refunds are temporarily unavailable. Please contact support@stockportfolio.pro.', code: 'STRIPE_UNAVAILABLE' });
     const user = req.user;
@@ -8593,20 +8916,11 @@ app.post('/api/billing/refund', authMiddleware, async (req, res) => {
             chargeId = chargeId || (typeof invoice.charge === 'string' ? invoice.charge : invoice.charge && invoice.charge.id);
         }
         if (!paymentIntentId && !chargeId) throw new Error('The initial Stripe payment reference is not available yet.');
-        // Plans above Monthly refund the payment minus the credits used.
-        const priced = await initialRefundQuote(req, claimed);
-        if (priced && priced.refundMinor <= 0) {
-            await User.updateOne({ _id: claimed._id, initialRefundStatus: 'requested' }, { $set: { initialRefundStatus: 'eligible' } }).catch(() => {});
-            return res.status(400).json({ message: 'The credits used since your payment cover the whole payment, so there is nothing left to refund. Please contact support@stockportfolio.pro if you need help.', code: 'REFUND_NOTHING_LEFT' });
-        }
+        // No amount: Stripe refunds the whole charge.
         const refund = await stripe.refunds.create({
             ...(paymentIntentId ? { payment_intent: paymentIntentId } : { charge: chargeId }),
-            ...(priced ? { amount: priced.refundMinor } : {}),
             reason: 'requested_by_customer',
-            metadata: {
-                userId: String(claimed._id), type: 'initial_seven_day_refund', refundReason: reason, ...(details ? { refundDetails: details } : {}),
-                ...(priced ? { creditsUsed: String(priced.creditsUsed), deductionMinor: String(priced.deductionMinor), paidMinor: String(priced.paidMinor) } : {})
-            }
+            metadata: { userId: String(claimed._id), type: 'initial_seven_day_refund', refundReason: reason, ...(details ? { refundDetails: details } : {}) }
         });
         if (claimed.stripeSubscriptionId) {
             await stripe.subscriptions.cancel(claimed.stripeSubscriptionId).catch((cancelError) => {
@@ -8636,10 +8950,7 @@ app.post('/api/billing/refund', authMiddleware, async (req, res) => {
             mailer.sendMail({ to: mailer.config().owner, subject: ownerMail.subject, html: ownerMail.html, text: ownerMail.text })
                 .catch((mailError) => console.error('[mailer] refund reason email error:', mailError && mailError.message));
         }
-        const refundedText = priced
-            ? `${String(refund.currency).toLowerCase() === 'usd' ? '$' : ''}${(refund.amount / 100).toFixed(2)}${String(refund.currency).toLowerCase() === 'usd' ? '' : ` ${String(refund.currency).toUpperCase()}`} was refunded (your payment minus ${priced.creditsUsed} credits used) and the subscription was cancelled.`
-            : 'Your initial payment was refunded and the subscription was cancelled.';
-        return res.status(200).json({ ok: true, status: 'refunded', message: refundedText, ...(priced ? { refundedMinor: refund.amount, creditsUsed: priced.creditsUsed } : {}) });
+        return res.status(200).json({ ok: true, status: 'refunded', message: 'Your initial payment was refunded in full and the subscription was cancelled.' });
     } catch (error) {
         await User.updateOne({ _id: claimed._id, initialRefundStatus: 'requested' }, { $set: { initialRefundStatus: 'eligible' } }).catch(() => {});
         console.error('Initial Stripe refund failed:', error && error.message);
@@ -8666,25 +8977,28 @@ app.post('/api/subscription/cancel', authMiddleware, async (req, res) => {
     }
 });
 
-// The dashboard's refund preview. Only priced while a refund is actually open;
-// a failed read shows the rule without a figure instead of breaking /api/session.
-async function sessionRefundQuote(req, user) {
-    const open = user.initialRefundStatus === 'eligible' && user.initialRefundUntil
-        && new Date(user.initialRefundUntil).getTime() >= Date.now();
-    if (!open || user.initialRefundDeductsUsage !== true) return null;
-    try { return await initialRefundQuote(req, user); }
-    catch (error) { console.error('[refund] quote failed:', error && error.message); return null; }
-}
-
 // Session route for client-side gating
 app.get('/api/session', authMiddleware, async (req, res) => {
     try {
         const user = req.user;
         const subscription = req.subscription || ensureSubscriptionShape(user);
+        const trial = signupTrial.status(user);
+        if (trial.expired && !user.trialExpiredTrackedAt) {
+            User.updateOne({ _id: user._id, trialExpiredTrackedAt: null }, { $set: { trialExpiredTrackedAt: new Date() } })
+                .then((r) => {
+                    if (r && (r.modifiedCount || r.nModified)) {
+                        trackFunnel('trial_expired', user._id, subscription.planName, {
+                            eventName: 'trial_expired', dedupeKey: `trial-expired:${String(user._id)}`,
+                            trialAiUsed: trial.used, trialAiLimit: trial.limit
+                        });
+                    }
+                }).catch(() => {});
+        }
         const profile = {
             id: user._id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            emailVerified: identityVerified(user)
         };
         // Lifetime-deal buyers (AppSumo + direct LTD share appsumoLicenseKey):
         // mirror the quota endpoint's appsumo payload so the nav tray and
@@ -8703,6 +9017,8 @@ app.get('/api/session', authMiddleware, async (req, res) => {
             ok: true,
             profile,
             subscription,
+            identityVerified: identityVerified(user),
+            trial,
             ...(appsumoPayload ? { appsumo: appsumoPayload } : {}),
             initialRefund: {
                 status: user.initialRefundStatus || 'not_eligible',
@@ -8711,10 +9027,7 @@ app.get('/api/session', authMiddleware, async (req, res) => {
                     && user.initialRefundUntil
                     && new Date(user.initialRefundUntil).getTime() >= Date.now(),
                 reasons: Object.entries(INITIAL_REFUND_REASONS).map(([id, label]) => ({ id, label })),
-                detailsMax: INITIAL_REFUND_DETAILS_MAX,
-                // Plans above Monthly: the refund is the payment minus credits used.
-                deductsUsage: user.initialRefundDeductsUsage === true,
-                quote: await sessionRefundQuote(req, user)
+                detailsMax: INITIAL_REFUND_DETAILS_MAX
             },
             onboarding: onboardingState(user),
             // The experiment's menu entry is drawn only for the one account that may use it.
@@ -9246,6 +9559,9 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
         const session = await createCheckoutSessionForUser(req.user, {
             req,
             planId,
+            // A connector account's first payment carries the 7-day full
+            // refund, so its checkout shows the refund line, not "upgrade".
+            initialSignup: owesInitialPayment(req.user) && !req.user.initialPaymentAt,
             affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user: req.user }),
             returnContext: { flow: 'upgrade', next: req.body?.next },
             metadata: {
@@ -10412,6 +10728,15 @@ function askOutcomeLog(result, mode, stream, entrypoint) {
     return require('./ask-diagnostics').outcome(result, { mode, stream, entrypoint });
 }
 async function anonAskHandler(req, res) {
+    // Product-data policy: when the pages are walled (or the paid-only platform
+    // switch is on), Ask is not an anonymous side door. The keyless previews
+    // survive only in the rollback configuration.
+    if (WALL_ALL_PAGES || WALL_PAID_ONLY) {
+        return res.status(401).json({
+            message: 'Sign in to use Ask. New accounts get a 72-hour free trial with five AI questions; no card required.',
+            code: 'ASK_AUTH', signupUrl: '/register'
+        });
+    }
     const question = String((req.body && req.body.question) || '').trim();
     const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
@@ -10505,7 +10830,12 @@ const ASK_TRIAL_DISPOSABLE_DOMAINS = new Set(['mailinator.com', 'guerrillamail.c
 function askTrialVerifyToken(email) {
     return jwt.sign({ k: 'ask_email_verify', e: email }, JWT_SECRET, { expiresIn: '3d' });
 }
-app.post('/api/ask-trial/email', askTrialEmailLimiter, optionalAuth, paidOnlyDataGate, async (req, res) => {
+app.post('/api/ask-trial/email', askTrialEmailLimiter, optionalAuth, async (req, res) => {
+    // Same policy as anonymous Ask: a walled product does not run an anonymous
+    // email-for-more-questions side channel.
+    if (WALL_ALL_PAGES || WALL_PAID_ONLY) {
+        return res.status(401).json({ message: 'Sign in to use Ask.', code: 'ASK_AUTH', signupUrl: '/register' });
+    }
     const email = String((req.body && req.body.email) || '').trim().toLowerCase().slice(0, 254);
     if (!ASK_TRIAL_EMAIL_RE.test(email)) return res.status(400).json({ message: 'Enter a valid email address.' });
     if (ASK_TRIAL_DISPOSABLE_DOMAINS.has(email.split('@')[1] || '')) {
@@ -10595,8 +10925,11 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         ? String(req.body.pageSymbol).trim().toUpperCase() : '';
     try {
         const userId = portfolioOwnerId(req);
-        const limit = effectiveAskLimit(req);
+        let limit = effectiveAskLimit(req);
         const planId = req.subscription && req.subscription.planId;
+        const trial = signupTrial.status(req.user);
+        const trialActive = trial.active;
+        let trialReservation = false;
         // Dev is API/MCP-only, and this is the one place that has to say so
         // explicitly. Every other credit-spending web surface is already out of
         // its reach — Dossier is behind proGate, Monitor behind monitorGate,
@@ -10622,6 +10955,34 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         if ((req.body && req.body.aiPaperMode) === true && aiPaper.isBetaUser(req.user)) {
             aiPaperCtx = await buildAiPaperChatCtx(userId);
         }
+        // The free trial is deliberately narrow: five standard questions in
+        // total. Analyst mode and Deep thinking are paid features that cost
+        // several times a normal answer, and the AI Portfolio experiment is
+        // beta-only. Reserve the question BEFORE any model work so parallel tabs
+        // cannot both spend the fifth one.
+        if (trialActive) {
+            if (thinking || mode === 'analyst' || aiPaperCtx) {
+                return res.status(402).json({
+                    message: 'The free trial includes five standard AI questions. Deep thinking, Analyst mode and the AI Portfolio experiment are available after subscribing.',
+                    code: 'TRIAL_STANDARD_ONLY',
+                    tier: 'core', trial: true,
+                    quota: { used: trial.used, limit: trial.limit, remaining: trial.remaining }
+                });
+            }
+            const reservation = await signupTrial.reserveQuestion(User, userId);
+            if (!reservation.ok) {
+                const st = reservation.status || trial;
+                return res.status(429).json({
+                    message: `That was the last of your ${st.limit || SIGNUP_TRIAL.aiQuestions} free AI questions. Your website access continues until the trial ends; subscribe to keep Ask.`,
+                    code: 'TRIAL_AI_LIMIT', tier: 'core', trial: true,
+                    quota: { used: st.used, limit: st.limit, remaining: 0 },
+                    trialInfo: st
+                });
+            }
+            trialReservation = true;
+            limit = reservation.status.limit;
+            req.user.trialAiUsed = reservation.status.used;
+        }
         // Two meters, one door. The AppSumo listing sells AI credits, so the wallet has to
         // be able to buy an Ask; the per-tier Ask counter stays underneath as a floor, so a
         // buyer who spends their credits on Dossiers never loses questions they already
@@ -10631,10 +10992,18 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         //
         // Both reads fail open (0 on a DB blip). That is deliberate and symmetric: an
         // outage widens this gate, it never locks a paying user out.
-        const [used, gate] = await Promise.all([
-            aiChat.getUsage(userId),
-            credits.check(userId, 'ask', limit, planId, req.user)
-        ]);
+        let used = 0;
+        let gate;
+        if (trialActive) {
+            const st = signupTrial.status(req.user);
+            used = st.used;
+            gate = { ok: true, used, allowance: st.limit, remaining: st.remaining, cost: 0, resetsAt: null };
+        } else {
+            [used, gate] = await Promise.all([
+                aiChat.getUsage(userId),
+                credits.check(userId, 'ask', limit, planId, req.user)
+            ]);
+        }
         if (!gate.ok && used >= limit) {
             const resp = {
                 message: isProUser(req)
@@ -10711,6 +11080,30 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         // Set on whichever success branch runs; returned to the client so the
         // frontend can adopt the (possibly newly created) thread id.
         let threadIdSaved = null;
+        // The reservation is settled once per request. A delivered model answer
+        // keeps it and records the first-question activation; a blocked/error/
+        // stopped run refunds it, so a failed call never burns one of the five.
+        const settleTrialReservation = async (result) => {
+            if (!trialReservation) return;
+            trialReservation = false;
+            if (result && result.source === 'ai' && result.answer) {
+                const first = await signupTrial.markActivated(User, userId);
+                trackFunnel('trial_ai_question', userId, planId, {
+                    eventName: 'trial_ai_question',
+                    dedupeKey: first ? `trial-activation:${String(userId)}` : null,
+                    questionNumber: signupTrial.status(req.user).used,
+                    trialAiLimit: signupTrial.status(req.user).limit
+                });
+            } else {
+                await signupTrial.refundQuestion(User, userId);
+                req.user.trialAiUsed = Math.max(0, Number(req.user.trialAiUsed || 0) - 1);
+            }
+        };
+        const quotaPayload = () => {
+            if (!trialActive) return { used: used + (counted ? 1 : 0), limit, remaining: Math.max(0, limit - (used + (counted ? 1 : 0))) };
+            const st = signupTrial.status(req.user);
+            return { used: st.used, limit: st.limit, remaining: st.remaining, trial: true };
+        };
 
         // Streaming mode (stream:true in the body): answer over SSE so the
         // user sees tool progress and the answer typing out instead of a
@@ -10741,7 +11134,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             // with no credits to spend, keeps the fixed-length run.
             const askRunId = 'askrun:' + require('crypto').randomUUID();
             let askStepsCharged = 0;
-            const askBudget = !aiPaperCtx && gate.remaining >= creditFactor * credits.COST.ask ? {
+            const askBudget = !trialActive && !aiPaperCtx && gate.remaining >= creditFactor * credits.COST.ask ? {
                 credits: gate.remaining,
                 creditsFor: (tokens) => creditFactor * credits.askCredits(tokens),
                 stopped: () => closed,
@@ -10779,13 +11172,14 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 // so there is no denominator to watch a model rollout against.
                 console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, true, 'web_chat')));
                 const counted = result.source === 'ai' || result.source === 'blocked';
-                if (counted) await aiChat.recordUse(userId);
+                await settleTrialReservation(result);
+                if (!trialActive && counted) await aiChat.recordUse(userId);
                 // Additive only: still gated by the Ask-specific limit above,
                 // unchanged. This makes the shared pool accurate for Dossier
                 // (which draws from it for real) without touching Ask's own
                 // gate, response shape, or upgrade-prompt logic that the
                 // frontend already depends on.
-                if (result.source === 'ai') await credits.spend(userId, thinking ? creditFactor * credits.COST.ask : 'ask', 'ask');
+                if (!trialActive && result.source === 'ai') await credits.spend(userId, thinking ? creditFactor * credits.COST.ask : 'ask', 'ask');
                 // The steps: topped up to the run's final size when it answered;
                 // kept as they stand when the reader stopped it (work done is
                 // work charged); taken back when it failed.
@@ -10801,13 +11195,15 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 const reviewPrompt = await askReviewPrompt(req.user, result).catch(() => null);
                 send('done', {
                     answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
-                    quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) },
-                    creditsUsed: (result.source === 'ai' ? creditFactor * credits.COST.ask : 0) + askStepsCharged,
+                    quota: quotaPayload(),
+                    ...(trialActive ? { trial: true } : {}),
+                    creditsUsed: trialActive ? 0 : (result.source === 'ai' ? creditFactor * credits.COST.ask : 0) + askStepsCharged,
                     threadId: threadIdSaved,
                     ...(reviewPrompt ? { reviewPrompt } : {})
                 });
             } catch (error) {
                 if (askStepsCharged) await credits.refundRun(userId, askRunId);
+                await settleTrialReservation({ source: 'error' });
                 send('error', { message: publicErrorMessage(error, 'Ask failed') });
             } finally {
                 clearInterval(ping);
@@ -10824,8 +11220,9 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         });
         console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, false, 'web_chat')));
         const counted = result.source === 'ai' || result.source === 'blocked';
-        if (counted) await aiChat.recordUse(userId);
-        if (result.source === 'ai') await credits.spend(userId, thinking ? creditFactor * credits.COST.ask : 'ask', 'ask');
+        await settleTrialReservation(result);
+        if (!trialActive && counted) await aiChat.recordUse(userId);
+        if (!trialActive && result.source === 'ai') await credits.spend(userId, thinking ? creditFactor * credits.COST.ask : 'ask', 'ask');
         if (result.source === 'ai' && !temporary && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
         if (result.source === 'ai' && !temporary) saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
         threadIdSaved = result.source === 'ai' && !temporary
@@ -10838,11 +11235,14 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const reviewPrompt = await askReviewPrompt(req.user, result).catch(() => null);
         res.json({
             answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
-            quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) },
+            quota: quotaPayload(),
+            ...(trialActive ? { trial: true } : {}),
+            creditsUsed: trialActive ? 0 : undefined,
             threadId: threadIdSaved,
             ...(reviewPrompt ? { reviewPrompt } : {})
         });
     } catch (error) {
+        await settleTrialReservation({ source: 'error' }).catch(() => {});
         if (!res.headersSent) res.status(500).json({ message: publicErrorMessage(error, 'Ask failed') });
     }
 });
@@ -11580,13 +11980,19 @@ function anonCompanyKey(req) {
         .update(visitorIp(req)).digest('hex').slice(0, 24);
 }
 function anonCompanyGate(req, res, next) {
-    // Paid-platform mode: no anonymous or free-plan allowance at all — the
-    // pages these routes serve are behind the wall, so a direct API call must
-    // not be a free side door either. Key callers are entitled accounts.
-    if (WALL_PAID_ONLY) {
+    // In trial/paid-platform mode there is no anonymous or free-plan allowance:
+    // the pages these routes serve are behind the wall, so a direct API call
+    // must not be a free side door either. Key callers are entitled accounts.
+    if (WALL_PAID_ONLY || SIGNUP_TRIAL.enabled) {
         if (req.apiKeyId) return next();
+        if (!req.user) {
+            return res.status(401).json({ message: 'Sign in to use this data.', code: 'AUTH_REQUIRED' });
+        }
+        if (!identityVerified(req.user)) {
+            return res.status(403).json({ message: 'Verify your email address to use this data.', code: 'EMAIL_VERIFICATION_REQUIRED', verificationRequired: true });
+        }
         const sub = req.subscription || (req.user && req.user.subscription) || {};
-        if (!subscriptionIsPaid(sub)) {
+        if (!subscriptionGrantsProductAccess(req.user, sub)) {
             return res.status(402).json({ message: 'A subscription is required. Choose a plan to unlock it.', code: 'SUBSCRIPTION_REQUIRED' });
         }
         return next();
@@ -11618,10 +12024,16 @@ function anonCompanyGate(req, res, next) {
 // are gated AHEAD of that allowance, so it stays the rollback behaviour and
 // never coexists with paid-only mode.
 function paidOnlyDataGate(req, res, next) {
-    if (!WALL_PAID_ONLY) return next();
+    if (!WALL_PAID_ONLY && !SIGNUP_TRIAL.enabled) return next();
     if (req.apiKeyId) return next();
+    if (!req.user) {
+        return res.status(401).json({ message: 'Sign in to use this data.', code: 'AUTH_REQUIRED' });
+    }
+    if (!identityVerified(req.user)) {
+        return res.status(403).json({ message: 'Verify your email address to use this data.', code: 'EMAIL_VERIFICATION_REQUIRED', verificationRequired: true });
+    }
     const sub = req.subscription || (req.user && req.user.subscription) || {};
-    if (!subscriptionIsPaid(sub)) {
+    if (!subscriptionGrantsProductAccess(req.user, sub)) {
         return res.status(402).json({ message: 'A subscription is required. Choose a plan to unlock it.', code: 'SUBSCRIPTION_REQUIRED' });
     }
     next();
@@ -11837,6 +12249,15 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, paidOnlyDataGate, async 
     try {
         const generate = String(req.query.generate || '') === '1';
         if (generate && !req.user) return res.status(401).json({ message: 'Authentication required' });
+        // Key Points generation is itself an AI extraction. A trial's five
+        // questions are spent through Ask; cached Key Points remain readable,
+        // but no new extraction runs during the trial.
+        if (generate && signupTrial.active(req.user)) {
+            return res.status(402).json({
+                message: 'Generating a new company dossier is an AI feature. The free trial includes five standard Ask questions; subscribe to generate dossiers.',
+                code: 'TRIAL_STANDARD_ONLY', trial: true, tier: 'core'
+            });
+        }
         // Generation is no longer tied to Insights Pro (owner, 2026-11-04): the dossier
         // is the company page's own reading of the 10-K, not a Pro-only synthesis. The
         // free-tier monthly stock cap below still applies, so cost stays bounded.
@@ -11967,6 +12388,16 @@ app.post('/api/ai/chat/feedback', authMiddleware, async (req, res) => {
 
 app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
     try {
+        const trial = signupTrial.status(req.user);
+        if (trial.active) {
+            return res.json({
+                used: trial.used, limit: trial.limit, remaining: trial.remaining,
+                pro: false, tier: 'core', trial: true, trialInfo: trial,
+                // Keep the existing client shape usable: the trial's five
+                // questions are the only AI allowance it has.
+                credits: { used: trial.used, allowance: trial.limit, remaining: trial.remaining, resetsAt: null, trial: true }
+            });
+        }
         const limit = effectiveAskLimit(req);
         const used = await aiChat.getUsage(portfolioOwnerId(req));
         const out = { used, limit, remaining: Math.max(0, limit - used), pro: isProUser(req), tier: req.tier };
@@ -12008,6 +12439,17 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
 // Ask UI, and this is new, additive surface — not a replacement for it.
 app.get('/api/credits', authMiddleware, async (req, res) => {
     try {
+        const trial = signupTrial.status(req.user);
+        if (trial.active) {
+            // The shared credit wallet is a paid-plan concept. A trial's only
+            // metered AI is its five standard questions, so the nav/profile must
+            // show that number rather than a plan allowance it has not bought.
+            return res.json({
+                used: trial.used, allowance: trial.limit, remaining: trial.remaining,
+                resetsAt: null, trial: true, trialInfo: trial,
+                activity: [], breakdown: {}, hasMonitor: false
+            });
+        }
         const planId = req.subscription && req.subscription.planId;
         // The activity list is paged from the client: a normal profile load
         // takes the small window, and only an explicit "show the whole month"
@@ -12646,7 +13088,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         ? await stripe.subscriptions.retrieve(payload.subscription)
                         : null;
                     if (subscription) {
-                        if (user.paymentRequiredAt && !user.initialPaymentAt && subscription.latest_invoice) {
+                        if (owesInitialPayment(user) && !user.initialPaymentAt && subscription.latest_invoice) {
                             try {
                                 const initialInvoice = typeof subscription.latest_invoice === 'string'
                                     ? await stripe.invoices.retrieve(subscription.latest_invoice)

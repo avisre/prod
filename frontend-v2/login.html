@@ -33,13 +33,20 @@
         </div>
         <p class="small delta-neg" id="error" role="alert" hidden></p>
       </form>
-      <p class="small muted" style="margin-top:16px;">New here? <a href="/register">Choose a plan and continue to secure checkout</a>.</p>
+      <p class="small muted" style="margin-top:16px;">New here? <a href="/register">Start the 3-day free trial — no card</a>.</p>
     </div>
   </main>
   <script src="assets/app.js?v=20261117-perf1"></script>
   <script src="assets/social.js?v=20261117-perf1"></script>
   <script>
     V2.nav('login');
+    if (new URLSearchParams(location.search).get('verified') === '1') {
+      const ok = document.createElement('p');
+      ok.className = 'small';
+      ok.style.cssText = 'margin:0 0 16px; color:var(--pos);';
+      ok.textContent = 'Email verified. Your trial is ready — log in to continue.';
+      document.querySelector('form#login-form').before(ok);
+    }
     // Keep users on the page that requested authentication, but never allow
     // an absolute or protocol-relative URL to become an open redirect.
     function safeNextPath(raw) {
@@ -100,7 +107,9 @@
           })
         });
         const data = await r.json().catch(() => ({}));
-        if (r.ok && data.url) {
+        if (r.ok && data.verificationRequired) {
+          location.href = '/verify-email.html';
+        } else if (r.ok && data.url) {
           location.href = data.url;
         } else if (r.ok && data.token) {
           location.href = '/' + nextAfterLogin;

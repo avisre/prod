@@ -1,6 +1,8 @@
 'use strict';
 
-// Free connector signup — POST /oauth/signup (owner decision 2026-10-26).
+// Connector signup — POST /oauth/signup (owner decision 2026-10-26; paid-only
+// since 2026-11-12: the account is created here but must subscribe before the
+// connector answers, and its first payment gets the 7-day full refund).
 //
 // WHY THIS EXISTS: the free MCP trial is ONLY for "MCP customers" — accounts
 // created through the connector sign-in screen (/oauth/authorize) when an
@@ -14,8 +16,9 @@
 // creates no account.
 //
 // The account is shaped like /api/subscribe's free branch: plan FREE_PLAN_ID,
-// status active, activatedAt now, no subscription trial dates and no
-// paymentRequiredAt — plus mcpTrial = { eligible: true, grantedAt, clientId },
+// status active, activatedAt now, no subscription trial dates, and
+// paymentRequiredAt = now so its first paid invoice opens the refund window
+// (recordInitialStripePayment in app.js) — plus mcpTrial = { eligible: true, grantedAt, clientId },
 // the ONLY place that flag is ever set. It is what the keyed /mcp routes read
 // to decide the account runs on the one-per-account trial (mcp-trial.js),
 // whose row never resets: the allowance does not refill, does not roll into a
@@ -101,8 +104,9 @@ function connectorSignupHandler(deps) {
             const user = new User({ name: displayName, email: normalizedEmail, password: hashedPassword });
             attachSignupAttribution(user, requestFields);
             // Shaped like /api/subscribe's free branch: an active free plan
-            // from the first moment, activated now — and no subscription
-            // trial dates, no paymentRequiredAt: this account owes nothing.
+            // from the first moment, activated now, no subscription trial
+            // dates. It still has to subscribe to use the connector, so it is
+            // marked paid-first: its first payment opens the 7-day refund.
             user.subscription = ensureSubscriptionShape(user);
             user.subscription.status = 'active';
             user.subscription.planId = planConfig.planId;
@@ -116,7 +120,7 @@ function connectorSignupHandler(deps) {
             user.subscription.activatedAt = grantedAt;
             user.subscription.renewedAt = null;
             user.subscription.lastPaymentAt = null;
-            user.paymentRequiredAt = null;
+            user.paymentRequiredAt = grantedAt;
             user.initialRefundStatus = 'not_eligible';
             // The eligibility flag is the only thing that separates a
             // connector trial account from a website one, and this is the

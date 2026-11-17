@@ -16,6 +16,9 @@ const USER = 'user-trial-1';
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 const ENV = { MCP_TRIAL_DAYS: '30', MCP_TRIAL_LOOKUPS: '25', MCP_TRIAL_ASKS: '3' };
+// status() reads process.env, and the code default is now 0 days (trial off),
+// so these tests switch the trial on the way MCP_TRIAL_DAYS would.
+process.env.MCP_TRIAL_DAYS = ENV.MCP_TRIAL_DAYS;
 
 async function mongo(t) {
     const server = await MongoMemoryServer.create();
@@ -47,7 +50,7 @@ test('the first call starts the trial: startedAt is set once, and the config is 
     // env knobs: the trial is configurable without a deploy.
     const custom = mcpTrial.config({ MCP_TRIAL_DAYS: '7', MCP_TRIAL_LOOKUPS: '11', MCP_TRIAL_ASKS: '5' });
     assert.deepEqual([custom.days, custom.lookups, custom.asks], [7, 11, 5]);
-    assert.equal(mcpTrial.config({}).days, 30, 'defaults: 30 days, 25 lookups, 3 asks');
+    assert.equal(mcpTrial.config({}).days, 0, 'defaults: trial off (0 days), 25 lookups, 3 asks');
     assert.deepEqual([mcpTrial.config({}).lookups, mcpTrial.config({}).asks], [25, 3]);
 });
 

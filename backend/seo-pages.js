@@ -404,7 +404,7 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && _sitemapInventoryCache.day === new Date().toISOString().slice(0,10) && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/filing-watch', '/filing-watch-sample', '/', '/zh', '/register', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/connect', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes',
+    const coreRoutes = ['/filing-watch', '/filing-watch-sample', '/', '/zh', '/register', '/pricing', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/connect', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes',
         // Indexable and internally linked, but in no shard until 2026-09-28 — Bing's
         // Site Scan reports exactly this as "important pages missing from sitemaps".
         // /lifetime left this list on 2026-10-07, when direct lifetime sales were retired.

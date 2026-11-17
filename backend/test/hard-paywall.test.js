@@ -75,22 +75,25 @@ test('auth, legal, redemption, and buy pages stay reachable through the wall', (
     }
 });
 
-test('page requests redirect: anonymous to register, signed-in-inactive to upgrade', () => {
+test('page requests redirect: anonymous to register, unverified to verify-email, inactive to upgrade', () => {
     const source = appSource();
     // Anonymous (no/invalid token) must never touch the DB on the way out.
     const section = wallSection();
     assert.match(section, /if \(!token\) return wallRedirect\(res, '\/register'\);/);
-    assert.match(section, /if \(!subscriptionIsActive\(normalized\)\) return wallRedirect\(res, '\/upgrade\.html'\);/);
+    assert.match(section, /if \(!identityVerified\(user\)\) return wallRedirect\(res, '\/verify-email\.html'\);/);
+    assert.match(section, /if \(!subscriptionGrantsProductAccess\(user, normalized\)\) return wallRedirect\(res, '\/upgrade\.html'\);/);
     // 302 + no-store so no shared/proxy layer ever caches the wall decision.
     assert.match(source, /function wallRedirect\(res, target\) \{\s*res\.set\('Cache-Control', 'no-store'\);\s*return res\.redirect\(302, target\);\s*\}/);
 });
 
-test('expired no-card trials are caught by the wall via ensureSubscriptionShape on read', () => {
+test('a live trial opens the wall, and ensureSubscriptionShape closes it on expiry', () => {
     const section = wallSection();
     // ensureSubscriptionShape self-expires trialing subs whose trialEndsAt has
-    // passed (app.js comp/trial guard), so the wall needs no own expiry logic.
+    // passed, so the shared product-access predicate is false on the next read.
     assert.match(section, /const normalized = ensureSubscriptionShape\(user\);/);
-    assert.match(section, /subscriptionIsActive\(normalized\)/);
+    assert.match(section, /subscriptionGrantsProductAccess\(user, normalized\)/);
+    assert.match(appSource(), /function subscriptionGrantsProductAccess\(user, sub = \(user && user\.subscription\) \|\| \{\}\) \{/);
+    assert.match(appSource(), /if \(signupTrial\.active\(user\)\) return true;/);
 });
 
 test('affiliate referral links stay open while the public research library stays walled', () => {
@@ -184,24 +187,26 @@ test('WALL_PAID_ONLY flag exists, opt-in, and defaults off when unset', () => {
     assert.match(appSource(), /const WALL_PAID_ONLY = process\.env\.WALL_PAID_ONLY === 'true';/);
 });
 
-test('paid-only mode drops trialing from every status check via one shared list', () => {
+test('paid-only statuses stay separate from the signup-trial entitlement', () => {
     const source = appSource();
-    assert.match(source, /const SUB_ACTIVE_STATUSES = WALL_PAID_ONLY \? \['active', 'cancel_at_period_end'\] : \['active', 'trialing', 'cancel_at_period_end'\];/);
-    // The three gates that read it: the tier ladder, Monitor, API/MCP access.
-    const readers = source.split('\n').filter((line) => /SUB_ACTIVE_STATUSES\.includes\(sub\.status\)/.test(line));
-    assert.equal(readers.length, 3, 'userTier, hasMonitor and hasApiAccess all read the shared list');
+    assert.match(source, /const PAID_ACTIVE_STATUSES = \['active', 'cancel_at_period_end'\];/);
+    // Monitor and API/MCP are paid features: a trial must not open them.
+    const paidReaders = source.split('\n').filter((line) => /PAID_ACTIVE_STATUSES\.includes\(sub\.status\)/.test(line));
+    assert.equal(paidReaders.length, 2, 'hasMonitor and hasApiAccess read the paid-only list');
+    // The tier ladder reads SUB_ACTIVE_STATUSES, but a live trial is mapped to
+    // Core before the planId branch so Pro features stay closed.
+    assert.match(source, /if \(signupTrial\.active\(user\)\) return 'core';/);
 });
 
-test('the page wall redirects a live trial to upgrade in paid-only mode', () => {
+test('the page wall keeps a live trial open even in paid-only mode', () => {
     const section = wallSection();
     const wall = section.slice(section.indexOf('async function wallAllPagesMiddleware'));
-    assert.match(wall, /if \(WALL_PAID_ONLY && !subscriptionIsPaid\(normalized\)\) return wallRedirect\(res, '\/upgrade\.html'\);/);
-    // The paid-only redirect sits between the active check and the geo-wall
-    // paid check, so it cannot reorder those two.
-    const activeAt = wall.indexOf('if (!subscriptionIsActive(normalized))');
-    const paidAt = wall.indexOf("if (WALL_PAID_ONLY && !subscriptionIsPaid(normalized))");
+    assert.doesNotMatch(wall, /if \(WALL_PAID_ONLY && !subscriptionIsPaid\(normalized\)\) return wallRedirect/);
+    // Product access is checked via the shared trial-or-paid predicate; the
+    // geo/hosting anti-abuse wall remains paid-only.
+    const accessAt = wall.indexOf('if (!subscriptionGrantsProductAccess(user, normalized))');
     const geoAt = wall.indexOf('if (walled && !subscriptionIsPaid(normalized))');
-    assert.ok(activeAt > -1 && paidAt > activeAt && geoAt > paidAt, 'paid-only check is between active and geo-wall checks');
+    assert.ok(accessAt > -1 && geoAt > accessAt, 'access check precedes the geo-wall paid check');
 });
 
 test('the /api/demo data surface is behind session and subscription', () => {
@@ -220,7 +225,9 @@ test('free tools and the anonymous company allowance close with the platform', (
     const source = appSource();
     assert.match(source, /app\.get\('\/api\/free-tools\/:tool', freeToolLimiter, authMiddleware,/, 'free tools API requires a session');
     const gate = source.slice(source.indexOf('function anonCompanyGate'), source.indexOf('function anonCompanyGate') + 900);
-    assert.match(gate, /if \(WALL_PAID_ONLY\) \{\s*if \(req\.apiKeyId\) return next\(\);/, 'paid-only mode has no anonymous company allowance');
+    assert.match(gate, /if \(WALL_PAID_ONLY \|\| SIGNUP_TRIAL\.enabled\) \{\s*if \(req\.apiKeyId\) return next\(\);/, 'trial/paid-only mode has no anonymous company allowance');
+    assert.match(gate, /EMAIL_VERIFICATION_REQUIRED/);
+    assert.match(gate, /subscriptionGrantsProductAccess\(req\.user, sub\)/);
 });
 
 test('the connector trial is fully retired when MCP_TRIAL_DAYS=0', () => {
@@ -237,10 +244,11 @@ test('the remaining keyless product-data routes close with the platform', () => 
     // anonymous callers are machines. One shared gate refuses them while the
     // switch is on and restores the previous open behaviour when it is off.
     const source = appSource();
-    assert.match(source, /function paidOnlyDataGate\(req, res, next\) \{\s*if \(!WALL_PAID_ONLY\) return next\(\);\s*if \(req\.apiKeyId\) return next\(\);/,
-        'the gate is flag-gated and keyed callers pass');
-    const gate = source.slice(source.indexOf('function paidOnlyDataGate'), source.indexOf('function paidOnlyDataGate') + 900);
-    assert.match(gate, /subscriptionIsPaid\(sub\)/);
+    assert.match(source, /function paidOnlyDataGate\(req, res, next\) \{\s*if \(!WALL_PAID_ONLY && !SIGNUP_TRIAL\.enabled\) return next\(\);\s*if \(req\.apiKeyId\) return next\(\);/,
+        'the gate is closed by either paid-only or the trial product policy, and keyed callers pass');
+    const gate = source.slice(source.indexOf('function paidOnlyDataGate'), source.indexOf('function paidOnlyDataGate') + 1200);
+    assert.match(gate, /identityVerified\(req\.user\)/);
+    assert.match(gate, /subscriptionGrantsProductAccess\(req\.user, sub\)/);
     assert.match(gate, /code: 'SUBSCRIPTION_REQUIRED'/);
     // Every route must resolve the session (optionalAuth) BEFORE the gate, or
     // a signed-in paying customer would be refused like a machine.
@@ -260,7 +268,6 @@ test('the remaining keyless product-data routes close with the platform', () => 
         "app.get('/api/sbc/sector-rank', optionalAuth, paidOnlyDataGate,",
         "app.post('/api/verify', freeToolLimiter, optionalAuth, paidOnlyDataGate,",
         "app.post('/api/lie', freeToolLimiter, optionalAuth, paidOnlyDataGate,",
-        "app.post('/api/ask-trial/email', askTrialEmailLimiter, optionalAuth, paidOnlyDataGate,"
     ]) {
         assert.ok(source.includes(route), `gated: ${route.slice(0, 52)}`);
     }
