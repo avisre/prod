@@ -89,6 +89,6 @@ test('every page-level Ask bar passes its symbol to the shared engine', () => {
     }
     // The same edits touched dossier.js and monitor.js, so their pages must
     // carry fresh stamps — the immutable-cache trap ships silently otherwise.
-    assert.match(read('frontend-v2/dossier.html'), /assets\/dossier\.js\?v=20261118-screener2/);
-    assert.match(read('frontend-v2/monitor.html'), /assets\/monitor\.js\?v=20261118-screener2/);
+    assert.match(read('frontend-v2/dossier.html'), /assets\/dossier\.js\?v=20261118-release1/);
+    assert.match(read('frontend-v2/monitor.html'), /assets\/monitor\.js\?v=20261118-release1/);
 });

@@ -88,13 +88,25 @@ function listingClassData(data,quote) {
 function filedAnnualRows(company,st,existing,supplements) {
  const list=supplements || require('./committed-supplements').forIssuer(p.cik(company.cik) || 'listing:'+company.symbol.replace(/\./g,'-'));
  const filed=list.filter(f=>f.sourceType==='issuer_release' && f.historyBasis==='annual' && f.statement===st && (st==='balance'?f.basis==='instant':f.basis==='annual') && f.state==='available' && f.scope==='entity');
+ return statementRows(company,st,filed,existing,'annual');
+}
+// The quarter an issuer has announced in its earnings release (8-K item 2.02) but not yet filed in a 10-Q
+// (fill-release-quarter.js): each line was kept only where the release's comparison figure matches the
+// issuer's filed one. Added only after every filed period; once the 10-Q's XBRL covers it, it is not used.
+function releaseQuarterRows(company,st,existing,perShareAllowed,supplements) {
+ const list=supplements || require('./committed-supplements').forIssuer(p.cik(company.cik) || 'listing:'+company.symbol.replace(/\./g,'-'));
+ const latest=(existing || []).map(r=>r.fiscalDateEnding).sort().pop() || '';
+ const filed=list.filter(f=>f.verificationMethod==='release_table_checked' && f.sourceType==='issuer_release' && f.historyBasis==='quarterly' && f.statement===st && (st==='balance'?f.basis==='instant':f.basis==='quarterly') && f.state==='available' && f.scope==='entity' && f.periodEnd>latest && (perShareAllowed || !/\/shares$/.test(f.unit || '')));
+ return statementRows(company,st,filed,existing,'quarterly');
+}
+function statementRows(company,st,filed,existing,periodType) {
  if(!filed.length)return {rows:[],sources:{}};
  const have=new Set((existing || []).map(r=>r.fiscalDateEnding)),periods=new Map(),sources={};
  for(const f of filed){
   const value=p.number(f.value);
   if(!p.day(f.periodEnd) || have.has(f.periodEnd) || !/^[A-Z]{3}$/.test(f.currency || '') || value===null || !Array.isArray(f.sourceIds) || !f.sourceIds.length)continue;
   let row=periods.get(f.periodEnd);
-  if(!row)periods.set(f.periodEnd,row={fiscalDateEnding:f.periodEnd,periodStart:f.periodStart || null,reportedCurrency:f.currency,periodType:st==='balance'?'instant':'annual',_sources:{},_supplemental:{form:f.filingForm || null,filingDate:f.publicationDate || null,filingUrl:f.sourceUrl || null,sourceType:f.sourceType,verificationMethod:f.verificationMethod || null}});
+  if(!row)periods.set(f.periodEnd,row={fiscalDateEnding:f.periodEnd,periodStart:f.periodStart || null,reportedCurrency:f.currency,periodType:st==='balance'?'instant':periodType,_sources:{},_supplemental:{form:f.filingForm || null,filingDate:f.publicationDate || null,filingUrl:f.sourceUrl || null,sourceType:f.sourceType,verificationMethod:f.verificationMethod || null}});
   if(row.reportedCurrency!==f.currency || row[f.field]!=null)continue;
   row[f.field]=value;row._sources[f.field]=[...f.sourceIds];
   for(const id of f.sourceIds)sources[id]={type:'sec_html_statement',cik:p.cik(company.cik),concept:f.field,label:f.definition || f.field,unit:f.unit || f.currency,rawValue:value,periodStart:f.periodStart || null,periodEnd:f.periodEnd,form:f.filingForm || null,filingDate:f.publicationDate || null,accessionNumber:(f.sourceVersions || [])[0] || null,filingUrl:f.sourceUrl,linkage:'filed_html_statement',verificationMethod:f.verificationMethod || null,accountingBasis:f.accountingBasis || null,scope:f.scope,retrievedAt:f.retrievedAt || null,extractionVersion:f.extractionVersion || null,supplemental:true};
@@ -272,8 +284,11 @@ function adapt(company,raw,data,entry,issuer) {
    });
   }
   const filedAnnual=type==='stock' && !annual.length?filedAnnualRows(company,st,annual):{rows:[],sources:{}};
-  out[st]={annualReports:[...annual,...filedAnnual.rows].sort((a,b)=>b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)),quarterlyReports:type==='stock'?(st==='cash' && softwareQuarters) || safeRows(rowsData,st,'quarterlyReports',perShareAllowed):[]};
+  const quarterly=type==='stock'?(st==='cash' && softwareQuarters) || safeRows(rowsData,st,'quarterlyReports',perShareAllowed):[];
+  const released=type==='stock' && quarterly.length?releaseQuarterRows(company,st,[...annual,...quarterly],perShareAllowed):{rows:[],sources:{}};
+  out[st]={annualReports:[...annual,...filedAnnual.rows].sort((a,b)=>b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)),quarterlyReports:[...released.rows,...quarterly]};
   if(filedAnnual.rows.length)out.provenance.sources={...out.provenance.sources,...filedAnnual.sources};
+  if(released.rows.length)out.provenance.sources={...out.provenance.sources,...released.sources};
   if(Object.keys(printedSources).length)out.provenance.sources={...out.provenance.sources,...printedSources};
  }
  if(type==='stock')out.income=incomeIdentities(out.income,out.cash);
@@ -302,4 +317,4 @@ function load(symbol,raw) {
 }
 function sourcesFor(data,row,field){return (row?._sources?.[field] || []).map(id=>data?.provenance?.sources?.[id]).filter(Boolean);}
 function getCompanyEvidence(...args){return require('./company-evidence').getCompanyEvidence(...args);}
-module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,softwareCapex,incomeIdentities,filedAnnualRows,sourcesFor,invalidate};
+module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,softwareCapex,incomeIdentities,filedAnnualRows,releaseQuarterRows,sourcesFor,invalidate};

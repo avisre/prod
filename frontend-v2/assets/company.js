@@ -2729,8 +2729,12 @@
             return { text: NM, title: 'Not meaningful: no revenue in this period' };
         if (def.label === 'Other operating expenses' && [r.operatingExpenses, r.researchAndDevelopment, r.sellingGeneralAndAdministrative].every((v) => num(v) !== null))
             return { text: '0', title: 'Operating expenses are exactly R&D plus SG&A, so nothing else remains' };
+        if (fromRelease(r)) return { text: 'n/r', title: 'Not taken from the earnings release: it prints no such line, or its figure for the year-earlier quarter did not match the filed one. The 10-Q will fill it.' };
         return { text: 'n/r', title: r._fdic ? 'Not reported: the bank’s Call Report has no figure for this line' : 'Not reported: the company’s SEC filing for this period has no figure for this line' };
     }
+    // A quarter read from the earnings release before its 10-Q is filed (backend/verified-fundamentals.js
+    // releaseQuarterRows; scripts/fill-release-quarter.js).
+    function fromRelease(r) { return r?._supplemental?.verificationMethod === 'release_table_checked'; }
     // A filled cell that is calculated from other filed figures says how (backend/verified-fundamentals.js
     // incomeIdentities; sec-facts.js ytd_difference).
     const CALC = {
@@ -3226,7 +3230,7 @@
             // Keep the period header unambiguous: the fiscal year already
             // identifies the latest column, so do not duplicate it with a
             // second "Latest" label.
-            const head = r._src ? `From the ${r._src.form} filed ${r._src.filed}` : r._fdic ? `From the bank's ${r._fdic.form} Call Report for ${r.fiscalDateEnding}, published by the FDIC (CERT ${r._fdic.cert})${r._fdic.calendarYear ? '; a calendar year, not the bank’s fiscal year' : ''}` : '';
+            const head = fromRelease(r) ? `From the earnings release (${r._supplemental.form} filed ${r._supplemental.filingDate}); the 10-Q for this quarter is not filed yet` : r._src ? `From the ${r._src.form} filed ${r._src.filed}` : r._fdic ? `From the bank's ${r._fdic.form} Call Report for ${r.fiscalDateEnding}, published by the FDIC (CERT ${r._fdic.cert})${r._fdic.calendarYear ? '; a calendar year, not the bank’s fiscal year' : ''}` : '';
             html += `<th${latest ? " class='col-now'" : ''}${head ? ` title="${esc(head)}"` : ''}>${periodLabel(r, basisState)}</th>`;
         });
         html += '</tr></thead><tbody>';
@@ -3316,6 +3320,15 @@
                 (shownLines() === 'analyst' ? 'Analyst view: the same filed figures regrouped by how the business earns and funds itself. Its subtotals and ratios are calculated from filed figures; a ratio the company reports itself can differ. ' : '') +
                 (stState === 'income' || shownLines() !== 'standard' ? 'A dotted underline marks a figure calculated from other filed figures (hover for how)' + (stState === 'income' ? '; n/r means the filing reports no such figure for that period, n/m that the figure is not meaningful' : '') + '. ' : '') +
                 '▸ unfolds a total into its components.';
+            const released = rows.find(fromRelease);
+            if (released) {
+                const link = document.createElement('a');
+                link.href = released._supplemental.filingUrl;
+                link.target = '_blank';
+                link.rel = 'noopener';
+                link.textContent = `earnings release (${released._supplemental.form} filed ${released._supplemental.filingDate})`;
+                provenance.append(` ${periodLabel(released, basisState)} is from the company’s `, link, ', ahead of its 10-Q: a line is shown only where the release’s figure for the comparison period (the year-earlier quarter; for the balance sheet, the last year end) matches the company’s filing, and the 10-Q’s figures replace it once filed.');
+            }
         }
         // Tapping anywhere on a parent row toggles its component group. The ▸
         // glyph alone is only ~12×18px — far too small to hit on a phone, which
