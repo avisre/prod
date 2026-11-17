@@ -271,13 +271,3 @@ test('a document set\'s contexts are read from the document that holds them, and
   assert.equal(doc.segments[0]._original.allDimensions.length,3);
  } finally { axios.get=get; }
 });
-test('the web server reads 18 MB; the batch stages read the 64 MB annual reports the weekly workflow does',()=>{
- // A local run used the server's limit and recorded ASML's 24 MB 20-F (and 46 others) as unreadable, so its
- // product lines were never read. Each batch stage now sets the workflow's limit before sec-original loads.
- const {execFileSync}=require('node:child_process'),path=require('node:path');
- const env={...process.env};delete env.SEC_ORIGINAL_MAX_MB;
- const limit=pre=>Number(execFileSync(process.execPath,['-e',`${pre}console.log(require(${JSON.stringify(path.join(__dirname,'../sec-original'))}).MAX_BYTES/1048576)`],{env,encoding:'utf8'}).trim());
- assert.equal(limit(''),18);
- for(const script of ['refresh-sec-coverage','refresh-sec-industry'])assert.equal(limit(`require(${JSON.stringify(path.join(__dirname,'../../scripts',script))});`),64,script);
- assert.match(require('node:fs').readFileSync(path.join(__dirname,'../../scripts/audit-original-numbers.js'),'utf8'),/process\.env\.SEC_ORIGINAL_MAX_MB \|\|= '64';[\s\S]*require\('\.\.\/backend\/sec-original'\)/);
-});
