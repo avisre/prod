@@ -125,3 +125,117 @@ test('the app wires identity proof, the trial gate and the paid-only exclusions'
     assert.match(source, /function hasApiAccess[\s\S]{0,400}PAID_ACTIVE_STATUSES\.includes\(sub\.status\)/);
     assert.match(source, /function hasMonitor[\s\S]{0,400}PAID_ACTIVE_STATUSES\.includes\(sub\.status\)/);
 });
+
+// --- Production-readiness regressions (2026-11-18 review) -------------------
+// These lift the real functions out of app.js and run them, so they fail on
+// the behaviour, not on wording.
+const APP_SOURCE = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+function fnSource(name) {
+    const start = APP_SOURCE.search(new RegExp(`(?:async )?function ${name}\\(`));
+    assert.ok(start >= 0, `${name} not found in app.js`);
+    // The body opens at the first ") {" line end; default params can hold braces.
+    let i = APP_SOURCE.indexOf(') {\n', start) + 2;
+    let depth = 0;
+    for (; i < APP_SOURCE.length; i++) {
+        if (APP_SOURCE[i] === '{') depth++;
+        else if (APP_SOURCE[i] === '}' && --depth === 0) return APP_SOURCE.slice(start, i + 1);
+    }
+    throw new Error(`unbalanced ${name}`);
+}
+function routeSource(method, route) {
+    const start = APP_SOURCE.indexOf(`app.${method}('${route}'`);
+    assert.ok(start >= 0, `${method.toUpperCase()} ${route} not found`);
+    const end = APP_SOURCE.indexOf('\n});', start);
+    return APP_SOURCE.slice(start, end);
+}
+
+function productGate({ wallPaidOnly, trialEnabled, trialActive = false }) {
+    // eslint-disable-next-line no-new-func
+    return new Function('WALL_PAID_ONLY', 'SIGNUP_TRIAL', 'signupTrial', 'FREE_PLAN_ID',
+        `${fnSource('subscriptionIsPaid')}\n${fnSource('subscriptionIsActive')}\n${fnSource('subscriptionGrantsProductAccess')}\nreturn subscriptionGrantsProductAccess;`)(
+        wallPaidOnly, { enabled: trialEnabled }, { active: () => trialActive }, 'free');
+}
+
+test('an active FREE plan (connector signup, legacy free row) never opens the product', () => {
+    const gate = productGate({ wallPaidOnly: true, trialEnabled: true });
+    assert.equal(gate({}, { planId: 'free', status: 'active' }), false, 'POST /oauth/signup must not be a free side door');
+    assert.equal(gate({}, { planId: 'monthly', status: 'trialing' }), false, 'a manual comp is not a payment');
+    assert.equal(gate({}, { planId: 'monthly', status: 'cancelled' }), false, 'an expired trial is refused');
+    assert.equal(gate({}, { planId: 'monthly', status: 'active' }), true);
+    assert.equal(gate({}, { planId: 'pro-annual', status: 'cancel_at_period_end' }), true);
+    // Trial on without WALL_PAID_ONLY is still paid-only for free rows.
+    assert.equal(productGate({ wallPaidOnly: false, trialEnabled: true })({}, { planId: 'free', status: 'active' }), false);
+    // A live signup trial opens it.
+    assert.equal(productGate({ wallPaidOnly: true, trialEnabled: true, trialActive: true })({}, { planId: 'monthly', status: 'trialing' }), true);
+    // Full rollback (both switches off) keeps the old open rule.
+    assert.equal(productGate({ wallPaidOnly: false, trialEnabled: false })({}, { planId: 'free', status: 'active' }), true);
+});
+
+test('streamed Ask quota does not read a variable declared later in the handler (TDZ crash for paid users)', () => {
+    const decl = APP_SOURCE.match(/const quotaPayload = \(([^)]*)\) => \{[\s\S]*?\n {8}\};/);
+    assert.ok(decl, 'quotaPayload declaration');
+    assert.equal(decl[1], 'usedNow', 'the answer count is passed in');
+    assert.doesNotMatch(decl[0], /\bcounted\b/, 'reading `counted` from this closure throws in the streaming branch');
+    const calls = APP_SOURCE.match(/quotaPayload\([^)]*\)/g).filter((c) => !c.startsWith('quotaPayload(usedNow)'));
+    assert.deepEqual(calls, [], 'every call passes usedNow');
+    // Reproduce the original failure shape so this test documents why.
+    const broken = () => { const q = () => counted; if (true) return q(); const counted = 1; }; // eslint-disable-line no-constant-condition
+    assert.throws(broken, ReferenceError);
+});
+
+test('Google sign-in onto an unverified email/password row drops the squatter password and sessions', async () => {
+    const saved = [];
+    const makeUser = (fields) => ({
+        _id: 'u-squat', authVersion: 0, ...fields,
+        async save() { saved.push({ ...this }); }, markModified() {}
+    });
+    const squatted = makeUser({
+        email: 'victim@example.com', password: 'bcrypt-of-attacker-password',
+        signupTrialAt: new Date(), emailVerifyToken: 'hash', emailVerifiedAt: null,
+        subscription: { planId: 'monthly', status: 'trialing' }
+    });
+    const User = {
+        async findOne(q) { return q.$or ? squatted : null; }
+    };
+    const identityVerifiedSrc = fnSource('identityVerified');
+    // eslint-disable-next-line no-new-func
+    const findOrCreate = new Function('User', 'createHttpError', 'ensureSubscriptionShape', 'recordCustomerLifecycleEvent', 'sendNewUserEmails',
+        `${identityVerifiedSrc}\n${fnSource('findOrCreateSocialUser')}\nreturn findOrCreateSocialUser;`)(
+        User, (s, m) => Object.assign(new Error(m), { status: s }), (u) => u.subscription,
+        async () => {}, async () => {});
+    const { user, created } = await findOrCreate({ provider: 'google', providerUserId: 'g-123', email: 'victim@example.com', name: 'Victim' });
+    assert.equal(created, false);
+    assert.equal(user.password, null, 'the password someone else chose no longer works');
+    assert.equal(user.authVersion, 1, 'tokens issued to the squatter are revoked');
+    assert.equal(user.emailVerifyToken, null);
+    assert.ok(user.emailVerifiedAt, 'Google has verified the address');
+    assert.equal(user.googleId, 'g-123');
+
+    // A verified row keeps its password: linking Google is not a reset.
+    saved.length = 0;
+    const owner = makeUser({ email: 'own@example.com', password: 'keep', emailVerifiedAt: new Date(), subscription: { planId: 'monthly', status: 'active' } });
+    const UserB = { async findOne(q) { return q.$or ? owner : null; } };
+    // eslint-disable-next-line no-new-func
+    const findOrCreateB = new Function('User', 'createHttpError', 'ensureSubscriptionShape', 'recordCustomerLifecycleEvent', 'sendNewUserEmails',
+        `${identityVerifiedSrc}\n${fnSource('findOrCreateSocialUser')}\nreturn findOrCreateSocialUser;`)(
+        UserB, () => new Error('x'), (u) => u.subscription, async () => {}, async () => {});
+    const linked = await findOrCreateB({ provider: 'google', providerUserId: 'g-9', email: 'own@example.com' });
+    assert.equal(linked.user.password, 'keep');
+    assert.equal(linked.user.authVersion, 0);
+});
+
+test('opening the inbox link does not spend it; only the confirm POST verifies', () => {
+    const get = routeSource('get', '/api/email/verify');
+    assert.doesNotMatch(get, /findOne|save\(|emailVerifiedAt|setAuthCookie/, 'a mail scanner fetching the link must change nothing');
+    assert.match(get, /<form method="post" action="\/api\/email\/verify">/);
+    const post = routeSource('post', '/api/email/verify');
+    assert.match(post, /express\.urlencoded/);
+    assert.match(post, /emailVerifyToken: emailVerifyHash\(raw\)/);
+    assert.match(post, /user\.emailVerifiedAt = user\.emailVerifiedAt \|\| new Date\(\)/);
+    assert.match(post, /setAuthCookie\(res, createUserToken\(user\), req\)/);
+});
+
+test('a completed password reset also counts as inbox proof', () => {
+    const reset = routeSource('post', '/api/password/reset');
+    assert.match(reset, /if \(!user\.emailVerifiedAt\) \{\s*user\.emailVerifiedAt = new Date\(\);/);
+});

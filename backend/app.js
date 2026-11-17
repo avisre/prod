@@ -121,12 +121,15 @@ function identityVerified(user) {
 
 function subscriptionGrantsProductAccess(user, sub = (user && user.subscription) || {}) {
     if (!sub) return false;
-    // A live signup trial is a first-class product entitlement. A paid plan, a
-    // live Stripe/manual trial and a lifetime grant also qualify through the
-    // normal active check. Expired trials are cancelled by
-    // ensureSubscriptionShape(), so this is false on the next read.
+    // A live signup trial is a first-class product entitlement. Expired trials
+    // are cancelled by ensureSubscriptionShape(), so this is false on the next read.
     if (signupTrial.active(user)) return true;
-    return ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    // Otherwise only a paid plan (Stripe, lifetime grant) opens the product.
+    // An 'active' FREE plan row (connector signups, legacy free accounts) and a
+    // manual 'trialing' comp do not: there is no free tier (owner, 2026-11-12).
+    // Only the full rollback (both switches off) keeps the old open rule.
+    if (WALL_PAID_ONLY || SIGNUP_TRIAL.enabled) return subscriptionIsPaid(sub);
+    return subscriptionIsActive(sub);
 }
 
 function userTier(user, subscription) {
@@ -3257,7 +3260,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261117-perf1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261118-trial2" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3286,7 +3289,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261117-perf1"></script>
+<script src="/assets/app.js?v=20261118-trial2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3378,7 +3381,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261117-perf1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261118-trial2" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3406,7 +3409,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261117-perf1"></script>
+<script src="/assets/app.js?v=20261118-trial2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3514,7 +3517,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261117-perf1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261118-trial2" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3547,7 +3550,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261117-perf1"></script>
+<script src="/assets/app.js?v=20261118-trial2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -6221,6 +6224,19 @@ async function findOrCreateSocialUser(profile, { createIfMissing = true } = {}) 
         throw createHttpError(409, 'This social account is already linked to another user');
     }
 
+    // Pre-account hijack guard. Email signups now exist before their inbox is
+    // proven, so anyone can register someone else's address with a password of
+    // their choosing. When the real owner later signs in with Google (which has
+    // verified the address), they inherit that row: drop the squatter's
+    // password and pending link, and revoke every session issued before now.
+    if (!created && user[providerField] !== profile.providerUserId && !identityVerified(user)) {
+        user.password = null;
+        user.emailVerifyToken = null;
+        user.emailVerifyExpires = null;
+        user.authVersion = Number(user.authVersion || 0) + 1;
+    }
+    if (profile.provider === 'google' && !user.emailVerifiedAt) user.emailVerifiedAt = new Date();
+
     if (!user.name && profile.name) {
         user.name = profile.name;
     }
@@ -8658,12 +8674,28 @@ app.post('/api/login', async (req, res) => {
 
 // ---- Email identity proof for trial accounts ------------------------------
 // Public by necessity: the link in the inbox is the proof. The raw token is
-// never stored, only its SHA-256 hash; opening the link verifies the address,
-// signs the browser in and sends it straight into the product.
-app.get('/api/email/verify', async (req, res) => {
+// never stored, only its SHA-256 hash.
+//
+// Opening the link (GET) changes nothing: mail security scanners (Outlook Safe
+// Links, corporate gateways) fetch every link before the person sees it, and a
+// single-use GET would be spent by the scanner, leaving the customer an
+// "already used" page. The GET shows a confirm button; the POST it submits
+// verifies the address, signs the browser in and sends it into the product.
+const EMAIL_VERIFY_PAGE = (title, body) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${title}</title></head><body style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#1c1b18;background:#fff"><main style="max-width:560px;margin:64px auto;padding:0 16px;line-height:1.6">${body}</main></body></html>`;
+app.get('/api/email/verify', (req, res) => {
     const raw = String(req.query.token || '').trim();
+    res.set('Cache-Control', 'no-store');
+    res.set('Referrer-Policy', 'no-referrer');
     if (!/^[a-f0-9]{64}$/i.test(raw)) {
-        return res.status(400).type('html').send('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verification link invalid</title><p style="font-family:system-ui;max-width:560px;margin:64px auto;line-height:1.6">That verification link is invalid. <a rel="nofollow" href="/register">Create a new account</a> or <a rel="nofollow" href="/login">log in</a> to request a fresh link.</p>');
+        return res.status(400).type('html').send(EMAIL_VERIFY_PAGE('Verification link invalid', 'That verification link is invalid. <a rel="nofollow" href="/login">Log in</a> to request a fresh link, or <a rel="nofollow" href="/register">create an account</a>.'));
+    }
+    return res.status(200).type('html').send(EMAIL_VERIFY_PAGE('Verify your email', `<h1 style="font-size:24px;margin:0 0 12px">Verify your email</h1><p style="color:#45423c">Confirm this address to start your free trial.</p><form method="post" action="/api/email/verify"><input type="hidden" name="token" value="${raw}"><button type="submit" style="background:#1c1b18;color:#fff;border:0;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer">Verify email and continue</button></form>`));
+});
+app.post('/api/email/verify', express.urlencoded({ extended: false, limit: '2kb' }), async (req, res) => {
+    const raw = String((req.body && req.body.token) || '').trim();
+    res.set('Cache-Control', 'no-store');
+    if (!/^[a-f0-9]{64}$/i.test(raw)) {
+        return res.status(400).type('html').send(EMAIL_VERIFY_PAGE('Verification link invalid', 'That verification link is invalid. <a rel="nofollow" href="/login">Log in</a> to request a fresh link.'));
     }
     try {
         const user = await User.findOne({
@@ -8671,7 +8703,7 @@ app.get('/api/email/verify', async (req, res) => {
             emailVerifyExpires: { $gt: new Date() }
         });
         if (!user) {
-            return res.status(400).type('html').send('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verification link expired</title><p style="font-family:system-ui;max-width:560px;margin:64px auto;line-height:1.6">That verification link has expired or was already used. <a rel="nofollow" href="/login">Log in</a> and choose “Resend verification email”, or <a rel="nofollow" href="/register">create a new account</a>.</p>');
+            return res.status(400).type('html').send(EMAIL_VERIFY_PAGE('Verification link expired', 'This link has expired or was already used. If you already verified, just <a rel="nofollow" href="/login">log in</a>. Otherwise log in and choose “Resend verification email”.'));
         }
         const firstVerification = !user.emailVerifiedAt;
         user.emailVerifiedAt = user.emailVerifiedAt || new Date();
@@ -8849,6 +8881,13 @@ app.post('/api/password/reset', async (req, res) => {
         user.authVersion = Number(user.authVersion || 0) + 1;
         user.resetPasswordToken = null;
         user.resetPasswordExpires = null;
+        // The reset link was opened from the inbox, which proves the address as
+        // well as the verification link does.
+        if (!user.emailVerifiedAt) {
+            user.emailVerifiedAt = new Date();
+            user.emailVerifyToken = null;
+            user.emailVerifyExpires = null;
+        }
         await user.save();
         // Same rule as a password change: a reset revokes connected assistants.
         oauthMcp.revokeAllForUser(user._id).catch((error) => console.error('[oauth] revoke on password reset failed:', error && error.message));
@@ -11099,8 +11138,10 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 req.user.trialAiUsed = Math.max(0, Number(req.user.trialAiUsed || 0) - 1);
             }
         };
-        const quotaPayload = () => {
-            if (!trialActive) return { used: used + (counted ? 1 : 0), limit, remaining: Math.max(0, limit - (used + (counted ? 1 : 0))) };
+        // usedNow is passed in: each branch declares its own after the answer,
+        // and reading it from this closure would hit the later block's TDZ.
+        const quotaPayload = (usedNow) => {
+            if (!trialActive) return { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) };
             const st = signupTrial.status(req.user);
             return { used: st.used, limit: st.limit, remaining: st.remaining, trial: true };
         };
@@ -11195,7 +11236,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 const reviewPrompt = await askReviewPrompt(req.user, result).catch(() => null);
                 send('done', {
                     answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
-                    quota: quotaPayload(),
+                    quota: quotaPayload(usedNow),
                     ...(trialActive ? { trial: true } : {}),
                     creditsUsed: trialActive ? 0 : (result.source === 'ai' ? creditFactor * credits.COST.ask : 0) + askStepsCharged,
                     threadId: threadIdSaved,
@@ -11235,7 +11276,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const reviewPrompt = await askReviewPrompt(req.user, result).catch(() => null);
         res.json({
             answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
-            quota: quotaPayload(),
+            quota: quotaPayload(usedNow),
             ...(trialActive ? { trial: true } : {}),
             creditsUsed: trialActive ? 0 : undefined,
             threadId: threadIdSaved,

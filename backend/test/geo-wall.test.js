@@ -78,7 +78,10 @@ test('free API surfaces refuse walled visitors: free tools, anonymous Ask, keyle
     const source = appSource();
     assert.match(source, /app\.get\('\/api\/free-tools\/:tool'[\s\S]{0,700}const wall = freeTierWallReason\(req\);\s*if \(wall && !\(await requestUserIsPaid\(req\)\)\) return freeTierWallResponse\(res, wall\);/);
     const anon = source.slice(source.indexOf('async function anonAskHandler'));
-    assert.match(anon.slice(0, 600), /if \(askWall\) return freeTierWallResponse\(res, askWall\);/);
+    // Walled configurations refuse anonymous Ask outright (signup trial); the
+    // per-request wall still guards the rollback configuration.
+    assert.match(anon.slice(0, 800), /if \(WALL_ALL_PAGES \|\| WALL_PAID_ONLY\) \{\s*return res\.status\(401\)/);
+    assert.match(anon.slice(0, 1400), /if \(askWall\) return freeTierWallResponse\(res, askWall\);/);
 
     // MCP is the one surface where the wall is NOT enforced at the transport.
     // A 402 (or an allowlist of blessed method names) lands before the session

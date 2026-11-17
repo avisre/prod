@@ -36,7 +36,16 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - Frontend: `register.html` is now the ads landing/signup page (Google + email, 72h/5/$79.99, no card); new `verify-email.html`,
   `pricing.html`; `/pricing` serves it and `/pricing.html` 301s; `/start`/`/trial` 301 to `/register`. Login handles
   `verificationRequired`; `upgrade.html` shows the full ladder during/after a trial; trial banner shows hours + AI left + price.
-  Terms/support/index copy updated. Cache stamp bumped to `20261118-trial1` everywhere.
+  Terms/support/index copy updated. Cache stamp `20261118-trial2` everywhere (rebased onto `42631151e9`, which had `20261117-perf1`).
+- Review fixes (2026-11-18, before any push), each pinned by a behavioural test in `signup-trial.test.js` that fails on the
+  first version: (1) streamed Ask threw a TDZ `ReferenceError` for every non-trial user (`quotaPayload` read a later `counted`);
+  it now takes `usedNow`. (2) `subscriptionGrantsProductAccess` let any `active` FREE-plan row in (anyone could `POST /oauth/signup`
+  for permanent free access); it is now live-signup-trial OR `subscriptionIsPaid`, old open rule only when both switches are off.
+  (3) Pre-account hijack: Google linking onto an unverified email/password row now nulls the password, clears the pending link
+  and bumps `authVersion`. A completed password reset also sets `emailVerifiedAt`. (4) `GET /api/email/verify` only renders a
+  confirm button (mail scanners prefetch links and were spending the single-use token); `POST` verifies.
+- Deploying this code turns the trial ON by default (`TRIAL_ENABLED` defaults to true). Rollback = `TRIAL_ENABLED=false` in Render.
+- Not built: a Google Ads conversion for a trial start (conversions fire on paid checkout only) and acquisition-cost reporting.
 - Tests: new `test/signup-trial.test.js` (grant idempotence, status, concurrent 5-question reserve/refund, wiring). Updated paid-first,
   paywall/hard-paywall, oauth-signup, anon-ask, checkout-conversions, launch-promo, legacy-redirects, oauth-signin-offer, pricing-ladder.
   Full suite after fixes: 2387 pass / 1 known failure (`social-compose`, listed in `scripts/predeploy-known-failures.json`; live 403).
