@@ -152,5 +152,5 @@ test('shared tools navbar renders the StockPortfolio emblem', () => {
     assert.match(app, /class="wordmark-emblem" src="\/Media\/icon\.png"/);
     assert.match(app, /aria-label="StockPortfolio\.pro home"/);
     assert.match(css, /\.wordmark-emblem\s*\{/);
-    assert.match(freeTools.renderToolIndex(), /app\.js\?v=20261118-screener1/);
+    assert.match(freeTools.renderToolIndex(), /app\.js\?v=20261118-screener2/);
 });

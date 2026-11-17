@@ -2322,7 +2322,7 @@
         });
     }
 
-    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, onTool, onEdit, onRegenerate, onBranch, symbol } = {}) {
+    function askEngine(exchange, { onActivity, onStart, onComplete, onPaperEvent, onTool, onEdit, onRegenerate, onBranch, symbol } = {}) {
         const history = [];
         // The page's own subject (a company, dossier or monitor page): sent with
         // every question so the answer is about the instrument in front of the
@@ -2401,6 +2401,7 @@
         async function send(question, opts = {}) {
             if (busy) return;
             busy = true;
+            if (onStart) onStart({ question });
             if (onActivity) onActivity();
             aborter = new AbortController();
             const block = document.createElement('div');
@@ -2806,7 +2807,7 @@
     // Floor shell: a quiet bar pinned to the bottom of the viewport — the
     // page's voice, always one keystroke away (⌘K / Ctrl-K). Answers unfold
     // in a sheet above the bar; Esc puts it away without losing the thread.
-    function mountAskFloor({ placeholder, onTool, onComplete, symbol } = {}) {
+    function mountAskFloor({ placeholder, onStart, onTool, onComplete, symbol } = {}) {
         document.body.classList.add('has-ask-floor');
         const sheet = document.createElement('div');
         sheet.className = 'ask-sheet';
@@ -2825,7 +2826,7 @@
         const input = bar.querySelector('input');
         const exchange = sheet.querySelector('.ask-exchange');
         sheet.querySelector('.ask-sheet-close').addEventListener('click', () => { sheet.hidden = true; });
-        const engine = askEngine(exchange, { onActivity: () => { sheet.hidden = false; }, ...(onTool ? { onTool } : {}), ...(onComplete ? { onComplete } : {}), ...(symbol ? { symbol } : {}) });
+        const engine = askEngine(exchange, { onActivity: () => { sheet.hidden = false; }, ...(onStart ? { onStart } : {}), ...(onTool ? { onTool } : {}), ...(onComplete ? { onComplete } : {}), ...(symbol ? { symbol } : {}) });
         bar.querySelector('form').addEventListener('submit', (e) => {
             e.preventDefault();
             const q = input.value.trim();
@@ -2838,7 +2839,7 @@
             if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus(); }
             if (e.key === 'Escape' && !sheet.hidden) sheet.hidden = true;
         });
-        return engine;
+        return { ...engine, close: () => { sheet.hidden = true; } };
     }
 
     // --- Draggable horizontal scrollbar for any wide .table-wrap, site-wide ---
@@ -2982,7 +2983,7 @@
             });
         }, 100);
     });
-    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, fixed, fy, pct, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, askToolEvent: 'v2:ask-tool', askDoneEvent: 'v2:ask-done', companies, searchAssets, mountTickerAutocomplete, mountShare, savedAnswerTools, questionActs, stopSpeaking, spinner, attachHScroll, upgradeStrip, settle, arrive, heldLabel, motionOff };
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, fixed, fy, pct, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, askToolEvent: 'v2:ask-tool', askDoneEvent: 'v2:ask-done', askStartEvent: 'v2:ask-start', companies, searchAssets, mountTickerAutocomplete, mountShare, savedAnswerTools, questionActs, stopSpeaking, spinner, attachHScroll, upgradeStrip, settle, arrive, heldLabel, motionOff };
 
     // Server-rendered SEO surfaces opt into the ask floor with a body
     // attribute (see /stocks/:ticker and the free-tool pages): every page
@@ -2994,6 +2995,7 @@
         // to what Ask actually ran without hard-coding event names.
         window.V2.askFloor = mountAskFloor({
             placeholder: document.body.dataset.askPlaceholder || undefined,
+            onStart: (d) => document.dispatchEvent(new CustomEvent(window.V2.askStartEvent, { detail: d })),
             onTool: (d) => document.dispatchEvent(new CustomEvent(window.V2.askToolEvent, { detail: d })),
             onComplete: (d) => document.dispatchEvent(new CustomEvent(window.V2.askDoneEvent, { detail: d }))
         });

@@ -367,7 +367,7 @@ test('signed-out and paid-gated visitors see clear copy and no locked controls',
 
 test('Markets page cache-busts the immutable news asset after changing its behavior', () => {
     const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/news.html'), 'utf8');
-    assert.match(html, /assets\/news\.js\?v=20261118-screener1/);
+    assert.match(html, /assets\/news\.js\?v=20261118-screener2/);
     assert.match(html, /<h1 class="visually-hidden">Markets<\/h1>/);
     assert.doesNotMatch(html, /Market headlines, daily closing prices, and the companies behind each story\./);
     assert.match(html, /<details class="asset-filter-menu" id="asset-filter-menu">/);

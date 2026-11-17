@@ -83,12 +83,12 @@ test('every page-level Ask bar passes its symbol to the shared engine', () => {
     assert.match(app, /const pageSymbol = \/\^\[A-Z\]\[A-Z0-9\.\\-\]\{0,9\}\$\/\.test\(String\(symbol \|\| ''\)\.toUpperCase\(\)\)/);
     assert.match(app, /\.\.\.\(pageSymbol \? \{ pageSymbol \} : \{\}\)/);
     assert.match(app, /function mountAsk\(el, \{ placeholder, suggestions = \[\], onPaperEvent, symbol \} = \{\}\)/);
-    assert.match(app, /function mountAskFloor\(\{ placeholder, onTool, onComplete, symbol \} = \{\}\)/);
+    assert.match(app, /function mountAskFloor\(\{ placeholder, onStart, onTool, onComplete, symbol \} = \{\}\)/);
     for (const file of ['frontend-v2/assets/company.js', 'frontend-v2/assets/dossier.js', 'frontend-v2/assets/monitor.js']) {
         assert.match(read(file), /mountAskFloor\(\{ symbol[,:]/, file + ' names its subject');
     }
     // The same edits touched dossier.js and monitor.js, so their pages must
     // carry fresh stamps — the immutable-cache trap ships silently otherwise.
-    assert.match(read('frontend-v2/dossier.html'), /assets\/dossier\.js\?v=20261118-screener1/);
-    assert.match(read('frontend-v2/monitor.html'), /assets\/monitor\.js\?v=20261118-screener1/);
+    assert.match(read('frontend-v2/dossier.html'), /assets\/dossier\.js\?v=20261118-screener2/);
+    assert.match(read('frontend-v2/monitor.html'), /assets\/monitor\.js\?v=20261118-screener2/);
 });

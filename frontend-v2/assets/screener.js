@@ -13,7 +13,8 @@
     let aiCriteria = null;
     let aiSimilar = null;
     let aiStatus = null;
-    let offeredCriteria = null;
+    let askBuildId = null;
+    let askTurn = 0;
     let requestId = 0, screenController = null;
     let buildId = 0, buildController = null;
     let debounce = null;
@@ -118,6 +119,7 @@
             }
             render(data.error);
             renderAiNote();
+            return !data.error;
         } catch (err) {
             if (id !== requestId || controller.signal.aborted) return;
             rows = [];
@@ -127,6 +129,7 @@
             const body = $('results-body');
             body.innerHTML = '<tr><td colspan="' + (trendAsOf ? 11 : 10) + '" style="text-align:center;padding:40px;" class="faint">' + esc(err.message || 'Couldn’t load the screen.') + ' <button type="button" class="btn btn-ghost btn-sm" id="screen-retry">Retry</button></td></tr>';
             body.querySelector('#screen-retry').addEventListener('click', run);
+            return false;
         } finally {
             if (id === requestId) {
                 $('results').setAttribute('aria-busy', 'false');
@@ -418,21 +421,13 @@
         aiCriteria = null;
         aiSimilar = null;
         aiStatus = null;
-        offeredCriteria = null;
         renderAiNote();
     }
 
     function renderAiNote() {
         const el = $('ai-note');
         $('ai-screen-btn').classList.toggle('chip-accent', !!(aiCriteria && aiCriteria.similar_to));
-        $('custom-screen-btn').classList.toggle('chip-accent', !!(aiCriteria && !aiCriteria.similar_to));
         const clearBtn = '<button type="button" class="chip" id="ai-clear" title="Back to plain filters">×</button>';
-        if (offeredCriteria) {
-            el.style.display = 'flex';
-            el.innerHTML = '<span class="muted">Your custom screen is ready.</span><button type="button" class="chip chip-accent" id="screen-show-results">Show results</button>';
-            $('screen-show-results').addEventListener('click', () => adoptAiScreen(offeredCriteria));
-            return;
-        }
         if (aiStatus) {
             el.style.display = 'flex';
             el.innerHTML = aiStatus.html || '<span class="muted">' + esc(aiStatus.text) + '</span>';
@@ -549,21 +544,6 @@
         return { args };
     }
 
-    async function runCustomScreen(q) {
-        clearTimeout(debounce);
-        clearAiScreen();
-        const id = buildId;
-        buildController = new AbortController();
-        aiMessage('Turning that into a screen…');
-        tableBusy('Building your custom screen…');
-        const built = await screenFromWords(q, buildController.signal);
-        if (id !== buildId) return;
-        if (built && built.args) return adoptAiScreen(built.args);
-        if (built && built.denied) aiFail('Custom screens in words use your Ask allowance. <a href="/profile.html#usage-details">Check your account and allowance</a>, or use the filters below.');
-        else aiFail('Couldn’t turn that into a screen. Try revenue growth, margin, P/E, dividends or price-trend filters.');
-        return run();
-    }
-
     async function runDoppelganger(q) {
         clearTimeout(debounce);
         clearAiScreen();
@@ -597,23 +577,22 @@
     }
 
     const AI_EXAMPLES = ['Companies like AppLovin', 'High-margin growers under 30× earnings', 'Cash machines with steady dividends'];
-    const CUSTOM_EXAMPLES = ['Revenue growth above 10% and net margin above 15%', 'Profitable companies under 25× earnings', 'Dividend yield above 2% with positive free cash flow'];
-    function openScreenBuilder(custom) {
+    $('ai-screen-btn').addEventListener('click', () => {
         if (!(window.V2 && V2.modal)) return;
         const m = V2.modal({
-            label: custom ? 'Custom screen' : 'Doppelganger',
-            title: custom ? 'Create a custom screen' : "Find a stock’s doppelganger",
-            bodyHtml: '<p class="small muted" style="margin:0 0 10px;">' + (custom ? 'Describe the companies you want using growth, profitability, valuation, dividends or price trends.' : 'Closest matches by the numbers — any sector. Name a company to match, or describe a screen.') + '</p>' +
-              '<input class="input" id="ai-screen-q" aria-label="Describe your screen" maxlength="500" placeholder="' + (custom ? 'e.g. Revenue growth above 10% and P/E below 25' : 'A company to match — or a screen in plain words…') + '" style="width:100%;">' +
+            label: 'Doppelganger',
+            title: "Find a stock's doppelganger",
+            bodyHtml: '<p class="small muted" style="margin:0 0 10px;">Closest matches by the numbers — any sector. Name a company to match, or describe a screen.</p>' +
+              '<input class="input" id="ai-screen-q" aria-label="Describe your screen" maxlength="500" placeholder="A company to match — or a screen in plain words…" style="width:100%;">' +
               '<p class="small muted" style="margin:12px 0 0;">Try:</p>' +
-              '<p style="margin:6px 0 0;">' + (custom ? CUSTOM_EXAMPLES : AI_EXAMPLES).map((x) => '<button type="button" class="chip" data-ai-example="' + esc(x) + '">' + esc(x) + '</button>').join(' ') + '</p>' +
-              '<p class="small faint" style="margin:12px 0 0;">Results appear in the table below. ' + (custom ? 'Describing a screen uses one Ask. You can also build a screen directly with the filters.' : 'Matching a company is instant; a screen described in words spends one Ask.') + '</p>',
+              '<p style="margin:6px 0 0;">' + AI_EXAMPLES.map((x) => '<button type="button" class="chip" data-ai-example="' + esc(x) + '">' + esc(x) + '</button>').join(' ') + '</p>' +
+              '<p class="small faint" style="margin:12px 0 0;">Results appear in the table below. Matching a company is instant; a screen described in words spends one Ask.</p>',
             actions: [
                 { label: 'Run it', primary: true, onClick: (close) => {
                     const q = (m.el.querySelector('#ai-screen-q').value || '').trim();
                     if (!q) return;
                     close();
-                    if (custom) runCustomScreen(q); else runDoppelganger(q);
+                    runDoppelganger(q);
                 } },
                 { label: 'Cancel' }
             ]
@@ -627,23 +606,32 @@
         const field = m.el.querySelector('#ai-screen-q');
         field.focus();
         field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
-    }
-    $('ai-screen-btn').addEventListener('click', () => openScreenBuilder(false));
-    $('custom-screen-btn').addEventListener('click', () => openScreenBuilder(true));
-    if (!(window.V2 && V2.modal)) {
-        $('ai-screen-btn').style.display = 'none';
-        $('custom-screen-btn').style.display = 'none';
-    }
+    });
+    if (!(window.V2 && V2.modal)) $('ai-screen-btn').style.display = 'none';
 
-    // Ask offers its completed screen explicitly; applying it uses the same
-    // criteria, table, count, sorting and export path as every other screen.
-    document.addEventListener(V2.askDoneEvent || 'v2:ask-done', (e) => {
+    // Screens created in the bottom Ask bar populate the normal page list.
+    // A manual selection made while Ask is working takes precedence.
+    document.addEventListener(V2.askStartEvent || 'v2:ask-start', () => { askTurn += 1; askBuildId = buildId; });
+    async function applyAskScreen(e) {
+        const startedAt = askBuildId;
+        const turn = askTurn;
+        askBuildId = null;
         const tools = e.detail && e.detail.toolsUsed;
         if (!Array.isArray(tools)) return;
-        const screen = tools.filter((t) => t && t.tool === 'screen_universe' && t.ok !== false && t.args && typeof t.args === 'object' && !Array.isArray(t.args) && Object.keys(t.args).length).pop();
-        if (screen) { offeredCriteria = screen.args; renderAiNote(); }
         if (tools.some((t) => t && t.tool === 'save_screen' && t.ok !== false)) loadAccountScreens();
-    });
+        if (startedAt === null || startedAt !== buildId) return;
+        // Named-company comparisons use a different universe; the form's
+        // criteria cannot carry a ticker list, so leave those answers in Ask.
+        const screen = tools.filter((t) => t && t.tool === 'screen_universe' && t.ok !== false && t.args && typeof t.args === 'object' && !Array.isArray(t.args) && !t.args.symbols && Object.keys(t.args).length).pop();
+        if (!screen) return;
+        const result = adoptAiScreen(screen.args);
+        const appliedAt = buildId;
+        if (await result && appliedAt === buildId && turn === askTurn) {
+            if (V2.askFloor && V2.askFloor.close) V2.askFloor.close();
+            $('results').closest('section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+    document.addEventListener(V2.askDoneEvent || 'v2:ask-done', applyAskScreen);
 
     document.querySelectorAll('#presets .chip[data-preset]').forEach((b) =>
         b.addEventListener('click', () => {
@@ -654,7 +642,7 @@
             run();
         }));
     $('run-btn').addEventListener('click', () => {
-        if (aiStatus) clearAiScreen();
+        if (aiStatus || askBuildId !== null) clearAiScreen();
         run();
     });
     ['f-sector', 'f-mcap', 'f-sma200', 'f-cross'].forEach((id) => $(id).addEventListener('change', () => { clearAiScreen(); run(); }));

@@ -21,14 +21,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261118-screener1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261118-screener2" />
 </head>
-<body data-ask-floor="1" data-ask-placeholder="Ask about a screen — e.g. “companies like AppLovin” or “net margin above 30% and positive free cash flow”…">
+<body data-ask-floor="1" data-ask-placeholder="Create a screen — e.g. “net margin above 20% and P/E below 25” or “companies like AppLovin”…">
   <main>
     <div class="container">
       <div class="page-head">
         <h1 class="title-1">Screener</h1>
         <p class="muted" style="margin-top:6px; max-width:60ch;">Filter 3,800+ US companies by what they actually filed with the SEC. Free for everyone.</p>
+        <p class="small muted" style="margin-top:8px;">Describe a custom screen in Ask below. Matching stocks appear in the results list here.</p>
       </div>
 
       <div class="section" style="margin-top:24px; display:flex; gap:8px; flex-wrap:wrap;" id="presets">
@@ -40,7 +41,6 @@
         <button class="chip" data-preset="earnings">Earnings accelerators</button>
         <button class="chip" data-preset="uptrend" title="Price above its 200-day average with RSI above 50, from daily closes">Uptrend</button>
         <button class="chip" id="ai-screen-btn" title="Find a stock's doppelganger by the filed numbers — or describe a screen in plain words">Doppelganger</button>
-        <button class="chip" id="custom-screen-btn" title="Describe your own stock screen">Create screen</button>
         <button class="chip" data-preset="clear" style="border-style:dashed;">Clear</button>
         <span id="saved-screens" style="display:contents;"></span>
       </div>
@@ -124,12 +124,12 @@
       </section>
     </div>
   </main>
-  <script src="assets/app.js?v=20261118-screener1"></script>
+  <script src="assets/app.js?v=20261118-screener2"></script>
   <section style="max-width:1100px;margin:28px auto 42px;padding:18px 20px;border:1px solid #e5e7eb;border-radius:12px;background:#fff">
     <h2 style="margin:0 0 8px">Free filing research tools</h2>
     <p style="margin:0 0 10px;color:#726e65">Go deeper than a screen with deterministic, SEC-grounded checks:</p>
     <p style="margin:0"><a style="display:inline-block; padding:8px 3px;" href="/tools/earnings-quality">Earnings quality checker</a> · <a style="display:inline-block; padding:8px 3px;" href="/tools/dilution">Share dilution calculator</a> · <a style="display:inline-block; padding:8px 3px;" href="/tools/filing-timeline">SEC filing timeline</a></p>
   </section>
-  <script src="assets/screener.js?v=20261118-screener1"></script>
+  <script src="assets/screener.js?v=20261118-screener2"></script>
 </body>
 </html>

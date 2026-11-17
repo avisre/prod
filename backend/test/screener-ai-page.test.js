@@ -1,9 +1,9 @@
 'use strict';
 
-// The screener page's AI entry point: the chip, the adoption button, and the
+// The screener page's AI entry points: the chip, the bottom Ask bar, and the
 // ?criteria= round trip that re-runs Ask's exact screen server-side. These are
 // source-level contracts on purpose — the page has no test harness, and the
-// invariants that must not regress are structural (never auto-apply, the
+// invariants that must not regress are structural (Ask screens fill the list,
 // criteria whitelist stays closed, the assets stay stamped together).
 
 const test = require('node:test');
@@ -36,6 +36,15 @@ test('screener page: its own asset carries the page stamp, not a stale one', () 
     const stamp = (html.match(/assets\/app\.js\?v=([0-9a-z-]+)/) || [])[1];
     assert.ok(stamp, 'the page loads app.js with a stamp');
     assert.ok(html.includes(`assets/screener.js?v=${stamp}`), 'screener.js must share the page stamp or the fix never reaches browsers');
+});
+
+test('screener custom screens start from the bottom Ask bar', () => {
+    const html = read('frontend-v2', 'screener.html');
+    assert.match(html, /data-ask-placeholder="Create a screen/);
+    assert.doesNotMatch(html, /id="custom-screen-btn"/);
+    const app = read('frontend-v2', 'assets', 'app.js');
+    assert.match(app, /new CustomEvent\(window\.V2\.askStartEvent, \{ detail: d \}\)/);
+    assert.match(app, /if \(onStart\) onStart\(\{ question \}\)/);
 });
 
 // Owner decision 2026-10-06, replacing "adoption is a click": a Doppelganger
