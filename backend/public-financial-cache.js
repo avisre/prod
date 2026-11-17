@@ -5,6 +5,7 @@ const { digest } = require('./sec-coverage');
 const MAX_MEMORY=8*1024*1024,MAX_PERSISTENT=64*1024*1024;
 function createCache({connection=()=>require('mongoose').connection,maxMemory=MAX_MEMORY}={}) {
  const entries=new Map();let bytes=0,setup=null;
+ const persistOnce=require('./single-flight')();
  function remember(key,value) {
   const old=entries.get(key);if(old)bytes-=old.bytes;entries.delete(key);
   const size=Buffer.byteLength(JSON.stringify(value));if(size>maxMemory)return value;
@@ -30,9 +31,15 @@ function createCache({connection=()=>require('mongoose').connection,maxMemory=MA
  async function set(key,value) {
   remember(key,value);const size=Buffer.byteLength(JSON.stringify(value));
   if(size>MAX_MEMORY)return {persisted:false,reason:'Evidence exceeds request-cache document bound'};
-  try{const col=await collection();if(!col)return {persisted:false,reason:'Public financial cache is temporarily disconnected'};
-   await col.insertOne({_id:digest({key,value}),issuer:key,value,createdAt:new Date()});return {persisted:true};
-  }catch(e){if(e.code===11000)return {persisted:true};return {persisted:false,reason:'Public financial evidence persistence failed'};}
+  const id=digest({key,value});
+  return persistOnce(id,async()=>{
+   try{const col=await collection();if(!col)return {persisted:false,reason:'Public financial cache is temporarily disconnected'};
+    // The old insert sent the entire evidence document even when Mongo rejected
+    // its already-present content hash. Check only that hash before uploading.
+    if(await col.findOne({_id:id},{projection:{_id:1},maxTimeMS:2000}))return {persisted:true};
+    await col.insertOne({_id:id,issuer:key,value,createdAt:new Date()});return {persisted:true};
+   }catch(e){if(e.code===11000)return {persisted:true};return {persisted:false,reason:'Public financial evidence persistence failed'};}
+  });
  }
  return {get,set,stats:()=>({entries:entries.size,bytes,maxMemory,maxPersistent:MAX_PERSISTENT}),clear:()=>{entries.clear();bytes=0;}};
 }

@@ -2170,6 +2170,7 @@ function isAlphaRateLimitPayload(data) {
     return false;
 }
 
+const coalesceAlpha = require('./single-flight')();
 async function fetchAlphaCached(functionName, params = {}, ttlMs = 0) {
     // Normalize ticker spelling (BRK.B / BRK/B / "BRK B" → BRK-B) before the
     // upstream call AND the cache key, so every form hits the same full record.
@@ -2184,13 +2185,15 @@ async function fetchAlphaCached(functionName, params = {}, ttlMs = 0) {
     if (cached) {
         return cached;
     }
-    const data = await fetchAlpha(functionName, params);
-    if (isAlphaRateLimitPayload(data)) {
-        console.warn(`[alpha] rate-limit response for ${functionName} ${JSON.stringify(params)}: ${(data['Information']||data['Note']||'').slice(0,120)} — not cached`);
+    return coalesceAlpha(cacheKey, async () => {
+        const data = await fetchAlpha(functionName, params);
+        if (isAlphaRateLimitPayload(data)) {
+            console.warn(`[alpha] rate-limit response for ${functionName} ${JSON.stringify(params)}: ${(data['Information']||data['Note']||'').slice(0,120)} — not cached`);
+            return data;
+        }
+        cacheSet(alphaResponseCache, cacheKey, data);
         return data;
-    }
-    cacheSet(alphaResponseCache, cacheKey, data);
-    return data;
+    });
 }
 
 // MongoDB connection
@@ -3193,7 +3196,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261114-seg5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261117-perf1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3222,7 +3225,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261114-seg5"></script>
+<script src="/assets/app.js?v=20261117-perf1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3314,7 +3317,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261114-seg5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261117-perf1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3342,7 +3345,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261114-seg5"></script>
+<script src="/assets/app.js?v=20261117-perf1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3450,7 +3453,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261114-seg5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261117-perf1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3483,7 +3486,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261114-seg5"></script>
+<script src="/assets/app.js?v=20261117-perf1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -9763,7 +9766,7 @@ app.get('/api/alpha/time-series/daily', authMiddleware, coreGate, async (req, re
     }
     try {
         const data = await fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize }, ALPHA_CACHE_TTL_MS.daily);
-        res.json(data);
+        res.json(req.query.format === 'close' ? require('./price-series').closes(data) : data);
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Daily series failed') });
     }
@@ -13713,7 +13716,7 @@ app.get('/api/demo/alpha/time-series/daily', async (req, res) => {
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {
         const data = await fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize }, ALPHA_CACHE_TTL_MS.daily);
-        res.json(data);
+        res.json(req.query.format === 'close' ? require('./price-series').closes(data) : data);
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Daily series failed') });
     }

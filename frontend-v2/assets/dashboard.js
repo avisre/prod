@@ -351,18 +351,35 @@
     }
     let perfWired = false;
     const perfSeries = { compact: null, full: null }; // outputsize -> {symbol: [{day, close}]}
+    const perfRequests = new Map();
     async function fetchDaily(symbols, outputsize) {
         const out = {};
-        await Promise.all(symbols.map(async (sym) => {
+        await Promise.all([...new Set(symbols)].map(async (sym) => {
             try {
-                const url = `${API}${DEMO ? '/demo' : ''}/alpha/time-series/daily?symbol=${encodeURIComponent(sym)}&outputsize=${outputsize}`;
-                const r = await fetch(url, { headers: auth });
-                if (!r.ok) return;
-                const ts = ((await r.json()) || {})['Time Series (Daily)'] || {};
-                out[sym] = Object.keys(ts).sort().map((d) => ({ day: d, close: num(ts[d]['5. adjusted close']) ?? num(ts[d]['4. close']) }));
+                const key = `${outputsize}:${sym}`;
+                if (!perfRequests.has(key)) {
+                    const request = (async () => {
+                        const url = `${API}${DEMO ? '/demo' : ''}/alpha/time-series/daily?symbol=${encodeURIComponent(sym)}&outputsize=${outputsize}&format=close`;
+                        const r = await fetch(url, { headers: auth });
+                        if (!r.ok) throw new Error('History unavailable');
+                        const payload = await r.json();
+                        if (Array.isArray(payload?.prices)) return payload.prices.map(([day, close]) => ({ day, close }));
+                        // A cached page can reach an older server during a rollout.
+                        const ts = payload?.['Time Series (Daily)'] || {};
+                        return Object.keys(ts).sort().map((d) => ({ day: d, close: num(ts[d]['5. adjusted close']) ?? num(ts[d]['4. close']) }));
+                    })().finally(() => { perfRequests.delete(key); });
+                    perfRequests.set(key, request);
+                }
+                out[sym] = await perfRequests.get(key);
             } catch (_) { /* hole stays — aggregation forward-fills around it */ }
         }));
         return out;
+    }
+    async function ensurePerformance(rows, size) {
+        const store = perfSeries[size] || (perfSeries[size] = {});
+        const syms = [...new Set(rows.filter((r) => r.shares > 0 && r.symbol).map((r) => r.symbol))];
+        const missing = syms.filter((sym) => !Object.prototype.hasOwnProperty.call(store, sym));
+        Object.assign(store, await fetchDaily(missing, size));
     }
     function aggregate(rows, seriesBySym) {
         const days = [...new Set(Object.values(seriesBySym).flatMap((s) => s.map((p) => p.day)))].sort();
@@ -448,26 +465,23 @@
     async function loadPerformance(rows) {
         const syms = rows.filter((r) => r.shares > 0 && r.symbol).map((r) => r.symbol);
         if (!syms.length) return;
-        if (!perfSeries.compact) {
-            // Create the store before awaiting so a concurrent add can merge its
-            // one-symbol result instead of being overwritten by this first load.
-            perfSeries.compact = {};
-            Object.assign(perfSeries.compact, await fetchDaily(syms, 'compact'));
+        if (!perfWired) {
+            perfWired = true;
+            document.querySelectorAll('#perf-range button').forEach((b) =>
+                b.addEventListener('click', async () => {
+                    document.querySelectorAll('#perf-range button').forEach((x) => x.setAttribute('aria-pressed', x === b));
+                    perfRange = b.dataset.r;
+                    await loadPerformance(lastRows);
+                }));
         }
+        const range = perfRange, version = portfolioRefreshVersion;
+        const size = ['1Y', 'MAX', 'INC'].includes(range) ? 'full' : 'compact';
+        if (syms.some((sym) => !Object.prototype.hasOwnProperty.call(perfSeries[size] || {}, sym))) {
+            $('perf-chart').innerHTML = `<p style="padding:40px 0; text-align:center;"><span class="loading-line"><span class="spin"></span>${size === 'full' ? 'Loading full history…' : 'Loading performance…'}</span></p>`;
+        }
+        await ensurePerformance(rows, size);
+        if (version !== portfolioRefreshVersion || range !== perfRange) return;
         drawPerf(lastRows.length ? lastRows : rows);
-        if (perfWired) return;
-        perfWired = true;
-        document.querySelectorAll('#perf-range button').forEach((b) =>
-            b.addEventListener('click', async () => {
-                document.querySelectorAll('#perf-range button').forEach((x) => x.setAttribute('aria-pressed', x === b));
-                perfRange = b.dataset.r;
-                if ((perfRange === '1Y' || perfRange === 'MAX' || perfRange === 'INC') && !perfSeries.full) {
-                    $('perf-chart').innerHTML = '<p style="padding:40px 0; text-align:center;"><span class="loading-line"><span class="spin"></span>Loading full history…</span></p>';
-                    perfSeries.full = {};
-                    Object.assign(perfSeries.full, await fetchDaily(lastRows.map((r) => r.symbol), 'full'));
-                }
-                drawPerf(lastRows);
-            }));
     }
 
     // Free plan: portfolio APIs answer 402 — keep the session, swap the
@@ -713,6 +727,7 @@
         const list = Array.isArray(symbols) ? symbols : [symbols];
         if (removed) {
             list.forEach((symbol) => {
+                if (lastRows.some((row) => row.symbol === symbol)) return;
                 if (perfSeries.compact) delete perfSeries.compact[symbol];
                 if (perfSeries.full) delete perfSeries.full[symbol];
             });
@@ -790,13 +805,19 @@
     async function refreshLiveHoldingPrices(version) {
         try {
             const response = await fetch(`${API}/portfolio${pfScopeQuery()}`, { headers: auth });
-            if (!response.ok) return;
+            if (!response.ok) throw new Error('Live prices unavailable');
             const list = await response.json();
             // Do not let a response started before a mutation overwrite the
             // confirmed add/remove that is already visible in the table.
             if (version !== portfolioRefreshVersion) return;
             renderHoldings((Array.isArray(list) ? list : []).map(holdingToRow));
-        } catch (_) { /* stored prices remain usable */ }
+            drawPerf(lastRows);
+        } catch (_) {
+            if (version === portfolioRefreshVersion) {
+                const sub = $('pf-sub');
+                sub.textContent = sub.textContent.replace(' · refreshing live prices…', '') + ' · live update unavailable';
+            }
+        }
     }
 
     // ---- multiple portfolios: switcher, create, delete ----
@@ -1122,8 +1143,11 @@
     }
 
     async function loadHoldings() {
+        const version = ++portfolioRefreshVersion;
         try {
-            const r = await fetch(DEMO ? `${API}/demo/portfolio` : `${API}/portfolio${pfScopeQuery()}`, { headers: auth });
+            const scope = pfScopeQuery();
+            const r = await fetch(DEMO ? `${API}/demo/portfolio` : `${API}/portfolio${scope}${scope ? '&' : '?'}prices=stored`, { headers: auth });
+            if (version !== portfolioRefreshVersion) return false;
             if (!DEMO && r.status === 401) { await fetch('/api/logout', { method: 'POST' }).catch(() => {}); location.reload(); return; }
             if (!DEMO && r.status === 402) { freeMode(); return; }
             // A malformed scope is rejected outright; a deleted-but-well-formed
@@ -1139,11 +1163,17 @@
                 throw new Error(data.message || 'Unable to load the portfolio right now.');
             }
             const list = await r.json();
+            if (version !== portfolioRefreshVersion) return false;
             const rows = (Array.isArray(list) ? list : []).map(holdingToRow);
             renderHoldings(rows);
             loadPerformance(rows);
+            if (!DEMO) {
+                $('pf-sub').textContent += ' · refreshing live prices…';
+                void refreshLiveHoldingPrices(version);
+            }
             return true;
         } catch (_) {
+            if (version !== portfolioRefreshVersion) return false;
             $('holdings-empty').hidden = true;
             ['stock', 'etf', 'mutual'].forEach((key) => { $(`${key}-holdings-group`).hidden = true; });
             $('holdings-loading').innerHTML = '<p class="small" style="margin:0; color:var(--neg);">Couldn’t load holdings. Refresh the page to try again.</p>';

@@ -353,3 +353,7 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 7. **`FRED_API_KEY` and `BLS_API_KEY` on Render** (values in `~/.config/stockportfolio/`).
 8. **Monthly provider bill** — the one input that states AI margin in dollars.
 9. Orphan IndexNow key `1668f45a03ea53cf94c51b61c43163d4.txt`; `mcp-server` README lists retired `sp_*` names.
+
+## Portfolio chart performance — local work, 2026-11-17
+
+Prepared request coalescing, an opt-in close-price history response, and two-stage portfolio rendering so saved holdings and charts appear before live quotes. All chart ranges and legacy API responses remain available. Identical financial-cache writes check their existing content hash before retransmitting the evidence; changed figures and freshness metadata still persist. The immutable asset stamp is synchronized across static and server-rendered pages. Changes are isolated, unpushed and undeployed.
