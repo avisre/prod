@@ -117,6 +117,15 @@ dimensions manually (no property mutation is performed here):
 `traffic_category`, `event_name`, and `schema_version`. Mark `sign_up`,
 `purchase`, `refund` and `activation_completed` as key events only after QA.
 
+For trial acquisition, mark `trial_verified` as a key event with no default
+monetary value. It records one active signup trial after email verification or
+verified Google sign-in. A paid Stripe subscription invoice sends `purchase`
+with an opaque transaction ID, actual value and currency. Register
+`acquisition_campaign` and `subscription_payment` as event-scoped dimensions
+to report signups and first subscription payments by their saved campaign, even
+when the visitor's original browser session has ended. The server requires
+analytics consent and a valid GA4 client ID from the matching web stream.
+
 Clarity receives low-cardinality event names/tags (`page_type`, `cta_id`) after
 consent. Inputs and authenticated content remain masked. No email, name, prompt,
 answer, holding, licence code or raw user ID is sent.

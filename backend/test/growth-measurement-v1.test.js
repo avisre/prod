@@ -123,6 +123,7 @@ test('canonical schema maps GA4 events and removes sensitive values', () => {
 test('browser event allowlist excludes business truth claims', () => {
     assert.equal(growth.validateBrowserEvent('cta_clicked'), true);
     assert.equal(growth.validateBrowserEvent('signup_completed'), false);
+    assert.equal(growth.validateBrowserEvent('trial_verified'), false);
     assert.equal(growth.normalizeEventName('appsumo_outbound'), 'appsumo_outbound_clicked');
     assert.equal(growth.normalizeEventName('meaningful_activation'), 'research_outcome_completed');
 });
@@ -153,11 +154,52 @@ test('canonical first-event names accept legacy aliases without adding PII', () 
 });
 
 test('GA4 payload is privacy-safe and disabled by default', () => {
-    const payload = ga4.buildPayload({ event: 'sign_up', clientId: 'anon-123', sessionId: 'session-123', opaqueUserId: 'opaque-123', params: { page_type: 'pricing', email: 'hidden@example.com', prompt: 'hidden' } });
+    const payload = ga4.buildPayload({ event: 'sign_up', clientId: '12345.1795000000', opaqueUserId: 'opaque-123', params: { page_type: 'pricing', email: 'hidden@example.com', prompt: 'hidden' } });
     assert.equal(payload.events[0].params.page_type, 'pricing');
     assert.equal(Object.prototype.hasOwnProperty.call(payload.events[0].params, 'email'), false);
     assert.equal(Object.prototype.hasOwnProperty.call(payload.events[0].params, 'prompt'), false);
     assert.equal(ga4.enabled(), false);
+});
+
+test('only the matching GA4 browser identity joins a recent session', () => {
+    const clientId = '12345.1795000000';
+    const sessionId = '1795000100';
+    const measurementId = 'G-TEST123';
+    for (const sessionCookie of [`GS1.1.${sessionId}.7.0`, `GS2.1.s${sessionId}$o7`, `GS2.1.o7$s${sessionId}`]) {
+        const cookies = new Map([['_ga', `GA1.1.${clientId}`], ['_ga_TEST123', sessionCookie]]);
+        assert.deepEqual(ga4.identityFromCookies(cookies, measurementId), { clientId, sessionId });
+        assert.deepEqual(ga4.identityFromCookies(cookies, 'G-OTHER'), { clientId, sessionId: null });
+    }
+    const base = { event: 'trial_verified', clientId, sessionId, now: (Number(sessionId) + 30) * 1000 };
+    assert.equal(ga4.buildPayload(base).events[0].params.session_id, Number(sessionId));
+    assert.equal(ga4.buildPayload({ ...base, clientId: 'anon-123' }), null);
+    assert.equal(ga4.buildPayload({ ...base, now: base.now + 72 * 60 * 60 * 1000 }).events[0].params.session_id, undefined);
+});
+
+test('a paid Meta cohort uses the original campaign and stable Stripe receipt after the trial', () => {
+    const campaign = 'meta_trial_us_10usd';
+    for (const [source, normalized] of [['fb', 'facebook'], ['ig', 'instagram'], ['meta', 'meta']]) {
+        const touch = tracking.attributionTouch({
+            method: 'GET', path: '/register', query: { utm_source: source, utm_medium: 'paid_social', utm_campaign: campaign }, headers: {}
+        });
+        assert.equal(touch.source, normalized);
+        assert.equal(growth.sanitizeAttribution(touch).source, normalized);
+        assert.deepEqual(ga4.acquisitionParams(growth.sanitizeAttribution(touch)), { acquisition_campaign: campaign });
+    }
+    const invoice = { id: 'in_123', livemode: true, status: 'paid', amount_paid: 8599, total: 8599, total_excluding_tax: 7999, currency: 'usd' };
+    const purchase = ga4.purchaseParams(invoice, 'monthly', true);
+    assert.match(purchase.transaction_id, /^invoice_[a-f0-9]{32}$/);
+    assert.equal(purchase.value, 79.99);
+    assert.equal(purchase.tax, 6);
+    assert.equal(purchase.subscription_payment, 'first');
+    assert.equal(ga4.purchaseParams(invoice, 'monthly', false).transaction_id, purchase.transaction_id);
+    assert.equal(ga4.purchaseParams(invoice, 'monthly', false).subscription_payment, 'subsequent');
+    assert.equal(ga4.purchaseParams({ ...invoice, livemode: false }, 'monthly', true), null);
+    assert.equal(ga4.purchaseParams({ ...invoice, amount_paid: 0 }, 'monthly', true), null);
+    const base = { event: 'purchase', clientId: '12345.1795000000', params: { acquisition_campaign: campaign } };
+    assert.equal(ga4.buildPayload(base), null);
+    assert.deepEqual(ga4.buildPayload({ ...base, purchase }).events[0].params, { acquisition_campaign: campaign, ...purchase });
+    assert.deepEqual(ga4.acquisitionParams({ campaign: 'hidden@example.com' }), {});
 });
 
 test('P0 proof-funnel events are registered as browser events', () => {

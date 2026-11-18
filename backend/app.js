@@ -2388,6 +2388,10 @@ function marketingRequestFields(req, res) {
 
 function trackingRequestFields(req, res) {
     const fields = { ...marketingRequestFields(req, res) };
+    if (req?.body?.analyticsConsent === true && ga4Server.enabled() && !fields.isBot && !fields.isQa) {
+        const ga4Identity = ga4Server.identityFromCookies(marketingAttribution.parseCookies(req.headers.cookie));
+        if (ga4Identity) fields.ga4Identity = ga4Identity;
+    }
     const clientReferrer = marketingAttribution.sanitizeReferrer(req && req.body && req.body.referrer);
     if (clientReferrer) {
         fields.referrer = clientReferrer;
@@ -3814,6 +3818,7 @@ const UserSchema = new mongoose.Schema({
     analyticsAnonymousId: { type: String, default: null, index: true },
     analyticsFirstTouch: { type: mongoose.Schema.Types.Mixed, default: null },
     analyticsLastNonDirectTouch: { type: mongoose.Schema.Types.Mixed, default: null },
+    analyticsGa4: { type: mongoose.Schema.Types.Mixed, default: null },
     // Proven true only via an explicit consent flag on a live browser request
     // (signup, or /api/track/event's own hard consent check) — never inferred.
     // Lets a later SERVER-originated event for this user (a Stripe webhook,
@@ -3897,6 +3902,7 @@ const PendingSignupSchema = new mongoose.Schema({
     stripeSessionId: { type: String, default: null, index: true },
     signupUtm: { type: mongoose.Schema.Types.Mixed, default: null },
     attribution: { type: mongoose.Schema.Types.Mixed, default: null },
+    ga4Identity: { type: mongoose.Schema.Types.Mixed, default: null },
     // Proven analytics consent from the live checkout submission — the only
     // moment before the paid-first account exists that has a real browser
     // request. Carried to the User doc at materialization; see
@@ -4454,7 +4460,10 @@ function attachSignupAttribution(user, requestFields) {
     // Only ever write `true`: the schema default (false) already covers every
     // caller that has no consent signal to offer, so there is nothing to do
     // in that case — never write a false/undefined signal over a true one.
-    if (requestFields.consent === true) user.analyticsConsent = true;
+    if (requestFields.consent === true) {
+        user.analyticsConsent = true;
+        if (requestFields.ga4Identity) user.analyticsGa4 = requestFields.ga4Identity;
+    }
 }
 
 function eventTypeFor(event, extra = {}) {
@@ -4504,10 +4513,14 @@ async function logFunnelEvent(event, userId, plan, extra) {
         const requestedDedupeKey = (canonical && canonical.dedupeKey)
             || (data.dedupeKey && /^[A-Za-z0-9._:-]{8,220}$/.test(String(data.dedupeKey)) ? String(data.dedupeKey) : null);
         if (requestedDedupeKey) {
-            const duplicate = await FunnelEvent.exists({ dedupeKey: requestedDedupeKey });
+            const dedupeKey = data.legacyDedupeKey ? { $in: [requestedDedupeKey, data.legacyDedupeKey] } : requestedDedupeKey;
+            const duplicate = await FunnelEvent.exists({ dedupeKey });
             if (duplicate) return false;
         }
         const safeData = { ...data };
+        delete safeData.ga4Identity;
+        delete safeData.ga4Purchase;
+        delete safeData.legacyDedupeKey;
         for (const key of Object.keys(safeData)) {
             if (/email|name|password|license|prompt|question|answer|response|holding|cookie|secret|token/i.test(key)) delete safeData[key];
         }
@@ -4560,35 +4573,37 @@ async function logFunnelEvent(event, userId, plan, extra) {
         // undefined for it — never explicitly true or false. That silently
         // dropped sign_up/begin_checkout/purchase from ever reaching GA4,
         // since only a live browser request could ever prove consent.
-        // Fall back to what the account itself recorded, at signup or via a
-        // later /api/track/event consent proof — but only when the caller
-        // supplied no consent signal at all (undefined), never overriding an
-        // explicit false. Gated on ga4Server.enabled() so this never costs an
-        // extra query while GA4_MP_ENABLED is unset (the default).
+        // Fall back to consent and GA4 identity saved on the account when
+        // a server event has no live browser context. The browser handles
+        // page and intent events, and signup_completed supersedes signup.
+        if (!canonical?.ga4EventName || !ga4Server.enabled() || event === 'signup'
+            || canonical.internalFlag || canonical.testFlag || canonical.botFlag) return;
         let ga4Consent = data.consent;
-        let ga4ClientId = canonical && canonical.anonymousId;
-        if (ga4Consent === undefined && userId && ga4Server.enabled()) {
+        let ga4Identity = data.ga4Identity;
+        if (ga4Consent === undefined && userId) {
             try {
-                const consentUser = await User.findById(userId).select('analyticsConsent analyticsAnonymousId').lean();
+                const consentUser = await User.findById(userId).select('analyticsConsent analyticsGa4').lean();
                 if (consentUser && consentUser.analyticsConsent === true) {
                     ga4Consent = true;
-                    ga4ClientId = ga4ClientId || consentUser.analyticsAnonymousId || null;
+                    ga4Identity = ga4Identity || consentUser.analyticsGa4;
                 }
             } catch (_) { /* best-effort only — never block the funnel write above */ }
         }
-        if (canonical && ga4Consent === true && !canonical.internalFlag && !canonical.testFlag && !canonical.botFlag) {
+        if (ga4Consent === true && ga4Identity?.clientId) {
             ga4Server.sendServerEvent({
-                event: canonical.ga4EventName || canonical.eventName,
-                clientId: ga4ClientId,
-                sessionId: canonical.sessionId,
+                event: canonical.ga4EventName,
+                clientId: ga4Identity.clientId,
+                sessionId: ga4Identity.sessionId,
                 opaqueUserId: canonical.opaqueUserId,
                 consent: true,
+                purchase: data.ga4Purchase,
                 params: {
                     page_type: canonical.pageType,
                     content_id: canonical.contentId,
                     cta_id: canonical.ctaId,
                     entitlement_source: canonical.entitlementSource,
-                    feature_type: canonical.featureType
+                    feature_type: canonical.featureType,
+                    ...ga4Server.acquisitionParams(canonical.lastNonDirectTouch)
                 }
             }).catch(() => {});
         }
@@ -4597,6 +4612,19 @@ async function logFunnelEvent(event, userId, plan, extra) {
 
 function trackFunnel(event, userId, plan, extra) {
     return logFunnelEvent(event, userId, plan, extra);
+}
+
+function trackVerifiedSignupTrial(user, authMethod) {
+    if (!identityVerified(user) || !signupTrial.active(user)) return;
+    trackFunnel('trial_verified', user._id, user.subscription.planName, {
+        dedupeKey: `trial-verified:${String(user._id)}`,
+        authMethod,
+        consent: user.analyticsConsent === true,
+        ga4Identity: user.analyticsGa4,
+        attribution: growthMeasurement.attributionForUser(user),
+        entitlementSource: 'trial',
+        internalFlag: user.reviewAccount === true || campaignInternalUser(user)
+    });
 }
 
 // Keep campaign attribution consistent across every funnel event. The signed
@@ -5704,6 +5732,7 @@ async function createPendingSignup({ email, name, passwordHash, provider, provid
                 planId: getPlanConfig(planId).planId,
                 signupUtm: utm ? { ...utm, capturedAt: new Date() } : null,
                 attribution,
+                ga4Identity: consent === true ? requestFields?.ga4Identity || null : null,
                 consent: consent === true,
                 expiresAt: new Date(Date.now() + PENDING_SIGNUP_TTL_MS)
             }
@@ -5775,7 +5804,9 @@ async function materializePendingSignup(pendingSignupId, session = {}) {
         user.paymentRequiredAt = new Date();
         user.initialRefundStatus = 'not_eligible';
         if (pending.signupUtm) user.signupUtm = pending.signupUtm;
-        if (pending.attribution || pending.consent) attachSignupAttribution(user, { attribution: pending.attribution, consent: pending.consent === true });
+        if (pending.attribution || pending.consent) attachSignupAttribution(user, {
+            attribution: pending.attribution, consent: pending.consent === true, ga4Identity: pending.ga4Identity
+        });
         user.markModified('subscription');
     }
     if (typeof session.customer === 'string' && session.customer) user.stripeCustomerId = session.customer;
@@ -6278,7 +6309,8 @@ async function findOrCreateSocialUser(profile, { createIfMissing = true } = {}) 
         emailOtp.clear(user);
         user.authVersion = Number(user.authVersion || 0) + 1;
     }
-    if (profile.provider === 'google' && !user.emailVerifiedAt) user.emailVerifiedAt = new Date();
+    const verifiedNow = profile.provider === 'google' && !user.emailVerifiedAt;
+    if (verifiedNow) user.emailVerifiedAt = new Date();
 
     if (!user.name && profile.name) {
         user.name = profile.name;
@@ -6302,7 +6334,7 @@ async function findOrCreateSocialUser(profile, { createIfMissing = true } = {}) 
             .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
     }
 
-    return { user, created };
+    return { user, created, verifiedNow };
 }
 
 // A small allowlist of authenticated routes an unverified signup may still
@@ -8321,7 +8353,7 @@ app.post('/api/auth/social', async (req, res) => {
         const requestFields = trackingRequestFields(req, res);
         const utm = requestUtm(req);
         const profile = await verifySocialIdentity(provider, req.body || {});
-        const { user, created } = await findOrCreateSocialUser(profile, { createIfMissing: !paymentRequired });
+        const { user, created, verifiedNow } = await findOrCreateSocialUser(profile, { createIfMissing: !paymentRequired });
 
         // Trial signup: Google's verified email is the identity proof, so the
         // account can start immediately. The grant is conditional on no prior
@@ -8337,6 +8369,9 @@ app.post('/api/auth/social', async (req, res) => {
                 const trialPlan = getPlanConfig([FREE_PLAN_ID, DEV_PLAN_ID].includes(planConfig.planId) ? MONTHLY_PLAN_ID : planConfig.planId);
                 trialGranted = signupTrial.grant(user, trialPlan);
                 if (trialGranted) {
+                    if (!created && !user.analyticsFirstTouch) {
+                        attachSignupAttribution(user, { ...requestFields, consent: req.body?.analyticsConsent === true });
+                    }
                     await user.save();
                     trackFunnel('signup_started', user._id, trialPlan.planName, {
                         eventName: 'signup_started', authMethod: provider, selectedPlan: trialPlan.planId,
@@ -8476,6 +8511,8 @@ app.post('/api/auth/social', async (req, res) => {
                 ...acquisitionFunnelFields(acquisition), ...requestFields
             });
         }
+
+        if (trialGranted || verifiedNow) trackVerifiedSignupTrial(user, provider);
 
         if (subscriptionIsActive(user.subscription)) {
             return res.status(200).json({
@@ -8795,6 +8832,7 @@ async function completeEmailVerification(user, req, res, via) {
     await user.save();
     setAuthCookie(res, createUserToken(user), req);
     if (firstVerification) {
+        trackVerifiedSignupTrial(user, 'email');
         trackFunnel('email_verified', user._id, user.subscription && user.subscription.planName, {
             eventName: 'email_verified', dedupeKey: `email-verified:${String(user._id)}`, authMethod: 'email', verifiedVia: via
         });
@@ -13381,9 +13419,14 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
         } catch (err) { return res.status(500).send({ received: false }); }
     } else if (event.type === 'invoice.paid') {
         try {
-            const invoiceUser = payload.subscription
-                ? await User.findOne({ stripeSubscriptionId: payload.subscription })
-                : (payload.customer ? await User.findOne({ stripeCustomerId: payload.customer }) : null);
+            const subscriptionDetails = payload.parent?.subscription_details || payload.subscription_details;
+            const invoiceSubscription = payload.subscription || subscriptionDetails?.subscription;
+            let invoiceUser = invoiceSubscription ? await User.findOne({ stripeSubscriptionId: invoiceSubscription }) : null;
+            if (!invoiceUser && payload.customer) invoiceUser = await User.findOne({ stripeCustomerId: payload.customer });
+            // The invoice can arrive before checkout completion has saved the
+            // Stripe IDs. The subscription metadata already contains our ID.
+            const checkoutUserId = subscriptionDetails?.metadata?.userId;
+            if (!invoiceUser && /^[a-f0-9]{24}$/i.test(checkoutUserId || '')) invoiceUser = await User.findById(checkoutUserId);
             if (invoiceUser?.subscription?.planId === FILING_WATCH_PLAN_ID && invoiceUser.stripeSubscriptionId) {
                 await syncSubscriptionFromStripe(invoiceUser, await stripe.subscriptions.retrieve(invoiceUser.stripeSubscriptionId), payload.customer);
             }
@@ -13395,9 +13438,14 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                     paidAt: payload.status_transitions?.paid_at ? new Date(payload.status_transitions.paid_at * 1000) : new Date(), amountMinor: Number(payload.amount_paid) });
             }
             if (invoiceUser) trackFunnel('invoice_paid', invoiceUser._id, invoiceUser.subscription && invoiceUser.subscription.planName, {
-                eventName: 'invoice_paid', dedupeKey: event.id ? `stripe:invoice:${event.id}` : null,
+                eventName: 'invoice_paid', dedupeKey: payload.id ? `stripe:invoice-paid:${payload.id}` : null,
+                legacyDedupeKey: event.id ? `stripe:invoice:${event.id}` : null,
                 attribution: growthMeasurement.attributionForUser(invoiceUser),
                 entitlementSource: 'stripe', testFlag: payload.livemode === false,
+                internalFlag: invoiceUser.reviewAccount === true || campaignInternalUser(invoiceUser),
+                consent: invoiceUser.analyticsConsent === true,
+                ga4Identity: invoiceUser.analyticsGa4,
+                ga4Purchase: invoiceSubscription ? ga4Server.purchaseParams(payload, invoiceUser.subscription?.planId, invoiceUser.initialInvoiceId === payload.id) : null,
                 billingPeriod: invoiceUser.subscription && invoiceUser.subscription.billingInterval,
                 amountMinor: Number.isFinite(Number(payload.amount_paid)) ? Number(payload.amount_paid) : null,
                 currency: typeof payload.currency === 'string' ? payload.currency.toLowerCase().slice(0, 8) : null

@@ -1,19 +1,7 @@
 'use strict';
 
-// Pins the GA4 consent/clientId fix found this session: sign_up, begin_checkout
-// and purchase never reached GA4 because (a) consent was never threaded onto
-// the events that map to those GA4 names, and (b) even where it was, a
-// server-originated event (the Stripe webhook) has no request/cookie of its
-// own to source a clientId from. data.consent was simply undefined for every
-// such call — never explicitly true or false — so the old gate
-// (`data.consent === true`) silently never fired for them.
-//
-// Style matches paid-first-signup.test.js / api-access-gating.test.js:
-// logFunnelEvent lives inline in the app.js monolith with no exported module
-// (same constraint as appsumo-webhook-lifecycle.test.js and
-// appsumo-refund-entitlement.test.js), so this pins the fix at the source
-// level. credits.js-style live execution isn't available here — there is no
-// separable module to import.
+// Server events use the opted-in GA4 browser identity saved at signup.
+// Keep the app wiring checks alongside growth-measurement-v1's payload tests.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -25,29 +13,27 @@ const logFunnelEventBody = appSource.slice(
   appSource.indexOf('function trackFunnel(event, userId, plan, extra)')
 );
 
-test('logFunnelEvent resolves a fallback consent/clientId only when the caller supplied neither', () => {
+test('logFunnelEvent looks up stored consent only when the caller gave no consent signal', () => {
   assert.match(logFunnelEventBody, /let ga4Consent = data\.consent;/);
-  assert.match(logFunnelEventBody, /let ga4ClientId = canonical && canonical\.anonymousId;/);
-  // The fallback must trigger on undefined specifically — never on an
-  // explicit false, which is a real "no, do not send this" signal.
-  assert.match(logFunnelEventBody, /if \(ga4Consent === undefined && userId && ga4Server\.enabled\(\)\) \{/,
-    'must not re-fire for every event with a userId — only when the caller gave no consent signal at all, and only when GA4 sending is actually enabled');
+  assert.match(logFunnelEventBody, /let ga4Identity = data\.ga4Identity;/);
+  assert.match(logFunnelEventBody, /if \(!canonical\?\.ga4EventName \|\| !ga4Server\.enabled\(\)/);
+  assert.match(logFunnelEventBody, /if \(ga4Consent === undefined && userId\) \{/);
 });
 
 test('the fallback sources consent and clientId from the persisted, PII-free User fields', () => {
-  assert.match(logFunnelEventBody, /User\.findById\(userId\)\.select\('analyticsConsent analyticsAnonymousId'\)\.lean\(\)/,
+  assert.match(logFunnelEventBody, /User\.findById\(userId\)\.select\('analyticsConsent analyticsGa4'\)\.lean\(\)/,
     'must select only these two fields — never email, name, or any identity field');
   assert.match(logFunnelEventBody, /consentUser\.analyticsConsent === true/);
-  assert.match(logFunnelEventBody, /ga4ClientId \|\| consentUser\.analyticsAnonymousId \|\| null/,
+  assert.match(logFunnelEventBody, /ga4Identity \|\| consentUser\.analyticsGa4/,
     'must not override a clientId the event already had from a live request');
 });
 
 test('the GA4 send now uses the resolved values, not the raw per-call ones', () => {
   const sendBlock = logFunnelEventBody.slice(logFunnelEventBody.indexOf('ga4Server.sendServerEvent'));
-  assert.match(sendBlock, /clientId: ga4ClientId,/, 'must send the resolved clientId, not canonical.anonymousId directly');
+  assert.match(sendBlock, /clientId: ga4Identity\.clientId,/);
   assert.doesNotMatch(logFunnelEventBody, /if \(canonical && data\.consent === true/,
     'the old gate read data.consent directly — it must go through the resolved ga4Consent now');
-  assert.match(logFunnelEventBody, /if \(canonical && ga4Consent === true/);
+  assert.match(logFunnelEventBody, /if \(ga4Consent === true && ga4Identity\?\.clientId\)/);
 });
 
 test('a lookup failure never blocks the funnel write it happens after', () => {
@@ -61,8 +47,8 @@ test('User schema carries analyticsConsent, defaulting to false (fail-closed)', 
 
 test('attachSignupAttribution only ever writes true, never overwrites with a falsy signal', () => {
   const start = appSource.indexOf('function attachSignupAttribution');
-  const fnBody = appSource.slice(start, start + 800);
-  assert.match(fnBody, /if \(requestFields\.consent === true\) user\.analyticsConsent = true;/);
+  const fnBody = appSource.slice(start, appSource.indexOf('function eventTypeFor', start));
+  assert.match(fnBody, /if \(requestFields\.consent === true\) \{\s*user\.analyticsConsent = true;\s*if \(requestFields\.ga4Identity\) user\.analyticsGa4 = requestFields\.ga4Identity;/);
 });
 
 test('PendingSignup carries consent through to materialization for paid-first signups', () => {
@@ -70,7 +56,15 @@ test('PendingSignup carries consent through to materialization for paid-first si
     'PendingSignup needs its own consent field — no live request exists at materialization time');
   const start = appSource.indexOf('if (pending.attribution || pending.consent)');
   assert.ok(start > -1, 'materializePendingSignup must forward pending.consent into attachSignupAttribution');
-  assert.match(appSource.slice(start, start + 200), /consent: pending\.consent === true/);
+  assert.match(appSource.slice(start, start + 250), /consent: pending\.consent === true, ga4Identity: pending\.ga4Identity/);
+});
+
+test('real trial verification and Stripe invoices supply server-owned conversion data', () => {
+  assert.match(appSource, /function trackVerifiedSignupTrial\(user, authMethod\) \{\s*if \(!identityVerified\(user\) \|\| !signupTrial\.active\(user\)\) return;/);
+  assert.match(appSource, /if \(firstVerification\) \{\s*trackVerifiedSignupTrial\(user, 'email'\);/);
+  assert.match(appSource, /if \(trialGranted \|\| verifiedNow\) trackVerifiedSignupTrial\(user, provider\);/);
+  assert.match(appSource, /dedupeKey: payload\.id \? `stripe:invoice-paid:\$\{payload\.id\}` : null/);
+  assert.match(appSource, /ga4Purchase: invoiceSubscription \? ga4Server\.purchaseParams\(payload, invoiceUser\.subscription\?\.planId, invoiceUser\.initialInvoiceId === payload\.id\) : null/);
 });
 
 test('/api/track/event forwards its own hard-verified consent and persists it onto the account', () => {

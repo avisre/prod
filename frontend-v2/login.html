@@ -70,7 +70,11 @@
       shellId: 'social-shell',
       mountId: 'google-btn',
       statusId: 'social-status',
-      next: nextAfterLogin
+      next: nextAfterLogin,
+      getExtraPayload: () => ({
+        utm: V2.getStoredUtm ? V2.getStoredUtm() : null,
+        analyticsConsent: (() => { try { return localStorage.getItem('sp_analytics_consent_v1') === 'granted'; } catch (_) { return false; } })()
+      })
     });
     // A pending paid-first account can resume checkout from this page. After
     // Stripe returns, wait for the webhook to activate access before redirect.

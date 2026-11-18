@@ -16,7 +16,7 @@ const EVENT_NAMES = Object.freeze(new Set([
     'stripe_checkout_completed', 'subscription_started', 'invoice_paid',
     'subscription_cancel_scheduled', 'subscription_canceled', 'payment_refunded',
     'review_eligible', 'review_request_sent', 'review_received', 'support_outcome_confirmed',
-    'page_view', 'tool_view', 'tool_complete', 'trial_started', 'meaningful_activation',
+    'page_view', 'tool_view', 'tool_complete', 'trial_started', 'trial_verified', 'meaningful_activation',
     'briefing_viewed', 'dossier_viewed', 'filing_monitor_viewed', 'dossier_mode_selected',
     'appsumo_landing_view', 'appsumo_cta_click', 'appsumo_activation',
     'first_research_completed', 'first_ask_succeeded', 'seven_day_return',
@@ -45,16 +45,17 @@ const BROWSER_EVENTS = Object.freeze(new Set([
 
 const EVENT_TO_GA4 = Object.freeze({
     signup_completed: 'sign_up',
+    trial_verified: 'trial_verified',
     stripe_checkout_created: 'begin_checkout',
     invoice_paid: 'purchase',
     payment_refunded: 'refund'
 });
 
-const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', site: 'website', web: 'website',
+const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', fb: 'facebook', ig: 'instagram', site: 'website', web: 'website',
     organic: 'google', search: 'google', hn: 'hackernews', 'hacker-news': 'hackernews' });
 const SOURCES = new Set(['direct', 'unknown', 'internal', 'bot', 'google', 'bing', 'duckduckgo',
     'x', 'linkedin', 'reddit', 'hackernews', 'youtube', 'newsletter', 'email', 'creator',
-    'appsumo', 'website', 'facebook', 'instagram', 'referral',
+    'appsumo', 'website', 'meta', 'facebook', 'instagram', 'referral',
     // kept in step with marketing-attribution.js SOURCES
     'chatgpt', 'claude', 'connector']);
 const PAGE_TYPES = new Set(['metric', 'comparison', 'stock', 'screen', 'research', 'tool', 'pricing', 'other']);
