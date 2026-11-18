@@ -44,6 +44,19 @@ function rebuildDebtTotal(data,previous,reportDate){
 }
 function universe(){return read(path.join(DATA,'us-companies.json'),{companies:[]}).companies;}
 function issuersFor(list){const issuers=new Map();for(const c of list){if(c.securityType && c.securityType!=='stock')continue;const id=p.cik(c.cik);if(!id)continue;const item=issuers.get(id)||{cik:id,symbols:[],securities:[]};item.symbols.push(c.symbol);item.securities.push(c);issuers.set(id,item);}return [...issuers.values()];}
+// A registration that no longer carries the listing keeps the symbols it was reconciled with for a while (the
+// successor of a reorganisation), which left sec-reporting.json naming one ticker twice: readers that resolve a
+// symbol by scanning the file took whichever entry came last. A symbol belongs to the registration the directory
+// lists it under, and only while it is listed there.
+function normalizeSymbols(report,list){
+ const owner=new Map();for(const issuer of issuersFor(list))for(const symbol of issuer.symbols)owner.set(symbol,issuer.cik);
+ for(const [cik,entry] of Object.entries(report.issuers || {})){
+  if(!Array.isArray(entry?.symbols))continue;
+  const symbols=entry.symbols.filter(symbol=>!owner.has(symbol) || owner.get(symbol)===cik);
+  if(symbols.length!==entry.symbols.length)report.issuers[cik]={...entry,symbols};
+ }
+ return report;
+}
 function audit(list,report,asOf){
  let successful=0,recent=0,factsCompleted=0,failed=0;const statuses={ready:0,partial:0,historical_only:0,unavailable:0};
  const issuerList=issuersFor(list);
@@ -182,6 +195,7 @@ async function main(argv=process.argv.slice(2)) {
  if(!Number.isInteger(max)||max<0||!Number.isInteger(concurrency)||concurrency<1||concurrency>2)throw new Error('Invalid max-issuers or concurrency (1-2)');
  if(max)todo=todo.slice(0,max);
  if(o['--dry-run']){console.log(JSON.stringify({asOf,issuers:todo.length,mode:o['--bootstrap']?'bootstrap':'daily',symbols:todo.slice(0,5).map(x=>x.symbols)}));return;}
+ normalizeSymbols(report,list);
  const lock=path.join(DATA,'.sec-refresh.lock');
  let lockFd;
  try{lockFd=fs.openSync(lock,'wx');fs.writeSync(lockFd,String(process.pid));}catch(e){let pid;try{pid=Number(fs.readFileSync(lock,'utf8'));process.kill(pid,0);}catch(err){if(pid && err.code==='ESRCH'){fs.unlinkSync(lock);lockFd=fs.openSync(lock,'wx');fs.writeSync(lockFd,String(process.pid));}}if(lockFd===undefined)throw new Error('A SEC refresh is already running');}
@@ -204,4 +218,4 @@ async function main(argv=process.argv.slice(2)) {
  const summary=audit(universe(),report,asOf);console.log(JSON.stringify(summary,null,2));if(summary.networkFailures && summary.successfulSubmissions===0)process.exitCode=1;
 }
 if(require.main===module)main().catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={main,args,audit,issuersFor,refreshIssuer,matchingFinancialFile,rebuildDebtTotal};
+module.exports={main,args,audit,issuersFor,normalizeSymbols,refreshIssuer,matchingFinancialFile,rebuildDebtTotal};

@@ -689,17 +689,16 @@
  "DIS": {
   "grade": "complete",
   "kind": "product and service lines",
-  "fiscalYear": "FY2025",
+  "fiscalYear": "FY2026",
   "rows": [
    "Subscription and affiliate fees",
    "Theme park admissions",
    "Advertising",
-   "Retail and wholesale sales of merchandise, food and beverage",
    "Resort and vacations",
+   "Retail and wholesale sales of merchandise, food and beverage",
+   "Content sales",
    "Other",
-   "Merchandise licensing",
-   "TV/VOD and home entertainment distribution",
-   "Theatrical distribution licensing"
+   "Merchandise licensing"
   ],
   "remainder": false
  },

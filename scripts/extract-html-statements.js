@@ -200,6 +200,8 @@ function durationOf(text) {
     if (/\byears? ended\b|\byears? ending\b|\btwelve[- ]months?\b|\b12[- ]months?\b|\bfiscal years?\b|\b5[23][- ]weeks?\b|\bfor the years?\b|\byear ended\b|\bannual\b/.test(t)) hits.add(12);
     return hits;
 }
+// The week count a column header prints for itself ("13 Weeks Ended", "Thirteen weeks ended").
+function weeksIn(text) { const m = /\b(13|14|52|53|thirteen|fourteen|fifty-two|fifty-three)[- ]weeks?\b/i.exec(clean(text)); return m ? ({ thirteen: 13, fourteen: 14, 'fifty-two': 52, 'fifty-three': 53 })[m[1].toLowerCase()] || +m[1] : null; }
 function weeksOf(text) { const m = /\b(52|53)[- ]weeks?\b/i.exec(clean(text)); return m ? +m[1] : null; }
 function addDays(isoDay, n) { const t = new Date(isoDay + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); }
 function isMonthEnd(isoDay) { return addDays(isoDay, 1).slice(8) === '01'; }
@@ -308,7 +310,10 @@ function statementTitle(gap, headerText) {
         if (/following table|table below|as follows|sets? forth|derived from|included (?:in|elsewhere)|refer to|see (?:the|our)|read in conjunction/i.test(before)) return { excluded: best.title };
         // A title found only inside the table's own rows ("Income statement") belongs to a note table when the
         // text just above names one (summarized financial information of an associate, a segment table).
-        if (!isGap && (NOT_STATEMENT.test(near.slice(-250)) || /\bassociates?\b|joint ventures?|investees?|equity[- ]accounted|equity method|following table|as follows/i.test(near.slice(-250)))) return { excluded: best.title };
+        // A formal "Consolidated Statements of ..." heading is the statement's own title whatever the press-release
+        // prose above it says (PTC's "For more information", Cabot's non-GAAP notes).
+        const formal = /\b(?:consolidated|condensed|combined)\s+$/i.test(before);
+        if (!isGap && !formal && (NOT_STATEMENT.test(near.slice(-250)) || /\bassociates?\b|joint ventures?|investees?|equity[- ]accounted|equity method|following table|as follows/i.test(near.slice(-250)))) return { excluded: best.title };
         // Title must be close to the table: within the last ~450 characters of the gap.
         if (isGap && text.length - best.at > 450) continue;
         const context = (isGap ? text.slice(Math.max(0, best.at - 250)) : text);
@@ -344,16 +349,38 @@ function readColumns(table, title, docCtx) {
     const notes = [];
     for (const r of header) for (const c of r) if (/^(?:notes?|note ref\.?|schedules?|note no\.?)$/i.test(c.text)) notes.push([c.c0, c.c1]);
     const overlap = (a0, a1, b0, b1) => a0 <= b1 && b0 <= a1;
+    // Columns that are not periods ("% Change", "% of Net Sales"): their numbers are known, not strays,
+    // and one printed inside a date's span is cut out of it (Dillard's "Amount | % of Net Sales" under each date).
+    const skip = [];
+    for (const r of header) for (const c of r) if (c.c0 > 0 && /%|\bpercent(?:age)?\b|\bchange\b|\bvariance\b/i.test(c.text) && !yearsIn(c.text).length) skip.push([c.c0, c.c1]);
+    leaf = leaf.map(c => {
+        const inner = skip.filter(([a, b]) => a > c.c0 && b >= c.c1 && a <= c.c1);
+        return inner.length ? { ...c, c1: Math.min(...inner.map(([a]) => a)) - 1 } : c;
+    });
+    // A duration row whose spans do not line up with the dates under it (Applied Materials prints
+    // "Three Months Ended" over only the first of its two quarter columns): when each of its N cells
+    // should head an equal run of the dates, assign them in order instead.
+    const durRows = [];
+    for (let i = 0; i < leafIndex; i++) {
+        const cells = header[i].filter(c => c.text && c.c0 > 0);
+        if (cells.length > 1 && cells.every(c => durationOf(c.text).size === 1 && !yearsIn(c.text).length) && leaf.length % cells.length === 0) durRows.push({ i, cells });
+    }
+    const byOrder = new Map();
+    for (const { i, cells } of durRows) {
+        const run = leaf.length / cells.length;
+        const aligned = leaf.every((c, k) => { const hit = cells.filter(x => overlap(x.c0, x.c1, c.c0, c.c1)); return hit.length === 1 && hit[0] === cells[Math.floor(k / run)]; });
+        if (!aligned) byOrder.set(i, cells);
+    }
     const periods = [];
-    for (const c of leaf) {
-        const anc = header.slice(0, leafIndex).flatMap(r => r.filter(x => x.text && overlap(x.c0, x.c1, c.c0, c.c1)).map(x => x.text));
+    for (const [k, c] of leaf.entries()) {
+        const anc = header.slice(0, leafIndex).flatMap((r, i) => byOrder.has(i) ? [byOrder.get(i)[Math.floor(k / (leaf.length / byOrder.get(i).length))].text] : r.filter(x => x.text && overlap(x.c0, x.c1, c.c0, c.c1)).map(x => x.text));
         const below = header.slice(leafIndex + 1).flatMap(r => r.filter(x => x.text && overlap(x.c0, x.c1, c.c0, c.c1)).map(x => x.text));
         periods.push({ c0: c.c0, c1: c.c1, own: c.text, anc: anc.join(' | '), below: below.join(' | ') });
     }
     const headerText = header.map(r => r.map(c => c.text).join(' ')).join(' \n ');
     const firstCol = Math.min(...periods.map(p => p.c0));
     const headerLabels = header.slice(leafIndex).map(r => r.filter(c => c.c1 < firstCol && c.text).map(c => c.text).join(' ')).filter(Boolean);
-    return { firstData, header, headerText, periods, notes, headerLabels };
+    return { firstData, header, headerText, periods, notes, skip, headerLabels };
 }
 
 // Resolves each period column to an end date (and for flows, a start date).
@@ -389,7 +416,7 @@ function resolvePeriods(cols, title, ctx, log) {
             end = { y: ys[0], m: md.m, d: md.d };
         }
         const periodEnd = iso(end.y, end.m, end.d);
-        let months = null, weeks = null;
+        let months = null, weeks = null, colWeeks = null;
         if (title.type !== 'balance') {
             const own3 = durationOf(own), anc3 = durationOf(p.anc), cap3 = durationOf(caption);
             const pick = own3.size === 1 ? own3 : own3.size ? null : anc3.size === 1 ? anc3 : anc3.size ? null : cap3.size === 1 ? cap3 : null;
@@ -397,15 +424,19 @@ function resolvePeriods(cols, title, ctx, log) {
             else if (!own3.size && !anc3.size && !cap3.size && /^(?:10-K|10-KT|20-F|40-F)/.test(ctx.form) && !/\binception\b|\bperiod\b|\bthrough\b/i.test(colText + ' ' + caption) && monthDays(own).length < 2) { months = 12; log.push(`column "${own}" duration taken from the annual form ${ctx.form}`); }
             if (!months) { log.push(`column "${own}" has no single printed duration; dropped`); continue; }
             weeks = weeksOf(colText) || weeksOf(caption);
+            colWeeks = weeksIn(colText);
         }
-        out.push({ ...p, periodEnd, months, weeks, header: clean([p.anc, own].filter(Boolean).join(' ')) });
+        out.push({ ...p, periodEnd, months, weeks, colWeeks, header: clean([p.anc, own].filter(Boolean).join(' ')) });
     }
     // Flow starts: a month-end close counts whole months back; a 52/53-week year
     // starts the day after the prior column of the same length, or from a printed week count.
     for (const p of out) {
         if (!p.months) continue;
         if (p.months !== 3 && p.months !== 12) { p.skip = `${p.months}-month column is neither a quarter nor a year`; continue; }
-        if (isMonthEnd(p.periodEnd)) { p.periodStart = startForMonths(p.periodEnd, p.months); continue; }
+        // A column that prints its own week count runs on a 52/53-week calendar even when it happens to close on a
+        // month end (Dillard's "13 Weeks Ended October 31, 2026" began on August 2, not October 1's quarter start).
+        if (p.months === 3 && (p.colWeeks === 13 || p.colWeeks === 14)) { p.periodStart = addDays(p.periodEnd, -(p.colWeeks * 7) + 1); continue; }
+        if (isMonthEnd(p.periodEnd) && !(p.months === 12 && (p.colWeeks === 52 || p.colWeeks === 53))) { p.periodStart = startForMonths(p.periodEnd, p.months); continue; }
         // ctx.knownQuarterEnds: quarter ends the issuer's own XBRL already files, for an earnings release
         // that prints a 52/53-week quarter beside only its year-earlier quarter (fill-release-quarter.js).
         const prior = [...out.filter(q => q !== p && q.months === p.months).map(q => q.periodEnd), ...(p.months === 3 ? ctx.knownQuarterEnds || [] : [])].filter(e => e < p.periodEnd).sort().pop();
@@ -436,7 +467,7 @@ const AMOUNT = 'money', PER_SHARE = 'perShare', CHECK = 'check';
 // [statement, field, regex, options]. Labels must match whole, after normLabel.
 const RULES = [
     // income
-    ['income', 'totalRevenue', /^(?:total )?(?:net )?(?:revenues?|sales|net sales|operating revenues?|revenues?, net|sales, net|revenue from contracts? with customers|turnover)$/],
+    ['income', 'totalRevenue', /^(?:total )?(?:net )?(?:revenues?|sales|net sales|operating revenues?|revenues?, net|sales, net|revenue from contracts? with customers|turnover|net sales and other operating revenues?)$/],
     ['income', 'totalRevenue', /^royalty income$/, { trust: true }],
     ['income', 'costOfRevenue', /^(?:total )?cost of (?:revenues?|sales|goods sold|products sold)$/],
     ['income', 'grossProfit', /^gross (?:profit|margin)(?: \((?:loss)\))?$|^gross (?:loss|profit) \((?:profit|loss)\)$/],
@@ -556,7 +587,7 @@ function readRows(table, cols, periods) {
     const firstCol = Math.min(...cols.periods.map(p => p.c0));
     const out = [];
     let stray = 0, dataRows = 0;
-    const spans = [...cols.periods.map(p => [p.c0, p.c1]), ...cols.notes];
+    const spans = [...cols.periods.map(p => [p.c0, p.c1]), ...cols.notes, ...(cols.skip || [])];
     for (const label of cols.headerLabels || []) out.push({ label, norm: normLabel(label), values: periods.map(() => ({ text: '', parsed: { kind: 'blank', value: null } })), hasValues: false });
     for (const row of table.rows.slice(cols.firstData)) {
         const label = rowLabel(row, firstCol, cols.notes);
@@ -609,6 +640,9 @@ function mapStatement(st, rows, periods, scale, ctx) {
             const top = ctx.topSection || '';
             if (/^assets/.test(top) && !bare.slice(0, -1).some(b => b.top === 'assets')) { hit = { field: 'totalAssets', opt: { bareTotal: true } }; r.top = 'assets'; }
             else if (/^liabilities and|^capital and liabilities/.test(top)) { hit = { field: 'totalLiabilitiesAndEquity', opt: { kind: CHECK, bareTotal: true } }; r.top = 'le'; }
+        } else if (st === 'income' && (ctx.registrantKeys || []).includes(entityKey((/^(?:net )?(?:income|earnings|profit|loss)(?: \((?:loss|income)\))? attributable to (.+)$/.exec(label) || [])[1] || ''))) {
+            // "Net income (loss) attributable to Cabot Corporation": the parent's share, named by the registrant's own name.
+            hit = { field: 'netIncome', opt: { parent: true } };
         } else {
             hit = mapRow(st, label, { ...ctx, section: [section, ctx.topSection || ''].join(' | '), perShareSection, seenValueRow });
         }
@@ -663,8 +697,18 @@ function mapStatement(st, rows, periods, scale, ctx) {
         } else if (st === 'income') {
             const rev = get('totalRevenue', i), cor = get('costOfRevenue', i), gp = get('grossProfit', i);
             if (rev !== null && cor !== null && gp !== null) {
-                const ok = Math.abs(rev - Math.abs(cor) - gp) <= TOL(1, 2);
-                checks.push({ period: P, name: 'revenue - cost of revenue = gross profit', ok, left: rev - Math.abs(cor), right: gp });
+                let ok = Math.abs(rev - Math.abs(cor) - gp) <= TOL(1, 2), left = rev - Math.abs(cor), name = 'revenue - cost of revenue = gross profit';
+                if (!ok) {
+                    // further cost lines printed between cost of revenue and gross profit (Scotts' "Cost of sales—impairment, restructuring and other")
+                    const ci = rows.indexOf(fields.get('costOfRevenue|entity')?.row), gi = rows.indexOf(fields.get('grossProfit|entity')?.row);
+                    const between = ci >= 0 && gi > ci ? rows.slice(ci + 1, gi).filter(r => r.hasValues) : [];
+                    if (between.length && between.every(r => /\bcost\b/.test(r.norm))) {
+                        left -= between.reduce((a, r) => a + Math.abs(r.values[i].parsed.value || 0), 0);
+                        ok = Math.abs(left - gp) <= TOL(1, 2 + between.length);
+                        name = 'revenue - cost of revenue - other printed cost lines = gross profit';
+                    }
+                }
+                checks.push({ period: P, name, ok, left, right: gp });
                 if (!ok) fail.push(`${P}: gross profit (${rev} - ${cor} vs ${gp})`);
             }
             const ti = get('trustTotalIncome', i), tx = get('trustTotalExpenses', i), di = get('netIncome', i);
@@ -824,7 +868,8 @@ function extractDocument(html, ctx) {
         const where = `table ${first.table.index}${g.parts.length > 1 ? '+' + (g.parts.length - 1) : ''} "${g.title.title}"`;
         const reject = (why) => log.push(`${where}: rejected — ${why}`);
         // The registrant's name heads the statements block; later statements of the same block inherit it.
-        const nearText = clean(first.tail).toLowerCase();
+        // ...or sits in the table's own header rows ("PLEXUS CORP. AND SUBSIDIARIES" above the column dates).
+        const nearText = clean(first.tail + ' ' + first.cols.headerText).toLowerCase();
         if (tokens.length && tokens.some(t => nearText.includes(t.toLowerCase()))) lastNamed = g.parts[g.parts.length - 1].table.end;
         else if (tokens.length && first.table.start - lastNamed < 8000) lastNamed = g.parts[g.parts.length - 1].table.end;
         else { reject(`registrant name "${tokens[0]}" not found near the statement`); continue; }
@@ -875,7 +920,7 @@ function extractDocument(html, ctx) {
         }
         if (stray > Math.max(1, dataRows * 0.1)) { reject(`values outside the period columns in ${stray} of ${dataRows} rows (column alignment)`); continue; }
         const invalid = rowsAll.flatMap(r => r.values.filter(v => v.parsed.kind === 'invalid').map(v => `${r.label}: "${v.text}"`));
-        const mctx = { trust, bank, domestic: ctx.domestic };
+        const mctx = { trust, bank, domestic: ctx.domestic, registrantKeys: [ctx.registrantName, ...(ctx.formerNames || [])].filter(Boolean).map(entityKey).filter(Boolean) };
         const m = mapStatement(st, rowsAll, usable, scale, mctx);
         for (const n of m.notes) log.push(`${where}: ${n}`);
         const mappedInvalid = [...m.fields.values()].some(f => f.row.values.some(v => v.parsed.kind === 'invalid'));
@@ -983,7 +1028,9 @@ function observationsFor(doc, ctx) {
                 const p = s.periods[i], v = f.values[i];
                 if (v.kind !== 'number' && v.kind !== 'zero') continue;
                 let value = v.value * lossSign;
-                if (EXPENSE_FIELDS.has(f.field) && deduction) value = -value;
+                // interest expense printed as a deduction ("(21)") in a statement whose other expenses print positive
+                const ownDeduction = !deduction && f.field === 'interestExpense' && f.values.some(x => x.value < 0) && f.values.every(x => typeof x.value !== 'number' || x.value <= 0);
+                if (EXPENSE_FIELDS.has(f.field) && (deduction || ownDeduction)) value = -value;
                 if (f.field === 'incomeTaxExpense' && deduction) value = -value;
                 if (OUTFLOWS.has(f.field) && value > 0) { skipped.push(`${f.field} ${p.periodEnd}: printed as a positive outflow "${v.text}"; sign unclear, dropped`); continue; }
                 if (f.field === 'retainedEarnings' && /deficit/.test(normLabel(f.label)) && !/retained/.test(normLabel(f.label)) && value > 0) { skipped.push(`retainedEarnings ${p.periodEnd}: accumulated deficit printed without sign; dropped`); continue; }

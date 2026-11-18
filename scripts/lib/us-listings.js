@@ -65,6 +65,18 @@ function continuity(symbolKey, cik, today = new Date().toISOString().slice(0, 10
     const entry = REGISTRATION_CONTINUITY[symbolKey];
     return entry && cik === entry.successor && today <= entry.until ? entry.predecessor : cik;
 }
+// The successor registration whose filings continue a predecessor's history while the listing still maps to the
+// predecessor: ExxonMobil Holdings filed XOM's September 2026 10-Q, and ten years of history sit under Exxon Mobil Corp.
+function successorOf(cik, today = new Date().toISOString().slice(0, 10)) {
+    const entry = Object.values(REGISTRATION_CONTINUITY).find((e) => e.predecessor === cik);
+    return entry && today <= entry.until ? entry.successor : null;
+}
+// The same pair read the other way once continuity() has moved the listing to the successor: the successor now
+// continues the predecessor's reports, so the ten years of history do not stop at the reorganisation.
+function predecessorOf(cik, today = new Date().toISOString().slice(0, 10)) {
+    const entry = Object.values(REGISTRATION_CONTINUITY).find((e) => e.successor === cik);
+    return entry && today > entry.until ? entry.predecessor : null;
+}
 function buildUniverse(nasdaq, other, sec, curated = [], previous = [], metadata = {}) {
     if (!Array.isArray(sec.fields) || !Array.isArray(sec.data)) throw new Error('Invalid SEC ticker directory');
     const secRows = sec.data.map((r) => Object.fromEntries(sec.fields.map((f, i) => [f, r[i]])));
@@ -118,4 +130,4 @@ function validateManifest(manifest,companies) {
  for(const directory of ['nasdaq','other','sec_issuer_identity'])if(!(manifest.sources || []).some(s=>s.directory===directory))errors.push('Missing authoritative directory source '+directory);
  return errors;
 }
-module.exports = { parseDirectory, securityType, buildUniverse,validateTimestamp,validateManifest, continuity, REGISTRATION_CONTINUITY };
+module.exports = { parseDirectory, securityType, buildUniverse,validateTimestamp,validateManifest, continuity, successorOf, predecessorOf, REGISTRATION_CONTINUITY };

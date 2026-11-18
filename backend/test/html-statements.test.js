@@ -288,3 +288,87 @@ test('non-XBRL annual, unavailable coverage and missing subs keep their rules', 
   assert.equal(x.qualifies(target('unavailable'), { missing: true }), false);
   assert.equal(x.qualifies(target('partial'), null), false);
 });
+
+// Earnings-release layouts (November 2026): Home Depot, Scotts, Dillard's, Applied Materials, Cabot, PTC, Plexus.
+const rel = (over = {}) => ctx({ form: '8-K', registrantName: 'Acme Widgets, Inc.', ...over });
+const incomeOf = (r) => r.statements.find(s => s.type === 'income');
+const valueOf = (r, field, end) => x.observationsFor(r, rel()).observations.find(o => o.field === field && o.periodEnd === end)?.value;
+
+test('a "% Change" column beside each period is not read as a misplaced figure', () => {
+  const r = x.extractDocument(doc(`<p>ACME WIDGETS, INC. CONSOLIDATED STATEMENTS OF EARNINGS (in millions)</p><table>
+<tr>${td('')}${td('Three Months Ended', 3)}</tr>
+<tr>${td('')}${td('December 31, 2025')}${td('December 31, 2024')}${td('% Change')}</tr>
+${row('Net sales', '$ 2,000', '$ 1,800', '11.1 %')}${row('Cost of sales', '1,200', '1,100', '9.1')}${row('Gross profit', '800', '700', '14.3')}
+${row('Net earnings', '50', '40', '25.0 %')}</table>`), rel());
+  const is = incomeOf(r);
+  assert.ok(is, r.log.join('\n'));
+  assert.equal(is.periods.length, 2);
+  assert.equal(valueOf(r, 'totalRevenue', '2025-12-31'), 2000e6);
+});
+
+test('an "Amount | % of Net Sales" pair under each date reads the amount only', () => {
+  const r = x.extractDocument(doc(`<p>ACME WIDGETS, INC. CONSOLIDATED STATEMENTS OF INCOME (in millions)</p><table>
+<tr>${td('')}${td('Three Months Ended', 4)}</tr>
+<tr>${td('')}${td('December 31, 2025', 2)}${td('December 31, 2024', 2)}</tr>
+<tr>${td('')}${td('')}${td('% of')}${td('')}${td('% of')}</tr>
+<tr>${td('')}${td('Amount')}${td('Net Sales')}${td('Amount')}${td('Net Sales')}</tr>
+${row('Net sales', '$ 1,480.4', '100.0 %', '$ 1,468.8', '100.0 %')}${row('Cost of sales', '835.0', '56.4', '831.6', '56.6')}
+${row('Net income', '130.9', '8.8', '129.8', '8.8')}</table>`), rel());
+  const is = incomeOf(r);
+  assert.ok(is, r.log.join('\n'));
+  assert.equal(valueOf(r, 'totalRevenue', '2025-12-31'), 1480.4e6);
+  assert.equal(valueOf(r, 'netIncome', '2024-12-31'), 129.8e6);
+});
+
+test('a 13-week quarter that happens to end on a month end starts 13 weeks back, not on the 1st', () => {
+  const r = x.extractDocument(doc(`<p>ACME WIDGETS, INC. CONSOLIDATED STATEMENTS OF INCOME (in millions)</p><table>
+<tr>${td('')}${td('13 Weeks Ended', 2)}</tr>
+<tr>${td('')}${td('October 31, 2026')}${td('November 1, 2025')}</tr>
+${row('Net sales', '1,480.4', '1,468.8')}${row('Net income', '130.9', '129.8')}</table>`), rel());
+  const is = incomeOf(r);
+  assert.ok(is, r.log.join('\n'));
+  assert.deepEqual(is.periods.map(p => [p.periodStart, p.periodEnd]), [['2026-08-02', '2026-10-31'], ['2025-08-03', '2025-11-01']]);
+});
+
+test('duration headers that do not line up with the dates under them are assigned in order', () => {
+  // the quarter header spans only the first date column; the year header covers the second quarter and the first year
+  const r = x.extractDocument(doc(`<p>ACME WIDGETS, INC. CONSOLIDATED STATEMENTS OF OPERATIONS (in millions)</p><table>
+<tr>${td('')}${td('Three Months Ended')}${td('Twelve Months Ended', 2)}${td('')}</tr>
+<tr>${td('')}${td('December 31, 2025')}${td('December 31, 2024')}${td('December 31, 2025')}${td('December 31, 2024')}</tr>
+${row('Revenue', '600', '500', '2,000', '1,800')}${row('Net income', '60', '50', '200', '180')}</table>`), rel());
+  const is = incomeOf(r);
+  assert.ok(is, r.log.join('\n'));
+  assert.deepEqual(is.periods.map(p => [p.periodEnd, p.months]), [['2025-12-31', 3], ['2024-12-31', 3], ['2025-12-31', 12], ['2024-12-31', 12]]);
+  const q = x.observationsFor(r, rel()).observations.filter(o => o.field === 'totalRevenue' && o.basis === 'quarterly').map(o => [o.periodEnd, o.value]);
+  assert.deepEqual(q, [['2025-12-31', 600e6], ['2024-12-31', 500e6]]);
+});
+
+test('a formal statement title inside the table is kept whatever the release prose above it says', () => {
+  const r = x.extractDocument(doc(`<p>For more information, please visit our website. Non-GAAP information is reconciled below.</p><table>
+<tr>${td('ACME WIDGETS, INC.', 3)}</tr><tr>${td('UNAUDITED CONSOLIDATED STATEMENTS OF INCOME', 3)}</tr><tr>${td('(in millions)', 3)}</tr>
+<tr>${td('')}${td('Three Months Ended', 2)}</tr>
+<tr>${td('')}${td('December 31, 2025')}${td('December 31, 2024')}</tr>
+${row('Net sales and other operating revenues', '1,009', '1,000')}${row('Interest expense', '(21)', '(20)')}${row('Cost of sales', '805', '800')}
+${row('Net income', '73', '54')}${row('Net income attributable to noncontrolling interests', '7', '11')}${row('Net income attributable to Acme Widgets, Inc.', '66', '43')}</table>`), rel());
+  const is = incomeOf(r);
+  assert.ok(is, r.log.join('\n'));
+  const obs = x.observationsFor(r, rel()).observations;
+  assert.equal(obs.find(o => o.field === 'totalRevenue' && o.periodEnd === '2025-12-31')?.value, 1009e6);
+  // interest printed as a deduction among positive expenses is still an expense
+  assert.equal(obs.find(o => o.field === 'interestExpense' && o.periodEnd === '2025-12-31')?.value, 21e6);
+  assert.deepEqual(obs.filter(o => o.field === 'netIncome' && o.periodEnd === '2024-12-31').map(o => [o.scope, o.value]).sort(), [['consolidated', 54e6], ['parent', 43e6]].sort());
+});
+
+test('cost lines printed between cost of sales and gross margin count in the gross-profit check', () => {
+  const r = x.extractDocument(doc(`<p>ACME WIDGETS, INC. CONSOLIDATED STATEMENTS OF OPERATIONS (in millions)</p><table>
+<tr>${td('')}${td('Year Ended December 31,', 2)}</tr><tr>${td('')}${td('2025')}${td('2024')}</tr>
+${row('Net sales', '3,288.9', '3,255.8')}${row('Cost of sales', '2,223.4', '2,226.1')}${row('Cost of sales—impairment, restructuring and other', '2.5', '10.1')}
+${row('Gross margin', '1,063.0', '1,019.6')}${row('Net income', '100.0', '90.0')}</table>`), ctx());
+  assert.ok(incomeOf(r), r.log.join('\n'));
+  // an unrelated line in between does not excuse a gross profit that does not add up
+  const bad = x.extractDocument(doc(`<p>ACME WIDGETS, INC. CONSOLIDATED STATEMENTS OF OPERATIONS (in millions)</p><table>
+<tr>${td('')}${td('Year Ended December 31,', 2)}</tr><tr>${td('')}${td('2025')}${td('2024')}</tr>
+${row('Net sales', '3,288.9', '3,255.8')}${row('Cost of sales', '2,223.4', '2,226.1')}${row('Royalty income', '2.5', '10.1')}
+${row('Gross margin', '1,063.0', '1,019.6')}${row('Net income', '100.0', '90.0')}</table>`), ctx());
+  assert.equal(incomeOf(bad), undefined);
+});

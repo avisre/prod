@@ -19,9 +19,11 @@ const GOLDEN_SYMBOLS = ['AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'NVDA', 'ORCL',
     'JPM', 'BAC', 'WFC', 'GS', 'MS', 'C', 'BRK-B', 'AIG', 'PGR', 'V', 'MA', 'AXP', 'WMT', 'TGT', 'COST', 'HD', 'MCD', 'SBUX', 'NKE', 'KO', 'PEP', 'PG',
     'JNJ', 'PFE', 'MRK', 'LLY', 'BMY', 'UNH', 'CVS', 'XOM', 'CVX', 'COP', 'BA', 'CAT', 'DE', 'GE', 'HON', 'UPS', 'DAL', 'DIS', 'CMCSA', 'T', 'VZ', 'INOD', 'CRWV', 'BMI'];
 
+// The directory's own symbol → CIK mapping, the one the pages resolve through: reading symbols out of
+// sec-reporting.json let a registration that no longer carries the listing decide the golden row.
 function symbols() {
     const out = new Map();
-    try { for (const e of Object.values(JSON.parse(fs.readFileSync(path.join(DATA, 'sec-reporting.json'), 'utf8')).issuers || {})) for (const s of e.symbols || []) out.set(s, String(e.cik).padStart(10, '0')); } catch (_) { /* optional */ }
+    try { for (const c of JSON.parse(fs.readFileSync(path.join(DATA, 'us-companies.json'), 'utf8')).companies || []) if (c.symbol && c.cik) out.set(c.symbol, String(c.cik).padStart(10, '0')); } catch (_) { /* optional */ }
     return out;
 }
 const load = cik => { try { return JSON.parse(fs.readFileSync(path.join(DATA, 'sec-financials', cik + '.json'), 'utf8')); } catch (_) { return null; } };

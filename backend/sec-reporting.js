@@ -31,6 +31,16 @@ async function fetchReporting(issuer,{asOf=p.day(new Date().toISOString()),reque
   historyRequests++;
   filings=filings.concat(parseFilings(await request(`https://data.sec.gov/submissions/${file.name}`),id));
  }
+ // A holding-company reorganisation (scripts/lib/us-listings.js): the listing follows the registration that
+ // holds the history, and the other side of that pair continues it — the successor's reports while the listing
+ // is on the predecessor, the predecessor's ten years of reports once continuity() moves the listing over.
+ const other=continuing(id,asOf);
+ if(other) {
+  const next=await request(`https://data.sec.gov/submissions/CIK${other.cik}.json`);
+  if(p.cik(next.cik)!==other.cik)throw new Error('SEC_IDENTITY_MISMATCH');
+  const known=new Set(filings.map(f=>f.accessionNumber));
+  filings=filings.concat(parseFilings(next.filings?.recent,other.linkCik).filter(f=>!known.has(f.accessionNumber)));
+ }
  const latestAnnual=p.selectAnnual(filings,asOf);
  const latestPeriodic=filings.filter(f=>/^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(f.form) && f.filingDate<=asOf).sort((a,b)=>b.filingDate.localeCompare(a.filingDate))[0] || null;
  // The quarterly report before the newest one in the same fiscal year: a later 10-Q gives cash
@@ -42,5 +52,38 @@ async function fetchReporting(issuer,{asOf=p.day(new Date().toISOString()),reque
  const registeredFundReport=filings.filter(f=>/^(N-CSR|N-CSRS|N-CEN|N-PORT-P|485APOS|485BPOS)(\/A)?$/.test(f.form) && f.filingDate<=asOf).sort((a,b)=>b.filingDate.localeCompare(a.filingDate))[0] || null;
  return {cik:id,latestEarningsRelease,sic:String(raw.sic || ''),entityType:raw.entityType || null,registeredFundReport,fundRegistrant:!!registeredFundReport && (!latestAnnual || registeredFundReport.filingDate>=latestAnnual.filingDate),reportingCadence:/^(20-F|40-F)$/.test(latestAnnual?.form || '')?'issuer_specific_interim':'quarterly',issuerName:raw.name || '',symbols:issuer.symbols || [],lastSuccessfulCheckAt:new Date().toISOString(),lastAttemptAt:new Date().toISOString(),lastAttemptResult:'success',latestAnnual,latestPeriodic,previousPeriodic,yearPeriodics,amendmentOnly:!latestAnnual && filings.some(f=>/^(10-K|20-F|40-F)\/A$/.test(f.form)),financialFile:`sec-financials/${id}.json`,lastErrorCode:null};
 }
-async function fetchFacts(cik,{request=getJson}={}) {return request(`https://data.sec.gov/api/xbrl/companyfacts/CIK${p.cik(cik)}.json`);}
-module.exports={HEADERS,getJson,parseFilings,fetchReporting,fetchFacts};
+// The registration that continues this issuer's history, and the number its filings are served under. EDGAR
+// serves a successor's filings under the predecessor's number too, so on the predecessor a filing keeps the
+// issuer's own number; the predecessor's own filings are only under the predecessor's number.
+function continuing(cik,asOf) {
+ const listings=require('../scripts/lib/us-listings'),id=p.cik(cik);
+ const successor=listings.successorOf(id,asOf);
+ if(successor)return {cik:successor,linkCik:id};
+ const predecessor=listings.predecessorOf(id,asOf);
+ return predecessor?{cik:predecessor,linkCik:predecessor}:null;
+}
+// The predecessor's facts with the successor's added (each fact once): the successor's feed starts at the reorganisation.
+function mergeFacts(base,extra) {
+ const out={...base,facts:{...(base.facts || {})}};
+ for(const [tax,concepts] of Object.entries(extra.facts || {})) {
+  const into=out.facts[tax]={...(out.facts[tax] || {})};
+  for(const [concept,fact] of Object.entries(concepts)) {
+   const have=into[concept]?{...into[concept],units:{...into[concept].units}}:{...fact,units:{}};
+   for(const [unit,rows] of Object.entries(fact.units || {})) {
+    const list=[...(have.units[unit] || [])],seen=new Set(list.map(f=>[f.accn,f.start,f.end,f.val].join('|')));
+    for(const f of rows)if(!seen.has([f.accn,f.start,f.end,f.val].join('|')))list.push(f);
+    have.units[unit]=list;
+   }
+   into[concept]=have;
+  }
+ }
+ return out;
+}
+async function fetchFacts(cik,{request=getJson,asOf=p.day(new Date().toISOString())}={}) {
+ const id=p.cik(cik),raw=await request(`https://data.sec.gov/api/xbrl/companyfacts/CIK${id}.json`);
+ const other=continuing(id,asOf);
+ if(!other)return raw;
+ let extra;try{extra=await request(`https://data.sec.gov/api/xbrl/companyfacts/CIK${other.cik}.json`);}catch(e){if(e.response?.status===404)return raw;throw e;}
+ return mergeFacts(raw,extra);
+}
+module.exports={HEADERS,getJson,parseFilings,fetchReporting,fetchFacts,mergeFacts,continuing};

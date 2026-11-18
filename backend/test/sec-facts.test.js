@@ -163,6 +163,21 @@ test('a year filed on a quarter\'s dates is read as the year; a real fourth quar
  assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
  const real=run(5648);assert.equal(real.income.annualReports[0].totalRevenue,null,'a quarter below nine months is a quarter');
 });
+test('revenue tagged a thousandth of the same filing\'s other revenue tag is a scale slip; the quarter reads the scaled tag (Plexus)',()=>{
+ const run=(gross)=>{
+  const {doc,evidence}=fixture();const g=doc.facts['us-gaap'];delete g.Revenues;
+  const Q='0000000123-25-000007',OLD='0000000123-25-000005';
+  const k=(val,start,end,accn=ACC,form='10-K',filed='2026-02-01')=>({val,start,end,accn,form,filed});
+  const q=(val,start,accn=Q,filed='2025-11-01')=>k(val,start,'2025-09-30',accn,'10-Q',filed);
+  g.RevenueFromContractWithCustomerExcludingAssessedTax={units:{USD:[k(4000000,'2025-01-01','2025-12-31'),q(1000,'2025-07-01'),q(3000,'2025-01-01'),q(1020000,'2025-07-01',OLD,'2025-10-15')]}};
+  g.RevenueFromContractWithCustomerIncludingAssessedTax={units:{USD:[k(4000000,'2025-01-01','2025-12-31'),q(1000000,'2025-07-01'),q(3000000,'2025-01-01')]}};
+  g.GrossProfit={units:{USD:[q(gross,'2025-07-01'),q(gross*3,'2025-01-01')]}};
+  const d=extract(doc,evidence,{asOf:'2026-10-03'}),at=e=>d.income.quarterlyReports.find(r=>r.fiscalDateEnding===e)?.totalRevenue ?? null;
+  return [at('2025-09-30'),at('2025-12-31'),d.income.annualReports[0].totalRevenue];
+ };
+ assert.deepEqual(run(100000),[1000000,1000000,4000000],'the slip and the figure it restated give way to the scaled tag');
+ assert.equal(run(500)[0],1000,'below gross profit is the only tell: a revenue above it stands as filed');
+});
 
 // 2026-10-10: only goodwill was read out of the long-term assets, so the
 // Stocks & funds page had nothing to unfold "Total long-term assets" into.

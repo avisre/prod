@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261107-face16';
+const EXTRACTION_VERSION = '20261118-revscale1';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -668,6 +668,21 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     }
    }
   }
+  if(drop.size){const kept=rows.filter(r=>!drop.has(r));rows.length=0;for(const r of kept)rows.push(r);}
+ }
+ // Plexus's 10-Qs since 2025 tag RevenueFromContractWithCustomerExcludingAssessedTax in thousands
+ // ($976,122 for a $976.1M quarter) beside the same figure, correctly scaled, as ...IncludingAssessedTax.
+ // A revenue fact that another revenue tag in the same filing and span gives at exactly a thousand or a
+ // million times, and that the same filing's gross profit for that span exceeds, is the slip: it is dropped,
+ // and so are earlier filings' figures on that tag and span, which it restated (Plexus's FY2024 quarters, recast
+ // in the 2025 10-Qs): the quarter then reads the restated figure from the correctly scaled tag, as the year does.
+ {
+  const revenueTags=new Set(MAPS.income.totalRevenue['us-gaap']),key=r=>r.accn+'|'+r.start+'|'+r.end+'|'+r.unit;
+  const revenue=new Map(),gross=new Map();
+  for(const r of rows)if(r.taxonomy==='us-gaap' && r.start){if(revenueTags.has(r.concept)){if(!revenue.has(key(r)))revenue.set(key(r),[]);revenue.get(key(r)).push(r);}else if(r.concept==='GrossProfit')gross.set(key(r),r.val);}
+  const drop=new Set();
+  for(const [k,list] of revenue)for(const r of list)if(r.val>0 && gross.get(k)>r.val && list.some(o=>o!==r && [1e3,1e6].includes(o.val/r.val)))drop.add(r);
+  for(const r of [...drop])for(const o of rows)if(o.taxonomy===r.taxonomy && o.concept===r.concept && o.unit===r.unit && o.start===r.start && o.end===r.end && o.filed<r.filed)drop.add(o);
   if(drop.size){const kept=rows.filter(r=>!drop.has(r));rows.length=0;for(const r of kept)rows.push(r);}
  }
  // Canadian National files its audited annual statements in a 6-K on the day of the 40-F that

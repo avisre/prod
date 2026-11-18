@@ -41,3 +41,85 @@ test('a refresh by one ticker keeps every share class of that issuer', {skip:!re
  try {await require('../../scripts/refresh-sec-coverage').main(['--symbols','GOOG','--dry-run']);} finally {console.log=log;}
  assert.deepEqual(JSON.parse(lines[0]).symbols,[['GOOG','GOOGL']]);
 });
+
+test('a reorganised issuer keeps its history and gains the successor registration\'s reports and facts',async()=>{
+ const {successorOf}=require('../../scripts/lib/us-listings');
+ assert.equal(successorOf('0000034088','2026-11-18'),'0002115436');
+ assert.equal(successorOf('0000034088','2027-04-01'),null);
+ assert.equal(successorOf('0002115436','2026-11-18'),null);
+ const subs=(cik,rows)=>({cik:Number(cik),name:'X',filings:{recent:{accessionNumber:rows.map(r=>r[0]),form:rows.map(r=>r[1]),filingDate:rows.map(r=>r[2]),reportDate:rows.map(r=>r[3]),primaryDocument:rows.map(()=>'x.htm')},files:[]}});
+ const shared=['0000034088-26-000093','10-Q','2026-08-03','2026-06-30'];
+ const pages={
+  'https://data.sec.gov/submissions/CIK0000034088.json':subs('34088',[['0000034088-26-000010','10-K','2026-02-18','2025-12-31'],shared]),
+  'https://data.sec.gov/submissions/CIK0002115436.json':subs('2115436',[['0002115436-26-000020','10-Q','2026-11-02','2026-09-30'],shared]),
+ };
+ const e=await reporting.fetchReporting({cik:'0000034088'},{asOf:'2026-11-18',request:async u=>pages[u]});
+ assert.equal(e.cik,'0000034088');
+ assert.equal(e.latestAnnual.accessionNumber,'0000034088-26-000010');
+ assert.equal(e.latestPeriodic.accessionNumber,'0002115436-26-000020');
+ // EDGAR serves the successor's filing under the predecessor's number, so the link stays under the issuer's own CIK
+ assert.equal(e.latestPeriodic.filingUrl,'https://www.sec.gov/Archives/edgar/data/34088/000211543626000020/0002115436-26-000020-index.htm');
+ assert.equal(e.previousPeriodic.accessionNumber,'0000034088-26-000093');
+ const fact=(accn,start,end,val)=>({accn,start,end,val,form:'10-Q',filed:'2026-11-02'});
+ const facts={
+  'https://data.sec.gov/api/xbrl/companyfacts/CIK0000034088.json':{cik:34088,entityName:'EXXON MOBIL CORP',facts:{'us-gaap':{Revenues:{units:{USD:[fact('0000034088-26-000093','2026-04-01','2026-06-30',116017e6)]}}}}},
+  'https://data.sec.gov/api/xbrl/companyfacts/CIK0002115436.json':{cik:2115436,entityName:'ExxonMobil Holdings Corp',facts:{'us-gaap':{Revenues:{units:{USD:[fact('0000034088-26-000093','2026-04-01','2026-06-30',116017e6),fact('0002115436-26-000020','2026-07-01','2026-09-30',113164e6)]}},Assets:{units:{USD:[fact('0002115436-26-000020',undefined,'2026-09-30',470917e6)]}}}}},
+ };
+ const raw=await reporting.fetchFacts('0000034088',{asOf:'2026-11-18',request:async u=>facts[u]});
+ assert.equal(raw.cik,34088);
+ assert.deepEqual(raw.facts['us-gaap'].Revenues.units.USD.map(f=>f.val),[116017e6,113164e6]);
+ assert.equal(raw.facts['us-gaap'].Assets.units.USD.length,1);
+ // any other issuer reads its own feed alone
+ let calls=0;await reporting.fetchFacts('0000000123',{request:async()=>{calls++;return {cik:123,facts:{}};}});assert.equal(calls,1);
+});
+test('the reorganisation reads the other way once the listing moves: the successor keeps the predecessor\'s history',async()=>{
+ const {successorOf,predecessorOf}=require('../../scripts/lib/us-listings');
+ assert.equal(predecessorOf('0002115436','2026-11-18'),null);
+ assert.equal(predecessorOf('0002115436','2027-04-01'),'0000034088');
+ assert.equal(successorOf('0000034088','2027-04-01'),null);
+ assert.deepEqual(reporting.continuing('0000034088','2026-11-18'),{cik:'0002115436',linkCik:'0000034088'});
+ assert.deepEqual(reporting.continuing('0002115436','2027-04-01'),{cik:'0000034088',linkCik:'0000034088'});
+ assert.equal(reporting.continuing('0002115436','2026-11-18'),null);
+ const subs=(cik,rows)=>({cik:Number(cik),name:'X',filings:{recent:{accessionNumber:rows.map(r=>r[0]),form:rows.map(r=>r[1]),filingDate:rows.map(r=>r[2]),reportDate:rows.map(r=>r[3]),primaryDocument:rows.map(()=>'x.htm')},files:[]}});
+ const pages={
+  'https://data.sec.gov/submissions/CIK0002115436.json':subs('2115436',[['0002115436-26-000020','10-Q','2026-11-02','2026-09-30']]),
+  'https://data.sec.gov/submissions/CIK0000034088.json':subs('34088',[['0000034088-26-000010','10-K','2026-02-18','2025-12-31'],['0002115436-26-000020','10-Q','2026-11-02','2026-09-30']]),
+ };
+ // the listing is on the successor after 2027-03-31: its annual is the predecessor's 10-K, linked under the predecessor's CIK
+ const e=await reporting.fetchReporting({cik:'0002115436',symbols:['XOM']},{asOf:'2027-04-01',request:async u=>pages[u]});
+ assert.equal(e.latestAnnual.accessionNumber,'0000034088-26-000010');
+ assert.equal(e.latestAnnual.filingUrl,'https://www.sec.gov/Archives/edgar/data/34088/000003408826000010/0000034088-26-000010-index.htm');
+ // the successor's own filing keeps the successor's link even though the predecessor's feed carries it too
+ assert.equal(e.latestPeriodic.accessionNumber,'0002115436-26-000020');
+ assert.equal(e.latestPeriodic.filingUrl,'https://www.sec.gov/Archives/edgar/data/2115436/000211543626000020/0002115436-26-000020-index.htm');
+ const fact=(accn,start,end,val)=>({accn,start,end,val,form:'10-Q',filed:'2026-11-02'});
+ const facts={
+  'https://data.sec.gov/api/xbrl/companyfacts/CIK0002115436.json':{cik:2115436,entityName:'ExxonMobil Holdings Corp',facts:{'us-gaap':{Revenues:{units:{USD:[fact('0002115436-26-000020','2026-07-01','2026-09-30',113164e6)]}}}}},
+  'https://data.sec.gov/api/xbrl/companyfacts/CIK0000034088.json':{cik:34088,entityName:'EXXON MOBIL CORP',facts:{'us-gaap':{Revenues:{units:{USD:[fact('0000034088-26-000010','2025-01-01','2025-12-31',339247e6)]}}}}},
+ };
+ const raw=await reporting.fetchFacts('0002115436',{asOf:'2027-04-01',request:async u=>facts[u]});
+ assert.equal(raw.cik,2115436);
+ assert.deepEqual(raw.facts['us-gaap'].Revenues.units.USD.map(f=>f.val),[113164e6,339247e6]);
+});
+test('a missing successor feed leaves the issuer\'s own facts; a failing one is not swallowed',async()=>{
+ const own={cik:34088,entityName:'EXXON MOBIL CORP',facts:{'us-gaap':{Revenues:{units:{USD:[{accn:'0000034088-26-000010',start:'2025-01-01',end:'2025-12-31',val:1}]}}}}};
+ const urls=[];
+ const missing=await reporting.fetchFacts('0000034088',{asOf:'2026-11-18',request:async u=>{urls.push(u);if(u.includes('2115436'))throw Object.assign(new Error('missing'),{response:{status:404}});return own;}});
+ assert.equal(urls.length,2);
+ assert.deepEqual(missing,own);
+ await assert.rejects(reporting.fetchFacts('0000034088',{asOf:'2026-11-18',request:async u=>{if(u.includes('2115436'))throw Object.assign(new Error('boom'),{response:{status:500}});return own;}}),/boom/);
+});
+test('a symbol is named by the registration the directory lists it under, not by whichever entry came last',()=>{
+ const {normalizeSymbols}=require('../../scripts/refresh-sec-coverage');
+ const list=[{symbol:'XOM',cik:'0000034088',securityType:'stock'},{symbol:'XOM-W',cik:'0000034088',securityType:'stock'}];
+ const report={issuers:{
+  '0000034088':{cik:'0000034088',symbols:['XOM','XOM-W']},
+  '0002115436':{cik:'0002115436',symbols:['XOM']},
+  '0000099999':{cik:'0000099999',symbols:['ZZZ']},
+ }};
+ normalizeSymbols(report,list);
+ assert.deepEqual(report.issuers['0000034088'].symbols,['XOM','XOM-W']);
+ assert.deepEqual(report.issuers['0002115436'].symbols,[]);
+ // a symbol the directory does not list at all is left alone: the report is not the directory
+ assert.deepEqual(report.issuers['0000099999'].symbols,['ZZZ']);
+});
