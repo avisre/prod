@@ -96,7 +96,7 @@ function filedAnnualRows(company,st,existing,supplements) {
 function releaseQuarterRows(company,st,existing,perShareAllowed,supplements) {
  const list=supplements || require('./committed-supplements').forIssuer(p.cik(company.cik) || 'listing:'+company.symbol.replace(/\./g,'-'));
  const latest=(existing || []).map(r=>r.fiscalDateEnding).sort().pop() || '';
- const filed=list.filter(f=>f.verificationMethod==='release_table_checked' && f.sourceType==='issuer_release' && f.historyBasis==='quarterly' && f.statement===st && (st==='balance'?f.basis==='instant':f.basis==='quarterly') && f.state==='available' && f.scope==='entity' && f.periodEnd>latest && (perShareAllowed || !/\/shares$/.test(f.unit || '')));
+ const filed=list.filter(f=>f.verificationMethod==='release_table_checked' && f.sourceType==='issuer_release' && f.statement===st && (st==='balance'?f.basis==='instant' && ['quarterly','annual'].includes(f.historyBasis):f.basis==='quarterly' && f.historyBasis==='quarterly') && f.state==='available' && f.scope==='entity' && f.periodEnd>latest && (perShareAllowed || !/\/shares$/.test(f.unit || '')));
  return statementRows(company,st,filed,existing,'quarterly');
 }
 function statementRows(company,st,filed,existing,periodType) {

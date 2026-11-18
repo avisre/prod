@@ -143,6 +143,16 @@ test('release rows are added only after every filed period, and per-share lines 
     assert.equal(vf.releaseQuarterRows(company, 'income', [{ fiscalDateEnding: '2026-10-25' }], true, supplements).rows.length, 0, 'the 10-Q supersedes it');
 });
 
+test('a fiscal year-end balance sheet from a release is a quarterly balance row too', () => {
+    const company = { cik: '0000000001', symbol: 'ACME' };
+    const bal = (over) => obsRow({ statement: 'balance', field: 'totalAssets', value: 9e9, basis: 'instant', periodStart: null, ...over });
+    const supplements = [bal({ historyBasis: 'annual' }), obsRow({ historyBasis: 'annual', sourceIds: ['sec-html:e'] })];
+    const { rows } = vf.releaseQuarterRows(company, 'balance', [{ fiscalDateEnding: '2026-07-26' }], true, supplements);
+    assert.equal(rows.length, 1);
+    assert.equal(rows[0].totalAssets, 9e9);
+    assert.equal(vf.releaseQuarterRows(company, 'income', [{ fiscalDateEnding: '2026-07-26' }], true, supplements).rows.length, 0, 'an annual-basis income line is a full year, not the quarter');
+});
+
 test('NVIDIA Q3 FY2027 (quarter ended 2026-10-25) is on the company page, from the release or the 10-Q', () => {
     const d = vf.load('NVDA');
     const q = (st) => d[st].quarterlyReports.find((r) => r.fiscalDateEnding === '2026-10-25');
