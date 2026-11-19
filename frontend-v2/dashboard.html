@@ -503,6 +503,23 @@
       <div id="portfolio-action-arrival" hidden></div>
     </div>
   </div>
+  <script>
+  // Sign-up from an ad (register.html?next=/stocks/SMCI): the verification link and the
+  // Google sign-up both end here, so open the page the visitor came for. Used once.
+  (function () {
+    if (!/(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie)) return;
+    try {
+      var saved = JSON.parse(localStorage.getItem('sp_after_signup') || 'null');
+      if (!saved) return;
+      localStorage.removeItem('sp_after_signup');
+      var p = String(saved.path || '');
+      if (Date.now() - Number(saved.at) > 3 * 864e5) return;
+      if (!/^[a-z0-9][a-z0-9_.\-\/]{0,120}$/i.test(p) || p.indexOf('..') !== -1 || p.indexOf('//') !== -1 ||
+          /^(dashboard\.html|oauth\/)/i.test(p)) return;
+      location.replace('/' + p);
+    } catch (_) {}
+  })();
+  </script>
   <script src="assets/app.js?v=20261118-release1"></script>
   <script src="assets/dashboard.js?v=20261118-release1"></script>
   <script>

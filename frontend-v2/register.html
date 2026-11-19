@@ -157,6 +157,17 @@
     if (!PLANS[plan]) plan = 'monthly';
     const nextParam = new URLSearchParams(location.search).get('next') || '';
     const nextPath = /^[a-z][a-z0-9+.-]*:|^\/\//i.test(nextParam) ? 'dashboard.html' : (nextParam === 'oauth/resume' ? 'oauth/resume' : 'dashboard.html');
+    // A page to open once the account exists (an ad sends /register?next=/stocks/SMCI).
+    // Only a plain same-site path is kept. It is remembered for verify-email.html and
+    // the dashboard, so it survives the email step and the Google sign-up redirect.
+    const landingNext = (() => {
+      const p = nextParam.trim().replace(/^\/(?!\/)/, '');
+      return /^[a-z0-9][a-z0-9_.\-\/]{0,120}$/i.test(p) && !p.includes('..') && !p.includes('//') &&
+        !/^(dashboard\.html|oauth\/)/i.test(p) ? p : '';
+    })();
+    if (landingNext) {
+      try { localStorage.setItem('sp_after_signup', JSON.stringify({ path: landingNext, at: Date.now() })); } catch (_) {}
+    }
 
     function syncPlan() {
       const meta = PLANS[plan];
@@ -234,15 +245,16 @@
           return;
         }
         if (data.url) { location.href = data.url; return; }
+        const verifyUrl = '/verify-email.html' + (landingNext ? '?next=' + encodeURIComponent(landingNext) : '');
         if (data.verificationRequired) {
-          location.href = '/verify-email.html';
+          location.href = verifyUrl;
           return;
         }
         if (data.token) {
-          location.href = '/' + nextPath;
+          location.href = '/' + (nextPath === 'dashboard.html' && landingNext ? landingNext : nextPath);
           return;
         }
-        location.href = '/verify-email.html';
+        location.href = verifyUrl;
       } catch (_) {
         err.textContent = 'Network problem — please try again.';
         err.hidden = false;

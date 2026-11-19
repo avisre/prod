@@ -46,6 +46,20 @@
       status.textContent = text;
       status.classList.toggle('delta-neg', Boolean(bad));
     };
+    // The page the visitor signed up from (register.html?next=…), read from the URL or
+    // from what register.html remembered (kept for 3 days). Used once, then forgotten.
+    function afterSignup() {
+      let p = new URLSearchParams(location.search).get('next') || '';
+      try {
+        const saved = JSON.parse(localStorage.getItem('sp_after_signup') || 'null');
+        if (!p && saved && Date.now() - Number(saved.at) < 3 * 864e5) p = String(saved.path || '');
+        localStorage.removeItem('sp_after_signup');
+      } catch (_) {}
+      p = p.trim().replace(/^\/(?!\/)/, '');
+      return /^[a-z0-9][a-z0-9_.\-\/]{0,120}$/i.test(p) && !p.includes('..') && !p.includes('//') &&
+        !/^(dashboard\.html|oauth\/)/i.test(p) ? '/' + p : '';
+    }
+    const isDashboard = (url) => !url || /^\/?dashboard\.html/i.test(url);
     async function session() {
       try {
         const r = await fetch(`${V2.API}/session`, { credentials: 'same-origin' });
@@ -55,7 +69,7 @@
     (async () => {
       const s = await session();
       if (s && (s.identityVerified || (s.profile && s.profile.emailVerified))) {
-        location.replace('/dashboard.html?verified=1');
+        location.replace(afterSignup() || '/dashboard.html?verified=1');
         return;
       }
       const email = s && s.profile && s.profile.email;
@@ -87,7 +101,7 @@
         const data = await r.json().catch(() => ({}));
         if (r.ok) {
           say('Verified. Opening your account…');
-          location.replace(data.redirect || '/dashboard.html?verified=1');
+          location.replace((isDashboard(data.redirect) && afterSignup()) || data.redirect || '/dashboard.html?verified=1');
           return;
         }
         say(data.message || 'That code did not work. Please try again.', true);
@@ -105,7 +119,7 @@
         const r = await fetch(`${V2.API}/email/resend`, { method: 'POST', credentials: 'same-origin' });
         const data = await r.json().catch(() => ({}));
         if (r.ok && data.alreadyVerified) {
-          location.replace('/dashboard.html?verified=1');
+          location.replace(afterSignup() || '/dashboard.html?verified=1');
           return;
         }
         if (r.ok) {
