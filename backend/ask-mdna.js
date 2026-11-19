@@ -19,27 +19,58 @@ const filingSections = require('./filing-sections');
 const secSource = require('./sec-source');
 
 // MD&A gets the bulk of the budget; it is the section the tool exists for.
-// 12000 each lets two recent quarters share the 28000-char total with room
-// left over for the Part II risk-factor excerpt.
-const SECTION_CAPS = { 'MD&A — Item 2': 12000, 'Risk Factors (Part II, Item 1A)': 6000 };
-const TOTAL_BUDGET = 28000;
+// The caps are deliberately small: ask-report-evidence.boundNarrative trims
+// every text slot to its FIRST allocation of bytes across the whole result
+// (8192 by default), so a long excerpt loses its tail. A 12000-char MD&A was
+// cut to ~2978 chars — ending before "Results of Operations" — and the model
+// never saw a single "primarily due to" sentence, which is why a causal
+// question still fell back to the receipt with the tool installed (measured on
+// SNDK, 2026-11-19). Keeping the whole payload inside that allowance means the
+// driver sentences survive transport intact.
+const SECTION_CAPS = { 'MD&A — Item 2': 2600, 'Risk Factors (Part II, Item 1A)': 700 };
+const TOTAL_BUDGET = 7000;
 
-// A pure head slice of MD&A stops before "Results of Operations" — the exact
-// subsection carrying the period-over-period reasons ("net revenues increased
-// $… primarily driven by…") — whenever the overview runs long. Keep the head
-// of the overview, then a window anchored on Results of Operations.
+// Management's own cause sentences, in document order and VERBATIM. Truncation
+// keeps the head, so the excerpt has to lead with the reasons rather than with
+// whatever the overview happens to say first. Nothing is paraphrased: every
+// kept sentence is copied exactly, so the audit can match its figures and
+// percents against this same text.
+const CAUSE = /\b(?:primarily due to|due to|driven by|as a result of|attributable to|reflect(?:s|ed|ing)? (?:higher|lower|stronger|weaker|the)|because of|offset by)\b/i;
+const MOVE = /\b(?:increased|decreased|grew|grow|declined|rose|fell|higher|lower)\b/i;
+const AMOUNT = /(?:\d[\d,.]*\s?%|\$\s?\d|[€£¥]\s?\d)/;
+function driverExcerpt(text, budget) {
+    const clean = String(text || '').replace(/\s+/g, ' ').trim();
+    if (clean.length <= budget) return clean;
+    const sentences = clean.match(/[^.!?]+[.!?]+|.+$/g) || [];
+    const scored = sentences.map((sentence, index) => {
+        const cause = CAUSE.test(sentence) && AMOUNT.test(sentence) ? 3 : CAUSE.test(sentence) ? 2 : 0;
+        const move = !cause && MOVE.test(sentence) && AMOUNT.test(sentence) ? 1 : 0;
+        return { sentence: sentence.trim(), index, score: cause || move };
+    });
+    const lead = clean.slice(0, Math.min(300, Math.floor(budget * 0.15)));
+    let used = lead.length;
+    const kept = [];
+    for (const s of scored.filter(s => s.score >= 2).sort((a, b) => b.score - a.score || a.index - b.index)) {
+        if (used + s.sentence.length + 1 > budget) continue;
+        kept.push(s);
+        used += s.sentence.length + 1;
+    }
+    // Second pass: with the reasons secured, add the plain moves that put them
+    // in context, still in document order.
+    for (const s of scored.filter(s => s.score === 1).sort((a, b) => a.index - b.index)) {
+        if (used + s.sentence.length + 1 > budget) break;
+        kept.push(s);
+        used += s.sentence.length + 1;
+    }
+    if (!kept.length) return clean.slice(0, budget);
+    return `${lead} … ${kept.sort((a, b) => a.index - b.index).map(s => s.sentence).join(' ')}`;
+}
+
+// Kept for callers that want the old head+window shape; the driver excerpt
+// above is what mdnaFromHtml uses because it survives the transport trim.
 function capMdna(text, cap) {
     if (text.length <= cap) return text;
-    const head = Math.floor(cap * 0.3);
-    const rest = cap - head;
-    // The Item 2 heading itself ends in "…Results of Operations", so the
-    // subsection search must start past the heading.
-    const roPos = text.slice(500).search(/results\s+of\s+operations/i);
-    if (roPos > head + 500) {
-        const start = 500 + Math.max(head - 200, roPos - Math.floor(rest * 0.1));
-        return `${text.slice(0, head)}\n…[trimmed]…\n${text.slice(start, start + rest)}`;
-    }
-    return text.slice(0, cap);
+    return driverExcerpt(text, cap);
 }
 
 // Pure part, unit-testable: one fetched filing's HTML in, excerpt blocks out.
@@ -108,4 +139,4 @@ async function extractMdna(symbol, { quarters = 2, _deps } = {}) {
     };
 }
 
-module.exports = { extractMdna, mdnaFromHtml, SECTION_CAPS, TOTAL_BUDGET };
+module.exports = { extractMdna, mdnaFromHtml, driverExcerpt, SECTION_CAPS, TOTAL_BUDGET };
