@@ -42,8 +42,11 @@ test('max thinking reaches the model as max effort', async () => {
 
 // Every failed Max answer on 2026-10-18 stopped at exactly 8,000 completion
 // tokens with no text: the reasoning used the whole budget, twice.
-test('max thinking gets a 32k answer budget, other levels keep 8k', async () => {
-    for (const [input, want] of [[{ thinking: 'max' }, 32000], [{ thinking: 'high' }, 8000], [{}, 8000]]) {
+test('deep thinking gets room to write; High no longer shares the standard budget', async () => {
+    // High kept 8,000 like a plain answer until 2026-11-19. Reasoning is spent
+    // from the same completion budget, so High returned empty content twice and
+    // the Sandisk question degraded to the receipt while Normal mode answered.
+    for (const [input, want] of [[{ thinking: 'max' }, 32000], [{ thinking: 'high' }, 24000], [{}, 8000]]) {
         const caps = [];
         aiChat.__setDeps({
             chatRaw: async (m, opts) => { if (opts.purpose === 'chat') caps.push(opts.maxTokens); return { content: 'A 10-K is the annual report a US company files with the SEC.' }; },
@@ -89,4 +92,57 @@ test('the Ask page warns before turning it on and shows Max to the admin only', 
     assert.match(page, /id="ask-think-max"[^>]*hidden/);
     assert.match(page, /Deep thinking uses 3x the credits/);
     assert.match(page, /=== 'rin@gmail\.com'/);
+});
+
+// --- Deep thinking must not spend its whole budget reasoning -----------------
+// Measured on production 2026-11-19: the Sandisk 12-quarter question answered
+// correctly in Normal mode and returned the bare-figure receipt in High mode.
+// High kept the standard 8,000-token cap, the model spent it in the hidden
+// channel, returned empty content twice at the same effort, and the answer
+// degraded. Max had already been given room to write; High had not.
+
+function scriptedThinking(respond) {
+    const calls = [];
+    const chatRaw = async (messages, opts) => {
+        calls.push({ messages: JSON.parse(JSON.stringify(messages)), opts: { ...opts } });
+        return respond(opts, calls.length) || { role: 'assistant', content: '' };
+    };
+    aiChat.__setDeps({ chatRaw, chatRawStream: (m, o) => chatRaw(m, o) });
+    return calls;
+}
+
+test('high thinking gets room to write, not the standard answer budget', async () => {
+    const calls = scriptedThinking(() => ({ role: 'assistant', content: 'Hello — happy to help.' }));
+    await aiChat.ask({ question: 'hi', history: [], ctx: {}, mode: 'normal', thinking: 'high' });
+    const first = calls[0].opts;
+    assert.equal(first.reasoningEffort, 'high');
+    assert.ok(first.maxTokens >= 20000, `high effort must budget for hidden reasoning plus the answer (got ${first.maxTokens})`);
+
+    const plain = scriptedThinking(() => ({ role: 'assistant', content: 'Hello — happy to help.' }));
+    await aiChat.ask({ question: 'hi', history: [], ctx: {}, mode: 'normal' });
+    assert.equal(plain[0].opts.maxTokens, 8000, 'the standard answer budget is unchanged');
+    assert.equal(plain[0].opts.reasoningEffort, null);
+});
+
+test('an empty high-effort draft retries at a lower effort instead of degrading to a receipt', async () => {
+    const calls = scriptedThinking((opts) => {
+        if (opts.reasoningEffort === 'high') return { role: 'assistant', content: '' };   // spent it reasoning
+        return { role: 'assistant', content: 'Hello — here is the answer you paid for.' };
+    });
+    const out = await aiChat.ask({ question: 'hi', history: [], ctx: {}, mode: 'normal', thinking: 'high' });
+    const efforts = calls.map(c => c.opts.reasoningEffort);
+    assert.equal(efforts[0], 'high');
+    assert.ok(efforts.slice(1).some(e => e && e !== 'high'), `retry should lower the effort, saw ${JSON.stringify(efforts)}`);
+    assert.equal(out.source, 'ai', 'the reader gets an answer, not the receipt');
+    assert.match(out.answer, /here is the answer you paid for/);
+});
+
+test('max effort steps down to high on an empty draft, never straight to a receipt', async () => {
+    const calls = scriptedThinking((opts) => {
+        if (opts.reasoningEffort === 'max') return { role: 'assistant', content: '' };
+        return { role: 'assistant', content: 'Answered at the lower effort.' };
+    });
+    const out = await aiChat.ask({ question: 'hi', history: [], ctx: {}, mode: 'normal', thinking: 'max' });
+    assert.deepEqual(calls.map(c => c.opts.reasoningEffort).slice(0, 2), ['max', 'high']);
+    assert.equal(out.source, 'ai');
 });

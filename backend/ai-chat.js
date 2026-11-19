@@ -2516,7 +2516,15 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     // Max effort can spend 8,000 tokens reasoning and return no text (measured
     // 2026-10-18: every failed Max answer stopped at exactly 8,000), and the
     // empty-answer retry then hits the same wall. Max gets room to write.
-    const answerTokens = reasoningEffort === 'max' ? 32000 : 8000;
+    // High hits the identical wall — it kept the standard 8,000 and every
+    // High-mode run of the Sandisk 12-quarter question returned empty content
+    // twice and degraded to the receipt, while the same question answered in
+    // Normal mode (measured 2026-11-19).
+    const answerTokens = reasoningEffort === 'max' ? 32000 : reasoningEffort === 'high' ? 24000 : 8000;
+    // A retry at the same effort spends the budget the same way, so an empty
+    // draft is retried one notch lower: deep reasoning stays the default and
+    // stops being a trap that costs the reader their answer.
+    const retryEffort = reasoningEffort === 'max' ? 'high' : reasoningEffort === 'high' ? 'low' : reasoningEffort;
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty', quality: { terminalReason: 'empty_question' } };
     let policy = reportPolicy.select(q, mode);
@@ -2997,12 +3005,13 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             };
             let msg;
             let streamer = null;
-            const attempt = () => {
+            const attempt = (overrides = {}) => {
                 // A draft that will be read against the reader's list is held back until it has been.
                 streamer = onEvent ? makeRoundStreamer(emit, hasResearchEvidence || !!asks) : null;
+                const roundOpts = Object.keys(overrides).length ? { ...opts, ...overrides } : opts;
                 return streamer
-                    ? deps.chatRawStream(messages, opts, streamer.onDelta)
-                    : deps.chatRaw(messages, opts);
+                    ? deps.chatRawStream(messages, roundOpts, streamer.onDelta)
+                    : deps.chatRaw(messages, roundOpts);
             };
             try {
                 msg = await attempt();
@@ -3137,7 +3146,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 // out as prose is the same kind of non-answer — retry it too
                 // rather than rendering markup at the user.
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
-                msg = await attempt();
+                msg = await attempt(retryEffort !== reasoningEffort ? { reasoningEffort: retryEffort } : {});
                 if (msg._usage && num(msg._usage.total_tokens) !== null) totalTokens += msg._usage.total_tokens;
                 text = String(msg.content || '').replace(THINK_RE, '').trim();
             }
@@ -3285,7 +3294,12 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             if (messages[messages.length - 1].content !== closingDirective) {
                 messages.push({ role: 'system', content: closingDirective });
             }
-            const finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: answerTokens, reasoningEffort });
+            // The same empty-content wall applies on this forced write-up: deep
+            // reasoning can spend the budget and return nothing, so it retries
+            // one effort lower before the reader is given a receipt.
+            let finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: answerTokens, reasoningEffort });
+            if (!String(finalMsg.content || '').replace(THINK_RE, '').trim() && retryEffort !== reasoningEffort)
+                finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: answerTokens, reasoningEffort: retryEffort });
             if (finalMsg._usage && num(finalMsg._usage.total_tokens) !== null) totalTokens += finalMsg._usage.total_tokens;
             const finalText = String(finalMsg.content || '').replace(THINK_RE, '').trim();
             if (finalText && !aiClient.leaksIdentity(finalText)) {
