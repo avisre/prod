@@ -172,6 +172,18 @@ function navMax() {
     return Number.isFinite(n) && n > 0 ? n : 100;
 }
 
+// Meta checks a paid ad's destination with facebookexternalhit, and its docs say
+// that crawler may ignore robots.txt for integrity checks, so a 403 here is what
+// it sees. A refused landing page risks the ad being disapproved. The ads land
+// on /register, a sign-up form with no data on it, so the crawler may load that
+// page and nothing else. Every other path still refuses it.
+const AD_REVIEW_UA_RE = /facebookexternalhit\//i;
+const AD_LANDING_PATH_RE = /^\/register(?:\.html)?\/?$/;
+
+function isAdReviewFetch(path, ua) {
+    return AD_REVIEW_UA_RE.test(String(ua || '')) && AD_LANDING_PATH_RE.test(String(path || ''));
+}
+
 function isExemptPath(path, isRawBodyWebhookPath) {
     const p = String(path || '');
     if (typeof isRawBodyWebhookPath === 'function' && isRawBodyWebhookPath(p)) return true;
@@ -476,6 +488,7 @@ function middleware({ isRawBodyWebhookPath } = {}) {
         if (bypass && req.headers['x-bot-bypass'] === bypass) return next();
 
         const ua = req.headers['user-agent'];
+        if (isAdReviewFetch(req.path, ua)) return next();
         const claim = classifyUa(ua);
 
         if (claim === 'internal') return next();
@@ -533,6 +546,7 @@ module.exports = {
     classifyUa,
     hasBrowserHeaders,
     isExemptPath,
+    isAdReviewFetch,
     isStaticAssetPath,
     resolveCrawlerIp,
     checkCrawlerClaim,

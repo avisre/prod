@@ -79,6 +79,21 @@ test('answer-engine index crawlers are admitted, not denied', () => {
     }
 });
 
+// Meta reviews a paid ad's landing page with facebookexternalhit. The ads land
+// on /register, so that one page must answer it; every other page still refuses.
+test('facebookexternalhit may load the ad landing page and nothing else', () => {
+    const ua = 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)';
+    const run = (path) => {
+        const res = fakeRes(); let passed = false;
+        botBlocker.middleware({ isRawBodyWebhookPath })(fakeReq({ path, headers: { 'user-agent': ua } }), res, () => { passed = true; });
+        return passed ? 'next' : res.statusCode;
+    };
+    for (const p of ['/register', '/register/', '/register.html']) assert.equal(run(p), 'next', p);
+    for (const p of ['/stocks/SMCI', '/screener.html', '/register-anything', '/registerx', '/']) assert.equal(run(p), 403, p);
+    assert.equal(botBlocker.isAdReviewFetch('/register', 'meta-externalagent/1.1'), false);
+    assert.equal(botBlocker.isAdReviewFetch('/register', 'facebookexternalhit/1.1'), true);
+});
+
 test('HTTP client libraries and empty user agent classify as denied', () => {
     const uas = ['curl/8.18.0', 'python-requests/2.31', 'Scrapy/2.11', 'PostmanRuntime/7.36', ''];
     for (const ua of uas) {

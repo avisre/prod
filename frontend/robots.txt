@@ -229,7 +229,9 @@ Disallow: /
 User-agent: FacebookBot
 Disallow: /
 
+# Except the paid-ad landing page, which Meta reviews with this crawler.
 User-agent: facebookexternalhit
+Allow: /register
 Disallow: /
 
 User-agent: Twitterbot
