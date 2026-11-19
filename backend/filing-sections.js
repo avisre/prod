@@ -121,13 +121,44 @@ const SECTIONS_20F = [
 const SECTION_BUDGETS_20F = { '3D': 100000, '4': 60000, '5': 60000, '11': 10000 };
 const CORE_KEYS_20F = ['3D', '4', '5', '11'];
 
+// A 10-Q carries the same narrative gold as a 10-K — management's stated
+// reasons for period-over-period changes — but under a different item scheme:
+// MD&A is Part I Item 2, not Item 7, and financial statements are Item 1.
+// Running the 10-K table over a 10-Q therefore located MD&A nowhere, which is
+// why a "reason for the profit change" question had no first-class evidence
+// and degraded to bare figures. Ordered by position in the document, as
+// greedyWalk requires: Part I Items 1-4, then Part II Items 1/1A/6.
+const SECTIONS_10Q = [
+    { key: '1',  label: 'Financial Statements', re: new RegExp(`item1[.:)\\-–—]{0,2}${NAME}financialstatements`, 'g') },
+    { key: '2',  label: 'MD&A',                minChars: 8000, re: new RegExp(`item2[.:)\\-–—]{0,2}${NAME}management.{0,3}sdiscussion`, 'g') },
+    // MD&A's neighbours can be cited in passing ("see Item 3. Quantitative
+    // and Qualitative Disclosures…"). As everywhere in this walker, a pick
+    // whose span to the next anchor is implausibly short is re-anchored onto
+    // the body by repairShortPicks (minChars); a citation whose own span runs
+    // long survives, the same residual risk the 10-K table already carries.
+    { key: '3',  label: 'Quantitative Risk',   minChars: 1500, re: new RegExp(`item3[.:)\\-–—]{0,2}${NAME}quantitative`, 'g') },
+    { key: '4',  label: 'Controls',            minChars: 1500, re: new RegExp(`item4[.:)\\-–—]{0,2}${NAME}controlsandprocedures`, 'g') },
+    { key: 'P2-1',  label: 'Legal Proceedings', re: new RegExp(`item1[.:)\\-–—]{0,2}${NAME}legalproceedings`, 'g') },
+    // "See Part II, Item 1A. Risk Factors" citations are frequent in Part I
+    // and Part II Item 1; the citation spans only to the next heading, so
+    // minChars walks past it exactly as in the 20-F table.
+    { key: 'P2-1A', label: 'Risk Factors',     minChars: 20000, re: new RegExp(`item1a[.:)\\-–—]{0,2}${NAME}riskfactors`, 'g') },
+    { key: 'P2-6',  label: 'Exhibits',          re: new RegExp(`item6[.:)\\-–—]{0,2}${NAME}exhibits`, 'g') }
+];
+
+// MD&A dominates a 10-Q read and gets the 10-K's allowance; Part II risk
+// factors are the change signal and get half. The rest are anchors only.
+const SECTION_BUDGETS_10Q = { '1': 10000, '2': 60000, '3': 6000, '4': 4000, 'P2-1': 4000, 'P2-1A': 50000 };
+const CORE_KEYS_10Q = ['2', 'P2-1A'];
+
 // 40-F (Canadian MJDS) deliberately falls through to the 10-K profile: its
 // narrative lives in an attached Canadian AIF with no SEC item numbering at all,
 // so neither table fits and pretending otherwise would invent sections.
 function profileFor(form) {
-    return String(form || '').toUpperCase().startsWith('20-F')
-        ? { sections: SECTIONS_20F, keys: CORE_KEYS_20F, budgets: SECTION_BUDGETS_20F }
-        : { sections: SECTIONS, keys: CORE_KEYS, budgets: SECTION_BUDGETS };
+    const f = String(form || '').toUpperCase();
+    if (f.startsWith('20-F')) return { sections: SECTIONS_20F, keys: CORE_KEYS_20F, budgets: SECTION_BUDGETS_20F };
+    if (f.startsWith('10-Q')) return { sections: SECTIONS_10Q, keys: CORE_KEYS_10Q, budgets: SECTION_BUDGETS_10Q };
+    return { sections: SECTIONS, keys: CORE_KEYS, budgets: SECTION_BUDGETS };
 }
 
 // Walk sections in document order, each pick strictly after the previous one.
@@ -292,5 +323,7 @@ module.exports = {
     CORE_KEYS,
     SECTION_BUDGETS,
     CORE_KEYS_20F,
-    SECTION_BUDGETS_20F
+    SECTION_BUDGETS_20F,
+    CORE_KEYS_10Q,
+    SECTION_BUDGETS_10Q
 };

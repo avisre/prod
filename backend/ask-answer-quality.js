@@ -181,12 +181,28 @@ function issuerCurrency(results, url) {
 // $1.1bn) is still unsupported, and none of them supports a claim that names an
 // obligation or answers a disclosure question; those keep their own labelled
 // evidence.
+// A get_mdna result is the same trust level as a fetched filing page — the
+// excerpts ARE the issuer's own filed 10-Q text, at a sec.gov Archives URL —
+// so a figure the answer copies from MD&A unchanged must not be rejected as
+// unsupported (measured: quoting management's own "1,685% increase in
+// Datacenter revenue" from the retrieved MD&A failed validation and sank the
+// answer). Collected per filing, each with its own URL for the scale basis.
+function documentsIn(results) {
+    const out = [];
+    for (const row of results || []) {
+        const page = row.result || row;
+        if (row.tool === 'fetch_page') out.push({ text: String(page.text || ''), url: String(page.url || ''), tool: row.tool });
+        else if (row.tool === 'get_mdna' && !page.error) for (const filing of page.filings || [])
+            out.push({ text: (filing.sections || []).map(s => s.text).join('\n'), url: String(filing.url || ''), tool: row.tool });
+    }
+    return out;
+}
 function filingVerbatimEvidence(results) {
     const money = [], percentages = [];
     const both = (value, unit, exact) => money.push({ value, unit, exact, sourceType: 'sec_filing_verbatim' }, { value: -value, unit, exact, sourceType: 'sec_filing_verbatim' });
-    for (const row of results || []) {
-        const page = row.result || row, text = String(page.text || '');
-        if (row.tool !== 'fetch_page' || page.error || !text || !/^https:\/\/www\.sec\.gov\/Archives\//i.test(String(page.url || ''))) continue;
+    for (const page of documentsIn(results)) {
+        const text = String(page.text || '');
+        if (!text || !/^https:\/\/www\.sec\.gov\/Archives\//i.test(String(page.url || ''))) continue;
         const basis = filingCurrency.filingBasis(results, page) || issuerCurrency(results, page.url);
         const scales = [...new Set([...text.matchAll(/\bin (thousands|millions|billions)\b/gi)].map(m => ({ thousands: 1e3, millions: 1e6, billions: 1e9 })[m[1].toLowerCase()]))];
         for (const m of text.matchAll(STATED_AMOUNT)) {
@@ -1113,11 +1129,25 @@ function audit(text, results, { question = '', mode = 'analyst', policy, priorFi
                 issues.push(`For ${r.symbol} ${c.periodEnd}, FCF ${c.freeCashflow} ${c.currency} is below combined dividends/buybacks ${c.totalDistributions}; shortfall ${-c.surplusAfterDistributions}. It cannot cover them.`);
         }
     }
-    const narrative = results.some(r => /^(?:fetch_page|search_filings|get_key_points|get_filing_diff)$/.test(r.tool || '') && !r.result?.error);
-    if (!narrative && /(?:likely|driven|due|tied|because|reflects|from|fuelled|fueled)[^.!?\n]{0,80}(?:AI[\s/-]+(?:investment|infrastructure)|AI\/data|data[ -]cent(?:re|er)|one.off)/i.test(text))
-        issues.push('Do not attribute a financial change to investment or one-offs without supporting retrieved narrative. Describe the observed change or state the cause is not established.');
-    if (!narrative && /(?:funded|financed|covered|paid for)[^.!?\n]{0,70}(?:cash reserves|cash balances|debt issuance|borrowing|existing cash)/i.test(text))
-        issues.push('A cash-coverage shortfall does not establish its financing source. Omit assertions about reserves or debt issuance unless separately sourced.');
+    const narrative = results.some(r => /^(?:fetch_page|search_filings|get_key_points|get_filing_diff|get_mdna)$/.test(r.tool || '') && !r.result?.error);
+    // "**The read** — " opens the model's own analysis layer: conclusions it
+    // draws by connecting the retrieved evidence — the mechanism or implication
+    // NO individual source states (the lending-standards read on filings before
+    // the mortgage crisis, the demand signal under a margin change). Inference
+    // there is the product, not a grounding failure: sentences inside the read
+    // block need no retrieved narrative for causal or financing attribution.
+    // They keep every other rule — figures inside it are still audited like
+    // figures everywhere else, and advice/identity guards still apply.
+    const readMatch = /\*\*The read\*\*\s*[—–-]?\s*/i.exec(String(text || ''));
+    const readRest = readMatch ? String(text).slice(readMatch.index + readMatch[0].length) : '';
+    const readEnd = readMatch ? readRest.search(/\n\s*(?:>\s*Next:|SEC sources:)/i) : -1;
+    const outsideRead = readMatch
+        ? String(text).slice(0, readMatch.index) + '\n\n' + String(text).slice(readMatch.index + readMatch[0].length + (readEnd >= 0 ? readEnd : readRest.length))
+        : text;
+    if (!narrative && /(?:likely|driven|due|tied|because|reflects|from|fuelled|fueled)[^.!?\n]{0,80}(?:AI[\s/-]+(?:investment|infrastructure)|AI\/data|data[ -]cent(?:re|er)|one.off)/i.test(outsideRead))
+        issues.push('Do not attribute a financial change to investment or one-offs without supporting retrieved narrative. Describe the observed change or state the cause is not established, or move the inference into the read block where it is labelled as your analysis.');
+    if (!narrative && /(?:funded|financed|covered|paid for)[^.!?\n]{0,70}(?:cash reserves|cash balances|debt issuance|borrowing|existing cash)/i.test(outsideRead))
+        issues.push('A cash-coverage shortfall does not establish its financing source. Omit assertions about reserves or debt issuance unless separately sourced, or move the inference into the read block where it is labelled as your analysis.');
     const limit = policy.maxWords;
     // The model overshoots a bare "over the limit" by a few words and the rewrite
     // pass barely trims (measured: 509 → 498 against a 480 cap, 339 → 330 against
