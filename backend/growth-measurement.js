@@ -51,11 +51,11 @@ const EVENT_TO_GA4 = Object.freeze({
     payment_refunded: 'refund'
 });
 
-const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', fb: 'facebook', ig: 'instagram', site: 'website', web: 'website',
+const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', fb: 'facebook', ig: 'instagram', msg: 'messenger', an: 'audience_network', wa: 'whatsapp', site: 'website', web: 'website',
     organic: 'google', search: 'google', hn: 'hackernews', 'hacker-news': 'hackernews' });
 const SOURCES = new Set(['direct', 'unknown', 'internal', 'bot', 'google', 'bing', 'duckduckgo',
     'x', 'linkedin', 'reddit', 'hackernews', 'youtube', 'newsletter', 'email', 'creator',
-    'appsumo', 'website', 'meta', 'facebook', 'instagram', 'referral',
+    'appsumo', 'website', 'meta', 'facebook', 'instagram', 'referral', 'messenger', 'audience_network', 'whatsapp',
     // kept in step with marketing-attribution.js SOURCES
     'chatgpt', 'claude', 'connector']);
 const PAGE_TYPES = new Set(['metric', 'comparison', 'stock', 'screen', 'research', 'tool', 'pricing', 'other']);

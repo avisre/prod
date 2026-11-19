@@ -178,7 +178,7 @@ test('only the matching GA4 browser identity joins a recent session', () => {
 
 test('a paid Meta cohort uses the original campaign and stable Stripe receipt after the trial', () => {
     const campaign = 'meta_trial_us_10usd';
-    for (const [source, normalized] of [['fb', 'facebook'], ['ig', 'instagram'], ['meta', 'meta']]) {
+    for (const [source, normalized] of [['fb', 'facebook'], ['ig', 'instagram'], ['msg', 'messenger'], ['an', 'audience_network'], ['wa', 'whatsapp'], ['whatsapp', 'whatsapp'], ['meta', 'meta']]) {
         const touch = tracking.attributionTouch({
             method: 'GET', path: '/register', query: { utm_source: source, utm_medium: 'paid_social', utm_campaign: campaign }, headers: {}
         });

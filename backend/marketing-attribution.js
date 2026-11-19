@@ -19,8 +19,11 @@ const configuredAttributionDays = Number(process.env.ATTRIBUTION_MAX_AGE_DAYS ||
 const ATTRIBUTION_MAX_AGE_SECONDS = (Number.isFinite(configuredAttributionDays) ? Math.max(7, configuredAttributionDays) : 90) * 24 * 60 * 60;
 const SESSION_ID_RE = /^[A-Za-z0-9_-]{16}$/;
 const VALUE_RE = /^[A-Za-z0-9._:-]+$/;
-const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', fb: 'facebook', ig: 'instagram', site: 'website', web: 'website', hn: 'hackernews', 'hacker-news': 'hackernews' });
+const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', fb: 'facebook', ig: 'instagram', msg: 'messenger', an: 'audience_network', wa: 'whatsapp', site: 'website', web: 'website', hn: 'hackernews', 'hacker-news': 'hackernews' });
 const SOURCES = new Set(['direct', 'unknown', 'internal', 'bot', 'google', 'bing', 'duckduckgo', 'x', 'linkedin', 'reddit', 'hackernews', 'youtube', 'newsletter', 'email', 'creator', 'appsumo', 'website', 'meta', 'facebook', 'instagram', 'referral',
+    // Meta's other placements ({{site_source_name}} = msg / an) and WhatsApp, which
+    // is also where share-copy.js links are posted.
+    'messenger', 'audience_network', 'whatsapp',
     // The assistant channel. `chatgpt` / `claude` are a visit referred from the
     // assistant's own site (a listing page, or a link in an answer); `connector`
     // is the upgrade link shown inside a connector session (mcp-anon.js), where
