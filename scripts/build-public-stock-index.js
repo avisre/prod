@@ -7,8 +7,12 @@ const {content}=require('../backend/public-stock-content');
 const screenFacts=require('../backend/screen-facts');
 const adapter=require('../backend/verified-fundamentals');
 const {loadRawFundamentals}=require('../backend/fundamentals-cache');
+const os=require('node:os');
+const {Worker,isMainThread,parentPort,workerData}=require('node:worker_threads');
 function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){if(e.code==='ENOENT')return fallback;throw e;}}
-function build({asOf,write=true}={}) {
+// Inputs every pass reads. A worker calls this too, with the parent's resolved
+// date, so its chunk sees exactly what the parent sees.
+function inputs(asOf) {
  const directoryRaw=fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8');
  const directory=JSON.parse(directoryRaw),report=read(path.join(p.DATA_DIR,'sec-reporting.json'),{schemaVersion:1,issuers:{}});
  // The dataset is dated by the reconciliation cycle that checked its issuers,
@@ -18,21 +22,27 @@ function build({asOf,write=true}={}) {
  asOf=asOf || p.day(report.asOf) || p.day(new Date().toISOString());
  const rates=read(path.join(p.DATA_DIR,'sec-fx.json'),{rates:{}}).rates;
  const previous=read(path.join(p.DATA_DIR,'public-stock-index.json'),null);
- const issuers={},securities=[],rows=[],facts=[],marketDigests=[],priceDigests=[];const oldSecurities=new Map((previous?.securities || []).map(s=>[s.symbol,s]));
+ const oldSecurities=new Map((previous?.securities || []).map(s=>[s.symbol,s]));
  const grouped=new Map();for(const c of directory.companies){const id=p.cik(c.cik);if(!id)continue;const group=grouped.get(id)||[];group.push(c);grouped.set(id,group);}
- for(const [id,companies] of grouped) {
+ return {directoryRaw,directory,report,asOf,rates,oldSecurities,groups:[...grouped]};
+}
+// Issuers groups[start..end) in directory order. Each issuer depends only on
+// its own files, so chunks can run anywhere and concatenate to the serial result.
+function chunk({report,asOf,rates,oldSecurities,groups},start,end) {
+ const issuers=[],securities=[],rows=[],facts=[],marketDigests=[],priceDigests=[];
+ for(const [id,companies] of groups.slice(start,end)) {
   const evidence=report.issuers[id] || {cik:id,symbols:companies.map(c=>c.symbol),lastAttemptResult:'unverified'};
   const file=path.join(p.DATA_DIR,'sec-financials',id+'.json');
   const raw=evidence.financialDigest && fs.existsSync(file)?fs.readFileSync(file,'utf8'):null;
   if(raw && evidence.financialDigest!==p.digest(raw))throw new Error('Financial digest mismatch '+id);
   const data=raw?JSON.parse(raw):null,classification=p.classify(evidence,data,asOf);
   const compactEvidence={cik:id,lastSuccessfulCheckAt:evidence.lastSuccessfulCheckAt || null,lastAttemptResult:evidence.lastAttemptResult,sic:evidence.sic || null,reportingCurrency:evidence.reportingCurrency || null,reportingCadence:evidence.reportingCadence || null,latestAnnual:evidence.latestAnnual || null,amendmentOnly:!!evidence.amendmentOnly};
-  issuers[id]={...classification,evidence:compactEvidence,financialDigest:evidence.financialDigest || null};
+  const issuer={...classification,evidence:compactEvidence,financialDigest:evidence.financialDigest || null};
   for(let company of companies) {
    // A company with no curated sector takes the sector of its SEC industry code.
    if(!company.sector){const sector=require('../backend/sector').fromSic(evidence.sic);if(sector)company={...company,sector};}
    const eligible=company.securityType==='stock' && classification.financialCoverage==='ready';
-   const view=adapter.adapt(company,loadRawFundamentals(company.symbol),data,classification,issuers[id]);
+   const view=adapter.adapt(company,loadRawFundamentals(company.symbol),data,classification,issuer);
    const state=content({...company,cik:id},view,classification,evidence.financialDigest || null,{asOf,previous:oldSecurities.get(company.symbol),rates});
    securities.push({...company,cik:id,aliases:[company.symbol.replace(/\./g,'-'),company.symbol.replace(/-/g,'.')].filter(s=>s!==company.symbol),...classification,indexable:eligible,screenable:eligible,...state.entry,financialDigest:evidence.financialDigest || null});
    marketDigests.push([company.symbol,state.marketDigest]);priceDigests.push([company.symbol,state.priceDigest]);
@@ -40,7 +50,38 @@ function build({asOf,write=true}={}) {
    // The statement lines behind the row, for questions no precomputed column answers.
    if(state.screenRow){const fact=screenFacts.row(company,view);if(fact)facts.push(fact);}
   }
+  issuers.push([id,issuer]);
  }
+ return {issuers,securities,rows,facts,marketDigests,priceDigests};
+}
+function build({asOf,write=true}={}) {
+ const ctx=inputs(asOf);
+ return finish(ctx,[chunk(ctx,0,ctx.groups.length)],write);
+}
+// The same build with the per-issuer work spread over worker threads (about
+// 80% of a rebuild is verified-fundamentals adapt, one issuer at a time).
+// Chunks are small and handed out as workers free up, then reassembled in
+// directory order, so the output is identical to build().
+async function buildParallel({asOf,write=true,workers=os.availableParallelism()}={}) {
+ const ctx=inputs(asOf),total=ctx.groups.length;
+ workers=Math.max(1,Math.min(workers,total));
+ const size=Math.max(1,Math.ceil(total/(workers*8))),ranges=[];
+ for(let start=0;start<total;start+=size)ranges.push([start,Math.min(total,start+size)]);
+ const parts=new Array(ranges.length),pool=[];let next=0;
+ try{await Promise.all(Array.from({length:workers},()=>new Promise((resolve,reject)=>{
+  const worker=new Worker(__filename,{workerData:{indexBuildWorker:true,asOf:ctx.asOf},resourceLimits:{maxOldGenerationSizeMb:1536}});pool.push(worker);
+  let current=-1,done=false;
+  const send=()=>{if(next>=ranges.length){done=true;worker.postMessage(null);return;}current=next++;worker.postMessage(ranges[current]);};
+  worker.on('message',part=>{parts[current]=part;send();});
+  worker.on('error',reject);
+  worker.on('exit',code=>done && code===0?resolve():reject(new Error('Index build worker exited with code '+code)));
+  send();
+ })));}catch(e){await Promise.all(pool.map(w=>w.terminate()));throw e;}
+ return finish(ctx,parts,write);
+}
+function finish({directoryRaw,directory,report,asOf,rates,oldSecurities},parts,write) {
+ const issuers={},securities=[],rows=[],facts=[],marketDigests=[],priceDigests=[];
+ for(const part of parts){for(const [id,issuer] of part.issuers)issuers[id]=issuer;securities.push(...part.securities);rows.push(...part.rows);facts.push(...part.facts);marketDigests.push(...part.marketDigests);priceDigests.push(...part.priceDigests);}
  for(const c of directory.companies.filter(c=>!p.cik(c.cik))){const contentDigest=p.digest(c),old=oldSecurities.get(c.symbol);securities.push({...c,cik:null,aliases:[],annualReportingStatus:'unverified',financialCoverage:'unavailable',indexable:false,screenable:false,metricSlugs:[],priceHistory:false,financialDigest:null,contentDigest,lastmod:old?.contentDigest===contentDigest?old.lastmod:asOf});}
  const rank=new Map(directory.companies.map((c,i)=>[c.symbol,i]));securities.sort((a,b)=>rank.get(a.symbol)-rank.get(b.symbol));
  const reportingMetadata=require('../backend/company-reporting').metadata(report);
@@ -63,5 +104,9 @@ function build({asOf,write=true}={}) {
  }
  return {publicSnapshot,screenSnapshot,factsSnapshot};
 }
-if(require.main===module){try{const result=build();console.log(JSON.stringify(result.publicSnapshot.counts,null,2));}catch(e){console.error(e.message);process.exitCode=1;}}
-module.exports={build};
+if(!isMainThread && workerData?.indexBuildWorker){
+ const ctx=inputs(workerData.asOf);
+ // Exit explicitly: a timer some backend module starts must not keep the worker alive.
+ parentPort.on('message',range=>{if(!range)process.exit(0);parentPort.postMessage(chunk(ctx,range[0],range[1]));});
+}else if(require.main===module){buildParallel().then(result=>console.log(JSON.stringify(result.publicSnapshot.counts,null,2)),e=>{console.error(e.message);process.exitCode=1;});}
+module.exports={build,buildParallel};

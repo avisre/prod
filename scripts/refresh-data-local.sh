@@ -87,8 +87,8 @@ case "$mode" in
     ;;
 esac
 
+# One pass writes the stock index, the screen index and coverage together, on every core.
 node --max-old-space-size=1536 scripts/build-public-stock-index.js
-node scripts/build-screen-index.js
 if [ "$mode" = fundamentals ]; then
   node scripts/build-industry-map.js
   node scripts/test-stock-coverage.js
