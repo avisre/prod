@@ -43,11 +43,17 @@ of the below in one call, which is cheaper than rediscovering it by trial.
   HANDOFF) carry the skip marker to avoid restarting the service.
   **`frontend/data/fundamentals/**` is the exception and must NOT:** it is read
   from the deployed filesystem (`app.js:3240`), so skipping the deploy leaves
-  production on old numbers indefinitely — `refresh-fundamentals.yml:98` and
-  `deploy-render.yml:9` both spell this out. The marker matches **anywhere** in
+  production on old numbers indefinitely. The marker matches **anywhere** in
   the commit message, including inside a sentence explaining why you are not
   using it: on 9/28 a data commit that argued against the marker in its own body
   was silently skipped and had to be deployed with `gh workflow run`.
+
+- **Data refreshes run only on the owner's machine, never on GitHub (owner rule, 2026-11-21).**
+  GitHub only stores what is pushed. Do not add a scheduled or data-pushing workflow. Use
+  `scripts/refresh-data-local.sh quotes|prices|fundamentals`, which commits locally and never pushes.
+  A bot-pushed data commit stalled every Render clone on 11-21 (`KNOWN-ISSUES.md` #1).
+- **`KNOWN-ISSUES.md` logs every production failure.** Check it first when something breaks, and add an
+  entry after fixing a new one.
 
 ## Never push without the owner's say-so (owner rule, 2026-10-10)
 

@@ -10,8 +10,8 @@ name: Deploy to Render
 # before the push: scripts/predeploy.js, started automatically by the pre-push
 # hook in .githooks/ (enable once per clone: git config core.hooksPath .githooks).
 # It runs only the tests a change can affect, and each stock-data check only
-# when that check's own inputs changed. The data-refresh workflows validate
-# their own output before they commit, so they do not depend on this either.
+# when that check's own inputs changed. Data refreshes run on the owner's
+# machine (scripts/refresh-data-local.sh), never on GitHub; see KNOWN-ISSUES.md #1.
 #
 # Two things deploy a push to main. Render's own Auto-Deploy ships the commit in
 # about 4 minutes. This workflow then confirms that commit is live through
