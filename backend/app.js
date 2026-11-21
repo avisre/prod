@@ -4,8 +4,15 @@ const fs = require('fs');
 const dns = require('dns').promises;
 const net = require('net');
 const outboundByteUsage = require('./outbound-byte-usage');
+const usageContext = require('./usage-context');
+const usageAggregate = require('./usage-aggregate');
 // One-day audit; destination/byte totals only, with no request payloads.
 outboundByteUsage.start({ log: (stats) => console.log('[outbound-bytes]', JSON.stringify(stats)) });
+// Per-user usage rollups: counters flush once a minute into usage_daily and
+// usage_counts. The buffer is in-process; persisted rows are incremented, so a
+// restart loses at most the current minute. Measurement never blocks a request.
+usageAggregate.start();
+process.once('SIGTERM', () => { usageAggregate.stop().catch(() => {}); });
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -381,6 +388,12 @@ function chunkByteLength(chunk, encoding) {
     return Buffer.byteLength(chunk, typeof encoding === 'string' ? encoding : 'utf8');
 }
 app.use((req, res, next) => {
+    // One store per request, created before the response wrapper so the finish
+    // hook can hold the exact same object. Reading usageContext.current() at
+    // `finish` would be a guess: a finish emitted after the request's async
+    // chain unwinds no longer has a store.
+    const store = usageContext.createStore({ route: shapeBandwidthPath(req.path) });
+    req.usageStore = store;
     let bytesOut = 0;
     const origWrite = res.write.bind(res);
     const origEnd = res.end.bind(res);
@@ -392,9 +405,56 @@ app.use((req, res, next) => {
         entry.count++;
         entry.bytes += bytesOut;
         byteUsageStats.set(shape, entry);
+        recordHttpUsage(req, res, shape, bytesOut, store);
     });
-    next();
+    usageContext.run(store, () => next());
 });
+
+function usageSurfaceFor(req) {
+    const p = String(req.path || '');
+    if (p === '/mcp/apps') return 'mcp-apps';
+    if (p === '/mcp') return 'mcp';
+    if (!p.startsWith('/api/')) return null;
+    return req.oauthClientId ? 'mcp' : req.apiKeyId ? 'rest' : 'web';
+}
+
+// Keyless connector callers have no account. Mirror mcp-usage-log's salted
+// monthly pseudonym so the same caller lines up across both collections; the
+// raw IP is never stored.
+function usageCallerHash(req) {
+    try {
+        if (req.userId || (req.user && req.user._id)) return null;
+        return require('./mcp-usage-log').callerHash({ anonymous: true, userId: null, ip: visitorIp(req) });
+    } catch (_) { return null; }
+}
+
+function recordHttpUsage(req, res, shape, bytesOut, store) {
+    try {
+        if (!usageAggregate.enabled()) return;
+        const surface = usageSurfaceFor(req);
+        if (!surface) return; // pages, assets, crawlers: not a usage row
+        const ctx = store || usageContext.current();
+        const userId = req.userId || (req.user && req.user._id) || null;
+        const cache = ctx ? { hits: ctx.cacheHits, misses: ctx.cacheMisses, readBytes: ctx.cacheReadBytes, writeBytes: ctx.cacheWriteBytes } : null;
+        const evt = {
+            at: new Date(),
+            userId,
+            callerHash: usageCallerHash(req),
+            surface,
+            plan: (req.subscription && req.subscription.planName) || null,
+            route: shape,
+            resBytes: bytesOut,
+            ok: res.statusCode < 400,
+            code: res.statusCode >= 400 ? String(res.statusCode) : null,
+            cache
+        };
+        // MCP is recorded from the tool callback, where the tool name and the
+        // tickers are known; counting the transport here too would double it.
+        if (surface === 'mcp' || surface === 'mcp-apps') return;
+        usageAggregate.record(evt);
+        usageAggregate.recordEvent(evt);
+    } catch (_) { /* measurement must never affect a response */ }
+}
 // Render terminates the public connection before forwarding it to Express, so
 // one platform hop is trusted in production. That does NOT make req.ip the
 // visitor: measured 2026-09-23, a request from India resolved to a German proxy
@@ -7461,6 +7521,13 @@ function mcpUsageCallback(req, { surface, anonymous, platform, pool, client }) {
             const body = req.body && typeof req.body === 'object' && !Array.isArray(req.body) ? req.body : {};
             const meta = body.params && body.params._meta && typeof body.params._meta === 'object' ? body.params._meta : null;
             const clientInfo = meta ? meta['io.modelcontextprotocol/clientInfo'] : null;
+            const caller = mcpUsageLog.callerHash({
+                anonymous,
+                userId: req.userId,
+                ip: anonymous ? _anonAskIp(req) : null
+            });
+            const facets = mcpUsageLog.facetsFor(tool, args);
+            const outcome = mcpUsageLog.resultFacets(result);
             mcpUsageLog.record(mongoose.connection.collection('mcp_calls'), {
                 surface,
                 era: mcpModern.isModern(req) ? 'modern' : 'legacy',
@@ -7473,16 +7540,35 @@ function mcpUsageCallback(req, { surface, anonymous, platform, pool, client }) {
                 pool: pool || null,
                 // Pseudonymous: u:<account> for signed-in, a salted monthly hash
                 // for keyless (mcp-usage-log.js). The raw IP is never written.
-                caller: mcpUsageLog.callerHash({
-                    anonymous,
-                    userId: req.userId,
-                    ip: anonymous ? _anonAskIp(req) : null
-                }),
+                caller,
                 plan: anonymous ? null : (req.subscription && req.subscription.planName) || null,
                 tool, code, ms,
-                ...mcpUsageLog.facetsFor(tool, args),
-                ...mcpUsageLog.resultFacets(result)
+                ...facets,
+                ...outcome
             });
+            // Roll the same call into the per-user daily report, with the cache
+            // bytes it caused. mcp_calls stays the per-call detail; this is the
+            // rollup the admin report reads. A connector call is recorded here
+            // and NOT at the transport finish hook, so it is counted once.
+            const store = req.usageStore || usageContext.current();
+            const evt = {
+                at: new Date(),
+                userId: req.userId || null,
+                callerHash: anonymous ? caller : null,
+                surface,
+                plan: anonymous ? null : (req.subscription && req.subscription.planName) || null,
+                client: client || (clientInfo && clientInfo.name ? String(clientInfo.name).slice(0, 40) : null),
+                route: '/mcp',
+                tool,
+                symbols: Array.isArray(facets.tickers) ? facets.tickers : [],
+                metrics: Array.isArray(facets.metrics) ? facets.metrics : [],
+                resBytes: Number(outcome.bytes) || 0,
+                ok: !outcome.isError,
+                code: code || null,
+                cache: store ? { hits: store.cacheHits, misses: store.cacheMisses, readBytes: store.cacheReadBytes, writeBytes: store.cacheWriteBytes } : null
+            };
+            usageAggregate.record(evt);
+            usageAggregate.recordEvent(evt);
         } catch (_) { /* usage logging must never fail a connector call */ }
     };
 }
@@ -16890,6 +16976,129 @@ app.get('/api/admin/byte-usage/stats', authMiddleware, marketingDashboardOnly, (
         .sort((a, b) => b.bytes - a.bytes);
     const totalBytes = rows.reduce((sum, r) => sum + r.bytes, 0);
     res.set('Cache-Control', 'no-store').json({ since: byteUsageSince, totalBytes, rows });
+});
+
+// Per-user usage report. Measurement only: it reads the rollups written by
+// usage-aggregate.js and never changes an account, a plan or an allowance.
+// `days` is clamped to the 400-day retention; `userId` narrows to one account
+// for drill-down. Bytes are reported in three parts so a heavy reader can be
+// told apart from a reader whose requests are cheap but force expensive cache
+// misses.
+app.get('/api/admin/usage/report', authMiddleware, marketingDashboardOnly, async (req, res) => {
+    try {
+        const days = Math.min(Math.max(Number(req.query.days) || 30, 1), 400);
+        const limit = Math.min(Math.max(Number(req.query.limit) || 25, 1), 200);
+        const since = usageAggregate.istDay(new Date(Date.now() - (days - 1) * 86400000));
+        const daily = mongoose.connection.collection('usage_daily');
+        const counts = mongoose.connection.collection('usage_counts');
+
+        const filter = { day: { $gte: since } };
+        if (req.query.userId) filter.userKey = 'u:' + String(req.query.userId);
+        if (req.query.surface) filter.surface = String(req.query.surface);
+
+        const totalsRow = await daily.aggregate([
+            { $match: filter },
+            {
+                $group: {
+                    _id: null,
+                    requests: { $sum: '$requests' },
+                    resBytes: { $sum: '$resBytes' },
+                    cacheReadBytes: { $sum: '$cacheReadBytes' },
+                    cacheWriteBytes: { $sum: '$cacheWriteBytes' },
+                    cacheHits: { $sum: '$cacheHits' },
+                    cacheMisses: { $sum: '$cacheMisses' }
+                }
+            }
+        ]).toArray();
+        const totals = totalsRow[0] || { requests: 0, resBytes: 0, cacheReadBytes: 0, cacheWriteBytes: 0, cacheHits: 0, cacheMisses: 0 };
+        delete totals._id;
+
+        const bySurface = await daily.aggregate([
+            { $match: filter },
+            { $group: { _id: '$surface', requests: { $sum: '$requests' }, resBytes: { $sum: '$resBytes' }, cacheReadBytes: { $sum: '$cacheReadBytes' }, cacheWriteBytes: { $sum: '$cacheWriteBytes' } } },
+            { $sort: { resBytes: -1 } }
+        ]).toArray();
+
+        const users = await daily.aggregate([
+            { $match: filter },
+            {
+                $group: {
+                    _id: '$userKey',
+                    surface: { $first: '$surface' },
+                    plan: { $max: '$plan' },
+                    days: { $addToSet: '$day' },
+                    requests: { $sum: '$requests' },
+                    err: { $sum: '$err' },
+                    resBytes: { $sum: '$resBytes' },
+                    cacheReadBytes: { $sum: '$cacheReadBytes' },
+                    cacheWriteBytes: { $sum: '$cacheWriteBytes' },
+                    cacheHits: { $sum: '$cacheHits' },
+                    cacheMisses: { $sum: '$cacheMisses' },
+                    activeMinutes: { $sum: '$activeMinutes' },
+                    firstAt: { $min: '$firstAt' },
+                    lastAt: { $max: '$lastAt' }
+                }
+            },
+            { $addFields: { costBytes: { $add: ['$resBytes', { $add: ['$cacheReadBytes', '$cacheWriteBytes'] }] }, activeDays: { $size: '$days' } } },
+            { $sort: { costBytes: -1 } },
+            { $limit: limit * 4 }
+        ]).toArray();
+
+        const ids = users.map((u) => String(u._id)).filter((k) => k.startsWith('u:')).map((k) => k.slice(2)).filter((k) => /^[a-f0-9]{24}$/i.test(k));
+        const accounts = ids.length
+            ? await mongoose.connection.collection('users').find({ _id: { $in: ids.map((id) => new mongoose.Types.ObjectId(id)) } }, { projection: { email: 1, createdAt: 1, subscription: 1 } }).toArray()
+            : [];
+        const byId = new Map(accounts.map((a) => ['u:' + String(a._id), a]));
+
+        const surfaced = users.slice(0, limit).map((u) => {
+            const account = byId.get(String(u._id)) || null;
+            const total = u.costBytes || 1;
+            return {
+                userKey: u._id,
+                accountId: account ? String(account._id) : null,
+                email: account ? account.email : null,
+                signedUpAt: account ? account.createdAt : null,
+                plan: u.plan || (account && account.subscription && account.subscription.planName) || null,
+                system: String(u._id).startsWith('system:'),
+                anonymous: String(u._id).startsWith('a:'),
+                activeDays: u.activeDays,
+                activeMinutes: u.activeMinutes || 0,
+                requests: u.requests,
+                errors: u.err || 0,
+                resBytes: u.resBytes || 0,
+                cacheReadBytes: u.cacheReadBytes || 0,
+                cacheWriteBytes: u.cacheWriteBytes || 0,
+                costBytes: u.costBytes || 0,
+                sharePct: Math.round((total / Math.max(1, (totals.resBytes + totals.cacheReadBytes + totals.cacheWriteBytes))) * 1000) / 10,
+                cacheHitRatePct: (u.cacheHits + u.cacheMisses) ? Math.round((u.cacheHits / (u.cacheHits + u.cacheMisses)) * 1000) / 10 : null,
+                firstAt: u.firstAt || null,
+                lastAt: u.lastAt || null
+            };
+        });
+
+        const top = async (kind, n = 15) => counts.aggregate([
+            { $match: { ...(req.query.userId ? { userKey: 'u:' + String(req.query.userId) } : {}), day: { $gte: since }, kind } },
+            { $group: { _id: '$key', n: { $sum: '$n' } } },
+            { $sort: { n: -1 } },
+            { $limit: n }
+        ]).toArray().then((rows) => rows.map((r) => ({ key: r._id, n: r.n })));
+
+        res.set('Cache-Control', 'no-store').json({
+            generatedAt: new Date().toISOString(),
+            days,
+            since,
+            totals,
+            bySurface: bySurface.map((s) => ({ surface: s._id, requests: s.requests, resBytes: s.resBytes, cacheReadBytes: s.cacheReadBytes, cacheWriteBytes: s.cacheWriteBytes })),
+            users: surfaced,
+            topRoutes: await top('route'),
+            topTools: await top('tool'),
+            topSymbols: await top('symbol'),
+            topMetrics: await top('metric'),
+            note: 'Measured response bytes plus cache read/write the request caused. Pages and assets are not counted here; funnel_events owns navigation.'
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Usage report failed', detail: String((error && error.message) || error).slice(0, 200) });
+    }
 });
 
 app.get('/api/admin/outbound-byte-usage/stats', authMiddleware, marketingDashboardOnly, (req, res) => {

@@ -1,6 +1,12 @@
 'use strict';
 // Public financial evidence only. A capped Mongo collection enforces the disk
 // bound across processes; application checks enforce the memory and BSON bounds.
+//
+// Bandwidth attribution: a miss pays for a full ~2.9 MB document read from
+// Mongo, and a real insert uploads it again. Neither was attributable to the
+// request that caused it. usage-context carries a per-request store, so the
+// counters below land on the right user (or on `system:*` for boot work).
+const usageContext = require('./usage-context');
 const { digest } = require('./sec-coverage');
 const MAX_MEMORY=8*1024*1024,MAX_PERSISTENT=64*1024*1024;
 function createCache({connection=()=>require('mongoose').connection,maxMemory=MAX_MEMORY}={}) {
@@ -25,8 +31,12 @@ function createCache({connection=()=>require('mongoose').connection,maxMemory=MA
   return setup;
  }
  async function get(key) {
-  const hit=entries.get(key);if(hit){entries.delete(key);entries.set(key,hit);return hit.value;}
-  try{const col=await collection();const row=col && await col.findOne({issuer:key},{sort:{createdAt:-1},maxTimeMS:2000});return row?remember(key,row.value):null;}catch(_){return null;}
+  const hit=entries.get(key);if(hit){entries.delete(key);entries.set(key,hit);usageContext.noteCacheHit();return hit.value;}
+  try{const col=await collection();const row=col && await col.findOne({issuer:key},{sort:{createdAt:-1},maxTimeMS:2000});
+   if(!row){usageContext.noteCacheMiss(0);return null;}
+   // The row is exactly what crossed the wire, so its measured size is the miss cost.
+   usageContext.noteCacheMiss(Buffer.byteLength(JSON.stringify(row)));
+   return remember(key,row.value);}catch(_){return null;}
  }
  async function set(key,value) {
   remember(key,value);const size=Buffer.byteLength(JSON.stringify(value));
@@ -37,7 +47,9 @@ function createCache({connection=()=>require('mongoose').connection,maxMemory=MA
     // The old insert sent the entire evidence document even when Mongo rejected
     // its already-present content hash. Check only that hash before uploading.
     if(await col.findOne({_id:id},{projection:{_id:1},maxTimeMS:2000}))return {persisted:true};
-    await col.insertOne({_id:id,issuer:key,value,createdAt:new Date()});return {persisted:true};
+    await col.insertOne({_id:id,issuer:key,value,createdAt:new Date()});
+    // Only a real insert moves a payload; the hash-present path above does not.
+    usageContext.noteCacheWrite(size);return {persisted:true};
    }catch(e){if(e.code===11000)return {persisted:true};return {persisted:false,reason:'Public financial evidence persistence failed'};}
   });
  }
