@@ -125,7 +125,7 @@ test('measurement can be switched off without a deploy', () => {
 
 function cacheFixture() {
     const rows = new Map();
-    let uploads = 0;
+    let uploads = 0, metaWrites = 0;
     const col = {
         createIndex: async () => {},
         findOne: async (q) => {
@@ -135,6 +135,15 @@ function cacheFixture() {
                 if (k === 'kind') { const actual = r.kind === undefined ? 'evidence' : r.kind; return v && v.$in ? v.$in.includes(actual) : actual === v; }
                 return r[k] === v;
             })) || null;
+        },
+        // Bookkeeping is upserted once per issuer, never appended, so it cannot
+        // crowd the evidence out of the capped collection.
+        updateOne: async (q, update) => {
+            metaWrites += 1;
+            const existing = [...rows.entries()].find(([, r]) => r.kind === 'meta' && r.issuer === q.issuer);
+            if (existing) rows.set(existing[0], { ...existing[1], ...update.$set });
+            else rows.set('meta' + rows.size, update.$set);
+            return { upsertedCount: existing ? 0 : 1 };
         },
         insertOne: async (row) => {
             uploads += 1;

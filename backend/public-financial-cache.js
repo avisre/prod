@@ -83,6 +83,11 @@ function encode(heavy) {
     return { codec: null, value: heavy };
 }
 
+// For readers that walk the collection directly (the weekly promotion) rather
+// than through get(); those never see the merged bookkeeping, which is correct
+// because they only consume the evidence.
+function decodeRow(row) { return decode(row); }
+
 function decode(row) {
     if (!row) return null;
     if (row.codec === 'zlib') {
@@ -168,8 +173,11 @@ function createCache({ connection = () => require('mongoose').connection, maxMem
                 // is always refreshed — that keeps the freshness gate honest across
                 // a restart without ever re-uploading the statements.
                 if (meta) {
+                    // One bookkeeping document per issuer, overwritten in place. It is
+                    // written on every check, so inserting a new row each time would
+                    // fill the capped collection and evict the evidence it annotates.
                     const metaRow = { issuer: key, kind: 'meta', meta, evidenceId: id, createdAt: new Date() };
-                    await col.insertOne(metaRow);
+                    await col.updateOne({ issuer: key, kind: 'meta' }, { $set: metaRow }, { upsert: true });
                     if (!evidenceWritten) usageContext.noteCacheWrite(docBytes(metaRow));
                 }
                 return { persisted: true };
@@ -187,4 +195,4 @@ function createCache({ connection = () => require('mongoose').connection, maxMem
     };
 }
 
-module.exports = { createCache, MAX_MEMORY, MAX_MEMORY_MB, MAX_PERSISTENT, split, merge, docBytes, ...createCache() };
+module.exports = { createCache, MAX_MEMORY, MAX_MEMORY_MB, MAX_PERSISTENT, split, merge, docBytes, decodeRow, ...createCache() };
