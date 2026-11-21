@@ -26,6 +26,10 @@ function fixture(){
   findOne:async(q,options)=>{queries.push({q,options});
    if(q._id)return rows.get(q._id)||null;
    return [...rows.values()].reverse().find(r=>matches(r,q))||null;},
+  updateOne:async (q,update)=>{metaUploads++;metaBytes+=Buffer.byteLength(JSON.stringify(update.$set));
+   const existing=[...rows.entries()].find(([,r])=>r.kind==='meta'&&r.issuer===q.issuer);
+   if(existing)rows.set(existing[0],{...existing[1],...update.$set});else rows.set('meta'+rows.size,update.$set);
+   return {upsertedCount:existing?0:1};},
   insertOne:async row=>{
    if(row._id&&rows.has(row._id))throw Object.assign(Error('duplicate'),{code:11000});
    const size=Buffer.byteLength(JSON.stringify(row));

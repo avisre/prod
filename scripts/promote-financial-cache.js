@@ -2,16 +2,18 @@
 'use strict';
 // Public-cache promotion. Never reads account/portfolio collections.
 const fs=require('node:fs'),path=require('node:path');
-const p=require('../backend/sec-coverage'),obs=require('../backend/company-observations');
+const p=require('../backend/sec-coverage'),obs=require('../backend/company-observations'),cache=require('../backend/public-financial-cache');
 async function promote(collection,{asOf=p.day(new Date().toISOString()),refresh=require('../backend/yahoo-source').fetchSupplementalSnapshot}={}) {
  const stocks=JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8')).companies.filter(c=>c.securityType==='stock');
  const allowed=new Set(stocks.map(c=>p.cik(c.cik) || 'listing:'+c.symbol.replace(/\./g,'-'))),symbolFor=new Map(stocks.map(c=>[p.cik(c.cik) || 'listing:'+c.symbol.replace(/\./g,'-'),c.symbol]));const seen=new Set();let promoted=0,rejected=0,refreshFailures=0;
  // Order the small heads here and fetch bodies in batches: a server-side sort
  // over whole requests exceeds the database's in-memory sort limit (code 292).
- async function* candidates(){const heads=[];for await(const head of collection.find({},{projection:{issuer:1,createdAt:1}}))heads.push(head);
+ async function* candidates(){const heads=[];for await(const head of collection.find({},{projection:{issuer:1,createdAt:1,kind:1}}))if(head.kind!=='meta')heads.push(head);
   heads.sort((a,b)=>new Date(b.createdAt || 0)-new Date(a.createdAt || 0));
   for(let i=0;i<heads.length;i+=10){const ids=heads.slice(i,i+10).map(head=>head._id),rows=new Map();
-   for await(const row of collection.find({_id:{$in:ids}},{projection:{issuer:1,value:1,createdAt:1}}))rows.set(String(row._id),row);
+   // Bodies are stored compressed (and, before that change, as plain JSON), so
+   // they are decoded through the cache rather than read off `value` directly.
+   for await(const row of collection.find({_id:{$in:ids}},{projection:{issuer:1,value:1,createdAt:1,codec:1,kind:1}})){if(row.kind==='meta')continue;const value=cache.decodeRow(row);if(value)rows.set(String(row._id),{issuer:row.issuer,value});}
    for(const id of ids)if(rows.has(String(id)))yield rows.get(String(id));}
   for(const record of require('../backend/committed-supplements').readAll())yield {issuer:record.issuer,value:{supplemental:record.doc.observations}};}
  for await(const row of candidates()) {

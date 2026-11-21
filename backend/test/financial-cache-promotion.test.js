@@ -20,3 +20,22 @@ test('weekly promotion refreshes previously committed public evidence without re
  const r=await promote(collection([]),{asOf:'2026-10-05',refresh:async()=>({fetchedAt:'2026-10-05T00:00:00Z',statements:{income:{annualReports:[{fiscalDateEnding:'2025-12-31',reportedCurrency:'USD',totalRevenue:101}]}}})});
  assert.equal(r.promotedIssuers,1);const stored=JSON.parse(fs.readFileSync(path.join(dir,'supplemental-financials',issuer+'.json')));assert.equal(stored.observations.length,1);assert.equal(stored.observations[0].value,101);assert.equal(stored.observations[0].sourceDataDate,'2026-10-05');
 });
+
+test('promotion reads evidence that is stored compressed, and ignores bookkeeping rows',async()=>{
+ // Regression: the promotion job walks the collection directly. Once evidence
+ // started being deflated, reading `row.value` off the raw document found
+ // nothing and every issuer was silently skipped.
+ const zlib=require('node:zlib');
+ // The temp data dir is shared with the earlier test; start from nothing so the
+ // only candidate for reconciliation is the compressed row.
+ fs.rmSync(path.join(dir,'supplemental-financials',issuer+'.json'),{force:true});
+ const payload={supplemental:[fact(123)]};
+ const stored=[
+  {_id:0,issuer,kind:'evidence',codec:'zlib',value:zlib.deflateSync(Buffer.from(JSON.stringify(payload))),createdAt:new Date('2026-10-05T00:00:00Z')},
+  {_id:1,issuer,kind:'meta',meta:{reporting:{lastSuccessfulCheckAt:'2026-10-05T00:00:00Z'}},createdAt:new Date('2026-10-05T00:00:00Z')}
+ ];
+ const r=await promote(collection(stored),{asOf:'2026-10-05',refresh:async()=>({fetchedAt:'2026-10-05T00:00:00Z',statements:{income:{annualReports:[]}}})});
+ assert.equal(r.promotedIssuers,1,'compressed evidence is promoted, not skipped');
+ const written=JSON.parse(fs.readFileSync(path.join(dir,'supplemental-financials',issuer+'.json')));
+ assert.equal(written.observations[0].value,123);
+});
