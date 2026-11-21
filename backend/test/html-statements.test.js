@@ -90,6 +90,8 @@ test('parseScale reads the printed multiplier and refuses two of them', () => {
   assert.equal(x.parseScale('(Rs. in lakhs)').scale, 1e5);
   assert.equal(x.parseScale('Revenue 3,000'), null);
   assert.ok(x.parseScale('(in thousands) ... (in millions)').ambiguous);
+  assert.equal(x.parseScale('(In millions, except share amounts which are in thousands, and per share data)').scale, 1e6);
+  assert.equal(x.parseScale('(Except per share amounts, in thousands)').scale, 1e3);
 });
 
 test('parseAmount handles negatives, dashes, currency symbols and Indian grouping', () => {

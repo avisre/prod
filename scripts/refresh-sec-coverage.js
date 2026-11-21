@@ -7,7 +7,7 @@ const client=require('../backend/sec-reporting');
 const {extract,EXTRACTION_VERSION,VALIDATION_VERSION}=require('../backend/sec-facts');
 const DATA=p.DATA_DIR,REPORT=path.join(DATA,'sec-reporting.json');
 function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){if(e.code==='ENOENT')return fallback;throw e;}}
-function args(argv){const o={};for(let i=0;i<argv.length;i++){const name=argv[i];if(['--symbols','--as-of','--max-issuers','--concurrency'].includes(name)){if(!argv[i+1] || argv[i+1].startsWith('--'))throw new Error('Missing value for '+name);o[name]=argv[++i];}else if(['--bootstrap','--weekly','--daily','--audit','--dry-run'].includes(name))o[name]=true;else throw new Error('Unknown option '+name);}return o;}
+function args(argv){const o={};for(let i=0;i<argv.length;i++){const name=argv[i];if(['--symbols','--as-of','--max-issuers','--concurrency'].includes(name)){if(!argv[i+1] || argv[i+1].startsWith('--'))throw new Error('Missing value for '+name);o[name]=argv[++i];}else if(['--bootstrap','--weekly','--daily','--audit','--dry-run','--full'].includes(name))o[name]=true;else throw new Error('Unknown option '+name);}return o;}
 function matchingFinancialFile(evidence,file){try{return !!evidence?.financialDigest && p.digest(fs.readFileSync(file,'utf8'))===evidence.financialDigest;}catch(err){if(err.code==='ENOENT')return false;throw err;}}
 // A later filing's comparative balance sheet can present the year's debt without one of the lines the annual face showed
 // (Eaton's Q3 2026 balance sheet no longer shows separate short-term borrowings; Charles River's presents one long-term line),
@@ -182,6 +182,23 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
  }
  return merged;
 }
+// Which issuers a daily or weekly run must ask SEC about. Everyone who filed since the last index day read, every
+// issuer whose last attempt did not settle (failure, version change, unfinished extraction, file mismatch), and
+// anyone not yet in the report. Falls back to asking everyone when there is no index day yet, it is over 35 days
+// old, or the index cannot be read.
+async function indexPlan(todo,report,asOf,{fetchFilers=client.fetchFilersSince,today=p.day(new Date().toISOString())}={}){
+ const since=p.day(report.lastIndexDay);
+ if(!since)return {mode:'full',reason:'no index day recorded'};
+ if(Date.parse(asOf)-Date.parse(since)>35*86400000)return {mode:'full',reason:'index day '+since+' is over 35 days old'};
+ const through=asOf<today?asOf:today;
+ let filers;try{filers=await fetchFilers(since,through);}catch(e){return {mode:'full',reason:'daily index unavailable: '+String(e.response?.status || e.code || e.message).slice(0,80)};}
+ const check=[],quiet=[];
+ for(const issuer of todo){const old=report.issuers[issuer.cik],other=client.continuing(issuer.cik,asOf)?.cik;
+  const unfinished=['retrieval_failed','no_quarter_found'].includes(old?.periodicExtraction?.status) || old?.originalExtraction?.status==='retrieval_failed';
+  const settled=old && old.lastAttemptResult==='success' && old.extractionVersion===EXTRACTION_VERSION && old.validationVersion===VALIDATION_VERSION && ['success','no_facts'].includes(old.lastFinancialResult) && !unfinished && (old.lastFinancialResult==='no_facts' || matchingFinancialFile(old,path.join(DATA,'sec-financials',issuer.cik+'.json')));
+  (!settled || filers.ciks.has(issuer.cik) || (other && filers.ciks.has(other))?check:quiet).push(issuer);}
+ return {mode:'index',reason:'filers since '+since,read:filers.read,lastRead:filers.lastRead,check,quiet};
+}
 async function main(argv=process.argv.slice(2)) {
  const o=args(argv),asOf=o['--as-of'] || p.day(new Date().toISOString());if(!p.day(asOf))throw new Error('Invalid as-of date');
  let list=universe();const report=read(REPORT,{schemaVersion:1,issuers:{}});
@@ -194,7 +211,12 @@ async function main(argv=process.argv.slice(2)) {
  const max=Number(o['--max-issuers'] || 0),concurrency=Number(o['--concurrency'] || 2);
  if(!Number.isInteger(max)||max<0||!Number.isInteger(concurrency)||concurrency<1||concurrency>2)throw new Error('Invalid max-issuers or concurrency (1-2)');
  if(max)todo=todo.slice(0,max);
- if(o['--dry-run']){console.log(JSON.stringify({asOf,issuers:todo.length,mode:o['--bootstrap']?'bootstrap':'daily',symbols:todo.slice(0,5).map(x=>x.symbols)}));return;}
+ const started=new Date();
+ const plan=(o['--daily'] || o['--weekly']) && !o['--symbols'] && !o['--full'] && !max?await indexPlan(todo,report,asOf):{mode:'full',reason:o['--full']?'--full':o['--symbols']?'--symbols':max?'--max-issuers':'mode'};
+ const quiet=plan.quiet || [];if(plan.check)todo=plan.check;
+ const selection={selection:plan.mode,reason:plan.reason,indexDaysRead:plan.read?.length || 0,toCheck:todo.length,unchangedByIndex:quiet.length};
+ if(o['--dry-run']){console.log(JSON.stringify({asOf,issuers:todo.length,mode:o['--bootstrap']?'bootstrap':'daily',symbols:todo.slice(0,5).map(x=>x.symbols),...selection}));return;}
+ console.log(JSON.stringify(selection));
  normalizeSymbols(report,list);
  const lock=path.join(DATA,'.sec-refresh.lock');
  let lockFd;
@@ -203,6 +225,10 @@ async function main(argv=process.argv.slice(2)) {
  process.once('exit',unlock);
  report.schemaVersion=1;
  let done=0;
+ // EDGAR's daily index showed no annual, periodic, 8-K or fund filing from these since the last run, so what
+ // their submissions would return is unchanged: they count as checked in this cycle without being asked.
+ const checkedAt=started.toISOString();
+ for(const issuer of quiet){const old=report.issuers[issuer.cik];report.issuers[issuer.cik]={...old,symbols:issuer.symbols,lastAttemptAt:checkedAt,lastSuccessfulCheckAt:checkedAt,lastCheckMethod:'edgar_daily_index',lastReconciledCycle:asOf};}
  const save=()=>{report.generatedAt=new Date().toISOString();report.asOf=asOf;p.atomicWrite(REPORT,report);};
  const shutdown=()=>{save();process.exit(130);};process.once('SIGINT',shutdown);process.once('SIGTERM',shutdown);
  const bucket=id=>[...id].reduce((h,c)=>((h*31+c.charCodeAt(0))>>>0),0)%28;
@@ -213,9 +239,15 @@ async function main(argv=process.argv.slice(2)) {
    if(!((o['--bootstrap'] || o['--weekly']) && completed)){report.issuers[issuer.cik]=await refreshIssuer(issuer,old,{asOf,force:!!o['--symbols']});report.issuers[issuer.cik].lastReconciledCycle=asOf;}
    done++;if(done%20===0){save();console.log(JSON.stringify({done,total:done+todo.length,last:issuer.symbols[0],result:report.issuers[issuer.cik]?.lastFinancialResult,error:report.issuers[issuer.cik]?.lastErrorCode}));}
   }
- }));save();process.removeListener('SIGINT',shutdown);process.removeListener('SIGTERM',shutdown);
+ }));
+ // Where the next run starts reading the index. A full sweep asked every issuer at `started`; two days back
+ // covers filings made while it ran and any index SEC had not yet published. An index run reads on from the
+ // last day it found.
+ if(plan.mode==='index')report.lastIndexDay=plan.lastRead || report.lastIndexDay;
+ else if(!o['--symbols'] && !max && (o['--daily'] || o['--weekly'] || o['--bootstrap']))report.lastIndexDay=p.day(new Date(started.getTime()-2*86400000).toISOString());
+ save();process.removeListener('SIGINT',shutdown);process.removeListener('SIGTERM',shutdown);
  unlock();process.removeListener('exit',unlock);
  const summary=audit(universe(),report,asOf);console.log(JSON.stringify(summary,null,2));if(summary.networkFailures && summary.successfulSubmissions===0)process.exitCode=1;
 }
 if(require.main===module)main().catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={main,args,audit,issuersFor,normalizeSymbols,refreshIssuer,matchingFinancialFile,rebuildDebtTotal};
+module.exports={main,args,audit,issuersFor,normalizeSymbols,refreshIssuer,matchingFinancialFile,rebuildDebtTotal,indexPlan};

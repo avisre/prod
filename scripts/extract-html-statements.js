@@ -80,14 +80,18 @@ function parseAmount(raw) {
 function parseScale(text) {
     const t = clean(text);
     const words = { thousand: 1e3, thousands: 1e3, million: 1e6, millions: 1e6, billion: 1e9, billions: 1e9, lakh: 1e5, lakhs: 1e5, crore: 1e7, crores: 1e7 };
-    const found = new Map();
+    const found = new Map(), excepted = new Map();
     const re = /(?:\bin\b|\bexpressed in\b|\bamounts in\b|\(|\bof\b)[^()]{0,45}?\b(thousands?|millions?|billions?|lakhs?|crores?)\b/gi;
     let m;
     while ((m = re.exec(t))) {
-        const before = t.slice(Math.max(0, m.index - 12), m.index).toLowerCase();
+        const before = t.slice(Math.max(0, m.index - 80), m.index).toLowerCase();
         if (/except\s*$/.test(before)) continue;
-        found.set(words[m[1].toLowerCase()], m[0]);
+        // "(In millions, except share amounts which are in thousands)": a scale inside the
+        // except-clause of the same parenthetical describes share counts, so it only counts
+        // when nothing else names a scale ("(Except per share data, in thousands)").
+        (/\bexcept\b[^()]*$/.test(before) ? excepted : found).set(words[m[1].toLowerCase()], m[0]);
     }
+    if (!found.size) for (const [scale, phrase] of excepted) found.set(scale, phrase);
     // a header cell that opens with the bare word: "Thousands, except per-share amounts"
     const lead = /^\(?\s*(?:us\$|\$|₩|rs\.?)?\s*(thousands|millions|billions|lakhs|crores)\b/i.exec(t);
     if (lead) found.set(words[lead[1].toLowerCase()], lead[0]);

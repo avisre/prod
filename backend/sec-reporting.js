@@ -86,4 +86,28 @@ async function fetchFacts(cik,{request=getJson,asOf=p.day(new Date().toISOString
  let extra;try{extra=await request(`https://data.sec.gov/api/xbrl/companyfacts/CIK${other.cik}.json`);}catch(e){if(e.response?.status===404)return raw;throw e;}
  return mergeFacts(raw,extra);
 }
-module.exports={HEADERS,getJson,parseFilings,fetchReporting,fetchFacts,mergeFacts,continuing};
+// EDGAR's daily index lists every filing disseminated on a business day. Reading it tells a refresh which
+// registrants filed anything that can move what fetchReporting returns (annual, periodic, 8-K and fund
+// reports), so the rest of the universe need not be asked one submissions request at a time.
+const INDEX_FORMS=/^(10-K|10-KT|10-Q|10-QT|20-F|40-F|6-K|8-K|N-CSR|N-CSRS|N-CEN|N-PORT-P|485APOS|485BPOS)(\/A)?$/;
+function parseDailyIndex(text){
+ const ciks=new Set();
+ for(const line of String(text).split('\n')){const c=line.split('|');if(c.length<5 || !/^\d+$/.test(c[0]) || !INDEX_FORMS.test(c[2].trim()))continue;ciks.add(p.cik(c[0]));}
+ return ciks;
+}
+// Business days after `after` through `through`. A day whose index is not there (SEC answers 403 or 404) is a
+// holiday or not yet published; it is not counted as read, so the next run asks for it again.
+async function fetchFilersSince(after,through,{get=axios.get}={}) {
+ const ciks=new Set(),read=[];
+ for(let t=Date.parse(after+'T00:00:00Z')+86400000;t<=Date.parse(through+'T00:00:00Z');t+=86400000){
+  const d=new Date(t);if([0,6].includes(d.getUTCDay()))continue;
+  const day=d.toISOString().slice(0,10),stamp=day.replace(/-/g,'');
+  const url=`https://www.sec.gov/Archives/edgar/daily-index/${day.slice(0,4)}/QTR${Math.floor(d.getUTCMonth()/3)+1}/master.${stamp}.idx`;
+  let r;try{r=await get(url,{headers:{...HEADERS,Accept:'text/plain'},timeout:30000,responseType:'text'});}
+  catch(e){if([403,404].includes(e.response?.status))continue;throw e;}
+  if(!/Daily Index of EDGAR/.test(String(r.data).slice(0,400)))throw new Error('INVALID_SEC_DAILY_INDEX '+day);
+  for(const id of parseDailyIndex(r.data))ciks.add(id);read.push(day);
+ }
+ return {ciks,read,lastRead:read.at(-1) || null};
+}
+module.exports={HEADERS,getJson,parseFilings,fetchReporting,fetchFacts,mergeFacts,continuing,parseDailyIndex,fetchFilersSince,INDEX_FORMS};

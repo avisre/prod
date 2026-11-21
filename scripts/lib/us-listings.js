@@ -88,7 +88,7 @@ function buildUniverse(nasdaq, other, sec, curated = [], previous = [], metadata
     for (const row of [...parseDirectory(nasdaq, 'nasdaq'), ...parseDirectory(other, 'other')]) {
         const issuerMetadata = metadata[key(row.symbol)] || {};
         let type = securityType({...row, confirmedFund:issuerMetadata.confirmedFund});
-        const uncertain = type==='stock' && !/common|ordinary|depositary|depository|\bADR\b|\bADSs?\b|registry shares|voting shares|capital stock|limited partner|beneficial interest/i.test(row.name) && !issuerMetadata.confirmedStock;
+        const uncertain = type==='stock' && !/common|ordinary|depositary|depository|\bADR\b|\bADSs?\b|registry shares|voting shares|capital stock|limited partner|beneficial interest|trust units$/i.test(row.name) && !issuerMetadata.confirmedStock;
         outcomes.push({...row,...(issuers.get(key(row.symbol))?.cik?{cik:String(issuers.get(key(row.symbol)).cik).padStart(10,'0')}:{}), classification:uncertain?'unresolved':type, decision:uncertain?'review':type==='stock'?'include':'exclude', classificationSource:(issuerMetadata.confirmedStock || issuerMetadata.confirmedFund)?issuerMetadata.source:'Exchange flags and security name',classificationEvidence:issuerMetadata.evidence || null});
         const previouslyCovered = old.has(key(row.symbol));
         if (uncertain) { excluded.unresolved=(excluded.unresolved || 0)+1; if(!previouslyCovered)continue; }
