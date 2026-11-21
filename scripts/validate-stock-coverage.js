@@ -1,31 +1,32 @@
 #!/usr/bin/env node
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {isMainThread,workerData}=require('node:worker_threads');
 const p=require('../backend/sec-coverage');
 const {content}=require('../backend/public-stock-content'),adapter=require('../backend/verified-fundamentals'),rawFunds=require('../backend/fundamentals-cache');
-function validate({asOf,bootstrap=false}={}){
- const errors=[],fail=message=>errors.push(message),read=name=>JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,name),'utf8'));
+const {runChunks,serveChunks}=require('./lib/worker-pool');
+const read=name=>JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,name),'utf8'));
+// The committed files every pass reads. A worker reads them too, with the
+// parent's resolved date, so its issuers are checked against the same data.
+function inputs(asOf){
  const dir=read('us-companies.json'),report=read('sec-reporting.json'),pub=read('public-stock-index.json'),screen=read('screen-index.json');
- try{for(const error of require('./lib/us-listings').validateManifest(read('stock-universe-manifest.json'),dir.companies))fail(error);}catch(e){fail('Authoritative universe manifest unavailable: '+e.message);}
- const rates=read('sec-fx.json').rates || {},marketDigests=[],priceDigests=[],expectedRows=[];
+ const rates=read('sec-fx.json').rates || {};
  asOf=asOf || pub.asOf;
- const canonical=new Set(),normalized=new Set();
- for(const c of dir.companies){const k=c.symbol?.replace(/\./g,'-');if(!c.symbol || canonical.has(c.symbol) || normalized.has(k))fail('Symbol collision '+c.symbol);canonical.add(c.symbol);normalized.add(k);if(!['stock','unit','right','closed_end_fund','unresolved'].includes(c.securityType))fail('Invalid type '+c.symbol);if(c.cik && c.cik!==p.cik(c.cik))fail('Noncanonical CIK '+c.symbol);}
- if(report.schemaVersion!==1 || pub.schemaVersion!==1 || pub.policyVersion!==1 || screen.v!==4 || screen.policyVersion!==1)fail('Incompatible schema');
- if(screen.datasetId!==pub.datasetId || screen.asOf!==pub.asOf)fail('Snapshot generation mismatch');
- try{const coverage=read('financial-coverage.json');if(coverage.datasetId!==pub.datasetId || coverage.asOf!==pub.asOf)fail('Coverage generation mismatch');const {records,...summary}=coverage;if(p.digest(read('financial-coverage-summary.json'))!==p.digest(summary))fail('Coverage summary does not match its audited records');const covered=new Set(coverage.records.flatMap(r=>r.symbols));for(const c of dir.companies.filter(c=>c.securityType==='stock'))if(!covered.has(c.symbol))fail('Missing financial coverage record '+c.symbol);}catch(e){fail('Financial coverage audit unavailable');}
- try{const metadata=require('../backend/company-reporting').load(pub);if(p.digest(metadata)!==p.digest(require('../backend/company-reporting').metadata(report)))fail('Reporting metadata observations do not match committed evidence');}catch(e){fail('Reporting metadata unavailable: '+e.message);}
- if(pub.sourceFingerprints?.directoryDigest!==p.digest(fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8')) || pub.sourceFingerprints?.reportingDigest!==p.digest(report))fail('Source fingerprint mismatch');
- for(const name of ['public-stock-index.json','screen-index.json'])if(fs.statSync(path.join(p.DATA_DIR,name)).size>=8*1024*1024)fail(name+' exceeds 8 MiB');
- const securities=new Map(pub.securities.map(s=>[s.symbol,s]));if(securities.size!==canonical.size || pub.securities.length!==canonical.size)fail('Incomplete directory outcomes');
- let checked=0,recent=0,completed=0,networkFailures=0,financialFailures=0,invalidIdentity=0,files=0,values=0;
+ const securities=new Map(pub.securities.map(s=>[s.symbol,s]));
  const eligibleIds=new Set(dir.companies.filter(c=>c.securityType==='stock' && c.cik).map(c=>c.cik));
- if(bootstrap)for(const id of eligibleIds)if(report.issuers[id]?.lastReconciledCycle!==asOf)fail('In-scope issuer was not checked in the current reconciliation cycle '+id);
- for(const [id,item]of Object.entries(pub.issuers)){
+ const byCik=new Map();for(const c of dir.companies){const list=byCik.get(c.cik)||[];list.push(c);byCik.set(c.cik,list);}
+ return {dir,report,pub,screen,rates,asOf,securities,eligibleIds,byCik,entries:Object.entries(pub.issuers)};
+}
+// Issuers entries[start..end): each is checked against its own files only, so
+// chunks can run on any core and concatenate to the one-thread result.
+function issuerChecks({report,rates,asOf,securities,eligibleIds,byCik,entries},start,end){
+ const errors=[],fail=message=>errors.push(message),marketDigests=[],priceDigests=[],expectedRows=[];
+ let checked=0,recent=0,completed=0,networkFailures=0,financialFailures=0,invalidIdentity=0,files=0,values=0;
+ for(const [id,item]of entries.slice(start,end)){
   const e=report.issuers[id],file=path.join(p.DATA_DIR,'sec-financials',id+'.json');let data=null;
   if(e?.financialDigest){try{const raw=fs.readFileSync(file,'utf8');if(p.digest(raw)!==e.financialDigest || item.financialDigest!==e.financialDigest)fail('Financial digest mismatch '+id);data=JSON.parse(raw);files++;for(const error of p.validateFinancial(data,id,asOf))fail(id+': '+error);for(const st of ['income','balance','cash'])for(const basis of ['annualReports','quarterlyReports'])for(const row of data[st]?.[basis] || [])values+=Object.keys(row._sources || {}).length;}catch(err){fail('Financial file '+id+': '+err.message);}}
   const status=p.classify(e,data,asOf);
-  for(let company of dir.companies.filter(c=>c.cik===id)){
+  for(let company of byCik.get(id) || []){
    // Same sector fill as the builder: no curated sector means the SEC industry code's sector.
    if(!company.sector){const sector=require('../backend/sector').fromSic(e?.sic);if(sector)company={...company,sector};}
    const view=adapter.adapt(company,rawFunds.loadRawFundamentals(company.symbol),data,status,item);
@@ -43,6 +44,34 @@ function validate({asOf,bootstrap=false}={}){
    if(e?.lastAttemptResult==='invalid_identity')invalidIdentity++;
   }
  }
+ return {errors,marketDigests,priceDigests,expectedRows,counts:{checked,recent,completed,networkFailures,financialFailures,invalidIdentity,files,values}};
+}
+function validate({asOf,bootstrap=false}={}){
+ const ctx=inputs(asOf);
+ return finish(ctx,[issuerChecks(ctx,0,ctx.entries.length)],bootstrap);
+}
+// The same validation with the issuer checks spread over every core.
+async function validateParallel({asOf,bootstrap=false,workers}={}){
+ const ctx=inputs(asOf);
+ return finish(ctx,await runChunks(__filename,{validateWorker:true,asOf:ctx.asOf},ctx.entries.length,{workers}),bootstrap);
+}
+function finish({dir,report,pub,screen,rates,asOf,securities,eligibleIds},parts,bootstrap){
+ const errors=[],fail=message=>errors.push(message);
+ try{for(const error of require('./lib/us-listings').validateManifest(read('stock-universe-manifest.json'),dir.companies))fail(error);}catch(e){fail('Authoritative universe manifest unavailable: '+e.message);}
+ const marketDigests=[],priceDigests=[],expectedRows=[];
+ const canonical=new Set(),normalized=new Set();
+ for(const c of dir.companies){const k=c.symbol?.replace(/\./g,'-');if(!c.symbol || canonical.has(c.symbol) || normalized.has(k))fail('Symbol collision '+c.symbol);canonical.add(c.symbol);normalized.add(k);if(!['stock','unit','right','closed_end_fund','unresolved'].includes(c.securityType))fail('Invalid type '+c.symbol);if(c.cik && c.cik!==p.cik(c.cik))fail('Noncanonical CIK '+c.symbol);}
+ if(report.schemaVersion!==1 || pub.schemaVersion!==1 || pub.policyVersion!==1 || screen.v!==4 || screen.policyVersion!==1)fail('Incompatible schema');
+ if(screen.datasetId!==pub.datasetId || screen.asOf!==pub.asOf)fail('Snapshot generation mismatch');
+ try{const coverage=read('financial-coverage.json');if(coverage.datasetId!==pub.datasetId || coverage.asOf!==pub.asOf)fail('Coverage generation mismatch');const {records,...summary}=coverage;if(p.digest(read('financial-coverage-summary.json'))!==p.digest(summary))fail('Coverage summary does not match its audited records');const covered=new Set(coverage.records.flatMap(r=>r.symbols));for(const c of dir.companies.filter(c=>c.securityType==='stock'))if(!covered.has(c.symbol))fail('Missing financial coverage record '+c.symbol);}catch(e){fail('Financial coverage audit unavailable');}
+ try{const metadata=require('../backend/company-reporting').load(pub);if(p.digest(metadata)!==p.digest(require('../backend/company-reporting').metadata(report)))fail('Reporting metadata observations do not match committed evidence');}catch(e){fail('Reporting metadata unavailable: '+e.message);}
+ if(pub.sourceFingerprints?.directoryDigest!==p.digest(fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8')) || pub.sourceFingerprints?.reportingDigest!==p.digest(report))fail('Source fingerprint mismatch');
+ for(const name of ['public-stock-index.json','screen-index.json'])if(fs.statSync(path.join(p.DATA_DIR,name)).size>=8*1024*1024)fail(name+' exceeds 8 MiB');
+ if(securities.size!==canonical.size || pub.securities.length!==canonical.size)fail('Incomplete directory outcomes');
+ if(bootstrap)for(const id of eligibleIds)if(report.issuers[id]?.lastReconciledCycle!==asOf)fail('In-scope issuer was not checked in the current reconciliation cycle '+id);
+ const n={checked:0,recent:0,completed:0,networkFailures:0,financialFailures:0,invalidIdentity:0,files:0,values:0};
+ for(const part of parts){errors.push(...part.errors);marketDigests.push(...part.marketDigests);priceDigests.push(...part.priceDigests);expectedRows.push(...part.expectedRows);for(const k in n)n[k]+=part.counts[k];}
+ const {checked,recent,completed,networkFailures,financialFailures,invalidIdentity,files,values}=n;
  for(const [field,value]of Object.entries({supplementalDigest:require('../backend/committed-supplements').fingerprint(),quotesDigest:p.digest(marketDigests),priceHistoryDigest:p.digest(priceDigests),fxDigest:p.digest(rates),screenRowsDigest:p.digest(expectedRows)}))if(pub.sourceFingerprints?.[field]!==value)fail('Source fingerprint mismatch '+field);
  if(screen.rowsDigest!==p.digest(screen.rows) || screen.rowsDigest!==pub.sourceFingerprints?.screenRowsDigest)fail('Screen contents do not match generation fingerprint');
  if(pub.datasetId!==p.digest({asOf:pub.asOf,sourceFingerprints:pub.sourceFingerprints,policyVersion:pub.policyVersion,securities:pub.securities.map(s=>s.contentDigest)}))fail('Dataset identity mismatch');
@@ -55,5 +84,6 @@ function validate({asOf,bootstrap=false}={}){
  if(bootstrap && (submissionsPercent<98 || factsPercent<95))fail('Bootstrap thresholds not met');
  return {ok:!errors.length,asOf,policyVersion:pub.policyVersion,datasetId:pub.datasetId,counts:pub.counts,financialFiles:files,verifiedValues:values,unresolvedIdentityMappings:dir.companies.filter(c=>!c.cik).length+invalidIdentity,networkFailures,financialFailures,successfulSubmissions:checked,completedFacts:completed,submissionsPercent,factsPercent,errors};
 }
-if(require.main===module){try{const report=validate({bootstrap:process.argv.includes('--bootstrap')});console.log(JSON.stringify(report,null,2));if(!report.ok)process.exitCode=1;}catch(e){console.error(JSON.stringify({ok:false,error:e.message}));process.exitCode=1;}}
-module.exports={validate};
+if(!isMainThread && workerData?.validateWorker){const ctx=inputs(workerData.asOf);serveChunks((start,end)=>issuerChecks(ctx,start,end));}
+else if(require.main===module){validateParallel({bootstrap:process.argv.includes('--bootstrap')}).then(report=>{console.log(JSON.stringify(report,null,2));if(!report.ok)process.exitCode=1;},e=>{console.error(JSON.stringify({ok:false,error:e.message}));process.exitCode=1;});}
+module.exports={validate,validateParallel};

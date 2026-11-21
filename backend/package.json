@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "node --test test/*.test.js",
+    "test": "node --test --test-concurrency=$(node -p \"require('os').availableParallelism()\") test/*.test.js",
     "test:mcp": "node scripts/test-mcp.mjs",
     "start": "node app.js"
   },

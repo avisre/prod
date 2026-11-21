@@ -7,8 +7,8 @@ const {content}=require('../backend/public-stock-content');
 const screenFacts=require('../backend/screen-facts');
 const adapter=require('../backend/verified-fundamentals');
 const {loadRawFundamentals}=require('../backend/fundamentals-cache');
-const os=require('node:os');
-const {Worker,isMainThread,parentPort,workerData}=require('node:worker_threads');
+const {isMainThread,workerData}=require('node:worker_threads');
+const {runChunks,serveChunks}=require('./lib/worker-pool');
 function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){if(e.code==='ENOENT')return fallback;throw e;}}
 // Inputs every pass reads. A worker calls this too, with the parent's resolved
 // date, so its chunk sees exactly what the parent sees.
@@ -62,21 +62,9 @@ function build({asOf,write=true}={}) {
 // 80% of a rebuild is verified-fundamentals adapt, one issuer at a time).
 // Chunks are small and handed out as workers free up, then reassembled in
 // directory order, so the output is identical to build().
-async function buildParallel({asOf,write=true,workers=os.availableParallelism()}={}) {
- const ctx=inputs(asOf),total=ctx.groups.length;
- workers=Math.max(1,Math.min(workers,total));
- const size=Math.max(1,Math.ceil(total/(workers*8))),ranges=[];
- for(let start=0;start<total;start+=size)ranges.push([start,Math.min(total,start+size)]);
- const parts=new Array(ranges.length),pool=[];let next=0;
- try{await Promise.all(Array.from({length:workers},()=>new Promise((resolve,reject)=>{
-  const worker=new Worker(__filename,{workerData:{indexBuildWorker:true,asOf:ctx.asOf},resourceLimits:{maxOldGenerationSizeMb:1536}});pool.push(worker);
-  let current=-1,done=false;
-  const send=()=>{if(next>=ranges.length){done=true;worker.postMessage(null);return;}current=next++;worker.postMessage(ranges[current]);};
-  worker.on('message',part=>{parts[current]=part;send();});
-  worker.on('error',reject);
-  worker.on('exit',code=>done && code===0?resolve():reject(new Error('Index build worker exited with code '+code)));
-  send();
- })));}catch(e){await Promise.all(pool.map(w=>w.terminate()));throw e;}
+async function buildParallel({asOf,write=true,workers}={}) {
+ const ctx=inputs(asOf);
+ const parts=await runChunks(__filename,{indexBuildWorker:true,asOf:ctx.asOf},ctx.groups.length,{workers});
  return finish(ctx,parts,write);
 }
 function finish({directoryRaw,directory,report,asOf,rates,oldSecurities},parts,write) {
@@ -105,8 +93,6 @@ function finish({directoryRaw,directory,report,asOf,rates,oldSecurities},parts,w
  return {publicSnapshot,screenSnapshot,factsSnapshot};
 }
 if(!isMainThread && workerData?.indexBuildWorker){
- const ctx=inputs(workerData.asOf);
- // Exit explicitly: a timer some backend module starts must not keep the worker alive.
- parentPort.on('message',range=>{if(!range)process.exit(0);parentPort.postMessage(chunk(ctx,range[0],range[1]));});
+ const ctx=inputs(workerData.asOf);serveChunks((start,end)=>chunk(ctx,start,end));
 }else if(require.main===module){buildParallel().then(result=>console.log(JSON.stringify(result.publicSnapshot.counts,null,2)),e=>{console.error(e.message);process.exitCode=1;});}
 module.exports={build,buildParallel};

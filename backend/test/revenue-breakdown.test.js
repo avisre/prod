@@ -153,8 +153,8 @@ test('well-known companies keep the breakdown a reader expects', { skip: !fs.exi
     assert.equal(expected.AAPL.rows[0], 'iPhone');
 });
 
-test('every issuer in the dataset passes the contract', { skip: !fs.existsSync(DATASET) }, () => {
-    const result = require('../../scripts/audit-segment-display').audit();
+test('every issuer in the dataset passes the contract', { skip: !fs.existsSync(DATASET) }, async () => {
+    const result = await require('../../scripts/audit-segment-display').auditParallel();
     assert.deepEqual(result.failures.slice(0, 10), []);
     assert.ok(result.complete > 2000);
 });

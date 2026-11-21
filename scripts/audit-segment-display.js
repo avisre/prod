@@ -12,6 +12,8 @@
 const fs = require('fs');
 const path = require('path');
 const breakdown = require('../backend/revenue-breakdown');
+const { isMainThread, workerData } = require('worker_threads');
+const { runChunks, serveChunks } = require('./lib/worker-pool');
 const latestRevenue = data => { const r = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0]; return !r ? null : r.totalRevenue === null || r.totalRevenue === undefined || r.totalRevenue === '' || !Number.isFinite(Number(r.totalRevenue)) ? 'missing' : Number(r.totalRevenue); };
 const DATA = require('../backend/sec-coverage').DATA_DIR;
 const GOLDEN = path.join(__dirname, '..', 'backend', 'test', 'fixtures', 'revenue-breakdown-golden.json');
@@ -29,9 +31,10 @@ function symbols() {
 const load = cik => { try { return JSON.parse(fs.readFileSync(path.join(DATA, 'sec-financials', cik + '.json'), 'utf8')); } catch (_) { return null; } };
 const brief = c => ({ grade: c.grade, kind: c.kind, fiscalYear: c.fiscalYear, rows: c.rows.map(r => r.name), remainder: !!c.remainder });
 
-function audit() {
-    const dir = path.join(DATA, 'sec-financials'), out = { issuers: 0, complete: 0, partial: 0, none: 0, productLines: 0, operatingSegments: 0, regions: 0, failures: [] };
-    for (const file of fs.readdirSync(dir)) {
+// Files files[start..end): each issuer's contract depends on its own file only.
+function auditChunk(files, start, end) {
+    const out = { issuers: 0, complete: 0, partial: 0, none: 0, productLines: 0, operatingSegments: 0, regions: 0, failures: [] };
+    for (const file of files.slice(start, end)) {
         const data = load(file.replace('.json', ''));
         if (!data) continue;
         out.issuers++;
@@ -41,6 +44,21 @@ function audit() {
         for (const v of breakdown.violations(contract)) out.failures.push(`${data.issuerName} [${file.replace('.json', '')}]: ${v}`);
     }
     return out;
+}
+function merge(parts) {
+    const out = { issuers: 0, complete: 0, partial: 0, none: 0, productLines: 0, operatingSegments: 0, regions: 0, failures: [] };
+    for (const part of parts) for (const [k, v] of Object.entries(part)) if (k === 'failures') out.failures.push(...v); else out[k] += v;
+    return out;
+}
+const issuerFiles = () => fs.readdirSync(path.join(DATA, 'sec-financials'));
+function audit() {
+    const files = issuerFiles();
+    return merge([auditChunk(files, 0, files.length)]);
+}
+// The same sweep with the files spread over every core, merged in directory order.
+async function auditParallel({ workers } = {}) {
+    const files = issuerFiles();
+    return merge(await runChunks(__filename, { segmentAuditWorker: true, files }, files.length, { workers }));
 }
 function golden() {
     const map = symbols(), out = {};
@@ -53,10 +71,12 @@ function sp500() {
     return tally;
 }
 
-if (require.main === module) {
+if (!isMainThread && workerData?.segmentAuditWorker) serveChunks((start, end) => auditChunk(workerData.files, start, end));
+else if (require.main === module) {
     if (process.argv.includes('--golden')) { fs.mkdirSync(path.dirname(GOLDEN), { recursive: true }); fs.writeFileSync(GOLDEN, JSON.stringify(golden(), null, 1) + '\n'); console.log('wrote', GOLDEN); process.exit(0); }
-    const result = audit();
-    console.log(JSON.stringify({ ...result, failures: result.failures.length, sample: result.failures.slice(0, 20), ...(process.argv.includes('--sp500') ? { sp500: sp500() } : {}) }, null, 2));
-    process.exit(result.failures.length ? 1 : 0);
+    auditParallel().then(result => {
+        console.log(JSON.stringify({ ...result, failures: result.failures.length, sample: result.failures.slice(0, 20), ...(process.argv.includes('--sp500') ? { sp500: sp500() } : {}) }, null, 2));
+        process.exit(result.failures.length ? 1 : 0);
+    }, e => { console.error(e.message); process.exit(1); });
 }
-module.exports = { audit, golden, sp500, GOLDEN };
+module.exports = { audit, auditParallel, golden, sp500, GOLDEN };

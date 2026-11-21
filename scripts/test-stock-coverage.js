@@ -19,6 +19,6 @@ try{
  fs.mkdirSync(path.join(temp,'.claude'));fs.copyFileSync(path.join(root,'.claude/HANDOFF.md'),path.join(temp,'.claude/HANDOFF.md'));copy(path.join(root,'.claude/handoff-archive'),path.join(temp,'.claude/handoff-archive'));
  for(const name of ['package.json','package-lock.json','CLAUDE.md'])fs.copyFileSync(path.join(root,name),path.join(temp,name));
  const files=(only.length?only:all?fs.readdirSync(path.join(temp,'backend/test')).filter(name=>name.endsWith('.test.js')).map(name=>name.slice(0,-8)):names).map(name=>`backend/test/${name}.test.js`).filter(name=>fs.existsSync(path.join(temp,name)));
- const result=spawnSync(process.execPath,['--require',path.join(temp,'scripts/local-qa/no-model-network.cjs'),'--test','--test-concurrency='+(process.env.PREDEPLOY_CONCURRENCY||4),...files],{cwd:temp,stdio:'inherit',env:{...process.env,SEC_COVERAGE_READ_ONLY:'1',SEC_COVERAGE_DISABLE_ON_DEMAND:'1',DISABLE_BACKGROUND_JOBS:'1'}});
+ const result=spawnSync(process.execPath,['--require',path.join(temp,'scripts/local-qa/no-model-network.cjs'),'--test','--test-concurrency='+(process.env.PREDEPLOY_CONCURRENCY||os.availableParallelism()),...files],{cwd:temp,stdio:'inherit',env:{...process.env,SEC_COVERAGE_READ_ONLY:'1',SEC_COVERAGE_DISABLE_ON_DEMAND:'1',DISABLE_BACKGROUND_JOBS:'1'}});
  process.exitCode=result.status || (result.error?1:0);
 }finally{fs.rmSync(temp,{recursive:true,force:true});}
