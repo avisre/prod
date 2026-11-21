@@ -65,9 +65,12 @@ function build({asOf,write=true}={}) {
 async function buildParallel({asOf,write=true,workers}={}) {
  const ctx=inputs(asOf);
  const parts=await runChunks(__filename,{indexBuildWorker:true,asOf:ctx.asOf},ctx.groups.length,{workers});
- return finish(ctx,parts,write);
+ const result=finish(ctx,parts,write,{coverage:false});
+ // Coverage reads the index just written, so it follows it, on every core as well.
+ if(write){await require('./build-financial-coverage').buildParallel({workers});require('../backend/financial-coverage').invalidate();}
+ return result;
 }
-function finish({directoryRaw,directory,report,asOf,rates,oldSecurities},parts,write) {
+function finish({directoryRaw,directory,report,asOf,rates,oldSecurities},parts,write,{coverage=true}={}) {
  const issuers={},securities=[],rows=[],facts=[],marketDigests=[],priceDigests=[];
  for(const part of parts){for(const [id,issuer] of part.issuers)issuers[id]=issuer;securities.push(...part.securities);rows.push(...part.rows);facts.push(...part.facts);marketDigests.push(...part.marketDigests);priceDigests.push(...part.priceDigests);}
  for(const c of directory.companies.filter(c=>!p.cik(c.cik))){const contentDigest=p.digest(c),old=oldSecurities.get(c.symbol);securities.push({...c,cik:null,aliases:[],annualReportingStatus:'unverified',financialCoverage:'unavailable',indexable:false,screenable:false,metricSlugs:[],priceHistory:false,financialDigest:null,contentDigest,lastmod:old?.contentDigest===contentDigest?old.lastmod:asOf});}
@@ -87,8 +90,7 @@ function finish({directoryRaw,directory,report,asOf,rates,oldSecurities},parts,w
   p.atomicWrite(path.join(p.DATA_DIR,screenFacts.FILE),factsSnapshot);screenFacts.invalidate();
   require('../backend/company-reporting').invalidate();
   require('../backend/public-stock-index').invalidate();
-  require('./build-financial-coverage').build();
-  require('../backend/financial-coverage').invalidate();
+  if(coverage){require('./build-financial-coverage').build();require('../backend/financial-coverage').invalidate();}
  }
  return {publicSnapshot,screenSnapshot,factsSnapshot};
 }

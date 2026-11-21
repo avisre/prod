@@ -4,16 +4,21 @@ const fs=require('node:fs'),path=require('node:path');
 const p=require('../backend/sec-coverage');
 const {EXTRACTION_VERSION,VALIDATION_VERSION,MAPS}=require('../backend/sec-facts');
 const requirements=require('../backend/financial-requirements').requirements;
-function build({write=true}={}) {
+const {isMainThread,workerData}=require('node:worker_threads');
+const {runChunks,serveChunks}=require('./lib/worker-pool');
+// The tallies one issuer adds to. Each chunk of issuers starts them at zero and the
+// parent sums them in chunk order, so the result is identical to one serial pass.
+const TALLIES=['unresolvedSupplementalNeededListings','accessibleSecFilings','usableStructuredSecFinancials','coreAnnualFinancialIssuers','fiveAnnualCorePeriods','fourConsecutiveIncomeQuarters','relevantIndustryCoreFields','supplementalNeededIssuers','failedFilingChecks','failedFinancialChecks'];
+function inputs(asOf) {
  const directory=JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8'));
  const reporting=JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'sec-reporting.json'),'utf8'));
- const publicIndex=require('../backend/public-stock-index').load();
- let manifest=null;try{manifest=JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'stock-universe-manifest.json'),'utf8'));}catch(_){}
  const grouped=new Map();for(const c of directory.companies.filter(c=>c.securityType==='stock')){const key=p.cik(c.cik) || 'listing:'+c.symbol;const group=grouped.get(key) || [];group.push(c);grouped.set(key,group);}
- const counts={stockListings:directory.companies.filter(c=>c.securityType==='stock').length,uniqueIssuers:[...grouped.keys()].filter(k=>!k.startsWith('listing:')).length,unresolvedStockListings:[...grouped.entries()].filter(([k])=>k.startsWith('listing:')).reduce((n,[,cs])=>n+cs.length,0),unresolvedSupplementalNeededListings:0,accessibleSecFilings:0,usableStructuredSecFinancials:0,coreAnnualFinancialIssuers:0,fiveAnnualCorePeriods:0,fourConsecutiveIncomeQuarters:0,relevantIndustryCoreFields:0,supplementalNeededIssuers:0,failedFilingChecks:0,failedFinancialChecks:0};
- const supplements=require('../backend/committed-supplements').readAll();
- const records=[],fieldCoverage={},industryCoverage={};
- for(const [key,companies]of grouped) {
+ return {directory,reporting,asOf,groups:[...grouped]};
+}
+// Issuers groups[start..end): their records and what they add to the tallies.
+function chunk({reporting,asOf,groups},start,end) {
+ const counts=Object.fromEntries(TALLIES.map(k=>[k,0])),records=[],fieldCoverage={},industryCoverage={};
+ for(const [key,companies]of groups.slice(start,end)) {
   const e=reporting.issuers[key] || {};let data=null;
   try{const raw=fs.readFileSync(path.join(p.DATA_DIR,'sec-financials',key+'.json'),'utf8');if(p.digest(raw)!==e.financialDigest)throw new Error('DIGEST_MISMATCH');data=JSON.parse(raw);}catch(err){if(err.code!=='ENOENT' && e.financialDigest)throw err;}
   let overview={Sector:companies[0].sector};try{overview={...overview,...JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'fundamentals',companies[0].symbol.toLowerCase().replace(/[.-]/g,'_')+'.json'),'utf8')).overview};}catch(_){}
@@ -50,10 +55,40 @@ function build({write=true}={}) {
   gaps.push(...required.filter(f=>f.state!=='available').map(f=>({field:f.field,state:'missing',reason:f.reason || 'No compatible industry disclosure extracted'})));
   if(gaps.length){if(p.cik(key))counts.supplementalNeededIssuers++;else counts.unresolvedSupplementalNeededListings+=companies.length;}
   if(e.lastAttemptResult==='transient_failure')counts.failedFilingChecks++;if(e.lastFinancialResult==='transient_failure')counts.failedFinancialChecks++;
-  records.push({cik:p.cik(key),symbols:companies.map(c=>c.symbol),secTier:!accessible?'unavailable':usable?'structured_financials':'filings_only',classification:p.classify(e,data,publicIndex.asOf),reportingCadence:e.reportingCadence || (/^(20-F|40-F)$/.test(e.latestAnnual?.form || '')?'issuer_specific_interim':'quarterly'),latestAnnual:e.latestAnnual?.reportDate || null,latestInterim:e.latestPeriodic?.reportDate || null,lastSuccessfulCheckAt:e.lastSuccessfulCheckAt || null,lastAttemptResult:e.lastAttemptResult || 'unverified',financialAttemptResult:e.lastFinancialResult || 'unverified',financialFailureType:e.financialFailureType || (e.lastErrorCode?.startsWith('EXTRACTION_')?'unsupported_extraction':null),financialFailureReason:e.lastErrorCode || null,extractionVersion:data?.extractionVersion || null,validationVersion:data?.validationVersion || null,annualCorePeriods:corePeriods.length,fourConsecutiveIncomeQuarters:consecutive,fields:Object.fromEntries(Object.entries(fields).filter(([f])=>[...req.core,...req.industry].includes(f))),industry:{archetype:req.archetype,notApplicable:req.notApplicable,classificationSource:req.classificationSource,requirements:required,extraction:e.industryExtraction || data?.industryExtraction || null,segmentPeriods:data?.segmentObservations?.length || 0},gaps});
+  records.push({cik:p.cik(key),symbols:companies.map(c=>c.symbol),secTier:!accessible?'unavailable':usable?'structured_financials':'filings_only',classification:p.classify(e,data,asOf),reportingCadence:e.reportingCadence || (/^(20-F|40-F)$/.test(e.latestAnnual?.form || '')?'issuer_specific_interim':'quarterly'),latestAnnual:e.latestAnnual?.reportDate || null,latestInterim:e.latestPeriodic?.reportDate || null,lastSuccessfulCheckAt:e.lastSuccessfulCheckAt || null,lastAttemptResult:e.lastAttemptResult || 'unverified',financialAttemptResult:e.lastFinancialResult || 'unverified',financialFailureType:e.financialFailureType || (e.lastErrorCode?.startsWith('EXTRACTION_')?'unsupported_extraction':null),financialFailureReason:e.lastErrorCode || null,extractionVersion:data?.extractionVersion || null,validationVersion:data?.validationVersion || null,annualCorePeriods:corePeriods.length,fourConsecutiveIncomeQuarters:consecutive,fields:Object.fromEntries(Object.entries(fields).filter(([f])=>[...req.core,...req.industry].includes(f))),industry:{archetype:req.archetype,notApplicable:req.notApplicable,classificationSource:req.classificationSource,requirements:required,extraction:e.industryExtraction || data?.industryExtraction || null,segmentPeriods:data?.segmentObservations?.length || 0},gaps});
+ }
+ return {counts,records,fieldCoverage,industryCoverage};
+}
+function finish({directory,groups},parts,publicIndex,write) {
+ let manifest=null;try{manifest=JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'stock-universe-manifest.json'),'utf8'));}catch(_){}
+ const counts={stockListings:directory.companies.filter(c=>c.securityType==='stock').length,uniqueIssuers:groups.filter(([k])=>!k.startsWith('listing:')).length,unresolvedStockListings:groups.filter(([k])=>k.startsWith('listing:')).reduce((n,[,cs])=>n+cs.length,0),...Object.fromEntries(TALLIES.map(k=>[k,0]))};
+ const supplements=require('../backend/committed-supplements').readAll();
+ const records=[],fieldCoverage={},industryCoverage={};
+ for(const part of parts) {
+  for(const k of TALLIES)counts[k]+=part.counts[k];
+  records.push(...part.records);
+  for(const [k,n] of Object.entries(part.fieldCoverage))fieldCoverage[k]=(fieldCoverage[k] || 0)+n;
+  for(const [arch,x] of Object.entries(part.industryCoverage)) {
+   const into=industryCoverage[arch] ||= {issuers:0,withCoreIndustryFields:0,fields:{}};
+   into.issuers+=x.issuers;into.withCoreIndustryFields+=x.withCoreIndustryFields;
+   for(const [f,n] of Object.entries(x.fields))into.fields[f]=(into.fields[f] || 0)+n;
+   if(x.unresolvedListings)into.unresolvedListings=(into.unresolvedListings || 0)+x.unresolvedListings;
+  }
  }
  const output={schemaVersion:1,extractionVersion:EXTRACTION_VERSION,validationVersion:VALIDATION_VERSION,asOf:publicIndex.asOf,generatedAt:new Date().toISOString(),datasetId:publicIndex.datasetId,counts,denominators:{stockListings:'In-scope exchange listings, including distinct common share classes',issuerCounts:'Unique in-scope SEC CIKs; unresolved identities are separate listing records',accessibleSecFilings:'Identified applicable annual or interim filings in checked SEC submissions; original-document retrieval is reported separately',historicalIndustryFields:'Availability within retained history; field period dates and unsupported custom-disclosure gaps are listed separately',legacyCounts:'Legacy listedSecurities counts retained instrument records, including legacy units and rights',industryCoverage:'Relevant standard statement fields; separately listed custom-disclosure gaps are not counted as complete'},sourceBreakdown:{sec:counts.usableStructuredSecFinancials,committedProviderSupplemental:supplements.filter(r=>r.doc.observations.some(f=>f.sourceType==='provider')).length,committedIssuerRelease:supplements.filter(r=>r.doc.observations.some(f=>f.sourceType==='issuer_release')).length},fieldCoverage,industryCoverage,universe:manifest?{generatedAt:manifest.generatedAt,counts:manifest.counts,sources:manifest.sources,changes:manifest.changes}:null,records};
  if(write){const {records,...summary}=output;p.atomicWrite(path.join(p.DATA_DIR,'financial-coverage-summary.json'),summary);p.atomicWrite(path.join(p.DATA_DIR,'financial-coverage.json'),output);}return output;
 }
-if(require.main===module){try{const result=build();console.log(JSON.stringify({counts:result.counts,datasetId:result.datasetId},null,2));}catch(e){console.error(e.message);process.exitCode=1;}}
-module.exports={build};
+function build({write=true}={}) {
+ const publicIndex=require('../backend/public-stock-index').load(),ctx=inputs(publicIndex.asOf);
+ return finish(ctx,[chunk(ctx,0,ctx.groups.length)],publicIndex,write);
+}
+// The same build with the per-issuer work spread over one worker thread per core.
+async function buildParallel({write=true,workers}={}) {
+ const publicIndex=require('../backend/public-stock-index').load(),ctx=inputs(publicIndex.asOf);
+ const parts=await runChunks(__filename,{coverageWorker:true,asOf:ctx.asOf},ctx.groups.length,{workers});
+ return finish(ctx,parts,publicIndex,write);
+}
+if(!isMainThread && workerData?.coverageWorker){
+ const ctx=inputs(workerData.asOf);serveChunks((start,end)=>chunk(ctx,start,end));
+}else if(require.main===module){buildParallel().then(result=>console.log(JSON.stringify({counts:result.counts,datasetId:result.datasetId},null,2)),e=>{console.error(e.message);process.exitCode=1;});}
+module.exports={build,buildParallel};

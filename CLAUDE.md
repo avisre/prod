@@ -21,6 +21,15 @@ of the below in one call, which is cheaper than rediscovering it by trial.
   from `backend/`, or `require` fails with "Cannot find module 'mongoose'".
 - Tests: `cd backend && node --test test/<file>.test.js`
   (206 test files on Ubuntu; `npm test` runs all of them).
+- **Use every core for tests, builds and checks (owner rule, 2026-11-22).** The Ubuntu PC is a
+  Ryzen 5 3600, 6 cores / 12 threads. More than one test file: `node --test
+  --test-concurrency=$(nproc) …` (`npm test` and `predeploy.js` already do). Per-item data work
+  goes through `scripts/lib/worker-pool.js` (one worker thread per core). Run independent
+  scripts as parallel background jobs with `wait`, never one after another. A step that pins one
+  core (~100% CPU in `ps`) for minutes is a bug to parallelise or skip. Two exceptions: run timing
+  checks (`check-stock-coverage-performance.js`) alone, because sharing the CPU fails their
+  millisecond budgets; and don't run two SEC-fetching scripts at once, because SEC's limit is
+  10 requests a second whatever the core count.
 - **GitHub runs no checks (owner decision 2026-10-10). The pre-push hook is the only gate.**
   `node scripts/predeploy.js` works out which test files a change can affect
   (`scripts/lib/test-map.js`) and runs only those, plus each of the four stock-data checks only
