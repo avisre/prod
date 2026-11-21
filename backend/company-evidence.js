@@ -100,7 +100,7 @@ function createResolver(deps={}) {
    }catch(e){attempts.push({source:'Yahoo Finance',status:'retrieval_failed',reason:String(e.code || e.message).slice(0,120)});}
   }
   supplemental=obs.reconcile(filed,supplemental);
-  const next={financial,reporting,supplemental,profile,attempts,lastAttemptAt:attempted,attemptedFields:fields,financialAttemptResult,lastAttemptResult:success?(attempts.some(a=>a.status==='retrieval_failed')?'partial_failure':'success'):'retrieval_failed'};
+  const next={financial,reporting,supplemental,profile,attempts,lastAttemptAt:attempted,attemptedFields:fields,attemptedPeriods:periods,financialAttemptResult,lastAttemptResult:success?(attempts.some(a=>a.status==='retrieval_failed')?'partial_failure':'success'):'retrieval_failed'};
   if(!issuer.cik && profile?.retrievedAt)next.providerLastSuccessfulCheckAt=profile.retrievedAt;
   next.persistence=await cache.set(identity(company),next);return next;
  }
@@ -121,7 +121,22 @@ function createResolver(deps={}) {
   let result=projection(company,state,requiredFields,requestedPeriods);
   const now=Date.now(),last=Date.parse(state.reporting?.lastSuccessfulCheckAt || state.providerLastSuccessfulCheckAt || ''),failed=now-Date.parse(state.lastAttemptAt || '')<FAILURE_COOLDOWN && requiredFields.every(f=>(state.attemptedFields || []).includes(f));
   const seen=checked.get(identity(company)),current=seen && now-seen.at<SIX_HOURS && requiredFields.every(f=>seen.fields.includes(f)) && ['annual','quarterly'].every(b=>(seen.periods[b] || 0)>=(requestedPeriods[b] || 0));
-  if(checkFreshness && !failed && ((!current && (!Number.isFinite(last) || now-last>SIX_HOURS || result.remainingGaps.length)) || (requestedPeriods.businessProfile && !result.data.businessProfile))) {
+  // `checked` is in-process and empty after every deploy, so a restart used to
+  // re-run the whole SEC check for leftover gaps no filing will ever fill (KO,
+  // PEP and MSFT each carry four). The durable form of that gate is the stored
+  // check time plus the periods that check actually covered. A leftover gap only
+  // forces a refetch when the caller now asks for a basis the earlier check never
+  // covered — otherwise a fresh annual check would suppress a quarterly one,
+  // which is exactly the bug the test below protects against.
+  const recentlyChecked=Number.isFinite(last) && now-last<=SIX_HOURS;
+  // What the last successful check actually covered, persisted beside the small
+  // bookkeeping row so it survives a deploy.
+  const coveredFields=Array.isArray(state.attemptedFields)?state.attemptedFields:[];
+  const coveredPeriods=state.attemptedPeriods || null;
+  const fieldsUncovered=requiredFields.some(f=>!coveredFields.includes(f));
+  const periodsUncovered=!coveredPeriods || ['annual','quarterly'].some(b=>(Number(requestedPeriods[b])||0)>(Number(coveredPeriods[b])||0));
+  const durableCurrent=recentlyChecked && !fieldsUncovered && !periodsUncovered;
+  if(checkFreshness && !failed && ((!current && !durableCurrent) || (requestedPeriods.businessProfile && !result.data.businessProfile))) {
    let task=pending.get(identity(company));
    if(task){for(const field of requiredFields)if(!task.requestedFields.includes(field))task.requestedFields.push(field);for(const basis of ['annual','quarterly'])task.requestedPeriods[basis]=Math.max(task.requestedPeriods[basis] || 0,requestedPeriods[basis] || 0);if(requestedPeriods.businessProfile)task.requestedPeriods.businessProfile=true;}
    if(!task){calls=calls.filter(t=>now-t<600000);if(pending.size>=2 || calls.length>=60){result.freshness.backgroundStatus='capacity_limited';return applyQuote(result,await quoteTask);}calls.push(now);const fields=[...requiredFields],periods={...requestedPeriods};task=supplement(company,state,fields,periods).finally(()=>pending.delete(identity(company)));task.requestedFields=fields;task.requestedPeriods=periods;pending.set(identity(company),task);

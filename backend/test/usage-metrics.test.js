@@ -128,7 +128,14 @@ function cacheFixture() {
     let uploads = 0;
     const col = {
         createIndex: async () => {},
-        findOne: async (q) => (q._id ? rows.get(q._id) || null : [...rows.values()].reverse().find((r) => r.issuer === q.issuer) || null),
+        findOne: async (q) => {
+            if (q._id) return rows.get(q._id) || null;
+            // Honour `kind` so a bookkeeping row is never mistaken for evidence.
+            return [...rows.values()].reverse().find((r) => Object.entries(q).every(([k, v]) => {
+                if (k === 'kind') { const actual = r.kind === undefined ? 'evidence' : r.kind; return v && v.$in ? v.$in.includes(actual) : actual === v; }
+                return r[k] === v;
+            })) || null;
+        },
         insertOne: async (row) => {
             uploads += 1;
             if (rows.has(row._id)) throw Object.assign(new Error('duplicate'), { code: 11000 });
@@ -156,8 +163,11 @@ test('a memory hit costs nothing; a Mongo read is charged as a miss with its byt
     });
     assert.equal(store.cacheHits, 1);
     assert.equal(store.cacheMisses, 1);
-    assert.ok(store.cacheReadBytes > 5000, 'the stored row size is what crossed the wire');
-    assert.equal(store.cacheWriteBytes, Buffer.byteLength(JSON.stringify(value)));
+    assert.ok(store.cacheReadBytes > 0, 'the row that crossed the wire is what is charged');
+    // Evidence is stored deflated, so the billed bytes are the compressed row,
+    // not the uncompressed JSON — that difference is the saving being measured.
+    assert.ok(store.cacheReadBytes < Buffer.byteLength(JSON.stringify(value)), 'the charge is the compressed row, not the inflated JSON');
+    assert.ok(store.cacheWriteBytes > 0 && store.cacheWriteBytes < Buffer.byteLength(JSON.stringify(value)), 'the upload is charged at its compressed size');
     assert.equal(db.uploads(), 1);
 });
 
@@ -170,7 +180,8 @@ test('an already-present content hash is not charged as an upload', async () => 
     const store = usageContext.createStore();
     await usageContext.run(store, () => restarted.set('cik-2', value));
     assert.equal(db.uploads(), 1, 'the duplicate was never uploaded');
-    assert.equal(store.cacheWriteBytes, 0, 'no payload moved, so no bytes are billed');
+    // Only the small bookkeeping row may move; the evidence payload never does.
+    assert.ok(store.cacheWriteBytes < 2048, 'no evidence payload moved, so only bookkeeping is billed');
 });
 
 test('cache work with no request context is ignored rather than misattributed', async () => {
